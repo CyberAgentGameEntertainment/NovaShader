@@ -1,3 +1,7 @@
+// --------------------------------------------------------------
+// Copyright 2021 CyberAgent, Inc.
+// --------------------------------------------------------------
+
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -10,15 +14,15 @@ namespace Nova.Runtime.Core.Scripts
         private const string ProfilingSamplerName = "SrcToDest";
 
         private readonly bool _applyToSceneView;
-        private readonly int _mainTexPropertyId = Shader.PropertyToID("_MainTex");
         private readonly int _distortionBufferPropertyId = Shader.PropertyToID("_ScreenSpaceUvTexture");
+        private readonly int _mainTexPropertyId = Shader.PropertyToID("_MainTex");
         private readonly Material _material;
         private readonly ProfilingSampler _profilingSampler;
 
         private RenderTargetIdentifier _cameraColorTarget;
         private RenderTargetIdentifier _distortedUvBufferIdentifier;
         private RenderTargetHandle _tempRenderTargetHandle;
-        
+
         public ApplyDistortionPass(bool applyToSceneView, Shader shader)
         {
             _applyToSceneView = applyToSceneView;

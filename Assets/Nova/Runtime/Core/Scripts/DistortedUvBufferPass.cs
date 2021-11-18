@@ -1,3 +1,7 @@
+// --------------------------------------------------------------
+// Copyright 2021 CyberAgent, Inc.
+// --------------------------------------------------------------
+
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -22,7 +26,8 @@ namespace Nova.Runtime.Core.Scripts
             _shaderTagId = new ShaderTagId(lightMode);
         }
 
-        public void Setup(RenderTargetIdentifier renderTargetIdentifier, RenderTargetIdentifier cameraColorTargetIdentifier)
+        public void Setup(RenderTargetIdentifier renderTargetIdentifier,
+            RenderTargetIdentifier cameraColorTargetIdentifier)
         {
             _renderTargetIdentifier = renderTargetIdentifier;
             _cameraColorTargetIdentifier = cameraColorTargetIdentifier;

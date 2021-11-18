@@ -1,3 +1,7 @@
+// --------------------------------------------------------------
+// Copyright 2021 CyberAgent, Inc.
+// --------------------------------------------------------------
+
 using System;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -9,7 +13,7 @@ namespace Nova.Runtime.Core.Scripts
     public sealed class ScreenSpaceDistortion : ScriptableRendererFeature
     {
         private const string DistortionLightMode = "DistortedUvBuffer";
-        
+
         [SerializeField] private bool _applyToSceneView = true;
         [SerializeField] [HideInInspector] private Shader _applyDistortionShader;
         private ApplyDistortionPass _applyDistortionPass;
