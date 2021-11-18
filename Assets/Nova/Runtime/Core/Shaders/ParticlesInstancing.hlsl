@@ -1,14 +1,14 @@
-#ifndef CT_PARTICLESINSTANCING_INCLUDED
-#define CT_PARTICLESINSTANCING_INCLUDED
+#ifndef NOVA_PARTICLESINSTANCING_INCLUDED
+#define NOVA_PARTICLESINSTANCING_INCLUDED
 
 #if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED) && !defined(SHADER_TARGET_SURFACE_ANALYSIS)
-#define CT_PARTICLE_INSTANCING_ENABLED
+#define NOVA_PARTICLE_INSTANCING_ENABLED
 #endif
 
-#ifdef CT_PARTICLE_INSTANCING_ENABLED
+#ifdef NOVA_PARTICLE_INSTANCING_ENABLED
 
-#ifndef CT_PARTICLE_INSTANCE_DATA
-#define CT_PARTICLE_INSTANCE_DATA DefaultParticleInstanceData
+#ifndef NOVA_PARTICLE_INSTANCE_DATA
+#define NOVA_PARTICLE_INSTANCE_DATA DefaultParticleInstanceData
 #endif
 
 struct DefaultParticleInstanceData
@@ -19,13 +19,13 @@ struct DefaultParticleInstanceData
     float4 customCoord2;
 };
 
-StructuredBuffer<CT_PARTICLE_INSTANCE_DATA> unity_ParticleInstanceData;
+StructuredBuffer<NOVA_PARTICLE_INSTANCE_DATA> unity_ParticleInstanceData;
 float4 unity_ParticleUVShiftData;
 float unity_ParticleUseMeshColors;
 
 void ParticleInstancingMatrices(out float4x4 objectToWorld, out float4x4 worldToObject)
 {
-    CT_PARTICLE_INSTANCE_DATA data = unity_ParticleInstanceData[unity_InstanceID];
+    NOVA_PARTICLE_INSTANCE_DATA data = unity_ParticleInstanceData[unity_InstanceID];
 
     // transform matrix
     objectToWorld._11_21_31_41 = float4(data.transform._11_21_31, 0.0f);

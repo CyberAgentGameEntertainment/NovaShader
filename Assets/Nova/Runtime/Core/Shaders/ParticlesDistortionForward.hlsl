@@ -1,5 +1,5 @@
-#ifndef CT_PARTICLESDISTORTIONFORWARD_INCLUDED
-#define CT_PARTICLESDISTORTIONFORWARD_INCLUDED
+#ifndef NOVA_PARTICLESDISTORTIONFORWARD_INCLUDED
+#define NOVA_PARTICLESDISTORTIONFORWARD_INCLUDED
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "ParticlesDistortion.hlsl"

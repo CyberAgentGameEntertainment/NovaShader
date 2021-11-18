@@ -1,5 +1,5 @@
-#ifndef CT_PARTICLESUBERUNLITEDITOR_INCLUDED
-#define CT_PARTICLESUBERUNLITEDITOR_INCLUDED
+#ifndef NOVA_PARTICLESUBERUNLITEDITOR_INCLUDED
+#define NOVA_PARTICLESUBERUNLITEDITOR_INCLUDED
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "ParticlesUberUnlit.hlsl"

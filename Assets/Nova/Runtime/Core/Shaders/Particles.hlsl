@@ -1,5 +1,5 @@
-#ifndef CT_PARTICLES_INCLUDED
-#define CT_PARTICLES_INCLUDED
+#ifndef NOVA_PARTICLES_INCLUDED
+#define NOVA_PARTICLES_INCLUDED
 
 #include "ParticlesInstancing.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
@@ -15,9 +15,9 @@
 #endif
 
 // Setup for instancing.
-#ifdef CT_PARTICLE_INSTANCING_ENABLED
-#define SETUP_VERTEX CT_PARTICLE_INSTANCE_DATA instanceData = unity_ParticleInstanceData[unity_InstanceID];
-#define SETUP_FRAGMENT CT_PARTICLE_INSTANCE_DATA instanceData = unity_ParticleInstanceData[unity_InstanceID];
+#ifdef NOVA_PARTICLE_INSTANCING_ENABLED
+#define SETUP_VERTEX NOVA_PARTICLE_INSTANCE_DATA instanceData = unity_ParticleInstanceData[unity_InstanceID];
+#define SETUP_FRAGMENT NOVA_PARTICLE_INSTANCE_DATA instanceData = unity_ParticleInstanceData[unity_InstanceID];
 #else
 #define SETUP_VERTEX
 #define SETUP_FRAGMENT
@@ -28,7 +28,7 @@
 #define INPUT_CUSTOM_COORD(index1, index2) float4 customCoord1: TEXCOORD##index1; \
     float4 customCoord2: TEXCOORD##index2;
 
-#ifdef CT_PARTICLE_INSTANCING_ENABLED
+#ifdef NOVA_PARTICLE_INSTANCING_ENABLED
 #define SETUP_CUSTOM_COORD(input) float4 customCoords[] = \
 { \
 float4(0.0, 0.0, 0.0, 0.0), \
@@ -44,7 +44,7 @@ input.customCoord2 \
 };
 #endif
 
-#ifdef CT_PARTICLE_INSTANCING_ENABLED
+#ifdef NOVA_PARTICLE_INSTANCING_ENABLED
 #define TRANSFER_CUSTOM_COORD(input, output) output.customCoord1 = instanceData.customCoord1; \
 output.customCoord2 = instanceData.customCoord2;
 #else
@@ -71,8 +71,8 @@ SamplerState BASE_SAMPLER_STATE_NAME;
 
 half4 GetParticleColor(half4 color)
 {
-#if defined(CT_PARTICLE_INSTANCING_ENABLED)
-    CT_PARTICLE_INSTANCE_DATA data = unity_ParticleInstanceData[unity_InstanceID];
+#if defined(NOVA_PARTICLE_INSTANCING_ENABLED)
+    NOVA_PARTICLE_INSTANCE_DATA data = unity_ParticleInstanceData[unity_InstanceID];
     color = lerp(half4(1.0, 1.0, 1.0, 1.0), color, unity_ParticleUseMeshColors);
     color *= UnpackFromR8G8B8A8(data.color);
 #endif
