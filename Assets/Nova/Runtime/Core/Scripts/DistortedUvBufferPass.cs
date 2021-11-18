@@ -9,16 +9,17 @@ namespace Nova.Runtime.Core.Scripts
         private const string ProfilerTag = nameof(DistortedUvBufferPass);
         private readonly ProfilingSampler _profilingSampler = new ProfilingSampler(ProfilerTag);
         private readonly RenderQueueRange _renderQueueRange = RenderQueueRange.all;
-        private readonly ShaderTagId _shaderTagId = new ShaderTagId("DistortedUvBuffer"); // 上書きできるように
+        private readonly ShaderTagId _shaderTagId;
         private RenderTargetIdentifier _cameraColorTargetIdentifier;
         private FilteringSettings _filteringSettings;
 
         private RenderTargetIdentifier _renderTargetIdentifier;
 
-        public DistortedUvBufferPass()
+        public DistortedUvBufferPass(string lightMode)
         {
             _filteringSettings = new FilteringSettings(_renderQueueRange);
             renderPassEvent = RenderPassEvent.AfterRenderingTransparents;
+            _shaderTagId = new ShaderTagId(lightMode);
         }
 
         public void Setup(RenderTargetIdentifier renderTargetIdentifier, RenderTargetIdentifier cameraColorTargetIdentifier)

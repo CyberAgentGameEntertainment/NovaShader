@@ -8,6 +8,8 @@ namespace Nova.Runtime.Core.Scripts
     [Serializable]
     public sealed class ScreenSpaceDistortion : ScriptableRendererFeature
     {
+        private const string DistortionLightMode = "DistortedUvBuffer";
+        
         [SerializeField] private bool _applyToSceneView = true;
         [SerializeField] [HideInInspector] private Shader _applyDistortionShader;
         private ApplyDistortionPass _applyDistortionPass;
@@ -22,7 +24,7 @@ namespace Nova.Runtime.Core.Scripts
                 return;
             }
 
-            _distortedUvBufferPass = new DistortedUvBufferPass();
+            _distortedUvBufferPass = new DistortedUvBufferPass(DistortionLightMode);
             _applyDistortionPass = new ApplyDistortionPass(_applyToSceneView, _applyDistortionShader);
         }
 
