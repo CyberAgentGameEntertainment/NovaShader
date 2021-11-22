@@ -40,7 +40,7 @@ struct Varyings
 inline void InitializeVertexOutput(in Attributes input, in out Varyings output)
 {
     output.positionHCS = TransformObjectToHClip(input.positionOS.xyz);
-    output.color = GetParticleColor(input.color);;
+    output.color = GetParticleColor(input.color);
     #ifdef FRAGMENT_USE_VIEW_DIR_WS
     float3 positionWS = TransformObjectToWorld(input.positionOS.xyz);
     output.viewDirWS = GetWorldSpaceViewDir(positionWS);

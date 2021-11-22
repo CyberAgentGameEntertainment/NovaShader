@@ -11,9 +11,9 @@ float4 _SelectionID;
 Varyings vertEditor(Attributes input)
 {
     Varyings output = (Varyings)0;
-    SETUP_VERTEX;
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_TRANSFER_INSTANCE_ID(input, output);
+    SETUP_VERTEX;
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
     InitializeVertexOutput(input, output);
@@ -79,8 +79,8 @@ Varyings vertEditor(Attributes input)
 
 void fragSceneClip(Varyings input)
 {
-    SETUP_FRAGMENT;
     UNITY_SETUP_INSTANCE_ID(input);
+    SETUP_FRAGMENT;
     SETUP_CUSTOM_COORD(input);
     InitializeFragmentInput(input);
 

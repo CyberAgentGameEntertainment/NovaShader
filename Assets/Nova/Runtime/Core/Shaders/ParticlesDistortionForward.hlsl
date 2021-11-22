@@ -7,9 +7,9 @@
 Varyings vert(Attributes input)
 {
     Varyings output = (Varyings)0;
-    SETUP_VERTEX;
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_TRANSFER_INSTANCE_ID(input, output);
+    SETUP_VERTEX;
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
 
@@ -44,8 +44,8 @@ Varyings vert(Attributes input)
 
 half4 frag(Varyings input) : SV_Target
 {
-    SETUP_FRAGMENT;
     UNITY_SETUP_INSTANCE_ID(input);
+    SETUP_FRAGMENT;
     SETUP_CUSTOM_COORD(input);
 
     #ifdef _FLOW_MAP_ENABLED
