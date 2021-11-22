@@ -131,6 +131,7 @@ Shader "Nova/Particles/UberUnlit"
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma target 3.5
             
             // Unity Defined
             #pragma multi_compile_fog
@@ -190,6 +191,7 @@ Shader "Nova/Particles/UberUnlit"
             HLSLPROGRAM
             #pragma vertex vertEditor
             #pragma fragment fragSceneHighlight
+            #pragma target 3.5
             
             // Unity Defined
             //#pragma multi_compile_fog
@@ -249,6 +251,7 @@ Shader "Nova/Particles/UberUnlit"
             HLSLPROGRAM
             #pragma vertex vertEditor
             #pragma fragment fragScenePicking
+            #pragma target 3.5
             
             // Unity Defined
             //#pragma multi_compile_fog

@@ -66,6 +66,7 @@ Shader "Nova/Particles/Distortion"
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma target 3.5
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:ParticleInstancingSetup
 
