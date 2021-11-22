@@ -60,7 +60,9 @@ void ParticleInstancingSetup()
 
 #else
 
-void ParticleInstancingSetup() {}
+void ParticleInstancingSetup()
+{
+}
 
 #endif
 

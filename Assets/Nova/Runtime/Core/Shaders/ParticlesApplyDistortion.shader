@@ -29,7 +29,7 @@ Shader "Hidden/Nova/Particles/ApplyDistortion"
             };
 
             Varyings vert(Attributes IN)
-            {                
+            {
                 Varyings OUT;
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);
                 OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);

@@ -71,11 +71,11 @@ SamplerState BASE_SAMPLER_STATE_NAME;
 
 half4 GetParticleColor(half4 color)
 {
-#if defined(NOVA_PARTICLE_INSTANCING_ENABLED)
+    #if defined(NOVA_PARTICLE_INSTANCING_ENABLED)
     NOVA_PARTICLE_INSTANCE_DATA data = unity_ParticleInstanceData[unity_InstanceID];
     color = lerp(half4(1.0, 1.0, 1.0, 1.0), color, unity_ParticleUseMeshColors);
     color *= UnpackFromR8G8B8A8(data.color);
-#endif
+    #endif
     return color;
 }
 
@@ -91,10 +91,10 @@ float2 RotateUV(float2 uv, half angle, half2 offsets)
 // Adjust the albedo according to the blending.
 half3 AlphaModulate(half3 albedo, half alpha)
 {
-#if defined(_ALPHAMODULATE_ENABLED)
+    #if defined(_ALPHAMODULATE_ENABLED)
     // In multiply, albedo needs to be white if the alpha is zero.
     return lerp(half3(1.0h, 1.0h, 1.0h), albedo, alpha);
-#endif
+    #endif
     return albedo;
 }
 
@@ -126,27 +126,28 @@ half DepthFade(float near, float far, float width, float4 projection)
 // Apply alpha clipping.
 void AlphaClip(real alpha, real cutoff, real offset = 0.0h)
 {
-#ifdef _ALPHATEST_ENABLED
+    #ifdef _ALPHATEST_ENABLED
     clip(alpha - cutoff + offset);
-#endif
+    #endif
 }
 
 // Apply the flow map.
-void ApplyFlowMap(TEXTURE2D_PARAM(flowMap, sampler_flowMap), in float intensity, in float2 flowMapUv, in out float2 targetUv)
+void ApplyFlowMap(TEXTURE2D_PARAM(flowMap, sampler_flowMap), in float intensity, in float2 flowMapUv,
+                  in out float2 targetUv)
 {
-#ifdef _FLOW_MAP_ENABLED
+    #ifdef _FLOW_MAP_ENABLED
     half2 flow = SAMPLE_TEXTURE2D(flowMap, sampler_flowMap, flowMapUv).xy;
     flow = flow * 2 - 1;
     flow *= intensity;
     targetUv += flow;
-#endif
+    #endif
 }
 
 // Returns the progress for flip-book.
 half FlipBookProgress(in half progress, in half sliceCount)
 {
     float result = progress;
-    result = clamp(result, 0, 0.999); 
+    result = clamp(result, 0, 0.999);
     result = frac(result);
     result *= sliceCount;
     result -= 0.5;
@@ -158,7 +159,7 @@ half FlipBookBlendingProgress(in half progress, in half sliceCount)
 {
     float result = progress;
     float baseMapProgressOffset = 1.0 / sliceCount * 0.5;
-    result = clamp(result, 0, 1.0); 
+    result = clamp(result, 0, 1.0);
     result = lerp(baseMapProgressOffset, 1.0 - baseMapProgressOffset, result);
     return result;
 }

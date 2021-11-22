@@ -4,7 +4,7 @@ Shader "Nova/Particles/Distortion"
     {
         // Render Settings
         _Cull("Cull", Float) = 2.0
-        
+
         // Distortion
         _BaseMap("Base Map", 2D) = "grey" {}
         _BaseMapOffsetXCoord("Base Map Offset X Coord", Float) = 0.0
@@ -15,14 +15,14 @@ Shader "Nova/Particles/Distortion"
         _BaseMapMirrorSampling("Base Map Mirror Sampling", Float) = 0
         [PowerSlider(3)]_DistortionIntensity("Distortion Intensity", Range(0, 1)) = 0.1
         _DistortionIntensityCoord("Distortion Intensity Coord", Range(0, 1)) = 0.0
-        
+
         // Flow Map
         _FlowMap("Flow Map", 2D) = "grey" {}
         _FlowMapOffsetXCoord("Flow Map Offset X Coord", Float) = 0.0
         _FlowMapOffsetYCoord("Flow Map Offset Y Coord", Float) = 0.0
         _FlowIntensity("Flow Intensity", Float) = 1.0
         _FlowIntensityCoord("Flow Intensity Coord", Float) = 0.0
-        
+
         // Alpha Transition
         _AlphaTransitionMode("Alpha Transition Mode", Float) = 0.0
         _AlphaTransitionMap("Alpha Transition Map", 2D) = "white" {}
@@ -30,8 +30,8 @@ Shader "Nova/Particles/Distortion"
         _AlphaTransitionMapOffsetYCoord("Alpha Transition Map Offset Y Coord", Float) = 0.0
         _AlphaTransitionProgress("Alpha Transition Progress", Range(0.0, 1.0)) = 0.0
         _AlphaTransitionProgressCoord("Alpha Transition Progress Coord", Float) = 0.0
-		_DissolveSharpness("Dissolve Sharpness", Range(0.0, 1.0)) = 0.5
-        
+        _DissolveSharpness("Dissolve Sharpness", Range(0.0, 1.0)) = 0.5
+
         // Transparency
         _SoftParticlesEnabled("Soft Particles Enabled", Float) = 0.0
         _SoftParticlesIntensity("Soft Particles Intensity", Float) = 1.0
@@ -54,15 +54,18 @@ Shader "Nova/Particles/Distortion"
 
         Pass
         {
-            Tags{ "LightMode" = "DistortedUvBuffer" }
-            
+            Tags
+            {
+                "LightMode" = "DistortedUvBuffer"
+            }
+
             Blend One One
             ZWrite Off
             Cull[_Cull]
             ColorMask RG
             Lighting Off
             ZTest LEqual
-            
+
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -81,12 +84,11 @@ Shader "Nova/Particles/Distortion"
             // Transparency
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
-            
+
             #include "ParticlesDistortionForward.hlsl"
-            
             ENDHLSL
         }
     }
-    
+
     CustomEditor "Nova.Editor.Core.Scripts.ParticlesDistortionGUI"
 }

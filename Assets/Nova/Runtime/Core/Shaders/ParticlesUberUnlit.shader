@@ -5,14 +5,14 @@ Shader "Nova/Particles/UberUnlit"
         // Render Settings
         _RenderType("Render Type", Float) = 2.0
         _Cutoff("Alpha Cutoff", Range(0.0, 1.0)) = 0.5
-		_TransparentBlendMode("Blend Mode", Float) = 0.0
+        _TransparentBlendMode("Blend Mode", Float) = 0.0
         _Cull("Cull", Float) = 2.0
         _QueueOffset("Queue Offset", Float) = 0.0
         _VertexAlphaMode("Vertex Alpha Mode", Float) = 0.0
-		_BlendSrc("Blend Src", Float) = 1.0
-		_BlendDst("Blend Dst", Float) = 0.0
+        _BlendSrc("Blend Src", Float) = 1.0
+        _BlendDst("Blend Dst", Float) = 0.0
         _ZWrite("ZWrite", Float) = 1.0
-        
+
         // Base Map
         _BaseMapMode("Base Map Mode", Float) = 0.0
         [MainTexture] _BaseMap("Base Map", 2D) = "white" {}
@@ -27,7 +27,7 @@ Shader "Nova/Particles/UberUnlit"
         _BaseMapRotationCoord("Base Map Rotation Coord", Float) = 0.0
         _BaseMapRotationOffsets("Base Map Rotation Offsets", Vector) = (0.0, 0.0, 0.0, 0.0)
         _BaseMapMirrorSampling("Base Map Mirror Sampling", Float) = 0.0
-        
+
         // Tint Color
         _TintAreaMode("Tint Area Mode", Float) = 0.0
         _TintColorMode("Tint Color Mode", Float) = 0.0
@@ -44,18 +44,18 @@ Shader "Nova/Particles/UberUnlit"
         _TintRimSharpness("Tint Rim Sharpness", Range(0.0, 1.0)) = 0.5
         _TintRimSharpnessCoord("Tint Rim Sharpness Coord", Float) = 0.0
         _InverseTintRim("Inverse Tint Rim", Float) = 0.0
-        
+
         // Flow Map
         _FlowMap("Flow Map", 2D) = "grey" {}
         _FlowMapOffsetXCoord("Flow Map Offset X Coord", Float) = 0.0
         _FlowMapOffsetYCoord("Flow Map Offset Y Coord", Float) = 0.0
         _FlowIntensity("Flow Intensity", Float) = 1.0
         _FlowIntensityCoord("Flow Intensity Coord", Float) = 0.0
-        
+
         // Color Correction
         _ColorCorrectionMode("Alpha Transition Progress Coord", Float) = 0.0
         _GradientMap("Gradient Map", 2D) = "white" {}
-        
+
         // Alpha Transition
         _AlphaTransitionMode("Alpha Transition Mode", Float) = 0.0
         _AlphaTransitionMapMode("Alpha Transition Map Mode", Float) = 0.0
@@ -69,8 +69,8 @@ Shader "Nova/Particles/UberUnlit"
         _AlphaTransitionMapSliceCount("Alpha Transition Map Slice Count", Float) = 4.0
         _AlphaTransitionProgress("Alpha Transition Progress", Range(0.0, 1.0)) = 0.0
         _AlphaTransitionProgressCoord("Alpha Transition Progress Coord", Float) = 0.0
-		_DissolveSharpness("Dissolve Sharpness", Range(0.0, 1.0)) = 0.5
-        
+        _DissolveSharpness("Dissolve Sharpness", Range(0.0, 1.0)) = 0.5
+
         // Emission
         _EmissionAreaType("Emission Area Type", Float) = 0.0
         _EmissionMapMode("Emission Map Mode", Float) = 0.0
@@ -86,7 +86,7 @@ Shader "Nova/Particles/UberUnlit"
         _EmissionIntensity("Emission Intensity", Float) = 1.0
         _EmissionIntensityCoord("Emission Intensity Coord", Float) = 0.0
         _KeepEdgeTransparency("Keep Edge Transparency", Float) = 1.0
-        
+
         // Transparency
         _RimTransparencyEnabled("Rim Transparency Enabled", Float) = 0.0
         _RimTransparencyProgress("Rim Transparency Progress", Range(0.0, 1.0)) = 0.5
@@ -121,24 +121,24 @@ Shader "Nova/Particles/UberUnlit"
 
         Pass
         {
-			Blend [_BlendSrc] [_BlendDst]
+            Blend [_BlendSrc] [_BlendDst]
             ZWrite[_ZWrite]
             Cull[_Cull]
-			ColorMask RGB
+            ColorMask RGB
             Lighting Off
             ZTest LEqual
-            
+
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.5
-            
+
             // Unity Defined
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:ParticleInstancingSetup
             #pragma require 2darray
-            
+
             // Render Settings
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
@@ -173,32 +173,34 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
-            
+
             #include "ParticlesUberUnlitForward.hlsl"
-            
             ENDHLSL
         }
-        
+
         Pass
         {
-            Tags { "LightMode" = "SceneSelectionPass" }
+            Tags
+            {
+                "LightMode" = "SceneSelectionPass"
+            }
 
             BlendOp Add
             Blend One Zero
             ZWrite On
             Cull Off
-            
+
             HLSLPROGRAM
             #pragma vertex vertEditor
             #pragma fragment fragSceneHighlight
             #pragma target 3.5
-            
+
             // Unity Defined
             //#pragma multi_compile_fog
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:ParticleInstancingSetup
             #pragma require 2darray
-            
+
             // Render Settings
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
@@ -233,32 +235,34 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
-            
+
             #include "ParticlesUberUnlitEditor.hlsl"
-            
             ENDHLSL
         }
-        
+
         Pass
         {
-            Tags { "LightMode" = "Picking" }
+            Tags
+            {
+                "LightMode" = "Picking"
+            }
 
             BlendOp Add
             Blend One Zero
             ZWrite On
             Cull Off
-            
+
             HLSLPROGRAM
             #pragma vertex vertEditor
             #pragma fragment fragScenePicking
             #pragma target 3.5
-            
+
             // Unity Defined
             //#pragma multi_compile_fog
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:ParticleInstancingSetup
             #pragma require 2darray
-            
+
             // Render Settings
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
@@ -293,9 +297,8 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
-            
+
             #include "ParticlesUberUnlitEditor.hlsl"
-            
             ENDHLSL
         }
     }

@@ -7,9 +7,9 @@ struct Attributes
 {
     float4 positionOS : POSITION;
     float2 texcoord : TEXCOORD0;
-#ifndef NOVA_PARTICLE_INSTANCING_ENABLED
+    #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     INPUT_CUSTOM_COORD(1, 2)
-#endif
+    #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 

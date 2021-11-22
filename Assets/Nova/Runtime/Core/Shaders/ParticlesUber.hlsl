@@ -108,17 +108,17 @@ float _DepthFadeWidth;
 // Returns the sampler state of the base map.
 SamplerState GetBaseMapSamplerState()
 {
-#ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
     return BASE_SAMPLER_STATE_NAME;
-#else
-#ifdef _BASE_MAP_MODE_2D
+    #else
+    #ifdef _BASE_MAP_MODE_2D
     return sampler_BaseMap;
-#elif _BASE_MAP_MODE_2D_ARRAY
+    #elif _BASE_MAP_MODE_2D_ARRAY
     return sampler_BaseMap2DArray;
-#elif _BASE_MAP_MODE_3D
+    #elif _BASE_MAP_MODE_3D
     return sampler_BaseMap3D;
-#endif
-#endif
+    #endif
+    #endif
 }
 
 // Transforms the base map UV by the scale/bias property
@@ -165,22 +165,22 @@ half TintMapProgress(in half progress)
 inline void ApplyTintColor(in out half4 color, half2 uv, half progress, half blendRate)
 {
     half4 tintColor;
-#ifdef _TINT_COLOR_ENABLED
+    #ifdef _TINT_COLOR_ENABLED
     tintColor = _TintColor;
-#elif defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
+    #elif defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
     tintColor = SAMPLE_TINT_MAP(uv, progress);
-#endif
+    #endif
     color *= lerp(1, tintColor, saturate(blendRate));
 }
 
 // Apply the color correction.
 void ApplyColorCorrection(in out float3 color)
 {
-#if _GREYSCALE_ENABLED
+    #if _GREYSCALE_ENABLED
     color.rgb = Luminance(color.rgb);
-#elif _GRADIENT_MAP_ENABLED
+    #elif _GRADIENT_MAP_ENABLED
     color.rgb = SAMPLE_TEXTURE2D(_GradientMap, sampler_GradientMap, half2(Luminance(color.rgb), 0.5)).rgb;
-#endif
+    #endif
 }
 
 // Sample the alpha transition map.
@@ -194,12 +194,12 @@ void ApplyColorCorrection(in out float3 color)
 
 void ModulateAlphaTransitionProgress(in out half progress, half vertexAlpha)
 {
-#if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
-#if _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+    #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
+    #if _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
     progress += 1.0 - vertexAlpha;
-#endif
+    #endif
     progress = min(1.0, progress);
-#endif
+    #endif
 }
 
 // Returns alpha value by the alpha transition.
@@ -207,26 +207,26 @@ half GetTransitionAlpha(half transitionProgress, half2 transitionMapUv, half tra
 {
     half4 map = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
     half transitionAlpha = map.r;
-#ifdef _FADE_TRANSITION_ENABLED
+    #ifdef _FADE_TRANSITION_ENABLED
     transitionProgress = (transitionProgress * 2 - 1) * -1;
     transitionAlpha += transitionProgress;
     transitionAlpha = saturate(transitionAlpha);
-#elif _DISSOLVE_TRANSITION_ENABLED
+    #elif _DISSOLVE_TRANSITION_ENABLED
     half dissolveWidth = lerp(0.5, 0.0001, _DissolveSharpness);
     transitionProgress = lerp(-dissolveWidth, 1.0 + dissolveWidth, transitionProgress);
     transitionAlpha = smoothstep(transitionProgress - dissolveWidth, transitionProgress + dissolveWidth, transitionAlpha);
-#endif
+    #endif
     return transitionAlpha;
 }
 
 // Apply the vertex color.
 inline void ApplyVertexColor(in out half4 color, in half4 vertexColor)
 {
-#if _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+    #if _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
     color.rgb *= vertexColor.rgb;
-#else
+    #else
     color *= vertexColor;
-#endif
+    #endif
 }
 
 // Sample the emission map.
@@ -243,32 +243,32 @@ inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float in
 {
     half emissionIntensity = 0;
     half emissionColorRampU = 0;
-#ifdef _EMISSION_AREA_ALL
+    #ifdef _EMISSION_AREA_ALL
     emissionIntensity = 1;
-#elif _EMISSION_AREA_MAP
+    #elif _EMISSION_AREA_MAP
     half4 emissiomMap = SAMPLE_EMISSION_MAP(emissionMapUv, emissionMapProgress);
     half emissionMapValue = emissiomMap.x;
-#if defined(_EMISSION_COLOR_COLOR) || defined(_EMISSION_COLOR_BASECOLOR)
+    #if defined(_EMISSION_COLOR_COLOR) || defined(_EMISSION_COLOR_BASECOLOR)
     emissionIntensity = emissionMapValue;
-#elif _EMISSION_COLOR_MAP
+    #elif _EMISSION_COLOR_MAP
     emissionIntensity = step(0.0001, emissionMapValue);
     emissionColorRampU = emissionMapValue;
-#endif
-#elif _EMISSION_AREA_ALPHA
+    #endif
+    #elif _EMISSION_AREA_ALPHA
     emissionIntensity = step(0.0001, 1.0 - color.a);
     emissionColorRampU = color.a;
     color.a = _KeepEdgeTransparency >= 0.5f ? color.a : step(0.0001, color.a);
-#endif
-    
+    #endif
+
     half3 emissionColor = 0;
-#ifdef _EMISSION_COLOR_COLOR
+    #ifdef _EMISSION_COLOR_COLOR
     emissionColor = _EmissionColor;
-#elif _EMISSION_COLOR_BASECOLOR
+    #elif _EMISSION_COLOR_BASECOLOR
     emissionColor = color.rgb;
-#elif _EMISSION_COLOR_MAP
+    #elif _EMISSION_COLOR_MAP
     emissionColor = SAMPLE_TEXTURE2D(_EmissionColorRamp, sampler_EmissionColorRamp, half2(emissionColorRampU, 0.5)).rgb;
-#endif
-    
+    #endif
+
     emissionIntensity *= intensity;
     color.rgb += emissionColor * emissionIntensity;
 }
@@ -290,15 +290,15 @@ inline float GetRimValue(half rim, half progress, half sharpness, half inverse)
 
 inline void ApplyRimTransparency(in out half4 color, half rim, half progress, half sharpness)
 {
-#if _TRANSPARENCY_BY_RIM
+    #if _TRANSPARENCY_BY_RIM
     rim = GetRimValue(rim, progress, sharpness, _InverseRimTransparency);
     color.a *= rim;
-#endif
+    #endif
 }
 
 inline void ApplyLuminanceTransparency(in out half4 color, half progress, half sharpness)
 {
-#if _TRANSPARENCY_BY_LUMINANCE
+    #if _TRANSPARENCY_BY_LUMINANCE
     half luminance = Luminance(color.rgb);
     if (_InverseLuminanceTransparency >= 0.5)
     {
@@ -310,21 +310,21 @@ inline void ApplyLuminanceTransparency(in out half4 color, half progress, half s
     half end = lerp(0.0, 1.0 + width, progress);
     luminance = smoothstep(start, end, luminance);
     color.a *= luminance;
-#endif
+    #endif
 }
 
 inline void ApplySoftParticles(in out half4 color, float4 projection)
 {
-#ifdef _SOFT_PARTICLES_ENABLED
+    #ifdef _SOFT_PARTICLES_ENABLED
     color.a *= SoftParticles(projection, _SoftParticlesIntensity);
-#endif
+    #endif
 }
 
 inline void ApplyDepthFade(in out half4 color, float4 projection)
 {
-#ifdef _DEPTH_FADE_ENABLED
+    #ifdef _DEPTH_FADE_ENABLED
     color.a *= DepthFade(_DepthFadeNear, _DepthFadeFar, _DepthFadeWidth, projection);
-#endif
+    #endif
 }
 
 #endif

@@ -9,9 +9,9 @@ struct Attributes
     float4 color : COLOR;
     float3 normalOS : NORMAL;
     float2 texcoord : TEXCOORD0;
-#ifndef NOVA_PARTICLE_INSTANCING_ENABLED
+    #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     INPUT_CUSTOM_COORD(1, 2)
-#endif
+    #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -23,16 +23,17 @@ struct Varyings
     float4 baseMapUVAndProgresses : TEXCOORD2; // xy: BaseMap UV, z: Base Map Progress, w: Tint Map Progress
     float4 flowTransitionUVs : TEXCOORD3; // xy: FlowMap UV, zw: TransitionMap UV
     float4 tintEmissionUV : TEXCOORD4; // xy: TintMap UV, zw: EmissionMap UV
-    float3 transitionEmissionProgresses : TEXCOORD5; // x: TransitionMap Progress, y: EmissionMap Progress, z: Fog Factor
-#ifdef FRAGMENT_USE_VIEW_DIR_WS
+    float3 transitionEmissionProgresses : TEXCOORD5;
+    // x: TransitionMap Progress, y: EmissionMap Progress, z: Fog Factor
+    #ifdef FRAGMENT_USE_VIEW_DIR_WS
     float3 viewDirWS : TEXCOORD6;
-#endif
-#ifdef FRAGMENT_USE_NORMAL_WS
+    #endif
+    #ifdef FRAGMENT_USE_NORMAL_WS
     float3 normalWS : TEXCOORD7;
-#endif
-#ifdef USE_PROJECTED_POSITION
+    #endif
+    #ifdef USE_PROJECTED_POSITION
     float4 projectedPosition : TEXCOORD8;
-#endif
+    #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -55,13 +56,13 @@ inline void InitializeVertexOutput(in Attributes input, in out Varyings output)
 
 inline void InitializeFragmentInput(in out Varyings input)
 {
-#ifdef FRAGMENT_USE_NORMAL_WS
+    #ifdef FRAGMENT_USE_NORMAL_WS
     input.normalWS = normalize(input.normalWS);
-#endif
-    
-#ifdef FRAGMENT_USE_VIEW_DIR_WS
+    #endif
+
+    #ifdef FRAGMENT_USE_VIEW_DIR_WS
     input.viewDirWS = normalize(input.viewDirWS);
-#endif
+    #endif
 }
 
 #endif
