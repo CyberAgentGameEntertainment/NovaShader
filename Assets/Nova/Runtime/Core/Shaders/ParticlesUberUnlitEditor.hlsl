@@ -156,8 +156,8 @@ void fragSceneClip(Varyings input)
     ApplyDepthFade(color, input.projectedPosition);
 #endif
     
-    color.rgb = AlphaModulate(color.rgb, color.a);
     AlphaClip(color.a, _Cutoff);
+    color.rgb = AlphaModulate(color.rgb, color.a);
 }
 
 half4 fragSceneHighlight(Varyings input) : SV_Target

@@ -165,8 +165,8 @@ half4 frag(Varyings input) : SV_Target
     ApplyDepthFade(color, input.projectedPosition);
 #endif
     
-    color.rgb = AlphaModulate(color.rgb, color.a);
     AlphaClip(color.a, _Cutoff);
+    color.rgb = AlphaModulate(color.rgb, color.a);
     return color;
 }
 
