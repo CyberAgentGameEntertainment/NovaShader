@@ -60,6 +60,7 @@ Varyings vertEditor(Attributes input)
     output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord)
 #endif
 
+    // NOTE: Emission is not needed in EditorPass.
     // Emission Map Progress
 //#ifdef _EMISSION_MAP_MODE_2D_ARRAY
 //    float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
@@ -69,6 +70,7 @@ Varyings vertEditor(Attributes input)
 //    output.transitionEmissionProgresses.y = FlipBookBlendingProgress(emissionMapProgress, _EmissionMapSliceCount);
 //#endif
 
+    // NOTE: Fog is not needed in EditorPass.
     //Fog
     //output.transitionEmissionProgresses.z = ComputeFogFactor(output.positionHCS.z);
     
@@ -120,10 +122,12 @@ void fragSceneClip(Varyings input)
     // Vertex Color
     ApplyVertexColor(color, input.color);
 
+    // NOTE: Emission is not needed in EditorPass.
     // Emission
     //half emissionIntensity = _EmissionIntensity + GET_CUSTOM_COORD(_EmissionIntensityCoord);
     //ApplyEmissionColor(color, input.tintEmissionUV.zw, emissionIntensity, input.transitionEmissionProgresses.y);
     
+    // NOTE: Fog is not needed in EditorPass.
     // Fog
     //half fogFactor = input.transitionEmissionProgresses.z;
     //color.rgb = MixFog(color.rgb, fogFactor);
