@@ -1,5 +1,5 @@
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/142821815-7d838ac4-ff18-4025-b60f-0d22ad538f50.png" alt="Demo">
+  <img width=500 src="https://user-images.githubusercontent.com/47441314/143532659-5bb79d22-f21c-4abf-86e3-ea9789353f44.png" alt="Demo">
 </p>
 
 # NOVA Shader: Particle System用多機能シェーダ
@@ -15,13 +15,13 @@
 ビジュアルエフェクト制作でよく使われる汎用的な機能をまとめているので、効率的に高品質なエフェクトを作成できます。
 
 <p align="center">
-  <img width=600 src="https://placehold.jp/1920x1080.png" alt="Demo">
+  <img width=600 src="https://user-images.githubusercontent.com/47441314/143532787-dcea6cb0-8afb-4d9a-a973-816a05b93918.gif" alt="Demo">
 </p>
 
-特徴的な機能としてはFlip-Book（連番テクスチャアニメーション）、ディゾルブ、フローマップ、エミッション、ミラーサンプリング、グラデーションマップ、ディストーションなどがあります。
+特徴的な機能としてはフローマップ、Flip-Book（連番テクスチャアニメーション）、ディゾルブ、フェード、回転、アニメーション可能なTintマップ、エミッション、ディストーションなどがあります。
 
 <p align="center">
-  <img width=600 src="https://placehold.jp/1920x1080.png" alt="Features">
+  <img width=600 src="https://user-images.githubusercontent.com/47441314/143531706-7f0230bb-4e4f-41de-9dbf-1586f295225c.gif" alt="Features">
 </p>
 
 詳細については以下のドキュメントや[デモシーン](Assets/Demo/Demo.unity)を参照してください。
@@ -37,7 +37,7 @@
 * Universal Render Pipeline
 * Shader Model 3.5
 
-なお、[GPUインスタンシング](https://docs.unity3d.com/Manual/PartSysInstancing.html)を使う場合にはShader Model 4.5が要件となります。  
+なお、[Mesh GPU Instancing](https://docs.unity3d.com/Manual/PartSysInstancing.html)を使う場合にはShader Model 4.5が要件となります。  
 また、`Mirror Sampling`プロパティを有効にする場合には、ハードウェアが[Inline Sampler States](https://docs.unity3d.com/Manual/SL-SamplerStates.html)に対応している必要があります。
 
 また本ドキュメントでは、Universal Render Pipeline のセットアップが完了していることを前提としています。  
@@ -52,7 +52,7 @@ Universal Render Pipelineに関する詳細は[Unityのマニュアル](https://
    * https://github.com/CyberAgentGameEntertainment/NovaShader.git?path=/Assets/Nova
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/118421190-97842b00-b6fb-11eb-9f94-4dc94e82367a.png" alt="Package Manager">
+  <img width=500 src="https://user-images.githubusercontent.com/47441314/143533003-177a51fc-3d11-4784-b9d2-d343cc622841.png" alt="Package Manager">
 </p>
 
 あるいはPackages/manifest.jsonを開き、dependenciesブロックに以下を追記します。
@@ -962,7 +962,10 @@ Particle SystemのCustom Vertex Streamsを使うと、マテリアルのプロ�
 
 これでテクスチャが回転するようになりました。
 
-ーーーーー
+<p align="center">
+  <img width=500 src="https://user-images.githubusercontent.com/47441314/143531888-b49c55e9-3df1-4dae-a0fe-d3e4a1638af2.gif" alt="Rotation"><br>
+  <font color="grey">Rotation</font>
+</p>
 
 ## Mesh GPU Instancingを使う
 [Particle System Mesh GPU Instancing](https://docs.unity3d.com/Manual/PartSysInstancing.html)を使うと、パーティクルを効率的に描画できます。  
@@ -984,6 +987,11 @@ Particle SystemのCustom Vertex Streamsを使うと、マテリアルのプロ�
   <img width=500 src="https://user-images.githubusercontent.com/47441314/143448020-45beb08a-6795-4372-894a-c04e33a8029d.png" alt="Custom Vertex Streams"><br>
   <font color="grey">Custom Vertex Streams</font>
 </p>
+
+`Custom Data`の部分はNoiseなど他のモジュールの値を入れても問題ありませんが、  
+必ず`INSTANCED1.xyzw`と`INSTANCED2.xyzw`の全てが過不足なく埋まるように設定してください。
+
+以上で`Mesh GPU Instancing`の設定は完了です。
 
 ## Litシェーダについて
 NOVA Shaderでは現状Unlitシェーダのみを提供しています。  
