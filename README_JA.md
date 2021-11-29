@@ -11,7 +11,7 @@
 **ドキュメント** ([English](README.md), [日本語](README_JA.md))
 | [**デモシーン**](Assets/Demo/Demo.unity)
 
-*NOVA Shader*はUnityのUniversal Render Pipeline(URP)に対応した、Particle Systemのための多機能シェーダです。  
+*NOVA Shader*はUnityのUniversal Render Pipeline (URP)に対応した、Particle Systemのための多機能シェーダです。  
 ビジュアルエフェクト制作でよく使われる汎用的な機能をまとめているので、効率的に高品質なエフェクトを作成できます。
 
 <p align="center">
@@ -33,7 +33,38 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <!-- param::title::詳細:: -->
+<details>
+<summary>詳細</summary>
 
+- [セットアップ](#%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97)
+    - [要件](#%E8%A6%81%E4%BB%B6)
+    - [インストール](#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
+- [Uber Unlitシェーダ](#uber-unlit%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80)
+    - [Render Settings](#render-settings)
+    - [Base Map](#base-map)
+    - [Tint Color](#tint-color)
+    - [Flow Map](#flow-map)
+    - [Color Correction](#color-correction)
+    - [Alpha Transition](#alpha-transition)
+    - [Emission](#emission)
+    - [Transparency](#transparency)
+- [Distortionシェーダ](#distortion%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80)
+    - [Render Settings](#render-settings-1)
+    - [Distortion](#distortion)
+    - [Flow Map](#flow-map-1)
+    - [Alpha Transition](#alpha-transition-1)
+    - [Transparency](#transparency-1)
+- [Custom Vertex Streamsとの連携](#custom-vertex-streams%E3%81%A8%E3%81%AE%E9%80%A3%E6%90%BA)
+    - [Custom Dataを設定](#custom-data%E3%82%92%E8%A8%AD%E5%AE%9A)
+    - [Custom Vertex Streamsを設定する](#custom-vertex-streams%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B)
+    - [マテリアルプロパティを設定する](#%E3%83%9E%E3%83%86%E3%83%AA%E3%82%A2%E3%83%AB%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B)
+- [Mesh GPU Instancingを使う](#mesh-gpu-instancing%E3%82%92%E4%BD%BF%E3%81%86)
+    - [Mesh GPU Instancingを有効化する](#mesh-gpu-instancing%E3%82%92%E6%9C%89%E5%8A%B9%E5%8C%96%E3%81%99%E3%82%8B)
+    - [Custom Vertex Streamsを設定する](#custom-vertex-streams%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B-1)
+- [Litシェーダについて](#lit%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)
+- [ライセンス](#%E3%83%A9%E3%82%A4%E3%82%BB%E3%83%B3%E3%82%B9)
+
+</details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## セットアップ
