@@ -11,14 +11,15 @@
 **Docs** ([English](README.md), [日本語](README_JA.md))
 | [**Demo Scene**](Assets/Demo/Demo.unity)
 
-NOVA Shader is a multi-functional shader for the Particle System that supports Universal Render Pipeline(URP). You can create high-quality effects efficiently because general-purpose functions commonly used in visual effects are implemented.
+NOVA Shader is a multi-functional shader for the Particle System that supports Universal Render Pipeline (URP).
+General-purpose functions commonly used in visual effects are implemented so you can create high-quality effects efficiently.
 
 <p align="center">
   <img width=600 src="https://user-images.githubusercontent.com/47441314/143532787-dcea6cb0-8afb-4d9a-a973-816a05b93918.gif" alt="Demo"><br>
   <font color="grey">Author: </font><a href="https://twitter.com/Ugokashiya">@Ugokashiya</a>
 </p>
 
-It implements some distinctive features like Flow Map, Flip-Book (sequential texture animation), Dissolve, Fade, Rotation, Animated Tint Map, Emission, and Distortion.
+It implements some distinctive features like Flow Map, Flip-Book (sequential texture animation), Dissolve, Fade, Rotation, Animated Tint Map, Emission, Distortion, and so on.
 
 <p align="center">
   <img width=600 src="https://user-images.githubusercontent.com/47441314/143531706-7f0230bb-4e4f-41de-9dbf-1586f295225c.gif" alt="Features"><br>
@@ -45,7 +46,7 @@ This library is compatible with the following environments.
 
 Note that Shader Model 4.5 is required to use [Mesh GPU Instancing](https://docs.unity3d.com/Manual/PartSysInstancing.html). And also, if you want to use `Mirror Sampling`, your hardware needs to support [Inline Sampler States](https://docs.unity3d.com/Manual/SL-SamplerStates.html).
 
-This document also assumes that you have already set up the Universal Render Pipeline. For more information about the Universal Render Pipeline, please refer to the [Unity Manual](https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@13.1/manual/)
+And this document assumes that you have already set up the Universal Render Pipeline. For more information about the Universal Render Pipeline, please refer to the [Unity Manual](https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@13.1/manual/)
 
 #### Install
 To install the software, follow the steps below.
@@ -75,9 +76,10 @@ If you want to set the target version, write as follows.
 
 
 ## Uber Unlit Shader
-The Uber Unlit shader is a multifunctional shader that does not reflect lighting. Use this shader for particles that do not need lighting, such as glowing effects.
+The Uber Unlit shader is a multifunctional shader with no lighting applied.
+Use this shader for particles that do not need lighting, such as glowing effects.
 
-To use this shader, assign the `Nova/Particles/UberUnlit` shader to your material. The following is the descriptions of each property that can be set from the Inspector.
+To use this shader, assign the `Nova/Particles/UberUnlit` shader to your material. The following is the description of each property that can be set from the Inspector.
 
 #### Render Settings
 The Render Settings control how the Material is rendered.
@@ -146,13 +148,12 @@ You can specify the rendering face from the following options.
 </td></tr>
 <tr><td colspan="3"><b>Render Priority</b></td><td>
 <p>
-Specify the drawing priority.
 If the Render Type is the same, the one with the lower Render Priority will be drawn first.
 </p>
 </td></tr>
 <tr><td colspan="3"><b>Vertex Alpha Mode</b></td><td>
 <p>
-You can specify how to use the alpha value of the vertex color from the following options
+You can specify how to use the alpha value of the vertex color from the following options.
 </p>
 <p>
 <ul>
@@ -165,7 +166,7 @@ You can specify how to use the alpha value of the vertex color from the followin
 </table>
 
 #### Base Map
-Base Map controls the base color texture.
+Base Map controls the base color texture and its settings.
 
 <p align="center">
   <img width=500 src="https://user-images.githubusercontent.com/47441314/143205498-78b66ab9-3ea6-44ed-9a97-f5a00bda153e.png" alt="Base Map"><br>
@@ -179,13 +180,13 @@ Base Map controls the base color texture.
 <tbody>
 <tr><td colspan="3"><b>Mode</b></td><td>
 <p>
-You can specify the Base Map Mode from the following options.
+You can specify the type of the Base Map from the following options.
 </p>
 <p>
 <ul>
-<li>Single Texture: 2D Texture (Default)</li>
-<li>Flip Book: Flip-Book Animation</li>
-<li>Flip Book Blending: Flip-Book animation with interpolated frames</li>
+<li>Single Texture: Use 2D texture (Default).</li>
+<li>Flip Book: Use Flip-Book animation.</li>
+<li>Flip Book Blending: Use Flip-Book animation with interpolated frames.</li>
 </ul>
 </p>
 <p>
@@ -243,11 +244,11 @@ Tint Color controls the color to be multiplied.
 <tbody>
 <tr><td colspan="3"><b>Mode</b></td><td>
 <p>
-You can specify the Tint Mode from the following options.
+You can specify the area to apply the Tint Color from the following options.
 </p>
 <p>
 <ul>
-<li>None: Don't use the Tint Color (Default).</li>
+<li>None: Disable the Tint Color (Default).</li>
 <li>All: Apply to the entire surface.</li>
 <li>Rim: Apply to the rim.</li>
 </ul>
@@ -258,8 +259,7 @@ You can specify the Tint Mode from the following options.
 <b>This property is visible only when the Mode is set to Rim.</b>
 </p>
 <p>
-Set the range of the rim.
-The larger this value is, the closer to the edge the area will be colored.
+The larger this value is, the more only the areas near the edges will be colored.
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Sharpness</b></td><td>
@@ -280,7 +280,7 @@ If checked, reverse the range of the rim.
 </td></tr>
 <tr><td colspan="3"><b>Color Mode</b></td><td>
 <p>
-You can specify the Color Mode from the following options.
+You can specify how you set the Tint Color.
 </p>
 <p>
 <ul>
@@ -303,7 +303,7 @@ The color to be multiplied.
 <b>This property is visible only when the Color Mode is set to Texture 2D or Texture 3D.</b>
 </p>
 <p>
-The texture to be multiplied.
+The texture whose color will be multiplied.
 </p>
 </td></tr>
 <tr><td colspan=3><b>Progress</b></td><td>
@@ -317,6 +317,7 @@ The progress of the 3D Texture.
 <tr><td colspan=3><b>Blend Rate</b></td><td>
 <p>
 The color multiplication factor.
+If this value is zero, the color will not be applied; if it is one, the color will be multiplied as is.
 </p>
 </td></tr>
 </tbody>
@@ -370,12 +371,12 @@ Color Correction correct the colors up to this point.
 <tbody>
 <tr><td colspan="3"><b>Mode</b></td><td>
 <p>
-You can specify the Color Correction Mode from the following options.
+You can specify how to correct the colors.
 </p>
 <p>
 <ul>
-<li>None: Don't Use the Color Correction (Default).</li>
-<li>Greyscale: Chage colors to greyscale.</li>
+<li>None: Disable the Color Correction (Default).</li>
+<li>Greyscale: Chage the colors to greyscale.</li>
 <li>Gradient Map: Use the gradient map.</li>
 </ul>
 </p>
@@ -415,7 +416,7 @@ You can specify Alpha Transition Mode from the following options.
 </p>
 <p>
 <ul>
-<li>None: Don't use the Alpha Transition (Default).</li>
+<li>None: Disable the Alpha Transition (Default).</li>
 <li>Fade: Transition using the fade texture.</li>
 <li>Dissolve: Transition using the dissolve texture.</li>
 </ul>
@@ -423,13 +424,13 @@ You can specify Alpha Transition Mode from the following options.
 </td></tr>
 <td colspan=3><b>Map Mode</b></td><td>
 <p>
-You can specify the Alpha Transition Map Mode from the following options.
+You can specify the type of the Alpha Transition Map from the following options.
 </p>
 <p>
 <ul>
-<li>Single Texture: 2D Texture (Default)</li>
-<li>Flip Book: Flip-Book Animation</li>
-<li>Flip Book Blending: Flip-Book animation with interpolated frames</li>
+<li>Single Texture: Use 2D texture (Default).</li>
+<li>Flip Book: Use Flip-Book animation.</li>
+<li>Flip Book Blending: Use Flip-Book animation with interpolated frames.</li>
 </ul>
 </p>
 <p>
@@ -491,11 +492,11 @@ The Emission control how the particles are glowing.
 <tbody>
 <tr><td colspan="3"><b>Mode</b></td><td>
 <p>
-You can specify the Emission Mode from the following options.
+You can specify the area to be glowed.
 </p>
 <p>
 <ul>
-<li>None: Don't use the Emission (Default).</li>
+<li>None: Disable the Emission (Default).</li>
 <li>All: The entire surface will glow.</li>
 <li>By Texture: The area specified by the texture will glow.</li>
 <li>Edge: Edges (areas where alpha is greater than 0 and less than 1) will glow.</li>
@@ -511,9 +512,9 @@ You can specify the Mode of the Emission Map from the following options.
 </p>
 <p>
 <ul>
-<li>Single Texture: 2D Texture (Default)</li>
-<li>Flip Book: Flip-Book Animation</li>
-<li>Flip Book Blending: Flip-Book animation with interpolated frames</li>
+<li>Single Texture: Use 2D texture (Default).</li>
+<li>Flip Book: Use Flip-Book animation.</li>
+<li>Flip Book Blending: Use Flip-Book animation with interpolated frames.</li>
 </ul>
 </p>
 <p>
@@ -582,7 +583,7 @@ Sets the Gradient Map. The specifications are as follows.
 <ul>
 <li>When Mode is By Texture: Sampling the R value of the Emission Map as the U value of the Gradient Map.</li>
 <li>When Mode is Edge: Sample alpha values as U values of the Gradient Map.</li>
-<li>You need to use a texture with a horizontal gradient.</li>
+<li>You need to use a texture with a horizontal gradient as the Gradient Map.</li>
 </ul>
 </p>
 </td></tr>
@@ -932,8 +933,8 @@ The distance from the beginning of transparency to the end of complete transpare
 Using the Particle System's Custom Vertex Streams, you can animate the properties of the Material.
 In the following example, we will use the Custom Vertex Streams to rotate the texture.
 
-#### Set up the Custom PartSysCustomDataModule
-First, set up the [Particle SystemのCustom Data](https://docs.unity3d.com/2019.4/Documentation/Manual/PartSysCustomDataModule.html).
+#### Set up the Custom Data
+First, set up the [Particle System's Custom Data](https://docs.unity3d.com/2019.4/Documentation/Manual/PartSysCustomDataModule.html).
 In this case, we have set a value that changes from 0 to 1 over time to `Custom1.X`.
 
 <p align="center">
@@ -950,7 +951,7 @@ Next, set the Custom Vertex Streams as shown below to pass `Custom1.x` to `TEXCO
 </p>
 
 #### Set up the Material Property
-Next, select `COORD 1X` from the `Rotation` dropdown to set the value passed to `TEXCOORD.x` as shown below.
+Next, select `COORD 1X` from the `Rotation` dropdown to use the value passed to `TEXCOORD1.x` as shown below.
 
 <p align="center">
   <img width=500 src="https://user-images.githubusercontent.com/47441314/143424542-61dc2d6b-402f-45d1-85bb-a2170e05643c.png" alt="Coord"><br>
@@ -965,8 +966,8 @@ The texture will now rotate.
 </p>
 
 ## Use Mesh GPU Instancing
-You can use the [Particle System Mesh GPU Instancing](https://docs.unity3d.com/Manual/PartSysInstancing.html)to draw particles efficiently.
-The following section describes how to enable `Mesh GPU Instancing` for materials using this shader.
+You can use the [Particle System Mesh GPU Instancing](https://docs.unity3d.com/Manual/PartSysInstancing.html) to draw particles efficiently.
+The following section describes how to use `Mesh GPU Instancing` for materials using this shader.
 
 #### Enable Mesh GPU Instancing
 To use `Mesh GPU Instancing`, you need to set the `Render Mode` of the `Renderer` module to Mesh.

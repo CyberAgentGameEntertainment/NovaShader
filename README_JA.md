@@ -991,7 +991,7 @@ Particle SystemのCustom Vertex Streamsを使うと、マテリアルのプロ�
 
 #### マテリアルプロパティを設定する
 次にマテリアルプロパティを設定します。  
-今回は`TEXCOORD.x`に渡された値を`Rotation`として設定したいため、下図のように`COORD 1X`を選択します。
+今回は`TEXCOORD1.x`に渡された値を`Rotation`として設定したいため、下図のように`COORD 1X`を選択します。
 
 <p align="center">
   <img width=500 src="https://user-images.githubusercontent.com/47441314/143424542-61dc2d6b-402f-45d1-85bb-a2170e05643c.png" alt="Coord"><br>
