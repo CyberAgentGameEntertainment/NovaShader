@@ -32,7 +32,38 @@ For more information, please refer to the following documents and [Demo Scene](A
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<details>
+<summary>Details</summary>
 
+- [Setup](#setup)
+  - [Requirements](#requirements)
+    - [Install](#install)
+- [Uber Unlit Shader](#uber-unlit-shader)
+    - [Render Settings](#render-settings)
+    - [Base Map](#base-map)
+    - [Tint Color](#tint-color)
+    - [Flow Map](#flow-map)
+    - [Color Correction](#color-correction)
+    - [Alpha Transition](#alpha-transition)
+    - [Emission](#emission)
+    - [Transparency](#transparency)
+- [Distortion Shader](#distortion-shader)
+    - [Render Settings](#render-settings-1)
+    - [Distortion](#distortion)
+    - [Flow Map](#flow-map-1)
+    - [Alpha Transition](#alpha-transition-1)
+    - [Transparency](#transparency-1)
+- [Use with the Custom Vertex Streams](#use-with-the-custom-vertex-streams)
+    - [Set up the Custom Data](#set-up-the-custom-data)
+    - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams)
+    - [Set up the Material Property](#set-up-the-material-property)
+- [Use Mesh GPU Instancing](#use-mesh-gpu-instancing)
+    - [Enable Mesh GPU Instancing](#enable-mesh-gpu-instancing)
+    - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams-1)
+- [About Lit Shader](#about-lit-shader)
+- [Licenses](#licenses)
+
+</details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Setup
