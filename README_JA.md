@@ -11,7 +11,7 @@
 **ドキュメント** ([English](README.md), [日本語](README_JA.md))
 | [**デモシーン**](Assets/Demo/Demo.unity)
 
-*NOVA Shader*はUnityのUniversal Render Pipeline(URP)に対応した、Particle Systemのための多機能シェーダです。  
+*NOVA Shader*はUnityのUniversal Render Pipeline (URP)に対応した、Particle Systemのための多機能シェーダです。  
 ビジュアルエフェクト制作でよく使われる汎用的な機能をまとめているので、効率的に高品質なエフェクトを作成できます。
 
 <p align="center">
