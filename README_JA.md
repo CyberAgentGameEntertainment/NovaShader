@@ -15,13 +15,15 @@
 ビジュアルエフェクト制作でよく使われる汎用的な機能をまとめているので、効率的に高品質なエフェクトを作成できます。
 
 <p align="center">
-  <img width=600 src="https://user-images.githubusercontent.com/47441314/143532787-dcea6cb0-8afb-4d9a-a973-816a05b93918.gif" alt="Demo">
+  <img width=600 src="https://user-images.githubusercontent.com/47441314/143532787-dcea6cb0-8afb-4d9a-a973-816a05b93918.gif" alt="Demo"><br>
+  <font color="grey">作者: </font><a href="https://twitter.com/Ugokashiya">@Ugokashiya</a>
 </p>
 
 特徴的な機能としてはフローマップ、Flip-Book（連番テクスチャアニメーション）、ディゾルブ、フェード、回転、アニメーション可能なTintマップ、エミッション、ディストーションなどがあります。
 
 <p align="center">
-  <img width=600 src="https://user-images.githubusercontent.com/47441314/143531706-7f0230bb-4e4f-41de-9dbf-1586f295225c.gif" alt="Features">
+  <img width=600 src="https://user-images.githubusercontent.com/47441314/143531706-7f0230bb-4e4f-41de-9dbf-1586f295225c.gif" alt="Features"><br>
+  <font color="grey">特徴的な機能</a>
 </p>
 
 詳細については以下のドキュメントや[デモシーン](Assets/Demo/Demo.unity)を参照してください。
@@ -85,7 +87,7 @@ Universal Render Pipelineに関する詳細は[Unityのマニュアル](https://
 
 1. Window > Package Manager を選択
 2. 「+」ボタン > Add package from git URL を選択
-4. 以下を入力してインストール
+3. 以下を入力してインストール
    * https://github.com/CyberAgentGameEntertainment/NovaShader.git?path=/Assets/Nova
 
 <p align="center">
@@ -319,7 +321,7 @@ Tint Colorでは乗算色を指定できます。
 </p>
 <p>
 <ul>
-<li>Color: 単色（デフォルト）</li>
+<li>Single Color: 単色（デフォルト）</li>
 <li>Texture 2D: テクスチャで指定</li>
 <li>Texture 3D: 3Dテクスチャで指定（アニメーション可能）</li>
 </ul>
@@ -598,7 +600,6 @@ Gradient MapはModeをBy TextureかEdgeに設定した時のみ選択可能で�
 <b>Color TypeをColorに設定した時のみ表示されます。</b>
 </p>
 <p>
-エミッションの色を以下の選択肢から指定できます。<br>
 エミッションの色をHDRカラーで指定します。
 </p>
 </td></tr>
@@ -618,7 +619,7 @@ Gradient MapはModeをBy TextureかEdgeに設定した時のみ選択可能で�
 グラデーションマップを設定します。グラデーションマップの仕様は以下の通りです。
 <ul>
 <li>ModeがBy Textureの場合: エミッションマップのR値をグラデーションマップのU値としてサンプリングします</li>
-<li>ModeがBy Textureの場合: アルファ値をグラデーションマップのU値としてサンプリングします</li>
+<li>ModeがEdgeの場合: アルファ値をグラデーションマップのU値としてサンプリングします</li>
 <li>横方向にグラデーションがかかったテクスチャを使う必要があります</li>
 </ul>
 </p>
@@ -990,7 +991,7 @@ Particle SystemのCustom Vertex Streamsを使うと、マテリアルのプロ�
 
 #### マテリアルプロパティを設定する
 次にマテリアルプロパティを設定します。  
-今回は`TEXCOORD.x`に渡された値を`Rotation`として設定したいため、下図のように`COORD.x`を選択します。
+今回は`TEXCOORD1.x`に渡された値を`Rotation`として設定したいため、下図のように`COORD 1X`を選択します。
 
 <p align="center">
   <img width=500 src="https://user-images.githubusercontent.com/47441314/143424542-61dc2d6b-402f-45d1-85bb-a2170e05643c.png" alt="Coord"><br>
