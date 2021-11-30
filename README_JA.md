@@ -87,7 +87,7 @@ Universal Render Pipelineに関する詳細は[Unityのマニュアル](https://
 
 1. Window > Package Manager を選択
 2. 「+」ボタン > Add package from git URL を選択
-4. 以下を入力してインストール
+3. 以下を入力してインストール
    * https://github.com/CyberAgentGameEntertainment/NovaShader.git?path=/Assets/Nova
 
 <p align="center">

@@ -84,7 +84,7 @@ To install the software, follow the steps below.
 
 1. Open the Package Manager from `Window > Package Manager`
 2. `"+" button > Add package from git URL`
-4. Enter the following
+3. Enter the following
    * https://github.com/CyberAgentGameEntertainment/NovaShader.git?path=/Assets/Nova
 
 <p align="center">
