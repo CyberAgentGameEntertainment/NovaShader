@@ -9,13 +9,14 @@
 [![license](https://img.shields.io/badge/Unity-2020.3-green.svg)](LICENSE.md)
 
 **ドキュメント** ([English](README.md), [日本語](README_JA.md))
-| [**デモシーン**](Assets/Demo/Demo.unity)
+| **サンプル** ([English](Assets/Samples/README.md), [日本語](Assets/Samples/README_JA.md))
+| **デモ** ([English](Assets/Demo/README.md), [日本語](Assets/Demo/README_JA.md))
 
 *NOVA Shader*はUnityのUniversal Render Pipeline (URP)に対応した、Particle Systemのための多機能シェーダです。  
 ビジュアルエフェクト制作でよく使われる汎用的な機能をまとめているので、効率的に高品質なエフェクトを作成できます。
 
 <p align="center">
-  <img width=600 src="https://user-images.githubusercontent.com/47441314/143532787-dcea6cb0-8afb-4d9a-a973-816a05b93918.gif" alt="Demo"><br>
+  <img width=600 src="https://user-images.githubusercontent.com/47441314/144192957-64e63c4a-3644-4a08-8134-dcbeb85d5493.gif" alt="Demo"><br>
   <font color="grey">作者: </font><a href="https://twitter.com/Ugokashiya">@Ugokashiya</a>
 </p>
 
