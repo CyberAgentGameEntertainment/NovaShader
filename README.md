@@ -27,7 +27,7 @@ It implements some distinctive features like Flow Map, Flip-Book (sequential tex
   <font color="grey">Features</a>
 </p>
 
-For more information, please refer to the following documents and [Demo Scene](Assets/Demo/Demo.unity).
+For more information, please refer to the following documents, [Samples](Assets/Samples/README.md) and [Demo](Assets/Demo/README.md).
 
 ## Table of Contents
 

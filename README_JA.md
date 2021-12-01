@@ -27,7 +27,7 @@
   <font color="grey">特徴的な機能</a>
 </p>
 
-詳細については以下のドキュメントや[デモシーン](Assets/Demo/Demo.unity)を参照してください。
+詳細については以下のドキュメントや[サンプル](Assets/Samples/README_JA.md)、[デモ](Assets/Demo/README_JA.md)を参照してください。
 
 ## 目次
 
