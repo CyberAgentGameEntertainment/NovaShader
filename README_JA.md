@@ -9,14 +9,18 @@
 [![license](https://img.shields.io/badge/Unity-2020.3-green.svg)](LICENSE.md)
 
 **ドキュメント** ([English](README.md), [日本語](README_JA.md))
-| [**デモシーン**](Assets/Demo/Demo.unity)
+| **サンプル** ([English](Assets/Samples/README.md), [日本語](Assets/Samples/README_JA.md))
+| **デモ** ([English](Assets/Demo/README.md), [日本語](Assets/Demo/README_JA.md))
 
 *NOVA Shader*はUnityのUniversal Render Pipeline (URP)に対応した、Particle Systemのための多機能シェーダです。  
 ビジュアルエフェクト制作でよく使われる汎用的な機能をまとめているので、効率的に高品質なエフェクトを作成できます。
 
 <p align="center">
-  <img width=600 src="https://user-images.githubusercontent.com/47441314/143532787-dcea6cb0-8afb-4d9a-a973-816a05b93918.gif" alt="Demo"><br>
-  <font color="grey">作者: </font><a href="https://twitter.com/Ugokashiya">@Ugokashiya</a>
+  <img width=600 src="https://user-images.githubusercontent.com/47441314/144193003-53bcaa8a-b9a2-4b79-a1de-aa7b001abdaa.gif" alt="Sample1">
+</p>
+<p align="center">
+  <img width=600 src="https://user-images.githubusercontent.com/47441314/144192957-64e63c4a-3644-4a08-8134-dcbeb85d5493.gif" alt="Sample2"><br>
+  <font color="grey">Author: </font><a href="https://twitter.com/Ugokashiya">@Ugokashiya</a>
 </p>
 
 特徴的な機能としてはフローマップ、Flip-Book（連番テクスチャアニメーション）、ディゾルブ、フェード、回転、アニメーション可能なTintマップ、エミッション、ディストーションなどがあります。
@@ -26,7 +30,7 @@
   <font color="grey">特徴的な機能</a>
 </p>
 
-詳細については以下のドキュメントや[デモシーン](Assets/Demo/Demo.unity)を参照してください。
+詳細については以下のドキュメントや[サンプル](Assets/Samples/README_JA.md)、[デモ](Assets/Demo/README_JA.md)を参照してください。
 
 ## 目次
 
