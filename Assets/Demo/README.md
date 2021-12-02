@@ -19,9 +19,17 @@ You can see the basic features of the NOVA shader in this scene.
 You can also build it and check each function.
 
 ## How to use
-You can play demo scene by following the steps below.
+To use the demo scene, first clone or download the [NOVA Shader's Repository](https://github.com/CyberAgentGameEntertainment/NovaShader)。
 
-1. Clone [NOVA Shader's Repository](https://github.com/CyberAgentGameEntertainment/NovaShader)
-2. Open the cloned project in Unity.
-3. Open [Assets/Demo/Demo.unity](Assets/Demo/Demo.unity) scene.
-4. Play.
+<p align="center">
+  <img width=600 border="1" src="https://user-images.githubusercontent.com/47441314/144380491-24360afe-d946-44ef-905d-3d35dd0f2548.png">
+</p>
+
+Next, open the cloned folder or the folder where you unzipped the downloaded zip file in Unity.
+If you are using Unity Hub, select the folder from the Add button as shown below.
+
+<p align="center">
+  <img width=600 border="1" src="https://user-images.githubusercontent.com/47441314/144381447-b68eaabc-4332-4f49-91c0-992169df1afd.png">
+</p>
+
+You can then use the sample scene by opening [Assets/Demo/Demo.unity](Assets/Demo/Demo.unity).
