@@ -19,9 +19,17 @@
 また、操作可能なシーンとなっているので、ビルドをすれば実機でも各機能の確認ができます。
 
 ## デモシーンの利用方法
-デモシーンは以下の手順で利用できます。
+デモシーンを利用するにはまず、[NOVAシェーダのリポジトリ](https://github.com/CyberAgentGameEntertainment/NovaShader)をクローンするかダウンロードします。
 
-1. [NOVAシェーダのリポジトリ](https://github.com/CyberAgentGameEntertainment/NovaShader)をクローンする
-2. クローンしたプロジェクトをUnityで開く
-3. [Assets/Demo/Demo.unity](Assets/Demo/Demo.unity)シーンを開く
-4. 再生する
+<p align="center">
+  <img width=600 border="1" src="https://user-images.githubusercontent.com/47441314/144380491-24360afe-d946-44ef-905d-3d35dd0f2548.png">
+</p>
+
+次にクローンしたフォルダ、あるいはダウンロードしたZipファイルを解凍したフォルダを、Unityで開きます。  
+Unity Hubを使用する場合、下図のようにAddボタンからフォルダを選択します。
+
+<p align="center">
+  <img width=600 border="1" src="https://user-images.githubusercontent.com/47441314/144381447-b68eaabc-4332-4f49-91c0-992169df1afd.png">
+</p>
+
+あとは[Assets/Demo/Demo.unity](Assets/Demo/Demo.unity)シーンを開くことでデモシーンを利用できます。

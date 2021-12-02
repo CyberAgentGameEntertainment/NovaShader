@@ -20,12 +20,20 @@ You can see the actual effects created with the NOVA shader in the sample scenes
 </p>
 
 ## How to use
-You can play the sample scenes by following the steps below.
+To use the sample scene, first clone or download the [NOVA Shader's Repository](https://github.com/CyberAgentGameEntertainment/NovaShader)。
 
-1. Clone [NOVA Shader's Repository](https://github.com/CyberAgentGameEntertainment/NovaShader)
-2. Open the cloned project in Unity.
-3. Open any scene in [Assets/Demo/Demo.unity](Assets/Demo/Demo.unity).
-4. Play.
+<p align="center">
+  <img width=600 border="1" src="https://user-images.githubusercontent.com/47441314/144380491-24360afe-d946-44ef-905d-3d35dd0f2548.png">
+</p>
+
+Next, open the cloned folder or the folder where you unzipped the downloaded zip file in Unity.
+If you are using Unity Hub, select the folder from the Add button as shown below.
+
+<p align="center">
+  <img width=600 border="1" src="https://user-images.githubusercontent.com/47441314/144381447-b68eaabc-4332-4f49-91c0-992169df1afd.png">
+</p>
+
+You can then use the sample scene by opening the scene in [Assets/Samples](Assets/Samples).
 
 #### Author
 Sample effects were created by [@Ugokashiya](https://twitter.com/Ugokashiya).
