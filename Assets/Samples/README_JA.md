@@ -20,12 +20,20 @@
 </p>
 
 ## サンプルシーンの利用方法
-サンプルシーンは以下の手順で利用できます。
+サンプルシーンを利用するにはまず、[NOVAシェーダのリポジトリ](https://github.com/CyberAgentGameEntertainment/NovaShader)をクローンするかダウンロードします。
 
-1. [NOVAシェーダのリポジトリ](https://github.com/CyberAgentGameEntertainment/NovaShader)をクローンする
-2. クローンしたプロジェクトをUnityで開く
-3. [Assets/Samples](Assets/Samples)内のシーンを開く
-4. 再生する
+<p align="center">
+  <img width=600 border="1" src="https://user-images.githubusercontent.com/47441314/144380491-24360afe-d946-44ef-905d-3d35dd0f2548.png">
+</p>
+
+次にクローンフォルダ、あるいはダウンロードしたZipファイルを解凍したフォルダを、Unityで開きます。  
+Unity Hubを使用する場合、下図のようにAddボタンからフォルダを選択します。
+
+<p align="center">
+  <img width=600 border="1" src="https://user-images.githubusercontent.com/47441314/144381447-b68eaabc-4332-4f49-91c0-992169df1afd.png">
+</p>
+
+あとは[Assets/Samples](Assets/Samples)内のシーンを開くことでサンプルシーンを利用できます。
 
 ## 作者
 サンプルエフェクトは[@Ugokashiya](https://twitter.com/Ugokashiya)氏に作成していただきました。
