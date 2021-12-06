@@ -113,6 +113,8 @@ Universal Render Pipelineに関する詳細は[Unityのマニュアル](https://
 
 * https://github.com/CyberAgentGameEntertainment/NovaShader.git?path=/Assets/Nova#1.0.0
 
+なお`No 'git' executable was found. Please install Git on your system and restart Unity`のようなメッセージが出た場合、マシンにGitをセットアップする必要がある点にご注意ください。
+
 ## Uber Unlitシェーダ
 Uber Unlitシェーダはライティングが反映されない多機能シェーダです。
 発光するエフェクトなど、ライティングが不要なパーティクルにはこのシェーダを使用します。
