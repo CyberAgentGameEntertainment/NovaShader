@@ -3,9 +3,9 @@
   <img width=500 src="https://user-images.githubusercontent.com/47441314/142821815-7d838ac4-ff18-4025-b60f-0d22ad538f50.png#gh-light-mode-only" alt="NOVA Shader">
 </p>
 
-**ドキュメント** ([English](README.md), [日本語](README_JA.md))
-| **サンプル** ([English](Assets/Samples/README.md), [日本語](Assets/Samples/README_JA.md))
-| **デモ** ([English](Assets/Demo/README.md), [日本語](Assets/Demo/README_JA.md))
+**ドキュメント** ([English](../../README.md), [日本語](../../README_JA.md))
+| **サンプル** ([English](../Samples/README.md), [日本語](../Samples/README_JA.md))
+| **デモ** ([English](README.md), [日本語](README_JA.md))
 
 # デモシーンの使い方
 
