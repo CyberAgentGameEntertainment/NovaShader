@@ -93,10 +93,8 @@ namespace Nova.Editor.Core.Scripts
 
         private static void SetupAlphaTransitionMaterialKeywords(Material material)
         {
-            var alphaTransitionEnabled = material.GetTexture(AlphaTransitionMapId) != null
-                                         || (CustomCoord)material.GetFloat(
-                                             AlphaTransitionProgressCoordId) !=
-                                         CustomCoord.Unused;
+            var alphaTransitionEnabled = material.GetTexture(AlphaTransitionMapId) != null;
+            
             var alphaTransitionMode =
                 (AlphaTransitionMode)material.GetFloat(AlphaTransitionModeId);
             var fadeTransitionEnabled = alphaTransitionEnabled && alphaTransitionMode == AlphaTransitionMode.Fade;
