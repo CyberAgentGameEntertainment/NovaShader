@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2021 CyberAgent, Inc.
+// Copyright 2022 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -41,6 +41,12 @@ namespace Nova.Editor.Core.Scripts
 
         private static readonly int AlphaTransitionMapId =
             Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionMap);
+
+        private static readonly int AlphaTransitionMap2DArrayId =
+            Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionMap2DArray);
+
+        private static readonly int AlphaTransitionMap3DId =
+            Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionMap3D);
 
         private static readonly int AlphaTransitionProgressCoordId =
             Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionProgressCoord);
@@ -203,10 +209,9 @@ namespace Nova.Editor.Core.Scripts
         private static void SetupAlphaTransitionMaterialKeywords(Material material)
         {
             var alphaTransitionEnabled = material.GetTexture(AlphaTransitionMapId) != null
-                                         || (CustomCoord)material.GetFloat(
-                                             AlphaTransitionProgressCoordId) != CustomCoord.Unused;
-            var alphaTransitionMode =
-                (AlphaTransitionMode)material.GetFloat(AlphaTransitionModeId);
+                                         || material.GetTexture(AlphaTransitionMap2DArrayId) != null
+                                         || material.GetTexture(AlphaTransitionMap3DId) != null;
+            var alphaTransitionMode = (AlphaTransitionMode)material.GetFloat(AlphaTransitionModeId);
             var fadeTransitionEnabled = alphaTransitionEnabled && alphaTransitionMode == AlphaTransitionMode.Fade;
             var dissolveTransitionEnabled =
                 alphaTransitionEnabled && alphaTransitionMode == AlphaTransitionMode.Dissolve;

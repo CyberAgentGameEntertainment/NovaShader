@@ -2,6 +2,7 @@
 // Copyright 2021 CyberAgent, Inc.
 // --------------------------------------------------------------
 
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -14,7 +15,7 @@ namespace Nova.Runtime.Core.Scripts
         private readonly ProfilingSampler _profilingSampler = new ProfilingSampler(ProfilerTag);
         private readonly RenderQueueRange _renderQueueRange = RenderQueueRange.all;
         private readonly ShaderTagId _shaderTagId;
-        private RenderTargetIdentifier _cameraColorTargetIdentifier;
+        private Func<RenderTargetIdentifier> _getCameraDepthTargetIdentifier;
         private FilteringSettings _filteringSettings;
 
         private RenderTargetIdentifier _renderTargetIdentifier;
@@ -27,17 +28,17 @@ namespace Nova.Runtime.Core.Scripts
         }
 
         public void Setup(RenderTargetIdentifier renderTargetIdentifier,
-            RenderTargetIdentifier cameraColorTargetIdentifier)
+            Func<RenderTargetIdentifier> getCameraDepthTargetIdentifier)
         {
             _renderTargetIdentifier = renderTargetIdentifier;
-            _cameraColorTargetIdentifier = cameraColorTargetIdentifier;
+            _getCameraDepthTargetIdentifier = getCameraDepthTargetIdentifier;
         }
 
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             var cmd = CommandBufferPool.Get(ProfilerTag);
             cmd.Clear();
-            cmd.SetRenderTarget(_renderTargetIdentifier, _cameraColorTargetIdentifier);
+            cmd.SetRenderTarget(_renderTargetIdentifier, _getCameraDepthTargetIdentifier.Invoke());
             cmd.ClearRenderTarget(false, true, Color.grey);
 
             using (new ProfilingScope(cmd, _profilingSampler))
