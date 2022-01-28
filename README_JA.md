@@ -116,7 +116,7 @@ Universal Render Pipelineに関する詳細は[Unityのマニュアル](https://
 なお`No 'git' executable was found. Please install Git on your system and restart Unity`のようなメッセージが出た場合、マシンにGitをセットアップする必要がある点にご注意ください。
 
 バージョンを更新するには上述の手順でバージョンを書き換えてください。  
-package-lock.jsonファイルを開いて本ライブラリの箇所のハッシュを書き換えることでも更新できます。
+バージョンを指定しない場合には、package-lock.jsonファイルを開いて本ライブラリの箇所のハッシュを書き換えることで更新できます。
 
 ```json
 {
