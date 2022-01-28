@@ -112,6 +112,23 @@ If you want to set the target version, write as follows.
 
 Note that if you get a message like `No 'git' executable was found. Please install Git on your system and restart Unity`, you will need to set up Git on your machine.
 
+To update the version, rewrite the version as described above.  
+If you don't want to specify a version, you can also update the version by editing the hash of this library in the package-lock.json file.
+
+```json
+{
+  "dependencies": {
+      "jp.co.cyberagent.nova": {
+      "version": "https://github.com/CyberAgentGameEntertainment/NovaShader.git?path=/Assets/Nova",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "..."
+    }
+  }
+}
+```
+
 ## Uber Unlit Shader
 The Uber Unlit shader is a multifunctional shader with no lighting applied.
 Use this shader for particles that do not need lighting, such as glowing effects.
