@@ -112,7 +112,8 @@ If you want to set the target version, write as follows.
 
 Note that if you get a message like `No 'git' executable was found. Please install Git on your system and restart Unity`, you will need to set up Git on your machine.
 
-To update to the latest version, open the package-lock.json file and delete the part of this library or rewrite the hash.
+To update the version, rewrite the version as described above.  
+You can also update the version by editing the hash of this library in the package-lock.json file.
 
 ```json
 {
