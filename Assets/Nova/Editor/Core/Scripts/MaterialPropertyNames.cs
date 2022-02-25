@@ -55,6 +55,7 @@ namespace Nova.Editor.Core.Scripts
         public const string FlowMapOffsetYCoord = "_FlowMapOffsetYCoord";
         public const string FlowIntensity = "_FlowIntensity";
         public const string FlowIntensityCoord = "_FlowIntensityCoord";
+        public const string FlowMapTarget = "_FlowMapTarget";
 
         // Color Correction
         public const string ColorCorrectionMode = "_ColorCorrectionMode";

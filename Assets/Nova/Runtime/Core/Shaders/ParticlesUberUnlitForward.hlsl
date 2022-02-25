@@ -46,7 +46,7 @@ Varyings vert(Attributes input)
     #endif
 
     // Flow Map UV
-    #ifdef _FLOW_MAP_ENABLED
+    #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
     output.flowTransitionUVs.xy = TRANSFORM_TEX(input.texcoord.xy, _FlowMap);
     output.flowTransitionUVs.x += GET_CUSTOM_COORD(_FlowMapOffsetXCoord);
     output.flowTransitionUVs.y += GET_CUSTOM_COORD(_FlowMapOffsetYCoord);
@@ -100,9 +100,21 @@ half4 frag(Varyings input) : SV_Target
     #endif
 
     // Flow Map
-    #ifdef _FLOW_MAP_ENABLED
+    #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
     half intensity = _FlowIntensity + GET_CUSTOM_COORD(_FlowIntensityCoord);
-    ApplyFlowMap(_FlowMap, sampler_FlowMap, intensity, input.flowTransitionUVs.xy, input.baseMapUVAndProgresses.xy);
+    half2 flowMapUvOffset = GetFlowMapUvOffset(_FlowMap, sampler_FlowMap, intensity, input.flowTransitionUVs.xy);
+    #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE)
+        input.baseMapUVAndProgresses.xy += flowMapUvOffset;
+    #endif
+    #ifdef _FLOW_MAP_TARGET_TINT
+        input.tintEmissionUV.xy += flowMapUvOffset;
+    #endif
+    #ifdef _FLOW_MAP_TARGET_EMISSION
+        input.tintEmissionUV.zw += flowMapUvOffset;
+    #endif
+    #ifdef _FLOW_MAP_TARGET_ALPHA_TRANSITION
+        input.flowTransitionUVs.zw += flowMapUvOffset;
+    #endif
     #endif
 
     // Base Color

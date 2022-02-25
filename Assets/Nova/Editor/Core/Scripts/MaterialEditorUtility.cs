@@ -385,6 +385,19 @@ namespace Nova.Editor.Core.Scripts
         {
             DrawProperty(label, rect => { DrawEnumContentsProperty<T>(editor, rect, property); });
         }
+        
+        /// <summary>
+        ///     Draw a enum flags type property.
+        /// </summary>
+        /// <param name="editor"></param>
+        /// <param name="label"></param>
+        /// <param name="property"></param>
+        /// <typeparam name="T"></typeparam>
+        public static void DrawEnumFlagsProperty<T>(MaterialEditor editor, string label, MaterialProperty property)
+            where T : Enum
+        {
+            DrawProperty(label, rect => { DrawEnumFlagsContentsProperty<T>(editor, rect, property); });
+        }
 
         /// <summary>
         ///     Draw a bool type property with toggle GUI.
@@ -490,6 +503,25 @@ namespace Nova.Editor.Core.Scripts
                 EditorGUI.showMixedValue = property.hasMixedValue;
 
                 var intValue = Convert.ToInt32(EditorGUI.EnumPopup(rect, value));
+                EditorGUI.showMixedValue = false;
+
+                if (ccs.changed)
+                {
+                    editor.RegisterPropertyChangeUndo(property.name);
+                    property.floatValue = intValue;
+                }
+            }
+        }
+
+        private static void DrawEnumFlagsContentsProperty<T>(MaterialEditor editor, Rect rect, MaterialProperty property)
+            where T : Enum
+        {
+            var value = (T)Enum.ToObject(typeof(T), (int)property.floatValue);
+            using (var ccs = new EditorGUI.ChangeCheckScope())
+            {
+                EditorGUI.showMixedValue = property.hasMixedValue;
+
+                var intValue = Convert.ToInt32(EditorGUI.EnumFlagsField(rect, value));
                 EditorGUI.showMixedValue = false;
 
                 if (ccs.changed)

@@ -28,9 +28,12 @@ namespace Nova.Editor.Core.Scripts
         public const string TintColorEnabled = "_TINT_COLOR_ENABLED";
         public const string TintMapEnabled = "_TINT_MAP_ENABLED";
         public const string TintMap3DEnabled = "_TINT_MAP_3D_ENABLED";
-        public const string FlowMapEnabled = "_FLOW_MAP_ENABLED";
         public const string GreyscaleEnabled = "_GREYSCALE_ENABLED";
         public const string GradientMapEnabled = "_GRADIENT_MAP_ENABLED";
+        public const string FlowMapTargetBase = "_FLOW_MAP_TARGET_BASE";
+        public const string FlowMapTargetTint = "_FLOW_MAP_TARGET_TINT";
+        public const string FlowMapTargetEmission = "_FLOW_MAP_TARGET_EMISSION";
+        public const string FlowMapTargetAlphaTransition = "_FLOW_MAP_TARGET_ALPHA_TRANSITION";
 
         // Alpha Transition
         public const string FadeTransitionEnabled = "_FADE_TRANSITION_ENABLED";

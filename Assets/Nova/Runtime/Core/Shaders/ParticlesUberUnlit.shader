@@ -51,6 +51,7 @@ Shader "Nova/Particles/UberUnlit"
         _FlowMapOffsetYCoord("Flow Map Offset Y Coord", Float) = 0.0
         _FlowIntensity("Flow Intensity", Float) = 1.0
         _FlowIntensityCoord("Flow Intensity Coord", Float) = 0.0
+        _FlowMapTarget("Flow Map Target", Float) = 1.0
 
         // Color Correction
         _ColorCorrectionMode("Alpha Transition Progress Coord", Float) = 0.0
@@ -154,7 +155,11 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
 
             // Flow Map
-            #pragma shader_feature_local _FLOW_MAP_ENABLED
+            #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
+            #pragma shader_feature_local _FLOW_MAP_TARGET_BASE
+            #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
+            #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
+            #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
 
             // Color Correction
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
@@ -216,7 +221,11 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
 
             // Flow Map
-            #pragma shader_feature_local _FLOW_MAP_ENABLED
+            #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
+            #pragma shader_feature_local _FLOW_MAP_TARGET_BASE
+            #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
+            #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
+            #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
 
             // Color Correction
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
@@ -278,7 +287,11 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
 
             // Flow Map
-            #pragma shader_feature_local _FLOW_MAP_ENABLED
+            #pragma shader_feature_local _FLOW_MAP_ENABLED  // Obsolete, but retained for compatibility.
+            #pragma shader_feature_local _FLOW_MAP_TARGET_BASE
+            #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
+            #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
+            #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
 
             // Color Correction
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
