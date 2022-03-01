@@ -80,7 +80,7 @@ This library is compatible with the following environments.
 * Universal Render Pipeline
 * Shader Model 3.5
 
-Note that Shader Model 4.5 is required to use [Mesh GPU Instancing](https://docs.unity3d.com/Manual/PartSysInstancing.html). And also, if you want to use `Mirror Sampling`, your hardware needs to support [Inline Sampler States](https://docs.unity3d.com/Manual/SL-SamplerStates.html).
+Note that Shader Model 4.5 is required to use [Mesh GPU Instancing](https://docs.unity3d.com/Manual/PartSysInstancing.html). And also, if you want to use `Mirror Sampling`, your hardware needs to support [Inline Sampler States](https://docs.unity3d.com/Manual/SL-SamplerStates.html). And if you are using 3D Texture or 2D Texture Array, the compression format must support them.
 
 And this document assumes that you have already set up the Universal Render Pipeline. For more information about the Universal Render Pipeline, please refer to the [Unity Manual](https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@13.1/manual/)
 
@@ -381,7 +381,7 @@ If this value is zero, the color will not be applied; if it is one, the color wi
 You can use the Flow Map to distort the Base Map to the specified directions.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143205764-a4b1f81b-a62e-448c-ac86-0c888121e62e.png" alt="Flow Map"><br>
+  <img width=500 src="https://user-images.githubusercontent.com/47441314/156095631-603cdac9-a22f-4ae0-aa6f-bc4084e302be.png" alt="Flow Map"><br>
   <font color="grey">Flow Map</font>
 </p>
 
@@ -405,6 +405,16 @@ Note that you need to uncheck sRGB Color in the texture import setting because t
 <tr><td colspan=3><b>Intensity</b></td><td>
 <p>
 Sets the Flow Map intensity.
+</p>
+</td></tr>
+<tr><td colspan=3><b>Targets</b></td><td>
+<p>
+Set the targets to which the flow map will be applied (multiple selections are possible).
+
+* Base Map
+* Tint Map
+* Alpha Transition Map
+* Emission Map
 </p>
 </td></tr>
 </tbody>
