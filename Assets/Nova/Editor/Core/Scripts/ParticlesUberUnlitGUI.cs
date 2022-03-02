@@ -69,6 +69,7 @@ namespace Nova.Editor.Core.Scripts
             _flowMapOffsetYCoordProp.Setup(properties);
             _flowIntensityProp.Setup(properties);
             _flowIntensityCoordProp.Setup(properties);
+            _flowMapTargetProp.Setup(properties);
 
             // Color Correction
             _colorCorrectionModeProp.Setup(properties);
@@ -380,6 +381,7 @@ namespace Nova.Editor.Core.Scripts
                 _flowMapOffsetYCoordProp.Value);
             MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Intensity", _flowIntensityProp.Value,
                 _flowIntensityCoordProp.Value);
+            MaterialEditorUtility.DrawEnumFlagsProperty<FlowMapTarget>(editor, "Targets", _flowMapTargetProp.Value);
         }
 
         private void DrawColorCorrectionProperties(MaterialEditor editor, MaterialProperty[] properties)
@@ -690,6 +692,7 @@ namespace Nova.Editor.Core.Scripts
         private readonly Property _flowMapOffsetYCoordProp = new Property(PropertyNames.FlowMapOffsetYCoord);
         private readonly Property _flowIntensityProp = new Property(PropertyNames.FlowIntensity);
         private readonly Property _flowIntensityCoordProp = new Property(PropertyNames.FlowIntensityCoord);
+        private readonly Property _flowMapTargetProp = new Property(PropertyNames.FlowMapTarget);
 
         #endregion
 

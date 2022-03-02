@@ -131,15 +131,14 @@ void AlphaClip(real alpha, real cutoff, real offset = 0.0h)
     #endif
 }
 
-// Apply the flow map.
-void ApplyFlowMap(TEXTURE2D_PARAM(flowMap, sampler_flowMap), in float intensity, in float2 flowMapUv,
-                  in out float2 targetUv)
+// Get UV offset values by flow map.
+half2 GetFlowMapUvOffset(TEXTURE2D_PARAM(flowMap, sampler_flowMap), in float intensity, in float2 flowMapUv)
 {
-    #ifdef _FLOW_MAP_ENABLED
+    #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
     half2 flow = SAMPLE_TEXTURE2D(flowMap, sampler_flowMap, flowMapUv).xy;
     flow = flow * 2 - 1;
     flow *= intensity;
-    targetUv += flow;
+    return flow;
     #endif
 }
 

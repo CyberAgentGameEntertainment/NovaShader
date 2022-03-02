@@ -27,7 +27,7 @@ Varyings vert(Attributes input)
     baseMapUv.y += GET_CUSTOM_COORD(_BaseMapOffsetYCoord);
     output.baseUv.xy = baseMapUv;
 
-    #ifdef _FLOW_MAP_ENABLED
+    #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
     output.flowTransitionUVs.xy = TRANSFORM_TEX(input.texcoord.xy, _FlowMap);
     output.flowTransitionUVs.x += GET_CUSTOM_COORD(_FlowMapOffsetXCoord);
     output.flowTransitionUVs.y += GET_CUSTOM_COORD(_FlowMapOffsetYCoord);
@@ -48,11 +48,16 @@ half4 frag(Varyings input) : SV_Target
     SETUP_FRAGMENT;
     SETUP_CUSTOM_COORD(input);
 
-    #ifdef _FLOW_MAP_ENABLED
-    half2 flow = SAMPLE_TEXTURE2D(_FlowMap, sampler_FlowMap, input.flowTransitionUVs.xy).xy;
-    flow = flow * 2 - 1;
-    flow *= _FlowIntensity + GET_CUSTOM_COORD(_FlowIntensityCoord);
-    input.baseUv.xy += flow;
+    #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
+    half2 flowMapUvOffset = SAMPLE_TEXTURE2D(_FlowMap, sampler_FlowMap, input.flowTransitionUVs.xy).xy;
+    flowMapUvOffset = flowMapUvOffset * 2 - 1;
+    flowMapUvOffset *= _FlowIntensity + GET_CUSTOM_COORD(_FlowIntensityCoord);
+    #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE)
+    input.baseUv.xy += flowMapUvOffset;
+    #endif
+    #ifdef _FLOW_MAP_TARGET_ALPHA_TRANSITION
+    input.flowTransitionUVs.zw += flowMapUvOffset;
+    #endif
     #endif
 
     SamplerState baseMapSamplerState;

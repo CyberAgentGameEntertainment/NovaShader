@@ -22,6 +22,7 @@ Shader "Nova/Particles/Distortion"
         _FlowMapOffsetYCoord("Flow Map Offset Y Coord", Float) = 0.0
         _FlowIntensity("Flow Intensity", Float) = 1.0
         _FlowIntensityCoord("Flow Intensity Coord", Float) = 0.0
+        _FlowMapTarget("Flow Map Target", Float) = 1.0
 
         // Alpha Transition
         _AlphaTransitionMode("Alpha Transition Mode", Float) = 0.0
@@ -76,7 +77,11 @@ Shader "Nova/Particles/Distortion"
             // Base Color
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
-            #pragma shader_feature_local _FLOW_MAP_ENABLED
+
+            // Flow Map
+            #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
+            #pragma shader_feature_local _FLOW_MAP_TARGET_BASE
+            #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
 
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED

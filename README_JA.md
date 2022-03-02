@@ -82,7 +82,8 @@
 * Shader Model 3.5
 
 なお、[Mesh GPU Instancing](https://docs.unity3d.com/Manual/PartSysInstancing.html)を使う場合にはShader Model 4.5が要件となります。  
-また、`Mirror Sampling`プロパティを有効にする場合には、ハードウェアが[Inline Sampler States](https://docs.unity3d.com/Manual/SL-SamplerStates.html)に対応している必要があります。
+また、`Mirror Sampling`プロパティを有効にする場合には、ハードウェアが[Inline Sampler States](https://docs.unity3d.com/Manual/SL-SamplerStates.html)に対応している必要があります。  
+3Dテクスチャや2Dテクスチャ配列を使用する場合には、圧縮形式がそれらに対応している必要があります。
 
 また本ドキュメントでは、Universal Render Pipeline のセットアップが完了していることを前提としています。  
 Universal Render Pipelineに関する詳細は[Unityのマニュアル](https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@13.1/manual/)を参照してください。
@@ -387,7 +388,7 @@ Tint Colorでは乗算色を指定できます。
 Flow Mapを使うとベースマップを指定した方向に歪ませることができます。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143205764-a4b1f81b-a62e-448c-ac86-0c888121e62e.png" alt="Flow Map"><br>
+  <img width=500 src="https://user-images.githubusercontent.com/47441314/156095631-603cdac9-a22f-4ae0-aa6f-bc4084e302be.png" alt="Flow Map"><br>
   <font color="grey">Flow Map</font>
 </p>
 
@@ -411,6 +412,16 @@ Flow Mapを使うとベースマップを指定した方向に歪ませること
 <tr><td colspan=3><b>Intensity</b></td><td>
 <p>
 フローマップを適用する際の強度を設定します。
+</p>
+</td></tr>
+<tr><td colspan=3><b>Targets</b></td><td>
+<p>
+フローマップを適用する対象を設定します（複数選択可能）。
+
+* Base Map
+* Tint Map
+* Alpha Transition Map
+* Emission Map
 </p>
 </td></tr>
 </tbody>

@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2021 CyberAgent, Inc.
+// Copyright 2022 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -21,11 +21,7 @@ namespace Nova.Editor.Core.Scripts
         private static readonly int BaseMapRotationCoordId =
             Shader.PropertyToID(MaterialPropertyNames.BaseMapRotationCoord);
 
-        private static readonly int FlowMapId = Shader.PropertyToID(MaterialPropertyNames.FlowMap);
-        private static readonly int FlowIntensityId = Shader.PropertyToID(MaterialPropertyNames.FlowIntensity);
-
-        private static readonly int FlowIntensityCoordId =
-            Shader.PropertyToID(MaterialPropertyNames.FlowIntensityCoord);
+        private static readonly int FlowMapTargetId = Shader.PropertyToID(MaterialPropertyNames.FlowMapTarget);
 
         private static readonly int AlphaTransitionMapId =
             Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionMap);
@@ -44,6 +40,7 @@ namespace Nova.Editor.Core.Scripts
         public static void SetupMaterialKeywords(Material material)
         {
             SetupBaseColorMaterialKeywords(material);
+            SetupFlowMapMaterialKeywords(material);
             SetupAlphaTransitionMaterialKeywords(material);
             SetupTransparencyMaterialKeywords(material);
         }
@@ -57,7 +54,6 @@ namespace Nova.Editor.Core.Scripts
             {
                 var baseMap = material.GetTexture(BaseMapId);
                 if (baseMap != null)
-                {
                     switch (baseMap.filterMode)
                     {
                         case FilterMode.Point:
@@ -75,7 +71,6 @@ namespace Nova.Editor.Core.Scripts
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
-                }
             }
 
             var baseMapRotationEnabled = material.GetFloat(BaseMapRotationId) != 0
@@ -84,17 +79,21 @@ namespace Nova.Editor.Core.Scripts
                                          CustomCoord.Unused;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapRotationEnabled, baseMapRotationEnabled);
 
-            var flowMapEnabled = material.GetTexture(FlowMapId) != null
-                                 && (material.GetFloat(FlowIntensityId) != 0 ||
-                                     (CustomCoord)material.GetFloat(FlowIntensityCoordId) !=
-                                     CustomCoord.Unused);
-            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapEnabled, flowMapEnabled);
         }
 
+        private static void SetupFlowMapMaterialKeywords(Material material)
+        {
+            var flowMapTarget = (FlowMapTargetDistortion)material.GetFloat(FlowMapTargetId);
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetBase,
+                (flowMapTarget & FlowMapTargetDistortion.BaseMap) != 0);
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetEmission,
+                (flowMapTarget & FlowMapTargetDistortion.EmissionMap) != 0);
+        }
+        
         private static void SetupAlphaTransitionMaterialKeywords(Material material)
         {
             var alphaTransitionEnabled = material.GetTexture(AlphaTransitionMapId) != null;
-            
+
             var alphaTransitionMode =
                 (AlphaTransitionMode)material.GetFloat(AlphaTransitionModeId);
             var fadeTransitionEnabled = alphaTransitionEnabled && alphaTransitionMode == AlphaTransitionMode.Fade;

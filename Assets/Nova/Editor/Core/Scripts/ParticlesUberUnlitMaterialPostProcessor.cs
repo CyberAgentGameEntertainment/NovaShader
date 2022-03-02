@@ -30,8 +30,7 @@ namespace Nova.Editor.Core.Scripts
 
         private static readonly int TintAreaModeId = Shader.PropertyToID(MaterialPropertyNames.TintAreaMode);
         private static readonly int TintMapModeId = Shader.PropertyToID(MaterialPropertyNames.TintColorMode);
-        private static readonly int FlowMapId = Shader.PropertyToID(MaterialPropertyNames.FlowMap);
-        private static readonly int FlowIntensityId = Shader.PropertyToID(MaterialPropertyNames.FlowIntensity);
+        private static readonly int FlowMapTargetId = Shader.PropertyToID(MaterialPropertyNames.FlowMapTarget);
 
         private static readonly int FlowIntensityCoordId =
             Shader.PropertyToID(MaterialPropertyNames.FlowIntensityCoord);
@@ -84,6 +83,7 @@ namespace Nova.Editor.Core.Scripts
         {
             SetupDrawSettingsMaterialKeywords(material);
             SetupBaseColorMaterialKeywords(material);
+            SetupFlowMapMaterialKeywords(material);
             SetupAlphaTransitionMaterialKeywords(material);
             SetupEmissionMaterialKeywords(material);
             SetupTransparencyMaterialKeywords(material);
@@ -132,7 +132,6 @@ namespace Nova.Editor.Core.Scripts
                 }
 
                 if (baseMap != null)
-                {
                     switch (baseMap.filterMode)
                     {
                         case FilterMode.Point:
@@ -150,7 +149,6 @@ namespace Nova.Editor.Core.Scripts
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
-                }
             }
 
             var baseMapRotationEnabled = material.GetFloat(BaseMapRotationId) != 0
@@ -163,10 +161,7 @@ namespace Nova.Editor.Core.Scripts
             {
                 var isOn = tintAreaMode == value;
                 var keyword = value.GetShaderKeyword();
-                if (string.IsNullOrEmpty(keyword))
-                {
-                    continue;
-                }
+                if (string.IsNullOrEmpty(keyword)) continue;
 
                 MaterialEditorUtility.SetKeyword(material, keyword, isOn);
             }
@@ -176,20 +171,10 @@ namespace Nova.Editor.Core.Scripts
             {
                 var isOn = tintColorMode == value;
                 var keyword = value.GetShaderKeyword();
-                if (string.IsNullOrEmpty(keyword))
-                {
-                    continue;
-                }
+                if (string.IsNullOrEmpty(keyword)) continue;
 
                 MaterialEditorUtility.SetKeyword(material, keyword, isOn);
             }
-
-            var flowMapEnabled = material.GetTexture(FlowMapId) != null
-                                 && (material.GetFloat(FlowIntensityId) != 0 ||
-                                     (CustomCoord)material.GetFloat(FlowIntensityCoordId) !=
-                                     CustomCoord.Unused);
-            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapEnabled, flowMapEnabled);
-
 
             var colorCorrectionMode =
                 (ColorCorrectionMode)material.GetFloat(ColorCorrectionModeId);
@@ -197,13 +182,23 @@ namespace Nova.Editor.Core.Scripts
             {
                 var isOn = colorCorrectionMode == value;
                 var keyword = value.GetShaderKeyword();
-                if (string.IsNullOrEmpty(keyword))
-                {
-                    continue;
-                }
+                if (string.IsNullOrEmpty(keyword)) continue;
 
                 MaterialEditorUtility.SetKeyword(material, keyword, isOn);
             }
+        }
+
+        private static void SetupFlowMapMaterialKeywords(Material material)
+        {
+            var flowMapTarget = (FlowMapTarget)material.GetFloat(FlowMapTargetId);
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetBase,
+                (flowMapTarget & FlowMapTarget.BaseMap) != 0);
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetTint,
+                (flowMapTarget & FlowMapTarget.TintMap) != 0);
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetAlphaTransition,
+                (flowMapTarget & FlowMapTarget.AlphaTransitionMap) != 0);
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetEmission,
+                (flowMapTarget & FlowMapTarget.EmissionMap) != 0);
         }
 
         private static void SetupAlphaTransitionMaterialKeywords(Material material)
@@ -235,10 +230,7 @@ namespace Nova.Editor.Core.Scripts
             {
                 var isOn = emissionAreaType == value;
                 var keyword = value.GetShaderKeyword();
-                if (string.IsNullOrEmpty(keyword))
-                {
-                    continue;
-                }
+                if (string.IsNullOrEmpty(keyword)) continue;
 
                 MaterialEditorUtility.SetKeyword(material, keyword, isOn);
             }
@@ -248,10 +240,7 @@ namespace Nova.Editor.Core.Scripts
             {
                 var isOn = emissionColorType == value;
                 var keyword = value.GetShaderKeyword();
-                if (string.IsNullOrEmpty(keyword))
-                {
-                    continue;
-                }
+                if (string.IsNullOrEmpty(keyword)) continue;
 
                 MaterialEditorUtility.SetKeyword(material, keyword, isOn);
             }

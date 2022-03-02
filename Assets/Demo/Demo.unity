@@ -35162,7 +35162,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -44950,7 +44950,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: c87723300d9584105ae18aabc580d1d9, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 6ce7ffa4b93c14d85b4f066529eddb7f, type: 2}
 --- !u!4 &1669243660
 Transform:
   m_ObjectHideFlags: 0
