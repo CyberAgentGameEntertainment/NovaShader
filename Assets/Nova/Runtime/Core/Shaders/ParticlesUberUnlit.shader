@@ -49,7 +49,7 @@ Shader "Nova/Particles/UberUnlit"
         _FlowMap("Flow Map", 2D) = "grey" {}
         _FlowMapOffsetXCoord("Flow Map Offset X Coord", Float) = 0.0
         _FlowMapOffsetYCoord("Flow Map Offset Y Coord", Float) = 0.0
-        _FlowIntensity("Flow Intensity", Float) = 1.0
+        _FlowIntensity("Flow Intensity", Float) = 0.0
         _FlowIntensityCoord("Flow Intensity Coord", Float) = 0.0
         _FlowMapTarget("Flow Map Target", Float) = 1.0
 
