@@ -30,6 +30,7 @@ namespace Nova.Editor.Core.Scripts
 
         private static readonly int TintAreaModeId = Shader.PropertyToID(MaterialPropertyNames.TintAreaMode);
         private static readonly int TintMapModeId = Shader.PropertyToID(MaterialPropertyNames.TintColorMode);
+        private static readonly int FlowMapId = Shader.PropertyToID(MaterialPropertyNames.FlowMap);
         private static readonly int FlowMapTargetId = Shader.PropertyToID(MaterialPropertyNames.FlowMapTarget);
 
         private static readonly int FlowIntensityCoordId =
@@ -190,15 +191,24 @@ namespace Nova.Editor.Core.Scripts
 
         private static void SetupFlowMapMaterialKeywords(Material material)
         {
+            //NOTE: Remove the keyword because it is obsolete.
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapEnabled, false);
+            
             var flowMapTarget = (FlowMapTarget)material.GetFloat(FlowMapTargetId);
-            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetBase,
-                (flowMapTarget & FlowMapTarget.BaseMap) != 0);
-            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetTint,
-                (flowMapTarget & FlowMapTarget.TintMap) != 0);
+            var hasFlowMap = material.GetTexture(FlowMapId) != null;
+            
+            var baseEnabled = hasFlowMap && (flowMapTarget & FlowMapTarget.BaseMap) != 0;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetBase, baseEnabled);
+            
+            var tintEnabled = hasFlowMap && (flowMapTarget & FlowMapTarget.TintMap) != 0;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetTint, tintEnabled);
+
+            var alphaTransitionEnabled = hasFlowMap && (flowMapTarget & FlowMapTarget.AlphaTransitionMap) != 0;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetAlphaTransition,
-                (flowMapTarget & FlowMapTarget.AlphaTransitionMap) != 0);
-            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetEmission,
-                (flowMapTarget & FlowMapTarget.EmissionMap) != 0);
+                alphaTransitionEnabled);
+            
+            var emissionEnabled = hasFlowMap && (flowMapTarget & FlowMapTarget.EmissionMap) != 0;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetEmission, emissionEnabled);
         }
 
         private static void SetupAlphaTransitionMaterialKeywords(Material material)

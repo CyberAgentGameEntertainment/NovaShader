@@ -21,6 +21,6 @@ namespace Nova.Editor.Core.Scripts
     {
         None = 0,
         BaseMap = 1 << 0,
-        EmissionMap = 1 << 1
+        AlphaTransitionMap = 1 << 1,
     }
 }
