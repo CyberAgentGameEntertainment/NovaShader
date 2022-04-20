@@ -30,6 +30,7 @@ namespace Nova.Editor.Core.Scripts
         public const string TintMap3DEnabled = "_TINT_MAP_3D_ENABLED";
         public const string GreyscaleEnabled = "_GREYSCALE_ENABLED";
         public const string GradientMapEnabled = "_GRADIENT_MAP_ENABLED";
+        public const string FlowMapEnabled = "_FLOW_MAP_ENABLED";
         public const string FlowMapTargetBase = "_FLOW_MAP_TARGET_BASE";
         public const string FlowMapTargetTint = "_FLOW_MAP_TARGET_TINT";
         public const string FlowMapTargetEmission = "_FLOW_MAP_TARGET_EMISSION";

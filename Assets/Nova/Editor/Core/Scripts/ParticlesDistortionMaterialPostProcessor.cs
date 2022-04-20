@@ -21,6 +21,7 @@ namespace Nova.Editor.Core.Scripts
         private static readonly int BaseMapRotationCoordId =
             Shader.PropertyToID(MaterialPropertyNames.BaseMapRotationCoord);
 
+        private static readonly int FlowMapId = Shader.PropertyToID(MaterialPropertyNames.FlowMap);
         private static readonly int FlowMapTargetId = Shader.PropertyToID(MaterialPropertyNames.FlowMapTarget);
 
         private static readonly int AlphaTransitionMapId =
@@ -83,11 +84,18 @@ namespace Nova.Editor.Core.Scripts
 
         private static void SetupFlowMapMaterialKeywords(Material material)
         {
+            //NOTE: Remove the keyword because it is obsolete.
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapEnabled, false);
+            
             var flowMapTarget = (FlowMapTargetDistortion)material.GetFloat(FlowMapTargetId);
-            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetBase,
-                (flowMapTarget & FlowMapTargetDistortion.BaseMap) != 0);
-            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetEmission,
-                (flowMapTarget & FlowMapTargetDistortion.EmissionMap) != 0);
+            var hasFlowMap = material.GetTexture(FlowMapId) != null;
+            
+            var baseEnabled = hasFlowMap && (flowMapTarget & FlowMapTargetDistortion.BaseMap) != 0;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetBase, baseEnabled);
+
+            var alphaTransitionEnabled = hasFlowMap && (flowMapTarget & FlowMapTargetDistortion.AlphaTransitionMap) != 0;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetAlphaTransition,
+                alphaTransitionEnabled);
         }
         
         private static void SetupAlphaTransitionMaterialKeywords(Material material)
