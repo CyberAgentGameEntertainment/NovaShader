@@ -71,6 +71,8 @@ Varyings vert(Attributes input)
     // Emission Map UV
     #ifdef _EMISSION_AREA_MAP
     output.tintEmissionUV.zw = TRANSFORM_TEX(input.texcoord.xy, _EmissionMap);
+    output.tintEmissionUV.z += GET_CUSTOM_COORD(_EmissionMapOffsetXCoord)
+    output.tintEmissionUV.w += GET_CUSTOM_COORD(_EmissionMapOffsetYCoord)
     #endif
 
     // Emission Map Progress

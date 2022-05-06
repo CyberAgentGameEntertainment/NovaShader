@@ -82,6 +82,8 @@ float4 _EmissionMap3D_ST;
 float _EmissionMapProgress;
 DECLARE_CUSTOM_COORD(_EmissionMapProgressCoord);
 float _EmissionMapSliceCount;
+DECLARE_CUSTOM_COORD(_EmissionMapOffsetXCoord);
+DECLARE_CUSTOM_COORD(_EmissionMapOffsetYCoord);
 float3 _EmissionColor;
 float _EmissionIntensity;
 DECLARE_CUSTOM_COORD(_EmissionIntensityCoord);

@@ -80,6 +80,8 @@ Shader "Nova/Particles/UberUnlit"
         _EmissionMap3D("Emission Map 3D", 3D) = "" {}
         _EmissionMapProgress("Emission Map Progress", Range(0.0, 1.0)) = 0.0
         _EmissionMapProgressCoord("Emission Map Progress Coord", Float) = 0.0
+        _EmissionMapOffsetXCoord("Emission Map Offset X Coord", Float) = 0.0
+        _EmissionMapOffsetYCoord("Emission Map Offset Y Coord", Float) = 0.0
         _EmissionMapSliceCount("Alpha Transition Map Slice Count", Float) = 4.0
         _EmissionColorType("Emission Color Type", Float) = 0.0
         [HDR]_EmissionColor("Emission Color", Color) = (0, 0, 0, 1)

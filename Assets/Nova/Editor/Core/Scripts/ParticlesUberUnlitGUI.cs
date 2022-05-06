@@ -98,6 +98,8 @@ namespace Nova.Editor.Core.Scripts
             _emissionMap3DProp.Setup(properties);
             _emissionMapProgressProp.Setup(properties);
             _emissionMapProgressCoordProp.Setup(properties);
+            _emissionMapOffsetXCoordProp.Setup(properties);
+            _emissionMapOffsetYCoordProp.Setup(properties);
             _emissionMapSliceCountProp.Setup(properties);
             _emissionColorTypeProp.Setup(properties);
             _emissionColorProp.Setup(properties);
@@ -495,7 +497,8 @@ namespace Nova.Editor.Core.Scripts
 
                     using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                     {
-                        MaterialEditorUtility.DrawTexture(editor, emissionMapProp, true);
+                        MaterialEditorUtility.DrawTexture(editor, emissionMapProp, _emissionMapOffsetXCoordProp.Value,
+                            _emissionMapOffsetYCoordProp.Value);
 
                         if (changeCheckScope.changed)
                         {
@@ -747,6 +750,8 @@ namespace Nova.Editor.Core.Scripts
         private readonly Property _emissionMap3DProp = new Property(PropertyNames.EmissionMap3D);
         private readonly Property _emissionMapProgressProp = new Property(PropertyNames.EmissionMapProgress);
         private readonly Property _emissionMapProgressCoordProp = new Property(PropertyNames.EmissionMapProgressCoord);
+        private readonly Property _emissionMapOffsetXCoordProp = new Property(PropertyNames.EmissionMapOffsetXCoord);
+        private readonly Property _emissionMapOffsetYCoordProp = new Property(PropertyNames.EmissionMapOffsetYCoord);
         private readonly Property _emissionMapSliceCountProp = new Property(PropertyNames.EmissionMapSliceCount);
         private readonly Property _emissionColorTypeProp = new Property(PropertyNames.EmissionColorType);
         private readonly Property _emissionColorProp = new Property(PropertyNames.EmissionColor);
