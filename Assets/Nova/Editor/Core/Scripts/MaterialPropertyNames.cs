@@ -84,6 +84,8 @@ namespace Nova.Editor.Core.Scripts
         public const string EmissionMap3D = "_EmissionMap3D";
         public const string EmissionMapProgress = "_EmissionMapProgress";
         public const string EmissionMapProgressCoord = "_EmissionMapProgressCoord";
+        public const string EmissionMapOffsetXCoord = "_EmissionMapOffsetXCoord";
+        public const string EmissionMapOffsetYCoord = "_EmissionMapOffsetYCoord";
         public const string EmissionMapSliceCount = "_EmissionMapSliceCount";
         public const string EmissionColorType = "_EmissionColorType";
         public const string EmissionColor = "_EmissionColor";
