@@ -123,6 +123,30 @@ SamplerState GetBaseMapSamplerState()
     #endif
 }
 
+// Returns the sampler state of the alpha transition map.
+SamplerState GetAlphaTransitionMapSamplerState()
+{
+    #ifdef _ALPHA_TRANSITION_MAP_MODE_2D
+    return sampler_AlphaTransitionMap;
+    #elif _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
+    return sampler_AlphaTransitionMap2DArray;
+    #elif _ALPHA_TRANSITION_MAP_MODE_3D
+    return sampler_AlphaTransitionMap3D;
+    #endif
+}
+
+// Returns the sampler state of the alpha emission map.
+SamplerState GetEmissionMapSamplerState()
+{
+    #ifdef _EMISSION_MAP_MODE_2D
+    return sampler_EmissionMap;
+    #elif _EMISSION_MAP_MODE_2D_ARRAY
+    return sampler_EmissionMap2DArray;
+    #elif _EMISSION_MAP_MODE_3D
+    return sampler_EmissionMap3D;
+    #endif
+}
+
 // Transforms the base map UV by the scale/bias property
 #ifdef _BASE_MAP_MODE_2D
 #define TRANSFORM_BASE_MAP(texcoord) TRANSFORM_TEX(texcoord, _BaseMap);
@@ -146,6 +170,24 @@ SamplerState GetBaseMapSamplerState()
 #define TRANSFORM_TINT_MAP(texcoord) TRANSFORM_TEX(texcoord, _TintMap);
 #elif _TINT_MAP_3D_ENABLED
 #define TRANSFORM_TINT_MAP(texcoord) TRANSFORM_TEX(texcoord, _TintMap3D);
+#endif
+
+// Transforms the alpha transition map UV by the scale/bias property
+#ifdef _ALPHA_TRANSITION_MAP_MODE_2D
+#define TRANSFORM_ALPHA_TRANSITION_MAP(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMap);
+#elif _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
+#define TRANSFORM_ALPHA_TRANSITION_MAP(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMap2DArray);
+#elif _ALPHA_TRANSITION_MAP_MODE_3D
+#define TRANSFORM_ALPHA_TRANSITION_MAP(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMap3D);
+#endif
+
+// Transforms the alpha transition map UV by the scale/bias property
+#ifdef _EMISSION_MAP_MODE_2D
+#define TRANSFORM_EMISSION_MAP(texcoord) TRANSFORM_TEX(texcoord, _EmissionMap);
+#elif _EMISSION_MAP_MODE_2D_ARRAY
+#define TRANSFORM_EMISSION_MAP(texcoord) TRANSFORM_TEX(texcoord, _EmissionMap2DArray);
+#elif _EMISSION_MAP_MODE_3D
+#define TRANSFORM_EMISSION_MAP(texcoord) TRANSFORM_TEX(texcoord, _EmissionMap3D);
 #endif
 
 // Returns the progress of the 2DArray/3d tint map.
