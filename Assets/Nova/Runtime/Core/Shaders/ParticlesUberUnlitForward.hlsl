@@ -54,7 +54,7 @@ Varyings vert(Attributes input)
 
     // Transition Map UV
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
-    output.flowTransitionUVs.zw = TRANSFORM_TEX(input.texcoord.xy, _AlphaTransitionMap);
+    output.flowTransitionUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP(input.texcoord.xy);
     output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord)
     output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord)
     #endif
@@ -70,7 +70,7 @@ Varyings vert(Attributes input)
 
     // Emission Map UV
     #ifdef _EMISSION_AREA_MAP
-    output.tintEmissionUV.zw = TRANSFORM_TEX(input.texcoord.xy, _EmissionMap);
+    output.tintEmissionUV.zw = TRANSFORM_EMISSION_MAP(input.texcoord.xy);
     output.tintEmissionUV.z += GET_CUSTOM_COORD(_EmissionMapOffsetXCoord)
     output.tintEmissionUV.w += GET_CUSTOM_COORD(_EmissionMapOffsetYCoord)
     #endif
