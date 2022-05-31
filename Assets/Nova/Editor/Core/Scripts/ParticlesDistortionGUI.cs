@@ -29,6 +29,8 @@ namespace Nova.Editor.Core.Scripts
             _baseMapProp.Setup(properties);
             _baseMapOffsetXCoordProp.Setup(properties);
             _baseMapOffsetYCoordProp.Setup(properties);
+            _baseMapChannelsXProp.Setup(properties);
+            _baseMapChannelsYProp.Setup(properties);
             _baseMapRotationProp.Setup(properties);
             _baseMapRotationCoordProp.Setup(properties);
             _baseMapRotationOffsetsProp.Setup(properties);
@@ -40,6 +42,8 @@ namespace Nova.Editor.Core.Scripts
             _flowMapProp.Setup(properties);
             _flowMapOffsetXCoordProp.Setup(properties);
             _flowMapOffsetYCoordProp.Setup(properties);
+            _flowMapChannelsXProp.Setup(properties);
+            _flowMapChannelsYProp.Setup(properties);
             _flowIntensityProp.Setup(properties);
             _flowIntensityCoordProp.Setup(properties);
             _flowMapTargetProp.Setup(properties);
@@ -49,6 +53,8 @@ namespace Nova.Editor.Core.Scripts
             _alphaTransitionMapProp.Setup(properties);
             _alphaTransitionMapOffsetXCoordProp.Setup(properties);
             _alphaTransitionMapOffsetYCoordProp.Setup(properties);
+            _alphaTransitionMapChannelsXProp.Setup(properties);
+            
             _alphaTransitionProgressProp.Setup(properties);
             _alphaTransitionProgressCoordProp.Setup(properties);
             _dissolveSharpnessProp.Setup(properties);
@@ -148,7 +154,8 @@ namespace Nova.Editor.Core.Scripts
         private void DrawDistortionProperties(MaterialEditor editor, MaterialProperty[] properties)
         {
             MaterialEditorUtility.DrawTexture(editor, _baseMapProp.Value, _baseMapOffsetXCoordProp.Value,
-                _baseMapOffsetYCoordProp.Value, null, null);
+                _baseMapOffsetYCoordProp.Value, 
+                _baseMapChannelsXProp.Value, _baseMapChannelsYProp.Value);
             MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Intensity",
                 _distortionIntensityProp.Value, _distortionIntensityCoordProp.Value);
             MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Rotation",
@@ -164,7 +171,7 @@ namespace Nova.Editor.Core.Scripts
         private void DrawFlowMapProperties(MaterialEditor editor, MaterialProperty[] properties)
         {
             MaterialEditorUtility.DrawTexture(editor, _flowMapProp.Value, _flowMapOffsetXCoordProp.Value,
-                _flowMapOffsetYCoordProp.Value, null, null);
+                _flowMapOffsetYCoordProp.Value, _flowMapChannelsXProp.Value, _flowMapChannelsYProp.Value);
             MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Intensity", _flowIntensityProp.Value,
                 _flowIntensityCoordProp.Value);
             MaterialEditorUtility.DrawEnumFlagsProperty<FlowMapTargetDistortion>(editor, "Targets", _flowMapTargetProp.Value);
@@ -179,7 +186,7 @@ namespace Nova.Editor.Core.Scripts
             {
                 MaterialEditorUtility.DrawTexture(editor, _alphaTransitionMapProp.Value,
                     _alphaTransitionMapOffsetXCoordProp.Value, _alphaTransitionMapOffsetYCoordProp.Value,
-                    null, null);
+                    _alphaTransitionMapChannelsXProp.Value, null);
                 
                 MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Progress",
                     _alphaTransitionProgressProp.Value, _alphaTransitionProgressCoordProp.Value);
@@ -237,6 +244,8 @@ namespace Nova.Editor.Core.Scripts
         private readonly Property _baseMapProp = new Property(PropertyNames.BaseMap);
         private readonly Property _baseMapOffsetXCoordProp = new Property(PropertyNames.BaseMapOffsetXCoord);
         private readonly Property _baseMapOffsetYCoordProp = new Property(PropertyNames.BaseMapOffsetYCoord);
+        private readonly Property _baseMapChannelsXProp = new Property(PropertyNames.BaseMapChannelsX);
+        private readonly Property _baseMapChannelsYProp = new Property(PropertyNames.BaseMapChannelsY);
         private readonly Property _baseMapRotationProp = new Property(PropertyNames.BaseMapRotation);
         private readonly Property _baseMapRotationCoordProp = new Property(PropertyNames.BaseMapRotationCoord);
         private readonly Property _baseMapRotationOffsetsProp = new Property(PropertyNames.BaseMapRotationOffsets);
@@ -251,6 +260,8 @@ namespace Nova.Editor.Core.Scripts
         private readonly Property _flowMapProp = new Property(PropertyNames.FlowMap);
         private readonly Property _flowMapOffsetXCoordProp = new Property(PropertyNames.FlowMapOffsetXCoord);
         private readonly Property _flowMapOffsetYCoordProp = new Property(PropertyNames.FlowMapOffsetYCoord);
+        private readonly Property _flowMapChannelsXProp = new Property(PropertyNames.FlowMapChannelsX);
+        private readonly Property _flowMapChannelsYProp = new Property(PropertyNames.FlowMapChannelsY);
         private readonly Property _flowIntensityProp = new Property(PropertyNames.FlowIntensity);
         private readonly Property _flowIntensityCoordProp = new Property(PropertyNames.FlowIntensityCoord);
         private readonly Property _flowMapTargetProp = new Property(PropertyNames.FlowMapTarget);
@@ -267,6 +278,9 @@ namespace Nova.Editor.Core.Scripts
 
         private readonly Property _alphaTransitionMapOffsetYCoordProp =
             new Property(PropertyNames.AlphaTransitionMapOffsetYCoord);
+        
+        private readonly Property _alphaTransitionMapChannelsXProp =
+            new Property(PropertyNames.AlphaTransitionMapChannelsX);
 
         private readonly Property _alphaTransitionProgressProp = new Property(PropertyNames.AlphaTransitionProgress);
 

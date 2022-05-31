@@ -9,6 +9,8 @@ Shader "Nova/Particles/Distortion"
         _BaseMap("Base Map", 2D) = "grey" {}
         _BaseMapOffsetXCoord("Base Map Offset X Coord", Float) = 0.0
         _BaseMapOffsetYCoord("Base Map Offset Y Coord", Float) = 0.0
+        _BaseMapChannelsX("Base Map Channels X", Float) = 0.0
+        _BaseMapChannelsY("Base Map Channels Y", Float) = 1.0
         _BaseMapRotation("Base Map Rotation", Range(0.0, 1.0)) = 0.0
         _BaseMapRotationCoord("Base Map Rotation Coord", Float) = 0.0
         _BaseMapRotationOffsets("Base Map Rotation Offsets", Vector) = (0.0, 0.0, 0.0, 0.0)
@@ -20,6 +22,8 @@ Shader "Nova/Particles/Distortion"
         _FlowMap("Flow Map", 2D) = "grey" {}
         _FlowMapOffsetXCoord("Flow Map Offset X Coord", Float) = 0.0
         _FlowMapOffsetYCoord("Flow Map Offset Y Coord", Float) = 0.0
+        _FlowMapChannelsX("Flow Map Channels X", Float) = 0.0
+        _FlowMapChannelsY("Flow Map Channels Y", Float) = 1.0
         _FlowIntensity("Flow Intensity", Float) = 1.0
         _FlowIntensityCoord("Flow Intensity Coord", Float) = 0.0
         _FlowMapTarget("Flow Map Target", Float) = 1.0
@@ -29,6 +33,7 @@ Shader "Nova/Particles/Distortion"
         _AlphaTransitionMap("Alpha Transition Map", 2D) = "white" {}
         _AlphaTransitionMapOffsetXCoord("Alpha Transition Map Offset X Coord", Float) = 0.0
         _AlphaTransitionMapOffsetYCoord("Alpha Transition Map Offset Y Coord", Float) = 0.0
+        _AlphaTransitionMapChannelsX("Alpha Transition Map Channels X", Float) = 0.0
         _AlphaTransitionProgress("Alpha Transition Progress", Range(0.0, 1.0)) = 0.0
         _AlphaTransitionProgressCoord("Alpha Transition Progress Coord", Float) = 0.0
         _DissolveSharpness("Dissolve Sharpness", Range(0.0, 1.0)) = 0.5
