@@ -67,6 +67,8 @@ namespace Nova.Editor.Core.Scripts
             _flowMapProp.Setup(properties);
             _flowMapOffsetXCoordProp.Setup(properties);
             _flowMapOffsetYCoordProp.Setup(properties);
+            _flowMapChannelsXProp.Setup(properties);
+            _flowMapChannelsYProp.Setup(properties);
             _flowIntensityProp.Setup(properties);
             _flowIntensityCoordProp.Setup(properties);
             _flowMapTargetProp.Setup(properties);
@@ -85,6 +87,7 @@ namespace Nova.Editor.Core.Scripts
             _alphaTransitionMapProgressCoordProp.Setup(properties);
             _alphaTransitionMapOffsetXCoordProp.Setup(properties);
             _alphaTransitionMapOffsetYCoordProp.Setup(properties);
+            _alphaTransitionMapChannelsXProp.Setup(properties);
             _alphaTransitionMapSliceCountProp.Setup(properties);
             _alphaTransitionProgressProp.Setup(properties);
             _alphaTransitionProgressCoordProp.Setup(properties);
@@ -100,6 +103,7 @@ namespace Nova.Editor.Core.Scripts
             _emissionMapProgressCoordProp.Setup(properties);
             _emissionMapOffsetXCoordProp.Setup(properties);
             _emissionMapOffsetYCoordProp.Setup(properties);
+            _emissionMapChannelsXProp.Setup(properties);
             _emissionMapSliceCountProp.Setup(properties);
             _emissionColorTypeProp.Setup(properties);
             _emissionColorProp.Setup(properties);
@@ -291,7 +295,7 @@ namespace Nova.Editor.Core.Scripts
             using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
             {
                 MaterialEditorUtility.DrawTexture(editor, baseMapProp, _baseMapOffsetXCoordProp.Value,
-                    _baseMapOffsetYCoordProp.Value);
+                    _baseMapOffsetYCoordProp.Value, null, null);
 
                 if (changeCheckScope.changed)
                 {
@@ -380,7 +384,8 @@ namespace Nova.Editor.Core.Scripts
         private void DrawFlowMapProperties(MaterialEditor editor, MaterialProperty[] properties)
         {
             MaterialEditorUtility.DrawTexture(editor, _flowMapProp.Value, _flowMapOffsetXCoordProp.Value,
-                _flowMapOffsetYCoordProp.Value);
+                _flowMapOffsetYCoordProp.Value, 
+                _flowMapChannelsXProp.Value, _flowMapChannelsYProp.Value);
             MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Intensity", _flowIntensityProp.Value,
                 _flowIntensityCoordProp.Value);
             MaterialEditorUtility.DrawEnumFlagsProperty<FlowMapTarget>(editor, "Targets", _flowMapTargetProp.Value);
@@ -426,7 +431,8 @@ namespace Nova.Editor.Core.Scripts
                 using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                 {
                     MaterialEditorUtility.DrawTexture(editor, alphaTransitionMapProp,
-                        _alphaTransitionMapOffsetXCoordProp.Value, _alphaTransitionMapOffsetYCoordProp.Value);
+                        _alphaTransitionMapOffsetXCoordProp.Value, _alphaTransitionMapOffsetYCoordProp.Value, 
+                        _alphaTransitionMapChannelsXProp.Value, null);
 
                     if (changeCheckScope.changed)
                     {
@@ -498,7 +504,7 @@ namespace Nova.Editor.Core.Scripts
                     using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                     {
                         MaterialEditorUtility.DrawTexture(editor, emissionMapProp, _emissionMapOffsetXCoordProp.Value,
-                            _emissionMapOffsetYCoordProp.Value);
+                            _emissionMapOffsetYCoordProp.Value, _emissionMapChannelsXProp.Value, null);
 
                         if (changeCheckScope.changed)
                         {
@@ -693,6 +699,8 @@ namespace Nova.Editor.Core.Scripts
         private readonly Property _flowMapProp = new Property(PropertyNames.FlowMap);
         private readonly Property _flowMapOffsetXCoordProp = new Property(PropertyNames.FlowMapOffsetXCoord);
         private readonly Property _flowMapOffsetYCoordProp = new Property(PropertyNames.FlowMapOffsetYCoord);
+        private readonly Property _flowMapChannelsXProp = new Property(PropertyNames.FlowMapChannelsX);
+        private readonly Property _flowMapChannelsYProp = new Property(PropertyNames.FlowMapChannelsY);
         private readonly Property _flowIntensityProp = new Property(PropertyNames.FlowIntensity);
         private readonly Property _flowIntensityCoordProp = new Property(PropertyNames.FlowIntensityCoord);
         private readonly Property _flowMapTargetProp = new Property(PropertyNames.FlowMapTarget);
@@ -728,7 +736,10 @@ namespace Nova.Editor.Core.Scripts
 
         private readonly Property _alphaTransitionMapOffsetYCoordProp =
             new Property(PropertyNames.AlphaTransitionMapOffsetYCoord);
-
+        
+        private readonly Property _alphaTransitionMapChannelsXProp =
+            new Property(PropertyNames.AlphaTransitionMapChannelsX);
+        
         private readonly Property _alphaTransitionMapSliceCountProp =
             new Property(PropertyNames.AlphaTransitionMapSliceCount);
 
@@ -752,6 +763,7 @@ namespace Nova.Editor.Core.Scripts
         private readonly Property _emissionMapProgressCoordProp = new Property(PropertyNames.EmissionMapProgressCoord);
         private readonly Property _emissionMapOffsetXCoordProp = new Property(PropertyNames.EmissionMapOffsetXCoord);
         private readonly Property _emissionMapOffsetYCoordProp = new Property(PropertyNames.EmissionMapOffsetYCoord);
+        private readonly Property _emissionMapChannelsXProp = new Property(PropertyNames.EmissionMapChannelsX);
         private readonly Property _emissionMapSliceCountProp = new Property(PropertyNames.EmissionMapSliceCount);
         private readonly Property _emissionColorTypeProp = new Property(PropertyNames.EmissionColorType);
         private readonly Property _emissionColorProp = new Property(PropertyNames.EmissionColor);

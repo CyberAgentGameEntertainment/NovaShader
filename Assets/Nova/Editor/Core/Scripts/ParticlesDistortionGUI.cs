@@ -148,7 +148,7 @@ namespace Nova.Editor.Core.Scripts
         private void DrawDistortionProperties(MaterialEditor editor, MaterialProperty[] properties)
         {
             MaterialEditorUtility.DrawTexture(editor, _baseMapProp.Value, _baseMapOffsetXCoordProp.Value,
-                _baseMapOffsetYCoordProp.Value);
+                _baseMapOffsetYCoordProp.Value, null, null);
             MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Intensity",
                 _distortionIntensityProp.Value, _distortionIntensityCoordProp.Value);
             MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Rotation",
@@ -164,7 +164,7 @@ namespace Nova.Editor.Core.Scripts
         private void DrawFlowMapProperties(MaterialEditor editor, MaterialProperty[] properties)
         {
             MaterialEditorUtility.DrawTexture(editor, _flowMapProp.Value, _flowMapOffsetXCoordProp.Value,
-                _flowMapOffsetYCoordProp.Value);
+                _flowMapOffsetYCoordProp.Value, null, null);
             MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Intensity", _flowIntensityProp.Value,
                 _flowIntensityCoordProp.Value);
             MaterialEditorUtility.DrawEnumFlagsProperty<FlowMapTargetDistortion>(editor, "Targets", _flowMapTargetProp.Value);
@@ -178,7 +178,9 @@ namespace Nova.Editor.Core.Scripts
             if (mode != AlphaTransitionMode.None)
             {
                 MaterialEditorUtility.DrawTexture(editor, _alphaTransitionMapProp.Value,
-                    _alphaTransitionMapOffsetXCoordProp.Value, _alphaTransitionMapOffsetYCoordProp.Value);
+                    _alphaTransitionMapOffsetXCoordProp.Value, _alphaTransitionMapOffsetYCoordProp.Value,
+                    null, null);
+                
                 MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Progress",
                     _alphaTransitionProgressProp.Value, _alphaTransitionProgressCoordProp.Value);
                 if (mode == AlphaTransitionMode.Dissolve)

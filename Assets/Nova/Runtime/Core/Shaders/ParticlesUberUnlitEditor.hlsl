@@ -91,7 +91,7 @@ void fragSceneClip(Varyings input)
     // Flow Map
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
     half intensity = _FlowIntensity + GET_CUSTOM_COORD(_FlowIntensityCoord);
-    half2 flowMapUvOffset = GetFlowMapUvOffset(_FlowMap, sampler_FlowMap, intensity, input.flowTransitionUVs.xy);
+    half2 flowMapUvOffset = GetFlowMapUvOffset(_FlowMap, sampler_FlowMap, intensity, input.flowTransitionUVs.xy, _FlowMapChannelsX, _FlowMapChannelsY);
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE)
     input.baseMapUVAndProgresses.xy += flowMapUvOffset;
     #endif
@@ -128,7 +128,7 @@ void fragSceneClip(Varyings input)
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     half alphaTransitionProgress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
     ModulateAlphaTransitionProgress(alphaTransitionProgress, input.color.a);
-    color.a *= GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x);
+    color.a *= GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x, _AlphaTransitionMapChannelsX);
     #endif
 
     // Vertex Color

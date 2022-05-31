@@ -147,7 +147,7 @@ namespace Nova.Editor.Core.Scripts
         public static void DrawTexture(MaterialEditor editor, MaterialProperty textureProperty,
             bool drawTilingAndOffset)
         {
-            DrawTexture(editor, textureProperty, drawTilingAndOffset, null, null);
+            DrawTexture(editor, textureProperty, drawTilingAndOffset, null, null, null, null);
         }
 
         /// <summary>
@@ -157,15 +157,20 @@ namespace Nova.Editor.Core.Scripts
         /// <param name="textureProperty"></param>
         /// <param name="offsetCoordXProperty"></param>
         /// <param name="offsetCoordYProperty"></param>
+        /// <param name="channelsXProperty"></param>
+        /// <param name="channelsYProperty"></param>
         public static void DrawTexture(MaterialEditor editor, MaterialProperty textureProperty,
-            MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty)
+            MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty, 
+            MaterialProperty channelsXProperty, MaterialProperty channelsYProperty)
         {
-            DrawTexture(editor, textureProperty, true, offsetCoordXProperty, offsetCoordYProperty);
+            DrawTexture(editor, textureProperty, true, 
+                offsetCoordXProperty, offsetCoordYProperty, channelsXProperty,channelsYProperty);
         }
 
         private static void DrawTexture(MaterialEditor editor, MaterialProperty textureProperty,
             bool drawTilingAndOffset,
-            MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty)
+            MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty,
+            MaterialProperty channelsXProperty, MaterialProperty channelsYProperty)
         {
             var propertyCount = 0;
             if (drawTilingAndOffset)
@@ -179,6 +184,13 @@ namespace Nova.Editor.Core.Scripts
                 propertyCount += 1;
             }
 
+            var useChannelsX = channelsXProperty != null;
+            var useChannelsY = channelsYProperty != null;
+            var useChannels = useChannelsX || useChannelsY;
+            if (useChannels)
+            {
+                propertyCount += 1;
+            }
             var contentsHeight = propertyCount * EditorGUIUtility.singleLineHeight +
                                  (propertyCount - 2) * EditorGUIUtility.standardVerticalSpacing;
             var fullHeight = Mathf.Max(contentsHeight + 8, 64);
@@ -262,6 +274,11 @@ namespace Nova.Editor.Core.Scripts
                     GUI.Label(labelRect, "Offset Coords");
                 }
 
+                if (useChannels)
+                {
+                    labelRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    GUI.Label(labelRect, "Channels");
+                }
                 // Tiling & Offsets
                 if (drawTilingAndOffset)
                 {
@@ -301,6 +318,28 @@ namespace Nova.Editor.Core.Scripts
                     yPropertyRect.xMin += 12;
                     EditorGUI.LabelField(yRect, new GUIContent("Y"));
                     DrawEnumContentsProperty<CustomCoord>(editor, yPropertyRect, offsetCoordYProperty);
+                }
+                // Channels
+                if (useChannels)
+                {
+                    propertyRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    var xRect = propertyRect;
+                    xRect.width /= 2;
+                    var xPropertyRect = xRect;
+                    xPropertyRect.xMin += 12;
+                    EditorGUI.LabelField(xRect, new GUIContent("X"));
+                    DrawEnumContentsProperty<ColorChannels>(editor, xPropertyRect, channelsXProperty);
+
+                    if (useChannelsY)
+                    {
+                        var yRect = xRect;
+                        yRect.x += yRect.width + 2;
+                        yRect.xMax -= 2;
+                        var yPropertyRect = yRect;
+                        yPropertyRect.xMin += 12;
+                        EditorGUI.LabelField(yRect, new GUIContent("Y"));
+                        DrawEnumContentsProperty<ColorChannels>(editor, yPropertyRect, channelsYProperty);
+                    }
                 }
             }
         }

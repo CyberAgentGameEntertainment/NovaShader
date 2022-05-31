@@ -49,6 +49,8 @@ Shader "Nova/Particles/UberUnlit"
         _FlowMap("Flow Map", 2D) = "grey" {}
         _FlowMapOffsetXCoord("Flow Map Offset X Coord", Float) = 0.0
         _FlowMapOffsetYCoord("Flow Map Offset Y Coord", Float) = 0.0
+        _FlowMapChannelsX("Flow Map Channes X", Float) = 0.0
+        _FlowMapChannelsY("Flow Map Channes Y", Float) = 1.0
         _FlowIntensity("Flow Intensity", Float) = 1.0
         _FlowIntensityCoord("Flow Intensity Coord", Float) = 0.0
         _FlowMapTarget("Flow Map Target", Float) = 1.0
@@ -67,6 +69,7 @@ Shader "Nova/Particles/UberUnlit"
         _AlphaTransitionMapProgressCoord("Alpha　Transition Map Progress Coord", Float) = 0.0
         _AlphaTransitionMapOffsetXCoord("Alpha Transition Map Offset X Coord", Float) = 0.0
         _AlphaTransitionMapOffsetYCoord("Alpha Transition Map Offset Y Coord", Float) = 0.0
+        _AlphaTransitionMapChannelsX("Alpha Transition Map Channes X", Float) = 0.0
         _AlphaTransitionMapSliceCount("Alpha Transition Map Slice Count", Float) = 4.0
         _AlphaTransitionProgress("Alpha Transition Progress", Range(0.0, 1.0)) = 0.0
         _AlphaTransitionProgressCoord("Alpha Transition Progress Coord", Float) = 0.0
@@ -82,6 +85,7 @@ Shader "Nova/Particles/UberUnlit"
         _EmissionMapProgressCoord("Emission Map Progress Coord", Float) = 0.0
         _EmissionMapOffsetXCoord("Emission Map Offset X Coord", Float) = 0.0
         _EmissionMapOffsetYCoord("Emission Map Offset Y Coord", Float) = 0.0
+        _EmissionMapChannelsX("Emission Map Channels X", Float) = 0.0
         _EmissionMapSliceCount("Alpha Transition Map Slice Count", Float) = 4.0
         _EmissionColorType("Emission Color Type", Float) = 0.0
         [HDR]_EmissionColor("Emission Color", Color) = (0, 0, 0, 1)
