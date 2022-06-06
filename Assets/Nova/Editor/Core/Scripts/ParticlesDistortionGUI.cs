@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2021 CyberAgent, Inc.
+// Copyright 2022 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using Nova.Editor.Foundation.Scripts;
@@ -54,7 +54,7 @@ namespace Nova.Editor.Core.Scripts
             _alphaTransitionMapOffsetXCoordProp.Setup(properties);
             _alphaTransitionMapOffsetYCoordProp.Setup(properties);
             _alphaTransitionMapChannelsXProp.Setup(properties);
-            
+
             _alphaTransitionProgressProp.Setup(properties);
             _alphaTransitionProgressCoordProp.Setup(properties);
             _dissolveSharpnessProp.Setup(properties);
@@ -87,55 +87,40 @@ namespace Nova.Editor.Core.Scripts
         protected override void DrawGUI(MaterialEditor editor, MaterialProperty[] properties)
         {
             using (var foldoutScope =
-                new MaterialEditorUtility.FoldoutHeaderScope(RenderSettingsFoldout.Value, "Render Settings"))
+                   new MaterialEditorUtility.FoldoutHeaderScope(RenderSettingsFoldout.Value, "Render Settings"))
             {
-                if (foldoutScope.Foldout)
-                {
-                    DrawRenderSettingsProperties(editor, properties);
-                }
+                if (foldoutScope.Foldout) DrawRenderSettingsProperties(editor, properties);
 
                 RenderSettingsFoldout.Value = foldoutScope.Foldout;
             }
 
             using (var foldoutScope =
-                new MaterialEditorUtility.FoldoutHeaderScope(DistortionFoldout.Value, "Distortion"))
+                   new MaterialEditorUtility.FoldoutHeaderScope(DistortionFoldout.Value, "Distortion"))
             {
-                if (foldoutScope.Foldout)
-                {
-                    DrawDistortionProperties(editor, properties);
-                }
+                if (foldoutScope.Foldout) DrawDistortionProperties(editor, properties);
 
                 DistortionFoldout.Value = foldoutScope.Foldout;
             }
 
             using (var foldoutScope = new MaterialEditorUtility.FoldoutHeaderScope(FlowMapFoldout.Value, "Flow Map"))
             {
-                if (foldoutScope.Foldout)
-                {
-                    DrawFlowMapProperties(editor, properties);
-                }
+                if (foldoutScope.Foldout) DrawFlowMapProperties(editor, properties);
 
                 FlowMapFoldout.Value = foldoutScope.Foldout;
             }
 
             using (var foldoutScope =
-                new MaterialEditorUtility.FoldoutHeaderScope(AlphaTransitionFoldout.Value, "Alpha Transition"))
+                   new MaterialEditorUtility.FoldoutHeaderScope(AlphaTransitionFoldout.Value, "Alpha Transition"))
             {
-                if (foldoutScope.Foldout)
-                {
-                    DrawAlphaTransitionProperties(editor, properties);
-                }
+                if (foldoutScope.Foldout) DrawAlphaTransitionProperties(editor, properties);
 
                 AlphaTransitionFoldout.Value = foldoutScope.Foldout;
             }
 
             using (var foldoutScope =
-                new MaterialEditorUtility.FoldoutHeaderScope(TransparencyFoldout.Value, "Transparency"))
+                   new MaterialEditorUtility.FoldoutHeaderScope(TransparencyFoldout.Value, "Transparency"))
             {
-                if (foldoutScope.Foldout)
-                {
-                    DrawTransparencyProperties(editor, properties);
-                }
+                if (foldoutScope.Foldout) DrawTransparencyProperties(editor, properties);
 
                 TransparencyFoldout.Value = foldoutScope.Foldout;
             }
@@ -154,7 +139,7 @@ namespace Nova.Editor.Core.Scripts
         private void DrawDistortionProperties(MaterialEditor editor, MaterialProperty[] properties)
         {
             MaterialEditorUtility.DrawTexture(editor, _baseMapProp.Value, _baseMapOffsetXCoordProp.Value,
-                _baseMapOffsetYCoordProp.Value, 
+                _baseMapOffsetYCoordProp.Value,
                 _baseMapChannelsXProp.Value, _baseMapChannelsYProp.Value);
             MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Intensity",
                 _distortionIntensityProp.Value, _distortionIntensityCoordProp.Value);
@@ -174,7 +159,8 @@ namespace Nova.Editor.Core.Scripts
                 _flowMapOffsetYCoordProp.Value, _flowMapChannelsXProp.Value, _flowMapChannelsYProp.Value);
             MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Intensity", _flowIntensityProp.Value,
                 _flowIntensityCoordProp.Value);
-            MaterialEditorUtility.DrawEnumFlagsProperty<FlowMapTargetDistortion>(editor, "Targets", _flowMapTargetProp.Value);
+            MaterialEditorUtility.DrawEnumFlagsProperty<FlowMapTargetDistortion>(editor, "Targets",
+                _flowMapTargetProp.Value);
         }
 
         private void DrawAlphaTransitionProperties(MaterialEditor editor, MaterialProperty[] properties)
@@ -187,13 +173,11 @@ namespace Nova.Editor.Core.Scripts
                 MaterialEditorUtility.DrawTexture(editor, _alphaTransitionMapProp.Value,
                     _alphaTransitionMapOffsetXCoordProp.Value, _alphaTransitionMapOffsetYCoordProp.Value,
                     _alphaTransitionMapChannelsXProp.Value, null);
-                
+
                 MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Progress",
                     _alphaTransitionProgressProp.Value, _alphaTransitionProgressCoordProp.Value);
                 if (mode == AlphaTransitionMode.Dissolve)
-                {
                     editor.ShaderProperty(_dissolveSharpnessProp.Value, "Edge Sharpness");
-                }
             }
         }
 
@@ -202,23 +186,18 @@ namespace Nova.Editor.Core.Scripts
             MaterialEditorUtility.DrawToggleProperty(editor, "Soft Particles", _softParticlesEnabledProp.Value);
             var softParticlesEnabled = _softParticlesEnabledProp.Value.floatValue >= 0.5f;
             if (softParticlesEnabled)
-            {
                 using (new EditorGUI.IndentLevelScope())
                 using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                 {
                     editor.ShaderProperty(_softParticlesIntensityProp.Value, "Intensity");
                     if (changeCheckScope.changed)
-                    {
                         _softParticlesIntensityProp.Value.floatValue =
                             Mathf.Max(0, _softParticlesIntensityProp.Value.floatValue);
-                    }
                 }
-            }
 
             MaterialEditorUtility.DrawToggleProperty(editor, "Depth Fade", _depthFadeEnabledProp.Value);
             var depthFadeEnabled = _depthFadeEnabledProp.Value.floatValue >= 0.5f;
             if (depthFadeEnabled)
-            {
                 using (new EditorGUI.IndentLevelScope())
                 using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                 {
@@ -226,7 +205,6 @@ namespace Nova.Editor.Core.Scripts
                         _depthFadeFarProp.Value, "Far", editor);
                     editor.ShaderProperty(_depthFadeWidthProp.Value, "Width");
                 }
-            }
         }
 
         #region Foldout Properties
@@ -278,7 +256,7 @@ namespace Nova.Editor.Core.Scripts
 
         private readonly Property _alphaTransitionMapOffsetYCoordProp =
             new Property(PropertyNames.AlphaTransitionMapOffsetYCoord);
-        
+
         private readonly Property _alphaTransitionMapChannelsXProp =
             new Property(PropertyNames.AlphaTransitionMapChannelsX);
 

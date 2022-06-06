@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2021 CyberAgent, Inc.
+// Copyright 2022 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -100,7 +100,6 @@ namespace Nova.Editor.Core.Scripts
             get
             {
                 if (_headerStyle == null || _headerBackgroundTexture == null)
-                {
                     _headerStyle = new GUIStyle
                     {
                         normal = new GUIStyleState
@@ -110,7 +109,6 @@ namespace Nova.Editor.Core.Scripts
                         border = new RectOffset(1, 1, 1, 1),
                         padding = new RectOffset(8, 8, 0, 4)
                     };
-                }
 
                 return _headerStyle;
             }
@@ -121,7 +119,6 @@ namespace Nova.Editor.Core.Scripts
             get
             {
                 if (_contentsStyle == null || _contentsBackgroundTexture == null)
-                {
                     _contentsStyle = new GUIStyle
                     {
                         normal = new GUIStyleState
@@ -132,7 +129,6 @@ namespace Nova.Editor.Core.Scripts
                         padding = new RectOffset(8, 8, 0, 0),
                         margin = new RectOffset(0, 0, 0, 8)
                     };
-                }
 
                 return _contentsStyle;
             }
@@ -160,11 +156,11 @@ namespace Nova.Editor.Core.Scripts
         /// <param name="channelsXProperty"></param>
         /// <param name="channelsYProperty"></param>
         public static void DrawTexture(MaterialEditor editor, MaterialProperty textureProperty,
-            MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty, 
+            MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty,
             MaterialProperty channelsXProperty, MaterialProperty channelsYProperty)
         {
-            DrawTexture(editor, textureProperty, true, 
-                offsetCoordXProperty, offsetCoordYProperty, channelsXProperty,channelsYProperty);
+            DrawTexture(editor, textureProperty, true,
+                offsetCoordXProperty, offsetCoordYProperty, channelsXProperty, channelsYProperty);
         }
 
         private static void DrawTexture(MaterialEditor editor, MaterialProperty textureProperty,
@@ -173,24 +169,15 @@ namespace Nova.Editor.Core.Scripts
             MaterialProperty channelsXProperty, MaterialProperty channelsYProperty)
         {
             var propertyCount = 0;
-            if (drawTilingAndOffset)
-            {
-                propertyCount += 2;
-            }
+            if (drawTilingAndOffset) propertyCount += 2;
 
             var useOffsetCoord = offsetCoordXProperty != null && offsetCoordYProperty != null;
-            if (useOffsetCoord)
-            {
-                propertyCount += 1;
-            }
+            if (useOffsetCoord) propertyCount += 1;
 
             var useChannelsX = channelsXProperty != null;
             var useChannelsY = channelsYProperty != null;
             var useChannels = useChannelsX || useChannelsY;
-            if (useChannels)
-            {
-                propertyCount += 1;
-            }
+            if (useChannels) propertyCount += 1;
             var contentsHeight = propertyCount * EditorGUIUtility.singleLineHeight +
                                  (propertyCount - 2) * EditorGUIUtility.standardVerticalSpacing;
             var fullHeight = Mathf.Max(contentsHeight + 8, 64);
@@ -279,9 +266,9 @@ namespace Nova.Editor.Core.Scripts
                     labelRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                     GUI.Label(labelRect, "Channels");
                 }
+
                 // Tiling & Offsets
                 if (drawTilingAndOffset)
-                {
                     using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                     {
                         ;
@@ -298,7 +285,6 @@ namespace Nova.Editor.Core.Scripts
                             textureProperty.textureScaleAndOffset = textureScaleAndOffset;
                         }
                     }
-                }
 
                 // Offset Coords
                 if (useOffsetCoord)
@@ -319,6 +305,7 @@ namespace Nova.Editor.Core.Scripts
                     EditorGUI.LabelField(yRect, new GUIContent("Y"));
                     DrawEnumContentsProperty<CustomCoord>(editor, yPropertyRect, offsetCoordYProperty);
                 }
+
                 // Channels
                 if (useChannels)
                 {
@@ -424,7 +411,7 @@ namespace Nova.Editor.Core.Scripts
         {
             DrawProperty(label, rect => { DrawEnumContentsProperty<T>(editor, rect, property); });
         }
-        
+
         /// <summary>
         ///     Draw a enum flags type property.
         /// </summary>
@@ -552,7 +539,8 @@ namespace Nova.Editor.Core.Scripts
             }
         }
 
-        private static void DrawEnumFlagsContentsProperty<T>(MaterialEditor editor, Rect rect, MaterialProperty property)
+        private static void DrawEnumFlagsContentsProperty<T>(MaterialEditor editor, Rect rect,
+            MaterialProperty property)
             where T : Enum
         {
             var value = (T)Enum.ToObject(typeof(T), (int)property.floatValue);
@@ -586,31 +574,21 @@ namespace Nova.Editor.Core.Scripts
         public static void SetKeyword(Material material, string keyword, bool state)
         {
             if (state)
-            {
                 material.EnableKeyword(keyword);
-            }
             else
-            {
                 material.DisableKeyword(keyword);
-            }
         }
 
         private static Texture GetFoldoutTrueIcon()
         {
-            if (_foldoutTrueIcon == null)
-            {
-                _foldoutTrueIcon = Resources.Load<Texture>("tex_editor_icon_foldout_true");
-            }
+            if (_foldoutTrueIcon == null) _foldoutTrueIcon = Resources.Load<Texture>("tex_editor_icon_foldout_true");
 
             return _foldoutTrueIcon;
         }
 
         private static Texture GetFoldoutFalseIcon()
         {
-            if (_foldoutFalseIcon == null)
-            {
-                _foldoutFalseIcon = Resources.Load<Texture>("tex_editor_icon_foldout_false");
-            }
+            if (_foldoutFalseIcon == null) _foldoutFalseIcon = Resources.Load<Texture>("tex_editor_icon_foldout_false");
 
             return _foldoutFalseIcon;
         }
@@ -662,7 +640,6 @@ namespace Nova.Editor.Core.Scripts
                 var iconImage = foldout ? GetFoldoutTrueIcon() : GetFoldoutFalseIcon();
                 GUI.DrawTexture(iconRect, iconImage, ScaleMode.ScaleToFit);
                 if (_textStyle == null)
-                {
                     _textStyle = new GUIStyle
                     {
                         padding = new RectOffset(0, 0, 2, 0),
@@ -672,20 +649,13 @@ namespace Nova.Editor.Core.Scripts
                         },
                         fontStyle = FontStyle.Bold
                     };
-                }
 
                 GUI.Label(textRect, text, _textStyle);
-                if (GUI.Button(buttonRect, string.Empty, _textStyle))
-                {
-                    Foldout = !Foldout;
-                }
+                if (GUI.Button(buttonRect, string.Empty, _textStyle)) Foldout = !Foldout;
 
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.BeginVertical(ContentsStyle);
-                if (Foldout)
-                {
-                    GUILayout.Space(6);
-                }
+                if (Foldout) GUILayout.Space(6);
             }
 
             public bool Foldout { get; }

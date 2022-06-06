@@ -1,5 +1,5 @@
-// --------------------------------------------------------------
-// Copyright 2021 CyberAgent, Inc.
+    // --------------------------------------------------------------
+// Copyright 2022 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -161,85 +161,62 @@ namespace Nova.Editor.Core.Scripts
             headerStyle.fontStyle = FontStyle.Bold;
 
             using (var foldoutScope =
-                new MaterialEditorUtility.FoldoutHeaderScope(RenderSettingsFoldout.Value, "Render Settings"))
+                   new MaterialEditorUtility.FoldoutHeaderScope(RenderSettingsFoldout.Value, "Render Settings"))
             {
-                if (foldoutScope.Foldout)
-                {
-                    DrawRenderSettingsProperties(editor, properties);
-                }
+                if (foldoutScope.Foldout) DrawRenderSettingsProperties(editor, properties);
 
                 RenderSettingsFoldout.Value = foldoutScope.Foldout;
             }
 
             using (var foldoutScope = new MaterialEditorUtility.FoldoutHeaderScope(BaseMapFoldout.Value, "Base Map"))
             {
-                if (foldoutScope.Foldout)
-                {
-                    DrawBaseMapProperties(editor, properties);
-                }
+                if (foldoutScope.Foldout) DrawBaseMapProperties(editor, properties);
 
                 BaseMapFoldout.Value = foldoutScope.Foldout;
             }
 
-            using (var foldoutScope = new MaterialEditorUtility.FoldoutHeaderScope(TintColorFoldout.Value, "Tint Color"))
+            using (var foldoutScope =
+                   new MaterialEditorUtility.FoldoutHeaderScope(TintColorFoldout.Value, "Tint Color"))
             {
-                if (foldoutScope.Foldout)
-                {
-                    DrawTintColorProperties(editor, properties);
-                }
+                if (foldoutScope.Foldout) DrawTintColorProperties(editor, properties);
 
                 TintColorFoldout.Value = foldoutScope.Foldout;
             }
 
             using (var foldoutScope = new MaterialEditorUtility.FoldoutHeaderScope(FlowMapFoldout.Value, "Flow Map"))
             {
-                if (foldoutScope.Foldout)
-                {
-                    DrawFlowMapProperties(editor, properties);
-                }
+                if (foldoutScope.Foldout) DrawFlowMapProperties(editor, properties);
 
                 FlowMapFoldout.Value = foldoutScope.Foldout;
             }
 
             using (var foldoutScope =
-                new MaterialEditorUtility.FoldoutHeaderScope(ColorCorrectionFoldout.Value, "Color Correction"))
+                   new MaterialEditorUtility.FoldoutHeaderScope(ColorCorrectionFoldout.Value, "Color Correction"))
             {
-                if (foldoutScope.Foldout)
-                {
-                    DrawColorCorrectionProperties(editor, properties);
-                }
+                if (foldoutScope.Foldout) DrawColorCorrectionProperties(editor, properties);
 
                 ColorCorrectionFoldout.Value = foldoutScope.Foldout;
             }
 
             using (var foldoutScope =
-                new MaterialEditorUtility.FoldoutHeaderScope(AlphaTransitionFoldout.Value, "Alpha Transition"))
+                   new MaterialEditorUtility.FoldoutHeaderScope(AlphaTransitionFoldout.Value, "Alpha Transition"))
             {
-                if (foldoutScope.Foldout)
-                {
-                    DrawAlphaTransitionProperties(editor, properties);
-                }
+                if (foldoutScope.Foldout) DrawAlphaTransitionProperties(editor, properties);
 
                 AlphaTransitionFoldout.Value = foldoutScope.Foldout;
             }
 
             using (var foldoutScope = new MaterialEditorUtility.FoldoutHeaderScope(EmissionFoldout.Value, "Emission"))
             {
-                if (foldoutScope.Foldout)
-                {
-                    DrawEmissionProperties(editor, properties);
-                }
+                if (foldoutScope.Foldout) DrawEmissionProperties(editor, properties);
 
                 EmissionFoldout.Value = foldoutScope.Foldout;
             }
 
             using (var foldoutScope =
-                new MaterialEditorUtility.FoldoutHeaderScope(TransparencyFoldout.Value, "Transparency"))
+                   new MaterialEditorUtility.FoldoutHeaderScope(TransparencyFoldout.Value, "Transparency"))
             {
-                if (foldoutScope.Foldout)
-                {
-                    DrawTransparencyProperties(editor, properties);
-                }
+                if (foldoutScope.Foldout) DrawTransparencyProperties(editor, properties);
 
                 TransparencyFoldout.Value = foldoutScope.Foldout;
             }
@@ -256,14 +233,10 @@ namespace Nova.Editor.Core.Scripts
             MaterialEditorUtility.DrawEnumProperty<RenderType>(editor, "Render Type", _renderTypeProp.Value);
             var renderType = (RenderType)_renderTypeProp.Value.floatValue;
             if (renderType == RenderType.Cutout)
-            {
                 editor.ShaderProperty(_cutoffProp.Value, "Cutoff");
-            }
             else if (renderType == RenderType.Transparent)
-            {
                 MaterialEditorUtility.DrawEnumProperty<TransparentBlendMode>(editor, "Blend Mode",
                     _transparentBlendModeProp.Value);
-            }
 
             MaterialEditorUtility.DrawEnumProperty<RenderFace>(editor, "Render Face", _cullProp.Value);
             MaterialEditorUtility.DrawIntRangeProperty(editor, "Render Priority", _queueOffsetProp.Value,
@@ -323,23 +296,17 @@ namespace Nova.Editor.Core.Scripts
             MaterialEditorUtility.DrawToggleProperty(editor, "Mirror Sampling", _baseMapMirrorSamplingProp.Value);
 
             if (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending)
-            {
                 MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Flip-Book Progress",
                     _baseMapProgressProp.Value, _baseMapProgressCoordProp.Value);
-            }
         }
 
         private void DrawTintColorProperties(MaterialEditor editor, MaterialProperty[] properties)
         {
             MaterialEditorUtility.DrawEnumProperty<TintAreaMode>(editor, "Mode", _tintAreaModeProp.Value);
             var tintAreaMode = (TintAreaMode)_tintAreaModeProp.Value.floatValue;
-            if (tintAreaMode == TintAreaMode.None)
-            {
-                return;
-            }
+            if (tintAreaMode == TintAreaMode.None) return;
 
             if (tintAreaMode == TintAreaMode.Rim)
-            {
                 using (new EditorGUI.IndentLevelScope())
                 {
                     MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Progress", _tintRimProgressProp.Value,
@@ -348,7 +315,6 @@ namespace Nova.Editor.Core.Scripts
                         _tintRimSharpnessCoordProp.Value);
                     MaterialEditorUtility.DrawToggleProperty(editor, "Inverse", _inverseTintRimProp.Value);
                 }
-            }
 
             MaterialEditorUtility.DrawEnumProperty<TintColorMode>(editor, "Color Mode", _tintColorModeProp.Value);
             var tintColorMode = (TintColorMode)_tintColorModeProp.Value.floatValue;
@@ -384,7 +350,7 @@ namespace Nova.Editor.Core.Scripts
         private void DrawFlowMapProperties(MaterialEditor editor, MaterialProperty[] properties)
         {
             MaterialEditorUtility.DrawTexture(editor, _flowMapProp.Value, _flowMapOffsetXCoordProp.Value,
-                _flowMapOffsetYCoordProp.Value, 
+                _flowMapOffsetYCoordProp.Value,
                 _flowMapChannelsXProp.Value, _flowMapChannelsYProp.Value);
             MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Intensity", _flowIntensityProp.Value,
                 _flowIntensityCoordProp.Value);
@@ -397,9 +363,7 @@ namespace Nova.Editor.Core.Scripts
                 _colorCorrectionModeProp.Value);
             var colorCorrectionMode = (ColorCorrectionMode)_colorCorrectionModeProp.Value.floatValue;
             if (colorCorrectionMode == ColorCorrectionMode.GradientMap)
-            {
                 MaterialEditorUtility.DrawTexture(editor, _gradientMapProp.Value, false);
-            }
         }
 
         private void DrawAlphaTransitionProperties(MaterialEditor editor, MaterialProperty[] properties)
@@ -431,7 +395,7 @@ namespace Nova.Editor.Core.Scripts
                 using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                 {
                     MaterialEditorUtility.DrawTexture(editor, alphaTransitionMapProp,
-                        _alphaTransitionMapOffsetXCoordProp.Value, _alphaTransitionMapOffsetYCoordProp.Value, 
+                        _alphaTransitionMapOffsetXCoordProp.Value, _alphaTransitionMapOffsetYCoordProp.Value,
                         _alphaTransitionMapChannelsXProp.Value, null);
 
                     if (changeCheckScope.changed)
@@ -454,17 +418,13 @@ namespace Nova.Editor.Core.Scripts
 
                 if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook
                     || alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending)
-                {
                     MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Flip-Book Progress",
                         _alphaTransitionMapProgressProp.Value, _alphaTransitionMapProgressCoordProp.Value);
-                }
 
                 MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Transition Progress",
                     _alphaTransitionProgressProp.Value, _alphaTransitionProgressCoordProp.Value);
                 if (mode == AlphaTransitionMode.Dissolve)
-                {
                     editor.ShaderProperty(_dissolveSharpnessProp.Value, "Edge Sharpness");
-                }
             }
         }
 
@@ -526,10 +486,8 @@ namespace Nova.Editor.Core.Scripts
 
                     if (emissionMapMode == EmissionMapMode.FlipBook
                         || emissionMapMode == EmissionMapMode.FlipBookBlending)
-                    {
                         MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Flip-Book Progress",
                             _emissionMapProgressProp.Value, _emissionMapProgressCoordProp.Value);
-                    }
 
                     MaterialEditorUtility.DrawEnumProperty<EmissionColorType>(editor, "Color Type",
                         _emissionColorTypeProp.Value);
@@ -542,29 +500,21 @@ namespace Nova.Editor.Core.Scripts
 
                 var colorType = (EmissionColorType)_emissionColorTypeProp.Value.floatValue;
                 if (colorType == EmissionColorType.Color)
-                {
                     editor.ShaderProperty(_emissionColorProp.Value, "Color");
-                }
                 else if (colorType == EmissionColorType.GradiantMap)
-                {
                     MaterialEditorUtility.DrawTexture(editor, _emissionColorRampProp.Value, false);
-                }
 
                 if (areaType == EmissionAreaType.Edge)
-                {
                     MaterialEditorUtility.DrawToggleProperty(editor, "Keep Edge Transparency",
                         _keepEdgeTransparencyProp.Value);
-                }
 
                 using (var ccs2 = new EditorGUI.ChangeCheckScope())
                 {
                     MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Intensity",
                         _emissionIntensityProp.Value, _emissionIntensityCoordProp.Value);
                     if (ccs2.changed)
-                    {
                         _emissionIntensityProp.Value.floatValue =
                             Mathf.Max(0, _emissionIntensityProp.Value.floatValue);
-                    }
                 }
             }
         }
@@ -573,7 +523,6 @@ namespace Nova.Editor.Core.Scripts
         {
             MaterialEditorUtility.DrawToggleProperty(editor, "Rim", _rimTransparencyEnabledProp.Value);
             if (_rimTransparencyEnabledProp.Value.floatValue > 0.5f)
-            {
                 using (new EditorGUI.IndentLevelScope())
                 {
                     MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Progress",
@@ -582,11 +531,9 @@ namespace Nova.Editor.Core.Scripts
                         _rimTransparencySharpnessProp.Value, _rimTransparencySharpnessCoordProp.Value);
                     MaterialEditorUtility.DrawToggleProperty(editor, "Inverse", _inverseRimTransparencyProp.Value);
                 }
-            }
 
             MaterialEditorUtility.DrawToggleProperty(editor, "Luminance", _luminanceTransparencyEnabledProp.Value);
             if (_luminanceTransparencyEnabledProp.Value.floatValue > 0.5f)
-            {
                 using (new EditorGUI.IndentLevelScope())
                 {
                     MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Progress",
@@ -595,30 +542,25 @@ namespace Nova.Editor.Core.Scripts
                     MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Sharpness",
                         _luminanceTransparencySharpnessProp.Value,
                         _luminanceTransparencySharpnessCoordProp.Value);
-                    MaterialEditorUtility.DrawToggleProperty(editor, "Inverse", _inverseLuminanceTransparencyProp.Value);
+                    MaterialEditorUtility.DrawToggleProperty(editor, "Inverse",
+                        _inverseLuminanceTransparencyProp.Value);
                 }
-            }
 
             MaterialEditorUtility.DrawToggleProperty(editor, "Soft Particles", _softParticlesEnabledProp.Value);
             var softParticlesEnabled = _softParticlesEnabledProp.Value.floatValue >= 0.5f;
             if (softParticlesEnabled)
-            {
                 using (new EditorGUI.IndentLevelScope())
                 using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                 {
                     editor.ShaderProperty(_softParticlesIntensityProp.Value, "Intensity");
                     if (changeCheckScope.changed)
-                    {
                         _softParticlesIntensityProp.Value.floatValue =
                             Mathf.Max(0, _softParticlesIntensityProp.Value.floatValue);
-                    }
                 }
-            }
 
             MaterialEditorUtility.DrawToggleProperty(editor, "Depth Fade", _depthFadeEnabledProp.Value);
             var depthFadeEnabled = _depthFadeEnabledProp.Value.floatValue >= 0.5f;
             if (depthFadeEnabled)
-            {
                 using (new EditorGUI.IndentLevelScope())
                 using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                 {
@@ -626,7 +568,6 @@ namespace Nova.Editor.Core.Scripts
                         _depthFadeFarProp.Value, "Far", editor);
                     editor.ShaderProperty(_depthFadeWidthProp.Value, "Width");
                 }
-            }
         }
 
         #region Foldout Properties
@@ -736,10 +677,10 @@ namespace Nova.Editor.Core.Scripts
 
         private readonly Property _alphaTransitionMapOffsetYCoordProp =
             new Property(PropertyNames.AlphaTransitionMapOffsetYCoord);
-        
+
         private readonly Property _alphaTransitionMapChannelsXProp =
             new Property(PropertyNames.AlphaTransitionMapChannelsX);
-        
+
         private readonly Property _alphaTransitionMapSliceCountProp =
             new Property(PropertyNames.AlphaTransitionMapSliceCount);
 
