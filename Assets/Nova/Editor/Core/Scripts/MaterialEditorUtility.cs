@@ -133,7 +133,7 @@ namespace Nova.Editor.Core.Scripts
                 return _contentsStyle;
             }
         }
-
+        
         /// <summary>
         ///     Draw a <see cref="Texture" /> type property.
         /// </summary>

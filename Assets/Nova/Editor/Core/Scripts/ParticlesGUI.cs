@@ -50,7 +50,7 @@ namespace Nova.Editor.Core.Scripts
 
         protected abstract void MaterialChanged(Material material);
 
-        protected class Property
+        public class Property
         {
             public Property(string name)
             {

@@ -17,6 +17,9 @@ namespace Nova.Editor.Core.Scripts
         public const string BlendDst = "_BlendDst";
         public const string ZWrite = "_ZWrite";
 
+        // Lit Settings
+        public const string LitWorkflowMode = "_LitWorkflowMode";
+         
         // Base Color
         public const string BaseMapMode = "_BaseMapMode";
         public const string BaseMap = "_BaseMap";

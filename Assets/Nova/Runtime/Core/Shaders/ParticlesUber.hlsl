@@ -112,6 +112,13 @@ float _DepthFadeNear;
 float _DepthFadeFar;
 float _DepthFadeWidth;
 
+#ifdef _LIT_ENABLED
+
+float _WorkflowMode;
+float _ReceiveShadows;
+
+#endif
+
 // Returns the sampler state of the base map.
 SamplerState GetBaseMapSamplerState()
 {
@@ -194,6 +201,7 @@ SamplerState GetEmissionMapSamplerState()
 #elif _EMISSION_MAP_MODE_3D
 #define TRANSFORM_EMISSION_MAP(texcoord) TRANSFORM_TEX(texcoord, _EmissionMap3D);
 #endif
+
 
 // Returns the progress of the 2DArray/3d tint map.
 half TintMapProgress(in half progress)
