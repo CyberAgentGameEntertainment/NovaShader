@@ -381,7 +381,7 @@ If this value is zero, the color will not be applied; if it is one, the color wi
 You can use the Flow Map to distort the Base Map to the specified directions.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/156095631-603cdac9-a22f-4ae0-aa6f-bc4084e302be.png" alt="Flow Map"><br>
+  <img width=500 src="https://user-images.githubusercontent.com/106138524/173483428-e6027ef4-a61e-4308-a90a-542bf75b0eaf.png" alt="Flow Map"><br>
   <font color="grey">Flow Map</font>
 </p>
 
@@ -396,8 +396,9 @@ Sets the Flow Map. The specifications are as follows.
 </p>
 <p>
 <ul>
-<li>Shifts the UV values of the Base Map based on the R value and the G value.</li>
-<li>The smaller the value from 0.5, the more the UV value shifts in the negative direction, and vice versa.</li>
+    <li>Shifts the UV values of the Base Map based on the texture color channels.</li>
+    <li>The color channels used is determined by the X value and Y value of the channels properties.</li>
+    <li>The smaller the value from 0.5, the more the UV value shifts in the negative direction, and vice versa.</li>
 </ul>
 Note that you need to uncheck sRGB Color in the texture import setting because the pixels will be used as values, not colors.
 </p>
@@ -465,7 +466,7 @@ Sets the Gradient Map. The specifications are as follows.
 Alpha Transition controls the alpha value using a texture.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143206056-2758e914-0f52-4472-bf67-c0c52098fc7d.png" alt="Alpha Transition"><br>
+  <img width=500 src="https://user-images.githubusercontent.com/106138524/173483478-fe1c8b9d-c449-4fad-8325-195385eab7ee.png" alt="Alpha Transition"><br>
   <font color="grey">Alpha Transition</font>
 </p>
 
@@ -505,8 +506,9 @@ The required texture type will change depending on the mode you selected.
 <p>
 Sets the Alpha Transition Map. The specifications are as follows.
 <ul>
-<li>Changes the alpha value based on the R value.</li>
-<li>The smaller the R value, the easier it is to disappear, and vice versa.</li>
+    <li>Changes the alpha value based on the texture color channel.</li> 
+    <li>The color channels used is determined by the X value of the channels properties.</li>
+    <li>The smaller the R value, the easier it is to disappear, and vice versa.</li>
 </ul>
 </p>
 <p>
@@ -545,7 +547,7 @@ Sets the sharpness of the edge.
 The Emission control how the particles are glowing.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143206163-f6cd09cb-df77-4c52-ae96-da54ad4dfdec.png" alt="Emission"><br>
+  <img width=500 src="https://user-images.githubusercontent.com/106138524/173484557-4f2504af-c93a-4f5a-85b0-ac07b8e0d6fe.png" alt="Emission"><br>
   <font color="grey">Emission</font>
 </p>
 
@@ -592,7 +594,8 @@ The required texture type will change depending on the mode you selected.
 <p>
 Sets the Emission Map. The specifications are as follows.
 <ul>
-<li>The larger the R value, the more likely it is to glow.</li>
+    <li>The larger the texture color channles value, the more likely it is to glow.</li>
+    <li>The color channels used is determined by the X value of the channels property.</li>
 </ul>
 </p>
 <p>
@@ -780,7 +783,7 @@ You can specify the rendering face from the following options.
 Distortion controls how it is distorted.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143212824-353c2a08-f6c4-473f-8515-3eef8fbaf125.png" alt="Distortion"><br>
+  <img width=500 src="https://user-images.githubusercontent.com/106138524/173484623-01bec5e8-68ea-4afe-8679-90a31a3fa62c.png" alt="Distortion"><br>
   <font color="grey">Distortion</font>
 </p>
 
@@ -795,8 +798,9 @@ Sets the Distortion Map. The specifications are as follows.
 </p>
 <p>
 <ul>
-<li>Distorts the screen based on R and G values.</li>
-<li>0.5 is the reference value, and the further away from the reference value, the stronger the distortion.</li>
+    <li>Distorts the screen based on the texture color channels.</li>
+    <li>The color channels used is determined by the X value of the Channels Property.</li>
+    <li>0.5 is the reference value, and the further away from the reference value, the stronger the distortion.</li>
 </ul>
 Note that you need to uncheck sRGB Color in the texture import setting because the pixels will be used as values, not colors.
 </p>
@@ -827,7 +831,7 @@ If true, mirrors the texture to create a repeating pattern.
 You can use the Flow Map to distort the Distortion Map to the specified directions.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143212922-b4c49a35-d078-4389-a192-5a6aaf5fba48.png" alt="Flow Map"><br>
+  <img width=500 src="https://user-images.githubusercontent.com/106138524/173484646-d134aad0-3e2d-45c3-b4ae-7017d5a07801.png" alt="Flow Map"><br>
   <font color="grey">Flow Map</font>
 </p>
 
@@ -842,8 +846,9 @@ Sets the Flow Map. The specifications are as follows.
 </p>
 <p>
 <ul>
-<li>Shifts the UV values of the Distortion Map based on the R value and the G value.</li>
-<li>The smaller the value from 0.5, the more the UV value shifts in the negative direction, and vice versa.</li>
+    <li>Shifts the UV values of the Distortion Map based on the texture color channles.</li>
+    <li>The texture color channels used is determined by the X value of the "Channels" property.</li>
+    <li>The smaller the value from 0.5, the more the UV value shifts in the negative direction, and vice versa.</li>
 </ul>
 Note that you need to uncheck sRGB Color in the texture import setting because the pixels will be used as values, not colors.
 </p>
@@ -860,7 +865,7 @@ Sets the Flow Map intensity.
 Alpha Transition controls the alpha value using a texture.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143213099-a3ca1fb7-0078-4d67-bdb5-0b0d418a88e6.png" alt="Alpha Transition"><br>
+  <img width=500 src="https://user-images.githubusercontent.com/106138524/173484691-f2ec4b11-cf2f-404d-890f-3331a45bbf5a.png" alt="Alpha Transition"><br>
   <font color="grey">Alpha Transition</font>
 </p>
 
@@ -885,8 +890,9 @@ You can specify Alpha Transition Mode from the following options.
 <p>
 Sets the Alpha Transition Map. The specifications are as follows.
 <ul>
-<li>Changes the alpha value based on the R value.</li>
-<li>The smaller the R value, the easier it is to disappear, and vice versa.</li>
+    <li>Changes the alpha value based on the texture color channel.</li>
+    <li>The color channles used is determined by the X value of the "Channels" property.</li>
+    <li>The smaller the R value, the easier it is to disappear, and vice versa.</li>
 </ul>
 </p>
 <p>

@@ -311,7 +311,8 @@ namespace Nova.Editor.Core.Scripts
                 {
                     propertyRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                     var xRect = propertyRect;
-                    xRect.width /= 2;
+                    if (useChannelsY) xRect.width /= 2;
+
                     var xPropertyRect = xRect;
                     xPropertyRect.xMin += 12;
                     EditorGUI.LabelField(xRect, new GUIContent("X"));

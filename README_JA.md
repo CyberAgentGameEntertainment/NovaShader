@@ -388,7 +388,7 @@ Tint Colorでは乗算色を指定できます。
 Flow Mapを使うとベースマップを指定した方向に歪ませることができます。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/156095631-603cdac9-a22f-4ae0-aa6f-bc4084e302be.png" alt="Flow Map"><br>
+  <img width=500 src="https://user-images.githubusercontent.com/106138524/173495462-2803d37e-7dff-41f3-aeb4-9460c29db242.png" alt="Flow Map"><br>
   <font color="grey">Flow Map</font>
 </p>
 
@@ -403,7 +403,8 @@ Flow Mapを使うとベースマップを指定した方向に歪ませること
 </p>
 <p>
 <ul>
-<li>R値とG値に基づいて、サンプリングするUV値をずらします</li>
+<li>指定された2個のチャンネルのカラーの値に基づいて、サンプリングするUV値をずらします</li>
+<li>チャンネルの指定はChannelsプロパティのXとYで行えます</li>
 <li>値は0.5を基準として、小さいほどUV値がマイナス方向に、大きいほどプラス方向にずれます</li>
 </ul>
 色ではなく値としてテクスチャを使うので、テクスチャ設定のsRGB Colorのチェックを外す必要がある点に注意してください。
@@ -472,7 +473,7 @@ Color Correctionはここまでの色を補正します。
 Alpha Transitionは徐々に消えていく表現に使用します。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143206056-2758e914-0f52-4472-bf67-c0c52098fc7d.png" alt="Alpha Transition"><br>
+  <img width=500 src="https://user-images.githubusercontent.com/106138524/173495515-eb46ad7e-9ee3-4d2d-9a4a-6ef64d046604.png" alt="Alpha Transition"><br>
   <font color="grey">Alpha Transition</font>
 </p>
 
@@ -512,8 +513,9 @@ Alpha Transitionは徐々に消えていく表現に使用します。
 <p>
 アルファトランジションマップを設定します。アルファトランジションマップの仕様は以下の通りです。
 <ul>
-<li>R値に基づいてアルファ値を変更します</li>
-<li>R値が小さい部分ほど消えやすく、大きい部分ほど最後まで残ります</li>
+<li>指定された1個のカラーチャンネルの値に基づいてアルファ値を変更します</li>
+<li>チャンネルの指定はChannlesプロパティで行えます</li>
+<li>値が小さい部分ほど消えやすく、大きい部分ほど最後まで残ります</li>
 </ul>
 </p>
 <p>
@@ -552,7 +554,7 @@ Flip-BookあるいはFlip-Book Blendingの進行度を設定します。
 Emissionは発光する表現のために使用します。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143206163-f6cd09cb-df77-4c52-ae96-da54ad4dfdec.png" alt="Emission"><br>
+  <img width=500 src="https://user-images.githubusercontent.com/106138524/173495566-04c291f8-a44f-4258-88ee-f2aadb7d028b.png" alt="Emission"><br>
   <font color="grey">Emission</font>
 </p>
 
@@ -599,8 +601,9 @@ Emissionは発光する表現のために使用します。
 <p>
 エミッションマップを設定します。エミッションマップの仕様は以下の通りです。
 <ul>
-<li>R値に基づいてエミッションのしやすさ変更します</li>
-<li>R値が大きいほどエミッションしやすくなります</li>
+<li>指定された1個のチャンネルのカラーの値に基づいてエミッションのしやすさ変更します</li>
+<li>チャンネルの指定はChannelsプロパティで行えます。</li>
+<li>値が大きいほどエミッションしやすくなります</li>
 </ul>
 </p>
 <p>
@@ -790,7 +793,7 @@ Render Settingsではマテリアルの描画方法を制御できます。
 Distortionでは歪ませ方を設定できます。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143212824-353c2a08-f6c4-473f-8515-3eef8fbaf125.png" alt="Distortion"><br>
+  <img width=500 src="https://user-images.githubusercontent.com/106138524/173495634-33aa9641-ee8e-4f15-9707-0753acceffb7.png" alt="Distortion"><br>
   <font color="grey">Distortion</font>
 </p>
 
@@ -805,7 +808,8 @@ Distortionでは歪ませ方を設定できます。
 </p>
 <p>
 <ul>
-<li>R値とG値に基づいて画面を歪ませます</li>
+<li>指定された2個のチャンネルのカラーの値に基づいて画面を歪ませます</li>
+<li>チャンネルの指定はChannelsプロパティのXとYで行います</li>
 <li>値は0.5を基準値として、基準値から離れるほど強く歪みます</li>
 </ul>
 色ではなく値としてテクスチャを使うので、テクスチャ設定のsRGB Colorのチェックを外す必要がある点に注意してください。
@@ -837,7 +841,7 @@ Distortionでは歪ませ方を設定できます。
 Flow Mapを使うとディストーションマップを指定した方向に歪ませることができます。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143212922-b4c49a35-d078-4389-a192-5a6aaf5fba48.png" alt="Flow Map"><br>
+  <img width=500 src="https://user-images.githubusercontent.com/106138524/173495698-db1047ce-dd45-4785-981b-6a4b06755762.png" alt="Flow Map"><br>
   <font color="grey">Flow Map</font>
 </p>
 
@@ -852,7 +856,8 @@ Flow Mapを使うとディストーションマップを指定した方向に歪
 </p>
 <p>
 <ul>
-<li>R値とG値に基づいて、サンプリングするUV値をずらします</li>
+<li>指定された2個のチャンネルのカラーの値に基づいて、サンプリングするUV値をずらします</li>
+<li>チャンネルの指定は、ChannlesプロパティのXとYで行えます</li>
 <li>値は0.5を基準として、小さいほどUV値がマイナス方向に、大きいほどプラス方向にずれます</li>
 </ul>
 色ではなく値としてテクスチャを使うので、テクスチャ設定のsRGB Colorのチェックを外す必要がある点に注意してください。
@@ -870,7 +875,7 @@ Flow Mapを使うとディストーションマップを指定した方向に歪
 Alpha Transitionは徐々に消えていく表現に使用します。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143213099-a3ca1fb7-0078-4d67-bdb5-0b0d418a88e6.png" alt="Alpha Transition"><br>
+  <img width=500 src="https://user-images.githubusercontent.com/106138524/173495819-9bc44ed4-4df6-4d33-b9fa-a2a8706d76bd.png" alt="Alpha Transition"><br>
   <font color="grey">Alpha Transition</font>
 </p>
 
@@ -895,7 +900,8 @@ Alpha Transitionは徐々に消えていく表現に使用します。
 <p>
 アルファトランジションマップを設定します。アルファトランジションマップの仕様は以下の通りです。
 <ul>
-<li>R値に基づいてアルファ値を変更します</li>
+<li>指定された1個のチャンネルのカラーの値に基づいてアルファ値を変更します</li>
+<li>チャンネルの指定は、ChannlesプロパティのXで行えます</li>
 <li>R値が小さい部分ほど消えやすく、大きい部分ほど最後まで残ります</li>
 </ul>
 </p>
