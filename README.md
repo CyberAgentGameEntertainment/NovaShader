@@ -397,7 +397,7 @@ Sets the Flow Map. The specifications are as follows.
 <p>
 <ul>
     <li>Shifts the UV values of the Base Map based on the texture color channels.</li>
-    <li>The color channels used is determined by the X value and Y value of the channels properties.</li>
+    <li>The color channels used is determined by the X value and Y value of the Channels properties.</li>
     <li>The smaller the value from 0.5, the more the UV value shifts in the negative direction, and vice versa.</li>
 </ul>
 Note that you need to uncheck sRGB Color in the texture import setting because the pixels will be used as values, not colors.
