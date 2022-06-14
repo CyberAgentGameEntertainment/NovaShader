@@ -33,8 +33,8 @@ SAMPLER(sampler_AlphaTransitionMap);
 float4 _BaseMap_ST;
 DECLARE_CUSTOM_COORD(_BaseMapOffsetXCoord);
 DECLARE_CUSTOM_COORD(_BaseMapOffsetYCoord);
-DECLARE_CUSTOM_COORD(_BaseMapChannelsX);
-DECLARE_CUSTOM_COORD(_BaseMapChannelsY);
+half _BaseMapChannelsX;
+half _BaseMapChannelsY;
 
 float _BaseMapRotation;
 DECLARE_CUSTOM_COORD(_BaseMapRotationCoord);
@@ -45,8 +45,8 @@ float _DistortionIntensityCoord;
 float4 _FlowMap_ST;
 DECLARE_CUSTOM_COORD(_FlowMapOffsetXCoord);
 DECLARE_CUSTOM_COORD(_FlowMapOffsetYCoord);
-DECLARE_CUSTOM_COORD(_FlowMapChannelsX);
-DECLARE_CUSTOM_COORD(_FlowMapChannelsY);
+half _FlowMapChannelsX;
+half _FlowMapChannelsY;
 
 float _FlowIntensity;
 DECLARE_CUSTOM_COORD(_FlowIntensityCoord);
@@ -54,7 +54,7 @@ DECLARE_CUSTOM_COORD(_FlowIntensityCoord);
 float4 _AlphaTransitionMap_ST;
 DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
 DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
-DECLARE_CUSTOM_COORD(_AlphaTransitionMapChannelsX);
+half _AlphaTransitionMapChannelsX;
 
 float _AlphaTransitionProgress;
 DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoord);

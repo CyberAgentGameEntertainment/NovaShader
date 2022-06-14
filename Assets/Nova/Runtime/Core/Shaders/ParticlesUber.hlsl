@@ -61,8 +61,8 @@ float _InverseTintRim;
 float4 _FlowMap_ST;
 DECLARE_CUSTOM_COORD(_FlowMapOffsetXCoord);
 DECLARE_CUSTOM_COORD(_FlowMapOffsetYCoord);
-DECLARE_CUSTOM_COORD(_FlowMapChannelsX);
-DECLARE_CUSTOM_COORD(_FlowMapChannelsY);
+half _FlowMapChannelsX;
+half _FlowMapChannelsY;
 float _FlowIntensity;
 DECLARE_CUSTOM_COORD(_FlowIntensityCoord);
 
@@ -74,7 +74,7 @@ DECLARE_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
 float _AlphaTransitionMapSliceCount;
 DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
 DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
-DECLARE_CUSTOM_COORD(_AlphaTransitionMapChannelsX);
+half _AlphaTransitionMapChannelsX;
 float _AlphaTransitionProgress;
 DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoord);
 float _DissolveSharpness;
@@ -87,7 +87,7 @@ DECLARE_CUSTOM_COORD(_EmissionMapProgressCoord);
 float _EmissionMapSliceCount;
 DECLARE_CUSTOM_COORD(_EmissionMapOffsetXCoord);
 DECLARE_CUSTOM_COORD(_EmissionMapOffsetYCoord);
-DECLARE_CUSTOM_COORD(_EmissionMapChannelsX);
+half _EmissionMapChannelsX;
 
 float3 _EmissionColor;
 float _EmissionIntensity;
