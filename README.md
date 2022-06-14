@@ -507,7 +507,7 @@ The required texture type will change depending on the mode you selected.
 Sets the Alpha Transition Map. The specifications are as follows.
 <ul>
     <li>Changes the alpha value based on the texture color channel.</li> 
-    <li>The color channels used is determined by the X value of the channels properties.</li>
+    <li>The color channels used is determined by the X value of the Channels properties.</li>
     <li>The smaller the R value, the easier it is to disappear, and vice versa.</li>
 </ul>
 </p>
@@ -595,7 +595,7 @@ The required texture type will change depending on the mode you selected.
 Sets the Emission Map. The specifications are as follows.
 <ul>
     <li>The larger the texture color channles value, the more likely it is to glow.</li>
-    <li>The color channels used is determined by the X value of the channels property.</li>
+    <li>The color channels used is determined by the X value of the Channels property.</li>
 </ul>
 </p>
 <p>
@@ -847,7 +847,7 @@ Sets the Flow Map. The specifications are as follows.
 <p>
 <ul>
     <li>Shifts the UV values of the Distortion Map based on the texture color channles.</li>
-    <li>The texture color channels used is determined by the X value of the "Channels" property.</li>
+    <li>The texture color channels used is determined by the X value of the Channels property.</li>
     <li>The smaller the value from 0.5, the more the UV value shifts in the negative direction, and vice versa.</li>
 </ul>
 Note that you need to uncheck sRGB Color in the texture import setting because the pixels will be used as values, not colors.
@@ -891,7 +891,7 @@ You can specify Alpha Transition Mode from the following options.
 Sets the Alpha Transition Map. The specifications are as follows.
 <ul>
     <li>Changes the alpha value based on the texture color channel.</li>
-    <li>The color channles used is determined by the X value of the "Channels" property.</li>
+    <li>The color channles used is determined by the X value of the Channels property.</li>
     <li>The smaller the R value, the easier it is to disappear, and vice versa.</li>
 </ul>
 </p>
