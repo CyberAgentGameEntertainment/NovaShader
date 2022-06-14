@@ -40,6 +40,7 @@ namespace Nova.Editor.Core.Scripts
 
             _commonGUI.DrawRenderSettingsProperties();
             
+            // todo for lit GUI
             using (var foldoutScope =
                    new MaterialEditorUtility.FoldoutHeaderScope(LitSettingsFoldout.Value, "Lit Settings"))
             {

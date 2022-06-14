@@ -107,7 +107,7 @@ namespace Nova.Editor.Core.Scripts
                 MaterialEditorUtility.DrawEnumProperty<TransparentBlendMode>(_editor, "Blend Mode",
                     props.TransparentBlendModeProp.Value);
 
-            MaterialEditorUtility.DrawEnumProperty<RenderFace>(_editor, "Render Face", props.CutoffProp.Value);
+            MaterialEditorUtility.DrawEnumProperty<RenderFace>(_editor, "Render Face", props.CullProp.Value);
             MaterialEditorUtility.DrawIntRangeProperty(_editor, "Render Priority", props.QueueOffsetProp.Value,
                 RenderPriorityMin, RenderPriorityMax);
             MaterialEditorUtility.DrawEnumProperty<VertexAlphaMode>(_editor, "Vertex Alpha Mode",
