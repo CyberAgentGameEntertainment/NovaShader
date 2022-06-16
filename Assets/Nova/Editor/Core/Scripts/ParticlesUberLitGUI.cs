@@ -17,7 +17,7 @@ namespace Nova.Editor.Core.Scripts
         protected override void SetupProperties(MaterialProperty[] properties)
         {
             // common properties
-            _commonMaterialProperties.Setup(properties);
+            _commonMaterialProperties?.Setup(properties);
             // Lit Settings
             _litWorkflowModeProp.Setup(properties);
         }
@@ -25,7 +25,7 @@ namespace Nova.Editor.Core.Scripts
         protected override void Initialize(MaterialEditor editor, MaterialProperty[] properties)
         {
             // common properties
-            _commonMaterialProperties.Initialize(editor, properties);
+            _commonMaterialProperties = new ParticlesUberCommonMaterialProperties(editor, properties);
 
             // Lit Settings
             var prefsKeyPrefix = $"{GetType().Namespace}.{GetType().Name}.";
@@ -67,8 +67,7 @@ namespace Nova.Editor.Core.Scripts
 
         private readonly ParticlesUberCommonGUI _commonGUI = new ParticlesUberCommonGUI();
 
-        private readonly ParticlesUberCommonMaterialProperties _commonMaterialProperties =
-            new ParticlesUberCommonMaterialProperties();
+        private ParticlesUberCommonMaterialProperties _commonMaterialProperties;
 
         #region Foldout Properties
 

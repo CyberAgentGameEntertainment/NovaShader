@@ -125,8 +125,9 @@ namespace Nova.Editor.Core.Scripts
             DepthFadeWidthProp.Setup(properties);
         }
 
-        public void Initialize(MaterialEditor editor, MaterialProperty[] properties)
+        public ParticlesUberCommonMaterialProperties(MaterialEditor editor, MaterialProperty[] properties)
         {
+            Setup(properties);
             var prefsKeyPrefix = $"{GetType().Namespace}.{GetType().Name}.";
             var renderSettingsFoldoutKey = $"{prefsKeyPrefix}{nameof(RenderSettingsFoldout)}";
             var baseMapFoldoutKey = $"{prefsKeyPrefix}{nameof(BaseMapFoldout)}";

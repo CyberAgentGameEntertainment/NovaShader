@@ -15,17 +15,18 @@ namespace Nova.Editor.Core.Scripts
     {
         private readonly ParticlesUberCommonGUI _commonGUI = new ParticlesUberCommonGUI();
 
-        private readonly ParticlesUberCommonMaterialProperties _commonMaterialProperties =
-            new ParticlesUberCommonMaterialProperties();
+        private ParticlesUberCommonMaterialProperties _commonMaterialProperties;
 
         protected override void SetupProperties(MaterialProperty[] properties)
         {
-            _commonMaterialProperties.Setup(properties);
+            // SetupProperties() is called before Initialize(),
+            // So I have added the null check.
+            _commonMaterialProperties?.Setup(properties);
         }
 
         protected override void Initialize(MaterialEditor editor, MaterialProperty[] properties)
         {
-            _commonMaterialProperties.Initialize(editor, properties);
+            _commonMaterialProperties = new ParticlesUberCommonMaterialProperties(editor, properties);
         }
 
         protected override void DrawGUI(MaterialEditor editor, MaterialProperty[] properties)
