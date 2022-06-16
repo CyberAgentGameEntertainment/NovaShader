@@ -25,7 +25,7 @@ namespace Nova.Editor.Core.Scripts
 
         # region internal method
 
-        public void Setup(MaterialEditor editor, ParticlesUberCommonMaterialProperties commonMaterialProperties)
+        public void BeginDraw(MaterialEditor editor, ParticlesUberCommonMaterialProperties commonMaterialProperties)
         {
             _editor = editor;
             _commonMaterialProperties = commonMaterialProperties;
