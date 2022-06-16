@@ -8,7 +8,7 @@ using PropertyNames = Nova.Editor.Core.Scripts.MaterialPropertyNames;
 
 namespace Nova.Editor.Core.Scripts
 {
-    public class ParticlesUberCommonMaterialProperties
+    internal class ParticlesUberCommonMaterialProperties
     {
         public void Setup(MaterialProperty[] properties)
         {
@@ -125,7 +125,7 @@ namespace Nova.Editor.Core.Scripts
             DepthFadeWidthProp.Setup(properties);
         }
 
-        internal void Initialize(MaterialEditor editor, MaterialProperty[] properties)
+        public void Initialize(MaterialEditor editor, MaterialProperty[] properties)
         {
             var prefsKeyPrefix = $"{GetType().Namespace}.{GetType().Name}.";
             var renderSettingsFoldoutKey = $"{prefsKeyPrefix}{nameof(RenderSettingsFoldout)}";
@@ -149,311 +149,311 @@ namespace Nova.Editor.Core.Scripts
 
         #region Foldout Properties
 
-        internal BoolEditorPrefsProperty AlphaTransitionFoldout { get; private set; }
-        internal BoolEditorPrefsProperty BaseMapFoldout { get; private set; }
-        internal BoolEditorPrefsProperty TintColorFoldout { get; private set; }
-        internal BoolEditorPrefsProperty FlowMapFoldout { get; private set; }
-        internal BoolEditorPrefsProperty ColorCorrectionFoldout { get; private set; }
-        internal BoolEditorPrefsProperty EmissionFoldout { get; private set; }
-        internal BoolEditorPrefsProperty RenderSettingsFoldout { get; private set; }
-        internal BoolEditorPrefsProperty TransparencyFoldout { get; private set; }
+        public BoolEditorPrefsProperty AlphaTransitionFoldout { get; private set; }
+        public BoolEditorPrefsProperty BaseMapFoldout { get; private set; }
+        public BoolEditorPrefsProperty TintColorFoldout { get; private set; }
+        public BoolEditorPrefsProperty FlowMapFoldout { get; private set; }
+        public BoolEditorPrefsProperty ColorCorrectionFoldout { get; private set; }
+        public BoolEditorPrefsProperty EmissionFoldout { get; private set; }
+        public BoolEditorPrefsProperty RenderSettingsFoldout { get; private set; }
+        public BoolEditorPrefsProperty TransparencyFoldout { get; private set; }
 
         #endregion
 
         #region Render Settings Material Properties
 
-        internal ParticlesGUI.Property RenderTypeProp { get; } = new ParticlesGUI.Property(PropertyNames.RenderType);
-        internal ParticlesGUI.Property CutoffProp { get; } = new ParticlesGUI.Property(PropertyNames.Cutoff);
+        public ParticlesGUI.Property RenderTypeProp { get; } = new ParticlesGUI.Property(PropertyNames.RenderType);
+        public ParticlesGUI.Property CutoffProp { get; } = new ParticlesGUI.Property(PropertyNames.Cutoff);
 
-        internal ParticlesGUI.Property TransparentBlendModeProp { get; } =
+        public ParticlesGUI.Property TransparentBlendModeProp { get; } =
             new ParticlesGUI.Property(PropertyNames.TransparentBlendMode);
 
-        internal ParticlesGUI.Property CullProp { get; } = new ParticlesGUI.Property(PropertyNames.Cull);
-        internal ParticlesGUI.Property QueueOffsetProp { get; } = new ParticlesGUI.Property(PropertyNames.QueueOffset);
+        public ParticlesGUI.Property CullProp { get; } = new ParticlesGUI.Property(PropertyNames.Cull);
+        public ParticlesGUI.Property QueueOffsetProp { get; } = new ParticlesGUI.Property(PropertyNames.QueueOffset);
 
-        internal ParticlesGUI.Property VertexAlphaModeProp { get; } =
+        public ParticlesGUI.Property VertexAlphaModeProp { get; } =
             new ParticlesGUI.Property(PropertyNames.VertexAlphaMode);
 
-        internal ParticlesGUI.Property BlendDstProp { get; } = new ParticlesGUI.Property(PropertyNames.BlendDst);
-        internal ParticlesGUI.Property BlendSrcProp { get; } = new ParticlesGUI.Property(PropertyNames.BlendSrc);
-        internal ParticlesGUI.Property ZWriteProp { get; } = new ParticlesGUI.Property(PropertyNames.ZWrite);
+        public ParticlesGUI.Property BlendDstProp { get; } = new ParticlesGUI.Property(PropertyNames.BlendDst);
+        public ParticlesGUI.Property BlendSrcProp { get; } = new ParticlesGUI.Property(PropertyNames.BlendSrc);
+        public ParticlesGUI.Property ZWriteProp { get; } = new ParticlesGUI.Property(PropertyNames.ZWrite);
 
         #endregion
 
         #region Base Map Material Properties
 
-        internal ParticlesGUI.Property BaseMapModeProp { get; } = new ParticlesGUI.Property(PropertyNames.BaseMapMode);
-        internal ParticlesGUI.Property BaseMapProp { get; } = new ParticlesGUI.Property(PropertyNames.BaseMap);
+        public ParticlesGUI.Property BaseMapModeProp { get; } = new ParticlesGUI.Property(PropertyNames.BaseMapMode);
+        public ParticlesGUI.Property BaseMapProp { get; } = new ParticlesGUI.Property(PropertyNames.BaseMap);
 
-        internal ParticlesGUI.Property BaseMap2DArrayProp { get; } =
+        public ParticlesGUI.Property BaseMap2DArrayProp { get; } =
             new ParticlesGUI.Property(PropertyNames.BaseMap2DArray);
 
-        internal ParticlesGUI.Property BaseMap3DProp { get; } = new ParticlesGUI.Property(PropertyNames.BaseMap3D);
+        public ParticlesGUI.Property BaseMap3DProp { get; } = new ParticlesGUI.Property(PropertyNames.BaseMap3D);
 
-        internal ParticlesGUI.Property BaseMapProgressProp { get; } =
+        public ParticlesGUI.Property BaseMapProgressProp { get; } =
             new ParticlesGUI.Property(PropertyNames.BaseMapProgress);
 
-        internal ParticlesGUI.Property BaseMapProgressCoordProp { get; } =
+        public ParticlesGUI.Property BaseMapProgressCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.BaseMapProgressCoord);
 
-        internal ParticlesGUI.Property BaseMapSliceCountProp { get; } =
+        public ParticlesGUI.Property BaseMapSliceCountProp { get; } =
             new ParticlesGUI.Property(PropertyNames.BaseMapSliceCount);
 
-        internal ParticlesGUI.Property BaseColorProp { get; } = new ParticlesGUI.Property(PropertyNames.TintColor);
+        public ParticlesGUI.Property BaseColorProp { get; } = new ParticlesGUI.Property(PropertyNames.TintColor);
 
-        internal ParticlesGUI.Property BaseMapOffsetXCoordProp { get; } =
+        public ParticlesGUI.Property BaseMapOffsetXCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.BaseMapOffsetXCoord);
 
-        internal ParticlesGUI.Property BaseMapOffsetYCoordProp { get; } =
+        public ParticlesGUI.Property BaseMapOffsetYCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.BaseMapOffsetYCoord);
 
-        internal ParticlesGUI.Property BaseMapRotationProp { get; } =
+        public ParticlesGUI.Property BaseMapRotationProp { get; } =
             new ParticlesGUI.Property(PropertyNames.BaseMapRotation);
 
-        internal ParticlesGUI.Property BaseMapRotationCoordProp { get; } =
+        public ParticlesGUI.Property BaseMapRotationCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.BaseMapRotationCoord);
 
-        internal ParticlesGUI.Property BaseMapRotationOffsetsProp { get; } =
+        public ParticlesGUI.Property BaseMapRotationOffsetsProp { get; } =
             new ParticlesGUI.Property(PropertyNames.BaseMapRotationOffsets);
 
-        internal ParticlesGUI.Property BaseMapMirrorSamplingProp { get; } =
+        public ParticlesGUI.Property BaseMapMirrorSamplingProp { get; } =
             new ParticlesGUI.Property(PropertyNames.BaseMapMirrorSampling);
 
         #endregion
 
         #region Tint Color Material Properties
 
-        internal ParticlesGUI.Property TintAreaModeProp { get; } =
+        public ParticlesGUI.Property TintAreaModeProp { get; } =
             new ParticlesGUI.Property(PropertyNames.TintAreaMode);
 
-        internal ParticlesGUI.Property TintColorModeProp { get; } =
+        public ParticlesGUI.Property TintColorModeProp { get; } =
             new ParticlesGUI.Property(PropertyNames.TintColorMode);
 
-        internal ParticlesGUI.Property TintMapProp { get; } = new ParticlesGUI.Property(PropertyNames.TintMap);
-        internal ParticlesGUI.Property TintMap3DProp { get; } = new ParticlesGUI.Property(PropertyNames.TintMap3D);
+        public ParticlesGUI.Property TintMapProp { get; } = new ParticlesGUI.Property(PropertyNames.TintMap);
+        public ParticlesGUI.Property TintMap3DProp { get; } = new ParticlesGUI.Property(PropertyNames.TintMap3D);
 
-        internal ParticlesGUI.Property TintMap3DProgressProp { get; } =
+        public ParticlesGUI.Property TintMap3DProgressProp { get; } =
             new ParticlesGUI.Property(PropertyNames.TintMap3DProgress);
 
-        internal ParticlesGUI.Property TintMap3DProgressCoordProp { get; } =
+        public ParticlesGUI.Property TintMap3DProgressCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.TintMap3DProgressCoord);
 
-        internal ParticlesGUI.Property TintMapSliceCountProp { get; } =
+        public ParticlesGUI.Property TintMapSliceCountProp { get; } =
             new ParticlesGUI.Property(PropertyNames.TintMapSliceCount);
 
-        internal ParticlesGUI.Property TintMapBlendRateProp { get; } =
+        public ParticlesGUI.Property TintMapBlendRateProp { get; } =
             new ParticlesGUI.Property(PropertyNames.TintMapBlendRate);
 
-        internal ParticlesGUI.Property TintMapBlendRateCoordProp { get; } =
+        public ParticlesGUI.Property TintMapBlendRateCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.TintMapBlendRateCoord);
 
-        internal ParticlesGUI.Property TintRimProgressProp { get; } =
+        public ParticlesGUI.Property TintRimProgressProp { get; } =
             new ParticlesGUI.Property(PropertyNames.TintRimProgress);
 
-        internal ParticlesGUI.Property TintRimProgressCoordProp { get; } =
+        public ParticlesGUI.Property TintRimProgressCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.TintRimProgressCoord);
 
-        internal ParticlesGUI.Property TintRimSharpnessProp { get; } =
+        public ParticlesGUI.Property TintRimSharpnessProp { get; } =
             new ParticlesGUI.Property(PropertyNames.TintRimSharpness);
 
-        internal ParticlesGUI.Property TintRimSharpnessCoordProp { get; } =
+        public ParticlesGUI.Property TintRimSharpnessCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.TintRimSharpnessCoord);
 
-        internal ParticlesGUI.Property InverseTintRimProp { get; } =
+        public ParticlesGUI.Property InverseTintRimProp { get; } =
             new ParticlesGUI.Property(PropertyNames.InverseTintRim);
 
         #endregion
 
         #region Flow Map Material Properties
 
-        internal ParticlesGUI.Property FlowMapProp { get; } = new ParticlesGUI.Property(PropertyNames.FlowMap);
+        public ParticlesGUI.Property FlowMapProp { get; } = new ParticlesGUI.Property(PropertyNames.FlowMap);
 
-        internal ParticlesGUI.Property FlowMapOffsetXCoordProp { get; } =
+        public ParticlesGUI.Property FlowMapOffsetXCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.FlowMapOffsetXCoord);
 
-        internal ParticlesGUI.Property FlowMapOffsetYCoordProp { get; } =
+        public ParticlesGUI.Property FlowMapOffsetYCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.FlowMapOffsetYCoord);
 
-        internal ParticlesGUI.Property FlowMapChannelsXProp { get; } =
+        public ParticlesGUI.Property FlowMapChannelsXProp { get; } =
             new ParticlesGUI.Property(PropertyNames.FlowMapChannelsX);
 
-        internal ParticlesGUI.Property FlowMapChannelsYProp { get; } =
+        public ParticlesGUI.Property FlowMapChannelsYProp { get; } =
             new ParticlesGUI.Property(PropertyNames.FlowMapChannelsY);
 
-        internal ParticlesGUI.Property FlowIntensityProp { get; } =
+        public ParticlesGUI.Property FlowIntensityProp { get; } =
             new ParticlesGUI.Property(PropertyNames.FlowIntensity);
 
-        internal ParticlesGUI.Property FlowIntensityCoordProp { get; } =
+        public ParticlesGUI.Property FlowIntensityCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.FlowIntensityCoord);
 
-        internal ParticlesGUI.Property FlowMapTargetProp { get; } =
+        public ParticlesGUI.Property FlowMapTargetProp { get; } =
             new ParticlesGUI.Property(PropertyNames.FlowMapTarget);
 
         #endregion
 
         #region Color Correction Matrial Propreties
 
-        internal ParticlesGUI.Property ColorCorrectionModeProp { get; } =
+        public ParticlesGUI.Property ColorCorrectionModeProp { get; } =
             new ParticlesGUI.Property(PropertyNames.ColorCorrectionMode);
 
-        internal ParticlesGUI.Property GradientMapProp { get; } = new ParticlesGUI.Property(PropertyNames.GradientMap);
+        public ParticlesGUI.Property GradientMapProp { get; } = new ParticlesGUI.Property(PropertyNames.GradientMap);
 
         #endregion
 
         #region Alpha Transition Material Properties
 
-        internal ParticlesGUI.Property AlphaTransitionModeProp { get; } =
+        public ParticlesGUI.Property AlphaTransitionModeProp { get; } =
             new ParticlesGUI.Property(PropertyNames.AlphaTransitionMode);
 
-        internal ParticlesGUI.Property AlphaTransitionMapModeProp { get; } =
+        public ParticlesGUI.Property AlphaTransitionMapModeProp { get; } =
             new ParticlesGUI.Property(PropertyNames.AlphaTransitionMapMode);
 
-        internal ParticlesGUI.Property AlphaTransitionMapProp { get; } =
+        public ParticlesGUI.Property AlphaTransitionMapProp { get; } =
             new ParticlesGUI.Property(PropertyNames.AlphaTransitionMap);
 
-        internal ParticlesGUI.Property AlphaTransitionMap2DArrayProp { get; } =
+        public ParticlesGUI.Property AlphaTransitionMap2DArrayProp { get; } =
             new ParticlesGUI.Property(PropertyNames.AlphaTransitionMap2DArray);
 
-        internal ParticlesGUI.Property AlphaTransitionMap3DProp { get; } =
+        public ParticlesGUI.Property AlphaTransitionMap3DProp { get; } =
             new ParticlesGUI.Property(PropertyNames.AlphaTransitionMap3D);
 
-        internal ParticlesGUI.Property AlphaTransitionMapProgressProp { get; } =
+        public ParticlesGUI.Property AlphaTransitionMapProgressProp { get; } =
             new ParticlesGUI.Property(PropertyNames.AlphaTransitionMapProgress);
 
-        internal ParticlesGUI.Property AlphaTransitionMapProgressCoordProp { get; } =
+        public ParticlesGUI.Property AlphaTransitionMapProgressCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.AlphaTransitionMapProgressCoord);
 
-        internal ParticlesGUI.Property AlphaTransitionMapOffsetXCoordProp { get; } =
+        public ParticlesGUI.Property AlphaTransitionMapOffsetXCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.AlphaTransitionMapOffsetXCoord);
 
-        internal ParticlesGUI.Property AlphaTransitionMapOffsetYCoordProp { get; } =
+        public ParticlesGUI.Property AlphaTransitionMapOffsetYCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.AlphaTransitionMapOffsetYCoord);
 
-        internal ParticlesGUI.Property AlphaTransitionMapChannelsXProp { get; } =
+        public ParticlesGUI.Property AlphaTransitionMapChannelsXProp { get; } =
             new ParticlesGUI.Property(PropertyNames.AlphaTransitionMapChannelsX);
 
-        internal ParticlesGUI.Property AlphaTransitionMapSliceCountProp { get; } =
+        public ParticlesGUI.Property AlphaTransitionMapSliceCountProp { get; } =
             new ParticlesGUI.Property(PropertyNames.AlphaTransitionMapSliceCount);
 
-        internal ParticlesGUI.Property AlphaTransitionProgressProp { get; } =
+        public ParticlesGUI.Property AlphaTransitionProgressProp { get; } =
             new ParticlesGUI.Property(PropertyNames.AlphaTransitionProgress);
 
-        internal ParticlesGUI.Property AlphaTransitionProgressCoordProp { get; } =
+        public ParticlesGUI.Property AlphaTransitionProgressCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.AlphaTransitionProgressCoord);
 
-        internal ParticlesGUI.Property DissolveSharpnessProp { get; } =
+        public ParticlesGUI.Property DissolveSharpnessProp { get; } =
             new ParticlesGUI.Property(PropertyNames.DissolveSharpness);
 
         #endregion
 
         #region Emission Material Properties
 
-        internal ParticlesGUI.Property EmissionAreaTypeProp { get; } =
+        public ParticlesGUI.Property EmissionAreaTypeProp { get; } =
             new ParticlesGUI.Property(PropertyNames.EmissionAreaType);
 
-        internal ParticlesGUI.Property EmissionMapModeProp { get; } =
+        public ParticlesGUI.Property EmissionMapModeProp { get; } =
             new ParticlesGUI.Property(PropertyNames.EmissionMapMode);
 
-        internal ParticlesGUI.Property EmissionMapProp { get; } = new ParticlesGUI.Property(PropertyNames.EmissionMap);
+        public ParticlesGUI.Property EmissionMapProp { get; } = new ParticlesGUI.Property(PropertyNames.EmissionMap);
 
-        internal ParticlesGUI.Property EmissionMap2DArrayProp { get; } =
+        public ParticlesGUI.Property EmissionMap2DArrayProp { get; } =
             new ParticlesGUI.Property(PropertyNames.EmissionMap2DArray);
 
-        internal ParticlesGUI.Property EmissionMap3DProp { get; } =
+        public ParticlesGUI.Property EmissionMap3DProp { get; } =
             new ParticlesGUI.Property(PropertyNames.EmissionMap3D);
 
-        internal ParticlesGUI.Property EmissionMapProgressProp { get; } =
+        public ParticlesGUI.Property EmissionMapProgressProp { get; } =
             new ParticlesGUI.Property(PropertyNames.EmissionMapProgress);
 
-        internal ParticlesGUI.Property EmissionMapProgressCoordProp { get; } =
+        public ParticlesGUI.Property EmissionMapProgressCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.EmissionMapProgressCoord);
 
-        internal ParticlesGUI.Property EmissionMapOffsetXCoordProp { get; } =
+        public ParticlesGUI.Property EmissionMapOffsetXCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.EmissionMapOffsetXCoord);
 
-        internal ParticlesGUI.Property EmissionMapOffsetYCoordProp { get; } =
+        public ParticlesGUI.Property EmissionMapOffsetYCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.EmissionMapOffsetYCoord);
 
-        internal ParticlesGUI.Property EmissionMapChannelsXProp { get; } =
+        public ParticlesGUI.Property EmissionMapChannelsXProp { get; } =
             new ParticlesGUI.Property(PropertyNames.EmissionMapChannelsX);
 
-        internal ParticlesGUI.Property EmissionMapSliceCountProp { get; } =
+        public ParticlesGUI.Property EmissionMapSliceCountProp { get; } =
             new ParticlesGUI.Property(PropertyNames.EmissionMapSliceCount);
 
-        internal ParticlesGUI.Property EmissionColorTypeProp { get; } =
+        public ParticlesGUI.Property EmissionColorTypeProp { get; } =
             new ParticlesGUI.Property(PropertyNames.EmissionColorType);
 
-        internal ParticlesGUI.Property EmissionColorProp { get; } =
+        public ParticlesGUI.Property EmissionColorProp { get; } =
             new ParticlesGUI.Property(PropertyNames.EmissionColor);
 
-        internal ParticlesGUI.Property EmissionColorRampProp { get; } =
+        public ParticlesGUI.Property EmissionColorRampProp { get; } =
             new ParticlesGUI.Property(PropertyNames.EmissionColorRamp);
 
-        internal ParticlesGUI.Property EmissionIntensityProp { get; } =
+        public ParticlesGUI.Property EmissionIntensityProp { get; } =
             new ParticlesGUI.Property(PropertyNames.EmissionIntensity);
 
-        internal ParticlesGUI.Property EmissionIntensityCoordProp { get; } =
+        public ParticlesGUI.Property EmissionIntensityCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.EmissionIntensityCoord);
 
-        internal ParticlesGUI.Property KeepEdgeTransparencyProp { get; } =
+        public ParticlesGUI.Property KeepEdgeTransparencyProp { get; } =
             new ParticlesGUI.Property(PropertyNames.KeepEdgeTransparency);
 
         #endregion
 
         #region Transparency Material Properties
 
-        internal ParticlesGUI.Property RimTransparencyEnabledProp { get; } =
+        public ParticlesGUI.Property RimTransparencyEnabledProp { get; } =
             new ParticlesGUI.Property(PropertyNames.RimTransparencyEnabled);
 
-        internal ParticlesGUI.Property RimTransparencyProgressProp { get; } =
+        public ParticlesGUI.Property RimTransparencyProgressProp { get; } =
             new ParticlesGUI.Property(PropertyNames.RimTransparencyProgress);
 
-        internal ParticlesGUI.Property RimTransparencyProgressCoordProp { get; } =
+        public ParticlesGUI.Property RimTransparencyProgressCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.RimTransparencyProgressCoord);
 
-        internal ParticlesGUI.Property RimTransparencySharpnessProp { get; } =
+        public ParticlesGUI.Property RimTransparencySharpnessProp { get; } =
             new ParticlesGUI.Property(PropertyNames.RimTransparencySharpness);
 
-        internal ParticlesGUI.Property RimTransparencySharpnessCoordProp { get; } =
+        public ParticlesGUI.Property RimTransparencySharpnessCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.RimTransparencySharpnessCoord);
 
-        internal ParticlesGUI.Property InverseRimTransparencyProp { get; } =
+        public ParticlesGUI.Property InverseRimTransparencyProp { get; } =
             new ParticlesGUI.Property(PropertyNames.InverseRimTransparency);
 
-        internal ParticlesGUI.Property LuminanceTransparencyEnabledProp { get; } =
+        public ParticlesGUI.Property LuminanceTransparencyEnabledProp { get; } =
             new ParticlesGUI.Property(PropertyNames.LuminanceTransparencyEnabled);
 
-        internal ParticlesGUI.Property LuminanceTransparencyProgressProp { get; } =
+        public ParticlesGUI.Property LuminanceTransparencyProgressProp { get; } =
             new ParticlesGUI.Property(PropertyNames.LuminanceTransparencyProgress);
 
-        internal ParticlesGUI.Property LuminanceTransparencyProgressCoordProp { get; } =
+        public ParticlesGUI.Property LuminanceTransparencyProgressCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.LuminanceTransparencyProgressCoord);
 
-        internal ParticlesGUI.Property LuminanceTransparencySharpnessProp { get; } =
+        public ParticlesGUI.Property LuminanceTransparencySharpnessProp { get; } =
             new ParticlesGUI.Property(PropertyNames.LuminanceTransparencySharpness);
 
-        internal ParticlesGUI.Property LuminanceTransparencySharpnessCoordProp { get; } =
+        public ParticlesGUI.Property LuminanceTransparencySharpnessCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.LuminanceTransparencySharpnessCoord);
 
-        internal ParticlesGUI.Property InverseLuminanceTransparencyProp { get; } =
+        public ParticlesGUI.Property InverseLuminanceTransparencyProp { get; } =
             new ParticlesGUI.Property(PropertyNames.InverseLuminanceTransparency);
 
-        internal ParticlesGUI.Property SoftParticlesEnabledProp { get; } =
+        public ParticlesGUI.Property SoftParticlesEnabledProp { get; } =
             new ParticlesGUI.Property(PropertyNames.SoftParticlesEnabled);
 
-        internal ParticlesGUI.Property SoftParticlesIntensityProp { get; } =
+        public ParticlesGUI.Property SoftParticlesIntensityProp { get; } =
             new ParticlesGUI.Property(PropertyNames.SoftParticlesIntensity);
 
-        internal ParticlesGUI.Property DepthFadeEnabledProp { get; } =
+        public ParticlesGUI.Property DepthFadeEnabledProp { get; } =
             new ParticlesGUI.Property(PropertyNames.DepthFadeEnabled);
 
-        internal ParticlesGUI.Property DepthFadeNearProp { get; } =
+        public ParticlesGUI.Property DepthFadeNearProp { get; } =
             new ParticlesGUI.Property(PropertyNames.DepthFadeNear);
 
-        internal ParticlesGUI.Property
+        public ParticlesGUI.Property
             DepthFadeFarProp { get; } = new ParticlesGUI.Property(PropertyNames.DepthFadeFar);
 
-        internal ParticlesGUI.Property DepthFadeWidthProp { get; } =
+        public ParticlesGUI.Property DepthFadeWidthProp { get; } =
             new ParticlesGUI.Property(PropertyNames.DepthFadeWidth);
 
         #endregion
