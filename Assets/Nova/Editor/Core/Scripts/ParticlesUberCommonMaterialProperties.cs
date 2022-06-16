@@ -2,9 +2,7 @@
 // Copyright 2022 CyberAgent, Inc.
 // --------------------------------------------------------------
 
-using Codice.CM.Interfaces;
 using Nova.Editor.Foundation.Scripts;
-using NUnit.Framework.Internal;
 using UnityEditor;
 using PropertyNames = Nova.Editor.Core.Scripts.MaterialPropertyNames;
 
@@ -126,9 +124,9 @@ namespace Nova.Editor.Core.Scripts
             DepthFadeFarProp.Setup(properties);
             DepthFadeWidthProp.Setup(properties);
         }
+
         internal void Initialize(MaterialEditor editor, MaterialProperty[] properties)
         {
-            
             var prefsKeyPrefix = $"{GetType().Namespace}.{GetType().Name}.";
             var renderSettingsFoldoutKey = $"{prefsKeyPrefix}{nameof(RenderSettingsFoldout)}";
             var baseMapFoldoutKey = $"{prefsKeyPrefix}{nameof(BaseMapFoldout)}";
@@ -147,7 +145,6 @@ namespace Nova.Editor.Core.Scripts
             TransparencyFoldout = new BoolEditorPrefsProperty(transparencyFoldoutKey, true);
             AlphaTransitionFoldout = new BoolEditorPrefsProperty(alphaTransitionFoldoutKey, true);
             EmissionFoldout = new BoolEditorPrefsProperty(emissionFoldoutKey, true);
-
         }
 
         #region Foldout Properties
@@ -160,20 +157,22 @@ namespace Nova.Editor.Core.Scripts
         internal BoolEditorPrefsProperty EmissionFoldout { get; private set; }
         internal BoolEditorPrefsProperty RenderSettingsFoldout { get; private set; }
         internal BoolEditorPrefsProperty TransparencyFoldout { get; private set; }
-        
 
         #endregion
 
         #region Render Settings Material Properties
 
-        internal ParticlesGUI.Property RenderTypeProp { get;  } = new ParticlesGUI.Property(PropertyNames.RenderType);
+        internal ParticlesGUI.Property RenderTypeProp { get; } = new ParticlesGUI.Property(PropertyNames.RenderType);
         internal ParticlesGUI.Property CutoffProp { get; } = new ParticlesGUI.Property(PropertyNames.Cutoff);
 
         internal ParticlesGUI.Property TransparentBlendModeProp { get; } =
             new ParticlesGUI.Property(PropertyNames.TransparentBlendMode);
+
         internal ParticlesGUI.Property CullProp { get; } = new ParticlesGUI.Property(PropertyNames.Cull);
         internal ParticlesGUI.Property QueueOffsetProp { get; } = new ParticlesGUI.Property(PropertyNames.QueueOffset);
-        internal ParticlesGUI.Property VertexAlphaModeProp { get; } = new ParticlesGUI.Property(PropertyNames.VertexAlphaMode);
+
+        internal ParticlesGUI.Property VertexAlphaModeProp { get; } =
+            new ParticlesGUI.Property(PropertyNames.VertexAlphaMode);
 
         internal ParticlesGUI.Property BlendDstProp { get; } = new ParticlesGUI.Property(PropertyNames.BlendDst);
         internal ParticlesGUI.Property BlendSrcProp { get; } = new ParticlesGUI.Property(PropertyNames.BlendSrc);
@@ -185,9 +184,12 @@ namespace Nova.Editor.Core.Scripts
 
         internal ParticlesGUI.Property BaseMapModeProp { get; } = new ParticlesGUI.Property(PropertyNames.BaseMapMode);
         internal ParticlesGUI.Property BaseMapProp { get; } = new ParticlesGUI.Property(PropertyNames.BaseMap);
+
         internal ParticlesGUI.Property BaseMap2DArrayProp { get; } =
             new ParticlesGUI.Property(PropertyNames.BaseMap2DArray);
+
         internal ParticlesGUI.Property BaseMap3DProp { get; } = new ParticlesGUI.Property(PropertyNames.BaseMap3D);
+
         internal ParticlesGUI.Property BaseMapProgressProp { get; } =
             new ParticlesGUI.Property(PropertyNames.BaseMapProgress);
 
@@ -221,7 +223,8 @@ namespace Nova.Editor.Core.Scripts
 
         #region Tint Color Material Properties
 
-        internal ParticlesGUI.Property TintAreaModeProp { get; } = new ParticlesGUI.Property(PropertyNames.TintAreaMode);
+        internal ParticlesGUI.Property TintAreaModeProp { get; } =
+            new ParticlesGUI.Property(PropertyNames.TintAreaMode);
 
         internal ParticlesGUI.Property TintColorModeProp { get; } =
             new ParticlesGUI.Property(PropertyNames.TintColorMode);
@@ -399,7 +402,7 @@ namespace Nova.Editor.Core.Scripts
 
         #region Transparency Material Properties
 
-        internal ParticlesGUI.Property RimTransparencyEnabledProp{get;} =
+        internal ParticlesGUI.Property RimTransparencyEnabledProp { get; } =
             new ParticlesGUI.Property(PropertyNames.RimTransparencyEnabled);
 
         internal ParticlesGUI.Property RimTransparencyProgressProp { get; } =
@@ -454,7 +457,5 @@ namespace Nova.Editor.Core.Scripts
             new ParticlesGUI.Property(PropertyNames.DepthFadeWidth);
 
         #endregion
-
-       
     }
 }

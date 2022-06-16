@@ -2,7 +2,6 @@
 // Copyright 2022 CyberAgent, Inc.
 // --------------------------------------------------------------
 
-using System;
 using Nova.Editor.Foundation.Scripts;
 using UnityEditor;
 using UnityEngine;
@@ -27,7 +26,7 @@ namespace Nova.Editor.Core.Scripts
         {
             // common properties
             _commonMaterialProperties.Initialize(editor, properties);
-            
+
             // Lit Settings
             var prefsKeyPrefix = $"{GetType().Namespace}.{GetType().Name}.";
             var litSettingsFoldoutKey = $"{prefsKeyPrefix}{nameof(LitSettingsFoldout)}";
@@ -39,7 +38,7 @@ namespace Nova.Editor.Core.Scripts
             _commonGUI.BeginDraw(editor, _commonMaterialProperties);
 
             _commonGUI.DrawRenderSettingsProperties();
-            
+
             // todo for lit GUI
             using (var foldoutScope =
                    new MaterialEditorUtility.FoldoutHeaderScope(LitSettingsFoldout.Value, "Lit Settings"))
@@ -47,9 +46,10 @@ namespace Nova.Editor.Core.Scripts
                 if (foldoutScope.Foldout)
                 {
                 }
+
                 LitSettingsFoldout.Value = foldoutScope.Foldout;
             }
-            
+
             _commonGUI.DrawBaseMapProperties();
             _commonGUI.DrawTintColorProperties();
             _commonGUI.DrawFlowMapProperties();
@@ -69,12 +69,13 @@ namespace Nova.Editor.Core.Scripts
 
         private readonly ParticlesUberCommonMaterialProperties _commonMaterialProperties =
             new ParticlesUberCommonMaterialProperties();
-        
+
         #region Foldout Properties
+
         private BoolEditorPrefsProperty LitSettingsFoldout { get; set; }
-        
+
         #endregion
-        
+
         #region Lit Settings Material Properties
 
         private readonly Property _litWorkflowModeProp = new Property(PropertyNames.LitWorkflowMode);
