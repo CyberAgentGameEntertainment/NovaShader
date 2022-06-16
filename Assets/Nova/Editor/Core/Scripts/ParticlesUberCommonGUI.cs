@@ -12,7 +12,7 @@ namespace Nova.Editor.Core.Scripts
     /// <summary>
     ///     Common GUI for ParticleUberUnlit, ParticleUberLit classes.
     /// </summary>
-    public class ParticlesUberCommonGUI
+    internal class ParticlesUberCommonGUI
     {
         # region private variable
 
@@ -25,7 +25,7 @@ namespace Nova.Editor.Core.Scripts
 
         # region internal method
 
-        internal void BeginDraw(MaterialEditor editor, ParticlesUberCommonMaterialProperties commonMaterialProperties)
+        public void BeginDraw(MaterialEditor editor, ParticlesUberCommonMaterialProperties commonMaterialProperties)
         {
             var headerStyle = new GUIStyle(EditorStyles.foldoutHeader);
             headerStyle.fontStyle = FontStyle.Bold;
@@ -33,49 +33,49 @@ namespace Nova.Editor.Core.Scripts
             _commonMaterialProperties = commonMaterialProperties;
         }
 
-        internal void DrawRenderSettingsProperties()
+        public void DrawRenderSettingsProperties()
         {
             DrawProperties(_commonMaterialProperties.RenderSettingsFoldout,
                 "Render Settings", InternalDrawRenderSettingsProperties);
         }
 
-        internal void DrawBaseMapProperties()
+        public void DrawBaseMapProperties()
         {
             DrawProperties(_commonMaterialProperties.BaseMapFoldout,
                 "Base Map", InternalDrawBaseMapProperties);
         }
 
-        internal void DrawTintColorProperties()
+        public void DrawTintColorProperties()
         {
             DrawProperties(_commonMaterialProperties.TintColorFoldout,
                 "Tint Color", InternalDrawTintColorProperties);
         }
 
-        internal void DrawFlowMapProperties()
+        public void DrawFlowMapProperties()
         {
             DrawProperties(_commonMaterialProperties.FlowMapFoldout,
                 "Flow Map", InternalDrawFlowMapProperties);
         }
 
-        internal void DrawColorCorrectionProperties()
+        public void DrawColorCorrectionProperties()
         {
             DrawProperties(_commonMaterialProperties.ColorCorrectionFoldout,
                 "Color Correction", InternalDrawColorCorrectionProperties);
         }
 
-        internal void DrawAlphaTransitionProperties()
+        public void DrawAlphaTransitionProperties()
         {
             DrawProperties(_commonMaterialProperties.AlphaTransitionFoldout,
                 "Alpha Transition", InternalDrawAlphaTransitionProperties);
         }
 
-        internal void DrawEmissionProperties()
+        public void DrawEmissionProperties()
         {
             DrawProperties(_commonMaterialProperties.EmissionFoldout,
                 "Emission", InternalDrawEmissionProperties);
         }
 
-        internal void DrawTransparencyProperties()
+        public void DrawTransparencyProperties()
         {
             DrawProperties(_commonMaterialProperties.TransparencyFoldout,
                 "Transparency", InternalDrawTransparencyProperties);
