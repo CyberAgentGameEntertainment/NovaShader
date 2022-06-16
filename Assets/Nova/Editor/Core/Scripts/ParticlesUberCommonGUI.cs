@@ -27,8 +27,6 @@ namespace Nova.Editor.Core.Scripts
 
         public void BeginDraw(MaterialEditor editor, ParticlesUberCommonMaterialProperties commonMaterialProperties)
         {
-            var headerStyle = new GUIStyle(EditorStyles.foldoutHeader);
-            headerStyle.fontStyle = FontStyle.Bold;
             _editor = editor;
             _commonMaterialProperties = commonMaterialProperties;
         }
