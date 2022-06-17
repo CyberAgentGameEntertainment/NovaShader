@@ -10,6 +10,28 @@ namespace Nova.Editor.Core.Scripts
 {
     internal class ParticlesUberCommonMaterialProperties
     {
+        public ParticlesUberCommonMaterialProperties(MaterialEditor editor, MaterialProperty[] properties)
+        {
+            var prefsKeyPrefix = $"{GetType().Namespace}.{GetType().Name}.";
+            var renderSettingsFoldoutKey = $"{prefsKeyPrefix}{nameof(RenderSettingsFoldout)}";
+            var baseMapFoldoutKey = $"{prefsKeyPrefix}{nameof(BaseMapFoldout)}";
+            var tintColorFoldoutKey = $"{prefsKeyPrefix}{nameof(TintColorFoldout)}";
+            var flowMapFoldoutKey = $"{prefsKeyPrefix}{nameof(FlowMapFoldout)}";
+            var colorCorrectionFoldoutKey = $"{prefsKeyPrefix}{nameof(ColorCorrectionFoldout)}";
+            var transparencyFoldoutKey = $"{prefsKeyPrefix}{nameof(TransparencyFoldout)}";
+            var alphaTransitionFoldoutKey = $"{prefsKeyPrefix}{nameof(AlphaTransitionFoldout)}";
+            var emissionFoldoutKey = $"{prefsKeyPrefix}{nameof(EmissionFoldout)}";
+
+            RenderSettingsFoldout = new BoolEditorPrefsProperty(renderSettingsFoldoutKey, true);
+            BaseMapFoldout = new BoolEditorPrefsProperty(baseMapFoldoutKey, true);
+            TintColorFoldout = new BoolEditorPrefsProperty(tintColorFoldoutKey, true);
+            FlowMapFoldout = new BoolEditorPrefsProperty(flowMapFoldoutKey, true);
+            ColorCorrectionFoldout = new BoolEditorPrefsProperty(colorCorrectionFoldoutKey, true);
+            TransparencyFoldout = new BoolEditorPrefsProperty(transparencyFoldoutKey, true);
+            AlphaTransitionFoldout = new BoolEditorPrefsProperty(alphaTransitionFoldoutKey, true);
+            EmissionFoldout = new BoolEditorPrefsProperty(emissionFoldoutKey, true);
+        }
+
         public void Setup(MaterialProperty[] properties)
         {
             // Render Settings
@@ -123,29 +145,6 @@ namespace Nova.Editor.Core.Scripts
             DepthFadeNearProp.Setup(properties);
             DepthFadeFarProp.Setup(properties);
             DepthFadeWidthProp.Setup(properties);
-        }
-
-        public ParticlesUberCommonMaterialProperties(MaterialEditor editor, MaterialProperty[] properties)
-        {
-            Setup(properties);
-            var prefsKeyPrefix = $"{GetType().Namespace}.{GetType().Name}.";
-            var renderSettingsFoldoutKey = $"{prefsKeyPrefix}{nameof(RenderSettingsFoldout)}";
-            var baseMapFoldoutKey = $"{prefsKeyPrefix}{nameof(BaseMapFoldout)}";
-            var tintColorFoldoutKey = $"{prefsKeyPrefix}{nameof(TintColorFoldout)}";
-            var flowMapFoldoutKey = $"{prefsKeyPrefix}{nameof(FlowMapFoldout)}";
-            var colorCorrectionFoldoutKey = $"{prefsKeyPrefix}{nameof(ColorCorrectionFoldout)}";
-            var transparencyFoldoutKey = $"{prefsKeyPrefix}{nameof(TransparencyFoldout)}";
-            var alphaTransitionFoldoutKey = $"{prefsKeyPrefix}{nameof(AlphaTransitionFoldout)}";
-            var emissionFoldoutKey = $"{prefsKeyPrefix}{nameof(EmissionFoldout)}";
-
-            RenderSettingsFoldout = new BoolEditorPrefsProperty(renderSettingsFoldoutKey, true);
-            BaseMapFoldout = new BoolEditorPrefsProperty(baseMapFoldoutKey, true);
-            TintColorFoldout = new BoolEditorPrefsProperty(tintColorFoldoutKey, true);
-            FlowMapFoldout = new BoolEditorPrefsProperty(flowMapFoldoutKey, true);
-            ColorCorrectionFoldout = new BoolEditorPrefsProperty(colorCorrectionFoldoutKey, true);
-            TransparencyFoldout = new BoolEditorPrefsProperty(transparencyFoldoutKey, true);
-            AlphaTransitionFoldout = new BoolEditorPrefsProperty(alphaTransitionFoldoutKey, true);
-            EmissionFoldout = new BoolEditorPrefsProperty(emissionFoldoutKey, true);
         }
 
         #region Foldout Properties

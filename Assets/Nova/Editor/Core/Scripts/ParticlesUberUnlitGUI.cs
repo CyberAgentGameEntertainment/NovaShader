@@ -19,9 +19,7 @@ namespace Nova.Editor.Core.Scripts
 
         protected override void SetupProperties(MaterialProperty[] properties)
         {
-            // SetupProperties() is called before Initialize(),
-            // So I have added the null check.
-            _commonMaterialProperties?.Setup(properties);
+            _commonMaterialProperties.Setup(properties);
         }
 
         protected override void Initialize(MaterialEditor editor, MaterialProperty[] properties)
