@@ -49,7 +49,10 @@ half4 frag(Varyings input) : SV_Target
     SETUP_CUSTOM_COORD(input);
 
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
-    half2 flowMapUvOffset = SAMPLE_TEXTURE2D(_FlowMap, sampler_FlowMap, input.flowTransitionUVs.xy).xy;
+    half4 flowMapUvOffsetSrc = SAMPLE_TEXTURE2D(_FlowMap, sampler_FlowMap, input.flowTransitionUVs.xy); 
+    half2 flowMapUvOffset;
+    flowMapUvOffset.x = flowMapUvOffsetSrc[(uint)_FlowMapChannelsX];
+    flowMapUvOffset.y = flowMapUvOffsetSrc[(uint)_FlowMapChannelsY];
     flowMapUvOffset = flowMapUvOffset * 2 - 1;
     flowMapUvOffset *= _FlowIntensity + GET_CUSTOM_COORD(_FlowIntensityCoord);
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE)
@@ -66,14 +69,16 @@ half4 frag(Varyings input) : SV_Target
     #else
     baseMapSamplerState = sampler_BaseMap;
     #endif
-
-    half2 distortion = SAMPLE_TEXTURE2D(_BaseMap, baseMapSamplerState, input.baseUv.xy).xy;
+    half4 distortionSrc = SAMPLE_TEXTURE2D(_BaseMap, baseMapSamplerState, input.baseUv.xy); 
+    half2 distortion;
+    distortion.x = distortionSrc[(uint)_BaseMapChannelsX];
+    distortion.y = distortionSrc[(uint)_BaseMapChannelsY];
     distortion = distortion * 2.0 - 1.0;
     half distortionIntensity = _DistortionIntensity + GET_CUSTOM_COORD(_DistortionIntensityCoord)
     distortion *= 0.1 * distortionIntensity;
 
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
-    half transitionAlpha = SAMPLE_TEXTURE2D(_AlphaTransitionMap, sampler_AlphaTransitionMap, input.flowTransitionUVs.zw).x;
+    half transitionAlpha = SAMPLE_TEXTURE2D(_AlphaTransitionMap, sampler_AlphaTransitionMap, input.flowTransitionUVs.zw)[_AlphaTransitionMapChannelsX];
     half progress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
     #if _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
     progress += 1.0 - input.color.a;

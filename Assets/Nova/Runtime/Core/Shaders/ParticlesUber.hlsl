@@ -61,6 +61,8 @@ float _InverseTintRim;
 float4 _FlowMap_ST;
 DECLARE_CUSTOM_COORD(_FlowMapOffsetXCoord);
 DECLARE_CUSTOM_COORD(_FlowMapOffsetYCoord);
+half _FlowMapChannelsX;
+half _FlowMapChannelsY;
 float _FlowIntensity;
 DECLARE_CUSTOM_COORD(_FlowIntensityCoord);
 
@@ -72,6 +74,7 @@ DECLARE_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
 float _AlphaTransitionMapSliceCount;
 DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
 DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
+half _AlphaTransitionMapChannelsX;
 float _AlphaTransitionProgress;
 DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoord);
 float _DissolveSharpness;
@@ -84,6 +87,8 @@ DECLARE_CUSTOM_COORD(_EmissionMapProgressCoord);
 float _EmissionMapSliceCount;
 DECLARE_CUSTOM_COORD(_EmissionMapOffsetXCoord);
 DECLARE_CUSTOM_COORD(_EmissionMapOffsetYCoord);
+half _EmissionMapChannelsX;
+
 float3 _EmissionColor;
 float _EmissionIntensity;
 DECLARE_CUSTOM_COORD(_EmissionIntensityCoord);
@@ -247,10 +252,10 @@ void ModulateAlphaTransitionProgress(in out half progress, half vertexAlpha)
 }
 
 // Returns alpha value by the alpha transition.
-half GetTransitionAlpha(half transitionProgress, half2 transitionMapUv, half transitionMapProgress)
+half GetTransitionAlpha(half transitionProgress, half2 transitionMapUv, half transitionMapProgress, half transitionMapChannelsX)
 {
     half4 map = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
-    half transitionAlpha = map.r;
+    half transitionAlpha = map[(uint)transitionMapChannelsX];
     #ifdef _FADE_TRANSITION_ENABLED
     transitionProgress = (transitionProgress * 2 - 1) * -1;
     transitionAlpha += transitionProgress;
@@ -283,7 +288,7 @@ inline void ApplyVertexColor(in out half4 color, in half4 vertexColor)
 #endif
 
 // Apply the emission color.
-inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float intensity, half emissionMapProgress)
+inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float intensity, half emissionMapProgress, half emissionChannelsX)
 {
     half emissionIntensity = 0;
     half emissionColorRampU = 0;
@@ -291,7 +296,7 @@ inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float in
     emissionIntensity = 1;
     #elif _EMISSION_AREA_MAP
     half4 emissiomMap = SAMPLE_EMISSION_MAP(emissionMapUv, emissionMapProgress);
-    half emissionMapValue = emissiomMap.x;
+    half emissionMapValue = emissiomMap[emissionChannelsX];
     #if defined(_EMISSION_COLOR_COLOR) || defined(_EMISSION_COLOR_BASECOLOR)
     emissionIntensity = emissionMapValue;
     #elif _EMISSION_COLOR_MAP

@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2021 CyberAgent, Inc.
+// Copyright 2022 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 namespace Nova.Editor.Core.Scripts
@@ -27,6 +27,8 @@ namespace Nova.Editor.Core.Scripts
         public const string BaseMapSliceCount = "_BaseMapSliceCount";
         public const string BaseMapOffsetXCoord = "_BaseMapOffsetXCoord";
         public const string BaseMapOffsetYCoord = "_BaseMapOffsetYCoord";
+        public const string BaseMapChannelsX = "_BaseMapChannelsX";
+        public const string BaseMapChannelsY = "_BaseMapChannelsY";
         public const string BaseMapRotation = "_BaseMapRotation";
         public const string BaseMapRotationCoord = "_BaseMapRotationCoord";
         public const string BaseMapRotationOffsets = "_BaseMapRotationOffsets";
@@ -53,6 +55,8 @@ namespace Nova.Editor.Core.Scripts
         public const string FlowMap = "_FlowMap";
         public const string FlowMapOffsetXCoord = "_FlowMapOffsetXCoord";
         public const string FlowMapOffsetYCoord = "_FlowMapOffsetYCoord";
+        public const string FlowMapChannelsX = "_FlowMapChannelsX";
+        public const string FlowMapChannelsY = "_FlowMapChannelsY";
         public const string FlowIntensity = "_FlowIntensity";
         public const string FlowIntensityCoord = "_FlowIntensityCoord";
         public const string FlowMapTarget = "_FlowMapTarget";
@@ -71,6 +75,7 @@ namespace Nova.Editor.Core.Scripts
         public const string AlphaTransitionMapProgressCoord = "_AlphaTransitionMapProgressCoord";
         public const string AlphaTransitionMapOffsetXCoord = "_AlphaTransitionMapOffsetXCoord";
         public const string AlphaTransitionMapOffsetYCoord = "_AlphaTransitionMapOffsetYCoord";
+        public const string AlphaTransitionMapChannelsX = "_AlphaTransitionMapChannelsX";
         public const string AlphaTransitionMapSliceCount = "_AlphaTransitionMapSliceCount";
         public const string AlphaTransitionProgress = "_AlphaTransitionProgress";
         public const string AlphaTransitionProgressCoord = "_AlphaTransitionProgressCoord";
@@ -86,6 +91,7 @@ namespace Nova.Editor.Core.Scripts
         public const string EmissionMapProgressCoord = "_EmissionMapProgressCoord";
         public const string EmissionMapOffsetXCoord = "_EmissionMapOffsetXCoord";
         public const string EmissionMapOffsetYCoord = "_EmissionMapOffsetYCoord";
+        public const string EmissionMapChannelsX = "_EmissionMapChannelsX";
         public const string EmissionMapSliceCount = "_EmissionMapSliceCount";
         public const string EmissionColorType = "_EmissionColorType";
         public const string EmissionColor = "_EmissionColor";
