@@ -137,6 +137,8 @@ Shader "Nova/Particles/UberUnlit"
             ZTest LEqual
 
             HLSLPROGRAM
+
+            #pragma enable_d3d11_debug_symbols
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.5
@@ -334,7 +336,7 @@ Shader "Nova/Particles/UberUnlit"
 
             HLSLPROGRAM
             #pragma vertex vert
-            #pragma fragment fragDepthNormals
+            #pragma fragment frag
             #pragma target 3.5
 
             // Unity Defined
@@ -401,7 +403,7 @@ Shader "Nova/Particles/UberUnlit"
 
             HLSLPROGRAM
             #pragma vertex vert
-            #pragma fragment fragDepthOnly
+            #pragma fragment frag
             #pragma target 3.5
 
             // Unity Defined
@@ -451,7 +453,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
-            #include "ParticlesUberUnlitDepthNormals.hlsl"
+            #include "ParticlesUberUnlitDepthOnly.hlsl"
             
             ENDHLSL
         }
