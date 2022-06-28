@@ -188,7 +188,7 @@ half4 fragCore(Varyings input, uniform bool outputNormal)
     // color.rgb = AlphaModulate(color.rgb, color.a);
     if(outputNormal)
     {
-        return float4(PackNormalOctRectEncode(real3(0, 0, 1)), 0.0, 0.0);
+        return float4(PackNormalOctRectEncode(real3(0, 0, -1)), 0.0, 0.0);
     }
     return float4( 0.0, 0.0, 0.0, 0.0);
 }
