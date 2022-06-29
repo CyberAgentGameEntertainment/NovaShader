@@ -128,6 +128,7 @@ Shader "Nova/Particles/UberUnlit"
 
         Pass
         {
+            Tags{"LightMode" = "UniversalForward"}
             Blend [_BlendSrc] [_BlendDst]
             ZWrite[_ZWrite]
             Cull[_Cull]
@@ -136,6 +137,8 @@ Shader "Nova/Particles/UberUnlit"
             ZTest LEqual
 
             HLSLPROGRAM
+
+            #pragma enable_d3d11_debug_symbols
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.5
@@ -318,6 +321,140 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
             #include "ParticlesUberUnlitEditor.hlsl"
+            ENDHLSL
+        }
+        
+        Pass
+        {
+            Tags{"LightMode" = "DepthNormals"}
+
+            ZWrite[_ZWrite]
+            Cull[_Cull]
+            ColorMask RGB
+            Lighting Off
+            ZTest LEqual
+
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma target 3.5
+
+            // Unity Defined
+            #pragma multi_compile_fog
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:ParticleInstancingSetup
+            #pragma require 2darray
+
+            // Render Settings
+            #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            // NOTE : Not need in DepthNormals pass.
+            // #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
+            #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
+
+            // Base Map
+            #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
+            #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
+
+            // Tint Color
+            #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
+            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
+
+            // Flow Map
+            #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
+            #pragma shader_feature_local _FLOW_MAP_TARGET_BASE
+            #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
+            #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
+            #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
+
+            // NOTE : Not need in DepthNormals pass.
+            // Color Correction
+            // #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
+
+            // Alpha Transition
+            #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
+            #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+
+            // Emission
+            #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
+            #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
+            #pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+
+            // Transparency
+            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #pragma shader_feature_local _TRANSPARENCY_BY_RIM
+            #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
+            #pragma shader_feature_local _DEPTH_FADE_ENABLED
+
+            #include "ParticlesUberUnlitDepthNormals.hlsl"
+            
+            ENDHLSL
+        }
+        
+        Pass
+        {
+            Tags{"LightMode" = "DepthOnly"}
+
+            ZWrite[_ZWrite]
+            Cull[_Cull]
+            ColorMask RGB
+            Lighting Off
+            ZTest LEqual
+
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma target 3.5
+
+            // Unity Defined
+            #pragma multi_compile_fog
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:ParticleInstancingSetup
+            #pragma require 2darray
+
+            // Render Settings
+            #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            // NOTE : Not need in DepthNormals pass.
+            // #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
+            #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
+
+            // Base Map
+            #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
+            #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
+
+            // Tint Color
+            #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
+            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
+
+            // Flow Map
+            #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
+            #pragma shader_feature_local _FLOW_MAP_TARGET_BASE
+            #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
+            #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
+            #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
+
+            // NOTE : Not need in DepthNormals pass.
+            // Color Correction
+            // #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
+
+            // Alpha Transition
+            #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
+            #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+
+            // Emission
+            #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
+            #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
+            #pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+
+            // Transparency
+            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #pragma shader_feature_local _TRANSPARENCY_BY_RIM
+            #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
+            #pragma shader_feature_local _DEPTH_FADE_ENABLED
+
+            #include "ParticlesUberUnlitDepthOnly.hlsl"
+            
             ENDHLSL
         }
     }
