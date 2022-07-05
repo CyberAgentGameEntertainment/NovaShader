@@ -3,6 +3,7 @@
 
 #include "ParticlesUber.hlsl"
 
+
 struct Attributes
 {
     float4 positionOS : POSITION;
@@ -40,7 +41,7 @@ struct Varyings
 struct AttributesDrawDepth
 {
     float4 positionOS : POSITION;
-    #ifdef DEPTH_NORMALS_PASS
+    #ifdef FRAGMENT_USE_NORMAL_WS
     float3 normalOS : NORMAL;
     #endif
     #ifdef _ALPHATEST_ENABLED // This attributes is not used for opaque objects.
@@ -57,7 +58,7 @@ struct AttributesDrawDepth
 struct VaryingsDrawDepth
 {
     float4 positionHCS : SV_POSITION;
-    #ifdef DEPTH_NORMALS_PASS
+    #ifdef FRAGMENT_USE_NORMAL_WS
     float3 normalWS : NORMAL;
     #endif
     #ifdef _ALPHATEST_ENABLED // This attributes is not used for opaque objects.
@@ -110,7 +111,7 @@ inline void InitializeFragmentInput(in out Varyings input)
 inline void InitializeVertexOutputDrawDepth(in AttributesDrawDepth input, in out VaryingsDrawDepth output)
 {
     output.positionHCS = TransformObjectToHClip(input.positionOS.xyz);
-    #ifdef DEPTH_NORMALS_PASS
+    #ifdef FRAGMENT_USE_NORMAL_WS
     output.normalWS = TransformObjectToWorldNormal(input.normalOS, true);
     #endif
 
@@ -129,13 +130,12 @@ inline void InitializeVertexOutputDrawDepth(in AttributesDrawDepth input, in out
 
 inline void InitializeFragmentInputDrawDepth(in out VaryingsDrawDepth input)
 {
-    
-    #ifdef DEPTH_NORMALS_PASS
+    #ifdef FRAGMENT_USE_NORMAL_WS
     input.normalWS = normalize(input.normalWS);
     #endif
 
     #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
-    #if FRAGMENT_USE_VIEW_DIR_WS 
+    #ifdef FRAGMENT_USE_VIEW_DIR_WS 
     input.viewDirWS = normalize(input.viewDirWS);
     #endif
     #endif
