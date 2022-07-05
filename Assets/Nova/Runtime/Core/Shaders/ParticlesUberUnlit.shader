@@ -137,8 +137,7 @@ Shader "Nova/Particles/UberUnlit"
             ZTest LEqual
 
             HLSLPROGRAM
-
-            #pragma enable_d3d11_debug_symbols
+            
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.5
@@ -349,7 +348,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             // NOTE : Not need in DepthNormals pass.
             // #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
-            #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
+            #pragma shader_feature_local _ALPHATEST_ENABLED
 
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
@@ -416,7 +415,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             // NOTE : Not need in DepthNormals pass.
             // #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
-            #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
+            #pragma shader_feature_local _ALPHATEST_ENABLED
 
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
