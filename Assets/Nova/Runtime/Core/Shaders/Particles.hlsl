@@ -7,9 +7,16 @@
 #if defined(_TRANSPARENCY_BY_RIM) || defined(_TINT_AREA_RIM)
 #define FRAGMENT_USE_VIEW_DIR_WS
 #endif
-#if defined(_TRANSPARENCY_BY_RIM) || defined(_TINT_AREA_RIM)
+#if defined(_TRANSPARENCY_BY_RIM) || defined(_TINT_AREA_RIM) || defined(DEPTH_NORMALS_PASS)
 #define FRAGMENT_USE_NORMAL_WS
 #endif
+
+#if defined(DEPTH_ONLY_PASS)
+#ifndef _ALPHATEST_ENABLED
+#undef FRAGMENT_USE_NORMAL_WS // This symbol is not necessary when drawing opaque objects.
+#endif
+#endif
+
 #if defined(_SOFT_PARTICLES_ENABLED) || defined(_DEPTH_FADE_ENABLED)
 #define USE_PROJECTED_POSITION
 #endif
