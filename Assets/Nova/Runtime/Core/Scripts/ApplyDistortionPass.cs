@@ -53,7 +53,7 @@ namespace Nova.Runtime.Core.Scripts
             var cmd = CommandBufferPool.Get(RenderPassName);
             cmd.Clear();
 
-            var source = _renderer.cameraColorTargetHandle;
+            var source = _renderer.cameraColorTarget;
             var tempTargetDescriptor = renderingData.cameraData.cameraTargetDescriptor;
             tempTargetDescriptor.depthBufferBits = 0;
             cmd.GetTemporaryRT(_tempRenderTargetHandle.id, tempTargetDescriptor);
