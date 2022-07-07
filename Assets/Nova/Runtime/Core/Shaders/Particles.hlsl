@@ -96,7 +96,7 @@ float2 RotateUV(float2 uv, half angle, half2 offsets)
 }
 
 // Adjust the albedo according to the blending.
-half3 AlphaModulate(half3 albedo, half alpha)
+half3 ApplyAlpha(half3 albedo, half alpha)
 {
     #if defined(_ALPHAMODULATE_ENABLED)
     // In multiply, albedo needs to be white if the alpha is zero.

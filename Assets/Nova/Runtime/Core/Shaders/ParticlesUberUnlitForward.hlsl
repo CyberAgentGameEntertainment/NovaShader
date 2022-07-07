@@ -180,7 +180,7 @@ half4 frag(Varyings input) : SV_Target
     #endif
 
     AlphaClip(color.a, _Cutoff);
-    color.rgb = AlphaModulate(color.rgb, color.a);
+    color.rgb = ApplyAlpha(color.rgb, color.a);
     return color;
 }
 
