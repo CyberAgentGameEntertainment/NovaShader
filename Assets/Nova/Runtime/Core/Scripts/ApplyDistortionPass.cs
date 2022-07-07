@@ -19,7 +19,7 @@ namespace Nova.Runtime.Core.Scripts
         private readonly Material _material;
         private readonly ProfilingSampler _profilingSampler;
 
-        private RenderTargetIdentifier _cameraColorTarget;
+        private ScriptableRenderer _renderer;
         private RenderTargetIdentifier _distortedUvBufferIdentifier;
         private RenderTargetHandle _tempRenderTargetHandle;
 
@@ -32,9 +32,9 @@ namespace Nova.Runtime.Core.Scripts
             renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
         }
 
-        public void Setup(RenderTargetIdentifier cameraColorTarget, RenderTargetIdentifier distortedUvBufferIdentifier)
+        public void Setup(ScriptableRenderer renderer, RenderTargetIdentifier distortedUvBufferIdentifier)
         {
-            _cameraColorTarget = cameraColorTarget;
+            _renderer = renderer;
             _distortedUvBufferIdentifier = distortedUvBufferIdentifier;
         }
 
@@ -53,7 +53,7 @@ namespace Nova.Runtime.Core.Scripts
             var cmd = CommandBufferPool.Get(RenderPassName);
             cmd.Clear();
 
-            var source = _cameraColorTarget;
+            var source = _renderer.cameraColorTargetHandle;
             var tempTargetDescriptor = renderingData.cameraData.cameraTargetDescriptor;
             tempTargetDescriptor.depthBufferBits = 0;
             cmd.GetTemporaryRT(_tempRenderTargetHandle.id, tempTargetDescriptor);
