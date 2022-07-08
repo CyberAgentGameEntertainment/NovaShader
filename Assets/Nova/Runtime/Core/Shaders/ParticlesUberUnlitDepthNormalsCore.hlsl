@@ -193,7 +193,7 @@ half4 frag(VaryingsDrawDepth input, uniform bool outputNormal) : SV_Target
     AlphaClip(color.a, _Cutoff);
     
     // NOTE : Not need in DepthNormals pass.
-    // color.rgb = AlphaModulate(color.rgb, color.a);
+    // color.rgb = ApplyAlpha(color.rgb, color.a);
     #endif
     #ifdef DEPTH_NORMALS_PASS
     return half4(NormalizeNormalPerPixel(input.normalWS), 0.0);

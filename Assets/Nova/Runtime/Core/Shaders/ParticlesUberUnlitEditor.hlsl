@@ -169,7 +169,7 @@ void fragSceneClip(Varyings input)
     #endif
 
     AlphaClip(color.a, _Cutoff);
-    color.rgb = AlphaModulate(color.rgb, color.a);
+    color.rgb = ApplyAlpha(color.rgb, color.a);
 }
 
 half4 fragSceneHighlight(Varyings input) : SV_Target
