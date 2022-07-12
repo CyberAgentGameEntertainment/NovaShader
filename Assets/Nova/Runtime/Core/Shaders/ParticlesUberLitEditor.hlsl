@@ -2,7 +2,7 @@
 #define NOVA_PARTICLESUBERUNLITEDITOR_INCLUDED
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-#include "ParticlesUberUnlit.hlsl"
+#include "ParticlesUberLit.hlsl"
 
 float _ObjectId;
 float _PassValue;

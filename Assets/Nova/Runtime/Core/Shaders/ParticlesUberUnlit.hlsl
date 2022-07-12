@@ -7,7 +7,7 @@
 struct Attributes
 {
     float4 positionOS : POSITION;
-    float4 color : COLOR;
+    float4 color : COLOR0;
     float3 normalOS : NORMAL;
     float2 texcoord : TEXCOORD0;
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
@@ -19,7 +19,7 @@ struct Attributes
 struct Varyings
 {
     float4 positionHCS : SV_POSITION;
-    float4 color : COLOR;
+    float4 color : COLOR0;
     INPUT_CUSTOM_COORD(0, 1)
     float4 baseMapUVAndProgresses : TEXCOORD2; // xy: BaseMap UV, z: Base Map Progress, w: Tint Map Progress
     float4 flowTransitionUVs : TEXCOORD3; // xy: FlowMap UV, zw: TransitionMap UV

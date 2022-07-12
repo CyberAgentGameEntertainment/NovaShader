@@ -160,8 +160,8 @@ Shader "Nova/Particles/UberLit"
             ZTest LEqual
 
             HLSLPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
+            #pragma vertex vertLit
+            #pragma fragment fragLit
             #pragma target 3.5
 
             // Unity Defined

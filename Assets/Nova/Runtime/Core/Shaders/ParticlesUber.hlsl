@@ -141,7 +141,7 @@ half _MetallicMapChannelsX;
 
 // Smoothness Map
 TEXTURE2D(_SmoothnessMap);
-SAMPLER(sampler_SmothnessMap);
+SAMPLER(sampler_SmoothnessMap);
 TEXTURE2D_ARRAY(_SmoothnessMap2DArray);
 SAMPLER(sampler_SmoothnessMap2DArray);
 TEXTURE3D(_SmoothnessMap3D);
@@ -177,6 +177,35 @@ SamplerState GetNormalMapSamplerState()
     return sampler_NormalMap2DArray;
     #elif _BASE_MAP_MODE_3D
     return sampler_NormalMap3D;
+    #endif
+    #endif
+}
+
+SamplerState GetMetallicMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+    #ifdef _BASE_MAP_MODE_2D
+    return sampler_MetallicMap;
+    #elif _BASE_MAP_MODE_2D_ARRAY
+    return sampler_MetallicMap2DArray;
+    #elif _BASE_MAP_MODE_3D
+    return sampler_MetallicMap3D;
+    #endif
+    #endif
+}
+SamplerState GetSmoothnessMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+    #ifdef _BASE_MAP_MODE_2D
+    return sampler_SmoothnessMap;
+    #elif _BASE_MAP_MODE_2D_ARRAY
+    return sampler_SmoothnessMap2DArray;
+    #elif _BASE_MAP_MODE_3D
+    return sampler_SmoothnessMap3D;
     #endif
     #endif
 }
@@ -249,7 +278,6 @@ SamplerState GetEmissionMapSamplerState()
 #endif
 
 // Sample the normal map.
-
 #ifdef _BASE_MAP_MODE_2D
 #define SAMPLE_NORMAL_MAP(uv, progress) SAMPLE_TEXTURE2D(_NormalMap, GetNormalMapSamplerState(), uv);
 #elif _BASE_MAP_MODE_2D_ARRAY
@@ -258,6 +286,23 @@ SamplerState GetEmissionMapSamplerState()
 #define SAMPLE_NORMAL_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_NormalMap3D, GetNormalMapSamplerState(), float3(uv, progress), 0);
 #endif
 
+// Sample the metallic map.
+#ifdef _BASE_MAP_MODE_2D
+#define SAMPLE_METALLIC_MAP(uv, progress) SAMPLE_TEXTURE2D(_MetallicMap, GetMetallicMapSamplerState(), uv);
+#elif _BASE_MAP_MODE_2D_ARRAY
+#define SAMPLE_METALLIC_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_MetallicMap2DArray, GetMetallicMapSamplerState(), uv, progress);
+#elif _BASE_MAP_MODE_3D
+#define SAMPLE_METALLIC_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_MetallicMap3D, GetMetallicMapSamplerState(), float3(uv, progress), 0);
+#endif
+
+// Sample the smoothness map.
+#ifdef _BASE_MAP_MODE_2D
+#define SAMPLE_SMOOTHNESS_MAP(uv, progress) SAMPLE_TEXTURE2D(_SmoothnessMap, GetSmoothnessMapSamplerState(), uv);
+#elif _BASE_MAP_MODE_2D_ARRAY
+#define SAMPLE_SMOOTHNESS_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_SmoothnessMap2DArray, GetSmoothnessMapSamplerState(), uv, progress);
+#elif _BASE_MAP_MODE_3D
+#define SAMPLE_SMOOTHNESS_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_SmoothnessMap3D, GetSmoothnessMapSamplerState(), float3(uv, progress), 0);
+#endif
 
 // Returns the progress of the 2DArray/3d tint map.
 half TintMapProgress(in half progress)
