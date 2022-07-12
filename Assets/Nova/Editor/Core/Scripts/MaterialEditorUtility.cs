@@ -133,7 +133,7 @@ namespace Nova.Editor.Core.Scripts
                 return _contentsStyle;
             }
         }
-        
+
         /// <summary>
         ///     Draw a <see cref="Texture" /> type property.
         /// </summary>
@@ -521,7 +521,7 @@ namespace Nova.Editor.Core.Scripts
             EditorGUI.showMixedValue = false;
         }
 
-        private static void DrawEnumContentsProperty<T>(MaterialEditor editor, Rect rect, MaterialProperty property)
+        public static void DrawEnumContentsProperty<T>(MaterialEditor editor, Rect rect, MaterialProperty property)
             where T : Enum
         {
             var value = (T)Enum.ToObject(typeof(T), (int)property.floatValue);
