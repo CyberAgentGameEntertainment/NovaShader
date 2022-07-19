@@ -7,7 +7,7 @@
 struct Attributes
 {
     float4 positionOS : POSITION;
-    float4 color : COLOR0;
+    float4 color : COLOR;
     float3 normalOS : NORMAL;
     float2 texcoord : TEXCOORD0;
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED

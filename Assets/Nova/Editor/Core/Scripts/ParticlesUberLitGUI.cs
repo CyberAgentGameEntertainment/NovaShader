@@ -250,6 +250,8 @@ namespace Nova.Editor.Core.Scripts
         {
             ParticlesUberUnlitMaterialPostProcessor.SetupMaterialKeywords(material);
             ParticlesUberUnlitMaterialPostProcessor.SetupMaterialBlendMode(material);
+            // todo テスト
+            material.EnableKeyword("_MAIN_LIGHT_CALCULATE_SHADOWS");
         }
 
         #region Foldout Properties
