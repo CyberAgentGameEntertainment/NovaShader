@@ -3,18 +3,31 @@
 
 #define FRAGMENT_USE_NORMAL_WS
 #define FRAGMENT_USE_VIEW_DIR_WS
-// todo If _SPECULARHIGHLIGHTS_OFF is defined, specular highlight is disabled.
+
+#ifndef _SPECULAR_HIGHLIGHTS_ENABLED
+// This symbol has been defined for URP Functions.
+// todo : Complete the test that symbol goes from on to off.
+//        But we have not tested the effectiveness of the symbols.
 #define _SPECULARHIGHLIGHTS_OFF
-// todo If _ENVIRONMENTREFLECTIONS_OFF is defined, environment reflections are desabled。
+#endif
+
+#ifndef _ENVIRONMENT_REFLECTIONS_ENABLED
+// This symbol has been defined for URP Functions.
 #define _ENVIRONMENTREFLECTIONS_OFF
-// todo If _NORMALMAP is defind, normal map is used.
-#define _NORMALMAP
+#endif 
+
 // todo If REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR is defined, uv coords of shadow map is calculated in vertex shader.
 #define REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR
-// todo If MAIN_LIGHT_CALCULATE_SHADOWS is defined, shadow are cast on the objects.
-#ifdef _MAIN_LIGHT_CALCULATE_SHADOWS
+
+#ifdef _NORMAL_MAP_ENABLED
+// This symbol has been defined for URP Functions.
+#define _NORMAL_MAP
+#endif
+#ifdef _RECEIVE_SHADOWS_ENABLED
+// This symbol has been defined for URP Functions.
 #define MAIN_LIGHT_CALCULATE_SHADOWS
 #endif
+
 
 #include "ParticlesUberUnlitForward.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -29,19 +42,20 @@ VaryingsLit vertLit(AttributesLit input)
     output.positionWS.xyz = TransformObjectToWorld(input.attributesUnlit.positionOS.xyz);
 
     // Calculate tanget and binormal
-    #ifdef _NORMALMAP
+    #ifdef _NORMAL_MAP_ENABLED
     output.tangentWS.xyz = TransformObjectToWorldDir(input.tangentOS.xyz, true);
     output.tangentWS.w = input.tangentOS.w;
     output.binormalWS = cross(output.varyingsUnlit.normalWS, output.tangentWS) * input.tangentOS.w;
     #endif
     
-    half3 vertexLight = VertexLighting(output.positionWS, output.varyingsUnlit.normalWS);
+    // todo : vertexLight is not used in ParticlesLitForwardPass.hlsl.
+    // half3 vertexLight = VertexLighting(output.positionWS, output.varyingsUnlit.normalWS);
     half fogFactor = ComputeFogFactor(output.varyingsUnlit.positionHCS.z);
     output.positionWS.w = fogFactor;
     
     OUTPUT_SH(output.varyingsUnlit.normalWS.xyz, output.vertexSH);
 
-    #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+    #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(_RECEIVE_SHADOWS_ENABLED)
     output.shadowCoord = TransformWorldToShadowCoord(output.positionWS.xyz);
     #endif
     
@@ -49,75 +63,110 @@ VaryingsLit vertLit(AttributesLit input)
 }
 half GetMetallic( float3 uvw )
 {
+    #ifdef _SPECULAR_SETUP
+    return 0;
+    #else
+    #ifdef _METALLIC_MAP_ENABLED
     half4 metallic = SAMPLE_METALLIC_MAP(uvw.xy, uvw.z);
-    return metallic[(int)_MetallicMapChannelsX.x];;
+    return metallic[(int)_MetallicMapChannelsX.x];
+    #else
+    return _Metallic;
+    #endif
+    #endif
 }
 half GetSmoothness( float3 uvw )
 {
+    #ifdef _SMOOTHNESS_MAP_ENABLED
     const half4 smoothness = SAMPLE_SMOOTHNESS_MAP(uvw.xy, uvw.z);
     return smoothness[(int)_SmoothnessMapChannelsX.x];
+    #else
+    return _Smoothness;
+    #endif
 }
-half4 fragLit(VaryingsLit input) : SV_Target
+half3 GetSpecular(float3 uvw)
 {
-    Varyings inputUnlit = input.varyingsUnlit; 
-    half4 color = frag(inputUnlit);
-    SurfaceData surfaceData = (SurfaceData)0;
-    // OK
-    surfaceData.albedo = color.xyz;
-    // TODO Survey the SampleNormalTS Function in Particels.hlsl in URP package.
-    surfaceData.normalTS = SAMPLE_NORMAL_MAP(inputUnlit.baseMapUVAndProgresses.xy, inputUnlit.baseMapUVAndProgresses.z);
-    // TODO Specular Workflow is not implemented. 
-    // OK
-    surfaceData.metallic = GetMetallic(inputUnlit.baseMapUVAndProgresses.xyz);
-    // OK
-    surfaceData.specular = half3( 0, 0, 0);
-    surfaceData.smoothness = GetSmoothness(inputUnlit.baseMapUVAndProgresses.xyz);
-    surfaceData.alpha = color.a;
-    // The values of clearCoatMask,clearCoatSmoothness and occlusion is referenced from ParticlesLitInput.hlsl in UPR Package. 
-    surfaceData.clearCoatMask = 0;
-    surfaceData.clearCoatSmoothness = 1;
-    surfaceData.occlusion = 1;
-    // todo : What to do emission?
-    surfaceData.emission = 0;
-    
-    InputData inputData = (InputData)0;
-    // OK
-    inputData.positionWS = input.positionWS.xyz;
-    #ifdef _NORMALMAP
-    // OK
-    inputData.normalWS = TransformTangentToWorld(
+    #ifdef _SPECULAR_SETUP
+    const half4 specular = SAMPLE_SPECULAR_MAP(uvw.xy, uvw.z);
+    return specular.xyz;
+    #else
+    return half3(0, 0, 0);
+    #endif
+}
+#ifdef _RECEIVE_SHADOWS_ENABLED
+float4 GetShadowCoord( VaryingsLit input )
+{
+    float4 shadowCoord = float4(0, 0, 0, 0);
+    #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+    shadowCoord = input.shadowCoord;
+    #else
+    shadowCoord = TransformWorldToShadowCoord(input.positionWS.xyz);
+    #endif
+    return shadowCoord;
+}
+#define GET_SHADOW_COORD( shadowCoord, input ) shadowCoord = GetShadowCoord(input)
+#else
+#define GET_SHADOW_COORD( shadowCoord, input )
+#endif
+
+float3 GetNormalWS(SurfaceData surfaceData, VaryingsLit input)
+{
+    float3 normalWS;
+    #ifdef _NORMAL_MAP_ENABLED
+    normalWS = TransformTangentToWorld(
         surfaceData.normalTS,
         half3x3(
             input.tangentWS.xyz,
             input.binormalWS.xyz,
-            inputUnlit.normalWS.xyz));
+            input.varyingsUnlit.normalWS.xyz));
     
     #else
-    inputData.normalWS = inputUnlit.normalWS.xyz;
+    normalWS = input.varyingsUnlit.normalWS.xyz;
     #endif
-    inputData.normalWS = NormalizeNormalPerPixel(inputData.normalWS);
-    // OK
+    normalWS = NormalizeNormalPerPixel(normalWS);
+    return normalWS;
+}
+
+void InitializeSurfaceData( out SurfaceData surfaceData, VaryingsLit input, half4 albedoColor)
+{
+    surfaceData = (SurfaceData)0;
+    Varyings inputUnlit = input.varyingsUnlit;
+    surfaceData.albedo = albedoColor.xyz;
+    // TODO Survey the SampleNormalTS Function in Particels.hlsl in URP package.
+    surfaceData.normalTS = SAMPLE_NORMAL_MAP(inputUnlit.baseMapUVAndProgresses.xy, inputUnlit.baseMapUVAndProgresses.z);
+    surfaceData.metallic = GetMetallic(inputUnlit.baseMapUVAndProgresses.xyz);
+    surfaceData.specular = GetSpecular(inputUnlit.baseMapUVAndProgresses.xyz);
+    surfaceData.smoothness = GetSmoothness(inputUnlit.baseMapUVAndProgresses.xyz);
+    surfaceData.alpha = albedoColor.a;
+    // todo : What to do emission?
+    surfaceData.emission = 0;
+    // The values of clearCoatMask,clearCoatSmoothness and occlusion is referenced from ParticlesLitInput.hlsl in UPR Package. 
+    surfaceData.clearCoatMask = 0;
+    surfaceData.clearCoatSmoothness = 1;
+    surfaceData.occlusion = 1;
+}
+void InitializeInputData(out InputData inputData, SurfaceData surfaceData, VaryingsLit input)
+{
+    inputData = (InputData)0;
+    Varyings inputUnlit = input.varyingsUnlit;
+    inputData.positionWS = input.positionWS.xyz;
+    inputData.normalWS = GetNormalWS(surfaceData, input);
     inputData.viewDirectionWS = inputUnlit.viewDirWS;
-    #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
-    // OK
-    inputData.shadowCoord = input.shadowCoord;
-    #elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)
-    // todo : Not implemented yet.
-    inputData.shadowCoord = TransformWorldToShadowCoord(input.positionWS.xyz);
-    #else
-    inputData.shadowCoord = float4(0, 0, 0, 0);
-    #endif
+    GET_SHADOW_COORD(inputData.shadowCoord, input );
     inputData.fogCoord = input.positionWS.w;
-    // todo : What to do vertexLighting? 
-    
     inputData.bakedGI = SampleSHPixel(input.vertexSH, inputData.normalWS);
     inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(inputUnlit.positionHCS);
     // The values of shadowMask and vertexLighting are referenced from ParticlesLitForwardPass.hlsl in UPR Package.
     inputData.shadowMask = half4(1, 1, 1, 1);
     inputData.vertexLighting = half3(0, 0, 0);
+}
+half4 fragLit(VaryingsLit input) : SV_Target
+{
+    SurfaceData surfaceData;
+    InitializeSurfaceData(surfaceData, input, frag(input.varyingsUnlit));
+    InputData inputData;
+    InitializeInputData(inputData, surfaceData, input);
     
-    color = UniversalFragmentPBR(inputData, surfaceData);
-    return color;
+    return UniversalFragmentPBR(inputData, surfaceData);
 }
 
 #endif

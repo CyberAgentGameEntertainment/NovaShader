@@ -248,10 +248,8 @@ namespace Nova.Editor.Core.Scripts
 
         protected override void MaterialChanged(Material material)
         {
-            ParticlesUberUnlitMaterialPostProcessor.SetupMaterialKeywords(material);
-            ParticlesUberUnlitMaterialPostProcessor.SetupMaterialBlendMode(material);
-            // todo テスト
-            material.EnableKeyword("_MAIN_LIGHT_CALCULATE_SHADOWS");
+            ParticlesUberLitMaterialPostProcessor.SetupMaterialKeywords(material);
+            ParticlesUberLitMaterialPostProcessor.SetupMaterialBlendMode(material);
         }
 
         #region Foldout Properties

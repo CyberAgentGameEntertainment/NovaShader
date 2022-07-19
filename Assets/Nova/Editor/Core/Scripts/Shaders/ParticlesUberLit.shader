@@ -177,6 +177,16 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
             #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
+            #pragma shader_feature_local _MAIN_LIGHT_CALCULATE_SHADOWS
+            #pragma shader_feature_local _RECEIVE_SHADOWS_ENABLED
+            #pragma shader_feature_local _SPECULAR_HIGHLIGHTS_ENABLED
+            #pragma shader_feature_local _ENVIRONMENT_REFLECTIONS_ENABLED
+            #pragma shader_feature_local _SPECULAR_SETUP
+            
+            // Surface maps
+            #pragma shader_feature_local _NORMAL_MAP_ENABLED
+            #pragma shader_feature_local_fragment _METALLIC_MAP_ENABLED
+            #pragma shader_feature_local_fragment _SMOOTHNESS_MAP_ENABLED
             
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
@@ -193,7 +203,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
             #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
             #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
-
+            
             // Color Correction
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
 

@@ -138,6 +138,7 @@ SAMPLER(sampler_MetallicMap2DArray);
 TEXTURE3D(_MetallicMap3D);
 SAMPLER(sampler_MetallicMap3D);
 half _MetallicMapChannelsX;
+float _Metallic;
 
 // Smoothness Map
 TEXTURE2D(_SmoothnessMap);
@@ -147,8 +148,7 @@ SAMPLER(sampler_SmoothnessMap2DArray);
 TEXTURE3D(_SmoothnessMap3D);
 SAMPLER(sampler_SmoothnessMap3D);
 half _SmoothnessMapChannelsX;
-
-// Specular Highlights
+float _Smoothness;
 
 // Returns the sampler state of the base map.
 SamplerState GetBaseMapSamplerState()
@@ -209,7 +209,20 @@ SamplerState GetSmoothnessMapSamplerState()
     #endif
     #endif
 }
-
+SamplerState GetSpecularMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+    #ifdef _BASE_MAP_MODE_2D
+    return sampler_SpecularMap;
+    #elif _BASE_MAP_MODE_2D_ARRAY
+    return sampler_SpecularMap2DArray;
+    #elif _BASE_MAP_MODE_3D
+    return sampler_SpecularMap3D;
+    #endif
+    #endif
+}
 // Returns the sampler state of the alpha transition map.
 SamplerState GetAlphaTransitionMapSamplerState()
 {
@@ -302,6 +315,15 @@ SamplerState GetEmissionMapSamplerState()
 #define SAMPLE_SMOOTHNESS_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_SmoothnessMap2DArray, GetSmoothnessMapSamplerState(), uv, progress);
 #elif _BASE_MAP_MODE_3D
 #define SAMPLE_SMOOTHNESS_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_SmoothnessMap3D, GetSmoothnessMapSamplerState(), float3(uv, progress), 0);
+#endif
+
+// Sample the specular map.
+#ifdef _BASE_MAP_MODE_2D
+#define SAMPLE_SPECULAR_MAP(uv, progress) SAMPLE_TEXTURE2D(_SpecularMap, GetSpecularMapSamplerState(), uv);
+#elif _BASE_MAP_MODE_2D_ARRAY
+#define SAMPLE_SPECULAR_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_SpecularMap2DArray, GetSpecularMapSamplerState(), uv, progress);
+#elif _BASE_MAP_MODE_3D
+#define SAMPLE_SPECULAR_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_SpecularMap3D, GetSpecularMapSamplerState(), float3(uv, progress), 0);
 #endif
 
 // Returns the progress of the 2DArray/3d tint map.

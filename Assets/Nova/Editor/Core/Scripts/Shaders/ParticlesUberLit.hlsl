@@ -7,7 +7,7 @@
 struct AttributesLit
 {
     Attributes attributesUnlit;
-    #ifdef _NORMALMAP
+    #ifdef _NORMAL_MAP_ENABLED
     float4 tangentOS : TANGENT;
     #endif
 };
@@ -17,11 +17,11 @@ struct VaryingsLit
 {
     Varyings varyingsUnlit;
     float4 positionWS : COLOR1;
-    #ifdef _NORMALMAP
+    #ifdef _NORMAL_MAP_ENABLED
     float4 tangentWS : TANGENT;
     float3 binormalWS : BINORMAL;
     #endif
-    #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+    #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(_RECEIVE_SHADOWS_ENABLED)
     float4 shadowCoord : COLOR2;
     #endif
     float3 vertexSH    : COLOR3; // SH
@@ -30,7 +30,7 @@ struct VaryingsLit
 inline void InitializeFragmentInputLit(in out VaryingsLit input)
 {
     InitializeFragmentInput(input.varyingsUnlit);
-    #ifdef _NORMALMAP
+    #ifdef _NORMAL_MAP_ENABLED
     input.binormalWS = normalize(input.binormalWS);
     input.tangentWS = normalize(input.tangentWS);
     #endif
