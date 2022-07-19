@@ -68,7 +68,7 @@ half GetMetallic( float3 uvw )
     #else
     #ifdef _METALLIC_MAP_ENABLED
     half4 metallic = SAMPLE_METALLIC_MAP(uvw.xy, uvw.z);
-    return metallic[(int)_MetallicMapChannelsX.x];
+    return metallic[(int)_MetallicMapChannelsX.x] * _Metallic;
     #else
     return _Metallic;
     #endif
@@ -78,7 +78,8 @@ half GetSmoothness( float3 uvw )
 {
     #ifdef _SMOOTHNESS_MAP_ENABLED
     const half4 smoothness = SAMPLE_SMOOTHNESS_MAP(uvw.xy, uvw.z);
-    return smoothness[(int)_SmoothnessMapChannelsX.x];
+    // The reason for multiplying _Smoothness is because it was done in URP's build-in shaders.
+    return smoothness[(int)_SmoothnessMapChannelsX.x] * _Smoothness;
     #else
     return _Smoothness;
     #endif
@@ -150,7 +151,8 @@ void InitializeInputData(out InputData inputData, SurfaceData surfaceData, Varyi
     Varyings inputUnlit = input.varyingsUnlit;
     inputData.positionWS = input.positionWS.xyz;
     inputData.normalWS = GetNormalWS(surfaceData, input);
-    inputData.viewDirectionWS = inputUnlit.viewDirWS;
+    // todo : SHADER_HINT_NICE_QUALITY
+    inputData.viewDirectionWS = SafeNormalize(inputUnlit.viewDirWS);
     GET_SHADOW_COORD(inputData.shadowCoord, input );
     inputData.fogCoord = input.positionWS.w;
     inputData.bakedGI = SampleSHPixel(input.vertexSH, inputData.normalWS);
@@ -163,10 +165,13 @@ half4 fragLit(VaryingsLit input) : SV_Target
 {
     SurfaceData surfaceData;
     InitializeSurfaceData(surfaceData, input, frag(input.varyingsUnlit));
+    
     InputData inputData;
     InitializeInputData(inputData, surfaceData, input);
     
-    return UniversalFragmentPBR(inputData, surfaceData);
+    half4 color =UniversalFragmentPBR(inputData, surfaceData);
+    color.rgb = MixFog(color.rgb, inputData.fogCoord);
+    return color;
 }
 
 #endif

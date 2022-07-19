@@ -29,13 +29,13 @@ Shader "Nova/Particles/UberLit"
         _MetallicMap("Metallic Map", 2D) = "" {}
         _MetallicMap2DArray("Metallic Map 2D Array", 2DArray) = "" {}
         _MetallicMap3D("Metallic Map 3D", 3D) = "" {}
-        _Metallic("Metallic", Range( 0.0, 1.0)) = 0.5
+        [Gamma]_Metallic("Metallic", Range( 0.0, 1.0)) = 0.5
         _MetallicMapChannelsX("Metallic Map Channes X", Float) = 0.0
         _SmoothnessMap("Smoothness Map", 2D) = "" {}
         _SmoothnessMap2DArray("Smoothness Map 2D Array", 2DArray) = "" {}
         _SmoothnessMap3D("Smoothness Map 3D", 3D) = "" {}
         _Smoothness("Smoothness", Range( 0.0, 1.0)) = 0.5
-        _SmoothnessMapChannelsX("Smoothness Map Channes X", Float) = 0.0
+        _SmoothnessMapChannelsX("Smoothness Map Channes X", Float) = 3.0
         
         // Base Map
         _BaseMapMode("Base Map Mode", Float) = 0.0
