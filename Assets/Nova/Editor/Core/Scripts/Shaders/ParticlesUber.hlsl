@@ -120,6 +120,7 @@ TEXTURE2D_ARRAY(_NormalMap2DArray);
 SAMPLER(sampler_NormalMap2DArray);
 TEXTURE3D(_NormalMap3D);
 SAMPLER(sampler_NormalMap3D);
+half _NormalMapBumpScale;
 
 // Specular Map
 TEXTURE2D(_SpecularMap);
@@ -128,7 +129,7 @@ TEXTURE2D_ARRAY(_SpecularMap2DArray);
 SAMPLER(sampler_SpecularMap2DArray);
 TEXTURE3D(_SpecularMap3D);
 SAMPLER(sampler_SpecularMap3D);
-half _SepcularMapChannelsX;
+half4 _SpecularColor;
 
 // Metallic Map
 TEXTURE2D(_MetallicMap);
@@ -195,6 +196,7 @@ SamplerState GetMetallicMapSamplerState()
     #endif
     #endif
 }
+
 SamplerState GetSmoothnessMapSamplerState()
 {
     #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
@@ -209,6 +211,7 @@ SamplerState GetSmoothnessMapSamplerState()
     #endif
     #endif
 }
+
 SamplerState GetSpecularMapSamplerState()
 {
     #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
@@ -223,6 +226,7 @@ SamplerState GetSpecularMapSamplerState()
     #endif
     #endif
 }
+
 // Returns the sampler state of the alpha transition map.
 SamplerState GetAlphaTransitionMapSamplerState()
 {
@@ -292,11 +296,11 @@ SamplerState GetEmissionMapSamplerState()
 
 // Sample the normal map.
 #ifdef _BASE_MAP_MODE_2D
-#define SAMPLE_NORMAL_MAP(uv, progress) UnpackNormal(SAMPLE_TEXTURE2D(_NormalMap, GetNormalMapSamplerState(), uv));
+#define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE2D(_NormalMap, GetNormalMapSamplerState(), uv), scale);
 #elif _BASE_MAP_MODE_2D_ARRAY
-#define SAMPLE_NORMAL_MAP(uv, progress) UnpackNormal(SAMPLE_TEXTURE2D_ARRAY(_NormalMap2DArray, GetNormalMapSamplerState(), uv, progress));
+#define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE2D_ARRAY(_NormalMap2DArray, GetNormalMapSamplerState(), uv, progress), scale);
 #elif _BASE_MAP_MODE_3D
-#define SAMPLE_NORMAL_MAP(uv, progress) UnpackNormal(SAMPLE_TEXTURE3D_LOD(_NormalMap3D, GetNormalMapSamplerState(), float3(uv, progress), 0));
+#define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE3D_LOD(_NormalMap3D, GetNormalMapSamplerState(), float3(uv, progress), 0), scale);
 #endif
 
 // Sample the metallic map.

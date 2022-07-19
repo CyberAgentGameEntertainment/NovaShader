@@ -25,11 +25,12 @@ namespace Nova.Editor.Core.Scripts
         public const string NormalMap = "_NormalMap";
         public const string NormalMap2DArray = "_NormalMap2DArray";
         public const string NormalMap3D = "_NormalMap3D";
+        public const string NormalMapBumpScale = "_NormalMapBumpScale";
         public const string SpecularMap = "_SpecularMap";
         public const string SpecularMap2DArray = "_SpecularMap2DArray";
         public const string SpecularMap3D = "_SpecularMap3D";
-        public const string Specular = "_Specular";
-        public const string SpecularMapChannelsX = "_SpecularMapChannelsX";
+        public const string Specular = "_SpecularColor";
+
         public const string MetallicMap = "_MetallicMap";
         public const string MetallicMap2DArray = "_MetallicMap2DArray";
         public const string MetallicMap3D = "_MetallicMap3D";

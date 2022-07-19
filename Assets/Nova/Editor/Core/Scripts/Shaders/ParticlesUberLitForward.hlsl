@@ -14,7 +14,7 @@
 #ifndef _ENVIRONMENT_REFLECTIONS_ENABLED
 // This symbol has been defined for URP Functions.
 #define _ENVIRONMENTREFLECTIONS_OFF
-#endif 
+#endif
 
 // todo If REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR is defined, uv coords of shadow map is calculated in vertex shader.
 #define REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR
@@ -47,24 +47,25 @@ VaryingsLit vertLit(AttributesLit input)
     output.tangentWS.w = input.tangentOS.w;
     output.binormalWS = cross(output.varyingsUnlit.normalWS, output.tangentWS) * input.tangentOS.w;
     #endif
-    
+
     // todo : vertexLight is not used in ParticlesLitForwardPass.hlsl.
     // half3 vertexLight = VertexLighting(output.positionWS, output.varyingsUnlit.normalWS);
     half fogFactor = ComputeFogFactor(output.varyingsUnlit.positionHCS.z);
     output.positionWS.w = fogFactor;
-    
+
     OUTPUT_SH(output.varyingsUnlit.normalWS.xyz, output.vertexSH);
 
     #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(_RECEIVE_SHADOWS_ENABLED)
     output.shadowCoord = TransformWorldToShadowCoord(output.positionWS.xyz);
     #endif
-    
+
     return output;
 }
-half GetMetallic( float3 uvw )
+
+half GetMetallic(float3 uvw)
 {
     #ifdef _SPECULAR_SETUP
-    return 0;
+    return 1;
     #else
     #ifdef _METALLIC_MAP_ENABLED
     half4 metallic = SAMPLE_METALLIC_MAP(uvw.xy, uvw.z);
@@ -74,7 +75,8 @@ half GetMetallic( float3 uvw )
     #endif
     #endif
 }
-half GetSmoothness( float3 uvw )
+
+half GetSmoothness(float3 uvw)
 {
     #ifdef _SMOOTHNESS_MAP_ENABLED
     const half4 smoothness = SAMPLE_SMOOTHNESS_MAP(uvw.xy, uvw.z);
@@ -84,17 +86,23 @@ half GetSmoothness( float3 uvw )
     return _Smoothness;
     #endif
 }
+
 half3 GetSpecular(float3 uvw)
 {
     #ifdef _SPECULAR_SETUP
+    #ifdef _SPECULAR_MAP_ENABLED
     const half4 specular = SAMPLE_SPECULAR_MAP(uvw.xy, uvw.z);
-    return specular.xyz;
+    return specular.xyz * _SpecularColor.xyz;
+    #else
+    return _SpecularColor.xyz;
+    #endif
+
     #else
     return half3(0, 0, 0);
     #endif
 }
 #ifdef _RECEIVE_SHADOWS_ENABLED
-float4 GetShadowCoord( VaryingsLit input )
+float4 GetShadowCoord(VaryingsLit input)
 {
     float4 shadowCoord = float4(0, 0, 0, 0);
     #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
@@ -104,6 +112,7 @@ float4 GetShadowCoord( VaryingsLit input )
     #endif
     return shadowCoord;
 }
+
 #define GET_SHADOW_COORD( shadowCoord, input ) shadowCoord = GetShadowCoord(input)
 #else
 #define GET_SHADOW_COORD( shadowCoord, input )
@@ -119,7 +128,7 @@ float3 GetNormalWS(SurfaceData surfaceData, VaryingsLit input)
             input.tangentWS.xyz,
             input.binormalWS.xyz,
             input.varyingsUnlit.normalWS.xyz));
-    
+
     #else
     normalWS = input.varyingsUnlit.normalWS.xyz;
     #endif
@@ -127,13 +136,12 @@ float3 GetNormalWS(SurfaceData surfaceData, VaryingsLit input)
     return normalWS;
 }
 
-void InitializeSurfaceData( out SurfaceData surfaceData, VaryingsLit input, half4 albedoColor)
+void InitializeSurfaceData(out SurfaceData surfaceData, VaryingsLit input, half4 albedoColor)
 {
     surfaceData = (SurfaceData)0;
     Varyings inputUnlit = input.varyingsUnlit;
     surfaceData.albedo = albedoColor.xyz;
-    // TODO Survey the SampleNormalTS Function in Particels.hlsl in URP package.
-    surfaceData.normalTS = SAMPLE_NORMAL_MAP(inputUnlit.baseMapUVAndProgresses.xy, inputUnlit.baseMapUVAndProgresses.z);
+    surfaceData.normalTS = SAMPLE_NORMAL_MAP(inputUnlit.baseMapUVAndProgresses.xy, inputUnlit.baseMapUVAndProgresses.z, _NormalMapBumpScale);
     surfaceData.metallic = GetMetallic(inputUnlit.baseMapUVAndProgresses.xyz);
     surfaceData.specular = GetSpecular(inputUnlit.baseMapUVAndProgresses.xyz);
     surfaceData.smoothness = GetSmoothness(inputUnlit.baseMapUVAndProgresses.xyz);
@@ -142,9 +150,10 @@ void InitializeSurfaceData( out SurfaceData surfaceData, VaryingsLit input, half
     surfaceData.emission = 0;
     // The values of clearCoatMask,clearCoatSmoothness and occlusion is referenced from ParticlesLitInput.hlsl in UPR Package. 
     surfaceData.clearCoatMask = 0;
-    surfaceData.clearCoatSmoothness = 1;
+    surfaceData.clearCoatSmoothness = 0;
     surfaceData.occlusion = 1;
 }
+
 void InitializeInputData(out InputData inputData, SurfaceData surfaceData, VaryingsLit input)
 {
     inputData = (InputData)0;
@@ -153,7 +162,7 @@ void InitializeInputData(out InputData inputData, SurfaceData surfaceData, Varyi
     inputData.normalWS = GetNormalWS(surfaceData, input);
     // todo : SHADER_HINT_NICE_QUALITY
     inputData.viewDirectionWS = SafeNormalize(inputUnlit.viewDirWS);
-    GET_SHADOW_COORD(inputData.shadowCoord, input );
+    GET_SHADOW_COORD(inputData.shadowCoord, input);
     inputData.fogCoord = input.positionWS.w;
     inputData.bakedGI = SampleSHPixel(input.vertexSH, inputData.normalWS);
     inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(inputUnlit.positionHCS);
@@ -161,15 +170,15 @@ void InitializeInputData(out InputData inputData, SurfaceData surfaceData, Varyi
     inputData.shadowMask = half4(1, 1, 1, 1);
     inputData.vertexLighting = half3(0, 0, 0);
 }
+
 half4 fragLit(VaryingsLit input) : SV_Target
 {
     SurfaceData surfaceData;
     InitializeSurfaceData(surfaceData, input, frag(input.varyingsUnlit));
-    
     InputData inputData;
     InitializeInputData(inputData, surfaceData, input);
-    
-    half4 color =UniversalFragmentPBR(inputData, surfaceData);
+
+    half4 color = UniversalFragmentPBR(inputData, surfaceData);
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
     return color;
 }

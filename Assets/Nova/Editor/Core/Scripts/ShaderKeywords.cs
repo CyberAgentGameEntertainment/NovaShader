@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2021 CyberAgent, Inc.
+// Copyright 2022 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -17,6 +17,7 @@ namespace Nova.Editor.Core.Scripts
         public const string EnvironmentReflectionsEnabled = "_ENVIRONMENT_REFLECTIONS_ENABLED";
 
         public const string SpecularSetup = "_SPECULAR_SETUP";
+
         // Base Color
         public const string BaseMapRotationEnabled = "_BASE_MAP_ROTATION_ENABLED";
         public const string BaseMapMode2D = "_BASE_MAP_MODE_2D";
@@ -25,11 +26,13 @@ namespace Nova.Editor.Core.Scripts
         public const string BaseSamplerStatePointMirror = "_BASE_SAMPLER_STATE_POINT_MIRROR";
         public const string BaseSamplerStateLinearMirror = "_BASE_SAMPLER_STATE_LINEAR_MIRROR";
         public const string BaseSamplerStateTrilinearMirror = "_BASE_SAMPLER_STATE_TRILINEAR_MIRROR";
-        
+
         // Surface maps
         public const string NormalMapEnabled = "_NORMAL_MAP_ENABLED";
         public const string MetallicMapEnabled = "_METALLIC_MAP_ENABLED";
         public const string SmoothnessMapEnabled = "_SMOOTHNESS_MAP_ENABLED";
+        public const string SpecularMapEnabled = "_SPECULAR_MAP_ENABLED";
+
         // Tint Color
         public const string TintAreaAll = "_TINT_AREA_ALL";
         public const string TintAreaRim = "_TINT_AREA_RIM";

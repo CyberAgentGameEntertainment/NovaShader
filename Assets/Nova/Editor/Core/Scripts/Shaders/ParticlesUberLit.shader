@@ -21,20 +21,21 @@ Shader "Nova/Particles/UberLit"
         _NormalMap("Normal Map", 2D) = "" {}
         _NormalMap2DArray("Normal Map 2D Array", 2DArray) = "" {}
         _NormalMap3D("Normal Map 3D", 3D) = "" {}
+        _NormalMapBumpScale("Normal Map Bump Scale", Float) = 1.0
         _SpecularMap("Specular Map", 2D) = "" {}
         _SpecularMap2DArray("Specular Map 2D Array", 2DArray) = "" {}
         _SpecularMap3D("Specluar Map 3D", 3D) = "" {}
-        _Specular("Specular", Range( 0.0, 1.0)) = 0.5
+        _SpecularColor("Specular Color", Color) = (1, 1, 1, 1)
         _SpecularMapChannelsX("Specular Map Channes X", Float) = 0.0
         _MetallicMap("Metallic Map", 2D) = "" {}
         _MetallicMap2DArray("Metallic Map 2D Array", 2DArray) = "" {}
         _MetallicMap3D("Metallic Map 3D", 3D) = "" {}
-        [Gamma]_Metallic("Metallic", Range( 0.0, 1.0)) = 0.5
+        [Gamma]_Metallic("Metallic", Range( 0.0, 1.0)) = 1.0
         _MetallicMapChannelsX("Metallic Map Channes X", Float) = 0.0
         _SmoothnessMap("Smoothness Map", 2D) = "" {}
         _SmoothnessMap2DArray("Smoothness Map 2D Array", 2DArray) = "" {}
         _SmoothnessMap3D("Smoothness Map 3D", 3D) = "" {}
-        _Smoothness("Smoothness", Range( 0.0, 1.0)) = 0.5
+        _Smoothness("Smoothness", Range( 0.0, 1.0)) = 1.0
         _SmoothnessMapChannelsX("Smoothness Map Channes X", Float) = 3.0
         
         // Base Map
@@ -187,6 +188,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _NORMAL_MAP_ENABLED
             #pragma shader_feature_local_fragment _METALLIC_MAP_ENABLED
             #pragma shader_feature_local_fragment _SMOOTHNESS_MAP_ENABLED
+            #pragma shader_feature_local_fragment _SPECULAR_MAP_ENABLED
             
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
