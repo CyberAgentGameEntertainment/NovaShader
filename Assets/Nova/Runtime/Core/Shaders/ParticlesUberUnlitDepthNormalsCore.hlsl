@@ -1,19 +1,22 @@
-#ifndef NOVA_PARTICLESUBERUNLITFORWARD_INCLUDED
-#define NOVA_PARTICLESUBERUNLITFORWARD_INCLUDED
+#ifndef NOVA_PARTICLESUBERUNLITDEPTHNORMALSCORE_INCLUDED
+#define NOVA_PARTICLESUBERUNLITDEPTHNORMALSCORE_INCLUDED
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "ParticlesUberUnlit.hlsl"
 
-Varyings vert(Attributes input)
+VaryingsDrawDepth vert(AttributesDrawDepth input)
 {
-    Varyings output = (Varyings)0;
+    VaryingsDrawDepth output = (VaryingsDrawDepth)0;
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_TRANSFER_INSTANCE_ID(input, output);
     SETUP_VERTEX;
+    #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
-    InitializeVertexOutput(input, output);
+    #endif
+    InitializeVertexOutputDrawDepth(input, output);
 
+    #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;
     #ifdef _BASE_MAP_ROTATION_ENABLED
@@ -84,19 +87,25 @@ Varyings vert(Attributes input)
     output.transitionEmissionProgresses.y = FlipBookBlendingProgress(emissionMapProgress, _EmissionMapSliceCount);
     #endif
 
+    // NOTE : Not need in DepthNormals pass.
     //Fog
-    output.transitionEmissionProgresses.z = ComputeFogFactor(output.positionHCS.z);
-
+    // output.transitionEmissionProgresses.z = ComputeFogFactor(output.positionHCS.z);
+    #endif
+    
     return output;
 }
 
-half4 frag(Varyings input) : SV_Target
+half4 frag(VaryingsDrawDepth input, uniform bool outputNormal) : SV_Target
 {
     UNITY_SETUP_INSTANCE_ID(input);
     SETUP_FRAGMENT;
+    #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
     SETUP_CUSTOM_COORD(input);
-    InitializeFragmentInput(input);
-
+    #endif
+    
+    InitializeFragmentInputDrawDepth(input);
+    
+    #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
     #if defined(_TRANSPARENCY_BY_RIM) || defined(_TINT_AREA_RIM)
     half rim = 1.0 - abs(dot(input.normalWS, input.viewDirWS));
     #endif
@@ -134,8 +143,9 @@ half4 frag(Varyings input) : SV_Target
     ApplyTintColor(color, input.tintEmissionUV.xy, input.baseMapUVAndProgresses.w, tintBlendRate);
     #endif
 
+    // NOTE : Not need in DepthNormals pass.
     // Color Correction
-    ApplyColorCorrection(color.rgb);
+    // ApplyColorCorrection(color.rgb);
 
     // Alpha Transition
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
@@ -151,9 +161,10 @@ half4 frag(Varyings input) : SV_Target
     half emissionIntensity = _EmissionIntensity + GET_CUSTOM_COORD(_EmissionIntensityCoord);
     ApplyEmissionColor(color, input.tintEmissionUV.zw, emissionIntensity, input.transitionEmissionProgresses.y, _EmissionMapChannelsX);
 
+    // NOTE : Not need in DepthNormals pass.
     // Fog
-    half fogFactor = input.transitionEmissionProgresses.z;
-    color.rgb = MixFog(color.rgb, fogFactor);
+    // half fogFactor = input.transitionEmissionProgresses.z;
+    // color.rgb = MixFog(color.rgb, fogFactor);
 
     // Rim Transparency
     #if _TRANSPARENCY_BY_RIM
@@ -180,8 +191,15 @@ half4 frag(Varyings input) : SV_Target
     #endif
 
     AlphaClip(color.a, _Cutoff);
-    color.rgb = ApplyAlpha(color.rgb, color.a);
-    return color;
+    
+    // NOTE : Not need in DepthNormals pass.
+    // color.rgb = ApplyAlpha(color.rgb, color.a);
+    #endif
+    #ifdef DEPTH_NORMALS_PASS
+    return half4(NormalizeNormalPerPixel(input.normalWS), 0.0);
+    #else
+    return half4( 0.0, 0.0, 0.0, 0.0);
+    #endif
 }
 
 #endif
