@@ -133,7 +133,7 @@ namespace Nova.Editor.Core.Scripts
                 return _contentsStyle;
             }
         }
-        
+
         /// <summary>
         ///     Draw a <see cref="Texture" /> type property.
         /// </summary>
@@ -333,6 +333,18 @@ namespace Nova.Editor.Core.Scripts
         }
 
         /// <summary>
+        ///     Draw a property.
+        /// </summary>
+        /// <param name="editor"></param>
+        /// <param name="label"></param>
+        /// <param name="property"></param>
+        public static void DrawProperty(MaterialEditor editor, string label, MaterialProperty property)
+        {
+            var fullRect = EditorGUILayout.GetControlRect();
+            editor.ShaderProperty(fullRect, property, label);
+        }
+
+        /// <summary>
         ///     Draw a property with custom coord for it.
         /// </summary>
         /// <param name="editor"></param>
@@ -521,7 +533,7 @@ namespace Nova.Editor.Core.Scripts
             EditorGUI.showMixedValue = false;
         }
 
-        private static void DrawEnumContentsProperty<T>(MaterialEditor editor, Rect rect, MaterialProperty property)
+        public static void DrawEnumContentsProperty<T>(MaterialEditor editor, Rect rect, MaterialProperty property)
             where T : Enum
         {
             var value = (T)Enum.ToObject(typeof(T), (int)property.floatValue);

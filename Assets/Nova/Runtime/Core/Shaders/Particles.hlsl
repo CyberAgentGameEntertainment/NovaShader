@@ -117,7 +117,8 @@ float SoftParticles(float4 projection, half intensity)
 }
 
 // Returns the luminance.
-float Luminance(float3 color)
+// todo The function name suffered from Unity's built-in function. 
+float GetLuminance(float3 color)
 {
     return dot(color.rgb, float3(0.298912, 0.586611, 0.114478));
 }
@@ -140,7 +141,7 @@ void AlphaClip(real alpha, real cutoff, real offset = 0.0h)
 
 // Get UV offset values by flow map.
 half2 GetFlowMapUvOffset(TEXTURE2D_PARAM(flowMap, sampler_flowMap),
-    in float intensity, in float2 flowMapUv, in half flowMapChannlesX, in half flowMapChannelsY)
+                         in float intensity, in float2 flowMapUv, in half flowMapChannlesX, in half flowMapChannelsY)
 {
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
     half4 flowSrc = SAMPLE_TEXTURE2D(flowMap, sampler_flowMap, flowMapUv);

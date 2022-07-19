@@ -30,7 +30,7 @@ namespace Nova.Editor.Core.Scripts
         protected override void DrawGUI(MaterialEditor editor, MaterialProperty[] properties)
         {
             _commonGUI.Setup(editor, _commonMaterialProperties);
-            _commonGUI.DrawRenderSettingsProperties();
+            _commonGUI.DrawRenderSettingsProperties(null);
             _commonGUI.DrawBaseMapProperties();
             _commonGUI.DrawTintColorProperties();
             _commonGUI.DrawFlowMapProperties();
