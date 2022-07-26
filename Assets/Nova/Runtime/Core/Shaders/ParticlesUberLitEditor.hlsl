@@ -1,10 +1,14 @@
-#ifndef NOVA_PARTICLESUBERUNLITFORWARD_INCLUDED
-#define NOVA_PARTICLESUBERUNLITFORWARD_INCLUDED
+#ifndef NOVA_PARTICLESUBERUNLITEDITOR_INCLUDED
+#define NOVA_PARTICLESUBERUNLITEDITOR_INCLUDED
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "ParticlesUberUnlit.hlsl"
 
-Varyings vert(Attributes input)
+float _ObjectId;
+float _PassValue;
+float4 _SelectionID;
+
+Varyings vertEditor(Attributes input)
 {
     Varyings output = (Varyings)0;
     UNITY_SETUP_INSTANCE_ID(input);
@@ -26,12 +30,9 @@ Varyings vert(Attributes input)
     output.baseMapUVAndProgresses.xy = baseMapUv;
 
     // Base Map Progress
-    #ifdef _BASE_MAP_MODE_2D_ARRAY
+    #if defined(_BASE_MAP_MODE_2D_ARRAY) || defined(_BASE_MAP_MODE_3D)
     float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
     output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
-    #elif _BASE_MAP_MODE_3D
-    float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
-    output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
     #endif
 
     // Tint Map UV
@@ -54,43 +55,29 @@ Varyings vert(Attributes input)
 
     // Transition Map UV
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
-    output.flowTransitionUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP(input.texcoord.xy);
+    output.flowTransitionUVs.zw = TRANSFORM_TEX(input.texcoord.xy, _AlphaTransitionMap);
     output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord)
     output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord)
     #endif
 
-    // Transition Map Progress
-    #ifdef _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
-    float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
-    output.transitionEmissionProgresses.x = FlipBookProgress(transitionMapProgress, _AlphaTransitionMapSliceCount);
-    #elif _ALPHA_TRANSITION_MAP_MODE_3D
-    float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
-    output.transitionEmissionProgresses.x = FlipBookBlendingProgress(transitionMapProgress, _AlphaTransitionMapSliceCount);
-    #endif
-
-    // Emission Map UV
-    #ifdef _EMISSION_AREA_MAP
-    output.tintEmissionUV.zw = TRANSFORM_EMISSION_MAP(input.texcoord.xy);
-    output.tintEmissionUV.z += GET_CUSTOM_COORD(_EmissionMapOffsetXCoord)
-    output.tintEmissionUV.w += GET_CUSTOM_COORD(_EmissionMapOffsetYCoord)
-    #endif
-
+    // NOTE: Emission is not needed in EditorPass.
     // Emission Map Progress
-    #ifdef _EMISSION_MAP_MODE_2D_ARRAY
-    float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
-    output.transitionEmissionProgresses.y = FlipBookProgress(emissionMapProgress, _EmissionMapSliceCount);
-    #elif _EMISSION_MAP_MODE_3D
-    float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
-    output.transitionEmissionProgresses.y = FlipBookBlendingProgress(emissionMapProgress, _EmissionMapSliceCount);
-    #endif
+    //#ifdef _EMISSION_MAP_MODE_2D_ARRAY
+    //    float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
+    //    output.transitionEmissionProgresses.y = FlipBookProgress(emissionMapProgress, _EmissionMapSliceCount);
+    //#elif _EMISSION_MAP_MODE_3D
+    //    float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
+    //    output.transitionEmissionProgresses.y = FlipBookBlendingProgress(emissionMapProgress, _EmissionMapSliceCount);
+    //#endif
 
+    // NOTE: Fog is not needed in EditorPass.
     //Fog
-    output.transitionEmissionProgresses.z = ComputeFogFactor(output.positionHCS.z);
+    //output.transitionEmissionProgresses.z = ComputeFogFactor(output.positionHCS.z);
 
     return output;
 }
 
-half4 frag(Varyings input) : SV_Target
+void fragSceneClip(Varyings input)
 {
     UNITY_SETUP_INSTANCE_ID(input);
     SETUP_FRAGMENT;
@@ -148,14 +135,15 @@ half4 frag(Varyings input) : SV_Target
     // Vertex Color
     ApplyVertexColor(color, input.color);
 
+    // NOTE: Emission is not needed in EditorPass.
     // Emission
-    half emissionIntensity = _EmissionIntensity + GET_CUSTOM_COORD(_EmissionIntensityCoord);
-    ApplyEmissionColor(color, input.tintEmissionUV.zw, emissionIntensity, input.transitionEmissionProgresses.y,
-                       _EmissionMapChannelsX);
+    //half emissionIntensity = _EmissionIntensity + GET_CUSTOM_COORD(_EmissionIntensityCoord);
+    //ApplyEmissionColor(color, input.tintEmissionUV.zw, emissionIntensity, input.transitionEmissionProgresses.y);
 
+    // NOTE: Fog is not needed in EditorPass.
     // Fog
-    half fogFactor = input.transitionEmissionProgresses.z;
-    color.rgb = MixFog(color.rgb, fogFactor);
+    //half fogFactor = input.transitionEmissionProgresses.z;
+    //color.rgb = MixFog(color.rgb, fogFactor);
 
     // Rim Transparency
     #if _TRANSPARENCY_BY_RIM
@@ -183,7 +171,18 @@ half4 frag(Varyings input) : SV_Target
 
     AlphaClip(color.a, _Cutoff);
     color.rgb = ApplyAlpha(color.rgb, color.a);
-    return color;
+}
+
+half4 fragSceneHighlight(Varyings input) : SV_Target
+{
+    fragSceneClip(input);
+    return float4(_ObjectId, _PassValue, 1, 1);
+}
+
+half4 fragScenePicking(Varyings input) : SV_Target
+{
+    fragSceneClip(input);
+    return _SelectionID;
 }
 
 #endif

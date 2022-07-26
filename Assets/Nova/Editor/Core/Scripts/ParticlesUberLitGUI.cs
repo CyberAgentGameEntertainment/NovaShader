@@ -2,6 +2,7 @@
 // Copyright 2022 CyberAgent, Inc.
 // --------------------------------------------------------------
 
+using System;
 using Nova.Editor.Foundation.Scripts;
 using UnityEditor;
 using UnityEngine;
@@ -14,13 +15,42 @@ namespace Nova.Editor.Core.Scripts
     /// </summary>
     internal sealed class ParticlesUberLitGUI : ParticlesGUI
     {
+        private readonly ParticlesUberCommonGUI _commonGUI = new ParticlesUberCommonGUI();
+
+        private ParticlesUberCommonMaterialProperties _commonMaterialProperties;
+        private MaterialEditor _editor;
+
         protected override void SetupProperties(MaterialProperty[] properties)
         {
             // common properties
             _commonMaterialProperties?.Setup(properties);
-            // Lit Settings
+            // Render Settings( for lit )
             _litWorkflowModeProp.Setup(properties);
+            _litReceiveShadowsProp.Setup(properties);
+            _specularHighlightsProp.Setup(properties);
+            _environmentReflectionsProp.Setup(properties);
+
+            // Sruface Map
+            _normalMapProp.Setup(properties);
+            _normalMap2DArrayProp.Setup(properties);
+            _normalMap3DProp.Setup(properties);
+            _specularMapProp.Setup(properties);
+            _specularMap2DArrayProp.Setup(properties);
+            _specularMap3DProp.Setup(properties);
+            _specularProp.Setup(properties);
+            _specularMapChannelsXProp.Setup(properties);
+            _metallicMapProp.Setup(properties);
+            _metallicMap2DArrayProp.Setup(properties);
+            _metallicMap3DProp.Setup(properties);
+            _metallicProp.Setup(properties);
+            _metallicMapChannelsXProp.Setup(properties);
+            _smoothnessMapProp.Setup(properties);
+            _smoothnessMap2DArrayProp.Setup(properties);
+            _smoothnessMap3DProp.Setup(properties);
+            _smoothnessProp.Setup(properties);
+            _smoothnessMapChannelsXProp.Setup(properties);
         }
+
 
         protected override void Initialize(MaterialEditor editor, MaterialProperty[] properties)
         {
@@ -30,54 +60,179 @@ namespace Nova.Editor.Core.Scripts
             // Lit Settings
             var prefsKeyPrefix = $"{GetType().Namespace}.{GetType().Name}.";
             var litSettingsFoldoutKey = $"{prefsKeyPrefix}{nameof(LitSettingsFoldout)}";
+            var surfaceMapsFoldoutKey = $"{prefsKeyPrefix}{nameof(SurfaceMapsFoldout)}";
+
+
             LitSettingsFoldout = new BoolEditorPrefsProperty(litSettingsFoldoutKey, true);
+            SurfaceMapsFoldout = new BoolEditorPrefsProperty(surfaceMapsFoldoutKey, true);
         }
 
         protected override void DrawGUI(MaterialEditor editor, MaterialProperty[] properties)
         {
+            _editor = editor;
             _commonGUI.Setup(editor, _commonMaterialProperties);
+            // Render Settings
+            _commonGUI.DrawRenderSettingsProperties(InternalRenderSettingsProperties);
+            // Base Map
+            _commonGUI.DrawBaseMapProperties();
+            // Surface
+            _commonGUI.DrawProperties(SurfaceMapsFoldout, "Surface Maps",
+                InternalDrawSurfaceMapsProperties); // Tint Color
+            // Tint Color
+            _commonGUI.DrawTintColorProperties();
+            // Flow Map
+            _commonGUI.DrawFlowMapProperties();
+            // Color Correction
+            _commonGUI.DrawColorCorrectionProperties();
+            // Alpha Transition
+            _commonGUI.DrawAlphaTransitionProperties();
+            // Emission
+            _commonGUI.DrawEmissionProperties();
+            // Transparency
+            _commonGUI.DrawTransparencyProperties();
+        }
 
-            _commonGUI.DrawRenderSettingsProperties();
-
-            // todo for lit GUI
-            using (var foldoutScope =
-                   new MaterialEditorUtility.FoldoutHeaderScope(LitSettingsFoldout.Value, "Lit Settings"))
+        private void InternalDrawSurfaceMapsTexturePropertiesCore(string label, Property map2DProp,
+            Property map2DArrayProp,
+            Property map3DProp, Property normalizedValueProp,
+            Property channelsXProperty)
+        {
+            var props = _commonMaterialProperties;
+            // The surface maps mode is decided by baseMapMode.
+            var baseMapMode = (BaseMapMode)props.BaseMapModeProp.Value.floatValue;
+            MaterialProperty textureProp;
+            switch (baseMapMode)
             {
-                if (foldoutScope.Foldout)
-                {
-                }
-
-                LitSettingsFoldout.Value = foldoutScope.Foldout;
+                case BaseMapMode.SingleTexture:
+                    textureProp = map2DProp.Value;
+                    break;
+                case BaseMapMode.FlipBook:
+                    textureProp = map2DArrayProp.Value;
+                    break;
+                case BaseMapMode.FlipBookBlending:
+                    textureProp = map3DProp.Value;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
-            _commonGUI.DrawBaseMapProperties();
-            _commonGUI.DrawTintColorProperties();
-            _commonGUI.DrawFlowMapProperties();
-            _commonGUI.DrawColorCorrectionProperties();
-            _commonGUI.DrawAlphaTransitionProperties();
-            _commonGUI.DrawEmissionProperties();
-            _commonGUI.DrawTransparencyProperties();
+            MaterialEditorUtility.DrawSmallTexture(
+                _editor,
+                label,
+                textureProp,
+                channelsXProperty?.Value,
+                normalizedValueProp?.Value
+            );
+        }
+
+        private void InternalDrawSurfaceMapsProperties()
+        {
+            InternalDrawSurfaceMapsTexturePropertiesCore(
+                "Normal Map",
+                _normalMapProp,
+                _normalMap2DArrayProp,
+                _normalMap3DProp,
+                null,
+                null);
+
+            var mode = (LitWorkflowMode)_litWorkflowModeProp.Value.floatValue;
+            if (mode == LitWorkflowMode.Specular)
+                InternalDrawSurfaceMapsTexturePropertiesCore(
+                    "Specular",
+                    _specularMapProp,
+                    _specularMap2DArrayProp,
+                    _specularMap3DProp,
+                    _specularProp,
+                    _specularMapChannelsXProp);
+            else
+                InternalDrawSurfaceMapsTexturePropertiesCore(
+                    "Metallic",
+                    _metallicMapProp,
+                    _metallicMap2DArrayProp,
+                    _metallicMap3DProp,
+                    _metallicProp,
+                    _metallicMapChannelsXProp);
+
+            InternalDrawSurfaceMapsTexturePropertiesCore(
+                "Smoothness",
+                _smoothnessMapProp,
+                _smoothnessMap2DArrayProp,
+                _smoothnessMap3DProp,
+                _smoothnessProp,
+                _smoothnessMapChannelsXProp);
+        }
+
+        private void InternalRenderSettingsProperties()
+        {
+            _commonGUI.DrawRenderSettingsPropertiesCore();
+            MaterialEditorUtility.DrawEnumProperty<LitWorkflowMode>(_editor, "Work Flow Mode",
+                _litWorkflowModeProp.Value);
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Receive Shadows", _litReceiveShadowsProp.Value);
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Specular Highlights", _specularHighlightsProp.Value);
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Environment Reflections",
+                _environmentReflectionsProp.Value);
         }
 
         protected override void MaterialChanged(Material material)
         {
             ParticlesUberUnlitMaterialPostProcessor.SetupMaterialKeywords(material);
             ParticlesUberUnlitMaterialPostProcessor.SetupMaterialBlendMode(material);
+            // TODO: For test.
+            material.EnableKeyword("_MAIN_LIGHT_CALCULATE_SHADOWS");
         }
-
-        private readonly ParticlesUberCommonGUI _commonGUI = new ParticlesUberCommonGUI();
-
-        private ParticlesUberCommonMaterialProperties _commonMaterialProperties;
 
         #region Foldout Properties
 
         private BoolEditorPrefsProperty LitSettingsFoldout { get; set; }
+        private BoolEditorPrefsProperty SurfaceMapsFoldout { get; set; }
 
         #endregion
 
         #region Lit Settings Material Properties
 
         private readonly Property _litWorkflowModeProp = new Property(PropertyNames.LitWorkflowMode);
+        private readonly Property _litReceiveShadowsProp = new Property(PropertyNames.LitReceiveShadows);
+
+        #endregion
+
+        #region Render Settings Properties
+
+        // Specular Highlights
+        private readonly Property _specularHighlightsProp = new Property(PropertyNames.SpecularHighlights);
+
+        // Environment Reflections
+        private readonly Property _environmentReflectionsProp = new Property(PropertyNames.EnvironmentReflections);
+
+        #endregion
+
+        #region Surface Maps Properties
+
+        // normalMap
+        private readonly Property _normalMapProp = new Property(PropertyNames.NormalMap);
+        private readonly Property _normalMap2DArrayProp = new Property(PropertyNames.NormalMap2DArray);
+
+        private readonly Property _normalMap3DProp = new Property(PropertyNames.NormalMap3D);
+
+        // specularMap
+        private readonly Property _specularMapProp = new Property(PropertyNames.SpecularMap);
+        private readonly Property _specularMap2DArrayProp = new Property(PropertyNames.SpecularMap2DArray);
+        private readonly Property _specularMap3DProp = new Property(PropertyNames.SpecularMap3D);
+        private readonly Property _specularProp = new Property(PropertyNames.Specular);
+        private readonly Property _specularMapChannelsXProp = new Property(PropertyNames.SpecularMapChannelsX);
+
+        // metallicMap
+        private readonly Property _metallicMapProp = new Property(PropertyNames.MetallicMap);
+        private readonly Property _metallicMap2DArrayProp = new Property(PropertyNames.MetallicMap2DArray);
+        private readonly Property _metallicMap3DProp = new Property(PropertyNames.MetallicMap3D);
+        private readonly Property _metallicProp = new Property(PropertyNames.Metallic);
+        private readonly Property _metallicMapChannelsXProp = new Property(PropertyNames.MetallicMapChannelsX);
+
+        // smoothnessMap
+        private readonly Property _smoothnessMapProp = new Property(PropertyNames.SmoothnessMap);
+        private readonly Property _smoothnessMap2DArrayProp = new Property(PropertyNames.SmoothnessMap2DArray);
+        private readonly Property _smoothnessMap3DProp = new Property(PropertyNames.SmoothnessMap3D);
+        private readonly Property _smoothnessProp = new Property(PropertyNames.Smoothness);
+        private readonly Property _smoothnessMapChannelsXProp = new Property(PropertyNames.SmoothnessMapChannelsX);
 
         #endregion
     }

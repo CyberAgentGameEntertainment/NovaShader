@@ -14,27 +14,16 @@ namespace Nova.Editor.Core.Scripts
     /// </summary>
     internal class ParticlesUberCommonGUI
     {
-        # region private variable
-
-        private const int RenderPriorityMax = 50;
-        private const int RenderPriorityMin = -RenderPriorityMax;
-        private MaterialEditor _editor;
-        private ParticlesUberCommonMaterialProperties _commonMaterialProperties;
-
-        # endregion
-
-        # region internal method
-
         public void Setup(MaterialEditor editor, ParticlesUberCommonMaterialProperties commonMaterialProperties)
         {
             _editor = editor;
             _commonMaterialProperties = commonMaterialProperties;
         }
 
-        public void DrawRenderSettingsProperties()
+        public void DrawRenderSettingsProperties(Action drawPropertiesFunc)
         {
-            DrawProperties(_commonMaterialProperties.RenderSettingsFoldout,
-                "Render Settings", InternalDrawRenderSettingsProperties);
+            DrawProperties(_commonMaterialProperties.RenderSettingsFoldout, "Render Settings",
+                drawPropertiesFunc ?? DrawRenderSettingsPropertiesCore);
         }
 
         public void DrawBaseMapProperties()
@@ -42,6 +31,7 @@ namespace Nova.Editor.Core.Scripts
             DrawProperties(_commonMaterialProperties.BaseMapFoldout,
                 "Base Map", InternalDrawBaseMapProperties);
         }
+
 
         public void DrawTintColorProperties()
         {
@@ -79,21 +69,15 @@ namespace Nova.Editor.Core.Scripts
                 "Transparency", InternalDrawTransparencyProperties);
         }
 
-        #endregion
-
-        #region private method
-
-        private void DrawProperties(BoolEditorPrefsProperty foldout, string categoryName, Action internalDrawFunction)
+        public void DrawProperties(BoolEditorPrefsProperty foldout, string categoryName, Action internalDrawFunction)
         {
-            using (var foldoutScope = new MaterialEditorUtility.FoldoutHeaderScope(foldout.Value, categoryName))
-            {
-                if (foldoutScope.Foldout) internalDrawFunction();
+            using var foldoutScope = new MaterialEditorUtility.FoldoutHeaderScope(foldout.Value, categoryName);
+            if (foldoutScope.Foldout) internalDrawFunction();
 
-                foldout.Value = foldoutScope.Foldout;
-            }
+            foldout.Value = foldoutScope.Foldout;
         }
 
-        private void InternalDrawRenderSettingsProperties()
+        public void DrawRenderSettingsPropertiesCore()
         {
             var props = _commonMaterialProperties;
 
@@ -456,6 +440,13 @@ namespace Nova.Editor.Core.Scripts
                 }
         }
 
-        #endregion
+        #region private variable
+
+        private const int RenderPriorityMax = 50;
+        private const int RenderPriorityMin = -RenderPriorityMax;
+        private MaterialEditor _editor;
+        private ParticlesUberCommonMaterialProperties _commonMaterialProperties;
+
+        # endregion
     }
 }
