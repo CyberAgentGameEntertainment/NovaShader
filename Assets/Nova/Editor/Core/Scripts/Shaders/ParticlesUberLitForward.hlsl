@@ -27,7 +27,9 @@
 // This symbol has been defined for URP Functions.
 #define MAIN_LIGHT_CALCULATE_SHADOWS
 #endif
-
+// This symbol has been defined for URP Functions.
+// If this symbol is defined, calculation to the additional lights is enabled.
+#define _ADDITIONAL_LIGHTS
 
 #include "ParticlesUberUnlitForward.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
