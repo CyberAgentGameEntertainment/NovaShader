@@ -333,18 +333,6 @@ namespace Nova.Editor.Core.Scripts
         }
 
         /// <summary>
-        ///     Draw a property.
-        /// </summary>
-        /// <param name="editor"></param>
-        /// <param name="label"></param>
-        /// <param name="property"></param>
-        public static void DrawProperty(MaterialEditor editor, string label, MaterialProperty property)
-        {
-            var fullRect = EditorGUILayout.GetControlRect();
-            editor.ShaderProperty(fullRect, property, label);
-        }
-
-        /// <summary>
         ///     Draw a property with custom coord for it.
         /// </summary>
         /// <param name="editor"></param>
