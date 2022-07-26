@@ -296,11 +296,11 @@ SamplerState GetEmissionMapSamplerState()
 
 // Sample the normal map.
 #ifdef _BASE_MAP_MODE_2D
-#define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE2D(_NormalMap, GetNormalMapSamplerState(), uv), scale);
+#define SAMPLE_NORMAL_MAP(uv, progress) UnpackNormal(SAMPLE_TEXTURE2D(_NormalMap, GetNormalMapSamplerState(), uv));
 #elif _BASE_MAP_MODE_2D_ARRAY
-#define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE2D_ARRAY(_NormalMap2DArray, GetNormalMapSamplerState(), uv, progress), scale);
+#define SAMPLE_NORMAL_MAP(uv, progress) UnpackNormal(SAMPLE_TEXTURE2D_ARRAY(_NormalMap2DArray, GetNormalMapSamplerState(), uv, progress));
 #elif _BASE_MAP_MODE_3D
-#define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE3D_LOD(_NormalMap3D, GetNormalMapSamplerState(), float3(uv, progress), 0), scale);
+#define SAMPLE_NORMAL_MAP(uv, progress) UnpackNormal(SAMPLE_TEXTURE3D_LOD(_NormalMap3D, GetNormalMapSamplerState(), float3(uv, progress), 0));
 #endif
 
 // Sample the metallic map.

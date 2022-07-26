@@ -143,7 +143,7 @@ void InitializeSurfaceData(out SurfaceData surfaceData, VaryingsLit input, half4
     surfaceData = (SurfaceData)0;
     Varyings inputUnlit = input.varyingsUnlit;
     surfaceData.albedo = albedoColor.xyz;
-    surfaceData.normalTS = SAMPLE_NORMAL_MAP(inputUnlit.baseMapUVAndProgresses.xy, inputUnlit.baseMapUVAndProgresses.z, _NormalMapBumpScale);
+    surfaceData.normalTS = SAMPLE_NORMAL_MAP(inputUnlit.baseMapUVAndProgresses.xy, inputUnlit.baseMapUVAndProgresses.z);
     surfaceData.metallic = GetMetallic(inputUnlit.baseMapUVAndProgresses.xyz);
     surfaceData.specular = GetSpecular(inputUnlit.baseMapUVAndProgresses.xyz);
     surfaceData.smoothness = GetSmoothness(inputUnlit.baseMapUVAndProgresses.xyz);

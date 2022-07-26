@@ -35,7 +35,6 @@ namespace Nova.Editor.Core.Scripts
             _normalMapProp.Setup(properties);
             _normalMap2DArrayProp.Setup(properties);
             _normalMap3DProp.Setup(properties);
-            _normalMapBumpScaleProp.Setup(properties);
             _specularMapProp.Setup(properties);
             _specularMap2DArrayProp.Setup(properties);
             _specularMap3DProp.Setup(properties);
@@ -207,7 +206,7 @@ namespace Nova.Editor.Core.Scripts
                 _normalMapProp,
                 _normalMap2DArrayProp,
                 _normalMap3DProp,
-                _normalMapBumpScaleProp,
+                null,
                 null);
 
             var mode = (LitWorkflowMode)_litWorkflowModeProp.Value.floatValue;
@@ -284,8 +283,7 @@ namespace Nova.Editor.Core.Scripts
         private readonly Property _normalMapProp = new Property(PropertyNames.NormalMap);
         private readonly Property _normalMap2DArrayProp = new Property(PropertyNames.NormalMap2DArray);
         private readonly Property _normalMap3DProp = new Property(PropertyNames.NormalMap3D);
-        private readonly Property _normalMapBumpScaleProp = new Property(PropertyNames.NormalMapBumpScale);
-        
+
         // specularMap
         private readonly Property _specularMapProp = new Property(PropertyNames.SpecularMap);
         private readonly Property _specularMap2DArrayProp = new Property(PropertyNames.SpecularMap2DArray);

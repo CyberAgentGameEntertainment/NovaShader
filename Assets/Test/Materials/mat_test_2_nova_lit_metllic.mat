@@ -245,7 +245,7 @@ Material:
     - _LuminanceTransparencyProgressCoord: 0
     - _LuminanceTransparencySharpness: 0.5
     - _LuminanceTransparencySharpnessCoord: 0
-    - _Metallic: 0.5
+    - _Metallic: 1
     - _MetallicMapChannelsX: 0
     - _NormalMapBumpScale: 1
     - _OcclusionStrength: 1
