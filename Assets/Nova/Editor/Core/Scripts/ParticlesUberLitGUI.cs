@@ -6,7 +6,6 @@ using System;
 using Nova.Editor.Foundation.Scripts;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
 using PropertyNames = Nova.Editor.Core.Scripts.MaterialPropertyNames;
 
 namespace Nova.Editor.Core.Scripts
@@ -77,7 +76,8 @@ namespace Nova.Editor.Core.Scripts
             // Base Map
             _commonGUI.DrawBaseMapProperties();
             // Surface
-            _commonGUI.DrawProperties(SurfaceMapsFoldout, "Surface Maps", InternalDrawSurfaceMapsProperties); // Tint Color
+            _commonGUI.DrawProperties(SurfaceMapsFoldout, "Surface Maps",
+                InternalDrawSurfaceMapsProperties); // Tint Color
             // Tint Color
             _commonGUI.DrawTintColorProperties();
             // Flow Map
@@ -97,105 +97,32 @@ namespace Nova.Editor.Core.Scripts
             Property map3DProp, Property normalizedValueProp,
             Property channelsXProperty)
         {
-            var mapHeight = EditorGUIUtility.singleLineHeight * 2;
-            var mapWidth = mapHeight;
             var props = _commonMaterialProperties;
             // The surface maps mode is decided by baseMapMode.
             var baseMapMode = (BaseMapMode)props.BaseMapModeProp.Value.floatValue;
-            MaterialProperty normalMaterialProp;
+            MaterialProperty textureProp;
             switch (baseMapMode)
             {
                 case BaseMapMode.SingleTexture:
-                    normalMaterialProp = map2DProp.Value;
+                    textureProp = map2DProp.Value;
                     break;
                 case BaseMapMode.FlipBook:
-                    normalMaterialProp = map2DArrayProp.Value;
+                    textureProp = map2DArrayProp.Value;
                     break;
                 case BaseMapMode.FlipBookBlending:
-                    normalMaterialProp = map3DProp.Value;
+                    textureProp = map3DProp.Value;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            // Texture
-            Type textureType;
-            switch (normalMaterialProp.textureDimension)
-            {
-                case TextureDimension.Unknown:
-                case TextureDimension.None:
-                case TextureDimension.Any:
-                    textureType = typeof(Texture);
-                    break;
-                case TextureDimension.Tex2D:
-                case TextureDimension.Cube:
-                    textureType = typeof(Texture2D);
-                    break;
-                case TextureDimension.Tex3D:
-                    textureType = typeof(Texture3D);
-                    break;
-                case TextureDimension.Tex2DArray:
-                case TextureDimension.CubeArray:
-                    textureType = typeof(Texture2DArray);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            var fullRect = EditorGUILayout.GetControlRect(false, mapHeight);
-            var textureRect = fullRect;
-            textureRect.width = mapHeight;
-            using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
-            {
-                var texture = (Texture)EditorGUI.ObjectField(textureRect, normalMaterialProp.textureValue,
-                    textureType,
-                    false);
-                if (changeCheckScope.changed)
-                {
-                    _editor.RegisterPropertyChangeUndo(normalMaterialProp.name);
-                    normalMaterialProp.textureValue = texture;
-                }
-            }
-
-            var offsetXFromTextureRectLeft = 8;
-            var offsetXFromTextureRectRight = textureRect.width + offsetXFromTextureRectLeft;
-            var offsetYFromTextureRectTop = 0.0f;
-            if (normalizedValueProp == null)
-                // If normalizedValueProp is null, num of property is 1.
-                // Therefore, the coordinates of the properties are aligned to the center.  
-                offsetYFromTextureRectTop = textureRect.height / 2 - EditorGUIUtility.singleLineHeight / 2;
-
-            var propertyRect = EditorGUI.IndentedRect(fullRect);
-
-            propertyRect.y += offsetYFromTextureRectTop;
-            propertyRect.height = EditorGUIUtility.singleLineHeight;
-            if (normalizedValueProp != null)
-            {
-                _editor.ShaderProperty(propertyRect, normalizedValueProp.Value, label, 3);
-            }
-            else
-            {
-                var rect = propertyRect;
-                rect.x += offsetXFromTextureRectRight;
-                GUI.Label(rect, label);
-            }
-
-            propertyRect.xMin += offsetXFromTextureRectRight;
-            propertyRect.y += EditorGUIUtility.singleLineHeight;
-            if (channelsXProperty != null)
-            {
-                var xPropertyLabelRect = propertyRect;
-                GUI.Label(xPropertyLabelRect, "Channels");
-
-                var xPropertyXOffset = EditorGUIUtility.labelWidth - mapWidth - offsetXFromTextureRectLeft;
-                var xPropertyRect = propertyRect;
-                xPropertyRect.xMin += xPropertyXOffset;
-                GUI.Label(xPropertyRect, "X");
-                xPropertyRect.xMin += GUI.skin.label.fontSize;
-                MaterialEditorUtility.DrawEnumContentsProperty<ColorChannels>(_editor, xPropertyRect,
-                    channelsXProperty.Value);
-                propertyRect.y += EditorGUIUtility.singleLineHeight;
-            }
+            MaterialEditorUtility.DrawSmallTexture(
+                _editor,
+                label,
+                textureProp,
+                channelsXProperty?.Value,
+                normalizedValueProp?.Value
+            );
         }
 
         private void InternalDrawSurfaceMapsProperties()
@@ -250,7 +177,7 @@ namespace Nova.Editor.Core.Scripts
         {
             ParticlesUberUnlitMaterialPostProcessor.SetupMaterialKeywords(material);
             ParticlesUberUnlitMaterialPostProcessor.SetupMaterialBlendMode(material);
-            // todo テスト
+            // TODO: For test.
             material.EnableKeyword("_MAIN_LIGHT_CALCULATE_SHADOWS");
         }
 
