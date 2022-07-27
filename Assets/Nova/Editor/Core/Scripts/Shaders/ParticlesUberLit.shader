@@ -21,6 +21,7 @@ Shader "Nova/Particles/UberLit"
         _NormalMap("Normal Map", 2D) = "" {}
         _NormalMap2DArray("Normal Map 2D Array", 2DArray) = "" {}
         _NormalMap3D("Normal Map 3D", 3D) = "" {}
+        _NormalMapBumpScale("Normal Map Bump Scale", Float) = 1.0
         _SpecularMap("Specular Map", 2D) = "" {}
         _SpecularMap2DArray("Specular Map 2D Array", 2DArray) = "" {}
         _SpecularMap3D("Specluar Map 3D", 3D) = "" {}
