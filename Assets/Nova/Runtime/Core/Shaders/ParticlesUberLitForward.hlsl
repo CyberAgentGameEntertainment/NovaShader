@@ -2,6 +2,7 @@
 #define NOVA_PARTICLESUBERUNLITFORWARD_INCLUDED
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 #include "ParticlesUberUnlit.hlsl"
 
 Varyings vert(Attributes input)
@@ -123,6 +124,9 @@ half4 frag(Varyings input) : SV_Target
     // Base Color
     half4 color = SAMPLE_BASE_MAP(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z);
 
+    // Normal map
+    half4 normal = SAMPLE_NORMAL_MAP(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z);
+
     // Tint Color
     #if defined(_TINT_AREA_ALL) || defined(_TINT_AREA_RIM)
     half tintBlendRate = _TintBlendRate + GET_CUSTOM_COORD(_TintBlendRateCoord);
@@ -183,6 +187,10 @@ half4 frag(Varyings input) : SV_Target
 
     AlphaClip(color.a, _Cutoff);
     color.rgb = ApplyAlpha(color.rgb, color.a);
+    // todo : test
+    InputData inputData = (InputData)0;
+    SurfaceData surfaceData = (SurfaceData)0;
+    color = UniversalFragmentPBR(inputData, surfaceData);
     return color;
 }
 
