@@ -135,6 +135,110 @@ namespace Nova.Editor.Core.Scripts
         }
 
         /// <summary>
+        ///     Draw a <see cref="Texture" /> type property with small icon.
+        /// </summary>
+        /// <param name="editor"></param>
+        /// <param name="label"></param>
+        /// <param name="textureProp">
+        ///     MaterialProperty of texture.Its type must be Texture, Texture2D or Texture 3D.
+        ///     If the type is invalid, this function throws an exception.
+        /// </param>
+        /// <param name="channelsXProperty">
+        ///     This property is used to select the texture channel to be used.
+        ///     It can be null.
+        /// </param>
+        /// <param name="multipliedValueProp">
+        ///     This property's value is multiplied by texture value.
+        ///     It can be null.
+        /// </param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void DrawSmallTexture(MaterialEditor editor, string label, MaterialProperty textureProp,
+            MaterialProperty channelsXProperty, MaterialProperty multipliedValueProp)
+        {
+            // Texture
+            Type textureType;
+            switch (textureProp.textureDimension)
+            {
+                case TextureDimension.Unknown:
+                case TextureDimension.None:
+                case TextureDimension.Any:
+                    textureType = typeof(Texture);
+                    break;
+                case TextureDimension.Tex2D:
+                case TextureDimension.Cube:
+                    textureType = typeof(Texture2D);
+                    break;
+                case TextureDimension.Tex3D:
+                    textureType = typeof(Texture3D);
+                    break;
+                case TextureDimension.Tex2DArray:
+                case TextureDimension.CubeArray:
+                    textureType = typeof(Texture2DArray);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            var mapHeight = EditorGUIUtility.singleLineHeight * 2;
+            var mapWidth = mapHeight;
+
+            var fullRect = EditorGUILayout.GetControlRect(false, mapHeight);
+            var textureRect = fullRect;
+            textureRect.width = mapHeight;
+            using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
+            {
+                var texture = (Texture)EditorGUI.ObjectField(textureRect, textureProp.textureValue,
+                    textureType,
+                    false);
+                if (changeCheckScope.changed)
+                {
+                    editor.RegisterPropertyChangeUndo(textureProp.name);
+                    textureProp.textureValue = texture;
+                }
+            }
+
+            var offsetXFromTextureRectLeft = 8;
+            var offsetXFromTextureRectRight = textureRect.width + offsetXFromTextureRectLeft;
+            var offsetYFromTextureRectTop = 0.0f;
+            if (multipliedValueProp == null)
+                // If normalizedValueProp is null, num of property is 1.
+                // Therefore, the coordinates of the properties are aligned to the center.  
+                offsetYFromTextureRectTop = textureRect.height / 2 - EditorGUIUtility.singleLineHeight / 2;
+
+            var propertyRect = EditorGUI.IndentedRect(fullRect);
+
+            propertyRect.y += offsetYFromTextureRectTop;
+            propertyRect.height = EditorGUIUtility.singleLineHeight;
+            if (multipliedValueProp != null)
+            {
+                editor.ShaderProperty(propertyRect, multipliedValueProp, label, 3);
+            }
+            else
+            {
+                var rect = propertyRect;
+                rect.x += offsetXFromTextureRectRight;
+                GUI.Label(rect, label);
+            }
+
+            propertyRect.xMin += offsetXFromTextureRectRight;
+            propertyRect.y += EditorGUIUtility.singleLineHeight;
+            if (channelsXProperty != null)
+            {
+                var xPropertyLabelRect = propertyRect;
+                GUI.Label(xPropertyLabelRect, "Channels");
+
+                var xPropertyXOffset = EditorGUIUtility.labelWidth - mapWidth - offsetXFromTextureRectLeft;
+                var xPropertyRect = propertyRect;
+                xPropertyRect.xMin += xPropertyXOffset;
+                GUI.Label(xPropertyRect, "X");
+                xPropertyRect.xMin += GUI.skin.label.fontSize;
+                DrawEnumContentsProperty<ColorChannels>(editor, xPropertyRect,
+                    channelsXProperty);
+                propertyRect.y += EditorGUIUtility.singleLineHeight;
+            }
+        }
+
+        /// <summary>
         ///     Draw a <see cref="Texture" /> type property.
         /// </summary>
         /// <param name="editor"></param>
