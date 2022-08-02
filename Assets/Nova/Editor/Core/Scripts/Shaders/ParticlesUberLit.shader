@@ -288,7 +288,8 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
-
+            // When LightMode is SceneSelectionPass, the shaders are the same as in the Unlit version,
+            // so there is no problem.
             #include "ParticlesUberUnlitEditor.hlsl"
             ENDHLSL
         }
@@ -355,7 +356,9 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
-            #include "ParticlesUberLitEditor.hlsl"
+            // When LightMode is Picking, the shaders are the same as in the Unlit version,
+            // so there is no problem.
+            #include "ParticlesUberUnlitEditor.hlsl"
             ENDHLSL
         }
     }
