@@ -544,3 +544,4 @@ float3 GetNormalWS(float3 normalTS, float3 tangentWS, float3 binormalWS, float3 
 #define GET_NORMAL_WS( normalTS, tangentWS, binormalWS, normalWSPerVertex ) NormalizeNormalPerPixel(normalWSPerVertex.xyz);
 #endif
 #endif
+

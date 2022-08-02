@@ -396,7 +396,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Surface maps
-            // #pragma shader_feature_local _NORMAL_MAP_ENABLED
+            #pragma shader_feature_local _NORMAL_MAP_ENABLED
             
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
@@ -428,7 +428,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
-            #include "ParticlesUberLitDepthNormals.hlsl"
+            #include "ParticlesUberDepthNormals.hlsl"
             
             ENDHLSL
         }
@@ -496,7 +496,7 @@ Shader "Nova/Particles/UberLit"
 
             // When LightMode is DepthOnly, the shaders are the same as in the Unlit version,
             // so there is no problem.
-            #include "ParticlesUberUnlitDepthOnly.hlsl"
+            #include "ParticlesUberDepthOnly.hlsl"
             
             ENDHLSL
         }

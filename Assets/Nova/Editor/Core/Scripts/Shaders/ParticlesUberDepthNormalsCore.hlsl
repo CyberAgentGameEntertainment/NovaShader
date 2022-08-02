@@ -285,13 +285,6 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
         input.flowTransitionUVs.zw += flowMapUvOffset;
     #endif
     #endif
-
-    // Alpha Transition
-    #ifdef _USE_TRANSITION_MAP
-    half alphaTransitionProgress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
-    ModulateAlphaTransitionProgress(alphaTransitionProgress, input.color.a);
-    color.a *= GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x, _AlphaTransitionMapChannelsX);
-    #endif
     
     #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
     // Base Color
@@ -309,6 +302,13 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     ApplyTintColor(color, input.tintEmissionUV.xy, input.baseMapUVAndProgresses.w, tintBlendRate);
     #endif
 
+    // Alpha Transition
+    #ifdef _USE_TRANSITION_MAP
+    half alphaTransitionProgress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
+    ModulateAlphaTransitionProgress(alphaTransitionProgress, input.color.a);
+    color.a *= GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x, _AlphaTransitionMapChannelsX);
+    #endif
+    
     // NOTE : Not need in DepthNormals pass.
     // Color Correction
     // ApplyColorCorrection(color.rgb);

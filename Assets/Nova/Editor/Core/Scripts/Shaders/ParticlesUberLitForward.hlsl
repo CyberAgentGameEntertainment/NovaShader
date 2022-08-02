@@ -32,9 +32,9 @@
 //////////////////////////////////////////
 // Include files
 //////////////////////////////////////////
-#include "ParticlesUberUnlitForward.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+#include "ParticlesUberUnLit.hlsl"
 #include "ParticlesUberLit.hlsl"
 
 //////////////////////////////////////////
@@ -166,7 +166,6 @@ void InitializeSurfaceData(out SurfaceData surfaceData, VaryingsLit input, half4
     surfaceData.specular = GetSpecular(inputUnlit.baseMapUVAndProgresses.xyz);
     surfaceData.smoothness = GetSmoothness(inputUnlit.baseMapUVAndProgresses.xyz);
     surfaceData.alpha = albedoColor.a;
-    // todo : What to do emission?
     surfaceData.emission = 0;
     // The values of clearCoatMask,clearCoatSmoothness and occlusion is referenced from ParticlesLitInput.hlsl in UPR Package. 
     surfaceData.clearCoatMask = 0;
@@ -185,9 +184,10 @@ void InitializeInputData(out InputData inputData, SurfaceData surfaceData, Varyi
     inputData = (InputData)0;
     Varyings inputUnlit = input.varyingsUnlit;
     inputData.positionWS = input.positionWS.xyz;
+    
     inputData.normalWS = GET_NORMAL_WS(surfaceData.normalTS,input.tangentWS,
         input.binormalWS,input.varyingsUnlit.normalWS);
-    // todo : SHADER_HINT_NICE_QUALITY
+    
     inputData.viewDirectionWS = SafeNormalize(inputUnlit.viewDirWS);
     GET_SHADOW_COORD(inputData.shadowCoord, input);
     inputData.fogCoord = input.positionWS.w;
@@ -204,7 +204,7 @@ void InitializeInputData(out InputData inputData, SurfaceData surfaceData, Varyi
 VaryingsLit vertLit(AttributesLit input)
 {
     VaryingsLit output = (VaryingsLit)0;
-    output.varyingsUnlit = vert(input.attributesUnlit);
+    output.varyingsUnlit = vertUnlit(input.attributesUnlit);
 
     output.positionWS.xyz = TransformObjectToWorld(input.attributesUnlit.positionOS.xyz);
 
@@ -232,11 +232,14 @@ VaryingsLit vertLit(AttributesLit input)
  */
 half4 fragLit(VaryingsLit input) : SV_Target
 {
+    half4 albedoColor = fragUnlit(input.varyingsUnlit);
+    
     SurfaceData surfaceData;
-    InitializeSurfaceData(surfaceData, input, frag(input.varyingsUnlit));
+    InitializeSurfaceData(surfaceData, input, albedoColor);
+    
     InputData inputData;
     InitializeInputData(inputData, surfaceData, input);
-
+    
     half4 color = UniversalFragmentPBR(inputData, surfaceData);
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
     return color;

@@ -385,7 +385,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
-            #include "ParticlesUberUnlitDepthNormals.hlsl"
+            #include "ParticlesUberDepthNormals.hlsl"
             
             ENDHLSL
         }
@@ -452,7 +452,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
-            #include "ParticlesUberUnlitDepthOnly.hlsl"
+            #include "ParticlesUberDepthOnly.hlsl"
             
             ENDHLSL
         }
