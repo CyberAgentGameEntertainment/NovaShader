@@ -512,5 +512,35 @@ inline void ApplyDepthFade(in out half4 color, float4 projection)
     color.a *= DepthFade(_DepthFadeNear, _DepthFadeFar, _DepthFadeWidth, projection);
     #endif
 }
-
+inline void CalculateTangetAndBinormalInWorldSpace(out float4 tangentWS, out float3 binormalWS, float3 normalWS, float4 tangentOS )
+{
+    tangentWS.xyz = TransformObjectToWorldDir(tangentOS.xyz, true);
+    tangentWS.w = tangentOS.w;
+    binormalWS = cross(normalWS, tangentWS) * tangentOS.w;
+}
+/**
+ * \brief Get normal in world space.
+ * \param normalTS Normal in tangent space.
+ * \param tangentWS Tangent in world space.
+ * \param binormalWS Binormal in world space.
+ * \param normalWSPerVertex Normal in world space per vertex.
+ * \return The returned value is normal in world space per pixel.\n
+ */
+float3 GetNormalWS(float3 normalTS, float3 tangentWS, float3 binormalWS, float3 normalWSPerVertex)
+{
+    float3 normalWS;
+    normalWS = TransformTangentToWorld(
+        normalTS,
+        half3x3(
+            tangentWS.xyz,
+            binormalWS.xyz,
+            normalWSPerVertex.xyz));
+    normalWS = NormalizeNormalPerPixel(normalWS);
+    return normalWS;
+}
+#ifdef _NORMAL_MAP_ENABLED
+#define GET_NORMAL_WS( normalTS, tangentWS, binormalWS, normalWSPerVertex ) GetNormalWS(normalTS, tangentWS, binormalWS, normalWSPerVertex );
+#else
+#define GET_NORMAL_WS( normalTS, tangentWS, binormalWS, normalWSPerVertex ) NormalizeNormalPerPixel(normalWSPerVertex.xyz);
+#endif
 #endif

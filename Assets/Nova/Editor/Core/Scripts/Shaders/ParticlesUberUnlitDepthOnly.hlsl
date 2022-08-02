@@ -3,6 +3,6 @@
 
 #define DEPTH_ONLY_PASS
 
-#include "ParticlesUberUnlitDepthNormalsCore.hlsl"
+#include "ParticlesUberDepthNormalsCore.hlsl"
 
 #endif

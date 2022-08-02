@@ -150,32 +150,6 @@ float4 GetShadowCoord(VaryingsLit input)
 #endif
 
 /**
- * \brief Get normal in world space.
- * \param surfaceData    
- * \param input 
- * \return
- *  If defined_NORMAL_MAP_ENABLED, the returned value is calculated by normal map.
- *  But it isn't defined, the returned value is vertex normal.
- */
-float3 GetNormalWS(SurfaceData surfaceData, VaryingsLit input)
-{
-    float3 normalWS;
-    #ifdef _NORMAL_MAP_ENABLED
-    normalWS = TransformTangentToWorld(
-        surfaceData.normalTS,
-        half3x3(
-            input.tangentWS.xyz,
-            input.binormalWS.xyz,
-            input.varyingsUnlit.normalWS.xyz));
-
-    #else
-    normalWS = input.varyingsUnlit.normalWS.xyz;
-    #endif
-    normalWS = NormalizeNormalPerPixel(normalWS);
-    return normalWS;
-}
-
-/**
  * \brief Initialize SurfaceData for UniversalFragmentPBR function.
  * \param [out] surfaceData     Outputs surface data.
  * \param [in]  input           It has been calculated from vertex shader.
@@ -211,7 +185,8 @@ void InitializeInputData(out InputData inputData, SurfaceData surfaceData, Varyi
     inputData = (InputData)0;
     Varyings inputUnlit = input.varyingsUnlit;
     inputData.positionWS = input.positionWS.xyz;
-    inputData.normalWS = GetNormalWS(surfaceData, input);
+    inputData.normalWS = GET_NORMAL_WS(surfaceData.normalTS,input.tangentWS,
+        input.binormalWS,input.varyingsUnlit.normalWS);
     // todo : SHADER_HINT_NICE_QUALITY
     inputData.viewDirectionWS = SafeNormalize(inputUnlit.viewDirWS);
     GET_SHADOW_COORD(inputData.shadowCoord, input);
@@ -235,9 +210,7 @@ VaryingsLit vertLit(AttributesLit input)
 
     // Calculate tangent and binormal.
     #ifdef _NORMAL_MAP_ENABLED
-    output.tangentWS.xyz = TransformObjectToWorldDir(input.tangentOS.xyz, true);
-    output.tangentWS.w = input.tangentOS.w;
-    output.binormalWS = cross(output.varyingsUnlit.normalWS, output.tangentWS) * input.tangentOS.w;
+    CalculateTangetAndBinormalInWorldSpace(output.tangentWS, output.binormalWS, output.varyingsUnlit.normalWS, input.tangentOS );
     #endif
 
     // TODO: vertexLight is not used in ParticlesLitForwardPass.hlsl. What about with NOVA Shader?

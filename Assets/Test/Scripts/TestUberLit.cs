@@ -164,7 +164,6 @@ public class TestUberLit : MonoBehaviour
                 break;
         }
     }
-
     private void DeactiveCurrentParticleGameObjects()
     {
         foreach (var go in _currentParticleGameObject)
@@ -175,7 +174,13 @@ public class TestUberLit : MonoBehaviour
 
     private void UpdateParticleGameObjects()
     {
-        DeactiveCurrentParticleGameObjects();
+        for (int i = 0; i < _currentParticleGameObject.Length; i++)
+        {
+            if (i != (int)_testShader)
+            {
+                _currentParticleGameObject[i].SetActive(false);
+            }
+        }
         _currentParticleGameObject[(int)_testShader].SetActive(true);
     }
 
