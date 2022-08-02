@@ -20254,7 +20254,7 @@ MonoBehaviour:
   _testDescriptionGameObject: {fileID: 1136351857}
   _changeShaderButtonGameObject: {fileID: 2142475768}
   _changeWorkflowButtonGameObject: {fileID: 1847253495}
-  _startTestCase: 1
+  _startTestCase: 0
 --- !u!4 &1131808829
 Transform:
   m_ObjectHideFlags: 0

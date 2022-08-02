@@ -1,69 +1,58 @@
 #ifndef NOVA_PARTICLESUBERLITFORWARD_INCLUDED
 #define NOVA_PARTICLESUBERLITFORWARD_INCLUDED
 
-#define FRAGMENT_USE_NORMAL_WS
-#define FRAGMENT_USE_VIEW_DIR_WS
-
+//////////////////////////////////////////
+// Define symbols for URP Functions.
+//////////////////////////////////////////
 #ifndef _SPECULAR_HIGHLIGHTS_ENABLED
-// This symbol has been defined for URP Functions.
-// todo : Complete the test that symbol goes from on to off.
-//        But we have not tested the effectiveness of the symbols.
 #define _SPECULARHIGHLIGHTS_OFF
 #endif
 
 #ifndef _ENVIRONMENT_REFLECTIONS_ENABLED
-// This symbol has been defined for URP Functions.
 #define _ENVIRONMENTREFLECTIONS_OFF
 #endif
 
-// todo If REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR is defined, uv coords of shadow map is calculated in vertex shader.
-#define REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR
-
 #ifdef _NORMAL_MAP_ENABLED
-// This symbol has been defined for URP Functions.
 #define _NORMALMAP
 #endif
+
 #ifdef _RECEIVE_SHADOWS_ENABLED
-// This symbol has been defined for URP Functions.
 #define MAIN_LIGHT_CALCULATE_SHADOWS
 #endif
-// This symbol has been defined for URP Functions.
-// If this symbol is defined, calculation to the additional lights is enabled.
-#define _ADDITIONAL_LIGHTS
 
+#define _ADDITIONAL_LIGHTS
+#define REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR
+
+//////////////////////////////////////////
+// Define symbols for UberUnlit.
+//////////////////////////////////////////
+#define FRAGMENT_USE_NORMAL_WS
+#define FRAGMENT_USE_VIEW_DIR_WS
+
+//////////////////////////////////////////
+// Include files
+//////////////////////////////////////////
 #include "ParticlesUberUnlitForward.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 #include "ParticlesUberLit.hlsl"
 
-VaryingsLit vertLit(AttributesLit input)
-{
-    VaryingsLit output = (VaryingsLit)0;
-    output.varyingsUnlit = vert(input.attributesUnlit);
+//////////////////////////////////////////
+// Functions
+//////////////////////////////////////////
 
-    output.positionWS.xyz = TransformObjectToWorld(input.attributesUnlit.positionOS.xyz);
-
-    // Calculate tanget and binormal
-    #ifdef _NORMAL_MAP_ENABLED
-    output.tangentWS.xyz = TransformObjectToWorldDir(input.tangentOS.xyz, true);
-    output.tangentWS.w = input.tangentOS.w;
-    output.binormalWS = cross(output.varyingsUnlit.normalWS, output.tangentWS) * input.tangentOS.w;
-    #endif
-
-    // todo : vertexLight is not used in ParticlesLitForwardPass.hlsl.
-    // half3 vertexLight = VertexLighting(output.positionWS, output.varyingsUnlit.normalWS);
-    half fogFactor = ComputeFogFactor(output.varyingsUnlit.positionHCS.z);
-    output.positionWS.w = fogFactor;
-
-    OUTPUT_SH(output.varyingsUnlit.normalWS.xyz, output.vertexSH);
-
-    #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(_RECEIVE_SHADOWS_ENABLED)
-    output.shadowCoord = TransformWorldToShadowCoord(output.positionWS.xyz);
-    #endif
-
-    return output;
-}
-
+/**
+ * \brief
+ *  Get Metallic value.
+ * \param uvw
+ *  If metallic map is Texture2D, uv.xy is used.\n
+ *  But if it is TextureArray or Texture 3D, uv.xyz is is used.
+ * \return
+ *  If _METALLIC_MAP_ENABLED is defined, \n
+ *  the returned value is multiplied the sampled value from metallic map by _Metallic.\n
+ *  It isn't defined, _Metallic property value is returned.\n
+ *  But if _SPECULAR_SETUP is defined, returned value is always 1.
+ */
 half GetMetallic(float3 uvw)
 {
     #ifdef _SPECULAR_SETUP
@@ -78,6 +67,17 @@ half GetMetallic(float3 uvw)
     #endif
 }
 
+/**
+ * \brief
+ *  Get Smoothness Value.
+ * \param uvw
+ *  If smoothness map is Texture2D, uv.xy is used.<br/>
+ *  But if it is TextureArray or Texture 3D, uv.xyz is is used.
+ * \return
+ *   If _SMOOTHNESS_MAP_ENABLED is defined, \n
+ *  the returned value is multiplied the sampled value from smooth map by _Smoothness.\n
+ *  It isn't defined, _Smoothness property value is returned.\n
+ */
 half GetSmoothness(float3 uvw)
 {
     #ifdef _SMOOTHNESS_MAP_ENABLED
@@ -89,6 +89,18 @@ half GetSmoothness(float3 uvw)
     #endif
 }
 
+/**
+ * \brief
+ *  Get Specular Color.
+ * \param uvw
+ *  If specular map is Texture2D, uv.xy is used.\n
+ * But if it is TextureArray or Texture 3D, uv.xyz is is used.
+ * \return
+ *  If _SPECULAR_SETUP isn't defined, returned value is always half3( 0, 0, 0 ).\n
+ *  If it is defined and _SPECULAR_MAP_ENABLED is defined,
+ *  the returned value is  multiplied the sampled value from specular map by _SpecularColor.\n
+ *  If _SPECULAR_MAP_ENABLED isn't defined, the returned value is _SpecularColor. 
+ */
 half3 GetSpecular(float3 uvw)
 {
     #ifdef _SPECULAR_SETUP
@@ -103,7 +115,17 @@ half3 GetSpecular(float3 uvw)
     return half3(0, 0, 0);
     #endif
 }
+
 #ifdef _RECEIVE_SHADOWS_ENABLED
+/**
+ * \brief
+ *  Get shadow map uv coords.
+ * \param input
+ *  It has been outputted from vertex shader.
+ * \return
+ *  If defined REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR, the returned value has been calculated by vertex shader.
+ *  But if it isn't defined, the returned value is calculated by this function.
+ */
 float4 GetShadowCoord(VaryingsLit input)
 {
     float4 shadowCoord = float4(0, 0, 0, 0);
@@ -115,11 +137,26 @@ float4 GetShadowCoord(VaryingsLit input)
     return shadowCoord;
 }
 
+/**
+ * \brief
+ *  Get Shadow Coord macro.\n
+ *  Please don't use GetShadowCoord(), use this instead.
+ * \param[out]  shadowCoord  output shadowCoord. 
+ * \param[in]   input       It has been outputted from vertex shader.
+ */
 #define GET_SHADOW_COORD( shadowCoord, input ) shadowCoord = GetShadowCoord(input)
 #else
 #define GET_SHADOW_COORD( shadowCoord, input )
 #endif
 
+/**
+ * \brief Get normal in world space.
+ * \param surfaceData    
+ * \param input 
+ * \return
+ *  If defined_NORMAL_MAP_ENABLED, the returned value is calculated by normal map.
+ *  But it isn't defined, the returned value is vertex normal.
+ */
 float3 GetNormalWS(SurfaceData surfaceData, VaryingsLit input)
 {
     float3 normalWS;
@@ -138,12 +175,19 @@ float3 GetNormalWS(SurfaceData surfaceData, VaryingsLit input)
     return normalWS;
 }
 
+/**
+ * \brief Initialize SurfaceData for UniversalFragmentPBR function.
+ * \param [out] surfaceData     Outputs surface data.
+ * \param [in]  input           It has been calculated from vertex shader.
+ * \param [in]  albedoColor     Albedo color of surface.
+ */
 void InitializeSurfaceData(out SurfaceData surfaceData, VaryingsLit input, half4 albedoColor)
 {
     surfaceData = (SurfaceData)0;
     Varyings inputUnlit = input.varyingsUnlit;
     surfaceData.albedo = albedoColor.xyz;
-    surfaceData.normalTS = SAMPLE_NORMAL_MAP(inputUnlit.baseMapUVAndProgresses.xy, inputUnlit.baseMapUVAndProgresses.z, _NormalMapBumpScale);
+    surfaceData.normalTS = SAMPLE_NORMAL_MAP(inputUnlit.baseMapUVAndProgresses.xy, inputUnlit.baseMapUVAndProgresses.z,
+                                             _NormalMapBumpScale);
     surfaceData.metallic = GetMetallic(inputUnlit.baseMapUVAndProgresses.xyz);
     surfaceData.specular = GetSpecular(inputUnlit.baseMapUVAndProgresses.xyz);
     surfaceData.smoothness = GetSmoothness(inputUnlit.baseMapUVAndProgresses.xyz);
@@ -156,6 +200,12 @@ void InitializeSurfaceData(out SurfaceData surfaceData, VaryingsLit input, half4
     surfaceData.occlusion = 1;
 }
 
+/**
+ * \brief Initialize InputData for UniversalFragmentPBR function.
+ * \param[out]  inputData       Outputs input data.
+ * \param[in]   surfaceData     It must be calculated by InitializeSurfaceData().
+ * \param[in]   input           It has been calculated from vertex shader.
+ */
 void InitializeInputData(out InputData inputData, SurfaceData surfaceData, VaryingsLit input)
 {
     inputData = (InputData)0;
@@ -173,6 +223,40 @@ void InitializeInputData(out InputData inputData, SurfaceData surfaceData, Varyi
     inputData.vertexLighting = half3(0, 0, 0);
 }
 
+/**
+ * \brief Vertex shader entry point.
+ */
+VaryingsLit vertLit(AttributesLit input)
+{
+    VaryingsLit output = (VaryingsLit)0;
+    output.varyingsUnlit = vert(input.attributesUnlit);
+
+    output.positionWS.xyz = TransformObjectToWorld(input.attributesUnlit.positionOS.xyz);
+
+    // Calculate tangent and binormal.
+    #ifdef _NORMAL_MAP_ENABLED
+    output.tangentWS.xyz = TransformObjectToWorldDir(input.tangentOS.xyz, true);
+    output.tangentWS.w = input.tangentOS.w;
+    output.binormalWS = cross(output.varyingsUnlit.normalWS, output.tangentWS) * input.tangentOS.w;
+    #endif
+
+    // TODO: vertexLight is not used in ParticlesLitForwardPass.hlsl. What about with NOVA Shader?
+    // half3 vertexLight = VertexLighting(output.positionWS, output.varyingsUnlit.normalWS);
+    half fogFactor = ComputeFogFactor(output.varyingsUnlit.positionHCS.z);
+    output.positionWS.w = fogFactor;
+
+    OUTPUT_SH(output.varyingsUnlit.normalWS.xyz, output.vertexSH);
+
+    #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(_RECEIVE_SHADOWS_ENABLED)
+    output.shadowCoord = TransformWorldToShadowCoord(output.positionWS.xyz);
+    #endif
+
+    return output;
+}
+
+/**
+ * \brief Fragment shader entry point. 
+ */
 half4 fragLit(VaryingsLit input) : SV_Target
 {
     SurfaceData surfaceData;

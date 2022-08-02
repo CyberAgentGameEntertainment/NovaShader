@@ -170,9 +170,6 @@ Shader "Nova/Particles/UberLit"
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:ParticleInstancingSetup
             #pragma require 2darray
-
-            // Lit
-            #pragma shader_feature_local _LIT_ENABLED
             
             // Render Settings
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
@@ -318,9 +315,6 @@ Shader "Nova/Particles/UberLit"
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:ParticleInstancingSetup
             #pragma require 2darray
-
-            // Lit
-            #pragma shader_feature_local _LIT_ENABLED
             
             // Render Settings
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
