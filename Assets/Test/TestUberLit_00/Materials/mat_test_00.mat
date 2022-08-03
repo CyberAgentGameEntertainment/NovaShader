@@ -248,7 +248,7 @@ Material:
     - _LuminanceTransparencySharpnessCoord: 0
     - _Metallic: 1
     - _MetallicMapChannelsX: 0
-    - _NormalMapBumpScale: 1
+    - _NormalMapBumpScale: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0

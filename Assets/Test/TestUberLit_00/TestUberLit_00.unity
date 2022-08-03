@@ -230,8 +230,8 @@ Transform:
   m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
   m_Children:
   - {fileID: 1978467646}
-  - {fileID: 1442570718}
   - {fileID: 2124294362}
+  - {fileID: 1442570718}
   - {fileID: 1609709897}
   m_Father: {fileID: 1490628209}
   m_RootOrder: 0
@@ -14989,7 +14989,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 1131523621}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
 --- !u!199 &862536340
 ParticleSystemRenderer:
@@ -20196,8 +20196,8 @@ Transform:
   m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
   m_Children:
   - {fileID: 688635832}
-  - {fileID: 1755518967}
   - {fileID: 862536339}
+  - {fileID: 1755518967}
   - {fileID: 299760684}
   m_Father: {fileID: 1490628209}
   m_RootOrder: 1
@@ -20231,30 +20231,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb959d7a0dadb645afb0a78c6a42bd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _particleGameObjects0:
+  particleGameObjects0:
   - {fileID: 1978467645}
   - {fileID: 2124294361}
   - {fileID: 1442570717}
   - {fileID: 1609709896}
-  _particleGameObjects1:
+  particleGameObjects1:
   - {fileID: 688635831}
   - {fileID: 862536338}
   - {fileID: 1755518966}
   - {fileID: 299760683}
-  _particleGameObjects2:
+  particleGameObjects2:
   - {fileID: 785462993}
   - {fileID: 1602802643}
   - {fileID: 1915735396}
   - {fileID: 1369252135}
-  _directionalLightGameObjects:
+  directionalLightGameObjects:
   - {fileID: 1978209572}
   - {fileID: 1963603250}
   - {fileID: 965559655}
-  _cameraGameObject: {fileID: 1367124667}
-  _testDescriptionGameObject: {fileID: 1136351857}
-  _changeShaderButtonGameObject: {fileID: 2142475768}
-  _changeWorkflowButtonGameObject: {fileID: 1847253495}
-  _startTestCase: 0
+  cameraGameObject: {fileID: 1367124667}
+  testDescriptionGameObject: {fileID: 1136351857}
+  changeShaderButtonGameObject: {fileID: 2142475768}
+  changeWorkflowButtonGameObject: {fileID: 1847253495}
+  startTestCase: 0
 --- !u!4 &1131808829
 Transform:
   m_ObjectHideFlags: 0
@@ -25324,8 +25324,8 @@ Transform:
   m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
   m_Children:
   - {fileID: 785462994}
-  - {fileID: 1915735397}
   - {fileID: 1602802644}
+  - {fileID: 1915735397}
   - {fileID: 1369252138}
   m_Father: {fileID: 1490628209}
   m_RootOrder: 2
@@ -25360,7 +25360,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 255512718}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
 --- !u!199 &1442570719
 ParticleSystemRenderer:
@@ -35147,7 +35147,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 1417492439}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
 --- !u!199 &1602802645
 ParticleSystemRenderer:
@@ -44839,7 +44839,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 1131523621}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
 --- !u!199 &1755518968
 ParticleSystemRenderer:
@@ -49927,7 +49927,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 1417492439}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
 --- !u!199 &1915735398
 ParticleSystemRenderer:
@@ -59757,7 +59757,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 255512718}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
 --- !u!199 &2124294363
 ParticleSystemRenderer:
