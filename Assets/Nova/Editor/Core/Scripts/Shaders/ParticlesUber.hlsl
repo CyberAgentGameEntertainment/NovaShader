@@ -516,7 +516,7 @@ inline void CalculateTangetAndBinormalInWorldSpace(out float4 tangentWS, out flo
 {
     tangentWS.xyz = TransformObjectToWorldDir(tangentOS.xyz, true);
     tangentWS.w = tangentOS.w;
-    binormalWS = cross(normalWS, tangentWS) * tangentOS.w;
+    binormalWS = cross(normalWS, tangentWS.xyz) * tangentOS.w;
 }
 /**
  * \brief Get normal in world space.
