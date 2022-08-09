@@ -128,6 +128,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaClip: 0
+    - _AlphaTransitionMapChannelsX: 0
     - _AlphaTransitionMapMode: 0
     - _AlphaTransitionMapOffsetXCoord: 0
     - _AlphaTransitionMapOffsetYCoord: 0
@@ -168,15 +169,21 @@ Material:
     - _EmissionColorType: 0
     - _EmissionIntensity: 4.68
     - _EmissionIntensityCoord: 1
+    - _EmissionMapChannelsX: 0
     - _EmissionMapMode: 0
+    - _EmissionMapOffsetXCoord: 0
+    - _EmissionMapOffsetYCoord: 0
     - _EmissionMapProgress: 0
     - _EmissionMapProgressCoord: 0
     - _EmissionMapSliceCount: 4
     - _EnvironmentReflections: 1
     - _FlowIntensity: 0
     - _FlowIntensityCoord: 0
+    - _FlowMapChannelsX: 0
+    - _FlowMapChannelsY: 1
     - _FlowMapOffsetXCoord: 0
     - _FlowMapOffsetYCoord: 0
+    - _FlowMapTarget: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
