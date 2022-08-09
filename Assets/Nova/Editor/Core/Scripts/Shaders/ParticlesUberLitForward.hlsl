@@ -34,7 +34,6 @@
 //////////////////////////////////////////
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-#include "ParticlesUberUnLit.hlsl"
 #include "ParticlesUberLit.hlsl"
 
 //////////////////////////////////////////
