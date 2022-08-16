@@ -16,7 +16,8 @@ Varyings vertEditor(Attributes input)
     SETUP_VERTEX;
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
-    InitializeVertexOutput(input, output);
+    float3 positionWS;
+    InitializeVertexOutput(input, output, positionWS);
 
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;

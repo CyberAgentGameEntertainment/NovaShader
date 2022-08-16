@@ -6,7 +6,8 @@
 
 Varyings vert(Attributes input)
 {
-    return vertUnlit(input);
+    float3 positionWS;
+    return vertUnlit(input, positionWS);
 }
 half4 frag(Varyings input) : SV_Target
 {

@@ -20,7 +20,7 @@ struct AttributesLit
 struct VaryingsLit
 {
     Varyings varyingsUnlit;
-    float4 positionWS : COLOR1;
+    float3 positionWS : COLOR1; 
     #ifdef _NORMAL_MAP_ENABLED
     float4 tangentWS : TANGENT;
     float3 binormalWS : BINORMAL;
@@ -28,7 +28,7 @@ struct VaryingsLit
     #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(_RECEIVE_SHADOWS_ENABLED)
     float4 shadowCoord : COLOR2;
     #endif
-    float3 vertexSH : COLOR3; // SH
+    half3 vertexSH : COLOR3; // SH
 };
 
 
