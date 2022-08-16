@@ -203,7 +203,7 @@ void InitializeInputData(out InputData inputData, SurfaceData surfaceData, Varyi
 VaryingsLit vertLit(AttributesLit input)
 {
     VaryingsLit output = (VaryingsLit)0;
-    output.varyingsUnlit = vertUnlit(input.attributesUnlit, output.positionWS);
+    output.varyingsUnlit = vertUnlit(input.attributesUnlit, output.positionWS, true, true);
 
     // Calculate tangent and binormal.
     #ifdef _NORMAL_MAP_ENABLED
@@ -233,7 +233,7 @@ VaryingsLit vertLit(AttributesLit input)
  */
 half4 fragLit(VaryingsLit input) : SV_Target
 {
-    half4 albedoColor = fragUnlit(input.varyingsUnlit);
+    half4 albedoColor = fragUnlit(input.varyingsUnlit, true, true);
 
     SurfaceData surfaceData;
     InitializeSurfaceData(surfaceData, input, albedoColor);

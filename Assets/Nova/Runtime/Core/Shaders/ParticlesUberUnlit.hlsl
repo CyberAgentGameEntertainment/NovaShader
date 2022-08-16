@@ -70,8 +70,7 @@ inline void InitializeFragmentInput(in out Varyings input)
     input.viewDirWS = normalize(input.viewDirWS);
     #endif
 }
-
-Varyings vertUnlit(Attributes input, out float3 positionWS)
+Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmission, uniform bool useFog)
 {
     Varyings output = (Varyings)0;
     UNITY_SETUP_INSTANCE_ID(input);
@@ -136,28 +135,32 @@ Varyings vertUnlit(Attributes input, out float3 positionWS)
     output.transitionEmissionProgresses.x = FlipBookBlendingProgress(transitionMapProgress, _AlphaTransitionMapSliceCount);
     #endif
 
-    // Emission Map UV
-    #ifdef _EMISSION_AREA_MAP
-    output.tintEmissionUV.zw = TRANSFORM_EMISSION_MAP(input.texcoord.xy);
-    output.tintEmissionUV.z += GET_CUSTOM_COORD(_EmissionMapOffsetXCoord)
-    output.tintEmissionUV.w += GET_CUSTOM_COORD(_EmissionMapOffsetYCoord)
-    #endif
+    if(useEmission)
+    {
+        // Emission Map UV
+        #ifdef _EMISSION_AREA_MAP
+        output.tintEmissionUV.zw = TRANSFORM_EMISSION_MAP(input.texcoord.xy);
+        output.tintEmissionUV.z += GET_CUSTOM_COORD(_EmissionMapOffsetXCoord)
+        output.tintEmissionUV.w += GET_CUSTOM_COORD(_EmissionMapOffsetYCoord)
+        #endif
 
-    // Emission Map Progress
-    #ifdef _EMISSION_MAP_MODE_2D_ARRAY
-    float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
-    output.transitionEmissionProgresses.y = FlipBookProgress(emissionMapProgress, _EmissionMapSliceCount);
-    #elif _EMISSION_MAP_MODE_3D
-    float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
-    output.transitionEmissionProgresses.y = FlipBookBlendingProgress(emissionMapProgress, _EmissionMapSliceCount);
-    #endif
-
-    //Fog
-    output.transitionEmissionProgresses.z = ComputeFogFactor(output.positionHCS.z);
-
+        // Emission Map Progress
+        #ifdef _EMISSION_MAP_MODE_2D_ARRAY
+        float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
+        output.transitionEmissionProgresses.y = FlipBookProgress(emissionMapProgress, _EmissionMapSliceCount);
+        #elif _EMISSION_MAP_MODE_3D
+        float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
+        output.transitionEmissionProgresses.y = FlipBookBlendingProgress(emissionMapProgress, _EmissionMapSliceCount);
+        #endif
+    }
+    if(useFog)
+    {
+        //Fog
+        output.transitionEmissionProgresses.z = ComputeFogFactor(output.positionHCS.z);
+    }
     return output;
 }
-half4 fragUnlit(in out Varyings input) 
+half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool useFog) 
 {
     UNITY_SETUP_INSTANCE_ID(input);
     SETUP_FRAGMENT;
@@ -223,18 +226,23 @@ half4 fragUnlit(in out Varyings input)
     ApplyVertexColor(color, input.color);
 
     // Emission
-    half emissionIntensity = _EmissionIntensity + GET_CUSTOM_COORD(_EmissionIntensityCoord);
-    #ifdef _EMISSION_AREA_MAP
-    ApplyEmissionColor(color, input.tintEmissionUV.zw, emissionIntensity, input.transitionEmissionProgresses.y,
-                       _EmissionMapChannelsX);
-    #else
-    ApplyEmissionColor(color, half2(0, 0), emissionIntensity, input.transitionEmissionProgresses.y,
-                       _EmissionMapChannelsX);
-    #endif
-    // Fog
-    half fogFactor = input.transitionEmissionProgresses.z;
-    color.rgb = MixFog(color.rgb, fogFactor);
-
+    if(useEmission)
+    {
+        half emissionIntensity = _EmissionIntensity + GET_CUSTOM_COORD(_EmissionIntensityCoord);
+        #ifdef _EMISSION_AREA_MAP
+        ApplyEmissionColor(color, input.tintEmissionUV.zw, emissionIntensity, input.transitionEmissionProgresses.y,
+                           _EmissionMapChannelsX);
+        #else
+        ApplyEmissionColor(color, half2(0, 0), emissionIntensity, input.transitionEmissionProgresses.y,
+                           _EmissionMapChannelsX);
+        #endif
+    }
+    if(useFog)
+    {
+        // Fog
+        half fogFactor = input.transitionEmissionProgresses.z;
+        color.rgb = MixFog(color.rgb, fogFactor);
+    }
     // Rim Transparency
     #if _TRANSPARENCY_BY_RIM
     half rimTransparencyProgress = _RimTransparencyProgress + GET_CUSTOM_COORD(_RimTransparencyProgressCoord);
