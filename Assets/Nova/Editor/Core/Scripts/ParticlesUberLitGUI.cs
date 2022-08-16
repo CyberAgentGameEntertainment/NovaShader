@@ -6,6 +6,7 @@ using System;
 using Nova.Editor.Foundation.Scripts;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using PropertyNames = Nova.Editor.Core.Scripts.MaterialPropertyNames;
 
 namespace Nova.Editor.Core.Scripts
@@ -34,11 +35,12 @@ namespace Nova.Editor.Core.Scripts
             _normalMapProp.Setup(properties);
             _normalMap2DArrayProp.Setup(properties);
             _normalMap3DProp.Setup(properties);
+            _normalMapBumpScaleProp.Setup(properties);
             _specularMapProp.Setup(properties);
             _specularMap2DArrayProp.Setup(properties);
             _specularMap3DProp.Setup(properties);
             _specularProp.Setup(properties);
-            _specularMapChannelsXProp.Setup(properties);
+
             _metallicMapProp.Setup(properties);
             _metallicMap2DArrayProp.Setup(properties);
             _metallicMap3DProp.Setup(properties);
@@ -132,7 +134,7 @@ namespace Nova.Editor.Core.Scripts
                 _normalMapProp,
                 _normalMap2DArrayProp,
                 _normalMap3DProp,
-                null,
+                _normalMapBumpScaleProp,
                 null);
 
             var mode = (LitWorkflowMode)_litWorkflowModeProp.Value.floatValue;
@@ -143,7 +145,7 @@ namespace Nova.Editor.Core.Scripts
                     _specularMap2DArrayProp,
                     _specularMap3DProp,
                     _specularProp,
-                    _specularMapChannelsXProp);
+                    null);
             else
                 InternalDrawSurfaceMapsTexturePropertiesCore(
                     "Metallic",
@@ -175,10 +177,8 @@ namespace Nova.Editor.Core.Scripts
 
         protected override void MaterialChanged(Material material)
         {
-            ParticlesUberUnlitMaterialPostProcessor.SetupMaterialKeywords(material);
-            ParticlesUberUnlitMaterialPostProcessor.SetupMaterialBlendMode(material);
-            // TODO: For test.
-            material.EnableKeyword("_MAIN_LIGHT_CALCULATE_SHADOWS");
+            ParticlesUberLitMaterialPostProcessor.SetupMaterialKeywords(material);
+            ParticlesUberLitMaterialPostProcessor.SetupMaterialBlendMode(material);
         }
 
         #region Foldout Properties
@@ -210,16 +210,15 @@ namespace Nova.Editor.Core.Scripts
         // normalMap
         private readonly Property _normalMapProp = new Property(PropertyNames.NormalMap);
         private readonly Property _normalMap2DArrayProp = new Property(PropertyNames.NormalMap2DArray);
-
         private readonly Property _normalMap3DProp = new Property(PropertyNames.NormalMap3D);
+        private readonly Property _normalMapBumpScaleProp = new Property(PropertyNames.NormalMapBumpScale);
 
         // specularMap
         private readonly Property _specularMapProp = new Property(PropertyNames.SpecularMap);
         private readonly Property _specularMap2DArrayProp = new Property(PropertyNames.SpecularMap2DArray);
         private readonly Property _specularMap3DProp = new Property(PropertyNames.SpecularMap3D);
         private readonly Property _specularProp = new Property(PropertyNames.Specular);
-        private readonly Property _specularMapChannelsXProp = new Property(PropertyNames.SpecularMapChannelsX);
-
+        
         // metallicMap
         private readonly Property _metallicMapProp = new Property(PropertyNames.MetallicMap);
         private readonly Property _metallicMap2DArrayProp = new Property(PropertyNames.MetallicMap2DArray);
