@@ -31,20 +31,5 @@ struct VaryingsLit
     float3 vertexSH : COLOR3; // SH
 };
 
-/**
- * \brief Initialize the input data of fragment shader.
- * \details This function will call initialize function of UberUnlit.\n
- * After, it will execute initialize proprietary process of UberLit.
- * \param[in,out] input InputData from the vertex shader.
- */
-inline void InitializeFragmentInputLit(in out VaryingsLit input)
-{
-    InitializeFragmentInput(input.varyingsUnlit);
-    #ifdef _NORMAL_MAP_ENABLED
-    input.binormalWS = normalize(input.binormalWS);
-    input.tangentWS = normalize(input.tangentWS);
-    #endif
-}
-
 
 #endif
