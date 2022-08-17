@@ -22,7 +22,7 @@ struct Varyings
     float4 color : COLOR0;
     INPUT_CUSTOM_COORD(0, 1)
     float4 baseMapUVAndProgresses : TEXCOORD2; // xy: BaseMap UV, z: Base Map Progress, w: Tint Map Progress
-    #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION) || defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED) 
+    #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION) || defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     float4 flowTransitionUVs : TEXCOORD3; // xy: FlowMap UV, zw: TransitionMap UV
     #endif
     #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED) || defined(_EMISSION_AREA_MAP)
@@ -70,6 +70,7 @@ inline void InitializeFragmentInput(in out Varyings input)
     input.viewDirWS = normalize(input.viewDirWS);
     #endif
 }
+
 Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmission, uniform bool useFog)
 {
     Varyings output = (Varyings)0;
@@ -78,7 +79,7 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     SETUP_VERTEX;
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
-    
+
     InitializeVertexOutput(input, output, positionWS);
 
     // Base Map UV
@@ -135,7 +136,7 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     output.transitionEmissionProgresses.x = FlipBookBlendingProgress(transitionMapProgress, _AlphaTransitionMapSliceCount);
     #endif
 
-    if(useEmission)
+    if (useEmission)
     {
         // Emission Map UV
         #ifdef _EMISSION_AREA_MAP
@@ -153,14 +154,15 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
         output.transitionEmissionProgresses.y = FlipBookBlendingProgress(emissionMapProgress, _EmissionMapSliceCount);
         #endif
     }
-    if(useFog)
+    if (useFog)
     {
         //Fog
         output.transitionEmissionProgresses.z = ComputeFogFactor(output.positionHCS.z);
     }
     return output;
 }
-half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool useFog) 
+
+half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool useFog)
 {
     UNITY_SETUP_INSTANCE_ID(input);
     SETUP_FRAGMENT;
@@ -179,7 +181,7 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool us
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE)
     input.baseMapUVAndProgresses.xy += flowMapUvOffset;
     #endif
-    
+
     #ifdef _FLOW_MAP_TARGET_TINT
     #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
     input.tintEmissionUV.xy += flowMapUvOffset;
@@ -226,7 +228,7 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool us
     ApplyVertexColor(color, input.color);
 
     // Emission
-    if(useEmission)
+    if (useEmission)
     {
         half emissionIntensity = _EmissionIntensity + GET_CUSTOM_COORD(_EmissionIntensityCoord);
         #ifdef _EMISSION_AREA_MAP
@@ -237,7 +239,7 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool us
                            _EmissionMapChannelsX);
         #endif
     }
-    if(useFog)
+    if (useFog)
     {
         // Fog
         half fogFactor = input.transitionEmissionProgresses.z;

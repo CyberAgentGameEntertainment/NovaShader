@@ -16,7 +16,7 @@ Shader "Nova/Particles/UberLit"
         _LitReceiveShadows("Lit Receive Shadows", Float) = 0.0
         _SpecularHighlights("Specular Highlights", Float) = 0.0
         _EnvironmentReflections("Environment Reflections", Float) = 1.0
-        
+
         // Surface Maps
         _NormalMap("Normal Map", 2D) = "" {}
         _NormalMap2DArray("Normal Map 2D Array", 2DArray) = "" {}
@@ -37,7 +37,7 @@ Shader "Nova/Particles/UberLit"
         _SmoothnessMap3D("Smoothness Map 3D", 3D) = "" {}
         _Smoothness("Smoothness", Range( 0.0, 1.0)) = 1.0
         _SmoothnessMapChannelsX("Smoothness Map Channes X", Float) = 3.0
-        
+
         // Base Map
         _BaseMapMode("Base Map Mode", Float) = 0.0
         [MainTexture] _BaseMap("Base Map", 2D) = "white" {}
@@ -153,7 +153,10 @@ Shader "Nova/Particles/UberLit"
 
         Pass
         {
-            Tags{"LightMode" = "UniversalForward"}
+            Tags
+            {
+                "LightMode" = "UniversalForward"
+            }
             Blend [_BlendSrc] [_BlendDst]
             ZWrite[_ZWrite]
             Cull[_Cull]
@@ -171,7 +174,7 @@ Shader "Nova/Particles/UberLit"
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:ParticleInstancingSetup
             #pragma require 2darray
-            
+
             // Render Settings
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
@@ -181,13 +184,13 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _SPECULAR_HIGHLIGHTS_ENABLED
             #pragma shader_feature_local _ENVIRONMENT_REFLECTIONS_ENABLED
             #pragma shader_feature_local _SPECULAR_SETUP
-            
+
             // Surface maps
             #pragma shader_feature_local _NORMAL_MAP_ENABLED
             #pragma shader_feature_local_fragment _METALLIC_MAP_ENABLED
             #pragma shader_feature_local_fragment _SMOOTHNESS_MAP_ENABLED
             #pragma shader_feature_local_fragment _SPECULAR_MAP_ENABLED
-            
+
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
@@ -203,7 +206,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
             #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
             #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
-            
+
             // Color Correction
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
 
@@ -221,7 +224,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
-            
+
             #include "ParticlesUberLitForward.hlsl"
             ENDHLSL
         }
@@ -254,13 +257,13 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
             #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
             #pragma shader_feature_local _MAIN_LIGHT_CALCULATE_SHADOWS
-            
+
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
-            
+
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
             #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
@@ -317,7 +320,7 @@ Shader "Nova/Particles/UberLit"
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:ParticleInstancingSetup
             #pragma require 2darray
-            
+
             // Render Settings
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
@@ -362,10 +365,13 @@ Shader "Nova/Particles/UberLit"
             #include "ParticlesUberUnlitEditor.hlsl"
             ENDHLSL
         }
-        
+
         Pass
         {
-            Tags{"LightMode" = "DepthNormals"}
+            Tags
+            {
+                "LightMode" = "DepthNormals"
+            }
 
             ZWrite[_ZWrite]
             Cull[_Cull]
@@ -397,7 +403,7 @@ Shader "Nova/Particles/UberLit"
 
             // Surface maps
             #pragma shader_feature_local _NORMAL_MAP_ENABLED
-            
+
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
             #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
@@ -429,12 +435,14 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
             #include "ParticlesUberDepthNormals.hlsl"
-            
             ENDHLSL
         }
         Pass
         {
-            Tags{"LightMode" = "DepthOnly"}
+            Tags
+            {
+                "LightMode" = "DepthOnly"
+            }
 
             ZWrite[_ZWrite]
             Cull[_Cull]
@@ -497,7 +505,6 @@ Shader "Nova/Particles/UberLit"
             // When LightMode is DepthOnly, the shaders are the same as in the Unlit version,
             // so there is no problem.
             #include "ParticlesUberDepthOnly.hlsl"
-            
             ENDHLSL
         }
     }

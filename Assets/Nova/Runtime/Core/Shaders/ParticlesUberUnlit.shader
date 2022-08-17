@@ -128,7 +128,10 @@ Shader "Nova/Particles/UberUnlit"
 
         Pass
         {
-            Tags{"LightMode" = "UniversalForward"}
+            Tags
+            {
+                "LightMode" = "UniversalForward"
+            }
             Blend [_BlendSrc] [_BlendDst]
             ZWrite[_ZWrite]
             Cull[_Cull]
@@ -137,7 +140,6 @@ Shader "Nova/Particles/UberUnlit"
             ZTest LEqual
 
             HLSLPROGRAM
-            
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.5
@@ -322,10 +324,13 @@ Shader "Nova/Particles/UberUnlit"
             #include "ParticlesUberUnlitEditor.hlsl"
             ENDHLSL
         }
-        
+
         Pass
         {
-            Tags{"LightMode" = "DepthNormals"}
+            Tags
+            {
+                "LightMode" = "DepthNormals"
+            }
 
             ZWrite[_ZWrite]
             Cull[_Cull]
@@ -386,13 +391,15 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
             #include "ParticlesUberDepthNormals.hlsl"
-            
             ENDHLSL
         }
-        
+
         Pass
         {
-            Tags{"LightMode" = "DepthOnly"}
+            Tags
+            {
+                "LightMode" = "DepthOnly"
+            }
 
             ZWrite[_ZWrite]
             Cull[_Cull]
@@ -453,7 +460,6 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
             #include "ParticlesUberDepthOnly.hlsl"
-            
             ENDHLSL
         }
     }
