@@ -1,6 +1,6 @@
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/144776407-7ea24e22-2fe0-437e-b7e3-787963fd6f19.png#gh-dark-mode-only" alt="NOVA Shader">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/142821815-7d838ac4-ff18-4025-b60f-0d22ad538f50.png#gh-light-mode-only" alt="NOVA Shader">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/144776407-7ea24e22-2fe0-437e-b7e3-787963fd6f19.png#gh-dark-mode-only" alt="NOVA Shader">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/142821815-7d838ac4-ff18-4025-b60f-0d22ad538f50.png#gh-light-mode-only" alt="NOVA Shader">
 </p>
 
 # NOVA Shader: Uber shader for Particle System
@@ -17,17 +17,17 @@ NOVA Shader is a multi-functional shader for the Particle System that supports U
 General-purpose functions commonly used in visual effects are implemented so you can create high-quality effects efficiently.
 
 <p align="center">
-  <img width=600 src="https://user-images.githubusercontent.com/47441314/144193003-53bcaa8a-b9a2-4b79-a1de-aa7b001abdaa.gif" alt="Sample1">
+  <img width="70%" src="https://user-images.githubusercontent.com/47441314/144193003-53bcaa8a-b9a2-4b79-a1de-aa7b001abdaa.gif" alt="Sample1">
 </p>
 <p align="center">
-  <img width=600 src="https://user-images.githubusercontent.com/47441314/144192957-64e63c4a-3644-4a08-8134-dcbeb85d5493.gif" alt="Sample2"><br>
+  <img width="70%" src="https://user-images.githubusercontent.com/47441314/144192957-64e63c4a-3644-4a08-8134-dcbeb85d5493.gif" alt="Sample2"><br>
   <font color="grey">Author: </font><a href="https://twitter.com/Ugokashiya">@Ugokashiya</a>
 </p>
 
 It implements some distinctive features like Flow Map, Flip-Book (sequential texture animation), Dissolve, Fade, Rotation, Animated Tint Map, Emission, Distortion, and so on.
 
 <p align="center">
-  <img width=600 src="https://user-images.githubusercontent.com/47441314/143531706-7f0230bb-4e4f-41de-9dbf-1586f295225c.gif" alt="Features"><br>
+  <img width="70%" src="https://user-images.githubusercontent.com/47441314/143531706-7f0230bb-4e4f-41de-9dbf-1586f295225c.gif" alt="Features"><br>
   <font color="grey">Features</a>
 </p>
 
@@ -93,7 +93,7 @@ To install the software, follow the steps below.
    * https://github.com/CyberAgentGameEntertainment/NovaShader.git?path=/Assets/Nova
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143533003-177a51fc-3d11-4784-b9d2-d343cc622841.png" alt="Package Manager">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143533003-177a51fc-3d11-4784-b9d2-d343cc622841.png" alt="Package Manager">
 </p>
 
 Or, open `Packages/manifest.json` and add the following to the dependencies block.
@@ -139,7 +139,7 @@ To use this shader, assign the `Nova/Particles/UberUnlit` shader to your materia
 The Render Settings control how the Material is rendered.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143199732-c5c72e4b-a3d1-48dd-84de-9aae264d1df4.png" alt="Render Settings"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143199732-c5c72e4b-a3d1-48dd-84de-9aae264d1df4.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 
@@ -223,7 +223,7 @@ You can specify how to use the alpha value of the vertex color from the followin
 Base Map controls the base color texture and its settings.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143205498-78b66ab9-3ea6-44ed-9a97-f5a00bda153e.png" alt="Base Map"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143205498-78b66ab9-3ea6-44ed-9a97-f5a00bda153e.png" alt="Base Map"><br>
   <font color="grey">Base Map</font>
 </p>
 
@@ -287,7 +287,7 @@ The progress of the Flip-Book or Flip-Book Blending.
 Tint Color controls the color to be multiplied.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143205648-b669f20a-cc21-4a07-9d5c-3a18cd5cb085.png" alt="Tint Color"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143205648-b669f20a-cc21-4a07-9d5c-3a18cd5cb085.png" alt="Tint Color"><br>
   <font color="grey">Tint Color</font>
 </p>
 
@@ -381,7 +381,7 @@ If this value is zero, the color will not be applied; if it is one, the color wi
 You can use the Flow Map to distort the Base Map to the specified directions.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/106138524/173483428-e6027ef4-a61e-4308-a90a-542bf75b0eaf.png" alt="Flow Map"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173483428-e6027ef4-a61e-4308-a90a-542bf75b0eaf.png" alt="Flow Map"><br>
   <font color="grey">Flow Map</font>
 </p>
 
@@ -425,7 +425,7 @@ Set the targets to which the flow map will be applied (multiple selections are p
 Color Correction correct the colors up to this point.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143205890-207e62d5-174c-4f81-a1ea-a26bbc606769.png" alt="Color Correction"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143205890-207e62d5-174c-4f81-a1ea-a26bbc606769.png" alt="Color Correction"><br>
   <font color="grey">Color Correction</font>
 </p>
 
@@ -466,7 +466,7 @@ Sets the Gradient Map. The specifications are as follows.
 Alpha Transition controls the alpha value using a texture.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/106138524/173483478-fe1c8b9d-c449-4fad-8325-195385eab7ee.png" alt="Alpha Transition"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173483478-fe1c8b9d-c449-4fad-8325-195385eab7ee.png" alt="Alpha Transition"><br>
   <font color="grey">Alpha Transition</font>
 </p>
 
@@ -547,7 +547,7 @@ Sets the sharpness of the edge.
 The Emission control how the particles are glowing.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/106138524/173484557-4f2504af-c93a-4f5a-85b0-ac07b8e0d6fe.png" alt="Emission"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173484557-4f2504af-c93a-4f5a-85b0-ac07b8e0d6fe.png" alt="Emission"><br>
   <font color="grey">Emission</font>
 </p>
 
@@ -666,7 +666,7 @@ Sets the intensity of the emission.
 Control the transparency in various ways.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143206260-12b123fe-858a-4770-96d1-a47cbab4079f.png" alt="Transparency"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143206260-12b123fe-858a-4770-96d1-a47cbab4079f.png" alt="Transparency"><br>
   <font color="grey">Transparency</font>
 </p>
 
@@ -755,7 +755,7 @@ To use this shader, assign the `Nova/Particles/Distortion` shader to your materi
 The Render Settings control how the Material is rendered.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143212609-9a135eb7-d2d2-482c-bc79-73886852e92a.png" alt="Render Settings"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143212609-9a135eb7-d2d2-482c-bc79-73886852e92a.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 
@@ -783,7 +783,7 @@ You can specify the rendering face from the following options.
 Distortion controls how it is distorted.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/106138524/173484623-01bec5e8-68ea-4afe-8679-90a31a3fa62c.png" alt="Distortion"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173484623-01bec5e8-68ea-4afe-8679-90a31a3fa62c.png" alt="Distortion"><br>
   <font color="grey">Distortion</font>
 </p>
 
@@ -831,7 +831,7 @@ If true, mirrors the texture to create a repeating pattern.
 You can use the Flow Map to distort the Distortion Map to the specified directions.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/106138524/173484646-d134aad0-3e2d-45c3-b4ae-7017d5a07801.png" alt="Flow Map"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173484646-d134aad0-3e2d-45c3-b4ae-7017d5a07801.png" alt="Flow Map"><br>
   <font color="grey">Flow Map</font>
 </p>
 
@@ -865,7 +865,7 @@ Sets the Flow Map intensity.
 Alpha Transition controls the alpha value using a texture.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/106138524/173484691-f2ec4b11-cf2f-404d-890f-3331a45bbf5a.png" alt="Alpha Transition"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173484691-f2ec4b11-cf2f-404d-890f-3331a45bbf5a.png" alt="Alpha Transition"><br>
   <font color="grey">Alpha Transition</font>
 </p>
 
@@ -919,7 +919,7 @@ Sets the sharpness of the edge.
 Control the transparency in various ways.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143213193-3405c0c0-5812-4c41-be52-18b8c48ebd1c.png" alt="Transparency"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143213193-3405c0c0-5812-4c41-be52-18b8c48ebd1c.png" alt="Transparency"><br>
   <font color="grey">Transparency</font>
 </p>
 
@@ -1008,7 +1008,7 @@ First, set up the [Particle System's Custom Data](https://docs.unity3d.com/2019.
 In this case, we have set a value that changes from 0 to 1 over time to `Custom1.X`.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143419403-d5f33c24-6875-4e0e-bf05-c6ebdd94bb94.png" alt="Custom Data"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143419403-d5f33c24-6875-4e0e-bf05-c6ebdd94bb94.png" alt="Custom Data"><br>
   <font color="grey">Custom Data</font>
 </p>
 
@@ -1016,7 +1016,7 @@ In this case, we have set a value that changes from 0 to 1 over time to `Custom1
 Next, set the Custom Vertex Streams as shown below to pass `Custom1.x` to `TEXCOORD1.x`.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143446418-0daf3b2e-7f21-4b0a-a78e-aac50770a186.png" alt="Custom Vertex Streams"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143446418-0daf3b2e-7f21-4b0a-a78e-aac50770a186.png" alt="Custom Vertex Streams"><br>
   <font color="grey">Custom Vertex Streams</font>
 </p>
 
@@ -1024,14 +1024,14 @@ Next, set the Custom Vertex Streams as shown below to pass `Custom1.x` to `TEXCO
 Next, select `COORD 1X` from the `Rotation` dropdown to use the value passed to `TEXCOORD1.x` as shown below.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143424542-61dc2d6b-402f-45d1-85bb-a2170e05643c.png" alt="Coord"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143424542-61dc2d6b-402f-45d1-85bb-a2170e05643c.png" alt="Coord"><br>
   <font color="grey">Coord</font>
 </p>
 
 The texture will now rotate.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143531888-b49c55e9-3df1-4dae-a0fe-d3e4a1638af2.gif" alt="Rotation"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143531888-b49c55e9-3df1-4dae-a0fe-d3e4a1638af2.gif" alt="Rotation"><br>
   <font color="grey">Rotation</font>
 </p>
 
@@ -1044,7 +1044,7 @@ To use `Mesh GPU Instancing`, you need to set the `Render Mode` of the `Renderer
 Then, check the `Enable Mesh GPU Instancing` checkbox.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143447533-0e03627f-9af0-43cd-bab1-254c78ea7f93.png" alt="Enable Mesh GPU Instancing"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143447533-0e03627f-9af0-43cd-bab1-254c78ea7f93.png" alt="Enable Mesh GPU Instancing"><br>
   <font color="grey">Enable Mesh GPU Instancing</font>
 </p>
 
@@ -1052,7 +1052,7 @@ Then, check the `Enable Mesh GPU Instancing` checkbox.
 Next, set up the Custom Vertex Streams as shown below.
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143448020-45beb08a-6795-4372-894a-c04e33a8029d.png" alt="Custom Vertex Streams"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143448020-45beb08a-6795-4372-894a-c04e33a8029d.png" alt="Custom Vertex Streams"><br>
   <font color="grey">Custom Vertex Streams</font>
 </p>
 
