@@ -1,6 +1,6 @@
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/144776407-7ea24e22-2fe0-437e-b7e3-787963fd6f19.png#gh-dark-mode-only" alt="NOVA Shader">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/142821815-7d838ac4-ff18-4025-b60f-0d22ad538f50.png#gh-light-mode-only" alt="NOVA Shader">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/144776407-7ea24e22-2fe0-437e-b7e3-787963fd6f19.png#gh-dark-mode-only" alt="NOVA Shader">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/142821815-7d838ac4-ff18-4025-b60f-0d22ad538f50.png#gh-light-mode-only" alt="NOVA Shader">
 </p>
 
 # NOVA Shader: Particle System用多機能シェーダ
@@ -17,17 +17,17 @@
 ビジュアルエフェクト制作でよく使われる汎用的な機能をまとめているので、効率的に高品質なエフェクトを作成できます。
 
 <p align="center">
-  <img width=600 src="https://user-images.githubusercontent.com/47441314/144193003-53bcaa8a-b9a2-4b79-a1de-aa7b001abdaa.gif" alt="Sample1">
+  <img width="70%" src="https://user-images.githubusercontent.com/47441314/144193003-53bcaa8a-b9a2-4b79-a1de-aa7b001abdaa.gif" alt="Sample1">
 </p>
 <p align="center">
-  <img width=600 src="https://user-images.githubusercontent.com/47441314/144192957-64e63c4a-3644-4a08-8134-dcbeb85d5493.gif" alt="Sample2"><br>
+  <img width="70%" src="https://user-images.githubusercontent.com/47441314/144192957-64e63c4a-3644-4a08-8134-dcbeb85d5493.gif" alt="Sample2"><br>
   <font color="grey">Author: </font><a href="https://twitter.com/Ugokashiya">@Ugokashiya</a>
 </p>
 
 特徴的な機能としてはフローマップ、Flip-Book（連番テクスチャアニメーション）、ディゾルブ、フェード、回転、アニメーション可能なTintマップ、エミッション、ディストーションなどがあります。
 
 <p align="center">
-  <img width=600 src="https://user-images.githubusercontent.com/47441314/143531706-7f0230bb-4e4f-41de-9dbf-1586f295225c.gif" alt="Features"><br>
+  <img width="70%" src="https://user-images.githubusercontent.com/47441314/143531706-7f0230bb-4e4f-41de-9dbf-1586f295225c.gif" alt="Features"><br>
   <font color="grey">特徴的な機能</a>
 </p>
 
@@ -97,7 +97,7 @@ Universal Render Pipelineに関する詳細は[Unityのマニュアル](https://
    * https://github.com/CyberAgentGameEntertainment/NovaShader.git?path=/Assets/Nova
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143533003-177a51fc-3d11-4784-b9d2-d343cc622841.png" alt="Package Manager">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143533003-177a51fc-3d11-4784-b9d2-d343cc622841.png" alt="Package Manager">
 </p>
 
 あるいはPackages/manifest.jsonを開き、dependenciesブロックに以下を追記します。
@@ -144,7 +144,7 @@ Inspectorから設定可能な各プロパティの説明は以下の通りで�
 Render Settingsではマテリアルの描画方法を制御できます。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143199732-c5c72e4b-a3d1-48dd-84de-9aae264d1df4.png" alt="Render Settings"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143199732-c5c72e4b-a3d1-48dd-84de-9aae264d1df4.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 
@@ -230,7 +230,7 @@ Render Typeが同じ場合、Render Priorityが小さいものから先に描画
 Base Mapでは色のベースとなるテクスチャを制御できます。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143205498-78b66ab9-3ea6-44ed-9a97-f5a00bda153e.png" alt="Base Map"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143205498-78b66ab9-3ea6-44ed-9a97-f5a00bda153e.png" alt="Base Map"><br>
   <font color="grey">Base Map</font>
 </p>
 
@@ -294,7 +294,7 @@ Flip-BookあるいはFlip-Book Blendingの進行度を設定します。
 Tint Colorでは乗算色を指定できます。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143205648-b669f20a-cc21-4a07-9d5c-3a18cd5cb085.png" alt="Tint Color"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143205648-b669f20a-cc21-4a07-9d5c-3a18cd5cb085.png" alt="Tint Color"><br>
   <font color="grey">Tint Color</font>
 </p>
 
@@ -388,7 +388,7 @@ Tint Colorでは乗算色を指定できます。
 Flow Mapを使うとベースマップを指定した方向に歪ませることができます。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/106138524/173495462-2803d37e-7dff-41f3-aeb4-9460c29db242.png" alt="Flow Map"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173495462-2803d37e-7dff-41f3-aeb4-9460c29db242.png" alt="Flow Map"><br>
   <font color="grey">Flow Map</font>
 </p>
 
@@ -432,7 +432,7 @@ Flow Mapを使うとベースマップを指定した方向に歪ませること
 Color Correctionはここまでの色を補正します。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143205890-207e62d5-174c-4f81-a1ea-a26bbc606769.png" alt="Color Correction"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143205890-207e62d5-174c-4f81-a1ea-a26bbc606769.png" alt="Color Correction"><br>
   <font color="grey">Color Correction</font>
 </p>
 
@@ -473,7 +473,7 @@ Color Correctionはここまでの色を補正します。
 Alpha Transitionは徐々に消えていく表現に使用します。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/106138524/173495515-eb46ad7e-9ee3-4d2d-9a4a-6ef64d046604.png" alt="Alpha Transition"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173495515-eb46ad7e-9ee3-4d2d-9a4a-6ef64d046604.png" alt="Alpha Transition"><br>
   <font color="grey">Alpha Transition</font>
 </p>
 
@@ -554,7 +554,7 @@ Flip-BookあるいはFlip-Book Blendingの進行度を設定します。
 Emissionは発光する表現のために使用します。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/106138524/173495566-04c291f8-a44f-4258-88ee-f2aadb7d028b.png" alt="Emission"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173495566-04c291f8-a44f-4258-88ee-f2aadb7d028b.png" alt="Emission"><br>
   <font color="grey">Emission</font>
 </p>
 
@@ -674,7 +674,7 @@ Gradient MapはModeをBy TextureかEdgeに設定した時のみ選択可能で�
 Transparencyは透明度を調整できます。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143206260-12b123fe-858a-4770-96d1-a47cbab4079f.png" alt="Transparency"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143206260-12b123fe-858a-4770-96d1-a47cbab4079f.png" alt="Transparency"><br>
   <font color="grey">Transparency</font>
 </p>
 
@@ -765,7 +765,7 @@ Inspectorから設定可能な各プロパティの説明は以下の通りで�
 Render Settingsではマテリアルの描画方法を制御できます。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143212609-9a135eb7-d2d2-482c-bc79-73886852e92a.png" alt="Render Settings"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143212609-9a135eb7-d2d2-482c-bc79-73886852e92a.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 
@@ -793,7 +793,7 @@ Render Settingsではマテリアルの描画方法を制御できます。
 Distortionでは歪ませ方を設定できます。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/106138524/173495634-33aa9641-ee8e-4f15-9707-0753acceffb7.png" alt="Distortion"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173495634-33aa9641-ee8e-4f15-9707-0753acceffb7.png" alt="Distortion"><br>
   <font color="grey">Distortion</font>
 </p>
 
@@ -841,7 +841,7 @@ Distortionでは歪ませ方を設定できます。
 Flow Mapを使うとディストーションマップを指定した方向に歪ませることができます。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/106138524/173495698-db1047ce-dd45-4785-981b-6a4b06755762.png" alt="Flow Map"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173495698-db1047ce-dd45-4785-981b-6a4b06755762.png" alt="Flow Map"><br>
   <font color="grey">Flow Map</font>
 </p>
 
@@ -875,7 +875,7 @@ Flow Mapを使うとディストーションマップを指定した方向に歪
 Alpha Transitionは徐々に消えていく表現に使用します。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/106138524/173495819-9bc44ed4-4df6-4d33-b9fa-a2a8706d76bd.png" alt="Alpha Transition"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173495819-9bc44ed4-4df6-4d33-b9fa-a2a8706d76bd.png" alt="Alpha Transition"><br>
   <font color="grey">Alpha Transition</font>
 </p>
 
@@ -929,7 +929,7 @@ Alpha Transitionは徐々に消えていく表現に使用します。
 Transparencyは透明度を調整できます。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143213193-3405c0c0-5812-4c41-be52-18b8c48ebd1c.png" alt="Transparency"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143213193-3405c0c0-5812-4c41-be52-18b8c48ebd1c.png" alt="Transparency"><br>
   <font color="grey">Transparency</font>
 </p>
 
@@ -1018,7 +1018,7 @@ Particle SystemのCustom Vertex Streamsを使うと、マテリアルのプロ�
 今回は以下のように、Custom1のXに0から始まり時間経過とともに1に移り変わる値を設定しました。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143419403-d5f33c24-6875-4e0e-bf05-c6ebdd94bb94.png" alt="Custom Data"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143419403-d5f33c24-6875-4e0e-bf05-c6ebdd94bb94.png" alt="Custom Data"><br>
   <font color="grey">Custom Data</font>
 </p>
 
@@ -1026,7 +1026,7 @@ Particle SystemのCustom Vertex Streamsを使うと、マテリアルのプロ�
 次にCustom Vertex Streamsを下図のように設定し、`Custom1.x`を`TEXCOORD1.x`に渡します。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143446418-0daf3b2e-7f21-4b0a-a78e-aac50770a186.png" alt="Custom Vertex Streams"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143446418-0daf3b2e-7f21-4b0a-a78e-aac50770a186.png" alt="Custom Vertex Streams"><br>
   <font color="grey">Custom Vertex Streams</font>
 </p>
 
@@ -1035,14 +1035,14 @@ Particle SystemのCustom Vertex Streamsを使うと、マテリアルのプロ�
 今回は`TEXCOORD1.x`に渡された値を`Rotation`として設定したいため、下図のように`COORD 1X`を選択します。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143424542-61dc2d6b-402f-45d1-85bb-a2170e05643c.png" alt="Coord"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143424542-61dc2d6b-402f-45d1-85bb-a2170e05643c.png" alt="Coord"><br>
   <font color="grey">Coord</font>
 </p>
 
 これでテクスチャが回転するようになりました。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143531888-b49c55e9-3df1-4dae-a0fe-d3e4a1638af2.gif" alt="Rotation"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143531888-b49c55e9-3df1-4dae-a0fe-d3e4a1638af2.gif" alt="Rotation"><br>
   <font color="grey">Rotation</font>
 </p>
 
@@ -1055,7 +1055,7 @@ Particle SystemのCustom Vertex Streamsを使うと、マテリアルのプロ�
 またその上で`Enable Mesh GPU Instancing`にチェックを入れます。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143447533-0e03627f-9af0-43cd-bab1-254c78ea7f93.png" alt="Enable Mesh GPU Instancing"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143447533-0e03627f-9af0-43cd-bab1-254c78ea7f93.png" alt="Enable Mesh GPU Instancing"><br>
   <font color="grey">Enable Mesh GPU Instancing</font>
 </p>
 
@@ -1063,7 +1063,7 @@ Particle SystemのCustom Vertex Streamsを使うと、マテリアルのプロ�
 次にCustom Vertex Streamsを下図のように設定します。
 
 <p align="center">
-  <img width=500 src="https://user-images.githubusercontent.com/47441314/143448020-45beb08a-6795-4372-894a-c04e33a8029d.png" alt="Custom Vertex Streams"><br>
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143448020-45beb08a-6795-4372-894a-c04e33a8029d.png" alt="Custom Vertex Streams"><br>
   <font color="grey">Custom Vertex Streams</font>
 </p>
 
