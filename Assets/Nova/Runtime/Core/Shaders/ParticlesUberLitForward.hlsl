@@ -4,6 +4,7 @@
 //////////////////////////////////////////
 // Define symbols for URP Functions.
 //////////////////////////////////////////
+
 #ifndef _SPECULAR_HIGHLIGHTS_ENABLED
 #define _SPECULARHIGHLIGHTS_OFF
 #endif
@@ -16,11 +17,10 @@
 #define _NORMALMAP
 #endif
 
-#ifdef _RECEIVE_SHADOWS_ENABLED
-#define MAIN_LIGHT_CALCULATE_SHADOWS
+#ifndef _RECEIVE_SHADOWS_ENABLED
+#define _RECEIVE_SHADOWS_OFF
 #endif
 
-#define _ADDITIONAL_LIGHTS
 #define REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR
 
 //////////////////////////////////////////
