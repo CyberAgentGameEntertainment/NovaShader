@@ -131,7 +131,7 @@ float4 GetShadowCoord(VaryingsLit input)
     #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
     shadowCoord = input.shadowCoord;
     #else
-    shadowCoord = TransformWorldToShadowCoord(input.positionWS.xyz);
+    shadowCoord = TransformWorldToShadowCoord(input.positionWS);
     #endif
     return shadowCoord;
 }
@@ -182,14 +182,14 @@ void InitializeInputData(out InputData inputData, SurfaceData surfaceData, Varyi
 {
     inputData = (InputData)0;
     Varyings inputUnlit = input.varyingsUnlit;
-    inputData.positionWS = input.positionWS.xyz;
-    
-    inputData.normalWS = GET_NORMAL_WS(surfaceData.normalTS,input.tangentWS,
-        input.binormalWS,input.varyingsUnlit.normalWS);
-    
+    inputData.positionWS = input.positionWS;
+
+    inputData.normalWS = GET_NORMAL_WS(surfaceData.normalTS, input.tangentWS,
+                                       input.binormalWS, input.varyingsUnlit.normalWS);
+
     inputData.viewDirectionWS = SafeNormalize(inputUnlit.viewDirWS);
     GET_SHADOW_COORD(inputData.shadowCoord, input);
-    inputData.fogCoord = input.positionWS.w;
+    inputData.fogCoord = inputUnlit.transitionEmissionProgresses.z;
     inputData.bakedGI = SampleSHPixel(input.vertexSH, inputData.normalWS);
     inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(inputUnlit.positionHCS);
     // The values of shadowMask and vertexLighting are referenced from ParticlesLitForwardPass.hlsl in UPR Package.
@@ -203,24 +203,26 @@ void InitializeInputData(out InputData inputData, SurfaceData surfaceData, Varyi
 VaryingsLit vertLit(AttributesLit input)
 {
     VaryingsLit output = (VaryingsLit)0;
-    output.varyingsUnlit = vertUnlit(input.attributesUnlit);
-
-    output.positionWS.xyz = TransformObjectToWorld(input.attributesUnlit.positionOS.xyz);
+    output.varyingsUnlit = vertUnlit(input.attributesUnlit, output.positionWS, true, true);
 
     // Calculate tangent and binormal.
     #ifdef _NORMAL_MAP_ENABLED
-    CalculateTangetAndBinormalInWorldSpace(output.tangentWS, output.binormalWS, output.varyingsUnlit.normalWS, input.tangentOS );
+    CalculateTangetAndBinormalInWorldSpace(output.tangentWS, output.binormalWS, output.varyingsUnlit.normalWS,
+                                           input.tangentOS);
     #endif
 
     // TODO: vertexLight is not used in ParticlesLitForwardPass.hlsl. What about with NOVA Shader?
     // half3 vertexLight = VertexLighting(output.positionWS, output.varyingsUnlit.normalWS);
-    half fogFactor = ComputeFogFactor(output.varyingsUnlit.positionHCS.z);
-    output.positionWS.w = fogFactor;
+
+    // Fog Code was already computed by vertUnlit().
+    // So this code was deleted .
+    // half fogFactor = ComputeFogFactor(output.varyingsUnlit.positionHCS.z);
+    // output.positionWS.w = fogFactor;
 
     OUTPUT_SH(output.varyingsUnlit.normalWS.xyz, output.vertexSH);
 
     #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(_RECEIVE_SHADOWS_ENABLED)
-    output.shadowCoord = TransformWorldToShadowCoord(output.positionWS.xyz);
+    output.shadowCoord = TransformWorldToShadowCoord(output.positionWS);
     #endif
 
     return output;
@@ -231,14 +233,14 @@ VaryingsLit vertLit(AttributesLit input)
  */
 half4 fragLit(VaryingsLit input) : SV_Target
 {
-    half4 albedoColor = fragUnlit(input.varyingsUnlit);
-    
+    half4 albedoColor = fragUnlit(input.varyingsUnlit, true, true);
+
     SurfaceData surfaceData;
     InitializeSurfaceData(surfaceData, input, albedoColor);
-    
+
     InputData inputData;
     InitializeInputData(inputData, surfaceData, input);
-    
+
     half4 color = UniversalFragmentPBR(inputData, surfaceData);
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
     return color;
