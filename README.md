@@ -783,9 +783,9 @@ You can specify the mode of PBR workflow from the following options.<br>
 </ul>
 </p>
 For more information on workflow, please refer to the following URL
-https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMetallicVsSpecular.html
-https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMaterialParameterSpecular.html
-https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMaterialParameterMetallic.html
+https://docs.unity3d.com/2018.4/Documentation/Manual/StandardShaderMetallicVsSpecular.html
+https://docs.unity3d.com/2018.4/Documentation/Manual/StandardShaderMaterialParameterSpecular.html
+https://docs.unity3d.com/2018.4/Documentation/Manual/StandardShaderMaterialParameterMetallic.html
 <tr><td colspan="3"><b>Receive Shadows</b></td><td>
 <p>
 If checking the box, it will be received shadows from directional lights.<br>
@@ -798,7 +798,7 @@ If checking the box, it will be enabled specular highlighting.<br>
 <p>
 If checking the box, it will be affected ambient light from the Reflection Probe and Skybox.<br>
 For more information on the effects of ambient light, please refer to "Environment Reflection" at the following URL.<br>
-https://docs.unity3d.com/ja/2018.4/Manual/GlobalIllumination.html
+https://docs.unity3d.com/2018.4/Documentation/Manual/GlobalIllumination.html
 </p>
 </tbody>
 </table>
@@ -826,7 +826,7 @@ Set up the normal map.The specifications of the normal map are as follows.<br>
 </ul>
 For more infomation of the normal map
 Please refer to the following URL for details on the normal map.<br>
-https://docs.unity3d.com/ja/2021.3/Manual/StandardShaderMaterialParameterNormalMap.html
+https://docs.unity3d.com/2021.3/Documentation/Manual/StandardShaderMaterialParameterNormalMap.html
 </p>
 <tr><td colspan="3"><b>Metallic Map</b></td><td>
 <b>It is displayed when the Work Flow Mode is set to Metallic.</b>
@@ -838,7 +838,7 @@ Set up the metallic map.The specifications of the metallic map are as follows.<b
 <li>The Channels property allows specifying the channel where the metallic value is stored. Default is R channel.</li>
 </ul>
 Please refer to the following URL for details on the metallic map.<br>
-https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMaterialParameterMetallic.html
+https://docs.unity3d.com/2018.4/Documentation/Manual/StandardShaderMaterialParameterMetallic.html
 </ul>
 
 <tr><td colspan="3"><b>Specular Map</b></td><td>
@@ -850,7 +850,7 @@ Set up the specular map. The specifications of the specular map are as follows.<
 <li>If the specular map is set, the color of specular property will be used as the multiplier color.</li>
 </ul>
 Please refer to the following URL for details on the specular map.<br>
-https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMaterialParameterSpecular.html
+https://docs.unity3d.com/2018.4/Documentation/Manual/StandardShaderMaterialParameterSpecular.html
 </ul>
 
 <tr><td colspan="3"><b>Smoothness Map</b></td><td>
