@@ -754,6 +754,119 @@ Transparencyは透明度を調整できます。
 </tbody>
 </table>
 
+## Uber Litシェーダー
+Uber LitシェーダーはUnityのPBRライティングの仕様に準拠したライティングが反映される多機能シェーダーです。メッシュエフェクトなどのライティングの影響を受けたいパーティクルにはこのシェーダーを使用します。
+
+Uber Litシェーダーを使用するには、マテリアルに`Nova/Particles/UberLit`シェーダーをアサインします。
+
+Uber LitシェーダーはUber Unlitシェーダーにライティングのための処理とプロパティを追加したシェーダーです。<br>
+追加されたプロパティの説明は以下の通りです。<br>
+
+
+#### Render Settings
+Render Settingsには以下の赤枠で囲まれたプロパティが追加されています。
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/187354711-18e8c4cc-e7c4-43ca-88ba-140121afa9bc.png" alt="Render Settings"><br>
+  <font color="grey">Render Settings</font>
+</p>
+
+<table width="100%">
+<thead>
+<tr><td colspan="3"><b>プロパティ名</b></td><td><b>説明</b></td></tr>
+</thead>
+<tbody>
+<tr><td colspan="3"><b>Work Flow Mode</b></td><td>
+<p>
+PBRライティングのワークフローを指定できます。<br>
+</p>
+<p>
+<ul>
+<li>Specular</li>
+<li>Metallic</li>
+</ul>
+</p>
+なお、ワークフローに関する詳細は下記のURLを参照してください。
+https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMetallicVsSpecular.html
+https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMaterialParameterSpecular.html
+https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMaterialParameterMetallic.html
+<tr><td colspan="3"><b>Receive Shadows</b></td><td>
+<p>
+チェックをつけるとディレクショナルライトによる影を落とすことができます。<br>
+</p>
+<tr><td colspan="3"><b>Specular Highlights</b></td><td>
+<p>
+チェックをつけるとスペキュラハイライトが有効になります。<br>
+</p>
+<tr><td colspan="3"><b>Environment Reflections</b></td><td>
+<p>
+チェックをつけるとReflection ProbeやSkyboxによる環境光の影響を受けるようになります。<br>
+環境光の影響に関する詳細は下記URLの「Environment Reflection」を参照してください。<br>
+https://docs.unity3d.com/ja/2018.4/Manual/GlobalIllumination.html
+</p>
+</tbody>
+</table>
+
+#### Surface Maps
+ライティングのために必要なサーフェイスに関する各種情報の設定が追加されています。
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/187354400-aedd2347-cc5d-4b39-bf87-ef5318177bba.png" alt="Surface Maps"><br>
+  <font color="grey">Surface Maps</font>
+</p>
+
+<table width="100%">
+<thead>
+<tr><td colspan="3"><b>プロパティ名</b></td><td><b>説明</b></td></tr>
+</thead>
+<tbody>
+<tr><td colspan="3"><b>Normal Map</b></td><td>
+<p>
+法線マップを設定します。法線マップの仕様は以下の通りです。<br>
+<ul>
+<li>設定できる法線マップはタンジェントスペース法線マップ</li>
+<li>マップが指定されていない場合は頂点法線が使用される</li>
+<li>法線のスケール値を指定できる。1.0で等倍となる</li>
+</ul>
+法線マップの詳細については下記のURLを参照してください。<br>
+https://docs.unity3d.com/ja/2021.3/Manual/StandardShaderMaterialParameterNormalMap.html
+</p>
+<tr><td colspan="3"><b>Metallic Map</b></td><td>
+<b>Work Flow ModeにMetallicを設定すると表示されます。</b>
+
+メタリックマップを設定します。メタリックマップの仕様は以下の通りです。<br>
+<ul>
+<li>メタリックマップが設定されていない場合は、metallicプロパティの値が一律の金属度として使用される</li>
+<li>メタリックマップが設定されている場合は、metallicプロパティが金属度の乗算値として使用される</li>
+<li>Channelsで金属度が格納されているチャンネルを指定できる。デフォルトはRチャンネル</li>
+</ul>
+メタリックマップの詳細については下記のURLを参照してください。<br>
+https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMaterialParameterMetallic.html
+</ul>
+
+<tr><td colspan="3"><b>Specular Map</b></td><td>
+<b>Work Flow ModeにSpecularを設定すると表示されます。</b>
+
+スペキュラマップを設定します。スペキュラマップの仕様は以下の通りです。<br>
+<ul>
+<li>スペキュラマップが設定されていない場合は、Specularプロパティのカラーの値が一律のスペキュラカラーとして使用される</li>
+<li>スペキュラマップが設定されている場合は、Specularプロパティのカラーの値が乗算カラーとして使用される</li>
+</ul>
+スペキュラマップの詳細については下記のURLを参照してください。<br>
+https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMaterialParameterSpecular.html
+</ul>
+
+<tr><td colspan="3"><b>Smoothness Map</b></td><td>
+スムースネスマップを設定します。スムースネスマップの仕様は以下の通りです。<br>
+<br>
+<ul>
+<li>スムースネスマップが設定されていない場合は、Smoothnessプロパティの値が一律の滑らかさとして使用される</li>
+<li>スムースネスマップが設定されている場合は、Smoothnessプロパティの値が乗算値として使用される</li>
+<li>Channelsで滑らかさが格納されているチャンネルを指定できる。デフォルトはαチャンネル</li>
+</ul>
+</tbody>
+</table>
+    
 ## Distortionシェーダ
 Distortionは画面に対して歪み効果をかけるためのシェーダです。  
 熱波など、歪み効果が必要なエフェクトにはこのシェーダを使用します。
