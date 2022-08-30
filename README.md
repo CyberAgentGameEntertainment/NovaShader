@@ -52,8 +52,11 @@ For more information, please refer to the following documents, [Samples](Assets/
     - [Alpha Transition](#alpha-transition)
     - [Emission](#emission)
     - [Transparency](#transparency)
-- [Distortion Shader](#distortion-shader)
+- [Uber Lit Shader](#uber-lit-shader)
     - [Render Settings](#render-settings-1)
+    - [Surface Maps](#surface-maps)
+- [Distortion Shader](#distortion-shader)
+    - [Render Settings](#render-settings-2)
     - [Distortion](#distortion)
     - [Flow Map](#flow-map-1)
     - [Alpha Transition](#alpha-transition-1)
@@ -65,7 +68,6 @@ For more information, please refer to the following documents, [Samples](Assets/
 - [Use Mesh GPU Instancing](#use-mesh-gpu-instancing)
     - [Enable Mesh GPU Instancing](#enable-mesh-gpu-instancing)
     - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams-1)
-- [About Lit Shader](#about-lit-shader)
 - [Licenses](#licenses)
 
 </details>
