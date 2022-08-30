@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2021 CyberAgent, Inc.
+// Copyright 2022 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -23,10 +23,7 @@ namespace Nova.Runtime.Core.Scripts
         public override void Create()
         {
             _applyDistortionShader = Shader.Find("Hidden/Nova/Particles/ApplyDistortion");
-            if (_applyDistortionShader == null)
-            {
-                return;
-            }
+            if (_applyDistortionShader == null) return;
 
             _distortedUvBufferPass = new DistortedUvBufferPass(DistortionLightMode);
             _applyDistortionPass = new ApplyDistortionPass(_applyToSceneView, _applyDistortionShader);
@@ -34,17 +31,15 @@ namespace Nova.Runtime.Core.Scripts
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
-            if (_applyDistortionShader == null)
-            {
-                return;
-            }
-
+            if (_applyDistortionShader == null) return;
             var cameraTargetDesciptor = renderingData.cameraData.cameraTargetDescriptor;
+
             var distortedUvBufferFormat = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RGHalf)
                 ? RenderTextureFormat.RGHalf
                 : RenderTextureFormat.DefaultHDR;
             var distortedUvBuffer = RenderTexture.GetTemporary(cameraTargetDesciptor.width,
-                cameraTargetDesciptor.height, 0, distortedUvBufferFormat);
+                cameraTargetDesciptor.height, 0, distortedUvBufferFormat, RenderTextureReadWrite.Default,
+                cameraTargetDesciptor.msaaSamples);
             var distortedUvBufferIdentifier = new RenderTargetIdentifier(distortedUvBuffer);
 
             _distortedUvBufferPass.Setup(distortedUvBufferIdentifier, () => renderer.cameraDepthTarget);

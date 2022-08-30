@@ -268,6 +268,10 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     
     InitializeFragmentInputDrawDepth(input);
 
+    #if defined(_TRANSPARENCY_BY_RIM) || defined(_TINT_AREA_RIM)
+    half rim = 1.0 - abs(dot(input.normalWS, input.viewDirWS));
+    #endif
+    
     // Flow map 
     #if defined( _USE_FLOW_MAP)
     half intensity = _FlowIntensity + GET_CUSTOM_COORD(_FlowIntensityCoord);

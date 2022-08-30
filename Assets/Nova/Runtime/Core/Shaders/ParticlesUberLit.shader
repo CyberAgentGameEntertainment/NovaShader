@@ -175,11 +175,19 @@ Shader "Nova/Particles/UberLit"
             #pragma instancing_options procedural:ParticleInstancingSetup
             #pragma require 2darray
 
+            // -------------------------------------
+            // Universal Pipeline keywords
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+            #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+            #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
+            #pragma multi_compile_fragment _ _SHADOWS_SOFT
+            
             // Render Settings
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
             #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
-            #pragma shader_feature_local _MAIN_LIGHT_CALCULATE_SHADOWS
+            
             #pragma shader_feature_local _RECEIVE_SHADOWS_ENABLED
             #pragma shader_feature_local _SPECULAR_HIGHLIGHTS_ENABLED
             #pragma shader_feature_local _ENVIRONMENT_REFLECTIONS_ENABLED
@@ -256,7 +264,6 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
             #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
-            #pragma shader_feature_local _MAIN_LIGHT_CALCULATE_SHADOWS
 
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D

@@ -17,6 +17,15 @@
 #endif
 #endif
 
+#if defined(DEPTH_ONLY_PASS) || defined(DEPTH_NORMALS_PASS)
+#ifndef _ALPHATEST_ENABLED
+// These symbols are not necessary when drawing opaque objects.
+#undef FRAGMENT_USE_VIEW_DIR_WS 
+#undef _TRANSPARENCY_BY_RIM
+#undef _TINT_AREA_RIM
+#endif
+#endif
+
 #if defined(_SOFT_PARTICLES_ENABLED) || defined(_DEPTH_FADE_ENABLED)
 #define USE_PROJECTED_POSITION
 #endif
