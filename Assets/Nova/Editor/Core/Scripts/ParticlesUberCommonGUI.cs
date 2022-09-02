@@ -195,7 +195,6 @@ namespace Nova.Editor.Core.Scripts
             _editor = editor;
             _commonMaterialProperties = commonMaterialProperties;
             SetupCorrectVertexStreams(_editor.target as Material);
-            
         }
 
         public void DrawRenderSettingsProperties(Action drawPropertiesFunc)
@@ -390,7 +389,7 @@ namespace Nova.Editor.Core.Scripts
                 {
                     MaterialEditorUtility.DrawPropertyAndCustomCoord(
                         _editor, "Progress", props.TintRimProgressProp.Value,
-                        props.TintRimSharpnessCoordProp.Value);
+                        props.TintRimProgressCoordProp.Value);
                     MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Sharpness",
                         props.TintRimSharpnessProp.Value,
                         props.TintRimSharpnessCoordProp.Value);
@@ -675,9 +674,11 @@ namespace Nova.Editor.Core.Scripts
             "Apply the vertex stream layout to all Particle Systems using this material");
 
         private readonly List<ParticleSystemRenderer> _renderersUsingThisMaterial = new List<ParticleSystemRenderer>();
-        private List<ParticleSystemVertexStream> _correctVertexStreams = new List<ParticleSystemVertexStream>();
 
-        private List<ParticleSystemVertexStream>
+        private readonly List<ParticleSystemVertexStream>
+            _correctVertexStreams = new List<ParticleSystemVertexStream>();
+
+        private readonly List<ParticleSystemVertexStream>
             _correctVertexStreamsInstanced = new List<ParticleSystemVertexStream>();
 
         # endregion
