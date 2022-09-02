@@ -6,7 +6,6 @@ using System;
 using Nova.Editor.Foundation.Scripts;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
 using PropertyNames = Nova.Editor.Core.Scripts.MaterialPropertyNames;
 
 namespace Nova.Editor.Core.Scripts
@@ -16,8 +15,7 @@ namespace Nova.Editor.Core.Scripts
     /// </summary>
     internal sealed class ParticlesUberLitGUI : ParticlesGUI
     {
-        private readonly ParticlesUberCommonGUI _commonGUI = new ParticlesUberCommonGUI();
-
+        private ParticlesUberCommonGUI _commonGUI;
         private ParticlesUberCommonMaterialProperties _commonMaterialProperties;
         private MaterialEditor _editor;
 
@@ -56,9 +54,8 @@ namespace Nova.Editor.Core.Scripts
 
         protected override void Initialize(MaterialEditor editor, MaterialProperty[] properties)
         {
-            // common properties
+            _commonGUI = new ParticlesUberCommonGUI(editor);
             _commonMaterialProperties = new ParticlesUberCommonMaterialProperties(editor, properties);
-
             // Lit Settings
             var prefsKeyPrefix = $"{GetType().Namespace}.{GetType().Name}.";
             var litSettingsFoldoutKey = $"{prefsKeyPrefix}{nameof(LitSettingsFoldout)}";
@@ -92,6 +89,8 @@ namespace Nova.Editor.Core.Scripts
             _commonGUI.DrawEmissionProperties();
             // Transparency
             _commonGUI.DrawTransparencyProperties();
+            // FixNow
+            _commonGUI.DrawFixNowButton();
         }
 
         private void InternalDrawSurfaceMapsTexturePropertiesCore(string label, Property map2DProp,
@@ -218,7 +217,7 @@ namespace Nova.Editor.Core.Scripts
         private readonly Property _specularMap2DArrayProp = new Property(PropertyNames.SpecularMap2DArray);
         private readonly Property _specularMap3DProp = new Property(PropertyNames.SpecularMap3D);
         private readonly Property _specularProp = new Property(PropertyNames.Specular);
-        
+
         // metallicMap
         private readonly Property _metallicMapProp = new Property(PropertyNames.MetallicMap);
         private readonly Property _metallicMap2DArrayProp = new Property(PropertyNames.MetallicMap2DArray);

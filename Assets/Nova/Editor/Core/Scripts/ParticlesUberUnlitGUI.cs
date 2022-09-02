@@ -13,7 +13,7 @@ namespace Nova.Editor.Core.Scripts
     /// </summary>
     internal sealed class ParticlesUberUnlitGUI : ParticlesGUI
     {
-        private readonly ParticlesUberCommonGUI _commonGUI = new ParticlesUberCommonGUI();
+        private ParticlesUberCommonGUI _commonGUI;
 
         private ParticlesUberCommonMaterialProperties _commonMaterialProperties;
 
@@ -24,6 +24,7 @@ namespace Nova.Editor.Core.Scripts
 
         protected override void Initialize(MaterialEditor editor, MaterialProperty[] properties)
         {
+            _commonGUI = new ParticlesUberCommonGUI(editor);
             _commonMaterialProperties = new ParticlesUberCommonMaterialProperties(editor, properties);
         }
 
@@ -38,6 +39,7 @@ namespace Nova.Editor.Core.Scripts
             _commonGUI.DrawAlphaTransitionProperties();
             _commonGUI.DrawEmissionProperties();
             _commonGUI.DrawTransparencyProperties();
+            _commonGUI.DrawFixNowButton();
         }
 
         protected override void MaterialChanged(Material material)
