@@ -760,7 +760,7 @@ The description of the added properties is as follows.
 
 
 #### Render Settings
-The following red-circled properties have been added to Render Settings.
+The following red-framed properties have been added to Render Settings.
 
 <p align="center">
   <img width="60%" src="https://user-images.githubusercontent.com/106138524/187354711-18e8c4cc-e7c4-43ca-88ba-140121afa9bc.png" alt="Render Settings"><br>
