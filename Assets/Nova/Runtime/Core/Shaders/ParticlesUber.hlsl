@@ -360,7 +360,7 @@ inline void ApplyTintColor(in out half4 color, half2 uv, half progress, half ble
 // Apply the color correction.
 void ApplyColorCorrection(in out float3 color)
 {
-    #if _GREYSCALE_ENABLED
+    #ifdef _GREYSCALE_ENABLED
     color.rgb = GetLuminance(color.rgb);
     #elif _GRADIENT_MAP_ENABLED
     color.rgb = SAMPLE_TEXTURE2D(_GradientMap, sampler_GradientMap, half2(GetLuminance(color.rgb), 0.5)).rgb;
@@ -379,7 +379,7 @@ void ApplyColorCorrection(in out float3 color)
 void ModulateAlphaTransitionProgress(in out half progress, half vertexAlpha)
 {
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
-    #if _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+    #ifdef _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
     progress += 1.0 - vertexAlpha;
     #endif
     progress = min(1.0, progress);
@@ -407,7 +407,7 @@ half GetTransitionAlpha(half transitionProgress, half2 transitionMapUv, half tra
 // Apply the vertex color.
 inline void ApplyVertexColor(in out half4 color, in half4 vertexColor)
 {
-    #if _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+    #ifdef _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
     color.rgb *= vertexColor.rgb;
     #else
     color *= vertexColor;
@@ -476,7 +476,7 @@ inline float GetRimValue(half rim, half progress, half sharpness, half inverse)
 
 inline void ApplyRimTransparency(in out half4 color, half rim, half progress, half sharpness)
 {
-    #if _TRANSPARENCY_BY_RIM
+    #ifdef _TRANSPARENCY_BY_RIM
     rim = GetRimValue(rim, progress, sharpness, _InverseRimTransparency);
     color.a *= rim;
     #endif
@@ -484,7 +484,7 @@ inline void ApplyRimTransparency(in out half4 color, half rim, half progress, ha
 
 inline void ApplyLuminanceTransparency(in out half4 color, half progress, half sharpness)
 {
-    #if _TRANSPARENCY_BY_LUMINANCE
+    #ifdef _TRANSPARENCY_BY_LUMINANCE
     half luminance = GetLuminance(color.rgb);
     if (_InverseLuminanceTransparency >= 0.5)
     {
