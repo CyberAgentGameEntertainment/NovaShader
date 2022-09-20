@@ -68,6 +68,8 @@ For more information, please refer to the following documents, [Samples](Assets/
 - [Use Mesh GPU Instancing](#use-mesh-gpu-instancing)
     - [Enable Mesh GPU Instancing](#enable-mesh-gpu-instancing)
     - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams-1)
+- [Automatic set up the Custom Vertex Streams.](#automatic-set-up-the-custom-vertex-streams)
+    - [Fix Now](#fix-now)
 - [Licenses](#licenses)
 
 </details>
