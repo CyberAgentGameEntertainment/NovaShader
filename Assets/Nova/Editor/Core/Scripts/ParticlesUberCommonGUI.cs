@@ -259,7 +259,7 @@ namespace Nova.Editor.Core.Scripts
 
         public void DrawFixNowButton()
         {
-            var warnings = "";
+            var hasError = false;
 
             var rendererStreams = new List<ParticleSystemVertexStream>();
             foreach (var renderer in _renderersUsingThisMaterial)
@@ -271,14 +271,18 @@ namespace Nova.Editor.Core.Scripts
                 else
                     streamsValid = CompareVertexStreams(rendererStreams, _correctVertexStreams);
                 if (!streamsValid)
-                    warnings += $"-{renderer.name}\n";
+                {
+                    hasError = true;
+                    break;
+                }
             }
 
-            if (string.IsNullOrEmpty(warnings)) return;
+            if (!hasError) return;
 
             EditorGUILayout.HelpBox(
-                "The following Particle System Renderers are using this material with incorrect Vertex Streams:\n" +
-                warnings, MessageType.Error, true);
+                "Some particle System Renderers are using this material with incorrect Vertex Streams.\n" +
+                "Recommend that you press the Fix Now button to correct the error." 
+                , MessageType.Error, true);
             if (GUILayout.Button(StreamApplyToAllSystemsText, EditorStyles.miniButton,
                     GUILayout.ExpandWidth(true)))
             {
