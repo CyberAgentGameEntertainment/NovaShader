@@ -69,6 +69,8 @@
 - [Mesh GPU Instancingを使う](#mesh-gpu-instancing%E3%82%92%E4%BD%BF%E3%81%86)
     - [Mesh GPU Instancingを有効化する](#mesh-gpu-instancing%E3%82%92%E6%9C%89%E5%8A%B9%E5%8C%96%E3%81%99%E3%82%8B)
     - [Custom Vertex Streamsを設定する](#custom-vertex-streams%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B-1)
+- [Custom Vertex Streamsを自動的に設定する](#custom-vertex-streams%E3%82%92%E8%87%AA%E5%8B%95%E7%9A%84%E3%81%AB%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B)
+    - [Fix Now](#fix-now)
 - [ライセンス](#%E3%83%A9%E3%82%A4%E3%82%BB%E3%83%B3%E3%82%B9)
 
 </details>
