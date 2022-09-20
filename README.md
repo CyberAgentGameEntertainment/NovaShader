@@ -1179,6 +1179,26 @@ The `Custom Data` section can be filled with values from other modules, such as 
 Now you can use `Mesh GPU Instancing`.
 
 
+## Automatic set up the Custom Vertex Streams.
+We have seen several cases where Custom Vertex Streams are set up manually.<br/>
+In addition, the vertex streams required by the GPUs vary depending on their settings.<br/>
+
+It has a feature that automatically set up the Custom vertex streams as `Fix Now`.
+
+#### Fix Now
+If vertex streams are different from what the CPUs require, <br/>
+`Fix Now` button and error will appear at bottom of the inspector.<br/>
+
+At this time, pressing this button will automatically set the typical vertex stream needed.
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/191191870-7b22351b-e826-4ccb-92c9-693009133909.png" alt="Fix Now"><br>
+  <font color="grey">Fix Now</font>
+</p>
+
+If you are not familiar with setting up Custom Vertex Streams,<br/>
+It is recommended that you use `Fix Now` to correct errors to avoid unwanted errors.
+
 ## Licenses
 This software is released under the MIT license.
 You are free to use it within the scope of the license, but the following copyright and license notices are required.
