@@ -30,6 +30,8 @@ namespace Nova.Editor.Core.Scripts
             TransparencyFoldout = new BoolEditorPrefsProperty(transparencyFoldoutKey, true);
             AlphaTransitionFoldout = new BoolEditorPrefsProperty(alphaTransitionFoldoutKey, true);
             EmissionFoldout = new BoolEditorPrefsProperty(emissionFoldoutKey, true);
+
+            Setup(properties);
         }
 
         public void Setup(MaterialProperty[] properties)
