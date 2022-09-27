@@ -80,7 +80,7 @@ half4 frag(Varyings input) : SV_Target
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     half transitionAlpha = SAMPLE_TEXTURE2D(_AlphaTransitionMap, sampler_AlphaTransitionMap, input.flowTransitionUVs.zw)[_AlphaTransitionMapChannelsX];
     half progress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
-    #if _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+    #ifdef _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
     progress += 1.0 - input.color.a;
     #endif
     progress = min(1.0, progress);

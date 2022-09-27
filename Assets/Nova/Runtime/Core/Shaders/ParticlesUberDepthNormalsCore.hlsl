@@ -330,26 +330,26 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     // color.rgb = MixFog(color.rgb, fogFactor);
 
     // Rim Transparency
-    #if _TRANSPARENCY_BY_RIM
+    #ifdef _TRANSPARENCY_BY_RIM
     half rimTransparencyProgress = _RimTransparencyProgress + GET_CUSTOM_COORD(_RimTransparencyProgressCoord);
     half rimTransparencySharpness = _RimTransparencySharpness + GET_CUSTOM_COORD(_RimTransparencySharpnessCoord);
     ApplyRimTransparency(color, 1.0 - rim, rimTransparencyProgress, rimTransparencySharpness);
     #endif
 
     // Luminance Transparency
-    #if _TRANSPARENCY_BY_LUMINANCE
+    #ifdef _TRANSPARENCY_BY_LUMINANCE
     half luminanceTransparencyProgress = _LuminanceTransparencyProgress + GET_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
     half luminanceTransparencySharpness = _LuminanceTransparencySharpness + GET_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
     ApplyLuminanceTransparency(color, luminanceTransparencyProgress, luminanceTransparencySharpness);
     #endif
 
     // Soft Particle
-    #if _SOFT_PARTICLES_ENABLED
+    #ifdef _SOFT_PARTICLES_ENABLED
     ApplySoftParticles(color, input.projectedPosition);
     #endif
 
     // Depth Fade
-    #if _DEPTH_FADE_ENABLED
+    #ifdef _DEPTH_FADE_ENABLED
     ApplyDepthFade(color, input.projectedPosition);
     #endif
 
