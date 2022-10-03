@@ -52,8 +52,11 @@ For more information, please refer to the following documents, [Samples](Assets/
     - [Alpha Transition](#alpha-transition)
     - [Emission](#emission)
     - [Transparency](#transparency)
-- [Distortion Shader](#distortion-shader)
+- [Uber Lit Shader](#uber-lit-shader)
     - [Render Settings](#render-settings-1)
+    - [Surface Maps](#surface-maps)
+- [Distortion Shader](#distortion-shader)
+    - [Render Settings](#render-settings-2)
     - [Distortion](#distortion)
     - [Flow Map](#flow-map-1)
     - [Alpha Transition](#alpha-transition-1)
@@ -65,7 +68,8 @@ For more information, please refer to the following documents, [Samples](Assets/
 - [Use Mesh GPU Instancing](#use-mesh-gpu-instancing)
     - [Enable Mesh GPU Instancing](#enable-mesh-gpu-instancing)
     - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams-1)
-- [About Lit Shader](#about-lit-shader)
+- [Automatic set up the Custom Vertex Streams.](#automatic-set-up-the-custom-vertex-streams)
+    - [Fix Now](#fix-now)
 - [Licenses](#licenses)
 
 </details>
@@ -746,6 +750,122 @@ The distance from the beginning of transparency to the end of complete transpare
 </tbody>
 </table>
 
+## Uber Lit Shader
+The Uber Lit shader is a multifunctional shader with lighting applied. Use this shader for particles that need lighting, such as mesh effects.
+This shader reflects lighting compliant with Unity's PBR lighting specification. 
+
+To use this shader, assign the `Nova/Particles/UberLit` shader to your material. 
+This shader is based on the Uber Unlit shader with additional processing and properties.
+
+The description of the added properties is as follows.
+
+
+
+#### Render Settings
+The following red-framed properties have been added to Render Settings.
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/187354711-18e8c4cc-e7c4-43ca-88ba-140121afa9bc.png" alt="Render Settings"><br>
+  <font color="grey">Render Settings</font>
+</p>
+
+<table width="100%">
+<thead>
+<tr><td colspan="3"><b>Property Name</b></td><td><b>Description</b></td></tr>
+</thead>
+<tbody>
+<tr><td colspan="3"><b>Work Flow Mode</b></td><td>
+<p>
+You can specify the mode of PBR workflow from the following options.<br>
+</p>
+<p>
+<ul>
+<li>Specular</li>
+<li>Metallic</li>
+</ul>
+</p>
+For more information on workflow, please refer to the following URL
+https://docs.unity3d.com/2018.4/Documentation/Manual/StandardShaderMetallicVsSpecular.html
+https://docs.unity3d.com/2018.4/Documentation/Manual/StandardShaderMaterialParameterSpecular.html
+https://docs.unity3d.com/2018.4/Documentation/Manual/StandardShaderMaterialParameterMetallic.html
+<tr><td colspan="3"><b>Receive Shadows</b></td><td>
+<p>
+If checking the box, it will be received shadows from directional lights.<br>
+</p>
+<tr><td colspan="3"><b>Specular Highlights</b></td><td>
+<p>
+If checking the box, it will be enabled specular highlighting.<br>
+</p>
+<tr><td colspan="3"><b>Environment Reflections</b></td><td>
+<p>
+If checking the box, it will be affected ambient light from the Reflection Probe and Skybox.<br>
+For more information on the effects of ambient light, please refer to "Environment Reflection" at the following URL.<br>
+https://docs.unity3d.com/2018.4/Documentation/Manual/GlobalIllumination.html
+</p>
+</tbody>
+</table>
+
+#### Surface Maps
+Several surface properties have been added for lighting.
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/187354400-aedd2347-cc5d-4b39-bf87-ef5318177bba.png" alt="Surface Maps"><br>
+  <font color="grey">Surface Maps</font>
+</p>
+
+<table width="100%">
+<thead>
+<tr><td colspan="3"><b>Property Name</b></td><td><b>Description</b></td></tr>
+</thead>
+<tbody>
+<tr><td colspan="3"><b>Normal Map</b></td><td>
+<p>
+Set up the normal map.The specifications of the normal map are as follows.<br>
+<ul>
+<li>The only normal maps that can be set up are those for tangent space.</li>
+<li>If normal map isn't specified, vertex normals are used</li>
+<li>The normal scale value can be specified. The default scale is 1.0.</li>
+</ul>
+For more infomation of the normal map
+Please refer to the following URL for details on the normal map.<br>
+https://docs.unity3d.com/2021.3/Documentation/Manual/StandardShaderMaterialParameterNormalMap.html
+</p>
+<tr><td colspan="3"><b>Metallic Map</b></td><td>
+<b>It is displayed when the Work Flow Mode is set to Metallic.</b>
+
+Set up the metallic map.The specifications of the metallic map are as follows.<br>
+<ul>
+<li>If the metallic map isn't set, the value of the metallic property will be used as the uniform metallicity.
+<li>If the metallic map is set、the value of the metallic property will be used as multiplier value.</li>
+<li>The Channels property allows specifying the channel where the metallic value is stored. Default is R channel.</li>
+</ul>
+Please refer to the following URL for details on the metallic map.<br>
+https://docs.unity3d.com/2018.4/Documentation/Manual/StandardShaderMaterialParameterMetallic.html
+</ul>
+
+<tr><td colspan="3"><b>Specular Map</b></td><td>
+<b>It is displayed when the Work Flow Mode is set to Specular.</b>
+
+Set up the specular map. The specifications of the specular map are as follows.<br>
+<ul>
+<li>If the specular map isn't set, the color of specular property will be used as the uniform specular color.</li>
+<li>If the specular map is set, the color of specular property will be used as the multiplier color.</li>
+</ul>
+Please refer to the following URL for details on the specular map.<br>
+https://docs.unity3d.com/2018.4/Documentation/Manual/StandardShaderMaterialParameterSpecular.html
+</ul>
+
+<tr><td colspan="3"><b>Smoothness Map</b></td><td>
+Set up the smoothness map. The specifications of the smoothness map are as follows.<br>
+<br>
+<ul>
+<li>If the smoothness map isn't set, the value of the smoothness property will be used as the uniform smoothess.</li>
+<li>If the smoothness map is set, the value of the smoothness property will be used as the multiplier value.</li>
+<li>The Channels property allows specifying the channel where the smoothness value is stored. Default is α channel.</li>
+</ul>
+</tbody>
+</table>
+
 ## Distortion Shader
 Using the Distortion shader, you can apply distortion effects to the screen, such as heat waves.
 
@@ -1060,9 +1180,26 @@ The `Custom Data` section can be filled with values from other modules, such as 
 
 Now you can use `Mesh GPU Instancing`.
 
-## About Lit Shader
-The NOVA Shader currently only provides the Unlit shader.
-The Lit shader is still under consideration and will be added in a future update.
+
+## Automatic set up the Custom Vertex Streams.
+We have seen several cases where Custom Vertex Streams are set up manually.<br/>
+In addition, the vertex streams required by the GPUs vary depending on their settings.<br/>
+
+It has a feature that automatically set up the Custom vertex streams as `Fix Now`.
+
+#### Fix Now
+If vertex streams are different from what the CPUs require, <br/>
+`Fix Now` button and error will appear at bottom of the inspector.<br/>
+
+At this time, pressing this button will automatically set the typical vertex stream needed.
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/191191870-7b22351b-e826-4ccb-92c9-693009133909.png" alt="Fix Now"><br>
+  <font color="grey">Fix Now</font>
+</p>
+
+If you are not familiar with setting up Custom Vertex Streams,<br/>
+It is recommended that you use `Fix Now` to correct errors to avoid unwanted errors.
 
 ## Licenses
 This software is released under the MIT license.

@@ -1,8 +1,0 @@
-#ifndef NOVA_PARTICLESUBERUNLITDEPTHONLY_INCLUDED
-#define NOVA_PARTICLESUBERUNLITDEPTHONLY_INCLUDED
-
-#define DEPTH_ONLY_PASS
-
-#include "ParticlesUberUnlitDepthNormalsCore.hlsl"
-
-#endif

@@ -128,7 +128,10 @@ Shader "Nova/Particles/UberUnlit"
 
         Pass
         {
-            Tags{"LightMode" = "UniversalForward"}
+            Tags
+            {
+                "LightMode" = "UniversalForward"
+            }
             Blend [_BlendSrc] [_BlendDst]
             ZWrite[_ZWrite]
             Cull[_Cull]
@@ -137,7 +140,6 @@ Shader "Nova/Particles/UberUnlit"
             ZTest LEqual
 
             HLSLPROGRAM
-            
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.5
@@ -182,7 +184,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
 
             // Transparency
-            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
@@ -248,7 +250,7 @@ Shader "Nova/Particles/UberUnlit"
             //#pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
 
             // Transparency
-            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
@@ -314,7 +316,7 @@ Shader "Nova/Particles/UberUnlit"
             //#pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
 
             // Transparency
-            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
@@ -322,10 +324,13 @@ Shader "Nova/Particles/UberUnlit"
             #include "ParticlesUberUnlitEditor.hlsl"
             ENDHLSL
         }
-        
+
         Pass
         {
-            Tags{"LightMode" = "DepthNormals"}
+            Tags
+            {
+                "LightMode" = "DepthNormals"
+            }
 
             ZWrite[_ZWrite]
             Cull[_Cull]
@@ -380,19 +385,21 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
 
             // Transparency
-            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
-            #include "ParticlesUberUnlitDepthNormals.hlsl"
-            
+            #include "ParticlesUberDepthNormals.hlsl"
             ENDHLSL
         }
-        
+
         Pass
         {
-            Tags{"LightMode" = "DepthOnly"}
+            Tags
+            {
+                "LightMode" = "DepthOnly"
+            }
 
             ZWrite[_ZWrite]
             Cull[_Cull]
@@ -447,13 +454,12 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
 
             // Transparency
-            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
-            #include "ParticlesUberUnlitDepthOnly.hlsl"
-            
+            #include "ParticlesUberDepthOnly.hlsl"
             ENDHLSL
         }
     }

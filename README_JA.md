@@ -53,8 +53,11 @@
     - [Alpha Transition](#alpha-transition)
     - [Emission](#emission)
     - [Transparency](#transparency)
-- [Distortionシェーダ](#distortion%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80)
+- [Uber Litシェーダー](#uber-lit%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80%E3%83%BC)
     - [Render Settings](#render-settings-1)
+    - [Surface Maps](#surface-maps)
+- [Distortionシェーダ](#distortion%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80)
+    - [Render Settings](#render-settings-2)
     - [Distortion](#distortion)
     - [Flow Map](#flow-map-1)
     - [Alpha Transition](#alpha-transition-1)
@@ -66,7 +69,8 @@
 - [Mesh GPU Instancingを使う](#mesh-gpu-instancing%E3%82%92%E4%BD%BF%E3%81%86)
     - [Mesh GPU Instancingを有効化する](#mesh-gpu-instancing%E3%82%92%E6%9C%89%E5%8A%B9%E5%8C%96%E3%81%99%E3%82%8B)
     - [Custom Vertex Streamsを設定する](#custom-vertex-streams%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B-1)
-- [Litシェーダについて](#lit%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)
+- [Custom Vertex Streamsを自動的に設定する](#custom-vertex-streams%E3%82%92%E8%87%AA%E5%8B%95%E7%9A%84%E3%81%AB%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B)
+    - [Fix Now](#fix-now)
 - [ライセンス](#%E3%83%A9%E3%82%A4%E3%82%BB%E3%83%B3%E3%82%B9)
 
 </details>
@@ -754,6 +758,119 @@ Transparencyは透明度を調整できます。
 </tbody>
 </table>
 
+## Uber Litシェーダー
+Uber LitシェーダーはUnityのPBRライティングの仕様に準拠したライティングが反映される多機能シェーダーです。メッシュエフェクトなどのライティングの影響を受けたいパーティクルにはこのシェーダーを使用します。
+
+Uber Litシェーダーを使用するには、マテリアルに`Nova/Particles/UberLit`シェーダーをアサインします。
+
+Uber LitシェーダーはUber Unlitシェーダーにライティングのための処理とプロパティを追加したシェーダーです。<br>
+追加されたプロパティの説明は以下の通りです。<br>
+
+
+#### Render Settings
+Render Settingsには以下の赤枠で囲まれたプロパティが追加されています。
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/187354711-18e8c4cc-e7c4-43ca-88ba-140121afa9bc.png" alt="Render Settings"><br>
+  <font color="grey">Render Settings</font>
+</p>
+
+<table width="100%">
+<thead>
+<tr><td colspan="3"><b>プロパティ名</b></td><td><b>説明</b></td></tr>
+</thead>
+<tbody>
+<tr><td colspan="3"><b>Work Flow Mode</b></td><td>
+<p>
+PBRライティングのワークフローを指定できます。<br>
+</p>
+<p>
+<ul>
+<li>Specular</li>
+<li>Metallic</li>
+</ul>
+</p>
+なお、ワークフローに関する詳細は下記のURLを参照してください。
+https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMetallicVsSpecular.html
+https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMaterialParameterSpecular.html
+https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMaterialParameterMetallic.html
+<tr><td colspan="3"><b>Receive Shadows</b></td><td>
+<p>
+チェックをつけるとディレクショナルライトによる影を落とすことができます。<br>
+</p>
+<tr><td colspan="3"><b>Specular Highlights</b></td><td>
+<p>
+チェックをつけるとスペキュラハイライトが有効になります。<br>
+</p>
+<tr><td colspan="3"><b>Environment Reflections</b></td><td>
+<p>
+チェックをつけるとReflection ProbeやSkyboxによる環境光の影響を受けるようになります。<br>
+環境光の影響に関する詳細は下記URLの「Environment Reflection」を参照してください。<br>
+https://docs.unity3d.com/ja/2018.4/Manual/GlobalIllumination.html
+</p>
+</tbody>
+</table>
+
+#### Surface Maps
+ライティングのために必要なサーフェイスに関する各種情報の設定が追加されています。
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/187354400-aedd2347-cc5d-4b39-bf87-ef5318177bba.png" alt="Surface Maps"><br>
+  <font color="grey">Surface Maps</font>
+</p>
+
+<table width="100%">
+<thead>
+<tr><td colspan="3"><b>プロパティ名</b></td><td><b>説明</b></td></tr>
+</thead>
+<tbody>
+<tr><td colspan="3"><b>Normal Map</b></td><td>
+<p>
+法線マップを設定します。法線マップの仕様は以下の通りです。<br>
+<ul>
+<li>設定できる法線マップはタンジェントスペース法線マップ</li>
+<li>マップが指定されていない場合は頂点法線が使用される</li>
+<li>法線のスケール値を指定できる。1.0で等倍となる</li>
+</ul>
+法線マップの詳細については下記のURLを参照してください。<br>
+https://docs.unity3d.com/ja/2021.3/Manual/StandardShaderMaterialParameterNormalMap.html
+</p>
+<tr><td colspan="3"><b>Metallic Map</b></td><td>
+<b>Work Flow ModeにMetallicを設定すると表示されます。</b>
+
+メタリックマップを設定します。メタリックマップの仕様は以下の通りです。<br>
+<ul>
+<li>メタリックマップが設定されていない場合は、metallicプロパティの値が一律の金属度として使用される</li>
+<li>メタリックマップが設定されている場合は、metallicプロパティが金属度の乗算値として使用される</li>
+<li>Channelsで金属度が格納されているチャンネルを指定できる。デフォルトはRチャンネル</li>
+</ul>
+メタリックマップの詳細については下記のURLを参照してください。<br>
+https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMaterialParameterMetallic.html
+</ul>
+
+<tr><td colspan="3"><b>Specular Map</b></td><td>
+<b>Work Flow ModeにSpecularを設定すると表示されます。</b>
+
+スペキュラマップを設定します。スペキュラマップの仕様は以下の通りです。<br>
+<ul>
+<li>スペキュラマップが設定されていない場合は、Specularプロパティのカラーの値が一律のスペキュラカラーとして使用される</li>
+<li>スペキュラマップが設定されている場合は、Specularプロパティのカラーの値が乗算カラーとして使用される</li>
+</ul>
+スペキュラマップの詳細については下記のURLを参照してください。<br>
+https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMaterialParameterSpecular.html
+</ul>
+
+<tr><td colspan="3"><b>Smoothness Map</b></td><td>
+スムースネスマップを設定します。スムースネスマップの仕様は以下の通りです。<br>
+<br>
+<ul>
+<li>スムースネスマップが設定されていない場合は、Smoothnessプロパティの値が一律の滑らかさとして使用される</li>
+<li>スムースネスマップが設定されている場合は、Smoothnessプロパティの値が乗算値として使用される</li>
+<li>Channelsで滑らかさが格納されているチャンネルを指定できる。デフォルトはαチャンネル</li>
+</ul>
+</tbody>
+</table>
+    
 ## Distortionシェーダ
 Distortionは画面に対して歪み効果をかけるためのシェーダです。  
 熱波など、歪み効果が必要なエフェクトにはこのシェーダを使用します。
@@ -1072,9 +1189,26 @@ Particle SystemのCustom Vertex Streamsを使うと、マテリアルのプロ�
 
 以上で`Mesh GPU Instancing`の設定は完了です。
 
-## Litシェーダについて
-NOVA Shaderでは現状Unlitシェーダのみを提供しています。  
-Litシェーダについては検討中の段階で、今後のアップデートで追加する予定です。
+## Custom Vertex Streamsを自動的に設定する
+
+ここまでCustom Vertex Streamsを手動で設定するいくつかのケースを見てきました。<br/>
+これ以外にもGPUが求めている頂点ストリームは各種設定によって変わっていきます。<br/>
+
+この頂点ストリームを自動的に設定する機能`Fix Now`があります。<br/>
+
+#### Fix Now
+GPUが求めている頂点ストリームとの差異が生じている時に、<br/>
+マテリアルインスペクターの下部にエラーメッセージとエラーを修正するためのボタンが表示されています。<br/><br/>
+この時、このボタンを押すことで、必要とされている典型的な頂点ストリームが自動的に設定されます。<br/>
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/106138524/191191870-7b22351b-e826-4ccb-92c9-693009133909.png" alt="Fix Now"><br>
+  <font color="grey">Fix Now</font>
+</p>
+
+カスタム頂点アトリビュートの設定に詳しくない場合は、<br/>
+不要なエラーを避けるために`Fix Now`を利用してエラーを修正することを推奨します。<br/>
+
 
 ## ライセンス
 本ソフトウェアはMITライセンスで公開しています。  

@@ -16,6 +16,31 @@ namespace Nova.Editor.Core.Scripts
         public const string BlendSrc = "_BlendSrc";
         public const string BlendDst = "_BlendDst";
         public const string ZWrite = "_ZWrite";
+        public const string LitWorkflowMode = "_LitWorkflowMode";
+        public const string LitReceiveShadows = "_LitReceiveShadows";
+        public const string SpecularHighlights = "_SpecularHighlights";
+        public const string EnvironmentReflections = "_EnvironmentReflections";
+
+        // Surface Maps
+        public const string NormalMap = "_NormalMap";
+        public const string NormalMap2DArray = "_NormalMap2DArray";
+        public const string NormalMap3D = "_NormalMap3D";
+        public const string NormalMapBumpScale = "_NormalMapBumpScale";
+        public const string SpecularMap = "_SpecularMap";
+        public const string SpecularMap2DArray = "_SpecularMap2DArray";
+        public const string SpecularMap3D = "_SpecularMap3D";
+        public const string Specular = "_SpecularColor";
+
+        public const string MetallicMap = "_MetallicMap";
+        public const string MetallicMap2DArray = "_MetallicMap2DArray";
+        public const string MetallicMap3D = "_MetallicMap3D";
+        public const string Metallic = "_Metallic";
+        public const string MetallicMapChannelsX = "_MetallicMapChannelsX";
+        public const string SmoothnessMap = "_SmoothnessMap";
+        public const string SmoothnessMap2DArray = "_SmoothnessMap2DArray";
+        public const string SmoothnessMap3D = "_SmoothnessMap3D";
+        public const string Smoothness = "_Smoothness";
+        public const string SmoothnessMapChannelsX = "_SmoothnessMapChannelsX";
 
         // Base Color
         public const string BaseMapMode = "_BaseMapMode";

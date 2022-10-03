@@ -112,6 +112,45 @@ float _DepthFadeNear;
 float _DepthFadeFar;
 float _DepthFadeWidth;
 
+
+// Normal map
+TEXTURE2D(_NormalMap);
+SAMPLER(sampler_NormalMap);
+TEXTURE2D_ARRAY(_NormalMap2DArray);
+SAMPLER(sampler_NormalMap2DArray);
+TEXTURE3D(_NormalMap3D);
+SAMPLER(sampler_NormalMap3D);
+half _NormalMapBumpScale;
+
+// Specular Map
+TEXTURE2D(_SpecularMap);
+SAMPLER(sampler_SpecularMap);
+TEXTURE2D_ARRAY(_SpecularMap2DArray);
+SAMPLER(sampler_SpecularMap2DArray);
+TEXTURE3D(_SpecularMap3D);
+SAMPLER(sampler_SpecularMap3D);
+half4 _SpecularColor;
+
+// Metallic Map
+TEXTURE2D(_MetallicMap);
+SAMPLER(sampler_MetallicMap);
+TEXTURE2D_ARRAY(_MetallicMap2DArray);
+SAMPLER(sampler_MetallicMap2DArray);
+TEXTURE3D(_MetallicMap3D);
+SAMPLER(sampler_MetallicMap3D);
+half _MetallicMapChannelsX;
+float _Metallic;
+
+// Smoothness Map
+TEXTURE2D(_SmoothnessMap);
+SAMPLER(sampler_SmoothnessMap);
+TEXTURE2D_ARRAY(_SmoothnessMap2DArray);
+SAMPLER(sampler_SmoothnessMap2DArray);
+TEXTURE3D(_SmoothnessMap3D);
+SAMPLER(sampler_SmoothnessMap3D);
+half _SmoothnessMapChannelsX;
+float _Smoothness;
+
 // Returns the sampler state of the base map.
 SamplerState GetBaseMapSamplerState()
 {
@@ -124,6 +163,66 @@ SamplerState GetBaseMapSamplerState()
     return sampler_BaseMap2DArray;
     #elif _BASE_MAP_MODE_3D
     return sampler_BaseMap3D;
+    #endif
+    #endif
+}
+
+SamplerState GetNormalMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+    #ifdef _BASE_MAP_MODE_2D
+    return sampler_NormalMap;
+    #elif _BASE_MAP_MODE_2D_ARRAY
+    return sampler_NormalMap2DArray;
+    #elif _BASE_MAP_MODE_3D
+    return sampler_NormalMap3D;
+    #endif
+    #endif
+}
+
+SamplerState GetMetallicMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+    #ifdef _BASE_MAP_MODE_2D
+    return sampler_MetallicMap;
+    #elif _BASE_MAP_MODE_2D_ARRAY
+    return sampler_MetallicMap2DArray;
+    #elif _BASE_MAP_MODE_3D
+    return sampler_MetallicMap3D;
+    #endif
+    #endif
+}
+
+SamplerState GetSmoothnessMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+    #ifdef _BASE_MAP_MODE_2D
+    return sampler_SmoothnessMap;
+    #elif _BASE_MAP_MODE_2D_ARRAY
+    return sampler_SmoothnessMap2DArray;
+    #elif _BASE_MAP_MODE_3D
+    return sampler_SmoothnessMap3D;
+    #endif
+    #endif
+}
+
+SamplerState GetSpecularMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+    #ifdef _BASE_MAP_MODE_2D
+    return sampler_SpecularMap;
+    #elif _BASE_MAP_MODE_2D_ARRAY
+    return sampler_SpecularMap2DArray;
+    #elif _BASE_MAP_MODE_3D
+    return sampler_SpecularMap3D;
     #endif
     #endif
 }
@@ -195,6 +294,42 @@ SamplerState GetEmissionMapSamplerState()
 #define TRANSFORM_EMISSION_MAP(texcoord) TRANSFORM_TEX(texcoord, _EmissionMap3D);
 #endif
 
+// Sample the normal map.
+#ifdef _BASE_MAP_MODE_2D
+#define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE2D(_NormalMap, GetNormalMapSamplerState(), uv), scale);
+#elif _BASE_MAP_MODE_2D_ARRAY
+#define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE2D_ARRAY(_NormalMap2DArray, GetNormalMapSamplerState(), uv, progress), scale);
+#elif _BASE_MAP_MODE_3D
+#define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE3D_LOD(_NormalMap3D, GetNormalMapSamplerState(), float3(uv, progress), 0), scale);
+#endif
+
+// Sample the metallic map.
+#ifdef _BASE_MAP_MODE_2D
+#define SAMPLE_METALLIC_MAP(uv, progress) SAMPLE_TEXTURE2D(_MetallicMap, GetMetallicMapSamplerState(), uv);
+#elif _BASE_MAP_MODE_2D_ARRAY
+#define SAMPLE_METALLIC_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_MetallicMap2DArray, GetMetallicMapSamplerState(), uv, progress);
+#elif _BASE_MAP_MODE_3D
+#define SAMPLE_METALLIC_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_MetallicMap3D, GetMetallicMapSamplerState(), float3(uv, progress), 0);
+#endif
+
+// Sample the smoothness map.
+#ifdef _BASE_MAP_MODE_2D
+#define SAMPLE_SMOOTHNESS_MAP(uv, progress) SAMPLE_TEXTURE2D(_SmoothnessMap, GetSmoothnessMapSamplerState(), uv);
+#elif _BASE_MAP_MODE_2D_ARRAY
+#define SAMPLE_SMOOTHNESS_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_SmoothnessMap2DArray, GetSmoothnessMapSamplerState(), uv, progress);
+#elif _BASE_MAP_MODE_3D
+#define SAMPLE_SMOOTHNESS_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_SmoothnessMap3D, GetSmoothnessMapSamplerState(), float3(uv, progress), 0);
+#endif
+
+// Sample the specular map.
+#ifdef _BASE_MAP_MODE_2D
+#define SAMPLE_SPECULAR_MAP(uv, progress) SAMPLE_TEXTURE2D(_SpecularMap, GetSpecularMapSamplerState(), uv);
+#elif _BASE_MAP_MODE_2D_ARRAY
+#define SAMPLE_SPECULAR_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_SpecularMap2DArray, GetSpecularMapSamplerState(), uv, progress);
+#elif _BASE_MAP_MODE_3D
+#define SAMPLE_SPECULAR_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_SpecularMap3D, GetSpecularMapSamplerState(), float3(uv, progress), 0);
+#endif
+
 // Returns the progress of the 2DArray/3d tint map.
 half TintMapProgress(in half progress)
 {
@@ -225,10 +360,10 @@ inline void ApplyTintColor(in out half4 color, half2 uv, half progress, half ble
 // Apply the color correction.
 void ApplyColorCorrection(in out float3 color)
 {
-    #if _GREYSCALE_ENABLED
-    color.rgb = Luminance(color.rgb);
+    #ifdef _GREYSCALE_ENABLED
+    color.rgb = GetLuminance(color.rgb);
     #elif _GRADIENT_MAP_ENABLED
-    color.rgb = SAMPLE_TEXTURE2D(_GradientMap, sampler_GradientMap, half2(Luminance(color.rgb), 0.5)).rgb;
+    color.rgb = SAMPLE_TEXTURE2D(_GradientMap, sampler_GradientMap, half2(GetLuminance(color.rgb), 0.5)).rgb;
     #endif
 }
 
@@ -244,7 +379,7 @@ void ApplyColorCorrection(in out float3 color)
 void ModulateAlphaTransitionProgress(in out half progress, half vertexAlpha)
 {
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
-    #if _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+    #ifdef _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
     progress += 1.0 - vertexAlpha;
     #endif
     progress = min(1.0, progress);
@@ -252,7 +387,8 @@ void ModulateAlphaTransitionProgress(in out half progress, half vertexAlpha)
 }
 
 // Returns alpha value by the alpha transition.
-half GetTransitionAlpha(half transitionProgress, half2 transitionMapUv, half transitionMapProgress, half transitionMapChannelsX)
+half GetTransitionAlpha(half transitionProgress, half2 transitionMapUv, half transitionMapProgress,
+                        half transitionMapChannelsX)
 {
     half4 map = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
     half transitionAlpha = map[(uint)transitionMapChannelsX];
@@ -271,7 +407,7 @@ half GetTransitionAlpha(half transitionProgress, half2 transitionMapUv, half tra
 // Apply the vertex color.
 inline void ApplyVertexColor(in out half4 color, in half4 vertexColor)
 {
-    #if _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+    #ifdef _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
     color.rgb *= vertexColor.rgb;
     #else
     color *= vertexColor;
@@ -288,7 +424,8 @@ inline void ApplyVertexColor(in out half4 color, in half4 vertexColor)
 #endif
 
 // Apply the emission color.
-inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float intensity, half emissionMapProgress, half emissionChannelsX)
+inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float intensity, half emissionMapProgress,
+                               half emissionChannelsX)
 {
     half emissionIntensity = 0;
     half emissionColorRampU = 0;
@@ -339,7 +476,7 @@ inline float GetRimValue(half rim, half progress, half sharpness, half inverse)
 
 inline void ApplyRimTransparency(in out half4 color, half rim, half progress, half sharpness)
 {
-    #if _TRANSPARENCY_BY_RIM
+    #ifdef _TRANSPARENCY_BY_RIM
     rim = GetRimValue(rim, progress, sharpness, _InverseRimTransparency);
     color.a *= rim;
     #endif
@@ -347,8 +484,8 @@ inline void ApplyRimTransparency(in out half4 color, half rim, half progress, ha
 
 inline void ApplyLuminanceTransparency(in out half4 color, half progress, half sharpness)
 {
-    #if _TRANSPARENCY_BY_LUMINANCE
-    half luminance = Luminance(color.rgb);
+    #ifdef _TRANSPARENCY_BY_LUMINANCE
+    half luminance = GetLuminance(color.rgb);
     if (_InverseLuminanceTransparency >= 0.5)
     {
         luminance = 1.0 - luminance;
@@ -375,5 +512,36 @@ inline void ApplyDepthFade(in out half4 color, float4 projection)
     color.a *= DepthFade(_DepthFadeNear, _DepthFadeFar, _DepthFadeWidth, projection);
     #endif
 }
-
+inline void CalculateTangetAndBinormalInWorldSpace(out float4 tangentWS, out float3 binormalWS, float3 normalWS, float4 tangentOS )
+{
+    tangentWS.xyz = TransformObjectToWorldDir(tangentOS.xyz, true);
+    tangentWS.w = tangentOS.w;
+    binormalWS = cross(normalWS, tangentWS.xyz) * tangentOS.w;
+}
+/**
+ * \brief Get normal in world space.
+ * \param normalTS Normal in tangent space.
+ * \param tangentWS Tangent in world space.
+ * \param binormalWS Binormal in world space.
+ * \param normalWSPerVertex Normal in world space per vertex.
+ * \return The returned value is normal in world space per pixel.\n
+ */
+float3 GetNormalWS(float3 normalTS, float3 tangentWS, float3 binormalWS, float3 normalWSPerVertex)
+{
+    float3 normalWS;
+    normalWS = TransformTangentToWorld(
+        normalTS,
+        half3x3(
+            tangentWS.xyz,
+            binormalWS.xyz,
+            normalWSPerVertex.xyz));
+    normalWS = NormalizeNormalPerPixel(normalWS);
+    return normalWS;
+}
+#ifdef _NORMAL_MAP_ENABLED
+#define GET_NORMAL_WS( normalTS, tangentWS, binormalWS, normalWSPerVertex ) GetNormalWS(normalTS, tangentWS, binormalWS, normalWSPerVertex );
+#else
+#define GET_NORMAL_WS( normalTS, tangentWS, binormalWS, normalWSPerVertex ) NormalizeNormalPerPixel(normalWSPerVertex.xyz);
 #endif
+#endif
+

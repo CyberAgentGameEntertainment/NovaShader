@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2021 CyberAgent, Inc.
+// Copyright 2022 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using UnityEditor;
@@ -13,32 +13,25 @@ namespace Nova.Editor.Core.Scripts
 
         public override void OnGUI(MaterialEditor editor, MaterialProperty[] properties)
         {
-            // Find properties every time to update the inspector when undo or redo is performed.
-            SetupProperties(properties);
-
             if (!_isInitialized)
             {
                 Initialize(editor, properties);
 
-                foreach (var obj in editor.targets)
-                {
-                    MaterialChanged((Material)obj);
-                }
+                foreach (var obj in editor.targets) MaterialChanged((Material)obj);
 
                 _isInitialized = true;
             }
+
+            // Find properties every time to update the inspector when undo or redo is performed.
+            SetupProperties(properties);
 
             using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
             {
                 DrawGUI(editor, properties);
 
                 if (changeCheckScope.changed)
-                {
                     foreach (var obj in editor.targets)
-                    {
                         MaterialChanged((Material)obj);
-                    }
-                }
             }
         }
 
@@ -50,7 +43,7 @@ namespace Nova.Editor.Core.Scripts
 
         protected abstract void MaterialChanged(Material material);
 
-        protected class Property
+        public class Property
         {
             public Property(string name)
             {
