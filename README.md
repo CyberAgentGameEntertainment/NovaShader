@@ -155,7 +155,7 @@ Confirm that **Screen Space Distortion** has been added as shown below.
   <font color="grey">Screen Space Distortion</font>
 </p>
 
-> **Note**
+> **Note**  
 > This setting is not necessary if you do not use the Distortion Shader.
 
 #### Activate Depth Texture
@@ -169,7 +169,7 @@ Check Depth Texture in the **UniversalRenderPipelineAsset** Inspector.
 
 Depth Texture setting is also found in each Camera, so set it as necessary.
 
-> **Note**
+> **Note**  
 > This setting is not necessary if **Soft Particles** or **Depth Fade** is not used.
 
 #### Create and assign the Material

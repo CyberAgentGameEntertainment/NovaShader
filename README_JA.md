@@ -159,7 +159,7 @@ URP の **ForwardRendererData** アセットのインスペクタ最下部から
   <font color="grey">Screen Space Distortion</font>
 </p>
 
-> **Note**
+> **Note**  
 > なお Distortion シェーダを使用しない場合には Renderer Feature を設定する必要はありません。
 
 #### Depth Textureを有効化
@@ -173,7 +173,7 @@ URP の **ForwardRendererData** アセットのインスペクタ最下部から
 
 Depth Texture の設定は各 Camera にもあるので、こちらも必要に応じて設定します。
 
-> **Note**
+> **Note**  
 > なお **Soft Particles** や **Depth Fade** を使わない場合にはこの設定は必要ありません。
 
 #### マテリアル作成、アサイン
