@@ -159,7 +159,7 @@ Confirm that **Screen Space Distortion** has been added as shown below.
 > This setting is not necessary if you do not use the Distortion Shader.
 
 #### Activate Depth Texture
-Next, activate Depth Texture to use the **Soft Particles** and **Depth Fade** features.
+Next, activate Depth Texture to use the **Soft Particles** or **Depth Fade** features.
 Check Depth Texture in the **UniversalRenderPipelineAsset** Inspector.
 
 <p align="center">
@@ -170,7 +170,7 @@ Check Depth Texture in the **UniversalRenderPipelineAsset** Inspector.
 Depth Texture setting is also found in each Camera, so set it as necessary.
 
 > **Note**  
-> This setting is not necessary if **Soft Particles** or **Depth Fade** is not used.
+> This setting is not necessary if neither **Soft Particles** nor **Depth Fade** is used.
 
 #### Create and assign the Material
 Next, create a material with the Nova shader.
