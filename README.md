@@ -43,6 +43,10 @@ For more information, please refer to the following documents, [Samples](Assets/
 - [Setup](#setup)
   - [Requirements](#requirements)
     - [Install](#install)
+- [Usage](#usage)
+    - [Add Renderer Feature](#add-renderer-feature)
+    - [Activate Depth Texture](#activate-depth-texture)
+    - [Create and assign the Material](#create-and-assign-the-material)
 - [Uber Unlit Shader](#uber-unlit-shader)
     - [Render Settings](#render-settings)
     - [Base Map](#base-map)
@@ -132,6 +136,59 @@ If you don't want to specify a version, you can also update the version by editi
   }
 }
 ```
+
+## Usage
+
+#### Add Renderer Feature
+First, set up the **Renderer Feature** to apply Distortion.
+Click **Add Renderer Feature > Screen Space Distortion** from the bottom of the Inspector of the **ForwardRendererData** asset.
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/195064231-02e0798d-bc3a-4bb2-b2fb-d9d28f65cd1a.png" alt="Add Screen Space Distortion"><br>
+  <font color="grey">Add Screen Space Distortion</font>
+</p>
+
+Confirm that **Screen Space Distortion** has been added as shown below.
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/195064556-c9192bbc-7a82-4726-98dc-ef3a878d7b63.png" alt="Screen Space Distortion"><br>
+  <font color="grey">Screen Space Distortion</font>
+</p>
+
+> **Note**  
+> This setting is not necessary if you do not use the Distortion Shader.
+
+#### Activate Depth Texture
+Next, activate Depth Texture to use the **Soft Particles** or **Depth Fade** features.
+Check Depth Texture in the **UniversalRenderPipelineAsset** Inspector.
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/195065590-29935b9a-5088-46c3-9cd9-50f496aa1c6e.png" alt="Depth Texture"><br>
+  <font color="grey">Depth Texture</font>
+</p>
+
+Depth Texture setting is also found in each Camera, so set it as necessary.
+
+> **Note**  
+> This setting is not necessary if neither **Soft Particles** nor **Depth Fade** is used.
+
+#### Create and assign the Material
+Next, create a material with the Nova shader.
+Create a material and set the shader to **Nova/Particles/UberUnlit** and assign a texture to the Base Map.
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/195066541-45cc854f-86ed-4b9d-b1db-7ebf3b9c6306.png" alt="Material"><br>
+  <font color="grey">Material</font>
+</p>
+
+After creating a Particle System and assigning this material, you will see particles with the specified texture.
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/195067160-2235ee34-3fcd-47a0-b6e2-8b1595aeb994.png" alt="Particle"><br>
+  <font color="grey">Particle</font>
+</p>
+
+For more information on each shader and each function, see the sections below.
 
 ## Uber Unlit Shader
 The Uber Unlit shader is a multifunctional shader with no lighting applied.

@@ -44,6 +44,10 @@
 - [セットアップ](#%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97)
     - [要件](#%E8%A6%81%E4%BB%B6)
     - [インストール](#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
+- [使い方](#%E4%BD%BF%E3%81%84%E6%96%B9)
+    - [Renderer Feature を登録](#renderer-feature-%E3%82%92%E7%99%BB%E9%8C%B2)
+    - [Depth Textureを有効化](#depth-texture%E3%82%92%E6%9C%89%E5%8A%B9%E5%8C%96)
+    - [マテリアル作成、アサイン](#%E3%83%9E%E3%83%86%E3%83%AA%E3%82%A2%E3%83%AB%E4%BD%9C%E6%88%90%E3%82%A2%E3%82%B5%E3%82%A4%E3%83%B3)
 - [Uber Unlitシェーダ](#uber-unlit%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80)
     - [Render Settings](#render-settings)
     - [Base Map](#base-map)
@@ -136,6 +140,60 @@ Universal Render Pipelineに関する詳細は[Unityのマニュアル](https://
   }
 }
 ```
+
+## 使い方
+
+#### Renderer Feature を登録
+まず、Distortion を掛けるための **Renderer Feature** を設定します。  
+URP の **ForwardRendererData** アセットのインスペクタ最下部から、**Add Renderer Feature > Screen Space Distortion** を選択します。
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/195064231-02e0798d-bc3a-4bb2-b2fb-d9d28f65cd1a.png" alt="Add Screen Space Distortion"><br>
+  <font color="grey">Add Screen Space Distortion</font>
+</p>
+
+下図のように **Screen Space Distortion** が追加されていることを確認します。
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/195064556-c9192bbc-7a82-4726-98dc-ef3a878d7b63.png" alt="Screen Space Distortion"><br>
+  <font color="grey">Screen Space Distortion</font>
+</p>
+
+> **Note**  
+> なお Distortion シェーダを使用しない場合には Renderer Feature を設定する必要はありません。
+
+#### Depth Textureを有効化
+次に **Soft Particles** や **Depth Fade** といった機能に使用するため Depth Texture を有効化します。  
+**UniversalRenderPipelineAsset** のインスペクタから Depth Texture にチェックを入れます。
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/195065590-29935b9a-5088-46c3-9cd9-50f496aa1c6e.png" alt="Depth Texture"><br>
+  <font color="grey">Depth Texture</font>
+</p>
+
+Depth Texture の設定は各 Camera にもあるので、こちらも必要に応じて設定します。
+
+> **Note**  
+> なお **Soft Particles** や **Depth Fade** を使わない場合にはこの設定は必要ありません。
+
+#### マテリアル作成、アサイン
+ここまでの設定が完了したら、NOVAシェーダが設定されたマテリアルを作成します。  
+任意のマテリアルを作成し、シェーダに **Nova/Particles/UberUnlit** を設定します。  
+Base Map には適当なテクスチャをアサインしておきます。
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/195066541-45cc854f-86ed-4b9d-b1db-7ebf3b9c6306.png" alt="Material"><br>
+  <font color="grey">Material</font>
+</p>
+
+Particle System を作成してこのマテリアルをアサインすると、指定したテクスチャのパーティクルが表示されることを確認できます。
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/195067160-2235ee34-3fcd-47a0-b6e2-8b1595aeb994.png" alt="Particle"><br>
+  <font color="grey">Particle</font>
+</p>
+
+その他各シェーダ、各機能の詳細については以下にまとめます。
 
 ## Uber Unlitシェーダ
 Uber Unlitシェーダはライティングが反映されない多機能シェーダです。
