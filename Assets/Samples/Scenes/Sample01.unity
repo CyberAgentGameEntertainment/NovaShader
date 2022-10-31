@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.052586794, g: 0.043601897, b: 0.025942741, a: 1}
+  m_IndirectSpecularColor: {r: 0.05258687, g: 0.04360193, b: 0.02594275, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -227,10 +227,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: pfb_eff_fireball_alpha
       objectReference: {fileID: 0}
-    - target: {fileID: 4307752849781623643, guid: 747e91a93ce13b14b99c793a766d56b2, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6779195912010369872, guid: 747e91a93ce13b14b99c793a766d56b2, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -372,8 +368,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1364698386}
-  m_LocalRotation: {x: -0.10044909, y: -0.892463, z: 0.24585651, w: -0.36465633}
-  m_LocalPosition: {x: -3.63, y: 4.95, z: 3.55}
+  m_LocalRotation: {x: -0.08717219, y: 0.8995906, z: -0.21045259, w: -0.37262246}
+  m_LocalPosition: {x: 5.76807, y: 5.1361732, z: 5.7663836}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

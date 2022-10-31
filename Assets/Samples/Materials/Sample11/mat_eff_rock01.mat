@@ -1,0 +1,314 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-535494931879469233
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: mat_eff_rock01
+  m_Shader: {fileID: 4800000, guid: 1bc5c6a70411243779ce486a98012125, type: 3}
+  m_ShaderKeywords: BLENDMODE_ALPHABLEND BLEND_RATE_FROM_Z _ALPHA_TRANSITION_MAP_MODE_2D
+    _BASE_MAP_MODE_2D _EMISSION_COLOR_COLOR _EMISSION_MAP_MODE_2D _SOFT_PARTICLES_ENABLED
+    _TINT_AREA_ALL _TINT_COLOR_ENABLED
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTransitionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AlphaTransitionMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AlphaTransitionMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: ab846f80a75a65542a9c9ea3b2e73673, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CustomReflectionProbe:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DissolveEdgeRamp:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DissolveTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DistTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionColorRamp:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FlowMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GradientMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: ab846f80a75a65542a9c9ea3b2e73673, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TintMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TintMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AlphaClip: 0
+    - _AlphaTransitionMapChannelsX: 0
+    - _AlphaTransitionMapMode: 0
+    - _AlphaTransitionMapOffsetXCoord: 0
+    - _AlphaTransitionMapOffsetYCoord: 0
+    - _AlphaTransitionMapProgress: 0
+    - _AlphaTransitionMapProgressCoord: 0
+    - _AlphaTransitionMapSliceCount: 4
+    - _AlphaTransitionMode: 0
+    - _AlphaTransitionProgress: 0
+    - _AlphaTransitionProgressCoord: 0
+    - _BaseMapMirrorSampling: 0
+    - _BaseMapMode: 0
+    - _BaseMapOffsetXCoord: 0
+    - _BaseMapOffsetYCoord: 0
+    - _BaseMapProgress: 0
+    - _BaseMapProgressCoord: 0
+    - _BaseMapRotation: 0
+    - _BaseMapRotationCoord: 0
+    - _BaseMapSliceCount: 4
+    - _Blend: 0
+    - _BlendDst: 10
+    - _BlendMode: 3
+    - _BlendRateFromZPower: 1
+    - _BlendRateHeightDistance: 0.01
+    - _BlendRateHeightStartOffset: 0
+    - _BlendRateRimInverse: 0
+    - _BlendRateRimSharpness: 1
+    - _BlendRateRimSharpnessCoord: 2
+    - _BlendRateRimSharpnessSwizzle: 0
+    - _BlendSrc: 5
+    - _BumpScale: 1
+    - _ColorCorrectionMode: 0
+    - _ColorMagnification: 0.6
+    - _ColorMagnificationCoord: 2
+    - _ColorMagnificationSwizzle: 0
+    - _ColorMask: 14
+    - _Cull: 2
+    - _CullMode: 2
+    - _CustomReflectionProbeEnable: 0
+    - _Cutoff: 0.5
+    - _DepthFadeEnabled: 0
+    - _DepthFadeFar: 10
+    - _DepthFadeNear: 1
+    - _DepthFadeWidth: 1
+    - _DissolveEdge: 0.1
+    - _DissolveEdgeAlphaPower: 1
+    - _DissolveEdgeLuminance: 1
+    - _DissolveEdgeLuminanceCoord: 2
+    - _DissolveEdgeLuminanceSwizzle: 0
+    - _DissolveProgress: 0
+    - _DissolveProgressCoord: 2
+    - _DissolveProgressSwizzle: 0
+    - _DissolveSharpness: 0.5
+    - _DissolveUCoord: 2
+    - _DissolveUSwizzle: 0
+    - _DissolveVCoord: 2
+    - _DissolveVSwizzle: 0
+    - _DistPow: 0
+    - _DistPowCoord: 2
+    - _DistPowSwizzle: 0
+    - _DistUCoord: 2
+    - _DistUSwizzle: 0
+    - _DistVCoord: 2
+    - _DistVSwizzle: 0
+    - _DstBlend: 0
+    - _EmissionAreaType: 0
+    - _EmissionColorType: 0
+    - _EmissionIntensity: 1
+    - _EmissionIntensityCoord: 0
+    - _EmissionMapChannelsX: 0
+    - _EmissionMapMode: 0
+    - _EmissionMapOffsetXCoord: 0
+    - _EmissionMapOffsetYCoord: 0
+    - _EmissionMapProgress: 0
+    - _EmissionMapProgressCoord: 0
+    - _EmissionMapSliceCount: 4
+    - _EnvironmentReflections: 1
+    - _FlowIntensity: 0
+    - _FlowIntensityCoord: 0
+    - _FlowMapChannelsX: 0
+    - _FlowMapChannelsY: 1
+    - _FlowMapOffsetXCoord: 0
+    - _FlowMapOffsetYCoord: 0
+    - _FlowMapTarget: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _HDRThresholdParticle: 0.9
+    - _InverseDissolveTex: 0
+    - _InverseLuminanceTransparency: 0
+    - _InverseRimTransparency: 0
+    - _InverseTintRim: 0
+    - _KeepEdgeTransparency: 1
+    - _LuminanceTransparencyEnabled: 0
+    - _LuminanceTransparencyProgress: 0.5
+    - _LuminanceTransparencyProgressCoord: 0
+    - _LuminanceTransparencySharpness: 0.5
+    - _LuminanceTransparencySharpnessCoord: 0
+    - _MainLightPower: 1
+    - _MainUCoord: 2
+    - _MainUSwizzle: 0
+    - _MainVCoord: 2
+    - _MainVSwizzle: 0
+    - _MaskPow: 1
+    - _MaskPowCoord: 2
+    - _MaskPowSwizzle: 0
+    - _MaskUCoord: 2
+    - _MaskUSwizzle: 0
+    - _MaskVCoord: 2
+    - _MaskVSwizzle: 0
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _ReflectionPower: 1
+    - _ReflectionRoughness: 1
+    - _RenderQueueOffset: 0
+    - _RenderType: 2
+    - _ResultMultiplyAlpha: 1
+    - _RimColorAdditionalMode: 0
+    - _RimColorInverse: 0
+    - _RimContrast: 1
+    - _RimSharpness: 1
+    - _RimTransparencyEnabled: 0
+    - _RimTransparencyProgress: 0.5
+    - _RimTransparencyProgressCoord: 0
+    - _RimTransparencySharpness: 0.5
+    - _RimTransparencySharpnessCoord: 0
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SoftParticlesEnabled: 1
+    - _SoftParticlesIntensity: 1
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _Surface: 0
+    - _TintAreaMode: 1
+    - _TintBlendRate: 1
+    - _TintBlendRateCoord: 0
+    - _TintColorMode: 0
+    - _TintMap3DProgress: 0
+    - _TintMap3DProgressCoord: 0
+    - _TintMapSliceCount: 4
+    - _TintRimProgress: 0.5
+    - _TintRimProgressCoord: 0
+    - _TintRimSharpness: 0.5
+    - _TintRimSharpnessCoord: 0
+    - _TransparentBlendMode: 0
+    - _UseBlendRateFromHeight: 0
+    - _UseBlendRateFromRGB: 0
+    - _UseBlendRateFromRim: 0
+    - _UseBlendRateFromZ: 1
+    - _UseDist: 0
+    - _UseDitherTransparent: 0
+    - _UseEdgeColor: 0
+    - _UseMainLightColor: 0
+    - _UseMask: 0
+    - _UseReflection: 0
+    - _UseRimColor: 0
+    - _UseZWrite: 0
+    - _VertexAlphaMode: 0
+    - _WorkflowMode: 1
+    - _ZOffset: -120
+    - _ZTest: 4
+    - _ZWrite: 0
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseMapRotationOffsets: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0.3998938, g: 0.1596576, b: 0.07957886, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _StartColor: {r: 0, g: 0, b: 0, a: 0}
+    - _TintColor: {r: 0.3998938, g: 0.1596576, b: 0.07957886, a: 1}
+  m_BuildTextureStacks: []

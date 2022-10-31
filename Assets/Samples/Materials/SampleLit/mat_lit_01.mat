@@ -1,0 +1,310 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4990849823149289602
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 4
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: mat_lit_01
+  m_Shader: {fileID: 4800000, guid: 65654f079f6f340b09f954eb6366ad5a, type: 3}
+  m_ShaderKeywords: _ALPHA_TRANSITION_MAP_MODE_2D _BASE_MAP_MODE_2D _EMISSION_AREA_ALL
+    _EMISSION_COLOR_COLOR _EMISSION_MAP_MODE_2D _ENVIRONMENT_REFLECTIONS_ENABLED
+    _SPECULAR_HIGHLIGHTS_ENABLED _TINT_AREA_RIM _TINT_COLOR_ENABLED _TRANSPARENCY_BY_RIM
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTransitionMap:
+        m_Texture: {fileID: 2800000, guid: 5b82920c3b4f6eb4a83a6e5b98cff1e3, type: 3}
+        m_Scale: {x: 3, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _AlphaTransitionMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AlphaTransitionMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 8551d4190db69a1409ea1f549d8f1a11, type: 3}
+        m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionColorRamp:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 2800000, guid: cbb14a957ee71374ea0c20fbded83dd5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FlowMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GradientMap:
+        m_Texture: {fileID: 2800000, guid: 83d6dfbf25d0742f0b2e24016ece1aef, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmoothnessMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmoothnessMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmoothnessMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TintMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TintMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AlphaClip: 0
+    - _AlphaTransitionMapChannelsX: 0
+    - _AlphaTransitionMapMode: 0
+    - _AlphaTransitionMapOffsetXCoord: 0
+    - _AlphaTransitionMapOffsetYCoord: 0
+    - _AlphaTransitionMapProgress: 0
+    - _AlphaTransitionMapProgressCoord: 0
+    - _AlphaTransitionMapSliceCount: 4
+    - _AlphaTransitionMode: 0
+    - _AlphaTransitionProgress: 0.151
+    - _AlphaTransitionProgressCoord: 0
+    - _BaseMapChannelsX: 0
+    - _BaseMapChannelsY: 1
+    - _BaseMapMirrorSampling: 0
+    - _BaseMapMode: 0
+    - _BaseMapOffsetXCoord: 0
+    - _BaseMapOffsetYCoord: 0
+    - _BaseMapProgress: 0
+    - _BaseMapProgressCoord: 0
+    - _BaseMapRotation: 0
+    - _BaseMapRotationCoord: 0
+    - _BaseMapSliceCount: 4
+    - _Blend: 0
+    - _BlendDst: 10
+    - _BlendSrc: 5
+    - _BumpScale: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _ColorCorrectionMode: 0
+    - _Cull: 0
+    - _Cutoff: 0.5
+    - _DepthFadeEnabled: 0
+    - _DepthFadeFar: 10
+    - _DepthFadeNear: 1
+    - _DepthFadeWidth: 1
+    - _DetailAlbedoMapScale: 1
+    - _DetailNormalMapScale: 1
+    - _DissolveSharpness: 1
+    - _DistortionIntensity: 0.1
+    - _DistortionIntensityCoord: 0
+    - _DstBlend: 0
+    - _EmissionAreaType: 1
+    - _EmissionColorType: 0
+    - _EmissionIntensity: 1
+    - _EmissionIntensityCoord: 0
+    - _EmissionMapChannelsX: 0
+    - _EmissionMapMode: 0
+    - _EmissionMapOffsetXCoord: 11
+    - _EmissionMapOffsetYCoord: 1
+    - _EmissionMapProgress: 0
+    - _EmissionMapProgressCoord: 0
+    - _EmissionMapSliceCount: 4
+    - _EnvironmentReflections: 1
+    - _FlowIntensity: 0.25
+    - _FlowIntensityCoord: 0
+    - _FlowMapChannelsX: 0
+    - _FlowMapChannelsY: 1
+    - _FlowMapOffsetXCoord: 1
+    - _FlowMapOffsetYCoord: 11
+    - _FlowMapTarget: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _InverseLuminanceTransparency: 0
+    - _InverseRimTransparency: 1
+    - _InverseTintRim: 0
+    - _KeepEdgeTransparency: 1
+    - _LitReceiveShadows: 0
+    - _LitWorkflowMode: 1
+    - _LuminanceTransparencyEnabled: 0
+    - _LuminanceTransparencyProgress: 0.5
+    - _LuminanceTransparencyProgressCoord: 0
+    - _LuminanceTransparencySharpness: 0.5
+    - _LuminanceTransparencySharpnessCoord: 0
+    - _Metallic: 0.8
+    - _MetallicMapChannelsX: 0
+    - _NormalMapBumpScale: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.005
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _RenderType: 2
+    - _RimTransparencyEnabled: 1
+    - _RimTransparencyProgress: 0.238
+    - _RimTransparencyProgressCoord: 0
+    - _RimTransparencySharpness: 0.315
+    - _RimTransparencySharpnessCoord: 0
+    - _Smoothness: 0.95
+    - _SmoothnessMapChannelsX: 3
+    - _SmoothnessTextureChannel: 0
+    - _SoftParticlesEnabled: 0
+    - _SoftParticlesIntensity: 1
+    - _SpecularHighlights: 1
+    - _SpecularMapChannelsX: 0
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _TintAreaMode: 2
+    - _TintBlendRate: 0.822
+    - _TintBlendRateCoord: 0
+    - _TintColorMode: 0
+    - _TintMap3DProgress: 0
+    - _TintMap3DProgressCoord: 0
+    - _TintMapSliceCount: 4
+    - _TintRimProgress: 0.615
+    - _TintRimProgressCoord: 0
+    - _TintRimSharpness: 0.009
+    - _TintRimSharpnessCoord: 0
+    - _TransparentBlendMode: 0
+    - _VertexAlphaMode: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 0
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseMapRotationOffsets: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0.23177667, b: 1.0406476, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TintColor: {r: 63.24706, g: 81.31765, b: 191.74902, a: 1}
+  m_BuildTextureStacks: []
