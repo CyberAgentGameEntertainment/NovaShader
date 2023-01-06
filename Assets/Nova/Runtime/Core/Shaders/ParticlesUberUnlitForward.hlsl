@@ -2,7 +2,9 @@
 #define NOVA_PARTICLESUBERUNLITFORWARD_INCLUDED
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#ifdef DEBUG_DISPLAY
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Unlit.hlsl"
+#endif
 #include "ParticlesUberUnlit.hlsl"
 
 void InitializeInputData(out InputData inputData, Varyings input)
@@ -34,7 +36,9 @@ half4 frag(Varyings input) : SV_Target
     InitializeInputData(inputData, input);
 
     half4 color = fragUnlit(input, true, true);
+    #ifdef DEBUG_DISPLAY
     color = UniversalFragmentUnlit(inputData, color.rgb, color.a);
+    #endif
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
     return color;
 }
