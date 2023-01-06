@@ -147,6 +147,7 @@ Shader "Nova/Particles/UberUnlit"
             // Unity Defined
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
+            #pragma multi_compile_fragment _ DEBUG_DISPLAY
             #pragma instancing_options procedural:ParticleInstancingSetup
             #pragma require 2darray
 
