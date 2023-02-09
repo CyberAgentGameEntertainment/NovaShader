@@ -184,4 +184,19 @@ half FlipBookBlendingProgress(in half progress, in half sliceCount)
     return result;
 }
 
+// Get vertex deformation intensity by vertex deformation map
+half GetVertexDeformationIntensity(
+    TEXTURE2D_PARAM(vertexDeformationMap, sampler_vertexDeformationMap),
+    in float intensity,
+    in float2 uv,
+    in half mapChannel)
+{
+    #if defined(_VERTEX_DEFORMATION_ENABLED)
+    half4 vertexDeformation = SAMPLE_TEXTURE2D_LOD(vertexDeformationMap, sampler_vertexDeformationMap, uv, 0);
+    float mapIntensity = vertexDeformation[(uint)mapChannel];
+    mapIntensity *= intensity;
+    return mapIntensity;
+    #endif
+}
+
 #endif

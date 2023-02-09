@@ -89,6 +89,8 @@ namespace Nova.Editor.Core.Scripts
             _commonGUI.DrawEmissionProperties();
             // Transparency
             _commonGUI.DrawTransparencyProperties();
+            // Vertex Deformation
+            _commonGUI.DrawVertexDeformationProperties();
             // FixNow
             _commonGUI.DrawFixNowButton();
         }

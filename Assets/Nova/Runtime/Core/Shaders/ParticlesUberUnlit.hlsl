@@ -80,6 +80,20 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
 
+    // Vertex Deformation
+    #ifdef _VERTEX_DEFORMATION_ENABLED
+    float2 vertexDeformationUVs = TRANSFORM_TEX(input.texcoord.xy, _VertexDeformationMap);
+    vertexDeformationUVs.x += GET_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
+    vertexDeformationUVs.y += GET_CUSTOM_COORD(_VertexDeformationMapOffsetYCoord);
+    float vertexDeformationIntensity = _VertexDeformationIntensity + GET_CUSTOM_COORD(_VertexDeformationIntensityCoord);
+    vertexDeformationIntensity = GetVertexDeformationIntensity(
+        _VertexDeformationMap, sampler_VertexDeformationMap,
+        vertexDeformationIntensity,
+        vertexDeformationUVs,
+        _VertexDeformationMapChannel);
+    input.positionOS.xyz += normalize(input.normalOS) * vertexDeformationIntensity;
+    #endif
+
     InitializeVertexOutput(input, output, positionWS);
 
     // Base Map UV

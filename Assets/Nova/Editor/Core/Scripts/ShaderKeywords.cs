@@ -70,6 +70,9 @@ namespace Nova.Editor.Core.Scripts
         public const string TransparencyByLuminance = "_TRANSPARENCY_BY_LUMINANCE";
         public const string SoftParticlesEnabled = "_SOFT_PARTICLES_ENABLED";
         public const string DepthFadeEnabled = "_DEPTH_FADE_ENABLED";
+        
+        // Vertex Deformation
+        public const string VertexDeformationEnabled = "_VERTEX_DEFORMATION_ENABLED";
 
         public static string GetShaderKeyword(this BaseMapMode baseMapMode)
         {
