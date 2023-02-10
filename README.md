@@ -49,6 +49,7 @@ For more information, please refer to the following documents, [Samples](Assets/
     - [Create and assign the Material](#create-and-assign-the-material)
 - [Uber Unlit Shader](#uber-unlit-shader)
     - [Render Settings](#render-settings)
+    - [Vertex Deformation](#vertex-deformation)
     - [Base Map](#base-map)
     - [Tint Color](#tint-color)
     - [Flow Map](#flow-map)

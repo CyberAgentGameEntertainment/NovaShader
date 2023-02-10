@@ -50,6 +50,7 @@
     - [マテリアル作成、アサイン](#%E3%83%9E%E3%83%86%E3%83%AA%E3%82%A2%E3%83%AB%E4%BD%9C%E6%88%90%E3%82%A2%E3%82%B5%E3%82%A4%E3%83%B3)
 - [Uber Unlitシェーダ](#uber-unlit%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80)
     - [Render Settings](#render-settings)
+    - [Vertex Deformation](#vertex-deformation)
     - [Base Map](#base-map)
     - [Tint Color](#tint-color)
     - [Flow Map](#flow-map)
