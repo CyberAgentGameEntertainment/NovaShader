@@ -32,6 +32,7 @@ namespace Nova.Editor.Core.Scripts
         {
             _commonGUI.Setup(editor, _commonMaterialProperties);
             _commonGUI.DrawRenderSettingsProperties(null);
+            _commonGUI.DrawVertexDeformationProperties();
             _commonGUI.DrawBaseMapProperties();
             _commonGUI.DrawTintColorProperties();
             _commonGUI.DrawFlowMapProperties();
@@ -39,7 +40,6 @@ namespace Nova.Editor.Core.Scripts
             _commonGUI.DrawAlphaTransitionProperties();
             _commonGUI.DrawEmissionProperties();
             _commonGUI.DrawTransparencyProperties();
-            _commonGUI.DrawVertexDeformationProperties();
             _commonGUI.DrawFixNowButton();
         }
 

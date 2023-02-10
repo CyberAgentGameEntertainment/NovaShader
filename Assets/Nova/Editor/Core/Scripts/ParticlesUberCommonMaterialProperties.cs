@@ -157,7 +157,6 @@ namespace Nova.Editor.Core.Scripts
             VertexDeformationMapChannelProp.Setup(properties);
             VertexDeformationIntensityProp.Setup(properties);
             VertexDeformationIntensityCoordProp.Setup(properties);
-            VertexDeformationEnabledProp.Setup(properties);
         }
 
         #region Foldout Properties
@@ -490,9 +489,6 @@ namespace Nova.Editor.Core.Scripts
 
         public ParticlesGUI.Property VertexDeformationIntensityCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.VertexDeformationIntensityCoord);
-
-        public ParticlesGUI.Property VertexDeformationEnabledProp { get; } =
-            new ParticlesGUI.Property(PropertyNames.VertexDeformationEnabled);
 
         #endregion
     }

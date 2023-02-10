@@ -50,6 +50,7 @@
     - [マテリアル作成、アサイン](#%E3%83%9E%E3%83%86%E3%83%AA%E3%82%A2%E3%83%AB%E4%BD%9C%E6%88%90%E3%82%A2%E3%82%B5%E3%82%A4%E3%83%B3)
 - [Uber Unlitシェーダ](#uber-unlit%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80)
     - [Render Settings](#render-settings)
+    - [Vertex Deformation](#vertex-deformation)
     - [Base Map](#base-map)
     - [Tint Color](#tint-color)
     - [Flow Map](#flow-map)
@@ -287,6 +288,39 @@ Render Typeが同じ場合、Render Priorityが小さいものから先に描画
 </tbody>
 </table>
 
+#### Vertex Deformation
+Vertex Deformationでは頂点の変形を制御できます。
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/217997198-d7e04974-0373-48bd-a6bd-5fce53797709.png" alt="Vertex Deformation"><br>
+  <font color="grey">Vertex Deformation</font>
+</p>
+
+<table width="100%">
+<thead>
+<tr><td colspan="3"><b>プロパティ名</b></td><td><b>説明</b></td></tr>
+</thead>
+<tbody>
+<tr><td colspan="3"><b>Texture</b></td><td>
+<p>
+頂点変形マップを設定します。頂点変形マップの仕様は以下の通りです。
+</p>
+<p>
+<ul>
+<li>指定された1個のテクスチャのチャンネルの値に基づいて、頂点をオブジェクト空間の法線方向に押し出します</li>
+<li>チャンネルの指定はChannelsプロパティで行えます</li>
+<li>テクスチャの値がゼロの部分は押し出されず、値が大きくなるほど外側に押し出されます</li>
+</ul>
+色ではなく値としてテクスチャを使うので、テクスチャ設定のsRGB Colorのチェックを外す必要がある点に注意してください。
+</p>
+</td></tr>
+<tr><td colspan=3><b>Intensity</b></td><td>
+<p>
+頂点変形を適用する際の強度を設定します。
+</p>
+</td></tr>
+</tbody>
+</table>
 
 #### Base Map
 Base Mapでは色のベースとなるテクスチャを制御できます。

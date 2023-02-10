@@ -72,6 +72,8 @@ namespace Nova.Editor.Core.Scripts
             _commonGUI.Setup(editor, _commonMaterialProperties);
             // Render Settings
             _commonGUI.DrawRenderSettingsProperties(InternalRenderSettingsProperties);
+            // Vertex Deformation
+            _commonGUI.DrawVertexDeformationProperties();
             // Base Map
             _commonGUI.DrawBaseMapProperties();
             // Surface
@@ -89,8 +91,6 @@ namespace Nova.Editor.Core.Scripts
             _commonGUI.DrawEmissionProperties();
             // Transparency
             _commonGUI.DrawTransparencyProperties();
-            // Vertex Deformation
-            _commonGUI.DrawVertexDeformationProperties();
             // FixNow
             _commonGUI.DrawFixNowButton();
         }
