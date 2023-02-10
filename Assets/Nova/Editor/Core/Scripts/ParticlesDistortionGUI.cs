@@ -46,6 +46,8 @@ namespace Nova.Editor.Core.Scripts
             _flowMapChannelsYProp.Setup(properties);
             _flowIntensityProp.Setup(properties);
             _flowIntensityCoordProp.Setup(properties);
+            _flowIntensityMaskProp.Setup(properties);
+            _flowIntensityMaskChannelProp.Setup(properties);
             _flowMapTargetProp.Setup(properties);
 
             // Alpha Transition
@@ -242,6 +244,8 @@ namespace Nova.Editor.Core.Scripts
         private readonly Property _flowMapChannelsYProp = new Property(PropertyNames.FlowMapChannelsY);
         private readonly Property _flowIntensityProp = new Property(PropertyNames.FlowIntensity);
         private readonly Property _flowIntensityCoordProp = new Property(PropertyNames.FlowIntensityCoord);
+        private readonly Property _flowIntensityMaskProp = new Property(PropertyNames.FlowIntensityMask);
+        private readonly Property _flowIntensityMaskChannelProp = new Property(PropertyNames.FlowIntensityMaskChannel);
         private readonly Property _flowMapTargetProp = new Property(PropertyNames.FlowMapTarget);
 
         #endregion

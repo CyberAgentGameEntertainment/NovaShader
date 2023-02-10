@@ -149,16 +149,27 @@ void AlphaClip(real alpha, real cutoff, real offset = 0.0h)
 }
 
 // Get UV offset values by flow map.
-half2 GetFlowMapUvOffset(TEXTURE2D_PARAM(flowMap, sampler_flowMap),
-                         in float intensity, in float2 flowMapUv, in half flowMapChannlesX, in half flowMapChannelsY)
+half2 GetFlowMapUvOffset(TEXTURE2D_PARAM(flowMap, sampler_flowMap), in float intensity,
+                         TEXTURE2D_PARAM(flowIntensityMask, sampler_flowIntensityMask), in float2 flowMapUv,
+                         in float2 flowIntensityMaskUv, in half flowMapChannlesX,
+                         in half flowMapChannelsY, in half flowIntensityMaskChannel, in float middleValueCorrection)
 {
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
     half4 flowSrc = SAMPLE_TEXTURE2D(flowMap, sampler_flowMap, flowMapUv);
     half2 flow;
     flow.x = flowSrc[(uint)flowMapChannlesX];
     flow.y = flowSrc[(uint)flowMapChannelsY];
+    flow = pow(flow, middleValueCorrection);
     flow = flow * 2 - 1;
+
+    #ifdef _FLOW_INTENSITY_MASK_ENABLED
+    half4 intensityMask = SAMPLE_TEXTURE2D(flowIntensityMask, sampler_flowIntensityMask, flowIntensityMaskUv);
+    half intensityMaskValue = intensityMask[(uint)flowIntensityMaskChannel];
+    intensity *= intensityMaskValue;
+    #endif
+
     flow *= intensity;
+    flow.x = 0; // テスト縦だけに
     return flow;
     #endif
 }

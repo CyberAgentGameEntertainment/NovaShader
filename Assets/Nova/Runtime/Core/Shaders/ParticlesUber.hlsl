@@ -15,6 +15,8 @@ TEXTURE3D(_TintMap3D);
 SAMPLER(sampler_TintMap3D);
 TEXTURE2D(_FlowMap);
 SAMPLER(sampler_FlowMap);
+TEXTURE2D(_FlowIntensityMask);
+SAMPLER(sampler_FlowIntensityMask);
 TEXTURE2D(_AlphaTransitionMap);
 SAMPLER(sampler_AlphaTransitionMap);
 TEXTURE2D_ARRAY(_AlphaTransitionMap2DArray);
@@ -64,7 +66,9 @@ DECLARE_CUSTOM_COORD(_FlowMapOffsetYCoord);
 half _FlowMapChannelsX;
 half _FlowMapChannelsY;
 float _FlowIntensity;
+float _FlowMapMiddleValueCorrection;
 DECLARE_CUSTOM_COORD(_FlowIntensityCoord);
+half _FlowIntensityMaskChannel;
 
 float4 _AlphaTransitionMap_ST;
 float4 _AlphaTransitionMap2DArray_ST;

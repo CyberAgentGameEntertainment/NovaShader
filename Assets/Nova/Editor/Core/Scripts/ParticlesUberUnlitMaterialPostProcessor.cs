@@ -32,6 +32,7 @@ namespace Nova.Editor.Core.Scripts
         private static readonly int TintMapModeId = Shader.PropertyToID(MaterialPropertyNames.TintColorMode);
         private static readonly int FlowMapId = Shader.PropertyToID(MaterialPropertyNames.FlowMap);
         private static readonly int FlowMapTargetId = Shader.PropertyToID(MaterialPropertyNames.FlowMapTarget);
+        private static readonly int FlowIntensityMaskId = Shader.PropertyToID(MaterialPropertyNames.FlowIntensityMask);
 
         private static readonly int FlowIntensityCoordId =
             Shader.PropertyToID(MaterialPropertyNames.FlowIntensityCoord);
@@ -209,6 +210,10 @@ namespace Nova.Editor.Core.Scripts
             
             var emissionEnabled = hasFlowMap && (flowMapTarget & FlowMapTarget.EmissionMap) != 0;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetEmission, emissionEnabled);
+            
+            var flowIntensityMaskEnabled = material.GetTexture(FlowIntensityMaskId) != null;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowIntensityMaskEnabled,
+                flowIntensityMaskEnabled);
         }
 
         private static void SetupAlphaTransitionMaterialKeywords(Material material)

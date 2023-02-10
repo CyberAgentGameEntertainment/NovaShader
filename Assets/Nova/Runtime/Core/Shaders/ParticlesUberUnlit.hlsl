@@ -176,8 +176,10 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool us
     // Flow Map
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
     half intensity = _FlowIntensity + GET_CUSTOM_COORD(_FlowIntensityCoord);
-    half2 flowMapUvOffset = GetFlowMapUvOffset(_FlowMap, sampler_FlowMap, intensity, input.flowTransitionUVs.xy,
-                                               _FlowMapChannelsX, _FlowMapChannelsY);
+    half2 flowMapUvOffset = GetFlowMapUvOffset(_FlowMap, sampler_FlowMap, intensity, _FlowIntensityMask,
+        sampler_FlowIntensityMask, input.flowTransitionUVs.xy, input.baseMapUVAndProgresses.xy,
+        _FlowMapChannelsX, _FlowMapChannelsY,
+        _FlowIntensityMaskChannel, _FlowMapMiddleValueCorrection);
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE)
     input.baseMapUVAndProgresses.xy += flowMapUvOffset;
     #endif

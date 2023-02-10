@@ -87,7 +87,10 @@ namespace Nova.Editor.Core.Scripts
             FlowMapChannelsYProp.Setup(properties);
             FlowIntensityProp.Setup(properties);
             FlowIntensityCoordProp.Setup(properties);
+            FlowIntensityMaskProp.Setup(properties);
+            FlowIntensityMaskChannelProp.Setup(properties);
             FlowMapTargetProp.Setup(properties);
+            FlowMapMiddleValueCorrectionProp.Setup(properties);
 
             // Color Correction
             ColorCorrectionModeProp.Setup(properties);
@@ -287,6 +290,15 @@ namespace Nova.Editor.Core.Scripts
 
         public ParticlesGUI.Property FlowIntensityCoordProp { get; } =
             new ParticlesGUI.Property(PropertyNames.FlowIntensityCoord);
+        
+        public ParticlesGUI.Property FlowIntensityMaskProp { get; } =
+            new ParticlesGUI.Property(PropertyNames.FlowIntensityMask);
+        
+        public ParticlesGUI.Property FlowIntensityMaskChannelProp { get; } =
+            new ParticlesGUI.Property(PropertyNames.FlowIntensityMaskChannel);
+        
+        public ParticlesGUI.Property FlowMapMiddleValueCorrectionProp { get; } =
+            new ParticlesGUI.Property(PropertyNames.FlowMapMiddleValueCorrection);
 
         public ParticlesGUI.Property FlowMapTargetProp { get; } =
             new ParticlesGUI.Property(PropertyNames.FlowMapTarget);

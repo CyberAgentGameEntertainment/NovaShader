@@ -84,6 +84,9 @@ namespace Nova.Editor.Core.Scripts
         public const string FlowMapChannelsY = "_FlowMapChannelsY";
         public const string FlowIntensity = "_FlowIntensity";
         public const string FlowIntensityCoord = "_FlowIntensityCoord";
+        public const string FlowIntensityMask = "_FlowIntensityMask";
+        public const string FlowIntensityMaskChannel = "_FlowIntensityMaskChannel";
+        public const string FlowMapMiddleValueCorrection = "_FlowMapMiddleValueCorrection";
         public const string FlowMapTarget = "_FlowMapTarget";
 
         // Color Correction

@@ -53,6 +53,9 @@ Shader "Nova/Particles/UberUnlit"
         _FlowMapChannelsY("Flow Map Channes Y", Float) = 1.0
         _FlowIntensity("Flow Intensity", Float) = 1.0
         _FlowIntensityCoord("Flow Intensity Coord", Float) = 0.0
+        _FlowIntensityMask("Flow Intensity Mask", 2D) = "white" {}
+        _FlowIntensityMaskChannel("Flow Intensity Mask Channel", Float) = 0.0
+        [PowerSlider(5.0)]_FlowMapMiddleValueCorrection("Flow Map Middle Value Correction", Range(0.01, 9.99)) = 1.0
         _FlowMapTarget("Flow Map Target", Float) = 1.0
 
         // Color Correction
@@ -171,6 +174,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
             #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
             #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
+            #pragma shader_feature_local_fragment _FLOW_INTENSITY_MASK_ENABLED
 
             // Color Correction
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
@@ -237,6 +241,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
             #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
             #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
+            #pragma shader_feature_local_fragment _FLOW_INTENSITY_MASK_ENABLED
 
             // Color Correction
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
@@ -303,6 +308,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
             #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
             #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
+            #pragma shader_feature_local_fragment _FLOW_INTENSITY_MASK_ENABLED
 
             // Color Correction
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
@@ -371,6 +377,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
             #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
             #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
+            #pragma shader_feature_local_fragment _FLOW_INTENSITY_MASK_ENABLED
 
             // NOTE : Not need in DepthNormals pass.
             // Color Correction
@@ -440,6 +447,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
             #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
             #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
+            #pragma shader_feature_local_fragment _FLOW_INTENSITY_MASK_ENABLED
 
             // NOTE : Not need in DepthNormals pass.
             // Color Correction

@@ -443,6 +443,9 @@ namespace Nova.Editor.Core.Scripts
                 "Intensity",
                 props.FlowIntensityProp.Value,
                 props.FlowIntensityCoordProp.Value);
+            _editor.ShaderProperty(props.FlowIntensityMaskProp.Value, "Intensity Mask");
+            
+            _editor.ShaderProperty(props.FlowMapMiddleValueCorrectionProp.Value, "Position Offset");
             MaterialEditorUtility.DrawEnumFlagsProperty<FlowMapTarget>(
                 _editor, "Targets", props.FlowMapTargetProp.Value);
         }

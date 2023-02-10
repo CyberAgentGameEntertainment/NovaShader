@@ -46,6 +46,7 @@ namespace Nova.Editor.Core.Scripts
         public const string FlowMapTargetTint = "_FLOW_MAP_TARGET_TINT";
         public const string FlowMapTargetEmission = "_FLOW_MAP_TARGET_EMISSION";
         public const string FlowMapTargetAlphaTransition = "_FLOW_MAP_TARGET_ALPHA_TRANSITION";
+        public const string FlowIntensityMaskEnabled = "_FLOW_INTENSITY_MASK_ENABLED";
 
         // Alpha Transition
         public const string FadeTransitionEnabled = "_FADE_TRANSITION_ENABLED";
