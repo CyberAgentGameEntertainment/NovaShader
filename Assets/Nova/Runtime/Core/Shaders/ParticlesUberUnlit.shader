@@ -113,6 +113,15 @@ Shader "Nova/Particles/UberUnlit"
         _DepthFadeNear("Depth Fade Near", Float) = 1.0
         _DepthFadeFar("Depth Fade Far", Float) = 10.0
         _DepthFadeWidth("Depth Fade Width", Float) = 1.0
+        
+        // Vertex Deformation
+        _VertexDeformationEnabled ("Vertex Deformation Enabled", Float) = 0
+        _VertexDeformationMap ("Vertex Deformation Map", 2D) = "white" {}
+        _VertexDeformationMapOffsetXCoord("VertexDeformation Map Offset X Coord", Float) = 0.0
+        _VertexDeformationMapOffsetYCoord("VertexDeformation Map Offset Y Coord", Float) = 0.0
+        _VertexDeformationMapChannel("VertexDeformation Map Channel", Float) = 0.0
+        _VertexDeformationIntensity("VertexDeformation Intensity", Float) = 0.1
+        _VertexDeformationIntensityCoord("VertexDeformation Intensity Coord", Float) = 0.0
     }
 
     SubShader
@@ -190,6 +199,9 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
+            // Vertex Deformation
+            #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
+
             #include "ParticlesUberUnlitForward.hlsl"
             ENDHLSL
         }
@@ -256,6 +268,9 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
+            // Vertex Deformation
+            #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
+
             #include "ParticlesUberUnlitEditor.hlsl"
             ENDHLSL
         }
@@ -321,6 +336,9 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
+
+            // Vertex Deformation
+            #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
 
             #include "ParticlesUberUnlitEditor.hlsl"
             ENDHLSL
@@ -391,6 +409,9 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
+            // Vertex Deformation
+            #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
+
             #include "ParticlesUberDepthNormals.hlsl"
             ENDHLSL
         }
@@ -459,6 +480,9 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
+
+            // Vertex Deformation
+            #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
 
             #include "ParticlesUberDepthOnly.hlsl"
             ENDHLSL

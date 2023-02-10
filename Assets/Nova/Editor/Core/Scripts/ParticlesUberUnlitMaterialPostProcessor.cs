@@ -69,6 +69,9 @@ namespace Nova.Editor.Core.Scripts
 
         private static readonly int SoftParticlesEnabledId =
             Shader.PropertyToID(MaterialPropertyNames.SoftParticlesEnabled);
+        
+        private static readonly int VertexDeformationEnabledId =
+            Shader.PropertyToID(MaterialPropertyNames.VertexDeformationEnabled);
 
         private static readonly int DepthFadeEnabledId = Shader.PropertyToID(MaterialPropertyNames.DepthFadeEnabled);
         private static readonly int RenderTypeId = Shader.PropertyToID(MaterialPropertyNames.RenderType);
@@ -88,6 +91,7 @@ namespace Nova.Editor.Core.Scripts
             SetupAlphaTransitionMaterialKeywords(material);
             SetupEmissionMaterialKeywords(material);
             SetupTransparencyMaterialKeywords(material);
+            SetupVertexDeformationMaterialKeywords(material);
         }
 
         private static void SetupDrawSettingsMaterialKeywords(Material material)
@@ -278,6 +282,12 @@ namespace Nova.Editor.Core.Scripts
 
             var depthFadeEnabled = material.GetFloat(DepthFadeEnabledId) > 0.5f;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.DepthFadeEnabled, depthFadeEnabled);
+        }
+        
+        private static void SetupVertexDeformationMaterialKeywords(Material material)
+        {
+            var vertexDeformationEnabled = material.GetFloat(VertexDeformationEnabledId) > 0.5f;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.VertexDeformationEnabled, vertexDeformationEnabled);
         }
 
         public static void SetupMaterialBlendMode(Material material)

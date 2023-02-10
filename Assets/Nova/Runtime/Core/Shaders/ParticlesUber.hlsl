@@ -31,6 +31,8 @@ TEXTURE2D(_EmissionColorRamp);
 SAMPLER(sampler_EmissionColorRamp);
 TEXTURE2D(_GradientMap);
 SAMPLER(sampler_GradientMap);
+TEXTURE2D(_VertexDeformationMap);
+SAMPLER(sampler_VertexDeformationMap);
 
 float4 _BaseMap_ST;
 float4 _BaseMap2DArray_ST;
@@ -106,6 +108,13 @@ float _LuminanceTransparencyProgress;
 DECLARE_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
 float _LuminanceTransparencySharpness;
 DECLARE_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
+
+float4 _VertexDeformationMap_ST;
+DECLARE_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
+DECLARE_CUSTOM_COORD(_VertexDeformationMapOffsetYCoord);
+half _VertexDeformationMapChannel;
+float _VertexDeformationIntensity;
+DECLARE_CUSTOM_COORD(_VertexDeformationIntensityCoord);
 
 float _SoftParticlesIntensity;
 float _DepthFadeNear;
