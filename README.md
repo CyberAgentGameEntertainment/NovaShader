@@ -280,6 +280,40 @@ You can specify how to use the alpha value of the vertex color from the followin
 </tbody>
 </table>
 
+#### Vertex Deformation
+With Vertex Deformation, you can control the deformation of vertices.
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/47441314/217997198-d7e04974-0373-48bd-a6bd-5fce53797709.png" alt="Vertex Deformation"><br>
+  <font color="grey">Vertex Deformation</font>
+</p>
+
+<table width="100%">
+<thead>
+<tr><td colspan="3"><b>Property Name</b></td><td><b>Description</b></td></tr>
+</thead>
+<tbody>
+<tr><td colspan="3"><b>Texture</b></td><td>
+<p>
+Sets the Vertex Deformation Map. The specifications are as follows.
+</p>
+<p>
+<ul>
+    <li>Push vertices in the normal direction of the object space based on the value of a single specified texture channel.</li>
+    <li>You can select a channel by Channels property.</li>
+    <li>Areas of the texture with a value of zero will not be pushed out, and areas with larger values will be pushed out more towards the exterior.</li>
+</ul>
+Note that you need to uncheck sRGB Color in the texture import setting because the pixels will be used as values, not colors.
+</p>
+</td></tr>
+<tr><td colspan=3><b>Intensity</b></td><td>
+<p>
+Sets the Vertex Deformation intensity.
+</p>
+</td></tr>
+</tbody>
+</table>
+
 #### Base Map
 Base Map controls the base color texture and its settings.
 
