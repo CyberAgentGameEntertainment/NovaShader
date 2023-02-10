@@ -156,6 +156,5 @@ namespace Nova.Editor.Core.Scripts
         public const string VertexDeformationMapChannel = "_VertexDeformationMapChannel";
         public const string VertexDeformationIntensity = "_VertexDeformationIntensity";
         public const string VertexDeformationIntensityCoord = "_VertexDeformationIntensityCoord";
-        public const string VertexDeformationEnabled = "_VertexDeformationEnabled";
     }
 }

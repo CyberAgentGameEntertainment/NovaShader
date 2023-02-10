@@ -34,6 +34,14 @@ namespace Nova.Editor.Core.Scripts
                    CustomCoord.Unused;
         }
 
+        private bool IsCustomCoordUsedInVertexDeformation()
+        {
+            var isCustomCoordUsed = IsCustomCoordUsed(_commonMaterialProperties.VertexDeformationMapOffsetXCoordProp)
+                                    || IsCustomCoordUsed(_commonMaterialProperties.VertexDeformationMapOffsetYCoordProp)
+                                    || IsCustomCoordUsed(_commonMaterialProperties.VertexDeformationIntensityCoordProp);
+            return isCustomCoordUsed;
+        }
+
         private bool IsCustomCoordUsedInBaseMap()
         {
             var isCustomCoordUsed = IsCustomCoordUsed(_commonMaterialProperties.BaseMapOffsetXCoordProp)
@@ -136,7 +144,8 @@ namespace Nova.Editor.Core.Scripts
         {
             if (_commonMaterialProperties == null) return false;
 
-            return IsCustomCoordUsedInBaseMap()
+            return IsCustomCoordUsedInVertexDeformation()
+                   || IsCustomCoordUsedInBaseMap()
                    || IsCustomCoordUsedInTintColor()
                    || IsCustomCoordUsedInFlowMap()
                    || IsCustomCoordUsedInAlphaTransition()
@@ -677,19 +686,15 @@ namespace Nova.Editor.Core.Scripts
         {
             var props = _commonMaterialProperties;
             
-            MaterialEditorUtility.DrawToggleProperty(_editor, "Enabled", props.VertexDeformationEnabledProp.Value);
-            if (props.VertexDeformationEnabledProp.Value.floatValue > 0.5f)
-            {
-                MaterialEditorUtility.DrawTexture(_editor, props.VertexDeformationMapProp.Value,
-                    props.VertexDeformationMapOffsetXCoordProp.Value,
-                    props.VertexDeformationMapOffsetYCoordProp.Value,
-                    props.VertexDeformationMapChannelProp.Value, null);
-                MaterialEditorUtility.DrawPropertyAndCustomCoord(
-                    _editor,
-                    "Intensity",
-                    props.VertexDeformationIntensityProp.Value,
-                    props.VertexDeformationIntensityCoordProp.Value);
-            }
+            MaterialEditorUtility.DrawTexture(_editor, props.VertexDeformationMapProp.Value,
+                props.VertexDeformationMapOffsetXCoordProp.Value,
+                props.VertexDeformationMapOffsetYCoordProp.Value,
+                props.VertexDeformationMapChannelProp.Value, null);
+            MaterialEditorUtility.DrawPropertyAndCustomCoord(
+                _editor,
+                "Intensity",
+                props.VertexDeformationIntensityProp.Value,
+                props.VertexDeformationIntensityCoordProp.Value);
         }
 
         #region private variable
