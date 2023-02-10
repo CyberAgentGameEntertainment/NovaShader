@@ -1,7 +1,7 @@
 <p align="center">
   <img width="60%" src="https://user-images.githubusercontent.com/47441314/144776407-7ea24e22-2fe0-437e-b7e3-787963fd6f19.png#gh-dark-mode-only" alt="NOVA Shader">
   <img width="60%" src="https://user-images.githubusercontent.com/47441314/142821815-7d838ac4-ff18-4025-b60f-0d22ad538f50.png#gh-light-mode-only" alt="NOVA Shader">
-</p>[README.md](README.md)
+</p>
 
 # NOVA Shader: Particle System用多機能シェーダ
 
@@ -282,7 +282,7 @@ Render Typeが同じ場合、Render Priorityが小さいものから先に描画
 <ul>
 <li>Alpha: アルファ値として扱う（デフォルト）</li>
 <li>Transition Progress: Alpha Transition機能（後述）のProgressとして使う</li>
-</ul>[README.md](README.md)
+</ul>
 </p>
 </td></tr>
 </tbody>
