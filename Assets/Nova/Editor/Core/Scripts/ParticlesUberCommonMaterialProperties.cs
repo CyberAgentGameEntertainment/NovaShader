@@ -21,7 +21,8 @@ namespace Nova.Editor.Core.Scripts
             var transparencyFoldoutKey = $"{prefsKeyPrefix}{nameof(TransparencyFoldout)}";
             var alphaTransitionFoldoutKey = $"{prefsKeyPrefix}{nameof(AlphaTransitionFoldout)}";
             var emissionFoldoutKey = $"{prefsKeyPrefix}{nameof(EmissionFoldout)}";
-
+            var vertexDeformationFoldoutKey = $"{prefsKeyPrefix}{nameof(VertexDeformationFoldout)}";
+            
             RenderSettingsFoldout = new BoolEditorPrefsProperty(renderSettingsFoldoutKey, true);
             BaseMapFoldout = new BoolEditorPrefsProperty(baseMapFoldoutKey, true);
             TintColorFoldout = new BoolEditorPrefsProperty(tintColorFoldoutKey, true);
@@ -30,7 +31,8 @@ namespace Nova.Editor.Core.Scripts
             TransparencyFoldout = new BoolEditorPrefsProperty(transparencyFoldoutKey, true);
             AlphaTransitionFoldout = new BoolEditorPrefsProperty(alphaTransitionFoldoutKey, true);
             EmissionFoldout = new BoolEditorPrefsProperty(emissionFoldoutKey, true);
-
+            VertexDeformationFoldout = new BoolEditorPrefsProperty(vertexDeformationFoldoutKey, true);
+            
             Setup(properties);
         }
 
@@ -150,6 +152,15 @@ namespace Nova.Editor.Core.Scripts
             DepthFadeNearProp.Setup(properties);
             DepthFadeFarProp.Setup(properties);
             DepthFadeWidthProp.Setup(properties);
+            
+            // Vertex Deformation
+            VertexDeformationMapProp.Setup(properties);
+            VertexDeformationMapOffsetXCoordProp.Setup(properties);
+            VertexDeformationMapOffsetYCoordProp.Setup(properties);
+            VertexDeformationMapChannelProp.Setup(properties);
+            VertexDeformationIntensityProp.Setup(properties);
+            VertexDeformationIntensityCoordProp.Setup(properties);
+            VertexDeformationEnabledProp.Setup(properties);
         }
 
         #region Foldout Properties
@@ -162,6 +173,7 @@ namespace Nova.Editor.Core.Scripts
         public BoolEditorPrefsProperty EmissionFoldout { get; private set; }
         public BoolEditorPrefsProperty RenderSettingsFoldout { get; private set; }
         public BoolEditorPrefsProperty TransparencyFoldout { get; private set; }
+        public BoolEditorPrefsProperty VertexDeformationFoldout { get; private set; }
 
         #endregion
 
@@ -469,6 +481,30 @@ namespace Nova.Editor.Core.Scripts
 
         public ParticlesGUI.Property DepthFadeWidthProp { get; } =
             new ParticlesGUI.Property(PropertyNames.DepthFadeWidth);
+
+        #endregion
+        
+        #region VertexDeformation Map Material Properties
+
+        public ParticlesGUI.Property VertexDeformationMapProp { get; } = new ParticlesGUI.Property(PropertyNames.VertexDeformationMap);
+
+        public ParticlesGUI.Property VertexDeformationMapOffsetXCoordProp { get; } =
+            new ParticlesGUI.Property(PropertyNames.VertexDeformationMapOffsetXCoord);
+
+        public ParticlesGUI.Property VertexDeformationMapOffsetYCoordProp { get; } =
+            new ParticlesGUI.Property(PropertyNames.VertexDeformationMapOffsetYCoord);
+
+        public ParticlesGUI.Property VertexDeformationMapChannelProp { get; } =
+            new ParticlesGUI.Property(PropertyNames.VertexDeformationMapChannel);
+
+        public ParticlesGUI.Property VertexDeformationIntensityProp { get; } =
+            new ParticlesGUI.Property(PropertyNames.VertexDeformationIntensity);
+
+        public ParticlesGUI.Property VertexDeformationIntensityCoordProp { get; } =
+            new ParticlesGUI.Property(PropertyNames.VertexDeformationIntensityCoord);
+
+        public ParticlesGUI.Property VertexDeformationEnabledProp { get; } =
+            new ParticlesGUI.Property(PropertyNames.VertexDeformationEnabled);
 
         #endregion
     }

@@ -245,6 +245,12 @@ namespace Nova.Editor.Core.Scripts
             DrawProperties(_commonMaterialProperties.TransparencyFoldout,
                 "Transparency", InternalDrawTransparencyProperties);
         }
+        
+        public void DrawVertexDeformationProperties()
+        {
+            DrawProperties(_commonMaterialProperties.VertexDeformationFoldout,
+                "Vertex Deformation", InternalDrawVertexDeformationMapProperties);
+        }
 
         private static bool CompareVertexStreams(List<ParticleSystemVertexStream> a,
             List<ParticleSystemVertexStream> b)
@@ -668,6 +674,25 @@ namespace Nova.Editor.Core.Scripts
                         props.DepthFadeFarProp.Value, "Far", _editor);
                     _editor.ShaderProperty(props.DepthFadeWidthProp.Value, "Width");
                 }
+        }
+        
+        private void InternalDrawVertexDeformationMapProperties()
+        {
+            var props = _commonMaterialProperties;
+            
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Enabled", props.VertexDeformationEnabledProp.Value);
+            if (props.VertexDeformationEnabledProp.Value.floatValue > 0.5f)
+            {
+                MaterialEditorUtility.DrawTexture(_editor, props.VertexDeformationMapProp.Value,
+                    props.VertexDeformationMapOffsetXCoordProp.Value,
+                    props.VertexDeformationMapOffsetYCoordProp.Value,
+                    props.VertexDeformationMapChannelProp.Value, null);
+                MaterialEditorUtility.DrawPropertyAndCustomCoord(
+                    _editor,
+                    "Intensity",
+                    props.VertexDeformationIntensityProp.Value,
+                    props.VertexDeformationIntensityCoordProp.Value);
+            }
         }
 
         #region private variable

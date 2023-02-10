@@ -151,5 +151,14 @@ namespace Nova.Editor.Core.Scripts
         // Distortion
         public const string DistortionIntensity = "_DistortionIntensity";
         public const string DistortionIntensityCoord = "_DistortionIntensityCoord";
+        
+        // Vertex Deformation
+        public const string VertexDeformationMap = "_VertexDeformationMap";
+        public const string VertexDeformationMapOffsetXCoord = "_VertexDeformationMapOffsetXCoord";
+        public const string VertexDeformationMapOffsetYCoord = "_VertexDeformationMapOffsetYCoord";
+        public const string VertexDeformationMapChannel = "_VertexDeformationMapChannel";
+        public const string VertexDeformationIntensity = "_VertexDeformationIntensity";
+        public const string VertexDeformationIntensityCoord = "_VertexDeformationIntensityCoord";
+        public const string VertexDeformationEnabled = "_VertexDeformationEnabled";
     }
 }
