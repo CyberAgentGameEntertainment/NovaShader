@@ -152,7 +152,8 @@ void AlphaClip(real alpha, real cutoff, real offset = 0.0h)
 half2 GetFlowMapUvOffset(TEXTURE2D_PARAM(flowMap, sampler_flowMap), in float intensity,
                          TEXTURE2D_PARAM(flowIntensityMask, sampler_flowIntensityMask), in float2 flowMapUv,
                          in float2 flowIntensityMaskUv, in half flowMapChannlesX,
-                         in half flowMapChannelsY, in half flowIntensityMaskChannel, in float middleValueCorrection)
+                         in half flowMapChannelsY, in half flowIntensityMaskChannel, in float middleValueCorrection,
+                         in float2 subUv)
 {
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
     half4 flowSrc = SAMPLE_TEXTURE2D(flowMap, sampler_flowMap, flowMapUv);
@@ -162,6 +163,15 @@ half2 GetFlowMapUvOffset(TEXTURE2D_PARAM(flowMap, sampler_flowMap), in float int
     flow = pow(flow, middleValueCorrection);
     flow = flow * 2 - 1;
 
+    /*
+    half4 subFlowSrc = SAMPLE_TEXTURE2D(flowMap, sampler_flowMap, subUv);
+    half2 subFlow;
+    subFlow.x = subFlowSrc[(uint)flowMapChannlesX];
+    subFlow.y = subFlowSrc[(uint)flowMapChannelsY];
+    subFlow = pow(subFlow, middleValueCorrection);
+    subFlow = subFlow * 2 - 1;
+    */
+
     #ifdef _FLOW_INTENSITY_MASK_ENABLED
     half4 intensityMask = SAMPLE_TEXTURE2D(flowIntensityMask, sampler_flowIntensityMask, flowIntensityMaskUv);
     half intensityMaskValue = intensityMask[(uint)flowIntensityMaskChannel];
@@ -170,7 +180,10 @@ half2 GetFlowMapUvOffset(TEXTURE2D_PARAM(flowMap, sampler_flowMap), in float int
 
     flow *= intensity;
     flow.x = 0; // テスト縦だけに
+    //subFlow *= intensity;
+    //subFlow.x = 0; // テスト縦だけに
     return flow;
+    //return flow + subFlow;
     #endif
 }
 

@@ -39,6 +39,7 @@ struct Varyings
     #ifdef USE_PROJECTED_POSITION
     float4 projectedPosition : TEXCOORD8;
     #endif
+    float4 testCoord : TEXCOORD9;
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -130,8 +131,10 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     // Flow Map UV
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
     output.flowTransitionUVs.xy = TRANSFORM_TEX(input.texcoord.xy, _FlowMap);
-    output.flowTransitionUVs.x += GET_CUSTOM_COORD(_FlowMapOffsetXCoord);
+    //output.flowTransitionUVs.x += GET_CUSTOM_COORD(_FlowMapOffsetXCoord);
     output.flowTransitionUVs.y += GET_CUSTOM_COORD(_FlowMapOffsetYCoord);
+    output.testCoord.xy = TRANSFORM_TEX(input.texcoord.xy, _FlowMap);
+    output.testCoord.y += GET_CUSTOM_COORD(_FlowMapOffsetXCoord);
     #endif
 
     // Transition Map UV
@@ -193,7 +196,7 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool us
     half2 flowMapUvOffset = GetFlowMapUvOffset(_FlowMap, sampler_FlowMap, intensity, _FlowIntensityMask,
         sampler_FlowIntensityMask, input.flowTransitionUVs.xy, input.baseMapUVAndProgresses.xy,
         _FlowMapChannelsX, _FlowMapChannelsY,
-        _FlowIntensityMaskChannel, _FlowMapMiddleValueCorrection);
+        _FlowIntensityMaskChannel, _FlowMapMiddleValueCorrection, input.testCoord.xy);
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE)
     input.baseMapUVAndProgresses.xy += flowMapUvOffset;
     #endif
