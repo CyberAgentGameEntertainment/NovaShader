@@ -46,6 +46,11 @@ namespace Nova.Editor.Core.Scripts
         public const string FlowMapTargetTint = "_FLOW_MAP_TARGET_TINT";
         public const string FlowMapTargetEmission = "_FLOW_MAP_TARGET_EMISSION";
         public const string FlowMapTargetAlphaTransition = "_FLOW_MAP_TARGET_ALPHA_TRANSITION";
+        
+        // Parallax Map
+        public const string ParallaxMapTargetBase = "_PARALLAX_MAP_TARGET_BASE";
+        public const string ParallaxMapTargetTint = "_PARALLAX_MAP_TARGET_TINT";
+        public const string ParallaxMapTargetEmission = "_PARALLAX_MAP_TARGET_EMISSION";
 
         // Alpha Transition
         public const string FadeTransitionEnabled = "_FADE_TRANSITION_ENABLED";

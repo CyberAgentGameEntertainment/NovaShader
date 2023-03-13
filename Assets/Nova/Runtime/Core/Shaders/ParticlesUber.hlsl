@@ -131,6 +131,16 @@ TEXTURE3D(_NormalMap3D);
 SAMPLER(sampler_NormalMap3D);
 half _NormalMapBumpScale;
 
+// Parallax Map
+TEXTURE2D(_ParallaxMap);
+SAMPLER(sampler_ParallaxMap);
+TEXTURE2D_ARRAY(_ParallaxMap2DArray);
+SAMPLER(sampler_ParallaxMap2DArray);
+TEXTURE3D(_ParallaxMap3D);
+SAMPLER(sampler_ParallaxMap3D);
+half _ParallaxMapChannel;
+half _ParallaxScale;
+
 // Specular Map
 TEXTURE2D(_SpecularMap);
 SAMPLER(sampler_SpecularMap);
@@ -187,6 +197,21 @@ SamplerState GetNormalMapSamplerState()
     return sampler_NormalMap2DArray;
     #elif _BASE_MAP_MODE_3D
     return sampler_NormalMap3D;
+    #endif
+    #endif
+}
+
+SamplerState GetParallaxMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+    #ifdef _BASE_MAP_MODE_2D
+    return sampler_ParallaxMap;
+    #elif _BASE_MAP_MODE_2D_ARRAY
+    return sampler_ParallaxMap2DArray;
+    #elif _BASE_MAP_MODE_3D
+    return sampler_ParallaxMap3D;
     #endif
     #endif
 }
@@ -310,6 +335,15 @@ SamplerState GetEmissionMapSamplerState()
 #define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE2D_ARRAY(_NormalMap2DArray, GetNormalMapSamplerState(), uv, progress), scale);
 #elif _BASE_MAP_MODE_3D
 #define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE3D_LOD(_NormalMap3D, GetNormalMapSamplerState(), float3(uv, progress), 0), scale);
+#endif
+
+// Sample the parallax map.
+#ifdef _BASE_MAP_MODE_2D
+#define SAMPLE_PARALLAX_MAP(uv, progress) SAMPLE_TEXTURE2D(_ParallaxMap, GetParallaxMapSamplerState(), uv);
+#elif _BASE_MAP_MODE_2D_ARRAY
+#define SAMPLE_PARALLAX_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_ParallaxMap2DArray, GetParallaxMapSamplerState(), uv, progress);
+#elif _BASE_MAP_MODE_3D
+#define SAMPLE_PARALLAX_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_ParallaxMap3D, GetParallaxMapSamplerState(), float3(uv, progress), 0);
 #endif
 
 // Sample the metallic map.

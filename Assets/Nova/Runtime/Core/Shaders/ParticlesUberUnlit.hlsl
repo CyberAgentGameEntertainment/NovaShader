@@ -2,13 +2,16 @@
 #define NOVA_PARTICLESUBERUNLIT_INCLUDED
 
 #include "ParticlesUber.hlsl"
-
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/ParallaxMapping.hlsl"
 
 struct Attributes
 {
     float4 positionOS : POSITION;
     float4 color : COLOR;
     float3 normalOS : NORMAL;
+    #ifdef USE_PARALLAX_MAP
+    float4 tangentOS : TANGENT;
+    #endif
     float2 texcoord : TEXCOORD0;
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     INPUT_CUSTOM_COORD(1, 2)
@@ -39,6 +42,9 @@ struct Varyings
     #ifdef USE_PROJECTED_POSITION
     float4 projectedPosition : TEXCOORD8;
     #endif
+    #ifdef USE_PARALLAX_MAP
+    float3 viewDirTS : TEXCOORD9;
+    #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -58,6 +64,12 @@ inline void InitializeVertexOutput(in Attributes input, in out Varyings output, 
     #ifdef USE_PROJECTED_POSITION
     output.projectedPosition = ComputeScreenPos(output.positionHCS);
     #endif
+    #ifdef USE_PARALLAX_MAP
+    half4 tangentWS = 0;
+    tangentWS.xyz = TransformObjectToWorldDir(input.tangentOS.xyz);
+    tangentWS.w = input.tangentOS.w * GetOddNegativeScale();
+    output.viewDirTS = GetViewDirectionTangentSpace(tangentWS, output.normalWS, output.viewDirWS);
+    #endif
 }
 
 inline void InitializeFragmentInput(in out Varyings input)
@@ -68,6 +80,9 @@ inline void InitializeFragmentInput(in out Varyings input)
 
     #ifdef FRAGMENT_USE_VIEW_DIR_WS
     input.viewDirWS = normalize(input.viewDirWS);
+    #endif
+    #ifdef USE_PARALLAX_MAP
+    input.viewDirTS = normalize(input.viewDirTS);
     #endif
 }
 
@@ -176,6 +191,27 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     return output;
 }
 
+#ifdef USE_PARALLAX_MAP
+half2 ParallaxOffset(in half height, in half scale, in half3 viewDirTS)
+{
+    // 参考: URP公式視差メソッド ParallaxOffset1Step(height, scale, viewDirTS)
+    // todo-zyb: まだ改善余地がある
+    half scaledHeight = -(1 - height) * scale;
+    half3 view = normalize(viewDirTS);
+    view.z += 0.42;
+    half2 offset = view.xy / view.z * scaledHeight;
+    return offset;
+}
+
+half2 GetParallaxMappingUVOffset(in half2 uv, in half progress, in half channel, in half scale, in half3 viewDirTS)
+{
+    half4 map = SAMPLE_PARALLAX_MAP(uv, progress);
+    half height = map[(int)channel];
+    half2 offset = ParallaxOffset(height, scale, viewDirTS);    
+    return offset;
+}
+#endif
+
 half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool useFog)
 {
     UNITY_SETUP_INSTANCE_ID(input);
@@ -209,6 +245,22 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool us
     #endif
     #endif
 
+    #ifdef USE_PARALLAX_MAP
+    half2 parallaxOffset = GetParallaxMappingUVOffset(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z, _ParallaxMapChannel, _ParallaxScale, input.viewDirTS);
+
+    #if defined(_PARALLAX_MAP_TARGET_BASE)
+    input.baseMapUVAndProgresses.xy += parallaxOffset;
+    #endif
+
+    #if defined(_PARALLAX_MAP_TARGET_TINT) && (defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED))
+    input.tintEmissionUV.xy += parallaxOffset;
+    #endif
+
+    #if defined(_PARALLAX_MAP_TARGET_EMISSION) && defined(_EMISSION_AREA_MAP)
+    input.tintEmissionUV.zw += parallaxOffset;
+    #endif
+    #endif
+    
     // Base Color
     half4 color = SAMPLE_BASE_MAP(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z);
 
