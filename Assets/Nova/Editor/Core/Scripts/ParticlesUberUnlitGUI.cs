@@ -36,6 +36,7 @@ namespace Nova.Editor.Core.Scripts
             _commonGUI.DrawBaseMapProperties();
             _commonGUI.DrawTintColorProperties();
             _commonGUI.DrawFlowMapProperties();
+            _commonGUI.DrawParallaxMapProperties();
             _commonGUI.DrawColorCorrectionProperties();
             _commonGUI.DrawAlphaTransitionProperties();
             _commonGUI.DrawEmissionProperties();

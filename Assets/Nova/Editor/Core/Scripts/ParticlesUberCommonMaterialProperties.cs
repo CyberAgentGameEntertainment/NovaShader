@@ -17,6 +17,7 @@ namespace Nova.Editor.Core.Scripts
             var baseMapFoldoutKey = $"{prefsKeyPrefix}{nameof(BaseMapFoldout)}";
             var tintColorFoldoutKey = $"{prefsKeyPrefix}{nameof(TintColorFoldout)}";
             var flowMapFoldoutKey = $"{prefsKeyPrefix}{nameof(FlowMapFoldout)}";
+            var parallaxMapFoldoutKey = $"{prefsKeyPrefix}{nameof(ParallaxMapFoldout)}";
             var colorCorrectionFoldoutKey = $"{prefsKeyPrefix}{nameof(ColorCorrectionFoldout)}";
             var transparencyFoldoutKey = $"{prefsKeyPrefix}{nameof(TransparencyFoldout)}";
             var alphaTransitionFoldoutKey = $"{prefsKeyPrefix}{nameof(AlphaTransitionFoldout)}";
@@ -27,6 +28,7 @@ namespace Nova.Editor.Core.Scripts
             BaseMapFoldout = new BoolEditorPrefsProperty(baseMapFoldoutKey, true);
             TintColorFoldout = new BoolEditorPrefsProperty(tintColorFoldoutKey, true);
             FlowMapFoldout = new BoolEditorPrefsProperty(flowMapFoldoutKey, true);
+            ParallaxMapFoldout = new BoolEditorPrefsProperty(parallaxMapFoldoutKey, true);
             ColorCorrectionFoldout = new BoolEditorPrefsProperty(colorCorrectionFoldoutKey, true);
             TransparencyFoldout = new BoolEditorPrefsProperty(transparencyFoldoutKey, true);
             AlphaTransitionFoldout = new BoolEditorPrefsProperty(alphaTransitionFoldoutKey, true);
@@ -91,6 +93,14 @@ namespace Nova.Editor.Core.Scripts
             FlowIntensityCoordProp.Setup(properties);
             FlowMapTargetProp.Setup(properties);
 
+            // Parallax Map
+            ParallaxMapProp.Setup(properties);
+            ParallaxMap2DArrayProp.Setup(properties);
+            ParallaxMap3DProp.Setup(properties);
+            ParallaxMapChannel.Setup(properties);
+            ParallaxScaleProp.Setup(properties);
+            ParallaxMapTargetProp.Setup(properties);
+            
             // Color Correction
             ColorCorrectionModeProp.Setup(properties);
             GradientMapProp.Setup(properties);
@@ -165,6 +175,7 @@ namespace Nova.Editor.Core.Scripts
         public BoolEditorPrefsProperty BaseMapFoldout { get; private set; }
         public BoolEditorPrefsProperty TintColorFoldout { get; private set; }
         public BoolEditorPrefsProperty FlowMapFoldout { get; private set; }
+        public BoolEditorPrefsProperty ParallaxMapFoldout { get; private set; }
         public BoolEditorPrefsProperty ColorCorrectionFoldout { get; private set; }
         public BoolEditorPrefsProperty EmissionFoldout { get; private set; }
         public BoolEditorPrefsProperty RenderSettingsFoldout { get; private set; }
@@ -301,6 +312,17 @@ namespace Nova.Editor.Core.Scripts
 
         public ParticlesGUI.Property FlowMapTargetProp { get; } =
             new ParticlesGUI.Property(PropertyNames.FlowMapTarget);
+
+        #endregion
+        
+        #region Paralax Map Material Properties
+
+        public ParticlesGUI.Property ParallaxMapProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMap);
+        public ParticlesGUI.Property ParallaxMap2DArrayProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMap2DArray);
+        public ParticlesGUI.Property ParallaxMap3DProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMap3D);
+        public ParticlesGUI.Property ParallaxMapChannel { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMapChannel);
+        public ParticlesGUI.Property ParallaxScaleProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxScale);
+        public ParticlesGUI.Property ParallaxMapTargetProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMapTarget);
 
         #endregion
 

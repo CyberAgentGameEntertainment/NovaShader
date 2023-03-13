@@ -218,6 +218,11 @@ namespace Nova.Editor.Core.Scripts
                 "Base Map", InternalDrawBaseMapProperties);
         }
 
+        public void DrawParallaxMapProperties()
+        {
+            DrawProperties(_commonMaterialProperties.ParallaxMapFoldout,
+                "Parallax Map", InternalDrawParallaxMapsProperties);
+        }
 
         public void DrawTintColorProperties()
         {
@@ -394,6 +399,47 @@ namespace Nova.Editor.Core.Scripts
             if (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending)
                 MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Flip-Book Progress",
                     props.BaseMapProgressProp.Value, props.BaseMapProgressCoordProp.Value);
+        }
+        
+        private void InternalDrawParallaxMapsProperties()
+        {
+            var props = _commonMaterialProperties;
+            // The surface maps mode is decided by baseMapMode.
+            var baseMapMode = (BaseMapMode)props.BaseMapModeProp.Value.floatValue;
+            MaterialProperty textureProp;
+            switch (baseMapMode)
+            {
+                case BaseMapMode.SingleTexture:
+                    textureProp = props.ParallaxMapProp.Value;
+                    break;
+                case BaseMapMode.FlipBook:
+                    textureProp = props.ParallaxMap2DArrayProp.Value;
+                    break;
+                case BaseMapMode.FlipBookBlending:
+                    textureProp = props.ParallaxMap3DProp.Value;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            MaterialEditorUtility.DrawTexture(
+                _editor,
+                textureProp,
+                false,
+                props.ParallaxMapChannel.Value
+                );
+
+            MaterialEditorUtility.DrawFloatRangeProperty(
+                _editor,
+                "Scale",
+                props.ParallaxScaleProp.Value,
+                props.ParallaxScaleProp.Value.rangeLimits.x,
+                props.ParallaxScaleProp.Value.rangeLimits.y);
+            
+            MaterialEditorUtility.DrawEnumFlagsProperty<ParallaxMapTarget>(
+                _editor,
+                "Target",
+                props.ParallaxMapTargetProp.Value);
         }
 
         private void InternalDrawTintColorProperties()

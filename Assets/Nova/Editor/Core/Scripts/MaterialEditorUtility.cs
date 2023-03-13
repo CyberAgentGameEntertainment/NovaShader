@@ -250,6 +250,12 @@ namespace Nova.Editor.Core.Scripts
             DrawTexture(editor, textureProperty, drawTilingAndOffset, null, null, null, null);
         }
 
+        public static void DrawTexture(MaterialEditor editor, MaterialProperty textureProperty, 
+            bool drawTilingAndOffset, MaterialProperty channelsProperty)
+        {
+            DrawTexture(editor, textureProperty, drawTilingAndOffset, null, null, channelsProperty, null);
+        }
+
         /// <summary>
         ///     Draw a <see cref="Texture" /> type property with the custom coords for the offset.
         /// </summary>
@@ -493,6 +499,36 @@ namespace Nova.Editor.Core.Scripts
                 {
                     EditorGUI.showMixedValue = property.hasMixedValue;
                     value = EditorGUI.IntSlider(rect, value, min, max);
+                    EditorGUI.showMixedValue = false;
+
+                    if (ccs.changed)
+                    {
+                        editor.RegisterPropertyChangeUndo(property.name);
+                        property.floatValue = value;
+                    }
+                }
+            });
+        }
+        
+        /// <summary>
+        /// Draw a float type property with the slider.
+        /// </summary>
+        /// <param name="editor"></param>
+        /// <param name="label"></param>
+        /// <param name="property"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        public static void DrawFloatRangeProperty(MaterialEditor editor, string label, MaterialProperty property, 
+            float min,
+            float max)
+        {
+            DrawProperty(label, rect =>
+            {
+                var value = property.floatValue;
+                using (var ccs = new EditorGUI.ChangeCheckScope())
+                {
+                    EditorGUI.showMixedValue = property.hasMixedValue;
+                    value = EditorGUI.Slider(rect, value, min, max);
                     EditorGUI.showMixedValue = false;
 
                     if (ccs.changed)
