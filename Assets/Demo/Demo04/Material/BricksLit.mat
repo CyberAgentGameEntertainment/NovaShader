@@ -11,8 +11,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: 65654f079f6f340b09f954eb6366ad5a, type: 3}
   m_ShaderKeywords: _ALPHA_TRANSITION_MAP_MODE_2D _BASE_MAP_MODE_2D _EMISSION_COLOR_COLOR
     _EMISSION_MAP_MODE_2D _ENVIRONMENT_REFLECTIONS_ENABLED _NORMALMAP _NORMAL_MAP_ENABLED
-    _PARALLAXMAP _PARALLAX_MAP_ENABLED _PARALLAX_MAP_TARGET_BASE _SPECULAR_HIGHLIGHTS_ENABLED
-    _TINT_MAP_ENABLED
+    _PARALLAXMAP _PARALLAX_MAP_ENABLED _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_TARGET_BASE
+    _SPECULAR_HIGHLIGHTS_ENABLED _TINT_MAP_ENABLED
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -263,10 +263,18 @@ Material:
     - _NormalMapBumpScale: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _ParallaxMapChannel: 0
+    - _ParallaxMapChannel: 1
+    - _ParallaxMapChannelsX: 0
+    - _ParallaxMapMode: 0
+    - _ParallaxMapOffsetXCoord: 0
+    - _ParallaxMapOffsetYCoord: 0
+    - _ParallaxMapProgress: 0
+    - _ParallaxMapProgressCoord: 0
     - _ParallaxMapScale: 1
+    - _ParallaxMapSliceCount: 4
     - _ParallaxMapTarget: 1
-    - _ParallaxScale: 0.025
+    - _ParallaxScale: 0.03
+    - _ParallaxScaleCoord: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _RenderType: 0
