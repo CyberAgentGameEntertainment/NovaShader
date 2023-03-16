@@ -418,8 +418,9 @@ namespace Nova.Editor.Core.Scripts
         private void InternalDrawParallaxMapsProperties()
         {
             var props = _commonMaterialProperties;
-            // The surface maps mode is decided by baseMapMode.
-            var parallaxMapMode = (ParallaxMapMode)props.BaseMapModeProp.Value.floatValue;
+            MaterialEditorUtility.DrawEnumProperty<ParallaxMapMode>(_editor, "TextureMode",
+                props.ParallaxMapModeProp.Value);
+            var parallaxMapMode = (ParallaxMapMode)props.ParallaxMapModeProp.Value.floatValue;
             MaterialProperty textureProp;
             switch (parallaxMapMode)
             {
