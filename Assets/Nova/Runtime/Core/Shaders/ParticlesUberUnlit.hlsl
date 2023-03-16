@@ -44,6 +44,7 @@ struct Varyings
     #endif
     #ifdef USE_PARALLAX_MAP
     float3 viewDirTS : TEXCOORD9;
+    float3 parallaxMapUVAndProgress : TEXCOORD10;
     #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
@@ -149,6 +150,15 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     output.flowTransitionUVs.y += GET_CUSTOM_COORD(_FlowMapOffsetYCoord);
     #endif
 
+    // Parallax Map UV
+    #if defined(USE_PARALLAX_MAP)
+    output.parallaxMapUVAndProgress.xy = TRANSFORM_PARALLAX_MAP(input.texcoord.xy)
+    output.parallaxMapUVAndProgress.x += GET_CUSTOM_COORD(_ParallaxMapOffsetXCoord);
+    output.parallaxMapUVAndProgress.y += GET_CUSTOM_COORD(_ParallaxMapOffsetYCoord);
+    float parallaxMapProgress = _ParallaxMapProgress + GET_CUSTOM_COORD(_ParallaxMapProgressCoord);
+    output.parallaxMapUVAndProgress.z = FlipBookProgress(parallaxMapProgress, _ParallaxMapSliceCount);
+    #endif
+
     // Transition Map UV
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     output.flowTransitionUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP(input.texcoord.xy);
@@ -191,27 +201,6 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     return output;
 }
 
-#ifdef USE_PARALLAX_MAP
-half2 ParallaxOffset(in half height, in half scale, in half3 viewDirTS)
-{
-    // 参考: URP公式視差メソッド ParallaxOffset1Step(height, scale, viewDirTS)
-    // todo-zyb: まだ改善余地がある
-    half scaledHeight = -(1 - height) * scale;
-    half3 view = normalize(viewDirTS);
-    view.z += 0.42;
-    half2 offset = view.xy / view.z * scaledHeight;
-    return offset;
-}
-
-half2 GetParallaxMappingUVOffset(in half2 uv, in half progress, in half channel, in half scale, in half3 viewDirTS)
-{
-    half4 map = SAMPLE_PARALLAX_MAP(uv, progress);
-    half height = map[(int)channel];
-    half2 offset = ParallaxOffset(height, scale, viewDirTS);    
-    return offset;
-}
-#endif
-
 half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool useFog)
 {
     UNITY_SETUP_INSTANCE_ID(input);
@@ -246,8 +235,8 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool us
     #endif
 
     #ifdef USE_PARALLAX_MAP
-    half2 parallaxOffset = GetParallaxMappingUVOffset(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z, _ParallaxMapChannel, _ParallaxScale, input.viewDirTS);
-
+    half2 parallaxOffset = GetParallaxMappingUVOffset(input.parallaxMapUVAndProgress.xy, input.parallaxMapUVAndProgress.z, _ParallaxMapChannel, _ParallaxScale, input.viewDirTS);
+    
     #if defined(_PARALLAX_MAP_TARGET_BASE)
     input.baseMapUVAndProgresses.xy += parallaxOffset;
     #endif

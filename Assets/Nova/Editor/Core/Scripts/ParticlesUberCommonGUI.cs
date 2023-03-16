@@ -84,6 +84,17 @@ namespace Nova.Editor.Core.Scripts
                    || IsCustomCoordUsed(_commonMaterialProperties.FlowMapOffsetYCoordProp)
                    || IsCustomCoordUsed(_commonMaterialProperties.FlowIntensityCoordProp);
         }
+        
+        private bool IsCustomCoordUsedInParallax()
+        {
+            var isCustomCoordUsed = IsCustomCoordUsed(_commonMaterialProperties.ParallaxMapOffsetXCoordProp)
+                                    || IsCustomCoordUsed(_commonMaterialProperties.ParallaxMapOffsetYCoordProp);
+            isCustomCoordUsed |= (ParallaxMapMode)_commonMaterialProperties.ParallaxMapModeProp.Value.floatValue != ParallaxMapMode.SingleTexture
+                                 && (IsCustomCoordUsed(_commonMaterialProperties.ParallaxMapProgressProp) 
+                                     || IsCustomCoordUsed(_commonMaterialProperties.ParallaxMapProgressCoordProp));
+
+            return isCustomCoordUsed;
+        }
 
         private bool IsCustomCoordUsedInAlphaTransition()
         {
@@ -100,6 +111,8 @@ namespace Nova.Editor.Core.Scripts
             return isCustomCoordUsed;
         }
 
+
+        
         private bool IsCustomCoordUsedInEmission()
         {
             var mode = (EmissionAreaType)_commonMaterialProperties.EmissionAreaTypeProp.Value.floatValue;
@@ -148,6 +161,7 @@ namespace Nova.Editor.Core.Scripts
                    || IsCustomCoordUsedInBaseMap()
                    || IsCustomCoordUsedInTintColor()
                    || IsCustomCoordUsedInFlowMap()
+                   || IsCustomCoordUsedInParallax()
                    || IsCustomCoordUsedInAlphaTransition()
                    || IsCustomCoordUsedInEmission()
                    || IsCustomCoordUsedInTransparency();
@@ -405,29 +419,57 @@ namespace Nova.Editor.Core.Scripts
         {
             var props = _commonMaterialProperties;
             // The surface maps mode is decided by baseMapMode.
-            var baseMapMode = (BaseMapMode)props.BaseMapModeProp.Value.floatValue;
+            var parallaxMapMode = (ParallaxMapMode)props.BaseMapModeProp.Value.floatValue;
             MaterialProperty textureProp;
-            switch (baseMapMode)
+            switch (parallaxMapMode)
             {
-                case BaseMapMode.SingleTexture:
+                case ParallaxMapMode.SingleTexture:
                     textureProp = props.ParallaxMapProp.Value;
                     break;
-                case BaseMapMode.FlipBook:
+                case ParallaxMapMode.FlipBook:
                     textureProp = props.ParallaxMap2DArrayProp.Value;
                     break;
-                case BaseMapMode.FlipBookBlending:
+                case ParallaxMapMode.FlipBookBlending:
                     textureProp = props.ParallaxMap3DProp.Value;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            MaterialEditorUtility.DrawTexture(
-                _editor,
-                textureProp,
-                false,
-                props.ParallaxMapChannel.Value
+            
+            using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
+            {
+                MaterialEditorUtility.DrawTexture(
+                    _editor,
+                    textureProp,
+                    props.ParallaxMapOffsetXCoordProp.Value,
+                    props.ParallaxMapOffsetYCoordProp.Value,
+                    props.ParallaxMapChannel.Value,
+                    null
                 );
+
+                if (changeCheckScope.changed)
+                {
+                    if (parallaxMapMode == ParallaxMapMode.FlipBook && props.ParallaxMap2DArrayProp.Value.textureValue != null)
+                    {
+                        var tex2DArray = (Texture2DArray)props.ParallaxMap2DArrayProp.Value.textureValue;
+                        props.ParallaxMapSliceCountProp.Value.floatValue = tex2DArray.depth;
+                    }
+                    if (parallaxMapMode == ParallaxMapMode.FlipBookBlending && props.ParallaxMap3DProp.Value.textureValue != null)
+                    {
+                        var tex3D = (Texture3D)props.ParallaxMap3DProp.Value.textureValue;
+                        props.ParallaxMapSliceCountProp.Value.floatValue = tex3D.depth;
+                    }
+                }
+            }
+
+            if (parallaxMapMode > ParallaxMapMode.SingleTexture)
+            {
+                MaterialEditorUtility.DrawPropertyAndCustomCoord(
+                    _editor,
+                    "Flip-Book Progress",
+                    props.ParallaxMapProgressProp.Value,
+                    props.ParallaxMapProgressCoordProp.Value);
+            }
 
             MaterialEditorUtility.DrawFloatRangeProperty(
                 _editor,

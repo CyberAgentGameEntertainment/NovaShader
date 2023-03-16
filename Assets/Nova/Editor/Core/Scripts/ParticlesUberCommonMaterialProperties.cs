@@ -94,9 +94,15 @@ namespace Nova.Editor.Core.Scripts
             FlowMapTargetProp.Setup(properties);
 
             // Parallax Map
+            ParallaxMapModeProp.Setup(properties);
             ParallaxMapProp.Setup(properties);
             ParallaxMap2DArrayProp.Setup(properties);
             ParallaxMap3DProp.Setup(properties);
+            ParallaxMapProgressProp.Setup(properties);
+            ParallaxMapProgressCoordProp.Setup(properties);
+            ParallaxMapOffsetXCoordProp.Setup(properties);
+            ParallaxMapOffsetYCoordProp.Setup(properties);
+            ParallaxMapSliceCountProp.Setup(properties);
             ParallaxMapChannel.Setup(properties);
             ParallaxScaleProp.Setup(properties);
             ParallaxMapTargetProp.Setup(properties);
@@ -317,9 +323,15 @@ namespace Nova.Editor.Core.Scripts
         
         #region Paralax Map Material Properties
 
+        public ParticlesGUI.Property ParallaxMapModeProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMapMode);
         public ParticlesGUI.Property ParallaxMapProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMap);
         public ParticlesGUI.Property ParallaxMap2DArrayProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMap2DArray);
         public ParticlesGUI.Property ParallaxMap3DProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMap3D);
+        public ParticlesGUI.Property ParallaxMapProgressProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMapProgress);
+        public ParticlesGUI.Property ParallaxMapProgressCoordProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMapProgressCoord);
+        public ParticlesGUI.Property ParallaxMapOffsetXCoordProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMapOffsetXCoord);
+        public ParticlesGUI.Property ParallaxMapOffsetYCoordProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMapOffsetYCoord);
+        public ParticlesGUI.Property ParallaxMapSliceCountProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMapSliceCount);
         public ParticlesGUI.Property ParallaxMapChannel { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMapChannel);
         public ParticlesGUI.Property ParallaxScaleProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxScale);
         public ParticlesGUI.Property ParallaxMapTargetProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMapTarget);

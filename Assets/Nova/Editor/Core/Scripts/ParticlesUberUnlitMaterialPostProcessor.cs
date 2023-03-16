@@ -36,6 +36,7 @@ namespace Nova.Editor.Core.Scripts
         private static readonly int FlowIntensityCoordId =
             Shader.PropertyToID(MaterialPropertyNames.FlowIntensityCoord);
         
+        private static readonly int ParallaxMapModeId = Shader.PropertyToID(MaterialPropertyNames.ParallaxMapMode);
         private static readonly int ParallaxMapId = Shader.PropertyToID(MaterialPropertyNames.ParallaxMap);
         private static readonly int ParallaxMap2DArrayId = Shader.PropertyToID(MaterialPropertyNames.ParallaxMap2DArray);
         private static readonly int ParallaxMap3DId = Shader.PropertyToID(MaterialPropertyNames.ParallaxMap3D);
@@ -220,28 +221,31 @@ namespace Nova.Editor.Core.Scripts
             var emissionEnabled = hasFlowMap && (flowMapTarget & FlowMapTarget.EmissionMap) != 0;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetEmission, emissionEnabled);
         }
-        
-        private static bool HasSurfaceMap(Material material, BaseMapMode baseMapMode, int map2DId, int map2DArrayId,
-            int map3DID)
-        {
-            switch (baseMapMode)
-            {
-                case BaseMapMode.SingleTexture:
-                    return material.GetTexture(map2DId) != null;
-                case BaseMapMode.FlipBook:
-                    return material.GetTexture(map2DArrayId) != null;
-                case BaseMapMode.FlipBookBlending:
-                    return material.GetTexture(map3DID) != null;
-            }
 
-            return false;
-        }
-        
         private static void SetupParallaxMapMaterialKeywords(Material material)
         {
-            var baseMapMode = (BaseMapMode)material.GetFloat(BaseMapModeId);
-            var hasParallaxMap = HasSurfaceMap(material, baseMapMode, ParallaxMapId, ParallaxMap2DArrayId, ParallaxMap3DId);
+            var parallaxMapMode = (ParallaxMapMode)material.GetFloat(ParallaxMapModeId);
+            foreach (ParallaxMapMode value in Enum.GetValues(typeof(ParallaxMapMode)))
+            {
+                var isOn = parallaxMapMode == value;
+                var keyword = value.GetShaderKeyword();
+                MaterialEditorUtility.SetKeyword(material, keyword, isOn);
+            }
             
+            bool hasParallaxMap = false;
+            switch (parallaxMapMode)
+            {
+                case ParallaxMapMode.SingleTexture:
+                    hasParallaxMap = material.GetTexture(ParallaxMapId);
+                    break;
+                case ParallaxMapMode.FlipBook:
+                    hasParallaxMap = material.GetTexture(ParallaxMap2DArrayId);
+                    break;
+                case ParallaxMapMode.FlipBookBlending:
+                    hasParallaxMap = material.GetTexture(ParallaxMap3DId);
+                    break;
+            }
+
             var parallaxMapTarget = (ParallaxMapTarget)material.GetFloat(ParallaxMapTargetId);
             var baseEnabled = hasParallaxMap && (parallaxMapTarget &　ParallaxMapTarget.BaseMap) != 0;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.ParallaxMapTargetBase, baseEnabled);

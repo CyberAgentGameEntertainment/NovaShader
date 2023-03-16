@@ -87,9 +87,15 @@ namespace Nova.Editor.Core.Scripts
         public const string FlowMapTarget = "_FlowMapTarget";
         
         // Parallax Map
+        public const string ParallaxMapMode = "_ParallaxMapMode";
         public const string ParallaxMap = "_ParallaxMap";
         public const string ParallaxMap2DArray = "_ParallaxMap2DArray";
         public const string ParallaxMap3D = "_ParallaxMap3D";
+        public const string ParallaxMapProgress = "_ParallaxMapProgress";
+        public const string ParallaxMapProgressCoord = "_ParallaxMapProgressCoord";
+        public const string ParallaxMapOffsetXCoord = "_ParallaxMapOffsetXCoord";
+        public const string ParallaxMapOffsetYCoord = "_ParallaxMapOffsetYCoord";
+        public const string ParallaxMapSliceCount = "_ParallaxMapSliceCount";
         public const string ParallaxMapChannel = "_ParallaxMapChannel";
         public const string ParallaxScale = "_ParallaxScale";
         public const string ParallaxMapTarget = "_ParallaxMapTarget";

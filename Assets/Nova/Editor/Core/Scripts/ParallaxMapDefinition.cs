@@ -14,4 +14,11 @@ namespace Nova.Editor.Core.Scripts
         TintMap = 1 << 1,
         EmissionMap = 1 << 2
     }
+
+    public enum ParallaxMapMode
+    {
+        SingleTexture,
+        FlipBook,
+        FlipBookBlending,
+    }
 }

@@ -51,6 +51,9 @@ namespace Nova.Editor.Core.Scripts
         public const string ParallaxMapTargetBase = "_PARALLAX_MAP_TARGET_BASE";
         public const string ParallaxMapTargetTint = "_PARALLAX_MAP_TARGET_TINT";
         public const string ParallaxMapTargetEmission = "_PARALLAX_MAP_TARGET_EMISSION";
+        public const string ParallaxMapMode2D = "_PARALLAX_MAP_MODE_2D";
+        public const string ParallaxMapMode2DArray = "_PARALLAX_MAP_MODE_2D_ARRAY";
+        public const string ParallaxMapMode3D = "_PARALLAX_MAP_MODE_3D";
 
         // Alpha Transition
         public const string FadeTransitionEnabled = "_FADE_TRANSITION_ENABLED";
@@ -198,6 +201,21 @@ namespace Nova.Editor.Core.Scripts
                     return GradientMapEnabled;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(colorCorrectionMode), colorCorrectionMode, null);
+            }
+        }
+
+        public static string GetShaderKeyword(this ParallaxMapMode parallaxMapMode)
+        {
+            switch (parallaxMapMode)
+            {
+                case ParallaxMapMode.SingleTexture:
+                    return ParallaxMapMode2D;
+                case ParallaxMapMode.FlipBook:
+                    return ParallaxMapMode2DArray;
+                case ParallaxMapMode.FlipBookBlending:
+                    return ParallaxMapMode3D;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(ParallaxMapMode), parallaxMapMode, null);
             }
         }
     }
