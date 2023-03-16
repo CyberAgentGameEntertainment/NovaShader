@@ -601,7 +601,7 @@ inline half2 ParallaxOffset(in half height, in half scale, in half3 viewDirTS)
 {
     // 参考: URP公式視差メソッド ParallaxOffset1Step(height, scale, viewDirTS)
     // todo-zyb: まだ改善余地がある
-    half scaledHeight = -(1 - height) * scale;
+    half scaledHeight = -height * scale;
     half3 view = normalize(viewDirTS);
     view.z += 0.42;
     half2 offset = view.xy / view.z * scaledHeight;
