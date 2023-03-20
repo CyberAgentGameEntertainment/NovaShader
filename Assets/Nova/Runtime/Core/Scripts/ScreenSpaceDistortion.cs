@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2022 CyberAgent, Inc.
+// Copyright 2023 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -31,7 +31,7 @@ namespace Nova.Runtime.Core.Scripts
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
-            if (_applyDistortionShader == null) return;
+            if (_applyDistortionShader == null || renderingData.cameraData.cameraType == CameraType.Reflection) return;
             var cameraTargetDesciptor = renderingData.cameraData.cameraTargetDescriptor;
 
             var distortedUvBufferFormat = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RGHalf)
