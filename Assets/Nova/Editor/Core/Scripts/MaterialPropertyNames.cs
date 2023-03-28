@@ -97,7 +97,7 @@ namespace Nova.Editor.Core.Scripts
         public const string ParallaxMapOffsetYCoord = "_ParallaxMapOffsetYCoord";
         public const string ParallaxMapSliceCount = "_ParallaxMapSliceCount";
         public const string ParallaxMapChannel = "_ParallaxMapChannel";
-        public const string ParallaxScale = "_ParallaxScale";
+        public const string ParallaxStrength = "_ParallaxStrength";
         public const string ParallaxMapTarget = "_ParallaxMapTarget";
 
         // Color Correction

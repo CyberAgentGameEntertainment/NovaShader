@@ -104,7 +104,7 @@ namespace Nova.Editor.Core.Scripts
             ParallaxMapOffsetYCoordProp.Setup(properties);
             ParallaxMapSliceCountProp.Setup(properties);
             ParallaxMapChannel.Setup(properties);
-            ParallaxScaleProp.Setup(properties);
+            ParallaxStrengthProp.Setup(properties);
             ParallaxMapTargetProp.Setup(properties);
             
             // Color Correction
@@ -333,7 +333,7 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property ParallaxMapOffsetYCoordProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMapOffsetYCoord);
         public ParticlesGUI.Property ParallaxMapSliceCountProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMapSliceCount);
         public ParticlesGUI.Property ParallaxMapChannel { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMapChannel);
-        public ParticlesGUI.Property ParallaxScaleProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxScale);
+        public ParticlesGUI.Property ParallaxStrengthProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxStrength);
         public ParticlesGUI.Property ParallaxMapTargetProp { get; } = new ParticlesGUI.Property(PropertyNames.ParallaxMapTarget);
 
         #endregion

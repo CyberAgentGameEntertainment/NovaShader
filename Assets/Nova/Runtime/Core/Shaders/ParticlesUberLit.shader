@@ -91,7 +91,7 @@ Shader "Nova/Particles/UberLit"
         _ParallaxMapOffsetYCoord("Parallax Map Offset Y Coord", Float) = 0.0
         _ParallaxMapSliceCount("Parallax Map Slice Count", Float) = 4.0
         _ParallaxMapChannel("Parallax Map Channel", Float) = 0.0
-        _ParallaxScale("Parallax Scale", Range(0.0, 0.08)) = 0.03
+        _ParallaxStrength("Parallax Strength", Range(0.0, 1.0)) = 0.3
         _ParallaxMapTarget("Parallax Map Target", Float) = 1.0
 
         // Color Correction

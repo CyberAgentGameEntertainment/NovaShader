@@ -274,8 +274,7 @@ Material:
     - _ParallaxMapScale: 1
     - _ParallaxMapSliceCount: 4
     - _ParallaxMapTarget: 5
-    - _ParallaxScale: 0.03
-    - _ParallaxScaleCoord: 0
+    - _ParallaxStrength: 0.3
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _RenderType: 2

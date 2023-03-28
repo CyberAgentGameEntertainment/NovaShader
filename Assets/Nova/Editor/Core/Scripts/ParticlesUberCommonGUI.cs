@@ -474,10 +474,10 @@ namespace Nova.Editor.Core.Scripts
 
             MaterialEditorUtility.DrawFloatRangeProperty(
                 _editor,
-                "Scale",
-                props.ParallaxScaleProp.Value,
-                props.ParallaxScaleProp.Value.rangeLimits.x,
-                props.ParallaxScaleProp.Value.rangeLimits.y);
+                "Strength",
+                props.ParallaxStrengthProp.Value,
+                props.ParallaxStrengthProp.Value.rangeLimits.x,
+                props.ParallaxStrengthProp.Value.rangeLimits.y);
             
             MaterialEditorUtility.DrawEnumFlagsProperty<ParallaxMapTarget>(
                 _editor,

@@ -235,7 +235,10 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool us
     #endif
 
     #ifdef USE_PARALLAX_MAP
-    half2 parallaxOffset = GetParallaxMappingUVOffset(input.parallaxMapUVAndProgress.xy, input.parallaxMapUVAndProgress.z, _ParallaxMapChannel, _ParallaxScale, input.viewDirTS);
+    // Remap _ParallaxStrength to the valid range of parallax scale
+    // The valid range for parallax scale is usually between 0 and 0.1
+    half parallaxScale = lerp(0, 0.1, _ParallaxStrength);
+    half2 parallaxOffset = GetParallaxMappingUVOffset(input.parallaxMapUVAndProgress.xy, input.parallaxMapUVAndProgress.z, _ParallaxMapChannel, parallaxScale, input.viewDirTS);
     
     #if defined(_PARALLAX_MAP_TARGET_BASE)
     input.baseMapUVAndProgresses.xy += parallaxOffset;

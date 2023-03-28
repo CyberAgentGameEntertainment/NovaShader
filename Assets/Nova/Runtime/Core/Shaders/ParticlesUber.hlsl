@@ -139,7 +139,7 @@ SAMPLER(sampler_ParallaxMap2DArray);
 TEXTURE3D(_ParallaxMap3D);
 SAMPLER(sampler_ParallaxMap3D);
 half _ParallaxMapChannel;
-half _ParallaxScale;
+half _ParallaxStrength;
 float4 _ParallaxMap_ST;
 float4 _ParallaxMap2DArray_ST;
 float4 _ParallaxMap3D_ST;
