@@ -315,6 +315,12 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
             #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
 
+            // Parallax Map
+            // #pragma shader_feature_local _PARALLAX_MAP_TARGET_BASE
+            // #pragma shader_feature_local _PARALLAX_MAP_TARGET_TINT
+            // #pragma shader_feature_local _PARALLAX_MAP_TARGET_EMISSION
+            // #pragma shader_feature_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
+
             // Color Correction
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
 
@@ -385,6 +391,12 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
             #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
             #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
+
+            // Parallax Map
+            // #pragma shader_feature_local _PARALLAX_MAP_TARGET_BASE
+            // #pragma shader_feature_local _PARALLAX_MAP_TARGET_TINT
+            // #pragma shader_feature_local _PARALLAX_MAP_TARGET_EMISSION
+            // #pragma shader_feature_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
 
             // Color Correction
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
@@ -462,6 +474,12 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
             #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
 
+            // Parallax Map
+            // #pragma shader_feature_local _PARALLAX_MAP_TARGET_BASE
+            // #pragma shader_feature_local _PARALLAX_MAP_TARGET_TINT
+            // #pragma shader_feature_local _PARALLAX_MAP_TARGET_EMISSION
+            // #pragma shader_feature_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
+
             // NOTE : Not need in DepthNormals pass.
             // Color Correction
             // #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
@@ -532,6 +550,12 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
             #pragma shader_feature_local _FLOW_MAP_TARGET_EMISSION
             #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
+
+            // Parallax Map
+            // #pragma shader_feature_local _PARALLAX_MAP_TARGET_BASE
+            // #pragma shader_feature_local _PARALLAX_MAP_TARGET_TINT
+            // #pragma shader_feature_local _PARALLAX_MAP_TARGET_EMISSION
+            // #pragma shader_feature_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
 
             // NOTE : Not need in DepthNormals pass.
             // Color Correction
