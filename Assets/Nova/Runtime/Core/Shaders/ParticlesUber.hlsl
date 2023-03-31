@@ -600,7 +600,6 @@ float3 GetNormalWS(float3 normalTS, float3 tangentWS, float3 binormalWS, float3 
 inline half2 ParallaxOffset(in half height, in half scale, in half3 viewDirTS)
 {
     // 参考: URP公式視差メソッド ParallaxOffset1Step(height, scale, viewDirTS)
-    // todo-zyb: まだ改善余地がある
     half scaledHeight = -height * scale;
     half3 view = normalize(viewDirTS);
     view.z += 0.42;

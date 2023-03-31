@@ -250,12 +250,6 @@ namespace Nova.Editor.Core.Scripts
             DrawTexture(editor, textureProperty, drawTilingAndOffset, null, null, null, null);
         }
 
-        public static void DrawTexture(MaterialEditor editor, MaterialProperty textureProperty, 
-            bool drawTilingAndOffset, MaterialProperty channelsProperty)
-        {
-            DrawTexture(editor, textureProperty, drawTilingAndOffset, null, null, channelsProperty, null);
-        }
-
         /// <summary>
         ///     Draw a <see cref="Texture" /> type property with the custom coords for the offset.
         /// </summary>
