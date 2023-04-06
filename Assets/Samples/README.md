@@ -7,7 +7,7 @@
 | **Samples** ([English](README.md), [日本語](README_JA.md))
 | **Demo** ([English](../Demo/README.md), [日本語](../Demo/README_JA.md))
 
-# Sample Scene Usge
+# Sample Scene Usage
 
 ## Overview
 You can see the actual effects created with the NOVA shader in the sample scenes.
