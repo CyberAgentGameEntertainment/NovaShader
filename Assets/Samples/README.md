@@ -34,7 +34,7 @@ If you are using Unity Hub, select the folder from the Add button as shown below
   <img width=600 border="1" src="https://user-images.githubusercontent.com/47441314/144381447-b68eaabc-4332-4f49-91c0-992169df1afd.png">
 </p>
 
-You can then use the sample scene by opening the scene in [Assets/Samples](Assets/Samples).
+You can then use the sample scene by opening the scene in [Assets/Samples](.).
 
 #### Author
 Sample effects were created by [@Ugokashiya](https://twitter.com/Ugokashiya).
