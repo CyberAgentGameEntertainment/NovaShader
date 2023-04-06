@@ -34,7 +34,7 @@ Unity Hubを使用する場合、下図のようにAddボタンからフォル�
   <img width=600 border="1" src="https://user-images.githubusercontent.com/47441314/144381447-b68eaabc-4332-4f49-91c0-992169df1afd.png">
 </p>
 
-あとは[Assets/Samples](Assets/Samples)内のシーンを開くことでサンプルシーンを利用できます。
+あとは[Assets/Samples](.)内のシーンを開くことでサンプルシーンを利用できます。
 
 ## 作者
 サンプルエフェクトは[@Ugokashiya](https://twitter.com/Ugokashiya)氏に作成していただきました。
