@@ -7,7 +7,7 @@
 | **Samples** ([English](../Samples/README.md), [日本語](../Samples/README_JA.md))
 | **Demo** ([English](README.md), [日本語](README_JA.md))
 
-# Demo Scene Usge
+# Demo Scene Usage
 
 ## Overview
 The demo scene has some effects using simple materials.
