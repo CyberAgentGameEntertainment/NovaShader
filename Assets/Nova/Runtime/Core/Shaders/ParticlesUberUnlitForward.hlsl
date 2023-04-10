@@ -17,7 +17,7 @@ void InitializeInputData(out InputData inputData, Varyings input)
     inputData.normalWS = half3(0, 0, 1);
     inputData.viewDirectionWS = half3(0, 0, 1);
     inputData.shadowCoord = 0;
-    inputData.fogCoord = 0;
+    inputData.fogCoord = input.transitionEmissionProgresses.z;
     inputData.vertexLighting = half3(0, 0, 0);
     inputData.bakedGI = half3(0, 0, 0);
     inputData.normalizedScreenSpaceUV = 0;
