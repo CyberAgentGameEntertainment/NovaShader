@@ -53,6 +53,7 @@ For more information, please refer to the following documents, [Samples](Assets/
     - [Base Map](#base-map)
     - [Tint Color](#tint-color)
     - [Flow Map](#flow-map)
+    - [Parallax Map](#parallax-map)
     - [Color Correction](#color-correction)
     - [Alpha Transition](#alpha-transition)
     - [Emission](#emission)
