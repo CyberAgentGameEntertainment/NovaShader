@@ -54,6 +54,7 @@
     - [Base Map](#base-map)
     - [Tint Color](#tint-color)
     - [Flow Map](#flow-map)
+    - [Parallax Map](#parallax-map)
     - [Color Correction](#color-correction)
     - [Alpha Transition](#alpha-transition)
     - [Emission](#emission)
@@ -518,6 +519,68 @@ Flow Mapを使うとベースマップを指定した方向に歪ませること
 * Base Map
 * Tint Map
 * Alpha Transition Map
+* Emission Map
+</p>
+</td></tr>
+</tbody>
+</table>
+
+#### Parallax Map
+Parallax Mapを使うと視差効果が出せます
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/119645979/232398368-619f9c27-aa20-41d7-ad7f-04bcbd66ead1.png" alt="Parallax Map"><br>
+  <font color="grey">Parallax Map</font>
+</p>
+
+<table width="100%">
+<thead>
+<tr><td colspan="3"><b>プロパティ名</b></td><td><b>説明</b></td></tr>
+</thead>
+<tbody>
+<tr><td colspan="3"><b>Mode</b></td><td>
+<p>
+視差マップのモードを以下の選択肢から指定できます。
+</p>
+<p>
+<ul>
+<li>Single Texture: 通常の2Dテクスチャ（デフォルト）</li>
+<li>Flip Book: Flip-Bookアニメーション</li>
+<li>Flip Book Blending: ブレンドありのFlip-Bookアニメーション</li>
+</ul>
+</p>
+<p>
+選択したモードによってテクスチャの型が変わります。
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Texture</b></td><td>
+<p>
+視差マップを設定します。<br>
+</p>
+<p>
+ModeにFlip Bookを指定した場合には、<a href="https://docs.unity3d.com/2020.3/Documentation/Manual/class-Texture2DArray.html">Texture2DArray</a>を設定する必要があります。<br>
+ModeにFlip Book Blendingを指定した場合には、<a href="https://docs.unity3d.com/2020.3/Documentation/Manual/class-Texture3D.html">Texture3D</a>を設定する必要があります。<br>
+</p>
+視差マップの仕様は以下の通りです。
+<p>
+<ul>
+<li>指定されたチャンネルのカラーの値に基づいて、サーフェスの凹み具合を変えます</li>
+<li>値は0が元の状態で、1に近いほど凹み具合が上がります</li>
+</ul>
+色ではなく値としてテクスチャを使うので、テクスチャ設定のsRGB Colorのチェックを外す必要がある点に注意してください。
+</p>
+</td></tr>
+<tr><td colspan=3><b>Strength</b></td><td>
+<p>
+視差マップを適用する際の強度を設定します。
+</p>
+</td></tr>
+<tr><td colspan=3><b>Targets</b></td><td>
+<p>
+視差マップを適用する対象を設定します（複数選択可能）。
+
+* Base Map
+* Tint Map
 * Emission Map
 </p>
 </td></tr>
