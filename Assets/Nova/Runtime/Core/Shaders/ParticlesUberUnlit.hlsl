@@ -2,13 +2,16 @@
 #define NOVA_PARTICLESUBERUNLIT_INCLUDED
 
 #include "ParticlesUber.hlsl"
-
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/ParallaxMapping.hlsl"
 
 struct Attributes
 {
     float4 positionOS : POSITION;
     float4 color : COLOR;
     float3 normalOS : NORMAL;
+    #ifdef USE_PARALLAX_MAP
+    float4 tangentOS : TANGENT;
+    #endif
     float2 texcoord : TEXCOORD0;
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     INPUT_CUSTOM_COORD(1, 2)
@@ -39,6 +42,10 @@ struct Varyings
     #ifdef USE_PROJECTED_POSITION
     float4 projectedPosition : TEXCOORD8;
     #endif
+    #ifdef USE_PARALLAX_MAP
+    float3 viewDirTS : TEXCOORD9;
+    float3 parallaxMapUVAndProgress : TEXCOORD10;
+    #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -58,6 +65,12 @@ inline void InitializeVertexOutput(in Attributes input, in out Varyings output, 
     #ifdef USE_PROJECTED_POSITION
     output.projectedPosition = ComputeScreenPos(output.positionHCS);
     #endif
+    #ifdef USE_PARALLAX_MAP
+    half4 tangentWS = 0;
+    tangentWS.xyz = TransformObjectToWorldDir(input.tangentOS.xyz);
+    tangentWS.w = input.tangentOS.w * GetOddNegativeScale();
+    output.viewDirTS = GetViewDirectionTangentSpace(tangentWS, output.normalWS, output.viewDirWS);
+    #endif
 }
 
 inline void InitializeFragmentInput(in out Varyings input)
@@ -68,6 +81,9 @@ inline void InitializeFragmentInput(in out Varyings input)
 
     #ifdef FRAGMENT_USE_VIEW_DIR_WS
     input.viewDirWS = normalize(input.viewDirWS);
+    #endif
+    #ifdef USE_PARALLAX_MAP
+    input.viewDirTS = normalize(input.viewDirTS);
     #endif
 }
 
@@ -132,6 +148,15 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     output.flowTransitionUVs.xy = TRANSFORM_TEX(input.texcoord.xy, _FlowMap);
     output.flowTransitionUVs.x += GET_CUSTOM_COORD(_FlowMapOffsetXCoord);
     output.flowTransitionUVs.y += GET_CUSTOM_COORD(_FlowMapOffsetYCoord);
+    #endif
+
+    // Parallax Map UV
+    #if defined(USE_PARALLAX_MAP)
+    output.parallaxMapUVAndProgress.xy = TRANSFORM_PARALLAX_MAP(input.texcoord.xy)
+    output.parallaxMapUVAndProgress.x += GET_CUSTOM_COORD(_ParallaxMapOffsetXCoord);
+    output.parallaxMapUVAndProgress.y += GET_CUSTOM_COORD(_ParallaxMapOffsetYCoord);
+    float parallaxMapProgress = _ParallaxMapProgress + GET_CUSTOM_COORD(_ParallaxMapProgressCoord);
+    output.parallaxMapUVAndProgress.z = FlipBookProgress(parallaxMapProgress, _ParallaxMapSliceCount);
     #endif
 
     // Transition Map UV
@@ -209,6 +234,25 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool us
     #endif
     #endif
 
+    #ifdef USE_PARALLAX_MAP
+    // Remap _ParallaxStrength to the valid range of parallax scale
+    // The valid range for parallax scale is usually between 0 and 0.1
+    half parallaxScale = lerp(0, 0.1, _ParallaxStrength);
+    half2 parallaxOffset = GetParallaxMappingUVOffset(input.parallaxMapUVAndProgress.xy, input.parallaxMapUVAndProgress.z, _ParallaxMapChannel, parallaxScale, input.viewDirTS);
+    
+    #if defined(_PARALLAX_MAP_TARGET_BASE)
+    input.baseMapUVAndProgresses.xy += parallaxOffset;
+    #endif
+
+    #if defined(_PARALLAX_MAP_TARGET_TINT) && (defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED))
+    input.tintEmissionUV.xy += parallaxOffset;
+    #endif
+
+    #if defined(_PARALLAX_MAP_TARGET_EMISSION) && defined(_EMISSION_AREA_MAP)
+    input.tintEmissionUV.zw += parallaxOffset;
+    #endif
+    #endif
+    
     // Base Color
     half4 color = SAMPLE_BASE_MAP(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z);
 

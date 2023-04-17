@@ -131,6 +131,24 @@ TEXTURE3D(_NormalMap3D);
 SAMPLER(sampler_NormalMap3D);
 half _NormalMapBumpScale;
 
+// Parallax Map
+TEXTURE2D(_ParallaxMap);
+SAMPLER(sampler_ParallaxMap);
+TEXTURE2D_ARRAY(_ParallaxMap2DArray);
+SAMPLER(sampler_ParallaxMap2DArray);
+TEXTURE3D(_ParallaxMap3D);
+SAMPLER(sampler_ParallaxMap3D);
+half _ParallaxMapChannel;
+half _ParallaxStrength;
+float4 _ParallaxMap_ST;
+float4 _ParallaxMap2DArray_ST;
+float4 _ParallaxMap3D_ST;
+float _ParallaxMapProgress;
+DECLARE_CUSTOM_COORD(_ParallaxMapProgressCoord);
+float _ParallaxMapSliceCount;
+DECLARE_CUSTOM_COORD(_ParallaxMapOffsetXCoord);
+DECLARE_CUSTOM_COORD(_ParallaxMapOffsetYCoord);
+
 // Specular Map
 TEXTURE2D(_SpecularMap);
 SAMPLER(sampler_SpecularMap);
@@ -188,6 +206,17 @@ SamplerState GetNormalMapSamplerState()
     #elif _BASE_MAP_MODE_3D
     return sampler_NormalMap3D;
     #endif
+    #endif
+}
+
+SamplerState GetParallaxMapSamplerState()
+{
+    #ifdef _PARALLAX_MAP_MODE_2D
+    return sampler_ParallaxMap;
+    #elif _PARALLAX_MAP_MODE_2D_ARRAY
+    return sampler_ParallaxMap2DArray;
+    #elif _PARALLAX_MAP_MODE_3D
+    return sampler_ParallaxMap3D;
     #endif
 }
 
@@ -310,6 +339,18 @@ SamplerState GetEmissionMapSamplerState()
 #define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE2D_ARRAY(_NormalMap2DArray, GetNormalMapSamplerState(), uv, progress), scale);
 #elif _BASE_MAP_MODE_3D
 #define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE3D_LOD(_NormalMap3D, GetNormalMapSamplerState(), float3(uv, progress), 0), scale);
+#endif
+
+// Sample the parallax map.
+#ifdef _PARALLAX_MAP_MODE_2D
+#define SAMPLE_PARALLAX_MAP(uv, progress) SAMPLE_TEXTURE2D(_ParallaxMap, GetParallaxMapSamplerState(), uv);
+#define TRANSFORM_PARALLAX_MAP(texcoord) TRANSFORM_TEX(texcoord, _ParallaxMap);
+#elif _PARALLAX_MAP_MODE_2D_ARRAY
+#define SAMPLE_PARALLAX_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_ParallaxMap2DArray, GetParallaxMapSamplerState(), uv, progress);
+#define TRANSFORM_PARALLAX_MAP(texcoord) TRANSFORM_TEX(texcoord, _ParallaxMap2DArray);
+#elif _PARALLAX_MAP_MODE_3D
+#define SAMPLE_PARALLAX_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_ParallaxMap3D, GetParallaxMapSamplerState(), float3(uv, progress), 0);
+#define TRANSFORM_PARALLAX_MAP(texcoord) TRANSFORM_TEX(texcoord, _ParallaxMap3D);
 #endif
 
 // Sample the metallic map.
@@ -554,3 +595,23 @@ float3 GetNormalWS(float3 normalTS, float3 tangentWS, float3 binormalWS, float3 
 #endif
 #endif
 
+// Parallax Map
+#ifdef USE_PARALLAX_MAP
+inline half2 ParallaxOffset(in half height, in half scale, in half3 viewDirTS)
+{
+    // 参考: URP公式視差メソッド ParallaxOffset1Step(height, scale, viewDirTS)
+    half scaledHeight = -height * scale;
+    half3 view = normalize(viewDirTS);
+    view.z += 0.42;
+    half2 offset = view.xy / view.z * scaledHeight;
+    return offset;
+}
+
+inline half2 GetParallaxMappingUVOffset(in half2 uv, in half progress, in half channel, in half scale, in half3 viewDirTS)
+{
+    half4 map = SAMPLE_PARALLAX_MAP(uv, progress);
+    half height = map[(int)channel];
+    half2 offset = ParallaxOffset(height, scale, viewDirTS);    
+    return offset;
+}
+#endif

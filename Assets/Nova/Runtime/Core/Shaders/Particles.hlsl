@@ -4,10 +4,14 @@
 #include "ParticlesInstancing.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
 
-#if defined(_TRANSPARENCY_BY_RIM) || defined(_TINT_AREA_RIM)
+#if defined(_PARALLAX_MAP_TARGET_BASE) || defined(_PARALLAX_MAP_TARGET_TINT) || defined(_PARALLAX_MAP_TARGET_EMISSION)
+#define USE_PARALLAX_MAP
+#endif
+
+#if defined(_TRANSPARENCY_BY_RIM) || defined(_TINT_AREA_RIM) || defined(USE_PARALLAX_MAP)
 #define FRAGMENT_USE_VIEW_DIR_WS
 #endif
-#if defined(_TRANSPARENCY_BY_RIM) || defined(_TINT_AREA_RIM) || defined(DEPTH_NORMALS_PASS)
+#if defined(_TRANSPARENCY_BY_RIM) || defined(_TINT_AREA_RIM) || defined(DEPTH_NORMALS_PASS) || defined(USE_PARALLAX_MAP)
 #define FRAGMENT_USE_NORMAL_WS
 #endif
 

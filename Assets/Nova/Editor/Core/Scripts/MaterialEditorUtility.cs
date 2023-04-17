@@ -503,6 +503,36 @@ namespace Nova.Editor.Core.Scripts
                 }
             });
         }
+        
+        /// <summary>
+        /// Draw a float type property with the slider.
+        /// </summary>
+        /// <param name="editor"></param>
+        /// <param name="label"></param>
+        /// <param name="property"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        public static void DrawFloatRangeProperty(MaterialEditor editor, string label, MaterialProperty property, 
+            float min,
+            float max)
+        {
+            DrawProperty(label, rect =>
+            {
+                var value = property.floatValue;
+                using (var ccs = new EditorGUI.ChangeCheckScope())
+                {
+                    EditorGUI.showMixedValue = property.hasMixedValue;
+                    value = EditorGUI.Slider(rect, value, min, max);
+                    EditorGUI.showMixedValue = false;
+
+                    if (ccs.changed)
+                    {
+                        editor.RegisterPropertyChangeUndo(property.name);
+                        property.floatValue = value;
+                    }
+                }
+            });
+        }
 
         /// <summary>
         ///     Draw a enum type property.

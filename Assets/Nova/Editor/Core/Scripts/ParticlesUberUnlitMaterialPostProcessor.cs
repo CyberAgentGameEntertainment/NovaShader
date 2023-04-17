@@ -27,7 +27,7 @@ namespace Nova.Editor.Core.Scripts
 
         private static readonly int BaseMapRotationCoordId =
             Shader.PropertyToID(MaterialPropertyNames.BaseMapRotationCoord);
-
+        
         private static readonly int TintAreaModeId = Shader.PropertyToID(MaterialPropertyNames.TintAreaMode);
         private static readonly int TintMapModeId = Shader.PropertyToID(MaterialPropertyNames.TintColorMode);
         private static readonly int FlowMapId = Shader.PropertyToID(MaterialPropertyNames.FlowMap);
@@ -35,6 +35,12 @@ namespace Nova.Editor.Core.Scripts
 
         private static readonly int FlowIntensityCoordId =
             Shader.PropertyToID(MaterialPropertyNames.FlowIntensityCoord);
+        
+        private static readonly int ParallaxMapModeId = Shader.PropertyToID(MaterialPropertyNames.ParallaxMapMode);
+        private static readonly int ParallaxMapId = Shader.PropertyToID(MaterialPropertyNames.ParallaxMap);
+        private static readonly int ParallaxMap2DArrayId = Shader.PropertyToID(MaterialPropertyNames.ParallaxMap2DArray);
+        private static readonly int ParallaxMap3DId = Shader.PropertyToID(MaterialPropertyNames.ParallaxMap3D);
+        private static readonly int ParallaxMapTargetId = Shader.PropertyToID(MaterialPropertyNames.ParallaxMapTarget);
 
         private static readonly int ColorCorrectionModeId =
             Shader.PropertyToID(MaterialPropertyNames.ColorCorrectionMode);
@@ -87,6 +93,7 @@ namespace Nova.Editor.Core.Scripts
         {
             SetupDrawSettingsMaterialKeywords(material);
             SetupBaseColorMaterialKeywords(material);
+            SetupParallaxMapMaterialKeywords(material);
             SetupFlowMapMaterialKeywords(material);
             SetupAlphaTransitionMaterialKeywords(material);
             SetupEmissionMaterialKeywords(material);
@@ -213,6 +220,41 @@ namespace Nova.Editor.Core.Scripts
             
             var emissionEnabled = hasFlowMap && (flowMapTarget & FlowMapTarget.EmissionMap) != 0;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetEmission, emissionEnabled);
+        }
+
+        private static void SetupParallaxMapMaterialKeywords(Material material)
+        {
+            var parallaxMapMode = (ParallaxMapMode)material.GetFloat(ParallaxMapModeId);
+            foreach (ParallaxMapMode value in Enum.GetValues(typeof(ParallaxMapMode)))
+            {
+                var isOn = parallaxMapMode == value;
+                var keyword = value.GetShaderKeyword();
+                MaterialEditorUtility.SetKeyword(material, keyword, isOn);
+            }
+            
+            bool hasParallaxMap = false;
+            switch (parallaxMapMode)
+            {
+                case ParallaxMapMode.SingleTexture:
+                    hasParallaxMap = material.GetTexture(ParallaxMapId);
+                    break;
+                case ParallaxMapMode.FlipBook:
+                    hasParallaxMap = material.GetTexture(ParallaxMap2DArrayId);
+                    break;
+                case ParallaxMapMode.FlipBookBlending:
+                    hasParallaxMap = material.GetTexture(ParallaxMap3DId);
+                    break;
+            }
+
+            var parallaxMapTarget = (ParallaxMapTarget)material.GetFloat(ParallaxMapTargetId);
+            var baseEnabled = hasParallaxMap && (parallaxMapTarget &　ParallaxMapTarget.BaseMap) != 0;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.ParallaxMapTargetBase, baseEnabled);
+            
+            var tintEnabled = hasParallaxMap && (parallaxMapTarget & ParallaxMapTarget.TintMap) != 0;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.ParallaxMapTargetTint, tintEnabled);
+
+            var emissionEnabled = hasParallaxMap && (parallaxMapTarget & ParallaxMapTarget.EmissionMap) != 0;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.ParallaxMapTargetEmission, emissionEnabled);
         }
 
         private static void SetupAlphaTransitionMaterialKeywords(Material material)

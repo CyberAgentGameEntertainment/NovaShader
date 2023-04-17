@@ -83,6 +83,8 @@ namespace Nova.Editor.Core.Scripts
             _commonGUI.DrawTintColorProperties();
             // Flow Map
             _commonGUI.DrawFlowMapProperties();
+            // Parallax Map
+            _commonGUI.DrawParallaxMapProperties();
             // Color Correction
             _commonGUI.DrawColorCorrectionProperties();
             // Alpha Transition
