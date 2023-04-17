@@ -517,6 +517,66 @@ Set the targets to which the flow map will be applied (multiple selections are p
 </tbody>
 </table>
 
+#### Parallax Map
+Parallax Map can create a parallax effect.
+
+<p align="center">
+  <img width="60%" src="https://user-images.githubusercontent.com/119645979/232398368-619f9c27-aa20-41d7-ad7f-04bcbd66ead1.png" alt="Parallax Map"><br>
+  <font color="grey">Parallax Map</font>
+</p>
+<table width="100%">
+<thead>
+<tr><td colspan="3"><b>Property</b></td><td><b>Description</b></td></tr>
+</thead>
+<tbody>
+<tr><td colspan="3"><b>Mode</b></td><td>
+<p>
+Specifies the mode of the parallax map from the following options:
+</p>
+<p>
+<ul>
+<li>Single Texture: Regular 2D texture (default)</li>
+<li>Flip Book: Flip-Book animation</li>
+<li>Flip Book Blending: Flip-Book animation with blending</li>
+</ul>
+</p>
+<p>
+The texture type changes depending on the selected mode.
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Texture</b></td><td>
+<p>
+Sets the parallax map.<br>
+</p>
+<p>
+If Flip Book is selected in Mode, a <a href="https://docs.unity3d.com/2020.3/Documentation/Manual/class-Texture2DArray.html">Texture2DArray</a> needs to be set.<br>
+If Flip Book Blending is selected in Mode, a <a href="https://docs.unity3d.com/2020.3/Documentation/Manual/class-Texture3D.html">Texture3D</a> needs to be set.<br>
+</p>
+The specifications of the parallax map are as follows:
+<p>
+<ul>
+<li>Changes the surface's concavity based on the color value of the specified channel</li>
+<li>The value of 0 is the original state, and the closer it gets to 1, the more concave it becomes</li>
+</ul>
+Since a texture is used as a value, not a color, be sure to uncheck the sRGB Color checkbox in the texture settings.
+</p>
+</td></tr>
+<tr><td colspan=3><b>Strength</b></td><td>
+<p>
+Sets the strength of the parallax map when applied.
+</p>
+</td></tr>
+<tr><td colspan=3><b>Targets</b></td><td>
+<p>
+Sets the targets to apply the parallax map (multiple selection possible).
+Base Map
+Tint Map
+Emission Map
+</p>
+</td></tr>
+</tbody>
+</table>
+
 #### Color Correction
 Color Correction correct the colors up to this point.
 
