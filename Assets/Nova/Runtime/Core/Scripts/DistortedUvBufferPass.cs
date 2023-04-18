@@ -36,7 +36,7 @@ namespace Nova.Runtime.Core.Scripts
 
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
-            var cmd = CommandBufferPool.Get(ProfilerTag);
+            var cmd = CommandBufferPool.Get();
             cmd.Clear();
             cmd.SetRenderTarget(_renderTargetIdentifier, _getCameraDepthTargetIdentifier.Invoke());
             cmd.ClearRenderTarget(false, true, Color.grey);
