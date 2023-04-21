@@ -34,12 +34,15 @@ namespace Nova.Runtime.Core.Scripts
             _getCameraDepthTargetIdentifier = getCameraDepthTargetIdentifier;
         }
 
+        public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
+        {
+            ConfigureTarget(_renderTargetIdentifier, _getCameraDepthTargetIdentifier.Invoke());
+            ConfigureClear(ClearFlag.Color, Color.gray);
+        }
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
-            var cmd = CommandBufferPool.Get(ProfilerTag);
+            var cmd = CommandBufferPool.Get();
             cmd.Clear();
-            cmd.SetRenderTarget(_renderTargetIdentifier, _getCameraDepthTargetIdentifier.Invoke());
-            cmd.ClearRenderTarget(false, true, Color.grey);
 
             using (new ProfilingScope(cmd, _profilingSampler))
             {
