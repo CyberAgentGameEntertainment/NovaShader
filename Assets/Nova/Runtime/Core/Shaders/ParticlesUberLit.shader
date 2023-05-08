@@ -432,7 +432,7 @@ Shader "Nova/Particles/UberLit"
                 "LightMode" = "DepthNormals"
             }
 
-            ZWrite[_ZWrite]
+            ZWrite On
             Cull[_Cull]
             ColorMask RGB
             Lighting Off
@@ -512,7 +512,7 @@ Shader "Nova/Particles/UberLit"
                 "LightMode" = "DepthOnly"
             }
 
-            ZWrite[_ZWrite]
+            ZWrite On
             Cull[_Cull]
             ColorMask RGB
             Lighting Off
