@@ -3,7 +3,7 @@ namespace Publishing.AssetStore.Editor
     internal static class Paths
     {
         public const string OldRootFolderAssetPath = "Assets/Nova";
-        public const string NewRootFolderAssetPath = "Assets/Nova Shader";
+        public const string NewRootFolderAssetPath = "Assets/NOVA Shader";
         public const string OldDemoSamplesRootFolderAssetPath = "Assets";
         public const string NewDemoSamplesFolderName = "Demo & Samples";
         public const string DemoFolderName = "Demo";
