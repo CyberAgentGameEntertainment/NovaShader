@@ -355,6 +355,9 @@ namespace Nova.Editor.Core.Scripts
                 RenderPriorityMin, RenderPriorityMax);
             MaterialEditorUtility.DrawEnumProperty<VertexAlphaMode>(_editor, "Vertex Alpha Mode",
                 props.VertexAlphaModeProp.Value);
+            MaterialEditorUtility.DrawEnumProperty<ZWriteOverride>(_editor, "ZWrite",
+                props.ZWriteOverrideProp.Value);
+            MaterialEditorUtility.DrawEnumProperty<ZTest>(_editor, "ZTest", props.ZTestProp.Value);
         }
 
         private void InternalDrawBaseMapProperties()
