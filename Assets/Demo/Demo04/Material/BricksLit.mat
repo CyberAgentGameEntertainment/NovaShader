@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: f591f564363e74c0b8ce9ceec26400d8, type: 3}
+        m_Texture: {fileID: 2800000, guid: e5c1bb044a69c48868c1f381762bbcea, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap2DArray:
@@ -108,7 +108,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 2c0dae565f7944acdb7f6db9b1074f0e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0622575250b2741d3ac55096db6fe01d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap2DArray:
@@ -124,7 +124,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 2800000, guid: ce98de492b8424a1a9e7e2629989f281, type: 3}
+        m_Texture: {fileID: 2800000, guid: 843b9b5fc922146fa8b35e34c27e0716, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap2DArray:

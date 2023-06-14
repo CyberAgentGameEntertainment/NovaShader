@@ -69,7 +69,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 06bd51e99b5a14704859141ef54dd690, type: 3}
+        m_Texture: {fileID: 2800000, guid: 316a26b48938e4909a7fde4bee01f03e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap2DArray:
@@ -125,7 +125,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 2800000, guid: 06bd51e99b5a14704859141ef54dd690, type: 3}
+        m_Texture: {fileID: 2800000, guid: 316a26b48938e4909a7fde4bee01f03e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap2DArray:
