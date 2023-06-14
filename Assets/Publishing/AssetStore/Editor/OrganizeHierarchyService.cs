@@ -9,12 +9,13 @@ namespace Publishing.AssetStore.Editor
     {
         public void Execute()
         {
-            // Move README.md, README_JA.md, Third Party Notices.md, LICENSE.md to Assets/Nova
+            // Move README.md, README_JA.md, Third Party Notices.md, LICENSE.md, Documentation to Assets/Nova
             MoveProjectFile(Paths.ReadmeFileName, $"{Paths.OldRootFolderAssetPath}/{Paths.ReadmeFileName}");
             MoveProjectFile(Paths.JapaneseReadmeFileName, $"{Paths.OldRootFolderAssetPath}/{Paths.JapaneseReadmeFileName}");
             MoveProjectFile(Paths.ThirdPartyNoticesFileName,
                 $"{Paths.OldRootFolderAssetPath}/{Paths.ThirdPartyNoticesFileName}");
             MoveProjectFile(Paths.LicenseFileName, $"{Paths.OldRootFolderAssetPath}/{Paths.LicenseFileName}");
+            MoveProjectFolder(Paths.DocumentationFolderName, $"{Paths.OldRootFolderAssetPath}/{Paths.DocumentationFolderName}");
             AssetDatabase.Refresh();
 
             // Assets/Nova -> Assets/Nova Shader
@@ -54,6 +55,14 @@ namespace Publishing.AssetStore.Editor
             var oldPath = Path.Combine(projectFolderPath, oldRelativePath);
             var newPath = Path.Combine(projectFolderPath, newRelativePath);
             File.Move(oldPath, newPath);
+        }
+        
+        private static void MoveProjectFolder(string oldRelativePath, string newRelativePath)
+        {
+            var projectFolderPath = Path.GetDirectoryName(Application.dataPath);
+            var oldPath = Path.Combine(projectFolderPath, oldRelativePath);
+            var newPath = Path.Combine(projectFolderPath, newRelativePath);
+            Directory.Move(oldPath, newPath);
         }
     }
 }

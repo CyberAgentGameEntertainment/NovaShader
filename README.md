@@ -202,7 +202,7 @@ To use this shader, assign the `Nova/Particles/UberUnlit` shader to your materia
 The Render Settings control how the Material is rendered.
 
 <p align="center">
-  <img width="60%" src="Documentation/Images/unlit_rendersettings_01.png" alt="Render Settings"><br>
+  <img width="60%" src="Documentation~/Images/unlit_rendersettings_01.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 
@@ -949,7 +949,7 @@ The description of the added properties is as follows.
 The following red-framed properties have been added to Render Settings.
 
 <p align="center">
-  <img width="60%" src="Documentation/Images/lit_rendersettings_01.png" alt="Render Settings"><br>
+  <img width="60%" src="Documentation~/Images/lit_rendersettings_01.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 
@@ -1059,7 +1059,7 @@ To use this shader, assign the `Nova/Particles/Distortion` shader to your materi
 The Render Settings control how the Material is rendered.
 
 <p align="center">
-  <img width="60%" src="Documentation/Images/distortion_rendersettings_01.png" alt="Render Settings"><br>
+  <img width="60%" src="Documentation~/Images/distortion_rendersettings_01.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 

@@ -13,5 +13,6 @@ namespace Publishing.AssetStore.Editor
         public const string JapaneseReadmeFileName = "README_JA.md";
         public const string ThirdPartyNoticesFileName = "Third Party Notices.md";
         public const string LicenseFileName = "LICENSE.md";
+        public const string DocumentationFolderName = "Documentation~";
     }
 }

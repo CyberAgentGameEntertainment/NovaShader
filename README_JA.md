@@ -208,7 +208,7 @@ Inspectorから設定可能な各プロパティの説明は以下の通りで�
 Render Settingsではマテリアルの描画方法を制御できます。
 
 <p align="center">
-  <img width="60%" src="Documentation/Images/unlit_rendersettings_01.png" alt="Render Settings"><br>
+  <img width="60%" src="Documentation~/Images/unlit_rendersettings_01.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 
@@ -956,7 +956,7 @@ Uber LitシェーダーはUber Unlitシェーダーにライティングのた�
 Render Settingsには以下の赤枠で囲まれたプロパティが追加されています。
 
 <p align="center">
-  <img width="60%" src="Documentation/Images/lit_rendersettings_01.png" alt="Render Settings"><br>
+  <img width="60%" src="Documentation~/Images/lit_rendersettings_01.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 
@@ -1067,7 +1067,7 @@ Inspectorから設定可能な各プロパティの説明は以下の通りで�
 Render Settingsではマテリアルの描画方法を制御できます。
 
 <p align="center">
-  <img width="60%" src="Documentation/Images/distortion_rendersettings_01.png" alt="Render Settings"><br>
+  <img width="60%" src="Documentation~/Images/distortion_rendersettings_01.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 
