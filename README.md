@@ -202,7 +202,7 @@ To use this shader, assign the `Nova/Particles/UberUnlit` shader to your materia
 The Render Settings control how the Material is rendered.
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143199732-c5c72e4b-a3d1-48dd-84de-9aae264d1df4.png" alt="Render Settings"><br>
+  <img width="60%" src="Documentation~/Images/unlit_rendersettings_01.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 
@@ -276,6 +276,37 @@ You can specify how to use the alpha value of the vertex color from the followin
 <ul>
 <li>Alpha: Use as alpha value (Default).</li>
 <li>Transition Progress: Use as Progress in Alpha Transition function (see below).</li>
+</ul>
+</p>
+</td></tr>
+<tr><td colspan="3"><b>ZWrite</b></td><td>
+<p>
+You can set ZWrite value.
+</p>
+<p>
+<ul>
+<li>Auto: ZWrite is disabled when the Render Type is set to Transparent, and it is enabled when the Render Type is set to any other values.
+</li>
+<li>Off: ZWrite is always disabled.</li>
+<li>On: ZWrite is always enabled.</li>
+</ul>
+</p>
+</td></tr>
+<tr><td colspan="3"><b>ZTest</b></td><td>
+<p>
+You can set ZTest value.
+</p>
+<p>
+<ul>
+<li>Disabled</li>
+<li>Never</li>
+<li>Less</li>
+<li>Equal</li>
+<li>Less Equal (Default)</li>
+<li>Greater</li>
+<li>Not Equal</li>
+<li>Greater Equal</li>
+<li>Always</li>
 </ul>
 </p>
 </td></tr>
@@ -918,7 +949,7 @@ The description of the added properties is as follows.
 The following red-framed properties have been added to Render Settings.
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/187354711-18e8c4cc-e7c4-43ca-88ba-140121afa9bc.png" alt="Render Settings"><br>
+  <img width="60%" src="Documentation~/Images/lit_rendersettings_01.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 
@@ -1028,7 +1059,7 @@ To use this shader, assign the `Nova/Particles/Distortion` shader to your materi
 The Render Settings control how the Material is rendered.
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143212609-9a135eb7-d2d2-482c-bc79-73886852e92a.png" alt="Render Settings"><br>
+  <img width="60%" src="Documentation~/Images/distortion_rendersettings_01.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 
@@ -1046,6 +1077,24 @@ You can specify the rendering face from the following options.
 <li>Front (Default)</li>
 <li>Back</li>
 <li>Both</li>
+</ul>
+</p>
+</td></tr>
+<tr><td colspan="3"><b>ZTest</b></td><td>
+<p>
+You can set ZTest value.
+</p>
+<p>
+<ul>
+<li>Disabled</li>
+<li>Never</li>
+<li>Less</li>
+<li>Equal</li>
+<li>Less Equal (Default)</li>
+<li>Greater</li>
+<li>Not Equal</li>
+<li>Greater Equal</li>
+<li>Always</li>
 </ul>
 </p>
 </td></tr>

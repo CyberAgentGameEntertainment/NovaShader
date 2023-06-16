@@ -50,6 +50,8 @@ namespace Nova.Editor.Core.Scripts
             BlendSrcProp.Setup(properties);
             BlendDstProp.Setup(properties);
             ZWriteProp.Setup(properties);
+            ZWriteOverrideProp.Setup(properties);
+            ZTestProp.Setup(properties);
 
             // Base Color
             BaseMapModeProp.Setup(properties);
@@ -207,6 +209,11 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property BlendDstProp { get; } = new ParticlesGUI.Property(PropertyNames.BlendDst);
         public ParticlesGUI.Property BlendSrcProp { get; } = new ParticlesGUI.Property(PropertyNames.BlendSrc);
         public ParticlesGUI.Property ZWriteProp { get; } = new ParticlesGUI.Property(PropertyNames.ZWrite);
+        
+        public ParticlesGUI.Property ZWriteOverrideProp { get; } =
+            new ParticlesGUI.Property(PropertyNames.ZWriteOverride);
+        
+        public ParticlesGUI.Property ZTestProp { get; } = new ParticlesGUI.Property(PropertyNames.ZTest);
 
         #endregion
 

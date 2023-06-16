@@ -208,7 +208,7 @@ Inspectorから設定可能な各プロパティの説明は以下の通りで�
 Render Settingsではマテリアルの描画方法を制御できます。
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143199732-c5c72e4b-a3d1-48dd-84de-9aae264d1df4.png" alt="Render Settings"><br>
+  <img width="60%" src="Documentation~/Images/unlit_rendersettings_01.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 
@@ -283,6 +283,36 @@ Render Typeが同じ場合、Render Priorityが小さいものから先に描画
 <ul>
 <li>Alpha: アルファ値として扱う（デフォルト）</li>
 <li>Transition Progress: Alpha Transition機能（後述）のProgressとして使う</li>
+</ul>
+</p>
+</td></tr>
+<tr><td colspan="3"><b>ZWrite</b></td><td>
+<p>
+ZWriteを設定できます。
+</p>
+<p>
+<ul>
+<li>Auto: Render TypeがTransparentの時にはZWriteを無効に、それ以外の時にはZWriteを有効に設定する（デフォルト）</li>
+<li>Off: ZWriteを常に無効化する</li>
+<li>On: ZWriteを常に有効化する</li>
+</ul>
+</p>
+</td></tr>
+<tr><td colspan="3"><b>ZTest</b></td><td>
+<p>
+ZTestを設定できます。
+</p>
+<p>
+<ul>
+<li>Disabled</li>
+<li>Never</li>
+<li>Less</li>
+<li>Equal</li>
+<li>Less Equal（デフォルト）</li>
+<li>Greater</li>
+<li>Not Equal</li>
+<li>Greater Equal</li>
+<li>Always</li>
 </ul>
 </p>
 </td></tr>
@@ -926,7 +956,7 @@ Uber LitシェーダーはUber Unlitシェーダーにライティングのた�
 Render Settingsには以下の赤枠で囲まれたプロパティが追加されています。
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/187354711-18e8c4cc-e7c4-43ca-88ba-140121afa9bc.png" alt="Render Settings"><br>
+  <img width="60%" src="Documentation~/Images/lit_rendersettings_01.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 
@@ -1037,7 +1067,7 @@ Inspectorから設定可能な各プロパティの説明は以下の通りで�
 Render Settingsではマテリアルの描画方法を制御できます。
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143212609-9a135eb7-d2d2-482c-bc79-73886852e92a.png" alt="Render Settings"><br>
+  <img width="60%" src="Documentation~/Images/distortion_rendersettings_01.png" alt="Render Settings"><br>
   <font color="grey">Render Settings</font>
 </p>
 
@@ -1055,6 +1085,24 @@ Render Settingsではマテリアルの描画方法を制御できます。
 <li>Front: 前面のみ描画（デフォルト）</li>
 <li>Back: 背面のみ描画</li>
 <li>Both: 両面を描画</li>
+</ul>
+</p>
+</td></tr>
+<tr><td colspan="3"><b>ZTest</b></td><td>
+<p>
+ZTestを設定できます。
+</p>
+<p>
+<ul>
+<li>Disabled</li>
+<li>Never</li>
+<li>Less</li>
+<li>Equal</li>
+<li>Less Equal（デフォルト）</li>
+<li>Greater</li>
+<li>Not Equal</li>
+<li>Greater Equal</li>
+<li>Always</li>
 </ul>
 </p>
 </td></tr>

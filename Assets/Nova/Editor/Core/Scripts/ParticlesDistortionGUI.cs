@@ -17,6 +17,7 @@ namespace Nova.Editor.Core.Scripts
         #region Render Settings Material Properties
 
         private readonly Property _cullProp = new Property(PropertyNames.Cull);
+        private readonly Property _zTestProp = new Property(PropertyNames.ZTest);
 
         #endregion
 
@@ -24,6 +25,7 @@ namespace Nova.Editor.Core.Scripts
         {
             // Render Settings
             _cullProp.Setup(properties);
+            _zTestProp.Setup(properties);
 
             // Distortion
             _baseMapProp.Setup(properties);
@@ -134,6 +136,7 @@ namespace Nova.Editor.Core.Scripts
         private void DrawRenderSettingsProperties(MaterialEditor editor, MaterialProperty[] properties)
         {
             MaterialEditorUtility.DrawEnumProperty<RenderFace>(editor, "Render Face", _cullProp.Value);
+            MaterialEditorUtility.DrawEnumProperty<ZTest>(editor, "ZTest", _zTestProp.Value);
         }
 
         private void DrawDistortionProperties(MaterialEditor editor, MaterialProperty[] properties)

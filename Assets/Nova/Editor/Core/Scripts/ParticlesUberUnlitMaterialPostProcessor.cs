@@ -85,6 +85,7 @@ namespace Nova.Editor.Core.Scripts
         private static readonly int BlendSrcId = Shader.PropertyToID(MaterialPropertyNames.BlendSrc);
         private static readonly int BlendDstId = Shader.PropertyToID(MaterialPropertyNames.BlendDst);
         private static readonly int ZWriteId = Shader.PropertyToID(MaterialPropertyNames.ZWrite);
+        private static readonly int ZWriteOverrideId = Shader.PropertyToID(MaterialPropertyNames.ZWriteOverride);
 
         private static readonly int TransparentBlendModeId =
             Shader.PropertyToID(MaterialPropertyNames.TransparentBlendMode);
@@ -338,6 +339,15 @@ namespace Nova.Editor.Core.Scripts
             var alphaClip = renderType == RenderType.Cutout;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.AlphaTestEnabled, alphaClip);
 
+            // Return ZWrite value. If ZWrite Override is disabled, return the defaultValue.
+            // If ZWrite Override is enabled, return the override value.
+            int GetZWriteValue(int defaultValue)
+            {
+                var zWriteOverride = (ZWriteOverride)material.GetFloat(ZWriteOverrideId);
+                var zWrite = zWriteOverride == ZWriteOverride.Auto ? defaultValue : (int)zWriteOverride;
+                return zWrite;
+            }
+
             if (renderType == RenderType.Opaque)
             {
                 material.renderQueue = (int)RenderQueue.Geometry;
@@ -345,7 +355,7 @@ namespace Nova.Editor.Core.Scripts
                 material.renderQueue += (int)material.GetFloat(QueueOffsetId);
                 material.SetInt(BlendSrcId, (int)BlendMode.One);
                 material.SetInt(BlendDstId, (int)BlendMode.Zero);
-                material.SetInt(ZWriteId, 1);
+                material.SetInt(ZWriteId, GetZWriteValue(1));
                 material.DisableKeyword(ShaderKeywords.AlphaModulateEnabled);
             }
             else if (renderType == RenderType.Cutout)
@@ -355,7 +365,7 @@ namespace Nova.Editor.Core.Scripts
                 material.renderQueue += (int)material.GetFloat(QueueOffsetId);
                 material.SetInt(BlendSrcId, (int)BlendMode.One);
                 material.SetInt(BlendDstId, (int)BlendMode.Zero);
-                material.SetInt(ZWriteId, 1);
+                material.SetInt(ZWriteId, GetZWriteValue(1));
                 material.DisableKeyword(ShaderKeywords.AlphaModulateEnabled);
             }
             else if (renderType == RenderType.Transparent)
@@ -382,7 +392,7 @@ namespace Nova.Editor.Core.Scripts
                 }
 
                 material.SetOverrideTag("RenderType", "Transparent");
-                material.SetInt(ZWriteId, 0);
+                material.SetInt(ZWriteId, GetZWriteValue(0));
                 material.renderQueue = (int)RenderQueue.Transparent;
                 material.renderQueue += (int)material.GetFloat(QueueOffsetId);
             }

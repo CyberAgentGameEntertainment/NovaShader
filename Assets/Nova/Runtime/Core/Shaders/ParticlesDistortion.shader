@@ -4,6 +4,7 @@ Shader "Nova/Particles/Distortion"
     {
         // Render Settings
         _Cull("Cull", Float) = 2.0
+        _ZTest("ZTest", Float) = 4.0
 
         // Distortion
         _BaseMap("Base Map", 2D) = "grey" {}
@@ -70,7 +71,7 @@ Shader "Nova/Particles/Distortion"
             Cull[_Cull]
             ColorMask RG
             Lighting Off
-            ZTest LEqual
+            ZTest [_ZTest]
 
             HLSLPROGRAM
             #pragma vertex vert
