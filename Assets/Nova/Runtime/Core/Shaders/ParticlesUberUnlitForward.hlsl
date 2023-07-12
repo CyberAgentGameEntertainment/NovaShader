@@ -35,7 +35,7 @@ half4 frag(Varyings input) : SV_Target
     InputData inputData;
     InitializeInputData(inputData, input);
 
-    half4 color = fragUnlit(input, true, true);
+    half4 color = fragUnlit(input, true);
     #ifdef DEBUG_DISPLAY  // for backward compatibility
     color = UniversalFragmentUnlit(inputData, color.rgb, color.a);
     #endif

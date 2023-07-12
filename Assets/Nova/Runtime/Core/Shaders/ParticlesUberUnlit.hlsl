@@ -201,7 +201,7 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     return output;
 }
 
-half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool useFog)
+half4 fragUnlit(in out Varyings input, uniform bool useEmission)
 {
     UNITY_SETUP_INSTANCE_ID(input);
     SETUP_FRAGMENT;
@@ -297,12 +297,7 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission, uniform bool us
                            _EmissionMapChannelsX);
         #endif
     }
-    if (useFog)
-    {
-        // Fog
-        half fogFactor = input.transitionEmissionProgresses.z;
-        color.rgb = MixFog(color.rgb, fogFactor);
-    }
+    
     // Rim Transparency
     #ifdef _TRANSPARENCY_BY_RIM
     half rimTransparencyProgress = _RimTransparencyProgress + GET_CUSTOM_COORD(_RimTransparencyProgressCoord);
