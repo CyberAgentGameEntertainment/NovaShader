@@ -233,7 +233,7 @@ VaryingsLit vertLit(AttributesLit input)
  */
 half4 fragLit(VaryingsLit input) : SV_Target
 {
-    half4 albedoColor = fragUnlit(input.varyingsUnlit, true, true);
+    half4 albedoColor = fragUnlit(input.varyingsUnlit, true);
 
     SurfaceData surfaceData;
     InitializeSurfaceData(surfaceData, input, albedoColor);

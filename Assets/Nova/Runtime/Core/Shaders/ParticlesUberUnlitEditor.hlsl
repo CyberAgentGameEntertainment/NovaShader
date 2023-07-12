@@ -16,13 +16,13 @@ Varyings vertEditor(Attributes input)
 
 half4 fragSceneHighlight(Varyings input) : SV_Target
 {
-    fragUnlit(input, false, false);
+    fragUnlit(input, false);
     return float4(_ObjectId, _PassValue, 1, 1);
 }
 
 half4 fragScenePicking(Varyings input) : SV_Target
 {
-    fragUnlit(input, false, false);
+    fragUnlit(input, false);
     return _SelectionID;
 }
 
