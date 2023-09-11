@@ -48,12 +48,13 @@ namespace Nova.Runtime.Core.Scripts
             {
                 context.ExecuteCommandBuffer(cmd);
                 cmd.Clear();
-                CommandBufferPool.Release(cmd);
 
                 var drawingSettings =
                     CreateDrawingSettings(_shaderTagId, ref renderingData, SortingCriteria.CommonTransparent);
                 context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref _filteringSettings);
             }
+            context.ExecuteCommandBuffer(cmd);
+            CommandBufferPool.Release(cmd);
         }
     }
 }
