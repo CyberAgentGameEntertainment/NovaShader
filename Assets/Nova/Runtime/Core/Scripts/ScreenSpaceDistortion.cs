@@ -19,6 +19,10 @@ namespace Nova.Runtime.Core.Scripts
         private ApplyDistortionPass _applyDistortionPass;
 
         private DistortedUvBufferPass _distortedUvBufferPass;
+        
+    #if UNITY_2022_1_OR_NEWER
+        private RTHandle _distortedUvBufferRTHandle;
+    #endif
 
         public override void Create()
         {
@@ -32,21 +36,33 @@ namespace Nova.Runtime.Core.Scripts
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
             if (_applyDistortionShader == null || renderingData.cameraData.cameraType == CameraType.Reflection) return;
-            var cameraTargetDesciptor = renderingData.cameraData.cameraTargetDescriptor;
 
             var distortedUvBufferFormat = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RGHalf)
                 ? RenderTextureFormat.RGHalf
                 : RenderTextureFormat.DefaultHDR;
-            var distortedUvBuffer = RenderTexture.GetTemporary(cameraTargetDesciptor.width,
-                cameraTargetDesciptor.height, 0, distortedUvBufferFormat, RenderTextureReadWrite.Default,
-                cameraTargetDesciptor.msaaSamples);
+            
+        #if UNITY_2022_1_OR_NEWER
+            var desc = renderingData.cameraData.cameraTargetDescriptor;
+            desc.depthBufferBits = 0;
+            desc.colorFormat = distortedUvBufferFormat;
+            RenderingUtils.ReAllocateIfNeeded(ref _distortedUvBufferRTHandle, desc);
+            _distortedUvBufferPass.Setup(_distortedUvBufferRTHandle);
+            _applyDistortionPass.Setup(_distortedUvBufferRTHandle);
+        #else
+            var cameraTargetDescriptor = renderingData.cameraData.cameraTargetDescriptor;
+            var distortedUvBuffer = RenderTexture.GetTemporary(cameraTargetDescriptor.width,
+                cameraTargetDescriptor.height, 0, distortedUvBufferFormat, RenderTextureReadWrite.Default,
+                cameraTargetDescriptor.msaaSamples);
             var distortedUvBufferIdentifier = new RenderTargetIdentifier(distortedUvBuffer);
 
             _distortedUvBufferPass.Setup(distortedUvBufferIdentifier, () => renderer.cameraDepthTarget);
             _applyDistortionPass.Setup(renderer, distortedUvBufferIdentifier);
+        #endif
             renderer.EnqueuePass(_distortedUvBufferPass);
             renderer.EnqueuePass(_applyDistortionPass);
+        #if !UNITY_2022_1_OR_NEWER
             RenderTexture.ReleaseTemporary(distortedUvBuffer);
+        #endif
         }
     }
 }

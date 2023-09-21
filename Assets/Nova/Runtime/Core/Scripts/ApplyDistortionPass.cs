@@ -51,12 +51,24 @@ namespace Nova.Runtime.Core.Scripts
             {
                 return;
             }
+            
+        #if UNITY_2022_1_OR_NEWER
+            // todo:後で詳しくGUI周りを調査する
+            // マテリアルGUI描画時、なぜかここがNullでエラーが出てしまうので、とりあえずNullチェックを入れる
+            // ランタイム実行に影響がない
+            if (renderingData.cameraData.renderer.cameraColorTargetHandle.rt == null)
+            {
+                return;
+            }
+            var source = renderingData.cameraData.renderer.cameraColorTargetHandle.nameID;
+        #else
+            var source = _renderer.cameraColorTarget;
+        #endif
 
             var cmd = CommandBufferPool.Get();
             cmd.Clear();
             using (new ProfilingScope(cmd, _renderPassProfilingSampler))
             {
-                var source = _renderer.cameraColorTarget;
                 var tempTargetDescriptor = renderingData.cameraData.cameraTargetDescriptor;
                 tempTargetDescriptor.depthBufferBits = 0;
                 cmd.GetTemporaryRT(_tempRenderTargetHandle.id, tempTargetDescriptor);

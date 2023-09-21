@@ -30,6 +30,7 @@ SAMPLER(sampler_FlowMap);
 TEXTURE2D(_AlphaTransitionMap);
 SAMPLER(sampler_AlphaTransitionMap);
 
+CBUFFER_START(UnityPerMaterial)
 float4 _BaseMap_ST;
 DECLARE_CUSTOM_COORD(_BaseMapOffsetXCoord);
 DECLARE_CUSTOM_COORD(_BaseMapOffsetYCoord);
@@ -64,5 +65,6 @@ float _SoftParticlesIntensity;
 float _DepthFadeNear;
 float _DepthFadeFar;
 float _DepthFadeWidth;
+CBUFFER_END
 
 #endif

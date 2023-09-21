@@ -18,7 +18,11 @@ namespace Nova.Runtime.Core.Scripts
         private Func<RenderTargetIdentifier> _getCameraDepthTargetIdentifier;
         private FilteringSettings _filteringSettings;
 
+    #if UNITY_2022_1_OR_NEWER
+        private RTHandle _renderTargetRTHandle;
+    #else
         private RenderTargetIdentifier _renderTargetIdentifier;
+    #endif
 
         public DistortedUvBufferPass(string lightMode)
         {
@@ -27,16 +31,27 @@ namespace Nova.Runtime.Core.Scripts
             _shaderTagId = new ShaderTagId(lightMode);
         }
 
+    #if UNITY_2022_1_OR_NEWER
+        public void Setup(RTHandle renderTargetRTHandle)
+        {
+            _renderTargetRTHandle = renderTargetRTHandle;
+        }
+    #else
         public void Setup(RenderTargetIdentifier renderTargetIdentifier,
             Func<RenderTargetIdentifier> getCameraDepthTargetIdentifier)
         {
             _renderTargetIdentifier = renderTargetIdentifier;
             _getCameraDepthTargetIdentifier = getCameraDepthTargetIdentifier;
         }
+    #endif
 
         public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
         {
+        #if UNITY_2022_1_OR_NEWER
+            ConfigureTarget(_renderTargetRTHandle);
+        #else
             ConfigureTarget(_renderTargetIdentifier, _getCameraDepthTargetIdentifier.Invoke());
+        #endif
             ConfigureClear(ClearFlag.Color, Color.gray);
         }
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
@@ -51,7 +66,14 @@ namespace Nova.Runtime.Core.Scripts
 
                 var drawingSettings =
                     CreateDrawingSettings(_shaderTagId, ref renderingData, SortingCriteria.CommonTransparent);
+                
+            #if UNITY_2023_1_OR_NEWER
+                var param = new RendererListParams(renderingData.cullResults, drawingSettings, _filteringSettings);
+                var renderList = context.CreateRendererList(ref param);
+                cmd.DrawRendererList(renderList);
+            #else
                 context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref _filteringSettings);
+            #endif
             }
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
