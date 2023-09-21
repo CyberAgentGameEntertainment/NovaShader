@@ -2,17 +2,31 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: mat_test_17
   m_Shader: {fileID: 4800000, guid: 65654f079f6f340b09f954eb6366ad5a, type: 3}
-  m_ShaderKeywords: _ALPHATEST_ENABLED _ALPHA_TRANSITION_MAP_MODE_2D _BASE_MAP_MODE_2D
-    _DISSOLVE_TRANSITION_ENABLED _EMISSION_AREA_ALPHA _EMISSION_COLOR_MAP _EMISSION_MAP_MODE_2D
-    _ENVIRONMENT_REFLECTIONS_ENABLED _METALLIC_MAP_ENABLED _NORMAL_MAP_ENABLED _SMOOTHNESS_MAP_ENABLED
-    _SPECULAR_HIGHLIGHTS_ENABLED _SPECULAR_MAP_ENABLED _SPECULAR_SETUP _TINT_COLOR_ENABLED
+  m_ValidKeywords:
+  - _ALPHATEST_ENABLED
+  - _ALPHA_TRANSITION_MAP_MODE_2D
+  - _BASE_MAP_MODE_2D
+  - _DISSOLVE_TRANSITION_ENABLED
+  - _EMISSION_AREA_ALPHA
+  - _EMISSION_COLOR_MAP
+  - _EMISSION_MAP_MODE_2D
+  - _ENVIRONMENT_REFLECTIONS_ENABLED
+  - _METALLIC_MAP_ENABLED
+  - _NORMAL_MAP_ENABLED
+  - _PARALLAX_MAP_MODE_2D
+  - _SMOOTHNESS_MAP_ENABLED
+  - _SPECULAR_HIGHLIGHTS_ENABLED
+  - _SPECULAR_MAP_ENABLED
+  - _SPECULAR_SETUP
+  - _TINT_COLOR_ENABLED
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
@@ -127,6 +141,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ParallaxMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SmoothnessMap:
         m_Texture: {fileID: 2800000, guid: 568737f2009916e40b4682067d4a56b8, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -163,6 +185,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _VertexDeformationMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -175,6 +201,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _AlphaClip: 0
     - _AlphaTransitionMapChannelsX: 0
@@ -253,6 +280,15 @@ Material:
     - _NormalMapBumpScale: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _ParallaxMapChannel: 0
+    - _ParallaxMapMode: 0
+    - _ParallaxMapOffsetXCoord: 0
+    - _ParallaxMapOffsetYCoord: 0
+    - _ParallaxMapProgress: 0
+    - _ParallaxMapProgressCoord: 0
+    - _ParallaxMapSliceCount: 4
+    - _ParallaxMapTarget: 1
+    - _ParallaxStrength: 0.3
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _RenderType: 1
@@ -290,8 +326,16 @@ Material:
     - _TransparentBlendMode: 0
     - _UseUIAlphaClip: 0
     - _VertexAlphaMode: 0
+    - _VertexDeformationEnabled: 0
+    - _VertexDeformationIntensity: 0.1
+    - _VertexDeformationIntensityCoord: 0
+    - _VertexDeformationMapChannel: 0
+    - _VertexDeformationMapOffsetXCoord: 0
+    - _VertexDeformationMapOffsetYCoord: 0
     - _WorkflowMode: 1
+    - _ZTest: 4
     - _ZWrite: 1
+    - _ZWriteOverride: -1
     m_Colors:
     - _BaseColor: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
     - _BaseMapRotationOffsets: {r: 0, g: 0, b: 0, a: 0}
