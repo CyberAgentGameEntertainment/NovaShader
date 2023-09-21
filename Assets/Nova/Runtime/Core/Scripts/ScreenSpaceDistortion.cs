@@ -54,9 +54,8 @@ namespace Nova.Runtime.Core.Scripts
                 cameraTargetDescriptor.height, 0, distortedUvBufferFormat, RenderTextureReadWrite.Default,
                 cameraTargetDescriptor.msaaSamples);
             var distortedUvBufferIdentifier = new RenderTargetIdentifier(distortedUvBuffer);
-
-            _distortedUvBufferPass.Setup(distortedUvBufferIdentifier, () => renderer.cameraDepthTarget);
-            _applyDistortionPass.Setup(renderer, distortedUvBufferIdentifier);
+            _distortedUvBufferPass.Setup(distortedUvBufferIdentifier);
+            _applyDistortionPass.Setup(distortedUvBufferIdentifier);
         #endif
             renderer.EnqueuePass(_distortedUvBufferPass);
             renderer.EnqueuePass(_applyDistortionPass);

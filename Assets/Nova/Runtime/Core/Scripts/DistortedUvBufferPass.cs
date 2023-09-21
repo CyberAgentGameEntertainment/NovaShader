@@ -2,7 +2,6 @@
 // Copyright 2021 CyberAgent, Inc.
 // --------------------------------------------------------------
 
-using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -15,7 +14,6 @@ namespace Nova.Runtime.Core.Scripts
         private readonly ProfilingSampler _profilingSampler = new ProfilingSampler(ProfilerTag);
         private readonly RenderQueueRange _renderQueueRange = RenderQueueRange.all;
         private readonly ShaderTagId _shaderTagId;
-        private Func<RenderTargetIdentifier> _getCameraDepthTargetIdentifier;
         private FilteringSettings _filteringSettings;
 
     #if UNITY_2022_1_OR_NEWER
@@ -37,11 +35,9 @@ namespace Nova.Runtime.Core.Scripts
             _renderTargetRTHandle = renderTargetRTHandle;
         }
     #else
-        public void Setup(RenderTargetIdentifier renderTargetIdentifier,
-            Func<RenderTargetIdentifier> getCameraDepthTargetIdentifier)
+        public void Setup(RenderTargetIdentifier renderTargetIdentifier)
         {
             _renderTargetIdentifier = renderTargetIdentifier;
-            _getCameraDepthTargetIdentifier = getCameraDepthTargetIdentifier;
         }
     #endif
 
@@ -50,7 +46,7 @@ namespace Nova.Runtime.Core.Scripts
         #if UNITY_2022_1_OR_NEWER
             ConfigureTarget(_renderTargetRTHandle);
         #else
-            ConfigureTarget(_renderTargetIdentifier, _getCameraDepthTargetIdentifier.Invoke());
+            ConfigureTarget(_renderTargetIdentifier);
         #endif
             ConfigureClear(ClearFlag.Color, Color.gray);
         }

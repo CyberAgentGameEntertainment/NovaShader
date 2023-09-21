@@ -8,7 +8,6 @@ Shader "Hidden/Nova/Particles/ApplyDistortion"
             #pragma vertex Vert
             #pragma fragment frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-
         #if UNITY_VERSION >= 202200
             #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
         #endif

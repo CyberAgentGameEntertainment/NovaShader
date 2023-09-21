@@ -11,32 +11,24 @@ namespace Nova.Runtime.Core.Scripts
     public sealed class ApplyDistortionPass : ScriptableRenderPass
     {
         private const string RenderPassName = nameof(ApplyDistortionPass);
-        private const string SrcToDestProfilingSamplerName = "SrcToDest";
-
         private readonly bool _applyToSceneView;
         private readonly int _distortionBufferPropertyId = Shader.PropertyToID("_ScreenSpaceUvTexture");
         private readonly int _mainTexPropertyId = Shader.PropertyToID("_MainTex");
         private readonly Material _material;
-        private readonly ProfilingSampler _srcToDestProfilingSampler;
         private readonly ProfilingSampler _renderPassProfilingSampler;
         
-        private ScriptableRenderer _renderer;
         private RenderTargetIdentifier _distortedUvBufferIdentifier;
-        private RenderTargetHandle _tempRenderTargetHandle;
 
         public ApplyDistortionPass(bool applyToSceneView, Shader shader)
         {
             _applyToSceneView = applyToSceneView;
-            _srcToDestProfilingSampler = new ProfilingSampler(SrcToDestProfilingSamplerName);
             _renderPassProfilingSampler = new ProfilingSampler(RenderPassName);
-            _tempRenderTargetHandle.Init("_TempRT");
             _material = CoreUtils.CreateEngineMaterial(shader);
             renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
         }
 
-        public void Setup(ScriptableRenderer renderer, RenderTargetIdentifier distortedUvBufferIdentifier)
+        public void Setup(RenderTargetIdentifier distortedUvBufferIdentifier)
         {
-            _renderer = renderer;
             _distortedUvBufferIdentifier = distortedUvBufferIdentifier;
         }
 
@@ -62,26 +54,16 @@ namespace Nova.Runtime.Core.Scripts
             }
             var source = renderingData.cameraData.renderer.cameraColorTargetHandle.nameID;
         #else
-            var source = _renderer.cameraColorTarget;
+            var source = renderingData.cameraData.renderer.cameraColorTarget;
         #endif
 
             var cmd = CommandBufferPool.Get();
             cmd.Clear();
             using (new ProfilingScope(cmd, _renderPassProfilingSampler))
             {
-                var tempTargetDescriptor = renderingData.cameraData.cameraTargetDescriptor;
-                tempTargetDescriptor.depthBufferBits = 0;
-                cmd.GetTemporaryRT(_tempRenderTargetHandle.id, tempTargetDescriptor);
-
-                using (new ProfilingScope(cmd, _srcToDestProfilingSampler))
-                {
-                    cmd.SetGlobalTexture(_mainTexPropertyId, source);
-                    cmd.SetGlobalTexture(_distortionBufferPropertyId, _distortedUvBufferIdentifier);
-                    Blit(cmd, source, _tempRenderTargetHandle.Identifier(), _material);
-                }
-
-                Blit(cmd, _tempRenderTargetHandle.Identifier(), source);
-                cmd.ReleaseTemporaryRT(_tempRenderTargetHandle.id);
+                cmd.SetGlobalTexture(_mainTexPropertyId, source);
+                cmd.SetGlobalTexture(_distortionBufferPropertyId, _distortedUvBufferIdentifier);
+                Blit(cmd, ref renderingData, _material);
             }
             
             context.ExecuteCommandBuffer(cmd);
