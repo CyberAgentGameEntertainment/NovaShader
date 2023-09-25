@@ -45,13 +45,6 @@ namespace Nova.Runtime.Core.Scripts
             }
             
         #if UNITY_2022_1_OR_NEWER
-            // todo:後で詳しくGUI周りを調査する
-            // マテリアルGUI描画時、なぜかここがNullでエラーが出てしまうので、とりあえずNullチェックを入れる
-            // ランタイム実行に影響がない
-            if (renderingData.cameraData.renderer.cameraColorTargetHandle.rt == null)
-            {
-                return;
-            }
             var source = renderingData.cameraData.renderer.cameraColorTargetHandle.nameID;
         #else
             var source = renderingData.cameraData.renderer.cameraColorTarget;

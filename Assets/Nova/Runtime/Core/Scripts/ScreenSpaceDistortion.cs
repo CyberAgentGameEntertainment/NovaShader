@@ -35,7 +35,10 @@ namespace Nova.Runtime.Core.Scripts
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
-            if (_applyDistortionShader == null || renderingData.cameraData.cameraType == CameraType.Reflection) return;
+            if (_applyDistortionShader == null 
+                || renderingData.cameraData.cameraType == CameraType.Reflection
+                || renderingData.cameraData.cameraType == CameraType.Preview)
+                return;
 
             var distortedUvBufferFormat = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RGHalf)
                 ? RenderTextureFormat.RGHalf
