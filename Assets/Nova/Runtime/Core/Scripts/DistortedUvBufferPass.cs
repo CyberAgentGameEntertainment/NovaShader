@@ -41,15 +41,17 @@ namespace Nova.Runtime.Core.Scripts
         }
     #endif
 
-        public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
+        public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
+            var renderer = renderingData.cameraData.renderer;
         #if UNITY_2022_1_OR_NEWER
-            ConfigureTarget(_renderTargetRTHandle);
+            ConfigureTarget(_renderTargetRTHandle, renderer.cameraDepthTargetHandle);
         #else
-            ConfigureTarget(_renderTargetIdentifier);
+            ConfigureTarget(_renderTargetIdentifier, renderer.cameraDepthTarget);
         #endif
             ConfigureClear(ClearFlag.Color, Color.gray);
         }
+
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             var cmd = CommandBufferPool.Get();
