@@ -86,7 +86,7 @@ For more information, please refer to the following documents, [Samples](Assets/
 ### Requirements
 This library is compatible with the following environments.
 
-* Unity 2020.3 or higher
+* Unity 2021.3 or higher
 * Universal Render Pipeline
 * Shader Model 3.5
 

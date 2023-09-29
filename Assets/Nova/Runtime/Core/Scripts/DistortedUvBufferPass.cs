@@ -2,7 +2,6 @@
 // Copyright 2021 CyberAgent, Inc.
 // --------------------------------------------------------------
 
-using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -15,10 +14,13 @@ namespace Nova.Runtime.Core.Scripts
         private readonly ProfilingSampler _profilingSampler = new ProfilingSampler(ProfilerTag);
         private readonly RenderQueueRange _renderQueueRange = RenderQueueRange.all;
         private readonly ShaderTagId _shaderTagId;
-        private Func<RenderTargetIdentifier> _getCameraDepthTargetIdentifier;
         private FilteringSettings _filteringSettings;
 
+    #if UNITY_2022_1_OR_NEWER
+        private RTHandle _renderTargetRTHandle;
+    #else
         private RenderTargetIdentifier _renderTargetIdentifier;
+    #endif
 
         public DistortedUvBufferPass(string lightMode)
         {
@@ -27,18 +29,29 @@ namespace Nova.Runtime.Core.Scripts
             _shaderTagId = new ShaderTagId(lightMode);
         }
 
-        public void Setup(RenderTargetIdentifier renderTargetIdentifier,
-            Func<RenderTargetIdentifier> getCameraDepthTargetIdentifier)
+    #if UNITY_2022_1_OR_NEWER
+        public void Setup(RTHandle renderTargetRTHandle)
+        {
+            _renderTargetRTHandle = renderTargetRTHandle;
+        }
+    #else
+        public void Setup(RenderTargetIdentifier renderTargetIdentifier)
         {
             _renderTargetIdentifier = renderTargetIdentifier;
-            _getCameraDepthTargetIdentifier = getCameraDepthTargetIdentifier;
         }
+    #endif
 
-        public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
+        public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
-            ConfigureTarget(_renderTargetIdentifier, _getCameraDepthTargetIdentifier.Invoke());
+            var renderer = renderingData.cameraData.renderer;
+        #if UNITY_2022_1_OR_NEWER
+            ConfigureTarget(_renderTargetRTHandle, renderer.cameraDepthTargetHandle);
+        #else
+            ConfigureTarget(_renderTargetIdentifier, renderer.cameraDepthTarget);
+        #endif
             ConfigureClear(ClearFlag.Color, Color.gray);
         }
+
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             var cmd = CommandBufferPool.Get();
@@ -51,7 +64,14 @@ namespace Nova.Runtime.Core.Scripts
 
                 var drawingSettings =
                     CreateDrawingSettings(_shaderTagId, ref renderingData, SortingCriteria.CommonTransparent);
+                
+            #if UNITY_2023_1_OR_NEWER
+                var param = new RendererListParams(renderingData.cullResults, drawingSettings, _filteringSettings);
+                var renderList = context.CreateRendererList(ref param);
+                cmd.DrawRendererList(renderList);
+            #else
                 context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref _filteringSettings);
+            #endif
             }
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
