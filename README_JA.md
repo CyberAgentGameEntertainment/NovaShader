@@ -87,7 +87,7 @@
 #### 要件
 本ライブラリは以下の環境に対応しています。
 
-* Unity 2020.3 以上
+* Unity 2021.3 以上
 * Universal Render Pipeline
 * Shader Model 3.5
 
