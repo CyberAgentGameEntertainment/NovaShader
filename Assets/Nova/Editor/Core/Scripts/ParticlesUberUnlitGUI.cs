@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2022 CyberAgent, Inc.
+// Copyright 2023 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using UnityEditor;
@@ -25,7 +25,7 @@ namespace Nova.Editor.Core.Scripts
         protected override void Initialize(MaterialEditor editor, MaterialProperty[] properties)
         {
             _commonGUI = new ParticlesUberCommonGUI(editor);
-            _commonMaterialProperties = new ParticlesUberCommonMaterialProperties(editor, properties);
+            _commonMaterialProperties = new ParticlesUberCommonMaterialProperties(properties);
         }
 
         protected override void DrawGUI(MaterialEditor editor, MaterialProperty[] properties)

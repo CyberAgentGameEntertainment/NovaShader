@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2022 CyberAgent, Inc.
+// Copyright 2023 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -8,7 +8,6 @@ using System.Linq;
 using Nova.Editor.Foundation.Scripts;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Nova.Editor.Core.Scripts
 {
@@ -20,204 +19,15 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesUberCommonGUI(MaterialEditor editor)
         {
             var material = editor.target as Material;
-            CacheRenderersUsingThisMaterial(material);
-        }
-
-        private bool IsEnabledGPUInstancing(ParticleSystemRenderer particleSystem)
-        {
-            return particleSystem.enableGPUInstancing && particleSystem.renderMode == ParticleSystemRenderMode.Mesh;
-        }
-
-        private bool IsCustomCoordUsed(ParticlesGUI.Property prop)
-        {
-            return (CustomCoord)prop.Value.floatValue !=
-                   CustomCoord.Unused;
-        }
-
-        private bool IsCustomCoordUsedInVertexDeformation()
-        {
-            var isCustomCoordUsed = IsCustomCoordUsed(_commonMaterialProperties.VertexDeformationMapOffsetXCoordProp)
-                                    || IsCustomCoordUsed(_commonMaterialProperties.VertexDeformationMapOffsetYCoordProp)
-                                    || IsCustomCoordUsed(_commonMaterialProperties.VertexDeformationIntensityCoordProp);
-            return isCustomCoordUsed;
-        }
-
-        private bool IsCustomCoordUsedInBaseMap()
-        {
-            var isCustomCoordUsed = IsCustomCoordUsed(_commonMaterialProperties.BaseMapOffsetXCoordProp)
-                                    || IsCustomCoordUsed(_commonMaterialProperties.BaseMapOffsetYCoordProp)
-                                    || IsCustomCoordUsed(_commonMaterialProperties.BaseMapRotationCoordProp)
-                                    || IsCustomCoordUsed(_commonMaterialProperties.BaseMapRotationCoordProp);
-            isCustomCoordUsed |= (BaseMapMode)_commonMaterialProperties.BaseMapModeProp.Value.floatValue !=
-                                 BaseMapMode.SingleTexture
-                                 && IsCustomCoordUsed(_commonMaterialProperties.BaseMapProgressProp);
-
-            isCustomCoordUsed |= (BaseMapMode)_commonMaterialProperties.BaseMapModeProp.Value.floatValue !=
-                                 BaseMapMode.SingleTexture
-                                 && IsCustomCoordUsed(_commonMaterialProperties.BaseMapProgressCoordProp);
-
-            return isCustomCoordUsed;
-        }
-
-        private bool IsCustomCoordUsedInTintColor()
-        {
-            var isCustomCoordUsed = false;
-            var tintAreaMode = (TintAreaMode)_commonMaterialProperties.TintAreaModeProp.Value.floatValue;
-            if (tintAreaMode != TintAreaMode.None)
-            {
-                isCustomCoordUsed |= IsCustomCoordUsed(_commonMaterialProperties.TintMapBlendRateCoordProp);
-                if (tintAreaMode == TintAreaMode.Rim)
-                    isCustomCoordUsed |= IsCustomCoordUsed(_commonMaterialProperties.TintRimProgressCoordProp)
-                                         || IsCustomCoordUsed(_commonMaterialProperties.TintRimSharpnessCoordProp);
-
-                var tintMapMode = (TintColorMode)_commonMaterialProperties.TintColorModeProp.Value.floatValue;
-                if (tintMapMode == TintColorMode.Texture3D)
-                    isCustomCoordUsed |= IsCustomCoordUsed(_commonMaterialProperties.TintMap3DProgressCoordProp);
-            }
-
-            return isCustomCoordUsed;
-        }
-
-        private bool IsCustomCoordUsedInFlowMap()
-        {
-            return IsCustomCoordUsed(_commonMaterialProperties.FlowMapOffsetXCoordProp)
-                   || IsCustomCoordUsed(_commonMaterialProperties.FlowMapOffsetYCoordProp)
-                   || IsCustomCoordUsed(_commonMaterialProperties.FlowIntensityCoordProp);
-        }
-        
-        private bool IsCustomCoordUsedInParallax()
-        {
-            var isCustomCoordUsed = IsCustomCoordUsed(_commonMaterialProperties.ParallaxMapOffsetXCoordProp)
-                                    || IsCustomCoordUsed(_commonMaterialProperties.ParallaxMapOffsetYCoordProp);
-            isCustomCoordUsed |= (ParallaxMapMode)_commonMaterialProperties.ParallaxMapModeProp.Value.floatValue != ParallaxMapMode.SingleTexture
-                                 && (IsCustomCoordUsed(_commonMaterialProperties.ParallaxMapProgressProp) 
-                                     || IsCustomCoordUsed(_commonMaterialProperties.ParallaxMapProgressCoordProp));
-
-            return isCustomCoordUsed;
-        }
-
-        private bool IsCustomCoordUsedInAlphaTransition()
-        {
-            var mode = (AlphaTransitionMode)_commonMaterialProperties.AlphaTransitionModeProp.Value.floatValue;
-            if (mode == AlphaTransitionMode.None) return false;
-            var isCustomCoordUsed = false;
-            isCustomCoordUsed = IsCustomCoordUsed(_commonMaterialProperties.AlphaTransitionProgressCoordProp);
-            isCustomCoordUsed |= IsCustomCoordUsed(_commonMaterialProperties.AlphaTransitionMapOffsetXCoordProp)
-                                 || IsCustomCoordUsed(_commonMaterialProperties.AlphaTransitionMapOffsetYCoordProp);
-            isCustomCoordUsed |=
-                (AlphaTransitionMapMode)_commonMaterialProperties.AlphaTransitionMapModeProp.Value.floatValue !=
-                AlphaTransitionMapMode.SingleTexture
-                && IsCustomCoordUsed(_commonMaterialProperties.AlphaTransitionMapProgressCoordProp);
-            return isCustomCoordUsed;
-        }
-
-
-        
-        private bool IsCustomCoordUsedInEmission()
-        {
-            var mode = (EmissionAreaType)_commonMaterialProperties.EmissionAreaTypeProp.Value.floatValue;
-            if (mode == EmissionAreaType.None) return false;
-            var isCustomCoordUsed = false;
-            isCustomCoordUsed = IsCustomCoordUsed(_commonMaterialProperties.EmissionIntensityCoordProp);
-            if (mode == EmissionAreaType.ByTexture)
-            {
-                isCustomCoordUsed |= IsCustomCoordUsed(_commonMaterialProperties.EmissionMapOffsetXCoordProp)
-                                     || IsCustomCoordUsed(_commonMaterialProperties.EmissionMapOffsetYCoordProp);
-                isCustomCoordUsed |= (EmissionMapMode)_commonMaterialProperties.EmissionMapModeProp.Value.floatValue !=
-                                     EmissionMapMode.SingleTexture
-                                     && IsCustomCoordUsed(_commonMaterialProperties.EmissionMapProgressCoordProp);
-            }
-
-            return isCustomCoordUsed;
-        }
-
-        private bool IsCustomCoordUsedInTransparency()
-        {
-            var isCustomCoordUsed = false;
-            var enabledRim = _commonMaterialProperties.RimTransparencyEnabledProp.Value.floatValue > 0.5f;
-            if (enabledRim)
-            {
-                isCustomCoordUsed |= IsCustomCoordUsed(_commonMaterialProperties.RimTransparencyProgressCoordProp);
-                isCustomCoordUsed |= IsCustomCoordUsed(_commonMaterialProperties.RimTransparencySharpnessCoordProp);
-            }
-
-            var enabledLuminance = _commonMaterialProperties.LuminanceTransparencyEnabledProp.Value.floatValue > 0.5f;
-            if (enabledLuminance)
-            {
-                isCustomCoordUsed |=
-                    IsCustomCoordUsed(_commonMaterialProperties.LuminanceTransparencyProgressCoordProp);
-                isCustomCoordUsed |=
-                    IsCustomCoordUsed(_commonMaterialProperties.LuminanceTransparencySharpnessCoordProp);
-            }
-
-            return isCustomCoordUsed;
-        }
-
-        private bool IsCustomCoordUsed()
-        {
-            if (_commonMaterialProperties == null) return false;
-
-            return IsCustomCoordUsedInVertexDeformation()
-                   || IsCustomCoordUsedInBaseMap()
-                   || IsCustomCoordUsedInTintColor()
-                   || IsCustomCoordUsedInFlowMap()
-                   || IsCustomCoordUsedInParallax()
-                   || IsCustomCoordUsedInAlphaTransition()
-                   || IsCustomCoordUsedInEmission()
-                   || IsCustomCoordUsedInTransparency();
-        }
-
-        private void SetupCorrectVertexStreams(Material material)
-        {
-            // Correct vertex streams when enabled GPU Instance.
-            _correctVertexStreamsInstanced.Clear();
-            _correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Position);
-            _correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Normal);
-            _correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Color);
-            _correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.UV);
-            _correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.UV2);
-            _correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Custom1XYZW);
-            _correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Custom2XYZW);
-
-            // Correct vertes streams when disabled GPU Instance. 
-            _correctVertexStreams.Clear();
-            _correctVertexStreams.Add(ParticleSystemVertexStream.Position);
-            _correctVertexStreams.Add(ParticleSystemVertexStream.Normal);
-            _correctVertexStreams.Add(ParticleSystemVertexStream.Color);
-            _correctVertexStreams.Add(ParticleSystemVertexStream.UV);
-            _correctVertexStreams.Add(ParticleSystemVertexStream.UV2);
-
-            // Is custom coord Used ?
-            if (IsCustomCoordUsed())
-            {
-                _correctVertexStreams.Add(ParticleSystemVertexStream.Custom1XYZW);
-                _correctVertexStreams.Add(ParticleSystemVertexStream.Custom2XYZW);
-            }
-
-            if (material.shader.name == "Nova/Particles/UberLit"
-                && material.IsKeywordEnabled(ShaderKeywords.NormalMapEnabled))
-            {
-                _correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Tangent);
-                _correctVertexStreams.Add(ParticleSystemVertexStream.Tangent);
-            }
-        }
-
-        private void CacheRenderersUsingThisMaterial(Material material)
-        {
-            _renderersUsingThisMaterial.Clear();
-
-            var renderers = Object.FindObjectsOfType(typeof(ParticleSystemRenderer)) as ParticleSystemRenderer[];
-            if (renderers == null) return;
-            foreach (var renderer in renderers)
-                if (renderer.sharedMaterial == material)
-                    _renderersUsingThisMaterial.Add(renderer);
+            _renderersUsingThisMaterial = RendererErrorHandler.FindRendererWithMaterial(material);
         }
 
         public void Setup(MaterialEditor editor, ParticlesUberCommonMaterialProperties commonMaterialProperties)
         {
             _editor = editor;
             _commonMaterialProperties = commonMaterialProperties;
-            SetupCorrectVertexStreams(_editor.target as Material);
+            RendererErrorHandler.SetupCorrectVertexStreams(_editor.target as Material, out _correctVertexStreams,
+                out _correctVertexStreamsInstanced, _commonMaterialProperties);
         }
 
         public void DrawRenderSettingsProperties(Action drawPropertiesFunc)
@@ -273,7 +83,7 @@ namespace Nova.Editor.Core.Scripts
             DrawProperties(_commonMaterialProperties.TransparencyFoldout,
                 "Transparency", InternalDrawTransparencyProperties);
         }
-        
+
         public void DrawVertexDeformationProperties()
         {
             DrawProperties(_commonMaterialProperties.VertexDeformationFoldout,
@@ -293,29 +103,13 @@ namespace Nova.Editor.Core.Scripts
 
         public void DrawFixNowButton()
         {
-            var hasError = false;
-
-            var rendererStreams = new List<ParticleSystemVertexStream>();
-            foreach (var renderer in _renderersUsingThisMaterial)
-            {
-                renderer.GetActiveVertexStreams(rendererStreams);
-                var streamsValid = false;
-                if (IsEnabledGPUInstancing(renderer))
-                    streamsValid = CompareVertexStreams(rendererStreams, _correctVertexStreamsInstanced);
-                else
-                    streamsValid = CompareVertexStreams(rendererStreams, _correctVertexStreams);
-                if (!streamsValid)
-                {
-                    hasError = true;
-                    break;
-                }
-            }
-
-            if (!hasError) return;
+            if (!RendererErrorHandler.CheckError(_renderersUsingThisMaterial, _correctVertexStreams,
+                    _correctVertexStreamsInstanced))
+                return;
 
             EditorGUILayout.HelpBox(
                 "Some particle System Renderers are using this material with incorrect Vertex Streams.\n" +
-                "Recommend that you press the Fix Now button to correct the error." 
+                "Recommend that you press the Fix Now button to correct the error."
                 , MessageType.Error, true);
             if (GUILayout.Button(StreamApplyToAllSystemsText, EditorStyles.miniButton,
                     GUILayout.ExpandWidth(true)))
@@ -323,10 +117,8 @@ namespace Nova.Editor.Core.Scripts
                 Undo.RecordObjects(
                     _renderersUsingThisMaterial.Where(r => r != null).ToArray(),
                     "Apply custom vertex streams from material");
-                foreach (var renderer in _renderersUsingThisMaterial)
-                    renderer.SetActiveVertexStreams(IsEnabledGPUInstancing(renderer)
-                        ? _correctVertexStreamsInstanced
-                        : _correctVertexStreams);
+                RendererErrorHandler.FixError(_renderersUsingThisMaterial, _correctVertexStreams,
+                    _correctVertexStreamsInstanced);
             }
         }
 
@@ -417,7 +209,7 @@ namespace Nova.Editor.Core.Scripts
                 MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Flip-Book Progress",
                     props.BaseMapProgressProp.Value, props.BaseMapProgressCoordProp.Value);
         }
-        
+
         private void InternalDrawParallaxMapsProperties()
         {
             var props = _commonMaterialProperties;
@@ -439,7 +231,7 @@ namespace Nova.Editor.Core.Scripts
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            
+
             using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
             {
                 MaterialEditorUtility.DrawTexture(
@@ -453,12 +245,15 @@ namespace Nova.Editor.Core.Scripts
 
                 if (changeCheckScope.changed)
                 {
-                    if (parallaxMapMode == ParallaxMapMode.FlipBook && props.ParallaxMap2DArrayProp.Value.textureValue != null)
+                    if (parallaxMapMode == ParallaxMapMode.FlipBook &&
+                        props.ParallaxMap2DArrayProp.Value.textureValue != null)
                     {
                         var tex2DArray = (Texture2DArray)props.ParallaxMap2DArrayProp.Value.textureValue;
                         props.ParallaxMapSliceCountProp.Value.floatValue = tex2DArray.depth;
                     }
-                    if (parallaxMapMode == ParallaxMapMode.FlipBookBlending && props.ParallaxMap3DProp.Value.textureValue != null)
+
+                    if (parallaxMapMode == ParallaxMapMode.FlipBookBlending &&
+                        props.ParallaxMap3DProp.Value.textureValue != null)
                     {
                         var tex3D = (Texture3D)props.ParallaxMap3DProp.Value.textureValue;
                         props.ParallaxMapSliceCountProp.Value.floatValue = tex3D.depth;
@@ -467,13 +262,11 @@ namespace Nova.Editor.Core.Scripts
             }
 
             if (parallaxMapMode > ParallaxMapMode.SingleTexture)
-            {
                 MaterialEditorUtility.DrawPropertyAndCustomCoord(
                     _editor,
                     "Flip-Book Progress",
                     props.ParallaxMapProgressProp.Value,
                     props.ParallaxMapProgressCoordProp.Value);
-            }
 
             MaterialEditorUtility.DrawFloatRangeProperty(
                 _editor,
@@ -481,7 +274,7 @@ namespace Nova.Editor.Core.Scripts
                 props.ParallaxStrengthProp.Value,
                 props.ParallaxStrengthProp.Value.rangeLimits.x,
                 props.ParallaxStrengthProp.Value.rangeLimits.y);
-            
+
             MaterialEditorUtility.DrawEnumFlagsProperty<ParallaxMapTarget>(
                 _editor,
                 "Target",
@@ -773,11 +566,11 @@ namespace Nova.Editor.Core.Scripts
                     _editor.ShaderProperty(props.DepthFadeWidthProp.Value, "Width");
                 }
         }
-        
+
         private void InternalDrawVertexDeformationMapProperties()
         {
             var props = _commonMaterialProperties;
-            
+
             MaterialEditorUtility.DrawTexture(_editor, props.VertexDeformationMapProp.Value,
                 props.VertexDeformationMapOffsetXCoordProp.Value,
                 props.VertexDeformationMapOffsetYCoordProp.Value,
@@ -796,16 +589,14 @@ namespace Nova.Editor.Core.Scripts
         private MaterialEditor _editor;
         private ParticlesUberCommonMaterialProperties _commonMaterialProperties;
 
-        private static readonly GUIContent StreamApplyToAllSystemsText = new GUIContent("Fix Now",
+        private static readonly GUIContent StreamApplyToAllSystemsText = new("Fix Now",
             "Apply the vertex stream layout to all Particle Systems using this material");
 
-        private readonly List<ParticleSystemRenderer> _renderersUsingThisMaterial = new List<ParticleSystemRenderer>();
+        private readonly List<ParticleSystemRenderer> _renderersUsingThisMaterial;
 
-        private readonly List<ParticleSystemVertexStream>
-            _correctVertexStreams = new List<ParticleSystemVertexStream>();
+        private List<ParticleSystemVertexStream> _correctVertexStreams = new();
 
-        private readonly List<ParticleSystemVertexStream>
-            _correctVertexStreamsInstanced = new List<ParticleSystemVertexStream>();
+        private List<ParticleSystemVertexStream> _correctVertexStreamsInstanced = new();
 
         # endregion
     }
