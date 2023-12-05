@@ -13,7 +13,6 @@ namespace Nova.Editor.Core.Scripts
     /// </summary>
     public static class RendererErrorHandler
     {
-        // ReSharper disable Unity.PerformanceAnalysis
         /// <summary>
         ///     Checks for errors in renderers using the specified material.
         /// </summary>
@@ -38,8 +37,7 @@ namespace Nova.Editor.Core.Scripts
 
             return CheckError(renderersWithMaterial, correctVertexStreams, correctVertexStreamsInstanced);
         }
-
-        // ReSharper disable Unity.PerformanceAnalysis
+        
         /// <summary>
         ///     Corrects errors in renderers using the specified material.
         /// </summary>
