@@ -25,7 +25,7 @@ namespace Demo.Demo05.Scripts
                 if (RendererErrorHandler.CheckErrorWithMaterial(material))
                     Debug.Log("Errors");
                 else
-                    Debug.Log("No Errors    ");
+                    Debug.Log("No Errors");
             }
         }
     }
