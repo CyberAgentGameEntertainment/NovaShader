@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2022 CyberAgent, Inc.
+// Copyright 2023 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -55,7 +55,7 @@ namespace Nova.Editor.Core.Scripts
         protected override void Initialize(MaterialEditor editor, MaterialProperty[] properties)
         {
             _commonGUI = new ParticlesUberCommonGUI(editor);
-            _commonMaterialProperties = new ParticlesUberCommonMaterialProperties(editor, properties);
+            _commonMaterialProperties = new ParticlesUberCommonMaterialProperties(properties);
             // Lit Settings
             var prefsKeyPrefix = $"{GetType().Namespace}.{GetType().Name}.";
             var litSettingsFoldoutKey = $"{prefsKeyPrefix}{nameof(LitSettingsFoldout)}";
@@ -193,48 +193,48 @@ namespace Nova.Editor.Core.Scripts
 
         #region Lit Settings Material Properties
 
-        private readonly Property _litWorkflowModeProp = new Property(PropertyNames.LitWorkflowMode);
-        private readonly Property _litReceiveShadowsProp = new Property(PropertyNames.LitReceiveShadows);
+        private readonly Property _litWorkflowModeProp = new(PropertyNames.LitWorkflowMode);
+        private readonly Property _litReceiveShadowsProp = new(PropertyNames.LitReceiveShadows);
 
         #endregion
 
         #region Render Settings Properties
 
         // Specular Highlights
-        private readonly Property _specularHighlightsProp = new Property(PropertyNames.SpecularHighlights);
+        private readonly Property _specularHighlightsProp = new(PropertyNames.SpecularHighlights);
 
         // Environment Reflections
-        private readonly Property _environmentReflectionsProp = new Property(PropertyNames.EnvironmentReflections);
+        private readonly Property _environmentReflectionsProp = new(PropertyNames.EnvironmentReflections);
 
         #endregion
 
         #region Surface Maps Properties
 
         // normalMap
-        private readonly Property _normalMapProp = new Property(PropertyNames.NormalMap);
-        private readonly Property _normalMap2DArrayProp = new Property(PropertyNames.NormalMap2DArray);
-        private readonly Property _normalMap3DProp = new Property(PropertyNames.NormalMap3D);
-        private readonly Property _normalMapBumpScaleProp = new Property(PropertyNames.NormalMapBumpScale);
+        private readonly Property _normalMapProp = new(PropertyNames.NormalMap);
+        private readonly Property _normalMap2DArrayProp = new(PropertyNames.NormalMap2DArray);
+        private readonly Property _normalMap3DProp = new(PropertyNames.NormalMap3D);
+        private readonly Property _normalMapBumpScaleProp = new(PropertyNames.NormalMapBumpScale);
 
         // specularMap
-        private readonly Property _specularMapProp = new Property(PropertyNames.SpecularMap);
-        private readonly Property _specularMap2DArrayProp = new Property(PropertyNames.SpecularMap2DArray);
-        private readonly Property _specularMap3DProp = new Property(PropertyNames.SpecularMap3D);
-        private readonly Property _specularProp = new Property(PropertyNames.Specular);
+        private readonly Property _specularMapProp = new(PropertyNames.SpecularMap);
+        private readonly Property _specularMap2DArrayProp = new(PropertyNames.SpecularMap2DArray);
+        private readonly Property _specularMap3DProp = new(PropertyNames.SpecularMap3D);
+        private readonly Property _specularProp = new(PropertyNames.Specular);
 
         // metallicMap
-        private readonly Property _metallicMapProp = new Property(PropertyNames.MetallicMap);
-        private readonly Property _metallicMap2DArrayProp = new Property(PropertyNames.MetallicMap2DArray);
-        private readonly Property _metallicMap3DProp = new Property(PropertyNames.MetallicMap3D);
-        private readonly Property _metallicProp = new Property(PropertyNames.Metallic);
-        private readonly Property _metallicMapChannelsXProp = new Property(PropertyNames.MetallicMapChannelsX);
+        private readonly Property _metallicMapProp = new(PropertyNames.MetallicMap);
+        private readonly Property _metallicMap2DArrayProp = new(PropertyNames.MetallicMap2DArray);
+        private readonly Property _metallicMap3DProp = new(PropertyNames.MetallicMap3D);
+        private readonly Property _metallicProp = new(PropertyNames.Metallic);
+        private readonly Property _metallicMapChannelsXProp = new(PropertyNames.MetallicMapChannelsX);
 
         // smoothnessMap
-        private readonly Property _smoothnessMapProp = new Property(PropertyNames.SmoothnessMap);
-        private readonly Property _smoothnessMap2DArrayProp = new Property(PropertyNames.SmoothnessMap2DArray);
-        private readonly Property _smoothnessMap3DProp = new Property(PropertyNames.SmoothnessMap3D);
-        private readonly Property _smoothnessProp = new Property(PropertyNames.Smoothness);
-        private readonly Property _smoothnessMapChannelsXProp = new Property(PropertyNames.SmoothnessMapChannelsX);
+        private readonly Property _smoothnessMapProp = new(PropertyNames.SmoothnessMap);
+        private readonly Property _smoothnessMap2DArrayProp = new(PropertyNames.SmoothnessMap2DArray);
+        private readonly Property _smoothnessMap3DProp = new(PropertyNames.SmoothnessMap3D);
+        private readonly Property _smoothnessProp = new(PropertyNames.Smoothness);
+        private readonly Property _smoothnessMapChannelsXProp = new(PropertyNames.SmoothnessMapChannelsX);
 
         #endregion
     }
