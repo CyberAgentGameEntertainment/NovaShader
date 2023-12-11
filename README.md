@@ -76,6 +76,7 @@ For more information, please refer to the following documents, [Samples](Assets/
     - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams-1)
 - [Automatic set up the Custom Vertex Streams.](#automatic-set-up-the-custom-vertex-streams)
     - [Fix Now](#fix-now)
+- [Editor APIs Reference](#editor-apis-reference)
 - [Licenses](#licenses)
 
 </details>
