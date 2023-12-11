@@ -1,7 +1,9 @@
-# Render Error Handler Class
+# RenderErrorHandler Class
 Utilities that provide error handling for rendering.
-
-## CheckErrorWithMaterial Method
+## APIs
+- [CheckErrorWithMaterial](#CheckErrorWithMaterial)
+- [FixErrorWithMaterial](#fixerrorwithmaterial)
+## CheckErrorWithMaterial
 ### Summary
 Checks for errors in the Particle System Renderers using the specified material.
 ### Parameters
@@ -20,7 +22,7 @@ if (RendererErrorHandler.CheckErrorWithMaterial(material))
 else
     Debug.Log("No Errors");
 ```
-## FixErrorWithMaterial Method
+## FixErrorWithMaterial
 ### Summary
 Corrects errors in the Particle System Renderers using the specified material.<br/>
 

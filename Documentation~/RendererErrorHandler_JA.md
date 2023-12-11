@@ -1,6 +1,11 @@
-# Render Error Handler クラス
+# RenderErrorHandler クラス
 レンダリングに関するエラーハンドリングを提供するユーティリティです。
-## CheckErrorWithMaterial メソッド
+
+## APIs
+- [CheckErrorWithMaterial](#CheckErrorWithMaterial)
+- [FixErrorWithMaterial](#fixerrorwithmaterial)
+
+## CheckErrorWithMaterial
 ### 概要
 指定されたマテリアルを使用するパーティクルシステムレンダラーのエラーをチェックします。
 
@@ -19,7 +24,7 @@ if (RendererErrorHandler.CheckErrorWithMaterial(material))
 else
     Debug.Log("No Errors");
 ```
-## FixErrorWithMaterial メソッド
+## FixErrorWithMaterial
 ### 概要
 指定されたマテリアルを使用するParticleSystemRendereのエラーを修正します。<br/>
 
