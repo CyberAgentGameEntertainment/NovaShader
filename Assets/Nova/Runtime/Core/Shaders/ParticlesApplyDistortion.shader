@@ -2,6 +2,12 @@ Shader "Hidden/Nova/Particles/ApplyDistortion"
 {
     SubShader
     {
+        Tags
+        {
+            "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline"
+        }
+        ZTest Always ZWrite Off Cull Off
+        
         Pass
         {
             HLSLPROGRAM
