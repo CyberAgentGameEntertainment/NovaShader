@@ -33,7 +33,43 @@ TEXTURE2D(_GradientMap);
 SAMPLER(sampler_GradientMap);
 TEXTURE2D(_VertexDeformationMap);
 SAMPLER(sampler_VertexDeformationMap);
+// Normal map
+TEXTURE2D(_NormalMap);
+SAMPLER(sampler_NormalMap);
+TEXTURE2D_ARRAY(_NormalMap2DArray);
+SAMPLER(sampler_NormalMap2DArray);
+TEXTURE3D(_NormalMap3D);
+SAMPLER(sampler_NormalMap3D);
+// Parallax Map
+TEXTURE2D(_ParallaxMap);
+SAMPLER(sampler_ParallaxMap);
+TEXTURE2D_ARRAY(_ParallaxMap2DArray);
+SAMPLER(sampler_ParallaxMap2DArray);
+TEXTURE3D(_ParallaxMap3D);
+SAMPLER(sampler_ParallaxMap3D);
+// Specular Map
+TEXTURE2D(_SpecularMap);
+SAMPLER(sampler_SpecularMap);
+TEXTURE2D_ARRAY(_SpecularMap2DArray);
+SAMPLER(sampler_SpecularMap2DArray);
+TEXTURE3D(_SpecularMap3D);
+SAMPLER(sampler_SpecularMap3D);
+// Metallic Map
+TEXTURE2D(_MetallicMap);
+SAMPLER(sampler_MetallicMap);
+TEXTURE2D_ARRAY(_MetallicMap2DArray);
+SAMPLER(sampler_MetallicMap2DArray);
+TEXTURE3D(_MetallicMap3D);
+SAMPLER(sampler_MetallicMap3D);
+// Smoothness Map
+TEXTURE2D(_SmoothnessMap);
+SAMPLER(sampler_SmoothnessMap);
+TEXTURE2D_ARRAY(_SmoothnessMap2DArray);
+SAMPLER(sampler_SmoothnessMap2DArray);
+TEXTURE3D(_SmoothnessMap3D);
+SAMPLER(sampler_SmoothnessMap3D);
 
+CBUFFER_START(UnityPerMaterial)
 float4 _BaseMap_ST;
 float4 _BaseMap2DArray_ST;
 float4 _BaseMap3D_ST;
@@ -120,24 +156,9 @@ float _SoftParticlesIntensity;
 float _DepthFadeNear;
 float _DepthFadeFar;
 float _DepthFadeWidth;
-
-
 // Normal map
-TEXTURE2D(_NormalMap);
-SAMPLER(sampler_NormalMap);
-TEXTURE2D_ARRAY(_NormalMap2DArray);
-SAMPLER(sampler_NormalMap2DArray);
-TEXTURE3D(_NormalMap3D);
-SAMPLER(sampler_NormalMap3D);
 half _NormalMapBumpScale;
-
 // Parallax Map
-TEXTURE2D(_ParallaxMap);
-SAMPLER(sampler_ParallaxMap);
-TEXTURE2D_ARRAY(_ParallaxMap2DArray);
-SAMPLER(sampler_ParallaxMap2DArray);
-TEXTURE3D(_ParallaxMap3D);
-SAMPLER(sampler_ParallaxMap3D);
 half _ParallaxMapChannel;
 half _ParallaxStrength;
 float4 _ParallaxMap_ST;
@@ -148,35 +169,15 @@ DECLARE_CUSTOM_COORD(_ParallaxMapProgressCoord);
 float _ParallaxMapSliceCount;
 DECLARE_CUSTOM_COORD(_ParallaxMapOffsetXCoord);
 DECLARE_CUSTOM_COORD(_ParallaxMapOffsetYCoord);
-
 // Specular Map
-TEXTURE2D(_SpecularMap);
-SAMPLER(sampler_SpecularMap);
-TEXTURE2D_ARRAY(_SpecularMap2DArray);
-SAMPLER(sampler_SpecularMap2DArray);
-TEXTURE3D(_SpecularMap3D);
-SAMPLER(sampler_SpecularMap3D);
 half4 _SpecularColor;
-
 // Metallic Map
-TEXTURE2D(_MetallicMap);
-SAMPLER(sampler_MetallicMap);
-TEXTURE2D_ARRAY(_MetallicMap2DArray);
-SAMPLER(sampler_MetallicMap2DArray);
-TEXTURE3D(_MetallicMap3D);
-SAMPLER(sampler_MetallicMap3D);
 half _MetallicMapChannelsX;
 float _Metallic;
-
 // Smoothness Map
-TEXTURE2D(_SmoothnessMap);
-SAMPLER(sampler_SmoothnessMap);
-TEXTURE2D_ARRAY(_SmoothnessMap2DArray);
-SAMPLER(sampler_SmoothnessMap2DArray);
-TEXTURE3D(_SmoothnessMap3D);
-SAMPLER(sampler_SmoothnessMap3D);
 half _SmoothnessMapChannelsX;
 float _Smoothness;
+CBUFFER_END
 
 // Returns the sampler state of the base map.
 SamplerState GetBaseMapSamplerState()
