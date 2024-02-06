@@ -16,6 +16,7 @@ Material:
   - _EMISSION_COLOR_BASECOLOR
   - _EMISSION_MAP_MODE_2D
   - _PARALLAX_MAP_MODE_2D
+  - _SHADOW_CASTER_ALPHA_TEST_ENABLED
   - _TINT_COLOR_ENABLED
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -235,6 +236,14 @@ Material:
     - _RimTransparencyProgressCoord: 0
     - _RimTransparencySharpness: 0
     - _RimTransparencySharpnessCoord: 0
+    - _ShadowCasterAlphaAffectedByAlphaTransitionMap: 0
+    - _ShadowCasterAlphaAffectedByFlowMap: 0
+    - _ShadowCasterAlphaAffectedByTintColor: 0
+    - _ShadowCasterAlphaAffectedByTransparencyLuminance: 0
+    - _ShadowCasterAlphaCutoff: 0.5
+    - _ShadowCasterAlphaTestEnabled: 1
+    - _ShadowCasterApplyVertexDeformation: 0
+    - _ShadowCasterEnabled: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SoftParticlesEnabled: 0

@@ -10,6 +10,7 @@ Material:
   m_Name: mat_demo_randomrotation
   m_Shader: {fileID: 4800000, guid: 1bc5c6a70411243779ce486a98012125, type: 3}
   m_ValidKeywords:
+  - _ALPHATEST_ENABLED
   - _ALPHA_TRANSITION_MAP_MODE_2D
   - _BASE_MAP_MODE_2D
   - _BASE_MAP_ROTATION_ENABLED
@@ -21,9 +22,9 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 2450
   stringTagMap:
-    RenderType: Transparent
+    RenderType: TransparentCutout
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -168,8 +169,8 @@ Material:
     - _BaseMapSamplerStateOverride: 0
     - _BaseMapSliceCount: 25
     - _Blend: 0
-    - _BlendDst: 10
-    - _BlendSrc: 5
+    - _BlendDst: 0
+    - _BlendSrc: 1
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -229,12 +230,16 @@ Material:
     - _ParallaxStrength: 0.3
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _RenderType: 2
+    - _RenderType: 1
     - _RimTransparencyEnabled: 0
     - _RimTransparencyProgress: 0.5
     - _RimTransparencyProgressCoord: 0
     - _RimTransparencySharpness: 0
     - _RimTransparencySharpnessCoord: 0
+    - _ShadowCasterAlphaCutoff: 0.5
+    - _ShadowCasterAlphaCutout: 0.5
+    - _ShadowCasterAlphaTestEnabled: 0
+    - _ShadowCasterEnabled: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SoftParticlesEnabled: 0
@@ -264,7 +269,7 @@ Material:
     - _VertexDeformationMapOffsetYCoord: 0
     - _WorkflowMode: 1
     - _ZTest: 4
-    - _ZWrite: 0
+    - _ZWrite: 1
     - _ZWriteOverride: -1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
