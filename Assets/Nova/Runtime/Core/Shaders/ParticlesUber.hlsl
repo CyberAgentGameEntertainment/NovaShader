@@ -177,6 +177,16 @@ float _Metallic;
 // Smoothness Map
 half _SmoothnessMapChannelsX;
 float _Smoothness;
+// Shadow Caster
+half _ShadowCasterEnabled;
+half _ShadowCasterApplyVertexDeformation;
+half _ShadowCasterAlphaTestEnabled;
+half _ShadowCasterAlphaCutoff;
+half _ShadowCasterAlphaAffectedByTintColor;
+half _ShadowCasterAlphaAffectedByFlowMap;
+half _ShadowCasterAlphaAffectedByAlphaTransitionMap;
+half _ShadowCasterAlphaAffectedByTransparencyLuminance;
+
 CBUFFER_END
 
 // Returns the sampler state of the base map.
