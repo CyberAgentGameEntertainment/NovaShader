@@ -41,6 +41,7 @@ namespace Nova.Editor.Core.Scripts
             _commonGUI.DrawAlphaTransitionProperties();
             _commonGUI.DrawEmissionProperties();
             _commonGUI.DrawTransparencyProperties();
+            _commonGUI.DrawShadowCasterProperties();
             _commonGUI.DrawFixNowButton();
         }
 

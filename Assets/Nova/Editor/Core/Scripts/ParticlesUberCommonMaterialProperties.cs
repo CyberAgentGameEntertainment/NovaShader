@@ -23,6 +23,7 @@ namespace Nova.Editor.Core.Scripts
             var alphaTransitionFoldoutKey = $"{prefsKeyPrefix}{nameof(AlphaTransitionFoldout)}";
             var emissionFoldoutKey = $"{prefsKeyPrefix}{nameof(EmissionFoldout)}";
             var vertexDeformationFoldoutKey = $"{prefsKeyPrefix}{nameof(VertexDeformationFoldout)}";
+            var shadowCasterFoldoutKey = $"{prefsKeyPrefix}{nameof(ShadowCasterFoldout)}";
 
             RenderSettingsFoldout = new BoolEditorPrefsProperty(renderSettingsFoldoutKey, true);
             BaseMapFoldout = new BoolEditorPrefsProperty(baseMapFoldoutKey, true);
@@ -34,6 +35,7 @@ namespace Nova.Editor.Core.Scripts
             AlphaTransitionFoldout = new BoolEditorPrefsProperty(alphaTransitionFoldoutKey, true);
             EmissionFoldout = new BoolEditorPrefsProperty(emissionFoldoutKey, true);
             VertexDeformationFoldout = new BoolEditorPrefsProperty(vertexDeformationFoldoutKey, true);
+            ShadowCasterFoldout = new BoolEditorPrefsProperty(shadowCasterFoldoutKey, true);
 
             Setup(properties);
         }
@@ -175,6 +177,16 @@ namespace Nova.Editor.Core.Scripts
             VertexDeformationMapChannelProp.Setup(properties);
             VertexDeformationIntensityProp.Setup(properties);
             VertexDeformationIntensityCoordProp.Setup(properties);
+            
+            // Shadow Caster
+            ShadowCasterEnabledProp.Setup(properties);
+            ShadowCasterApplyVertexDeformationProp.Setup(properties);
+            ShadowCasterAlphaTestEnabledProp.Setup(properties);
+            ShadowCasterAlphaCutoffProp.Setup(properties);
+            ShadowCasterAlphaAffectedByTintColorProp.Setup(properties);
+            ShadowCasterAlphaAffectedByFlowMapProp.Setup(properties);
+            ShadowCasterAlphaAffectedByAlphaTransitionMapProp.Setup(properties);
+            ShadowCasterAlphaAffectedByTransparencyLuminanceProp.Setup(properties);
         }
 
         #region Foldout Properties
@@ -189,6 +201,7 @@ namespace Nova.Editor.Core.Scripts
         public BoolEditorPrefsProperty RenderSettingsFoldout { get; private set; }
         public BoolEditorPrefsProperty TransparencyFoldout { get; private set; }
         public BoolEditorPrefsProperty VertexDeformationFoldout { get; private set; }
+        public BoolEditorPrefsProperty ShadowCasterFoldout { get; private set; }
 
         #endregion
 
@@ -472,6 +485,19 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property VertexDeformationIntensityCoordProp { get; } =
             new(PropertyNames.VertexDeformationIntensityCoord);
 
+        #endregion
+
+        #region Shadow Caster Material Properties
+        
+        public ParticlesGUI.Property ShadowCasterEnabledProp { get; } = new(PropertyNames.ShadowCasterEnabled);
+        public ParticlesGUI.Property ShadowCasterApplyVertexDeformationProp { get; } = new(PropertyNames.ShadowCasterApplyVertexDeformation);
+        public ParticlesGUI.Property ShadowCasterAlphaTestEnabledProp { get; } = new(PropertyNames.ShadowCasterAlphaTestEnabled);
+        public ParticlesGUI.Property ShadowCasterAlphaCutoffProp { get; } = new(PropertyNames.ShadowCasterAlphaCutoff);
+        public ParticlesGUI.Property ShadowCasterAlphaAffectedByTintColorProp { get; } = new(PropertyNames.ShadowCasterAlphaAffectedByTintColor);
+        public ParticlesGUI.Property ShadowCasterAlphaAffectedByFlowMapProp { get; } = new(PropertyNames.ShadowCasterAlphaAffectedByFlowMap);
+        public ParticlesGUI.Property ShadowCasterAlphaAffectedByAlphaTransitionMapProp { get; } = new(PropertyNames.ShadowCasterAlphaAffectedByAlphaTransitionMap);
+        public ParticlesGUI.Property ShadowCasterAlphaAffectedByTransparencyLuminanceProp { get; } = new(PropertyNames.ShadowCasterAlphaAffectedByTransparencyLuminance);
+        
         #endregion
     }
 }

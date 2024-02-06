@@ -172,5 +172,15 @@ namespace Nova.Editor.Core.Scripts
         public const string VertexDeformationMapChannel = "_VertexDeformationMapChannel";
         public const string VertexDeformationIntensity = "_VertexDeformationIntensity";
         public const string VertexDeformationIntensityCoord = "_VertexDeformationIntensityCoord";
+        
+        // Shadow Caster
+        public const string ShadowCasterEnabled = "_ShadowCasterEnabled";
+        public const string ShadowCasterApplyVertexDeformation = "_ShadowCasterApplyVertexDeformation";
+        public const string ShadowCasterAlphaTestEnabled = "_ShadowCasterAlphaTestEnabled";
+        public const string ShadowCasterAlphaCutoff = "_ShadowCasterAlphaCutoff";
+        public const string ShadowCasterAlphaAffectedByTintColor = "_ShadowCasterAlphaAffectedByTintColor";
+        public const string ShadowCasterAlphaAffectedByFlowMap = "_ShadowCasterAlphaAffectedByFlowMap";
+        public const string ShadowCasterAlphaAffectedByAlphaTransitionMap = "_ShadowCasterAlphaAffectedByAlphaTransitionMap";
+        public const string ShadowCasterAlphaAffectedByTransparencyLuminance = "_ShadowCasterAlphaAffectedByTransparencyLuminance";
     }
 }

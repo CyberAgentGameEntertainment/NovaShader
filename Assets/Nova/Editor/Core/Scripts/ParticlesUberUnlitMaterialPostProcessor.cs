@@ -89,6 +89,11 @@ namespace Nova.Editor.Core.Scripts
 
         private static readonly int TransparentBlendModeId =
             Shader.PropertyToID(MaterialPropertyNames.TransparentBlendMode);
+        
+        private static readonly int ShadowCasterEnabledId = 
+            Shader.PropertyToID(MaterialPropertyNames.ShadowCasterEnabled);
+        private static readonly int ShadowCasterAlphaTestEnabledId =
+            Shader.PropertyToID(MaterialPropertyNames.ShadowCasterAlphaTestEnabled);
 
         public static void SetupMaterialKeywords(Material material)
         {
@@ -100,6 +105,7 @@ namespace Nova.Editor.Core.Scripts
             SetupEmissionMaterialKeywords(material);
             SetupTransparencyMaterialKeywords(material);
             SetupVertexDeformationMaterialKeywords(material);
+            SetupShadowCasterMaterialKeywords(material);
         }
 
         private static void SetupDrawSettingsMaterialKeywords(Material material)
@@ -331,6 +337,17 @@ namespace Nova.Editor.Core.Scripts
         {
             var vertexDeformationEnabled = material.GetTexture(VertexDeformationMapId) != null;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.VertexDeformationEnabled, vertexDeformationEnabled);
+        }
+
+        private static void SetupShadowCasterMaterialKeywords(Material material)
+        {
+            bool shadowCasterEnabled = material.GetFloat(ShadowCasterEnabledId) > 0.5f;
+            material.SetShaderPassEnabled("ShadowCaster", shadowCasterEnabled);
+            if (shadowCasterEnabled)
+            {
+                bool alphaTestEnabled = material.GetFloat(ShadowCasterAlphaTestEnabledId) > 0.5f;
+                MaterialEditorUtility.SetKeyword(material, ShaderKeywords.ShadowCasterAlphaTestEnable, alphaTestEnabled);
+            }
         }
 
         public static void SetupMaterialBlendMode(Material material)
