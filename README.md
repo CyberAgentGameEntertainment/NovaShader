@@ -76,6 +76,7 @@ For more information, please refer to the following documents, [Samples](Assets/
     - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams-1)
 - [Automatic set up the Custom Vertex Streams.](#automatic-set-up-the-custom-vertex-streams)
     - [Fix Now](#fix-now)
+- [Editor APIs Reference](#editor-apis-reference)
 - [Licenses](#licenses)
 
 </details>
@@ -1403,6 +1404,8 @@ At this time, pressing this button will automatically set the typical vertex str
 If you are not familiar with setting up Custom Vertex Streams,<br/>
 It is recommended that you use `Fix Now` to correct errors to avoid unwanted errors.
 
+## Editor APIs Reference
+- [RenderErrorHandler](Documentation~/RenderErrorHandler.md)
 ## Licenses
 This software is released under the MIT license.
 You are free to use it within the scope of the license, but the following copyright and license notices are required.

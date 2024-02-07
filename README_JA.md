@@ -77,6 +77,7 @@
     - [Custom Vertex Streamsを設定する](#custom-vertex-streams%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B-1)
 - [Custom Vertex Streamsを自動的に設定する](#custom-vertex-streams%E3%82%92%E8%87%AA%E5%8B%95%E7%9A%84%E3%81%AB%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B)
     - [Fix Now](#fix-now)
+- [Editor APIs リファレンス](#editor-apis-%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9)
 - [ライセンス](#%E3%83%A9%E3%82%A4%E3%82%BB%E3%83%B3%E3%82%B9)
 
 </details>
@@ -1412,6 +1413,9 @@ GPUが求めている頂点ストリームとの差異が生じている時に�
 カスタム頂点アトリビュートの設定に詳しくない場合は、<br/>
 不要なエラーを避けるために`Fix Now`を利用してエラーを修正することを推奨します。<br/>
 
+
+## Editor APIs リファレンス
+- [RenderErrorHandler](Documentation~/RenderErrorHandler_JA.md)
 
 ## ライセンス
 本ソフトウェアはMITライセンスで公開しています。  
