@@ -605,7 +605,7 @@ namespace Nova.Editor.Core.Scripts
             MaterialEditorUtility.DrawFloatRangeProperty(_editor, "Cutoff", props.ShadowCasterAlphaCutoffProp.Value, 0, 1);
             EditorGUI.indentLevel--;
             
-            EditorGUI.LabelField(EditorGUILayout.GetControlRect(), "Alpha Effect By: ");
+            EditorGUI.LabelField(EditorGUILayout.GetControlRect(), "Alpha Affected By");
             EditorGUI.indentLevel++;
             MaterialEditorUtility.DrawToggleProperty(_editor, "Tint Color", props.ShadowCasterAlphaAffectedByTintColorProp.Value);
             MaterialEditorUtility.DrawToggleProperty(_editor, "Flow Map", props.ShadowCasterAlphaAffectedByFlowMapProp.Value);
