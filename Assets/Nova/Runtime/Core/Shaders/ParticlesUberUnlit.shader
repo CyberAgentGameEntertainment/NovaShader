@@ -568,11 +568,11 @@ Shader "Nova/Particles/UberUnlit"
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
-            #pragma shader_feature_local_fragment _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
+            #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Tint Color
-            #pragma shader_feature_local _TINT_AREA_ALL
-            #pragma shader_feature_local _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
+            #pragma shader_feature_local _ _TINT_AREA_ALL
+            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
 
             // Flow Map
             #pragma shader_feature_local _FLOW_MAP_TARGET_BASE
@@ -580,7 +580,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
 
             // Alpha Transition
-            #pragma shader_feature_local _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
+            #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
 
             // Transparency
