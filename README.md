@@ -40,45 +40,47 @@ For more information, please refer to the following documents, [Samples](Assets/
 <details>
 <summary>Details</summary>
 
-- [Setup](#setup)
-  - [Requirements](#requirements)
-    - [Install](#install)
-- [Usage](#usage)
-    - [Add Renderer Feature](#add-renderer-feature)
-    - [Activate Depth Texture](#activate-depth-texture)
-    - [Create and assign the Material](#create-and-assign-the-material)
-- [Uber Unlit Shader](#uber-unlit-shader)
-    - [Render Settings](#render-settings)
-    - [Vertex Deformation](#vertex-deformation)
-    - [Base Map](#base-map)
-    - [Tint Color](#tint-color)
-    - [Flow Map](#flow-map)
-    - [Parallax Map](#parallax-map)
-    - [Color Correction](#color-correction)
-    - [Alpha Transition](#alpha-transition)
-    - [Emission](#emission)
-    - [Transparency](#transparency)
-- [Uber Lit Shader](#uber-lit-shader)
-    - [Render Settings](#render-settings-1)
-    - [Surface Maps](#surface-maps)
-- [Distortion Shader](#distortion-shader)
-    - [Render Settings](#render-settings-2)
-    - [Distortion](#distortion)
-    - [Flow Map](#flow-map-1)
-    - [Alpha Transition](#alpha-transition-1)
-    - [Transparency](#transparency-1)
-- [Abort Shadow Caster](#abort-shadow-caster)
-- [Use with the Custom Vertex Streams](#use-with-the-custom-vertex-streams)
-    - [Set up the Custom Data](#set-up-the-custom-data)
-    - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams)
-    - [Set up the Material Property](#set-up-the-material-property)
-- [Use Mesh GPU Instancing](#use-mesh-gpu-instancing)
-    - [Enable Mesh GPU Instancing](#enable-mesh-gpu-instancing)
-    - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams-1)
-- [Automatic set up the Custom Vertex Streams.](#automatic-set-up-the-custom-vertex-streams)
-    - [Fix Now](#fix-now)
-- [Editor APIs Reference](#editor-apis-reference)
-- [Licenses](#licenses)
+- [NOVA Shader: Uber shader for Particle System](#nova-shader-uber-shader-for-particle-system)
+  - [Table of Contents](#table-of-contents)
+  - [Setup](#setup)
+    - [Requirements](#requirements)
+      - [Install](#install)
+  - [Usage](#usage)
+      - [Add Renderer Feature](#add-renderer-feature)
+      - [Activate Depth Texture](#activate-depth-texture)
+      - [Create and assign the Material](#create-and-assign-the-material)
+  - [Uber Unlit Shader](#uber-unlit-shader)
+      - [Render Settings](#render-settings)
+      - [Vertex Deformation](#vertex-deformation)
+      - [Base Map](#base-map)
+      - [Tint Color](#tint-color)
+      - [Flow Map](#flow-map)
+      - [Parallax Map](#parallax-map)
+      - [Color Correction](#color-correction)
+      - [Alpha Transition](#alpha-transition)
+      - [Emission](#emission)
+      - [Transparency](#transparency)
+  - [Uber Lit Shader](#uber-lit-shader)
+      - [Render Settings](#render-settings-1)
+      - [Surface Maps](#surface-maps)
+  - [Distortion Shader](#distortion-shader)
+      - [Render Settings](#render-settings-2)
+      - [Distortion](#distortion)
+      - [Flow Map](#flow-map-1)
+      - [Alpha Transition](#alpha-transition-1)
+      - [Transparency](#transparency-1)
+  - [Abort Shadow Caster](#abort-shadow-caster)
+  - [Use with the Custom Vertex Streams](#use-with-the-custom-vertex-streams)
+      - [Set up the Custom Data](#set-up-the-custom-data)
+      - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams)
+      - [Set up the Material Property](#set-up-the-material-property)
+  - [Use Mesh GPU Instancing](#use-mesh-gpu-instancing)
+      - [Enable Mesh GPU Instancing](#enable-mesh-gpu-instancing)
+      - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams-1)
+  - [Automatic set up the Custom Vertex Streams.](#automatic-set-up-the-custom-vertex-streams)
+      - [Fix Now](#fix-now)
+  - [Editor APIs Reference](#editor-apis-reference)
+  - [Licenses](#licenses)
 
 </details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -1364,9 +1366,9 @@ Items that affect Alpha value during shadow casting calculation
 If checked, Tint Color will affect Alpha value
 </p>
 </td></tr>
-<tr><td></td><td colspan="2"><b>FlowMap</b></td><td>
+<tr><td></td><td colspan="2"><b>Flow Map</b></td><td>
 <p>
-If checked, Flow　Map will affect Alpha value
+If checked, Flow Map will affect Alpha value
 </p>
 </td></tr>
 <tr><td></td><td colspan="2"><b>Alpha Transition Map</b></td><td>
@@ -1381,6 +1383,11 @@ If checked, Transparency Luminance will affect Alpha value
 </td></tr>
 </tbody>
 </table>
+
+<p align="center">
+  <img width="60%" src="Documentation~/Images/shadow_caster_demo01.gif" alt="Shadow Caster Demo"><br>
+  <font color="grey">Shadow Caster Demo</font>
+</p>
 
 ## Use with the Custom Vertex Streams
 Using the Particle System's Custom Vertex Streams, you can animate the properties of the Material.
