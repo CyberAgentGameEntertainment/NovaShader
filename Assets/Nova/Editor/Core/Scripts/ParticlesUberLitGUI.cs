@@ -93,6 +93,8 @@ namespace Nova.Editor.Core.Scripts
             _commonGUI.DrawEmissionProperties();
             // Transparency
             _commonGUI.DrawTransparencyProperties();
+            // ShadowCaster
+            _commonGUI.DrawShadowCasterProperties();
             // FixNow
             _commonGUI.DrawFixNowButton();
         }

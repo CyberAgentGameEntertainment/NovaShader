@@ -138,6 +138,16 @@ Shader "Nova/Particles/UberUnlit"
         _VertexDeformationMapChannel("VertexDeformation Map Channel", Float) = 0.0
         _VertexDeformationIntensity("VertexDeformation Intensity", Float) = 0.1
         _VertexDeformationIntensityCoord("VertexDeformation Intensity Coord", Float) = 0.0
+        
+        // Shadow Caster
+        _ShadowCasterEnabled("Shadow Caster", Float) = 0
+        _ShadowCasterApplyVertexDeformation("Shadow Caster Vertex Deformation Enabled", Float) = 0
+        _ShadowCasterAlphaTestEnabled("Shadow Caster Alpha Test Enabled", Float) = 0
+        _ShadowCasterAlphaCutoff("Shadow Caster Alpha Test Cutoff", Range(0.0, 1.0)) = 0.5
+        _ShadowCasterAlphaAffectedByTintColor("Shadow Caster Alpha Effect By Tint Color", Float) = 0
+        _ShadowCasterAlphaAffectedByFlowMap("Shadow Caster Alpha Effect By Flow Map", Float) = 0
+        _ShadowCasterAlphaAffectedByAlphaTransitionMap("Shadow Caster Alpha Effect By Alpha Transition Map", Float) = 0
+        _ShadowCasterAlphaAffectedByTransparencyLuminance("Shadow Caster Alpha Effect By Transparency Luminance", Float) = 0
     }
 
     SubShader
@@ -531,6 +541,66 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
 
             #include "ParticlesUberDepthOnly.hlsl"
+            ENDHLSL
+        }
+
+        Pass
+        {
+            Name "ShadowCaster"
+            Tags{"LightMode" = "ShadowCaster"}
+
+            ZWrite On
+            ZTest LEqual
+            ColorMask 0
+            Cull[_Cull]
+
+            HLSLPROGRAM
+            #pragma target 3.5
+
+            // Unity Defined
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:ParticleInstancingSetup
+            #pragma require 2darray
+
+            // Render Settings
+            #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+
+            // Base Map
+            #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
+            #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
+
+            // Tint Color
+            #pragma shader_feature_local _ _TINT_AREA_ALL
+            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
+
+            // Flow Map
+            #pragma shader_feature_local _FLOW_MAP_TARGET_BASE
+            #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
+            #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
+
+            // Alpha Transition
+            #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
+            #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+
+            // Transparency
+            #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
+
+            // Vertex Deformation
+            #pragma shader_feature_local_vertex _VERTEX_DEFORMATION_ENABLED
+
+            // Shadow Caster
+            #pragma shader_feature_local _SHADOW_CASTER_ALPHA_TEST_ENABLED
+
+            // -------------------------------------
+            // Universal Pipeline keywords
+            // This is used during shadow map generation to differentiate between directional and punctual light shadows, as they use different formulas to apply Normal Bias
+            #pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+
+            #pragma vertex ShadowPassVertex
+            #pragma fragment ShadowPassFragment
+
+            #include "ParticlesUberShadowCaster.hlsl"
             ENDHLSL
         }
     }

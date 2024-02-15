@@ -17,6 +17,7 @@ Material:
   - _EMISSION_MAP_MODE_2D
   - _FADE_TRANSITION_ENABLED
   - _PARALLAX_MAP_MODE_2D
+  - _SHADOW_CASTER_ALPHA_TEST_ENABLED
   - _TINT_AREA_ALL
   - _TINT_COLOR_ENABLED
   m_InvalidKeywords: []
@@ -237,6 +238,29 @@ Material:
     - _RimTransparencyProgressCoord: 0
     - _RimTransparencySharpness: 0
     - _RimTransparencySharpnessCoord: 0
+    - _ShadowCasterAlphaAffectedByAlphaTransitionMap: 1
+    - _ShadowCasterAlphaAffectedByFlowMap: 0
+    - _ShadowCasterAlphaAffectedByTintColor: 0
+    - _ShadowCasterAlphaAffectedByTransparencyDepthFade: 0
+    - _ShadowCasterAlphaAffectedByTransparencyLuminance: 0
+    - _ShadowCasterAlphaAffectedByTransparencySoftParticles: 0
+    - _ShadowCasterAlphaCutoff: 0.5
+    - _ShadowCasterAlphaEffectByAlphaTransition: 0
+    - _ShadowCasterAlphaEffectByAlphaTransitionMap: 0
+    - _ShadowCasterAlphaEffectByFlowMap: 0
+    - _ShadowCasterAlphaEffectByTintColor: 0
+    - _ShadowCasterAlphaEffectByTransparencyDepthFade: 0
+    - _ShadowCasterAlphaEffectByTransparencyLuminance: 0
+    - _ShadowCasterAlphaEffectByTransparencySoftParticles: 0
+    - _ShadowCasterAlphaEffectedByAlphaTransitionMap: 0
+    - _ShadowCasterAlphaEffectedByFlowMap: 0
+    - _ShadowCasterAlphaEffectedByTintColor: 0
+    - _ShadowCasterAlphaEffectedByTransparencyDepthFade: 0
+    - _ShadowCasterAlphaEffectedByTransparencyLuminance: 0
+    - _ShadowCasterAlphaEffectedByTransparencySoftParticles: 0
+    - _ShadowCasterAlphaTestEnabled: 1
+    - _ShadowCasterEnabled: 1
+    - _ShadowCasterVertexDeformationEnabled: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SoftParticlesEnabled: 0

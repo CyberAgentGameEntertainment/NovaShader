@@ -90,6 +90,12 @@ namespace Nova.Editor.Core.Scripts
                 "Vertex Deformation", InternalDrawVertexDeformationMapProperties);
         }
 
+        public void DrawShadowCasterProperties()
+        {
+            DrawProperties(_commonMaterialProperties.ShadowCasterFoldout,
+                "Shadow Caster", InternalDrawShadowCasterProperties);
+        }
+
         private static bool CompareVertexStreams(List<ParticleSystemVertexStream> a,
             List<ParticleSystemVertexStream> b)
         {
@@ -580,6 +586,32 @@ namespace Nova.Editor.Core.Scripts
                 "Intensity",
                 props.VertexDeformationIntensityProp.Value,
                 props.VertexDeformationIntensityCoordProp.Value);
+        }
+        
+        private void InternalDrawShadowCasterProperties()
+        {
+            var props = _commonMaterialProperties;
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Enable", props.ShadowCasterEnabledProp.Value);
+            if (props.ShadowCasterEnabledProp.Value.floatValue < 0.5f) 
+                return;
+            
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Apply Vertex Deformation", props.ShadowCasterApplyVertexDeformationProp.Value);
+            
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Alpha Test Enable", props.ShadowCasterAlphaTestEnabledProp.Value);
+            if (props.ShadowCasterAlphaTestEnabledProp.Value.floatValue < 0.5f)
+                return;
+            
+            EditorGUI.indentLevel++;
+            MaterialEditorUtility.DrawFloatRangeProperty(_editor, "Cutoff", props.ShadowCasterAlphaCutoffProp.Value, 0, 1);
+            EditorGUI.indentLevel--;
+            
+            EditorGUI.LabelField(EditorGUILayout.GetControlRect(), "Alpha Affected By");
+            EditorGUI.indentLevel++;
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Tint Color", props.ShadowCasterAlphaAffectedByTintColorProp.Value);
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Flow Map", props.ShadowCasterAlphaAffectedByFlowMapProp.Value);
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Alpha Transition Map", props.ShadowCasterAlphaAffectedByAlphaTransitionMapProp.Value);
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Transparency Luminance", props.ShadowCasterAlphaAffectedByTransparencyLuminanceProp.Value);
+            EditorGUI.indentLevel--;
         }
 
         #region private variable

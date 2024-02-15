@@ -68,6 +68,7 @@
     - [Flow Map](#flow-map-1)
     - [Alpha Transition](#alpha-transition-1)
     - [Transparency](#transparency-1)
+- [影を落とす機能について](#%E5%BD%B1%E3%82%92%E8%90%BD%E3%81%A8%E3%81%99%E6%A9%9F%E8%83%BD%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)
 - [Custom Vertex Streamsとの連携](#custom-vertex-streams%E3%81%A8%E3%81%AE%E9%80%A3%E6%90%BA)
     - [Custom Dataを設定](#custom-data%E3%82%92%E8%A8%AD%E5%AE%9A)
     - [Custom Vertex Streamsを設定する](#custom-vertex-streams%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B)
@@ -1329,6 +1330,70 @@ Transparencyは透明度を調整できます。
 </td></tr>
 </tbody>
 </table>
+
+## 影を落とす機能について
+Shadow Caster機能を有効にするとNovaShaderから影を落とすことができるようになります
+<p align="center">
+  <img width="60%" src="Documentation~/Images/shadow_caster_01.png" alt="Shadow Caster"><br>
+  <font color="grey">Shadow Caster</font>
+</p>
+<table width="100%">
+<thead>
+<tr><td colspan="3"><b>プロパティ名</b></td><td><b>説明</b></td></tr>
+</thead>
+<tbody>
+<tr><td colspan="3"><b>Enable</b></td><td>
+<p>
+チェックをつけるとShadowCasterPassが有効になります
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Apply Vertex Deformation</b></td><td>
+<p>
+チェックをつけると影投射の計算にVertex Deformationが反映されます。
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Alpha Test Enable</b></td><td>
+<p>
+チェックをつけると影投射の計算にAlpha Testが有効になり、通らないところは影を落とさなくなります<br>
+</p>
+</td></tr>
+<tr><td></td><td colspan="2"><b>Cutoff</b></td><td>
+<p>
+Alpha値がCutoff値以下の部分は影を落とさなくなります（描画処理のCutoffと別の値になります）
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Alpha Affected By</b></td><td>
+<p>
+影投射計算中Alpha値に反映する項目
+</p>
+</td></tr>
+<tr><td></td><td colspan="2"><b>Tint Color</b></td><td>
+<p>
+チェックをつけると、Tint ColorがAlpha値に反映されます
+</p>
+</td></tr>
+<tr><td></td><td colspan="2"><b>FlowMap</b></td><td>
+<p>
+チェックをつけると、Flow MapがAlpha値に反映されます
+</p>
+</td></tr>
+<tr><td></td><td colspan="2"><b>Alpha Transition Map</b></td><td>
+<p>
+チェックをつけると、Alpha Transition MapがAlpha値に反映されます
+</p>
+</td></tr>
+<tr><td></td><td colspan="2"><b>Transparency Luminance</b></td><td>
+<p>
+チェックをつけると、Transparency LuminanceがAlpha値に反映されます
+</p>
+</td></tr>
+</tbody>
+</table>
+
+<p align="center">
+  <img width="60%" src="Documentation~/Images/shadow_caster_demo01.gif" alt="Shadow Caster Demo"><br>
+  <font color="grey">Shadow Caster Demo</font>
+</p>
 
 ## Custom Vertex Streamsとの連携
 Particle SystemのCustom Vertex Streamsを使うと、マテリアルのプロパティを自由にアニメーションさせることができます。  

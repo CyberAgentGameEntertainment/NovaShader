@@ -82,6 +82,9 @@ namespace Nova.Editor.Core.Scripts
         // Vertex Deformation
         public const string VertexDeformationEnabled = "_VERTEX_DEFORMATION_ENABLED";
 
+        // Shadow Caster
+        public const string ShadowCasterAlphaTestEnable = "_SHADOW_CASTER_ALPHA_TEST_ENABLED";
+
         public static string GetShaderKeyword(this BaseMapMode baseMapMode)
         {
             switch (baseMapMode)

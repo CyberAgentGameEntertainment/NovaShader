@@ -67,6 +67,7 @@ For more information, please refer to the following documents, [Samples](Assets/
     - [Flow Map](#flow-map-1)
     - [Alpha Transition](#alpha-transition-1)
     - [Transparency](#transparency-1)
+- [Abort Shadow Caster](#abort-shadow-caster)
 - [Use with the Custom Vertex Streams](#use-with-the-custom-vertex-streams)
     - [Set up the Custom Data](#set-up-the-custom-data)
     - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams)
@@ -1321,6 +1322,70 @@ The distance from the beginning of transparency to the end of complete transpare
 </td></tr>
 </tbody>
 </table>
+
+## Abort Shadow Caster
+Enabling the Shadow Caster feature will allow you to cast shadows from NovaShader.
+<p align="center">
+  <img width="60%" src="Documentation~/Images/shadow_caster_01.png" alt="Shadow Caster"><br>
+  <font color="grey">Shadow Caster</font>
+</p>
+<table width="100%">
+<thead>
+<tr><td colspan="3"><b>Property Name</b></td><td><b>Discription</b></td></tr>
+</thead>
+<tbody>
+<tr><td colspan="3"><b>Enable</b></td><td>
+<p>
+Check this to enable ShadowCasterPass
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Apply Vertex Deformation</b></td><td>
+<p>
+If checked, Vertex Deformation will be applied to shadow casting calculations
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Alpha Test Enable</b></td><td>
+<p>
+If checked, Alpha Test will be enabled for calculating shadow casting, and shadows will not be cast in areas that do not pass.<br>
+</p>
+</td></tr>
+<tr><td></td><td colspan="2"><b>Cutoff</b></td><td>
+<p>
+Areas where the Alpha value is less than the Cutoff value will not cast a shadow (this will be a different value from the Cutoff of the drawing process)
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Alpha Affected By</b></td><td>
+<p>
+Items that affect Alpha value during shadow casting calculation
+</p>
+</td></tr>
+<tr><td></td><td colspan="2"><b>Tint Color</b></td><td>
+<p>
+If checked, Tint Color will affect Alpha value
+</p>
+</td></tr>
+<tr><td></td><td colspan="2"><b>Flow Map</b></td><td>
+<p>
+If checked, Flow Map will affect Alpha value
+</p>
+</td></tr>
+<tr><td></td><td colspan="2"><b>Alpha Transition Map</b></td><td>
+<p>
+If checked, Alpha Transition Map will affect Alpha value
+</p>
+</td></tr>
+<tr><td></td><td colspan="2"><b>Transparency Luminance</b></td><td>
+<p>
+If checked, Transparency Luminance will affect Alpha value
+</p>
+</td></tr>
+</tbody>
+</table>
+
+<p align="center">
+  <img width="60%" src="Documentation~/Images/shadow_caster_demo01.gif" alt="Shadow Caster Demo"><br>
+  <font color="grey">Shadow Caster Demo</font>
+</p>
 
 ## Use with the Custom Vertex Streams
 Using the Particle System's Custom Vertex Streams, you can animate the properties of the Material.
