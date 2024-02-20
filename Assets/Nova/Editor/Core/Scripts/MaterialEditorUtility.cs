@@ -187,9 +187,11 @@ namespace Nova.Editor.Core.Scripts
             textureRect.width = mapHeight;
             using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
             {
+                EditorGUI.showMixedValue = textureProp.hasMixedValue;
                 var texture = (Texture)EditorGUI.ObjectField(textureRect, textureProp.textureValue,
                     textureType,
                     false);
+                EditorGUI.showMixedValue = false;
                 if (changeCheckScope.changed)
                 {
                     editor.RegisterPropertyChangeUndo(textureProp.name);
@@ -342,8 +344,10 @@ namespace Nova.Editor.Core.Scripts
 
                 using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                 {
+                    EditorGUI.showMixedValue = textureProperty.hasMixedValue;
                     var texture = (Texture)EditorGUI.ObjectField(textureRect, textureProperty.textureValue, textureType,
                         false);
+                    EditorGUI.showMixedValue = false;
                     if (changeCheckScope.changed)
                     {
                         editor.RegisterPropertyChangeUndo(textureProperty.name);
@@ -375,7 +379,6 @@ namespace Nova.Editor.Core.Scripts
                 if (drawTilingAndOffset)
                     using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                     {
-                        ;
                         var textureScaleAndOffset = textureProperty.textureScaleAndOffset;
                         var tiling = new Vector2(textureScaleAndOffset.x, textureScaleAndOffset.y);
                         var offset = new Vector2(textureScaleAndOffset.z, textureScaleAndOffset.w);
@@ -574,8 +577,9 @@ namespace Nova.Editor.Core.Scripts
 
                 using (var ccs = new EditorGUI.ChangeCheckScope())
                 {
+                    EditorGUI.showMixedValue = property.hasMixedValue;
                     isOn = EditorGUI.Toggle(rect, isOn);
-
+                    EditorGUI.showMixedValue = false;
                     if (ccs.changed)
                     {
                         editor.RegisterPropertyChangeUndo(property.name);
@@ -599,7 +603,9 @@ namespace Nova.Editor.Core.Scripts
 
                 using (var ccs = new EditorGUI.ChangeCheckScope())
                 {
+                    EditorGUI.showMixedValue = property.hasMixedValue;
                     value = EditorGUI.Vector2Field(rect, string.Empty, value);
+                    EditorGUI.showMixedValue = false;
 
                     if (ccs.changed)
                     {
