@@ -488,6 +488,9 @@ inline void ApplyVertexColor(in out half4 color, in half4 vertexColor)
 inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float intensity, half emissionMapProgress,
                                half emissionChannelsX)
 {
+    // Texture compression may introduce an error of 1/256, so it's advisable to allow for some margin
+    const half tex_comp_err_margin = 0.004;
+    
     half emissionIntensity = 0;
     half emissionColorRampU = 0;
     #ifdef _EMISSION_AREA_ALL
@@ -498,13 +501,13 @@ inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float in
     #if defined(_EMISSION_COLOR_COLOR) || defined(_EMISSION_COLOR_BASECOLOR)
     emissionIntensity = emissionMapValue;
     #elif _EMISSION_COLOR_MAP
-    emissionIntensity = step(0.0001, emissionMapValue);
+    emissionIntensity = step(tex_comp_err_margin, emissionMapValue);
     emissionColorRampU = emissionMapValue;
     #endif
     #elif _EMISSION_AREA_ALPHA
-    emissionIntensity = step(0.0001, 1.0 - color.a);
+    emissionIntensity = step(tex_comp_err_margin, 1.0 - color.a);
     emissionColorRampU = color.a;
-    color.a = _KeepEdgeTransparency >= 0.5f ? color.a : step(0.0001, color.a);
+    color.a = _KeepEdgeTransparency >= 0.5f ? color.a : step(tex_comp_err_margin, color.a);
     #endif
 
     half3 emissionColor = 0;
