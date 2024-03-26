@@ -1427,6 +1427,9 @@ The texture will now rotate.
 You can use the [Particle System Mesh GPU Instancing](https://docs.unity3d.com/Manual/PartSysInstancing.html) to draw particles efficiently.
 The following section describes how to use `Mesh GPU Instancing` for materials using this shader.
 
+> **Note**  
+> When displaying particles on the preview screen using **PreviewRenderUtility**, we have confirmed a bug on the Unity side that does not render correctly when **Enable Mesh GPU Instancing** is enabled.
+
 #### Enable Mesh GPU Instancing
 To use `Mesh GPU Instancing`, you need to set the `Render Mode` of the `Renderer` module to Mesh.
 Then, check the `Enable Mesh GPU Instancing` checkbox.

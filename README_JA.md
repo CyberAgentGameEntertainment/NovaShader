@@ -1435,6 +1435,8 @@ Particle SystemのCustom Vertex Streamsを使うと、マテリアルのプロ�
 ## Mesh GPU Instancingを使う
 [Particle System Mesh GPU Instancing](https://docs.unity3d.com/Manual/PartSysInstancing.html)を使うと、パーティクルを効率的に描画できます。  
 以下では本シェーダを使ったマテリアルに対して`Mesh GPU Instancing`を有効化する手順について説明します。
+> **Note**  
+> **PreviewRenderUtility**を利用したプレビュー画面上でパーティクルを表示する場合、**Enable Mesh GPU Instancing**が有効に設定されていると正常に描画されないUnity側の不具合を確認しています。
 
 #### Mesh GPU Instancingを有効化する
 `Mesh GPU Instancing`を使うには`Renderer`モジュールの`Render Mode`をMeshにする必要があります。  
