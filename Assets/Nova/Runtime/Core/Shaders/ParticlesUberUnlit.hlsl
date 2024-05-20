@@ -135,6 +135,8 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     // Tint Map UV
     #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
     output.tintEmissionUV.xy = TRANSFORM_TINT_MAP(input.texcoord.xy);
+    output.tintEmissionUV.x += GET_CUSTOM_COORD(_TintMapOffsetXCoord);
+    output.tintEmissionUV.y += GET_CUSTOM_COORD(_TintMapOffsetYCoord);
     #endif
 
     // Tint Map Progress
@@ -239,7 +241,7 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     // The valid range for parallax scale is usually between 0 and 0.1
     half parallaxScale = lerp(0, 0.1, _ParallaxStrength);
     half2 parallaxOffset = GetParallaxMappingUVOffset(input.parallaxMapUVAndProgress.xy, input.parallaxMapUVAndProgress.z, _ParallaxMapChannel, parallaxScale, input.viewDirTS);
-    
+
     #if defined(_PARALLAX_MAP_TARGET_BASE)
     input.baseMapUVAndProgresses.xy += parallaxOffset;
     #endif
@@ -252,7 +254,7 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     input.tintEmissionUV.zw += parallaxOffset;
     #endif
     #endif
-    
+
     // Base Color
     half4 color = SAMPLE_BASE_MAP(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z);
 
@@ -297,7 +299,7 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
                            _EmissionMapChannelsX);
         #endif
     }
-    
+
     // Rim Transparency
     #ifdef _TRANSPARENCY_BY_RIM
     half rimTransparencyProgress = _RimTransparencyProgress + GET_CUSTOM_COORD(_RimTransparencyProgressCoord);

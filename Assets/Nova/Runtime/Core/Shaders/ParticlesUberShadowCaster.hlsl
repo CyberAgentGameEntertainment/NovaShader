@@ -87,7 +87,7 @@ Varyings ShadowPassVertex(Attributes input)
         input.positionOS.xyz += normalize(input.normalOS) * vertexDeformationIntensity;
     }
     #endif
-    
+
     output.positionHCS = GetShadowPositionHClip(input);
 
     #ifdef _SHADOW_CASTER_ALPHA_TEST_ENABLED
@@ -116,6 +116,8 @@ Varyings ShadowPassVertex(Attributes input)
     // Tint Map UV
     #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
     output.tintUV = TRANSFORM_TINT_MAP(input.texcoord.xy);
+    output.tintUV.x += GET_CUSTOM_COORD(_TintMapOffsetXCoord);
+    output.tintUV.y += GET_CUSTOM_COORD(_TintMapOffsetYCoord);
     #endif
 
     // Tint Map Progress
@@ -130,7 +132,7 @@ Varyings ShadowPassVertex(Attributes input)
     output.flowTransitionUVs.x += GET_CUSTOM_COORD(_FlowMapOffsetXCoord);
     output.flowTransitionUVs.y += GET_CUSTOM_COORD(_FlowMapOffsetYCoord);
     #endif
-    
+
     // Transition Map UV
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     output.flowTransitionUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP(input.texcoord.xy);
@@ -147,7 +149,7 @@ Varyings ShadowPassVertex(Attributes input)
     output.transitionProgress = FlipBookBlendingProgress(transitionMapProgress, _AlphaTransitionMapSliceCount);
     #endif
     #endif
-    
+
     return output;
 }
 
@@ -179,7 +181,7 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
         #endif
     }
     #endif
-    
+
     // Base Color
     half4 color = SAMPLE_BASE_MAP(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z);
 
@@ -195,7 +197,7 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
         #endif
     }
     #endif
-    
+
     // Alpha Transition
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     if (_ShadowCasterAlphaAffectedByAlphaTransitionMap)
@@ -218,10 +220,10 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
         ApplyLuminanceTransparency(color, luminanceTransparencyProgress, luminanceTransparencySharpness);
     }
     #endif
-    
+
     clip(color.a - _ShadowCasterAlphaCutoff);
     #endif
-    
+
     return 0;
 }
 

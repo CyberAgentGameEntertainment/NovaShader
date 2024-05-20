@@ -37,7 +37,7 @@ namespace Nova.Editor.Core.Scripts
 
             return CheckError(renderersWithMaterial, correctVertexStreams, correctVertexStreamsInstanced);
         }
-        
+
         /// <summary>
         ///     Corrects errors in renderers using the specified material.
         /// </summary>
@@ -106,8 +106,14 @@ namespace Nova.Editor.Core.Scripts
                                          || IsCustomCoordUsed(commonMaterialProperties.TintRimSharpnessCoordProp);
 
                 var tintMapMode = (TintColorMode)commonMaterialProperties.TintColorModeProp.Value.floatValue;
-                if (tintMapMode == TintColorMode.Texture3D)
-                    isCustomCoordUsed |= IsCustomCoordUsed(commonMaterialProperties.TintMap3DProgressCoordProp);
+                if (tintMapMode == TintColorMode.Texture2D || tintMapMode == TintColorMode.Texture3D)
+                {
+                    isCustomCoordUsed |= IsCustomCoordUsed(commonMaterialProperties.TintMapOffsetXCoordProp)
+                                         || IsCustomCoordUsed(commonMaterialProperties.TintMapOffsetYCoordProp);
+
+                    if (tintMapMode == TintColorMode.Texture3D)
+                        isCustomCoordUsed |= IsCustomCoordUsed(commonMaterialProperties.TintMap3DProgressCoordProp);
+                }
             }
 
             return isCustomCoordUsed;
