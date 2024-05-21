@@ -5,8 +5,8 @@
 #define NOVA_PARTICLESUBERDEPTHNORMALSCORE_INCLUDED
 
 
-// If defined _ALPHATEST_ENABLED or  _NORMAL_MAP_ENABLED, base map uv is enabled. 
-#if defined( _ALPHATEST_ENABLED ) || defined(_NORMAL_MAP_ENABLED) 
+// If defined _ALPHATEST_ENABLED or  _NORMAL_MAP_ENABLED, base map uv is enabled.
+#if defined( _ALPHATEST_ENABLED ) || defined(_NORMAL_MAP_ENABLED)
 #define _USE_BASE_MAP_UV
 #endif
 
@@ -29,7 +29,7 @@
     #endif
 #endif
 
-#if defined( _ALPHATEST_ENABLED ) || defined(_USE_FLOW_MAP) || defined(_USE_BASE_MAP_UV) 
+#if defined( _ALPHATEST_ENABLED ) || defined(_USE_FLOW_MAP) || defined(_USE_BASE_MAP_UV)
 #define _USE_CUSTOM_COORD
 #endif
 
@@ -60,7 +60,7 @@ struct AttributesDrawDepth
     #endif
     #ifdef _ALPHATEST_ENABLED // This attributes is not used for opaque objects.
     float4 color : COLOR;
-    
+
     #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
@@ -79,7 +79,7 @@ struct VaryingsDrawDepth
     float3 binormalWS : BINORMAL;
     #endif
     #endif
-    
+
     #ifdef _USE_CUSTOM_COORD
     INPUT_CUSTOM_COORD(0, 1)
     #endif
@@ -90,7 +90,7 @@ struct VaryingsDrawDepth
     #if defined( _USE_FLOW_MAP ) || defined(_USE_TRANSITION_MAP)
     float4 flowTransitionUVs : TEXCOORD3; // xy: FlowMap UV, zw: TransitionMap UV
     #endif
-    
+
     #ifdef _ALPHATEST_ENABLED // This attributes is not used for opaque objects.
     float4 color : COLOR;
     float4 tintEmissionUV : TEXCOORD4; // xy: TintMap UV, zw: EmissionMap UV
@@ -99,7 +99,7 @@ struct VaryingsDrawDepth
     #ifdef FRAGMENT_USE_VIEW_DIR_WS
     float3 viewDirWS : TEXCOORD6;
     #endif
-    
+
     #ifdef USE_PROJECTED_POSITION
     float4 projectedPosition : TEXCOORD7;
     #endif
@@ -110,7 +110,7 @@ struct VaryingsDrawDepth
 /**
  * \brief Initialize output data from vertex shader for DepthOnly and DepthNormals pass.
  * \param[in] input Input attributes to vertex shader.
- * \param[in,out] output Output data from vertex shader. 
+ * \param[in,out] output Output data from vertex shader.
  */
 inline void InitializeVertexOutputDrawDepth(in AttributesDrawDepth input, in out VaryingsDrawDepth output)
 {
@@ -129,7 +129,7 @@ inline void InitializeVertexOutputDrawDepth(in AttributesDrawDepth input, in out
     float3 positionWS = TransformObjectToWorld(input.positionOS.xyz);
     output.viewDirWS = GetWorldSpaceViewDir(positionWS);
     #endif
-    
+
     #ifdef USE_PROJECTED_POSITION
     output.projectedPosition = ComputeScreenPos(output.positionHCS);
     #endif
@@ -147,7 +147,7 @@ inline void InitializeFragmentInputDrawDepth(in out VaryingsDrawDepth input)
     #endif
 
     #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
-    #ifdef FRAGMENT_USE_VIEW_DIR_WS 
+    #ifdef FRAGMENT_USE_VIEW_DIR_WS
     input.viewDirWS = normalize(input.viewDirWS);
     #endif
     #endif
@@ -156,7 +156,7 @@ inline void InitializeFragmentInputDrawDepth(in out VaryingsDrawDepth input)
 /**
  * \brief Vertex shader entry point.
  * \param input Input attribute.
- * \return Return data of VaryingsDrawDepth Structure. 
+ * \return Return data of VaryingsDrawDepth Structure.
  */
 VaryingsDrawDepth vert(AttributesDrawDepth input)
 {
@@ -169,7 +169,7 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     TRANSFER_CUSTOM_COORD(input, output);
     #endif
     InitializeVertexOutputDrawDepth(input, output);
-    
+
     #ifdef _USE_BASE_MAP_UV
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;
@@ -197,7 +197,7 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord)
     #endif
     #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
-    
+
     // Base Map Progress
     #ifdef _BASE_MAP_MODE_2D_ARRAY
     float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
@@ -210,6 +210,8 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     // Tint Map UV
     #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
     output.tintEmissionUV.xy = TRANSFORM_TINT_MAP(input.texcoord.xy);
+    output.tintEmissionUV.x += GET_CUSTOM_COORD(_TintMapOffsetXCoord);
+    output.tintEmissionUV.y += GET_CUSTOM_COORD(_TintMapOffsetYCoord);
     #endif
 
     // Tint Map Progress
@@ -247,7 +249,7 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     //Fog
     // output.transitionEmissionProgresses.z = ComputeFogFactor(output.positionHCS.z);
     #endif
-    
+
     return output;
 }
 
@@ -261,18 +263,18 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
 {
     UNITY_SETUP_INSTANCE_ID(input);
     SETUP_FRAGMENT;
-    
+
     #ifdef _USE_CUSTOM_COORD
     SETUP_CUSTOM_COORD(input);
     #endif
-    
+
     InitializeFragmentInputDrawDepth(input);
 
     #if defined(_TRANSPARENCY_BY_RIM) || defined(_TINT_AREA_RIM)
     half rim = 1.0 - abs(dot(input.normalWS, input.viewDirWS));
     #endif
-    
-    // Flow map 
+
+    // Flow map
     #if defined( _USE_FLOW_MAP)
     half intensity = _FlowIntensity + GET_CUSTOM_COORD(_FlowIntensityCoord);
     half2 flowMapUvOffset = GetFlowMapUvOffset(_FlowMap, sampler_FlowMap, intensity, input.flowTransitionUVs.xy, _FlowMapChannelsX, _FlowMapChannelsY);
@@ -289,11 +291,11 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
         input.flowTransitionUVs.zw += flowMapUvOffset;
     #endif
     #endif
-    
+
     #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
     // Base Color
     half4 color = SAMPLE_BASE_MAP(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z);
-    
+
     // Tint Color
     #if defined(_TINT_AREA_ALL) || defined(_TINT_AREA_RIM)
     half tintBlendRate = _TintBlendRate + GET_CUSTOM_COORD(_TintBlendRateCoord);
@@ -312,7 +314,7 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     ModulateAlphaTransitionProgress(alphaTransitionProgress, input.color.a);
     color.a *= GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x, _AlphaTransitionMapChannelsX);
     #endif
-    
+
     // NOTE : Not need in DepthNormals pass.
     // Color Correction
     // ApplyColorCorrection(color.rgb);
@@ -354,7 +356,7 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     #endif
 
     AlphaClip(color.a, _Cutoff);
-    
+
     // NOTE : Not need in DepthNormals pass.
     // color.rgb = ApplyAlpha(color.rgb, color.a);
     #endif

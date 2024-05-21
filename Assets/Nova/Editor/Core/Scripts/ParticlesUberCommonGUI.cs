@@ -314,13 +314,17 @@ namespace Nova.Editor.Core.Scripts
             }
             else if (tintColorMode == TintColorMode.Texture2D)
             {
-                MaterialEditorUtility.DrawTexture(_editor, props.TintMapProp.Value, true);
+                MaterialEditorUtility.DrawTexture(_editor, props.TintMapProp.Value,
+                    props.TintMapOffsetXCoordProp.Value, props.TintMapOffsetYCoordProp.Value,
+                    null, null);
             }
             else if (tintColorMode == TintColorMode.Texture3D)
             {
                 using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                 {
-                    MaterialEditorUtility.DrawTexture(_editor, props.TintMap3DProp.Value, true);
+                    MaterialEditorUtility.DrawTexture(_editor, props.TintMap3DProp.Value,
+                        props.TintMapOffsetXCoordProp.Value, props.TintMapOffsetYCoordProp.Value,
+                        null, null);
 
                     if (changeCheckScope.changed && props.TintMap3DProp.Value.textureValue != null)
                     {
@@ -587,24 +591,24 @@ namespace Nova.Editor.Core.Scripts
                 props.VertexDeformationIntensityProp.Value,
                 props.VertexDeformationIntensityCoordProp.Value);
         }
-        
+
         private void InternalDrawShadowCasterProperties()
         {
             var props = _commonMaterialProperties;
             MaterialEditorUtility.DrawToggleProperty(_editor, "Enable", props.ShadowCasterEnabledProp.Value);
-            if (props.ShadowCasterEnabledProp.Value.floatValue < 0.5f) 
+            if (props.ShadowCasterEnabledProp.Value.floatValue < 0.5f)
                 return;
-            
+
             MaterialEditorUtility.DrawToggleProperty(_editor, "Apply Vertex Deformation", props.ShadowCasterApplyVertexDeformationProp.Value);
-            
+
             MaterialEditorUtility.DrawToggleProperty(_editor, "Alpha Test Enable", props.ShadowCasterAlphaTestEnabledProp.Value);
             if (props.ShadowCasterAlphaTestEnabledProp.Value.floatValue < 0.5f)
                 return;
-            
+
             EditorGUI.indentLevel++;
             MaterialEditorUtility.DrawFloatRangeProperty(_editor, "Cutoff", props.ShadowCasterAlphaCutoffProp.Value, 0, 1);
             EditorGUI.indentLevel--;
-            
+
             EditorGUI.LabelField(EditorGUILayout.GetControlRect(), "Alpha Affected By");
             EditorGUI.indentLevel++;
             MaterialEditorUtility.DrawToggleProperty(_editor, "Tint Color", props.ShadowCasterAlphaAffectedByTintColorProp.Value);

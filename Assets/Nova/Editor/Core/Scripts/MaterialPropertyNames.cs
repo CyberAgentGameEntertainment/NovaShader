@@ -70,6 +70,8 @@ namespace Nova.Editor.Core.Scripts
         public const string TintMap3DProgress = "_TintMap3DProgress";
         public const string TintMap3DProgressCoord = "_TintMap3DProgressCoord";
         public const string TintMapSliceCount = "_TintMapSliceCount";
+        public const string TintMapOffsetXCoord = "_TintMapOffsetXCoord";
+        public const string TintMapOffsetYCoord = "_TintMapOffsetYCoord";
         public const string TintMapBlendRate = "_TintBlendRate";
         public const string TintMapBlendRateCoord = "_TintBlendRateCoord";
         public const string TintRimProgress = "_TintRimProgress";
@@ -87,7 +89,7 @@ namespace Nova.Editor.Core.Scripts
         public const string FlowIntensity = "_FlowIntensity";
         public const string FlowIntensityCoord = "_FlowIntensityCoord";
         public const string FlowMapTarget = "_FlowMapTarget";
-        
+
         // Parallax Map
         public const string ParallaxMapMode = "_ParallaxMapMode";
         public const string ParallaxMap = "_ParallaxMap";
@@ -164,7 +166,7 @@ namespace Nova.Editor.Core.Scripts
         // Distortion
         public const string DistortionIntensity = "_DistortionIntensity";
         public const string DistortionIntensityCoord = "_DistortionIntensityCoord";
-        
+
         // Vertex Deformation
         public const string VertexDeformationMap = "_VertexDeformationMap";
         public const string VertexDeformationMapOffsetXCoord = "_VertexDeformationMapOffsetXCoord";
@@ -172,7 +174,7 @@ namespace Nova.Editor.Core.Scripts
         public const string VertexDeformationMapChannel = "_VertexDeformationMapChannel";
         public const string VertexDeformationIntensity = "_VertexDeformationIntensity";
         public const string VertexDeformationIntensityCoord = "_VertexDeformationIntensityCoord";
-        
+
         // Shadow Caster
         public const string ShadowCasterEnabled = "_ShadowCasterEnabled";
         public const string ShadowCasterApplyVertexDeformation = "_ShadowCasterApplyVertexDeformation";

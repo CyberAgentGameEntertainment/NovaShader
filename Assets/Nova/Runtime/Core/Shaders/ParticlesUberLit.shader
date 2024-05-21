@@ -64,6 +64,8 @@ Shader "Nova/Particles/UberLit"
         _TintMap3DProgress("Tint Map 3D Progress", Range(0, 1)) = 0.0
         _TintMap3DProgressCoord("Tint Map 3D Progress Coord", Float) = 0.0
         _TintMapSliceCount("Base Map Slice Count", Float) = 4.0
+        _TintMapOffsetXCoord("Tint Map Offset X Coord", Float) = 0.0
+        _TintMapOffsetYCoord("Tint Map Offset Y Coord", Float) = 0.0
         _TintBlendRate("Tint Blend Rate", Range(0.0, 1.0)) = 1.0
         _TintBlendRateCoord("Tint Blend Rate Coord", Float) = 0.0
         _TintRimProgress("Tint Rim Progress", Range(0.0, 1.0)) = 0.5
@@ -81,7 +83,7 @@ Shader "Nova/Particles/UberLit"
         _FlowIntensity("Flow Intensity", Float) = 1.0
         _FlowIntensityCoord("Flow Intensity Coord", Float) = 0.0
         _FlowMapTarget("Flow Map Target", Float) = 1.0
-        
+
         // Parallax Map
         _ParallaxMapMode("Emission Map Mode", Float) = 0.0
         _ParallaxMap("Parallax Map", 2D) = "" {}
@@ -154,7 +156,7 @@ Shader "Nova/Particles/UberLit"
         _DepthFadeNear("Depth Fade Near", Float) = 1.0
         _DepthFadeFar("Depth Fade Far", Float) = 10.0
         _DepthFadeWidth("Depth Fade Width", Float) = 1.0
-        
+
         // Vertex Deformation
         _VertexDeformationEnabled ("Vertex Deformation Enabled", Float) = 0
         _VertexDeformationMap ("Vertex Deformation Map", 2D) = "white" {}
@@ -163,7 +165,7 @@ Shader "Nova/Particles/UberLit"
         _VertexDeformationMapChannel("VertexDeformation Map Channel", Float) = 0.0
         _VertexDeformationIntensity("VertexDeformation Intensity", Float) = 0.1
         _VertexDeformationIntensityCoord("VertexDeformation Intensity Coord", Float) = 0.0
-        
+
         // Shadow Caster
         _ShadowCasterEnabled("Shadow Caster", Float) = 0
         _ShadowCasterApplyVertexDeformation("Shadow Caster Vertex Deformation Enabled", Float) = 0
@@ -218,12 +220,12 @@ Shader "Nova/Particles/UberLit"
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
             #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
             #pragma multi_compile_fragment _ _SHADOWS_SOFT
-            
+
             // Render Settings
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
             #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
-            
+
             #pragma shader_feature_local _RECEIVE_SHADOWS_ENABLED
             #pragma shader_feature_local _SPECULAR_HIGHLIGHTS_ENABLED
             #pragma shader_feature_local _ENVIRONMENT_REFLECTIONS_ENABLED
@@ -256,7 +258,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _PARALLAX_MAP_TARGET_TINT
             #pragma shader_feature_local _PARALLAX_MAP_TARGET_EMISSION
             #pragma shader_feature_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
-            
+
             // Color Correction
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
 
@@ -353,7 +355,7 @@ Shader "Nova/Particles/UberLit"
 
             // Vertex Deformation
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
-            
+
             // When LightMode is SceneSelectionPass, the shaders are the same as in the Unlit version,
             // so there is no problem.
             #include "ParticlesUberUnlitEditor.hlsl"
@@ -596,7 +598,7 @@ Shader "Nova/Particles/UberLit"
             #include "ParticlesUberDepthOnly.hlsl"
             ENDHLSL
         }
-        
+
         Pass
         {
             Name "ShadowCaster"

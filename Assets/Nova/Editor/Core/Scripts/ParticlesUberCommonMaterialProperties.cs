@@ -79,6 +79,8 @@ namespace Nova.Editor.Core.Scripts
             TintMap3DProgressProp.Setup(properties);
             TintMap3DProgressCoordProp.Setup(properties);
             TintMapSliceCountProp.Setup(properties);
+            TintMapOffsetXCoordProp.Setup(properties);
+            TintMapOffsetYCoordProp.Setup(properties);
             TintMapBlendRateProp.Setup(properties);
             TintMapBlendRateCoordProp.Setup(properties);
             TintRimProgressProp.Setup(properties);
@@ -177,7 +179,7 @@ namespace Nova.Editor.Core.Scripts
             VertexDeformationMapChannelProp.Setup(properties);
             VertexDeformationIntensityProp.Setup(properties);
             VertexDeformationIntensityCoordProp.Setup(properties);
-            
+
             // Shadow Caster
             ShadowCasterEnabledProp.Setup(properties);
             ShadowCasterApplyVertexDeformationProp.Setup(properties);
@@ -272,6 +274,10 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property TintMap3DProgressCoordProp { get; } = new(PropertyNames.TintMap3DProgressCoord);
 
         public ParticlesGUI.Property TintMapSliceCountProp { get; } = new(PropertyNames.TintMapSliceCount);
+
+        public ParticlesGUI.Property TintMapOffsetXCoordProp { get; } = new(PropertyNames.TintMapOffsetXCoord);
+
+        public ParticlesGUI.Property TintMapOffsetYCoordProp { get; } = new(PropertyNames.TintMapOffsetYCoord);
 
         public ParticlesGUI.Property TintMapBlendRateProp { get; } = new(PropertyNames.TintMapBlendRate);
 
@@ -488,7 +494,7 @@ namespace Nova.Editor.Core.Scripts
         #endregion
 
         #region Shadow Caster Material Properties
-        
+
         public ParticlesGUI.Property ShadowCasterEnabledProp { get; } = new(PropertyNames.ShadowCasterEnabled);
         public ParticlesGUI.Property ShadowCasterApplyVertexDeformationProp { get; } = new(PropertyNames.ShadowCasterApplyVertexDeformation);
         public ParticlesGUI.Property ShadowCasterAlphaTestEnabledProp { get; } = new(PropertyNames.ShadowCasterAlphaTestEnabled);
@@ -497,7 +503,7 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property ShadowCasterAlphaAffectedByFlowMapProp { get; } = new(PropertyNames.ShadowCasterAlphaAffectedByFlowMap);
         public ParticlesGUI.Property ShadowCasterAlphaAffectedByAlphaTransitionMapProp { get; } = new(PropertyNames.ShadowCasterAlphaAffectedByAlphaTransitionMap);
         public ParticlesGUI.Property ShadowCasterAlphaAffectedByTransparencyLuminanceProp { get; } = new(PropertyNames.ShadowCasterAlphaAffectedByTransparencyLuminance);
-        
+
         #endregion
     }
 }

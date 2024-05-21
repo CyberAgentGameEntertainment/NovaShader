@@ -38,7 +38,9 @@ Shader "Nova/Particles/UberUnlit"
         _TintMap3D("Tint Map 3D", 3D) = "" {}
         _TintMap3DProgress("Tint Map 3D Progress", Range(0, 1)) = 0.0
         _TintMap3DProgressCoord("Tint Map 3D Progress Coord", Float) = 0.0
-        _TintMapSliceCount("Base Map Slice Count", Float) = 4.0
+        _TintMapSliceCount("Tint Map Slice Count", Float) = 4.0
+        _TintMapOffsetXCoord("Tint Map Offset X Coord", Float) = 0.0
+        _TintMapOffsetYCoord("Tint Map Offset Y Coord", Float) = 0.0
         _TintBlendRate("Tint Blend Rate", Range(0.0, 1.0)) = 1.0
         _TintBlendRateCoord("Tint Blend Rate Coord", Float) = 0.0
         _TintRimProgress("Tint Rim Progress", Range(0.0, 1.0)) = 0.5
@@ -56,7 +58,7 @@ Shader "Nova/Particles/UberUnlit"
         _FlowIntensity("Flow Intensity", Float) = 1.0
         _FlowIntensityCoord("Flow Intensity Coord", Float) = 0.0
         _FlowMapTarget("Flow Map Target", Float) = 1.0
-        
+
         // Parallax Map
         _ParallaxMapMode("Emission Map Mode", Float) = 0.0
         _ParallaxMap("Parallax Map", 2D) = "" {}
@@ -129,7 +131,7 @@ Shader "Nova/Particles/UberUnlit"
         _DepthFadeNear("Depth Fade Near", Float) = 1.0
         _DepthFadeFar("Depth Fade Far", Float) = 10.0
         _DepthFadeWidth("Depth Fade Width", Float) = 1.0
-        
+
         // Vertex Deformation
         _VertexDeformationEnabled ("Vertex Deformation Enabled", Float) = 0
         _VertexDeformationMap ("Vertex Deformation Map", 2D) = "white" {}
@@ -138,7 +140,7 @@ Shader "Nova/Particles/UberUnlit"
         _VertexDeformationMapChannel("VertexDeformation Map Channel", Float) = 0.0
         _VertexDeformationIntensity("VertexDeformation Intensity", Float) = 0.1
         _VertexDeformationIntensityCoord("VertexDeformation Intensity Coord", Float) = 0.0
-        
+
         // Shadow Caster
         _ShadowCasterEnabled("Shadow Caster", Float) = 0
         _ShadowCasterApplyVertexDeformation("Shadow Caster Vertex Deformation Enabled", Float) = 0

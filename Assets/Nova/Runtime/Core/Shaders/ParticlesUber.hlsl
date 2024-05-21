@@ -88,6 +88,8 @@ float4 _TintMap3D_ST;
 float _TintMap3DProgress;
 DECLARE_CUSTOM_COORD(_TintMap3DProgressCoord);
 float _TintMapSliceCount;
+DECLARE_CUSTOM_COORD(_TintMapOffsetXCoord);
+DECLARE_CUSTOM_COORD(_TintMapOffsetYCoord);
 float _TintBlendRate;
 float _TintBlendRateCoord;
 float _TintRimProgress;
@@ -490,7 +492,7 @@ inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float in
 {
     // Texture compression may introduce an error of 1/256, so it's advisable to allow for some margin
     const half tex_comp_err_margin = 0.004;
-    
+
     half emissionIntensity = 0;
     half emissionColorRampU = 0;
     #ifdef _EMISSION_AREA_ALL
@@ -625,7 +627,7 @@ inline half2 GetParallaxMappingUVOffset(in half2 uv, in half progress, in half c
 {
     half4 map = SAMPLE_PARALLAX_MAP(uv, progress);
     half height = map[(int)channel];
-    half2 offset = ParallaxOffset(height, scale, viewDirTS);    
+    half2 offset = ParallaxOffset(height, scale, viewDirTS);
     return offset;
 }
 #endif
