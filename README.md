@@ -724,7 +724,7 @@ Sets the progress of Transition.
 </td></tr>
 <tr><td colspan="3"><b>Edge Sharpness</b></td><td>
 <p>
-<b>This property is visible only when the Mode is set to Transition.</b>
+<b>This property is visible only when the Mode is set to Dissolve.</b>
 </p>
 <p>
 Sets the sharpness of the edge.
@@ -1230,7 +1230,7 @@ Sets the progress of Transition.
 </td></tr>
 <tr><td colspan="3"><b>Edge Sharpness</b></td><td>
 <p>
-<b>This property is visible only when the Mode is set to Transition.</b>
+<b>This property is visible only when the Mode is set to Dissolve.</b>
 </p>
 <p>
 Sets the sharpness of the edge.

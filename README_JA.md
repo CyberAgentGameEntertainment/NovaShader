@@ -732,7 +732,7 @@ Flip-BookあるいはFlip-Book Blendingの進行度を設定します。
 </td></tr>
 <tr><td colspan="3"><b>Edge Sharpness</b></td><td>
 <p>
-<b>ModeをTransitionに設定した時のみ表示されます。</b>
+<b>ModeをDissolveに設定した時のみ表示されます。</b>
 </p>
 <p>
 エッジの鋭さを設定します。
@@ -1238,7 +1238,7 @@ Alpha Transitionは徐々に消えていく表現に使用します。
 </td></tr>
 <tr><td colspan="3"><b>Edge Sharpness</b></td><td>
 <p>
-<b>ModeをTransitionに設定した時のみ表示されます。</b>
+<b>ModeをDissolveに設定した時のみ表示されます。</b>
 </p>
 <p>
 エッジの鋭さを設定します。
