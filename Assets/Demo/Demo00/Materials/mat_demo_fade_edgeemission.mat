@@ -10,6 +10,7 @@ Material:
   m_Name: mat_demo_fade_edgeemission
   m_Shader: {fileID: 4800000, guid: 1bc5c6a70411243779ce486a98012125, type: 3}
   m_ValidKeywords:
+  - _ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE
   - _ALPHA_TRANSITION_MAP_MODE_2D
   - _BASE_MAP_MODE_2D
   - _EMISSION_AREA_ALPHA
@@ -43,6 +44,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _AlphaTransitionMapSecondTexture:
+        m_Texture: {fileID: 2800000, guid: e5c1bb044a69c48868c1f381762bbcea, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AlphaTransitionMapSecondTexture2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AlphaTransitionMapSecondTexture3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: cac707016af934ee5a416cab14da7246, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -72,7 +85,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionColorRamp:
-        m_Texture: {fileID: 2800000, guid: ad948d6c337974eff945b4e9670f88f3, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -156,10 +169,14 @@ Material:
     - _AlphaTransitionMapOffsetYCoord: 0
     - _AlphaTransitionMapProgress: 0
     - _AlphaTransitionMapProgressCoord: 0
+    - _AlphaTransitionMapSecondTextureChannelsX: 1
+    - _AlphaTransitionMapSecondTextureOffsetXCoord: 0
+    - _AlphaTransitionMapSecondTextureOffsetYCoord: 0
     - _AlphaTransitionMapSliceCount: 4
     - _AlphaTransitionMode: 1
     - _AlphaTransitionProgress: 0
     - _AlphaTransitionProgressCoord: 1
+    - _AlphaTransitionSecondTextureBlendMode: 1
     - _BaseMapMirrorSampling: 0
     - _BaseMapMode: 0
     - _BaseMapOffsetXCoord: 0
@@ -259,6 +276,7 @@ Material:
     - _ShadowCasterAlphaEffectedByTransparencyLuminance: 0
     - _ShadowCasterAlphaEffectedByTransparencySoftParticles: 0
     - _ShadowCasterAlphaTestEnabled: 1
+    - _ShadowCasterApplyVertexDeformation: 0
     - _ShadowCasterEnabled: 1
     - _ShadowCasterVertexDeformationEnabled: 0
     - _Smoothness: 0.5

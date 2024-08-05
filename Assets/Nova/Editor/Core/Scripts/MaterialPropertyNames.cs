@@ -120,6 +120,13 @@ namespace Nova.Editor.Core.Scripts
         public const string AlphaTransitionMapOffsetYCoord = "_AlphaTransitionMapOffsetYCoord";
         public const string AlphaTransitionMapChannelsX = "_AlphaTransitionMapChannelsX";
         public const string AlphaTransitionMapSliceCount = "_AlphaTransitionMapSliceCount";
+        public const string AlphaTransitionSecondTextureBlendMode = "_AlphaTransitionSecondTextureBlendMode";
+        public const string AlphaTransitionMapSecondTexture = "_AlphaTransitionMapSecondTexture";
+        public const string AlphaTransitionMapSecondTexture2DArray = "_AlphaTransitionMapSecondTexture2DArray";
+        public const string AlphaTransitionMapSecondTexture3D = "_AlphaTransitionMapSecondTexture3D";
+        public const string AlphaTransitionMapSecondTextureOffsetXCoord = "_AlphaTransitionMapSecondTextureOffsetXCoord";
+        public const string AlphaTransitionMapSecondTextureOffsetYCoord = "_AlphaTransitionMapSecondTextureOffsetYCoord";
+        public const string AlphaTransitionMapSecondTextureChannelsX = "_AlphaTransitionMapSecondTextureChannelsX";
         public const string AlphaTransitionProgress = "_AlphaTransitionProgress";
         public const string AlphaTransitionProgressCoord = "_AlphaTransitionProgressCoord";
         public const string DissolveSharpness = "_DissolveSharpness";

@@ -204,7 +204,7 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
     {
         half alphaTransitionProgress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
         ModulateAlphaTransitionProgress(alphaTransitionProgress, input.color.a);
-        color.a *= GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionProgress, _AlphaTransitionMapChannelsX);
+        color.a *= GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionProgress);
     }
     #endif
 

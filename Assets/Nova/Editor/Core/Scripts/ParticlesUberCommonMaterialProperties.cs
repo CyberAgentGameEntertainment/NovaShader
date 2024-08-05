@@ -129,6 +129,13 @@ namespace Nova.Editor.Core.Scripts
             AlphaTransitionMapOffsetYCoordProp.Setup(properties);
             AlphaTransitionMapChannelsXProp.Setup(properties);
             AlphaTransitionMapSliceCountProp.Setup(properties);
+            AlphaTransitionSecondTextureBlendModeProp.Setup(properties);
+            AlphaTransitionMapSecondTextureProp.Setup(properties);
+            AlphaTransitionMapSecondTexture2DArrayProp.Setup(properties);
+            AlphaTransitionMapSecondTexture3DProp.Setup(properties);
+            AlphaTransitionMapSecondTextureOffsetXCoordProp.Setup(properties);
+            AlphaTransitionMapSecondTextureOffsetYCoordProp.Setup(properties);
+            AlphaTransitionMapSecondTextureChannelsXProp.Setup(properties);
             AlphaTransitionProgressProp.Setup(properties);
             AlphaTransitionProgressCoordProp.Setup(properties);
             DissolveSharpnessProp.Setup(properties);
@@ -373,6 +380,25 @@ namespace Nova.Editor.Core.Scripts
 
         public ParticlesGUI.Property AlphaTransitionMapSliceCountProp { get; } =
             new(PropertyNames.AlphaTransitionMapSliceCount);
+        
+        public ParticlesGUI.Property AlphaTransitionSecondTextureBlendModeProp { get; } =
+            new(PropertyNames.AlphaTransitionSecondTextureBlendMode);
+        
+        public ParticlesGUI.Property AlphaTransitionMapSecondTextureProp { get; } = new(PropertyNames.AlphaTransitionMapSecondTexture);
+
+        public ParticlesGUI.Property AlphaTransitionMapSecondTexture2DArrayProp { get; } =
+            new(PropertyNames.AlphaTransitionMapSecondTexture2DArray);
+
+        public ParticlesGUI.Property AlphaTransitionMapSecondTexture3DProp { get; } = new(PropertyNames.AlphaTransitionMapSecondTexture3D);
+
+        public ParticlesGUI.Property AlphaTransitionMapSecondTextureOffsetXCoordProp { get; } =
+            new(PropertyNames.AlphaTransitionMapSecondTextureOffsetXCoord);
+
+        public ParticlesGUI.Property AlphaTransitionMapSecondTextureOffsetYCoordProp { get; } =
+            new(PropertyNames.AlphaTransitionMapSecondTextureOffsetYCoord);
+
+        public ParticlesGUI.Property AlphaTransitionMapSecondTextureChannelsXProp { get; } =
+            new(PropertyNames.AlphaTransitionMapSecondTextureChannelsX);
 
         public ParticlesGUI.Property AlphaTransitionProgressProp { get; } = new(PropertyNames.AlphaTransitionProgress);
 

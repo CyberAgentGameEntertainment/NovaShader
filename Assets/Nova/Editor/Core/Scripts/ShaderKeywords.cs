@@ -61,6 +61,8 @@ namespace Nova.Editor.Core.Scripts
         public const string AlphaTransitionMapMode2D = "_ALPHA_TRANSITION_MAP_MODE_2D";
         public const string AlphaTransitionMapMode2DArray = "_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY";
         public const string AlphaTransitionMapMode3D = "_ALPHA_TRANSITION_MAP_MODE_3D";
+        public const string AlphaTransitionBlendSecondTexAdditive = "_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE";
+        public const string AlphaTransitionBlendSecondTexMultiply = "_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY";
 
         // Emission
         public const string EmissionAreaAll = "_EMISSION_AREA_ALL";

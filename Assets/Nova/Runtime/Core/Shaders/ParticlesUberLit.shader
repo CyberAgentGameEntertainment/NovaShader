@@ -114,6 +114,13 @@ Shader "Nova/Particles/UberLit"
         _AlphaTransitionMapOffsetYCoord("Alpha Transition Map Offset Y Coord", Float) = 0.0
         _AlphaTransitionMapChannelsX("Alpha Transition Map Channes X", Float) = 0.0
         _AlphaTransitionMapSliceCount("Alpha Transition Map Slice Count", Float) = 4.0
+        _AlphaTransitionSecondTextureBlendMode("Alpha Transition Second Texture BlendMode", Float) = 0.0
+        _AlphaTransitionMapSecondTexture("Alpha Transition Second Texture Map", 2D) = "white" {}
+        _AlphaTransitionMapSecondTexture2DArray("Alpha Transition Second Texture Map 2D Array", 2DArray) = "" {}
+        _AlphaTransitionMapSecondTexture3D("Alpha Transition Second Texture Map 3D", 3D) = "" {}
+        _AlphaTransitionMapSecondTextureOffsetXCoord("Alpha Transition Second Texture Map Offset X Coord", Float) = 0.0
+        _AlphaTransitionMapSecondTextureOffsetYCoord("Alpha Transition Second Texture Map Offset Y Coord", Float) = 0.0
+        _AlphaTransitionMapSecondTextureChannelsX("Alpha Transition Second Texture Map Channes X", Float) = 0.0
         _AlphaTransitionProgress("Alpha Transition Progress", Range(0.0, 1.0)) = 0.0
         _AlphaTransitionProgressCoord("Alpha Transition Progress Coord", Float) = 0.0
         _DissolveSharpness("Dissolve Sharpness", Range(0.0, 1.0)) = 0.5
@@ -265,7 +272,8 @@ Shader "Nova/Particles/UberLit"
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
-
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
+            
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
             #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
@@ -341,6 +349,7 @@ Shader "Nova/Particles/UberLit"
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Emission
             //#pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
@@ -418,6 +427,7 @@ Shader "Nova/Particles/UberLit"
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Emission
             //#pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
@@ -501,6 +511,7 @@ Shader "Nova/Particles/UberLit"
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
@@ -578,6 +589,7 @@ Shader "Nova/Particles/UberLit"
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
@@ -637,6 +649,7 @@ Shader "Nova/Particles/UberLit"
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Transparency
             #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE

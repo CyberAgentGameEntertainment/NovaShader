@@ -53,6 +53,15 @@ namespace Nova.Editor.Core.Scripts
 
         private static readonly int AlphaTransitionMap3DId =
             Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionMap3D);
+        
+        private static readonly int AlphaTransitionMapSecondTextureId =
+            Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionMapSecondTexture);
+
+        private static readonly int AlphaTransitionMapSecondTexture2DArrayId =
+            Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionMapSecondTexture2DArray);
+
+        private static readonly int AlphaTransitionMapSecondTexture3DId =
+            Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionMapSecondTexture3D);
 
         private static readonly int AlphaTransitionProgressCoordId =
             Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionProgressCoord);
@@ -62,6 +71,9 @@ namespace Nova.Editor.Core.Scripts
 
         private static readonly int AlphaTransitionMapModeId =
             Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionMapMode);
+
+        private static readonly int AlphaTransitionSecondTextureBlendMode =
+            Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionSecondTextureBlendMode);
 
         private static readonly int EmissionAreaTypeId = Shader.PropertyToID(MaterialPropertyNames.EmissionAreaType);
         private static readonly int EmissionColorTypeId = Shader.PropertyToID(MaterialPropertyNames.EmissionColorType);
@@ -276,13 +288,25 @@ namespace Nova.Editor.Core.Scripts
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FadeTransitionEnabled, fadeTransitionEnabled);
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.DissolveTransitionEnabled,
                 dissolveTransitionEnabled);
-
+            
             var alphaTransitionMapMode = (AlphaTransitionMapMode)material.GetFloat(AlphaTransitionMapModeId);
             foreach (AlphaTransitionMapMode value in Enum.GetValues(typeof(AlphaTransitionMapMode)))
             {
                 var isOn = alphaTransitionMapMode == value;
                 var keyword = value.GetShaderKeyword();
                 MaterialEditorUtility.SetKeyword(material, keyword, isOn);
+            }
+            
+            // 2nd Texture
+            {
+                bool secondTexEnabled = material.GetTexture(AlphaTransitionMapSecondTextureId) != null
+                                        || material.GetTexture(AlphaTransitionMapSecondTexture2DArrayId) != null
+                                        || material.GetTexture(AlphaTransitionMapSecondTexture3DId) != null;
+                var blendMode = (AlphaTransitionBlendMode)material.GetFloat(AlphaTransitionSecondTextureBlendMode);
+                MaterialEditorUtility.SetKeyword(material, ShaderKeywords.AlphaTransitionBlendSecondTexAdditive,
+                    secondTexEnabled && blendMode == AlphaTransitionBlendMode.Additive);
+                MaterialEditorUtility.SetKeyword(material, ShaderKeywords.AlphaTransitionBlendSecondTexMultiply,
+                    secondTexEnabled && blendMode == AlphaTransitionBlendMode.Multiply);
             }
         }
 

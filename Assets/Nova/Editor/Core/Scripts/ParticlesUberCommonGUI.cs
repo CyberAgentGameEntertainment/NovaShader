@@ -379,16 +379,20 @@ namespace Nova.Editor.Core.Scripts
                     props.AlphaTransitionMapModeProp.Value);
                 var alphaTransitionMapMode = (AlphaTransitionMapMode)props.AlphaTransitionMapModeProp.Value.floatValue;
                 MaterialProperty alphaTransitionMapProp;
+                MaterialProperty alphaTransitionMapSecondTextureProp;
                 switch (alphaTransitionMapMode)
                 {
                     case AlphaTransitionMapMode.SingleTexture:
                         alphaTransitionMapProp = props.AlphaTransitionMapProp.Value;
+                        alphaTransitionMapSecondTextureProp = props.AlphaTransitionMapSecondTextureProp.Value;
                         break;
                     case AlphaTransitionMapMode.FlipBook:
                         alphaTransitionMapProp = props.AlphaTransitionMap2DArrayProp.Value;
+                        alphaTransitionMapSecondTextureProp = props.AlphaTransitionMapSecondTexture2DArrayProp.Value;
                         break;
                     case AlphaTransitionMapMode.FlipBookBlending:
                         alphaTransitionMapProp = props.AlphaTransitionMap3DProp.Value;
+                        alphaTransitionMapSecondTextureProp = props.AlphaTransitionMapSecondTexture3DProp.Value;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -415,6 +419,19 @@ namespace Nova.Editor.Core.Scripts
                             var tex3D = (Texture3D)props.AlphaTransitionMap3DProp.Value.textureValue;
                             props.AlphaTransitionMapSliceCountProp.Value.floatValue = tex3D.depth;
                         }
+                    }
+                }
+            
+                // 2nd Texture
+                {
+                    MaterialEditorUtility.DrawEnumProperty<AlphaTransitionBlendMode>(_editor, "2nd Texture Blend Mode",
+                    props.AlphaTransitionSecondTextureBlendModeProp.Value);
+                    var alphaTransitionSecondTextureBlendMode = (AlphaTransitionBlendMode)props.AlphaTransitionSecondTextureBlendModeProp.Value.floatValue;
+                    if (alphaTransitionSecondTextureBlendMode != AlphaTransitionBlendMode.None)
+                    {
+                        MaterialEditorUtility.DrawTexture(_editor, alphaTransitionMapSecondTextureProp,
+                            props.AlphaTransitionMapSecondTextureOffsetXCoordProp.Value, props.AlphaTransitionMapSecondTextureOffsetYCoordProp.Value,
+                            props.AlphaTransitionMapSecondTextureChannelsXProp.Value, null);
                     }
                 }
 
