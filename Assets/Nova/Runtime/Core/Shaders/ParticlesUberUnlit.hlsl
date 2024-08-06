@@ -241,6 +241,9 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     #endif
     #ifdef _FLOW_MAP_TARGET_ALPHA_TRANSITION
     input.flowTransitionUVs.zw += flowMapUvOffset;
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    input.flowTransitionSecondUVs.zw += flowMapUvOffset;
+    #endif
     #endif
     #endif
 
@@ -289,7 +292,11 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     half alphaTransitionProgress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
     ModulateAlphaTransitionProgress(alphaTransitionProgress, input.color.a);
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    half transition_alpha = GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x, input.flowTransitionSecondUVs.zw);
+    #else
     half transition_alpha = GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x);
+    #endif
     color.a *= transition_alpha;
     #endif
 

@@ -37,6 +37,9 @@ struct Varyings
     float2 tintUV : TEXCOORD4; // xy: TintMap UV, zw: EmissionMap UV
     #endif
     float transitionProgress : TEXCOORD5;
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    float4 flowTransitionSecondUVs : TEXCOORD6; // xy: FlowMap UV, zw: TransitionMap UV
+    #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -138,6 +141,11 @@ Varyings ShadowPassVertex(Attributes input)
     output.flowTransitionUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP(input.texcoord.xy);
     output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord)
     output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord)
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    output.flowTransitionSecondUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(input.texcoord.xy);
+    output.flowTransitionSecondUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord)
+    output.flowTransitionSecondUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord)
+    #endif
     #endif
 
     // Transition Map Progress
@@ -178,6 +186,9 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
         #endif
         #ifdef _FLOW_MAP_TARGET_ALPHA_TRANSITION
         input.flowTransitionUVs.zw += flowMapUvOffset;
+        #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+        input.flowTransitionSecondUVs.zw += flowMapUvOffset;
+        #endif
         #endif
     }
     #endif
@@ -204,7 +215,11 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
     {
         half alphaTransitionProgress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
         ModulateAlphaTransitionProgress(alphaTransitionProgress, input.color.a);
+        #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+        color.a *= GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionProgress, input.flowTransitionSecondUVs.xy);
+        #else
         color.a *= GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionProgress);
+        #endif
     }
     #endif
 

@@ -480,25 +480,8 @@ void ModulateAlphaTransitionProgress(in out half progress, half vertexAlpha)
     #endif
 }
 
-// Returns alpha value by the alpha transition.
-half GetTransitionAlpha(half transitionProgress, half2 transitionMapUv, half transitionMapProgress)
+half ApplyAlphaTransitionProgress(in out half transitionAlpha, half transitionProgress)
 {
-    half4 map = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
-    half transitionAlpha = map[(uint)_AlphaTransitionMapChannelsX];
-
-    #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    half4 secondMap = SAMPLE_ALPHA_TRANSITION_MAP_SECOND(transitionMapUv, transitionMapProgress);
-    half secondTransitionAlpha = secondMap[(uint)_AlphaTransitionMapSecondTextureChannelsX];
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE)
-    transitionAlpha = (transitionAlpha + secondTransitionAlpha) * 0.5;
-    #endif
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    transitionAlpha = transitionAlpha * secondTransitionAlpha;
-    #endif
-    #endif
-    #endif
-    
     #ifdef _FADE_TRANSITION_ENABLED
     transitionProgress = (transitionProgress * 2 - 1) * -1;
     transitionAlpha += transitionProgress;
@@ -508,9 +491,34 @@ half GetTransitionAlpha(half transitionProgress, half2 transitionMapUv, half tra
     transitionProgress = lerp(-dissolveWidth, 1.0 + dissolveWidth, transitionProgress);
     transitionAlpha = smoothstep(transitionProgress - dissolveWidth, transitionProgress + dissolveWidth, transitionAlpha);
     #endif
-    
     return transitionAlpha;
 }
+
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+half GetTransitionAlpha(half transitionProgress, half2 transitionMapUv, half transitionMapProgress, half2 transitionMapSecondUv)
+{
+    half4 map = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
+    half transitionAlpha = map[(uint)_AlphaTransitionMapChannelsX];
+    half4 secondMap = SAMPLE_ALPHA_TRANSITION_MAP_SECOND(transitionMapSecondUv, transitionMapProgress);
+    half secondTransitionAlpha = secondMap[(uint)_AlphaTransitionMapSecondTextureChannelsX];
+    
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE)
+    transitionAlpha = (transitionAlpha + secondTransitionAlpha) * 0.5;
+    #endif
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    transitionAlpha = transitionAlpha * secondTransitionAlpha;
+    #endif
+    
+    return ApplyAlphaTransitionProgress(transitionAlpha, transitionProgress);
+}
+#else
+half GetTransitionAlpha(half transitionProgress, half2 transitionMapUv, half transitionMapProgress)
+{
+    half4 map = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
+    half transitionAlpha = map[(uint)_AlphaTransitionMapChannelsX];
+    return ApplyAlphaTransitionProgress(transitionAlpha, transitionProgress);
+}
+#endif
 
 // Apply the vertex color.
 inline void ApplyVertexColor(in out half4 color, in half4 vertexColor)

@@ -104,6 +104,11 @@ struct VaryingsDrawDepth
     float4 projectedPosition : TEXCOORD7;
     #endif
     #endif
+
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    float4 flowTransitionSecondUVs : TEXCOORD8; // xy: FlowMap UV, zw: TransitionMap UV
+    #endif
+    
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -195,7 +200,13 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     output.flowTransitionUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP(input.texcoord.xy);
     output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord)
     output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord)
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    output.flowTransitionSecondUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(input.texcoord.xy);
+    output.flowTransitionSecondUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord)
+    output.flowTransitionSecondUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord)
     #endif
+    #endif
+    
     #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
 
     // Base Map Progress
@@ -289,6 +300,9 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     #endif
     #ifdef _FLOW_MAP_TARGET_ALPHA_TRANSITION
         input.flowTransitionUVs.zw += flowMapUvOffset;
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+        input.flowTransitionSecondUVs.zw += flowMapUvOffset;
+    #endif
     #endif
     #endif
 
@@ -312,7 +326,11 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     #ifdef _USE_TRANSITION_MAP
     half alphaTransitionProgress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
     ModulateAlphaTransitionProgress(alphaTransitionProgress, input.color.a);
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    color.a *= GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x, input.flowTransitionSecondUVs.zw);
+    #else
     color.a *= GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x);
+    #endif
     #endif
 
     // NOTE : Not need in DepthNormals pass.
