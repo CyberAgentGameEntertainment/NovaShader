@@ -461,12 +461,12 @@ void ApplyColorCorrection(in out float3 color)
 #elif _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
 #define SAMPLE_ALPHA_TRANSITION_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_AlphaTransitionMap2DArray, sampler_AlphaTransitionMap2DArray, uv, progress);
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_AlphaTransitionMapSecondTexture2DArray, sampler_AlphaTransitionMapSecondTexture2D, uv);
+    #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_AlphaTransitionMapSecondTexture2DArray, sampler_AlphaTransitionMapSecondTexture2DArray, uv, progress);
     #endif
 #elif _ALPHA_TRANSITION_MAP_MODE_3D
 #define SAMPLE_ALPHA_TRANSITION_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMap3D, sampler_AlphaTransitionMap3D, float3(uv, progress), 0);
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMapSecondTexture3D, sampler_AlphaTransitionMapSecondTexture3D, uv);
+    #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMapSecondTexture3D, sampler_AlphaTransitionMapSecondTexture3D, float3(uv, progress), 0);
     #endif
 #endif
 
