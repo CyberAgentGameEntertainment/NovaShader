@@ -130,6 +130,8 @@ half _AlphaTransitionMapChannelsX;
 half _AlphaTransitionMapSecondTextureChannelsX;
 float _AlphaTransitionProgress;
 DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoord);
+float _AlphaTransitionProgressSecondTexture;
+DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoordSecondTexture);
 float _DissolveSharpness;
 
 float4 _EmissionMap_ST;
@@ -494,29 +496,34 @@ half ApplyAlphaTransitionProgress(in out half transitionAlpha, half transitionPr
     return transitionAlpha;
 }
 
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-half GetTransitionAlpha(half transitionProgress, half2 transitionMapUv, half transitionMapProgress, half2 transitionMapSecondUv)
+half GetTransitionAlphaImpl(half4 map, uint channel, half transitionProgress)
 {
-    half4 map = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
-    half transitionAlpha = map[(uint)_AlphaTransitionMapChannelsX];
-    half4 secondMap = SAMPLE_ALPHA_TRANSITION_MAP_SECOND(transitionMapSecondUv, transitionMapProgress);
-    half secondTransitionAlpha = secondMap[(uint)_AlphaTransitionMapSecondTextureChannelsX];
-    
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE)
-    transitionAlpha = (transitionAlpha + secondTransitionAlpha) * 0.5;
-    #endif
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    transitionAlpha = transitionAlpha * secondTransitionAlpha;
-    #endif
-    
+    half transitionAlpha = map[channel];
     return ApplyAlphaTransitionProgress(transitionAlpha, transitionProgress);
 }
-#else
-half GetTransitionAlpha(half transitionProgress, half2 transitionMapUv, half transitionMapProgress)
+
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half transitionProgress, half2 transitionMapSecondUv, half transitionProgressSecond)
 {
-    half4 map = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
-    half transitionAlpha = map[(uint)_AlphaTransitionMapChannelsX];
-    return ApplyAlphaTransitionProgress(transitionAlpha, transitionProgress);
+    half4 mainTexMap = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
+    half4 secondTexMap = SAMPLE_ALPHA_TRANSITION_MAP_SECOND(transitionMapSecondUv, transitionMapProgress);
+    half mainTexAlpha = GetTransitionAlphaImpl(mainTexMap, (uint)_AlphaTransitionMapChannelsX, transitionProgress);
+    half secondTexAlpha = GetTransitionAlphaImpl(secondTexMap, (uint)_AlphaTransitionMapSecondTextureChannelsX, transitionProgressSecond);
+    
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE)
+    mainTexAlpha = (mainTexAlpha + secondTexAlpha) * 0.5;
+    #endif
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    mainTexAlpha = mainTexAlpha * secondTexAlpha;
+    #endif
+
+    return mainTexAlpha;
+}
+#else
+half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half transitionProgress)
+{
+    half4 mainTexMap = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
+    return GetTransitionAlphaImpl(mainTexMap, (uint)_AlphaTransitionMapChannelsX, transitionProgress);
 }
 #endif
 

@@ -327,9 +327,11 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     half alphaTransitionProgress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
     ModulateAlphaTransitionProgress(alphaTransitionProgress, input.color.a);
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    color.a *= GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x, input.flowTransitionSecondUVs.zw);
+    half alphaTransitionProgressSecondTexture = _AlphaTransitionProgressSecondTexture + GET_CUSTOM_COORD(_AlphaTransitionProgressCoordSecondTexture);
+    ModulateAlphaTransitionProgress(alphaTransitionProgressSecondTexture, input.color.a);
+    color.a *= GetTransitionAlpha(input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x, alphaTransitionProgress, input.flowTransitionSecondUVs.zw, alphaTransitionProgressSecondTexture);
     #else
-    color.a *= GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x);
+    color.a *= GetTransitionAlpha(input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x, alphaTransitionProgress);
     #endif
     #endif
 

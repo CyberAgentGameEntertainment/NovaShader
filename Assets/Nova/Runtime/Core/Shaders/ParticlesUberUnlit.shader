@@ -89,6 +89,8 @@ Shader "Nova/Particles/UberUnlit"
         _AlphaTransitionMapOffsetYCoord("Alpha Transition Map Offset Y Coord", Float) = 0.0
         _AlphaTransitionMapChannelsX("Alpha Transition Map Channes X", Float) = 0.0
         _AlphaTransitionMapSliceCount("Alpha Transition Map Slice Count", Float) = 4.0
+        _AlphaTransitionProgress("Alpha Transition Progress", Range(0.0, 1.0)) = 0.0
+        _AlphaTransitionProgressCoord("Alpha Transition Progress Coord", Float) = 0.0
         _AlphaTransitionSecondTextureBlendMode("Alpha Transition Second Texture BlendMode", Float) = 0.0
         _AlphaTransitionMapSecondTexture("Alpha Transition Second Texture Map", 2D) = "white" {}
         _AlphaTransitionMapSecondTexture2DArray("Alpha Transition Second Texture Map 2D Array", 2DArray) = "" {}
@@ -96,8 +98,8 @@ Shader "Nova/Particles/UberUnlit"
         _AlphaTransitionMapSecondTextureOffsetXCoord("Alpha Transition Second Texture Map Offset X Coord", Float) = 0.0
         _AlphaTransitionMapSecondTextureOffsetYCoord("Alpha Transition Second Texture Map Offset Y Coord", Float) = 0.0
         _AlphaTransitionMapSecondTextureChannelsX("Alpha Transition Second Texture Map Channes X", Float) = 0.0
-        _AlphaTransitionProgress("Alpha Transition Progress", Range(0.0, 1.0)) = 0.0
-        _AlphaTransitionProgressCoord("Alpha Transition Progress Coord", Float) = 0.0
+        _AlphaTransitionProgressSecondTexture("Alpha Transition Second Texture Progress", Range(0.0, 1.0)) = 0.0
+        _AlphaTransitionProgressCoordSecondTexture("Alpha Transition Second Texture Progress Coord", Float) = 0.0
         _DissolveSharpness("Dissolve Sharpness", Range(0.0, 1.0)) = 0.5
 
         // Emission

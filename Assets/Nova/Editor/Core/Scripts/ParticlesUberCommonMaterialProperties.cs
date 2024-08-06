@@ -129,6 +129,8 @@ namespace Nova.Editor.Core.Scripts
             AlphaTransitionMapOffsetYCoordProp.Setup(properties);
             AlphaTransitionMapChannelsXProp.Setup(properties);
             AlphaTransitionMapSliceCountProp.Setup(properties);
+            AlphaTransitionProgressProp.Setup(properties);
+            AlphaTransitionProgressCoordProp.Setup(properties);
             AlphaTransitionSecondTextureBlendModeProp.Setup(properties);
             AlphaTransitionMapSecondTextureProp.Setup(properties);
             AlphaTransitionMapSecondTexture2DArrayProp.Setup(properties);
@@ -136,8 +138,8 @@ namespace Nova.Editor.Core.Scripts
             AlphaTransitionMapSecondTextureOffsetXCoordProp.Setup(properties);
             AlphaTransitionMapSecondTextureOffsetYCoordProp.Setup(properties);
             AlphaTransitionMapSecondTextureChannelsXProp.Setup(properties);
-            AlphaTransitionProgressProp.Setup(properties);
-            AlphaTransitionProgressCoordProp.Setup(properties);
+            AlphaTransitionProgressSecondTextureProp.Setup(properties);
+            AlphaTransitionProgressCoordSecondTextureProp.Setup(properties);
             DissolveSharpnessProp.Setup(properties);
 
             // Emission
@@ -404,6 +406,11 @@ namespace Nova.Editor.Core.Scripts
 
         public ParticlesGUI.Property AlphaTransitionProgressCoordProp { get; } =
             new(PropertyNames.AlphaTransitionProgressCoord);
+        
+        public ParticlesGUI.Property AlphaTransitionProgressSecondTextureProp { get; } = new(PropertyNames.AlphaTransitionProgressSecondTexture);
+
+        public ParticlesGUI.Property AlphaTransitionProgressCoordSecondTextureProp { get; } =
+            new(PropertyNames.AlphaTransitionProgressCoordSecondTexture);
 
         public ParticlesGUI.Property DissolveSharpnessProp { get; } = new(PropertyNames.DissolveSharpness);
 

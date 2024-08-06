@@ -422,6 +422,16 @@ namespace Nova.Editor.Core.Scripts
                     }
                 }
             
+                if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook
+                    || alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending)
+                    MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Flip-Book Progress",
+                        props.AlphaTransitionMapProgressProp.Value, props.AlphaTransitionMapProgressCoordProp.Value);
+
+                MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Transition Progress",
+                    props.AlphaTransitionProgressProp.Value, props.AlphaTransitionProgressCoordProp.Value);
+                if (mode == AlphaTransitionMode.Dissolve)
+                    _editor.ShaderProperty(props.DissolveSharpnessProp.Value, "Edge Sharpness");
+            
                 // 2nd Texture
                 {
                     MaterialEditorUtility.DrawEnumProperty<AlphaTransitionBlendMode>(_editor, "2nd Texture Blend Mode",
@@ -432,18 +442,10 @@ namespace Nova.Editor.Core.Scripts
                         MaterialEditorUtility.DrawTexture(_editor, alphaTransitionMapSecondTextureProp,
                             props.AlphaTransitionMapSecondTextureOffsetXCoordProp.Value, props.AlphaTransitionMapSecondTextureOffsetYCoordProp.Value,
                             props.AlphaTransitionMapSecondTextureChannelsXProp.Value, null);
+                        MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Transition Progress",
+                            props.AlphaTransitionProgressSecondTextureProp.Value, props.AlphaTransitionProgressCoordSecondTextureProp.Value);
                     }
                 }
-
-                if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook
-                    || alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending)
-                    MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Flip-Book Progress",
-                        props.AlphaTransitionMapProgressProp.Value, props.AlphaTransitionMapProgressCoordProp.Value);
-
-                MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Transition Progress",
-                    props.AlphaTransitionProgressProp.Value, props.AlphaTransitionProgressCoordProp.Value);
-                if (mode == AlphaTransitionMode.Dissolve)
-                    _editor.ShaderProperty(props.DissolveSharpnessProp.Value, "Edge Sharpness");
             }
         }
 
