@@ -121,7 +121,10 @@ float4 _AlphaTransitionMapSecondTexture3D_ST;
 
 float _AlphaTransitionMapProgress;
 DECLARE_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
+float _AlphaTransitionMapSecondTextureProgress;
+DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureProgressCoord);
 float _AlphaTransitionMapSliceCount;
+float _AlphaTransitionMapSecondTextureSliceCount;
 DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
 DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
 DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord);

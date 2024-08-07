@@ -439,11 +439,38 @@ namespace Nova.Editor.Core.Scripts
                     var alphaTransitionSecondTextureBlendMode = (AlphaTransitionBlendMode)props.AlphaTransitionSecondTextureBlendModeProp.Value.floatValue;
                     if (alphaTransitionSecondTextureBlendMode != AlphaTransitionBlendMode.None)
                     {
-                        MaterialEditorUtility.DrawTexture(_editor, alphaTransitionMapSecondTextureProp,
+                        using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
+                        {
+                            MaterialEditorUtility.DrawTexture(_editor, alphaTransitionMapSecondTextureProp,
                             props.AlphaTransitionMapSecondTextureOffsetXCoordProp.Value, props.AlphaTransitionMapSecondTextureOffsetYCoordProp.Value,
                             props.AlphaTransitionMapSecondTextureChannelsXProp.Value, null);
+
+                            if (changeCheckScope.changed)
+                            {
+                                if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook
+                                    && props.AlphaTransitionMapSecondTexture2DArrayProp.Value.textureValue != null)
+                                {
+                                    var tex2DArray = (Texture2DArray)props.AlphaTransitionMapSecondTexture2DArrayProp.Value.textureValue;
+                                    props.AlphaTransitionMapSecondTextureSliceCountProp.Value.floatValue = tex2DArray.depth;
+                                }
+
+                                if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending
+                                    && props.AlphaTransitionMapSecondTexture3DProp.Value.textureValue != null)
+                                {
+                                    var tex3D = (Texture3D)props.AlphaTransitionMapSecondTexture3DProp.Value.textureValue;
+                                    props.AlphaTransitionMapSecondTextureSliceCountProp.Value.floatValue = tex3D.depth;
+                                }
+                            }
+                        }
+                    
+                        if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook
+                            || alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending)
+                            MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Flip-Book Progress",
+                                props.AlphaTransitionMapSecondTextureProgressProp.Value, props.AlphaTransitionMapSecondTextureProgressCoordProp.Value);
+                    
                         MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Transition Progress",
                             props.AlphaTransitionProgressSecondTextureProp.Value, props.AlphaTransitionProgressCoordSecondTextureProp.Value);
+                    
                         if (mode == AlphaTransitionMode.Dissolve)
                             _editor.ShaderProperty(props.DissolveSharpnessSecondTextureProp.Value, "Edge Sharpness");
                     }

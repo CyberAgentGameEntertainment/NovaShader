@@ -232,12 +232,20 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #endif
 
     // Transition Map Progress
+    #if defined(_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY) || defined(_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY)
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    float transitionMapProgress = _AlphaTransitionMapSecondTextureProgress + GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureProgressCoord);
+    float sliceCount = _AlphaTransitionMapSecondTextureSliceCount;
+    #else
+    float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
+    float sliceCount = _AlphaTransitionMapSliceCount;
+    #endif
+    
     #ifdef _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
-    float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
-    output.transitionEmissionProgresses.x = FlipBookProgress(transitionMapProgress, _AlphaTransitionMapSliceCount);
+    output.transitionEmissionProgresses.x = FlipBookProgress(transitionMapProgress, sliceCount);
     #elif _ALPHA_TRANSITION_MAP_MODE_3D
-    float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
-    output.transitionEmissionProgresses.x = FlipBookBlendingProgress(transitionMapProgress, _AlphaTransitionMapSliceCount);
+    output.transitionEmissionProgresses.x = FlipBookBlendingProgress(transitionMapProgress, sliceCount);
+    #endif
     #endif
 
     // Emission Map UV
