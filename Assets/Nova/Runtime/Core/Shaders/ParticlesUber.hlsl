@@ -127,12 +127,13 @@ DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
 DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord);
 DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord);
 half _AlphaTransitionMapChannelsX;
+float _DissolveSharpness;
 half _AlphaTransitionMapSecondTextureChannelsX;
 float _AlphaTransitionProgress;
 DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoord);
 float _AlphaTransitionProgressSecondTexture;
 DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoordSecondTexture);
-float _DissolveSharpness;
+float _DissolveSharpnessSecondTexture;
 
 float4 _EmissionMap_ST;
 float4 _EmissionMap2DArray_ST;
@@ -482,24 +483,24 @@ void ModulateAlphaTransitionProgress(in out half progress, half vertexAlpha)
     #endif
 }
 
-half ApplyAlphaTransitionProgress(in out half transitionAlpha, half transitionProgress)
+half ApplyAlphaTransitionProgress(in out half transitionAlpha, half transitionProgress, float dissolveSharpness)
 {
     #ifdef _FADE_TRANSITION_ENABLED
     transitionProgress = (transitionProgress * 2 - 1) * -1;
     transitionAlpha += transitionProgress;
     transitionAlpha = saturate(transitionAlpha);
     #elif _DISSOLVE_TRANSITION_ENABLED
-    half dissolveWidth = lerp(0.5, 0.0001, _DissolveSharpness);
+    half dissolveWidth = lerp(0.5, 0.0001, dissolveSharpness);
     transitionProgress = lerp(-dissolveWidth, 1.0 + dissolveWidth, transitionProgress);
     transitionAlpha = smoothstep(transitionProgress - dissolveWidth, transitionProgress + dissolveWidth, transitionAlpha);
     #endif
     return transitionAlpha;
 }
 
-half GetTransitionAlphaImpl(half4 map, uint channel, half transitionProgress)
+half GetTransitionAlphaImpl(half4 map, uint channel, half transitionProgress, float dissolveSharpness)
 {
     half transitionAlpha = map[channel];
-    return ApplyAlphaTransitionProgress(transitionAlpha, transitionProgress);
+    return ApplyAlphaTransitionProgress(transitionAlpha, transitionProgress, dissolveSharpness);
 }
 
 #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
@@ -507,8 +508,8 @@ half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half 
 {
     half4 mainTexMap = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
     half4 secondTexMap = SAMPLE_ALPHA_TRANSITION_MAP_SECOND(transitionMapSecondUv, transitionMapProgress);
-    half mainTexAlpha = GetTransitionAlphaImpl(mainTexMap, (uint)_AlphaTransitionMapChannelsX, transitionProgress);
-    half secondTexAlpha = GetTransitionAlphaImpl(secondTexMap, (uint)_AlphaTransitionMapSecondTextureChannelsX, transitionProgressSecond);
+    half mainTexAlpha = GetTransitionAlphaImpl(mainTexMap, (uint)_AlphaTransitionMapChannelsX, transitionProgress, _DissolveSharpness);
+    half secondTexAlpha = GetTransitionAlphaImpl(secondTexMap, (uint)_AlphaTransitionMapSecondTextureChannelsX, transitionProgressSecond, _DissolveSharpnessSecondTexture);
     
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE)
     mainTexAlpha = (mainTexAlpha + secondTexAlpha) * 0.5;
@@ -523,7 +524,7 @@ half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half 
 half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half transitionProgress)
 {
     half4 mainTexMap = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
-    return GetTransitionAlphaImpl(mainTexMap, (uint)_AlphaTransitionMapChannelsX, transitionProgress);
+    return GetTransitionAlphaImpl(mainTexMap, (uint)_AlphaTransitionMapChannelsX, transitionProgress, _DissolveSharpness);
 }
 #endif
 

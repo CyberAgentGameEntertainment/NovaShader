@@ -131,6 +131,7 @@ namespace Nova.Editor.Core.Scripts
             AlphaTransitionMapSliceCountProp.Setup(properties);
             AlphaTransitionProgressProp.Setup(properties);
             AlphaTransitionProgressCoordProp.Setup(properties);
+            DissolveSharpnessProp.Setup(properties);
             AlphaTransitionSecondTextureBlendModeProp.Setup(properties);
             AlphaTransitionMapSecondTextureProp.Setup(properties);
             AlphaTransitionMapSecondTexture2DArrayProp.Setup(properties);
@@ -140,7 +141,7 @@ namespace Nova.Editor.Core.Scripts
             AlphaTransitionMapSecondTextureChannelsXProp.Setup(properties);
             AlphaTransitionProgressSecondTextureProp.Setup(properties);
             AlphaTransitionProgressCoordSecondTextureProp.Setup(properties);
-            DissolveSharpnessProp.Setup(properties);
+            DissolveSharpnessSecondTextureProp.Setup(properties);
 
             // Emission
             EmissionAreaTypeProp.Setup(properties);
@@ -383,6 +384,8 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property AlphaTransitionMapSliceCountProp { get; } =
             new(PropertyNames.AlphaTransitionMapSliceCount);
         
+        public ParticlesGUI.Property DissolveSharpnessProp { get; } = new(PropertyNames.DissolveSharpness);
+        
         public ParticlesGUI.Property AlphaTransitionSecondTextureBlendModeProp { get; } =
             new(PropertyNames.AlphaTransitionSecondTextureBlendMode);
         
@@ -412,8 +415,8 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property AlphaTransitionProgressCoordSecondTextureProp { get; } =
             new(PropertyNames.AlphaTransitionProgressCoordSecondTexture);
 
-        public ParticlesGUI.Property DissolveSharpnessProp { get; } = new(PropertyNames.DissolveSharpness);
-
+        public ParticlesGUI.Property DissolveSharpnessSecondTextureProp { get; } = new(PropertyNames.DissolveSharpnessSecondTexture);
+        
         #endregion
 
         #region Emission Material Properties

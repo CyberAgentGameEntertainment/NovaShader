@@ -444,6 +444,8 @@ namespace Nova.Editor.Core.Scripts
                             props.AlphaTransitionMapSecondTextureChannelsXProp.Value, null);
                         MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Transition Progress",
                             props.AlphaTransitionProgressSecondTextureProp.Value, props.AlphaTransitionProgressCoordSecondTextureProp.Value);
+                        if (mode == AlphaTransitionMode.Dissolve)
+                            _editor.ShaderProperty(props.DissolveSharpnessSecondTextureProp.Value, "Edge Sharpness");
                     }
                 }
             }
