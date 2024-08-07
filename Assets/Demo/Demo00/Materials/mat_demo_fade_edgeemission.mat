@@ -10,7 +10,6 @@ Material:
   m_Name: mat_demo_fade_edgeemission
   m_Shader: {fileID: 4800000, guid: 1bc5c6a70411243779ce486a98012125, type: 3}
   m_ValidKeywords:
-  - _ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE
   - _ALPHA_TRANSITION_MAP_MODE_2D
   - _BASE_MAP_MODE_2D
   - _EMISSION_AREA_ALPHA
@@ -45,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AlphaTransitionMapSecondTexture:
-        m_Texture: {fileID: 2800000, guid: e5c1bb044a69c48868c1f381762bbcea, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AlphaTransitionMapSecondTexture2DArray:
@@ -85,7 +84,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionColorRamp:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: ad948d6c337974eff945b4e9670f88f3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -172,11 +171,16 @@ Material:
     - _AlphaTransitionMapSecondTextureChannelsX: 1
     - _AlphaTransitionMapSecondTextureOffsetXCoord: 0
     - _AlphaTransitionMapSecondTextureOffsetYCoord: 0
+    - _AlphaTransitionMapSecondTextureProgress: 0
+    - _AlphaTransitionMapSecondTextureProgressCoord: 0
+    - _AlphaTransitionMapSecondTextureSliceCount: 4
     - _AlphaTransitionMapSliceCount: 4
     - _AlphaTransitionMode: 1
     - _AlphaTransitionProgress: 0
     - _AlphaTransitionProgressCoord: 1
-    - _AlphaTransitionSecondTextureBlendMode: 1
+    - _AlphaTransitionProgressCoordSecondTexture: 0
+    - _AlphaTransitionProgressSecondTexture: 0
+    - _AlphaTransitionSecondTextureBlendMode: 0
     - _BaseMapMirrorSampling: 0
     - _BaseMapMode: 0
     - _BaseMapOffsetXCoord: 0
@@ -203,6 +207,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DissolveSharpness: 0.913
+    - _DissolveSharpnessSecondTexture: 0.5
     - _DstBlend: 0
     - _EmissionAreaType: 3
     - _EmissionColorType: 2
@@ -293,6 +298,8 @@ Material:
     - _TintMap3DProgress: 0
     - _TintMap3DProgressCoord: 0
     - _TintMapMode: 0
+    - _TintMapOffsetXCoord: 0
+    - _TintMapOffsetYCoord: 0
     - _TintMapSliceCount: 4
     - _TintRimProgress: 0.5
     - _TintRimProgressCoord: 0
