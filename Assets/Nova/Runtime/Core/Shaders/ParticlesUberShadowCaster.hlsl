@@ -48,19 +48,19 @@ float4 GetShadowPositionHClip(Attributes input)
     float3 positionWS = TransformObjectToWorld(input.positionOS.xyz);
     float3 normalWS = TransformObjectToWorldNormal(input.normalOS);
 
-#if _CASTING_PUNCTUAL_LIGHT_SHADOW
+    #if _CASTING_PUNCTUAL_LIGHT_SHADOW
     float3 lightDirectionWS = normalize(_LightPosition - positionWS);
-#else
+    #else
     float3 lightDirectionWS = _LightDirection;
-#endif
+    #endif
 
     float4 positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, lightDirectionWS));
 
-#if UNITY_REVERSED_Z
+    #if UNITY_REVERSED_Z
     positionCS.z = min(positionCS.z, UNITY_NEAR_CLIP_VALUE);
-#else
+    #else
     positionCS.z = max(positionCS.z, UNITY_NEAR_CLIP_VALUE);
-#endif
+    #endif
 
     return positionCS;
 }
@@ -157,7 +157,7 @@ Varyings ShadowPassVertex(Attributes input)
     float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
     float sliceCount = _AlphaTransitionMapSliceCount;
     #endif
-    
+
     #ifdef _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
     output.transitionProgress = FlipBookProgress(transitionMapProgress, sliceCount);
     #elif _ALPHA_TRANSITION_MAP_MODE_3D
@@ -183,21 +183,21 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
         half intensity = _FlowIntensity + GET_CUSTOM_COORD(_FlowIntensityCoord);
         half2 flowMapUvOffset = GetFlowMapUvOffset(_FlowMap, sampler_FlowMap, intensity, input.flowTransitionUVs.xy,
                                                    _FlowMapChannelsX, _FlowMapChannelsY);
-        #if defined(_FLOW_MAP_TARGET_BASE)
+    #if defined(_FLOW_MAP_TARGET_BASE)
         input.baseMapUVAndProgresses.xy += flowMapUvOffset;
-        #endif
+    #endif
 
-        #ifdef _FLOW_MAP_TARGET_TINT
-        #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
+    #ifdef _FLOW_MAP_TARGET_TINT
+    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
         input.tintUV += flowMapUvOffset;
-        #endif
-        #endif
-        #ifdef _FLOW_MAP_TARGET_ALPHA_TRANSITION
+    #endif
+    #endif
+    #ifdef _FLOW_MAP_TARGET_ALPHA_TRANSITION
         input.flowTransitionUVs.zw += flowMapUvOffset;
-        #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
         input.flowTransitionSecondUVs.zw += flowMapUvOffset;
-        #endif
-        #endif
+    #endif
+    #endif
     }
     #endif
 
@@ -209,11 +209,11 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
     if (_ShadowCasterAlphaAffectedByTintColor)
     {
         half tintBlendRate = _TintBlendRate + GET_CUSTOM_COORD(_TintBlendRateCoord);
-        #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
+    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
         ApplyTintColor(color, input.tintUV, input.baseMapUVAndProgresses.w, tintBlendRate);
-        #else
+    #else
         ApplyTintColor(color, half2( 0, 0 ), input.baseMapUVAndProgresses.w, tintBlendRate);
-        #endif
+    #endif
     }
     #endif
 
@@ -223,13 +223,13 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
     {
         half alphaTransitionProgress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
         ModulateAlphaTransitionProgress(alphaTransitionProgress, input.color.a);
-        #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
         half alphaTransitionProgressSecondTexture = _AlphaTransitionProgressSecondTexture + GET_CUSTOM_COORD(_AlphaTransitionProgressCoordSecondTexture);
         ModulateAlphaTransitionProgress(alphaTransitionProgressSecondTexture, input.color.a);
         color.a *= GetTransitionAlpha(input.flowTransitionUVs.zw, input.transitionProgress, alphaTransitionProgress, input.flowTransitionSecondUVs.xy, alphaTransitionProgressSecondTexture);
-        #else
+    #else
         color.a *= GetTransitionAlpha(input.flowTransitionUVs.zw, input.transitionProgress, alphaTransitionProgress);
-        #endif
+    #endif
     }
     #endif
 

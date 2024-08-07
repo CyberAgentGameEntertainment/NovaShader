@@ -76,137 +76,137 @@ TEXTURE3D(_SmoothnessMap3D);
 SAMPLER(sampler_SmoothnessMap3D);
 
 CBUFFER_START(UnityPerMaterial)
-float4 _BaseMap_ST;
-float4 _BaseMap2DArray_ST;
-float4 _BaseMap3D_ST;
-float _BaseMapProgress;
-float _BaseMapProgressCoord;
-float _BaseMapSliceCount;
-DECLARE_CUSTOM_COORD(_BaseMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_BaseMapOffsetYCoord);
-float _BaseMapRotation;
-DECLARE_CUSTOM_COORD(_BaseMapRotationCoord);
-float4 _BaseMapRotationOffsets;
+    float4 _BaseMap_ST;
+    float4 _BaseMap2DArray_ST;
+    float4 _BaseMap3D_ST;
+    float _BaseMapProgress;
+    float _BaseMapProgressCoord;
+    float _BaseMapSliceCount;
+    DECLARE_CUSTOM_COORD(_BaseMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_BaseMapOffsetYCoord);
+    float _BaseMapRotation;
+    DECLARE_CUSTOM_COORD(_BaseMapRotationCoord);
+    float4 _BaseMapRotationOffsets;
 
-half4 _TintColor;
-float4 _TintMap_ST;
-float4 _TintMap3D_ST;
-float _TintMap3DProgress;
-DECLARE_CUSTOM_COORD(_TintMap3DProgressCoord);
-float _TintMapSliceCount;
-DECLARE_CUSTOM_COORD(_TintMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_TintMapOffsetYCoord);
-float _TintBlendRate;
-float _TintBlendRateCoord;
-float _TintRimProgress;
-float _TintRimProgressCoord;
-float _TintRimSharpness;
-float _TintRimSharpnessCoord;
-float _InverseTintRim;
+    half4 _TintColor;
+    float4 _TintMap_ST;
+    float4 _TintMap3D_ST;
+    float _TintMap3DProgress;
+    DECLARE_CUSTOM_COORD(_TintMap3DProgressCoord);
+    float _TintMapSliceCount;
+    DECLARE_CUSTOM_COORD(_TintMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_TintMapOffsetYCoord);
+    float _TintBlendRate;
+    float _TintBlendRateCoord;
+    float _TintRimProgress;
+    float _TintRimProgressCoord;
+    float _TintRimSharpness;
+    float _TintRimSharpnessCoord;
+    float _InverseTintRim;
 
-float4 _FlowMap_ST;
-DECLARE_CUSTOM_COORD(_FlowMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_FlowMapOffsetYCoord);
-half _FlowMapChannelsX;
-half _FlowMapChannelsY;
-float _FlowIntensity;
-DECLARE_CUSTOM_COORD(_FlowIntensityCoord);
+    float4 _FlowMap_ST;
+    DECLARE_CUSTOM_COORD(_FlowMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_FlowMapOffsetYCoord);
+    half _FlowMapChannelsX;
+    half _FlowMapChannelsY;
+    float _FlowIntensity;
+    DECLARE_CUSTOM_COORD(_FlowIntensityCoord);
 
-float4 _AlphaTransitionMap_ST;
-float4 _AlphaTransitionMap2DArray_ST;
-float4 _AlphaTransitionMap3D_ST;
-float4 _AlphaTransitionMapSecondTexture_ST;
-float4 _AlphaTransitionMapSecondTexture2DArray_ST;
-float4 _AlphaTransitionMapSecondTexture3D_ST;
+    float4 _AlphaTransitionMap_ST;
+    float4 _AlphaTransitionMap2DArray_ST;
+    float4 _AlphaTransitionMap3D_ST;
+    float4 _AlphaTransitionMapSecondTexture_ST;
+    float4 _AlphaTransitionMapSecondTexture2DArray_ST;
+    float4 _AlphaTransitionMapSecondTexture3D_ST;
 
-float _AlphaTransitionMapProgress;
-DECLARE_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
-float _AlphaTransitionMapSecondTextureProgress;
-DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureProgressCoord);
-float _AlphaTransitionMapSliceCount;
-float _AlphaTransitionMapSecondTextureSliceCount;
-DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
-DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord);
-DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord);
-half _AlphaTransitionMapChannelsX;
-float _DissolveSharpness;
-half _AlphaTransitionMapSecondTextureChannelsX;
-float _AlphaTransitionProgress;
-DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoord);
-float _AlphaTransitionProgressSecondTexture;
-DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoordSecondTexture);
-float _DissolveSharpnessSecondTexture;
+    float _AlphaTransitionMapProgress;
+    DECLARE_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
+    float _AlphaTransitionMapSecondTextureProgress;
+    DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureProgressCoord);
+    float _AlphaTransitionMapSliceCount;
+    float _AlphaTransitionMapSecondTextureSliceCount;
+    DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
+    DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord);
+    half _AlphaTransitionMapChannelsX;
+    float _DissolveSharpness;
+    half _AlphaTransitionMapSecondTextureChannelsX;
+    float _AlphaTransitionProgress;
+    DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoord);
+    float _AlphaTransitionProgressSecondTexture;
+    DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoordSecondTexture);
+    float _DissolveSharpnessSecondTexture;
 
-float4 _EmissionMap_ST;
-float4 _EmissionMap2DArray_ST;
-float4 _EmissionMap3D_ST;
-float _EmissionMapProgress;
-DECLARE_CUSTOM_COORD(_EmissionMapProgressCoord);
-float _EmissionMapSliceCount;
-DECLARE_CUSTOM_COORD(_EmissionMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_EmissionMapOffsetYCoord);
-half _EmissionMapChannelsX;
+    float4 _EmissionMap_ST;
+    float4 _EmissionMap2DArray_ST;
+    float4 _EmissionMap3D_ST;
+    float _EmissionMapProgress;
+    DECLARE_CUSTOM_COORD(_EmissionMapProgressCoord);
+    float _EmissionMapSliceCount;
+    DECLARE_CUSTOM_COORD(_EmissionMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_EmissionMapOffsetYCoord);
+    half _EmissionMapChannelsX;
 
-float3 _EmissionColor;
-float _EmissionIntensity;
-DECLARE_CUSTOM_COORD(_EmissionIntensityCoord);
-float _KeepEdgeTransparency;
+    float3 _EmissionColor;
+    float _EmissionIntensity;
+    DECLARE_CUSTOM_COORD(_EmissionIntensityCoord);
+    float _KeepEdgeTransparency;
 
-float _Cutoff;
-float _Greyscale;
-float _InverseRimTransparency;
-float _RimTransparencyProgress;
-DECLARE_CUSTOM_COORD(_RimTransparencyProgressCoord);
-float _RimTransparencySharpness;
-DECLARE_CUSTOM_COORD(_RimTransparencySharpnessCoord);
-float _InverseLuminanceTransparency;
-float _LuminanceTransparencyProgress;
-DECLARE_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
-float _LuminanceTransparencySharpness;
-DECLARE_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
+    float _Cutoff;
+    float _Greyscale;
+    float _InverseRimTransparency;
+    float _RimTransparencyProgress;
+    DECLARE_CUSTOM_COORD(_RimTransparencyProgressCoord);
+    float _RimTransparencySharpness;
+    DECLARE_CUSTOM_COORD(_RimTransparencySharpnessCoord);
+    float _InverseLuminanceTransparency;
+    float _LuminanceTransparencyProgress;
+    DECLARE_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
+    float _LuminanceTransparencySharpness;
+    DECLARE_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
 
-float4 _VertexDeformationMap_ST;
-DECLARE_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_VertexDeformationMapOffsetYCoord);
-half _VertexDeformationMapChannel;
-float _VertexDeformationIntensity;
-DECLARE_CUSTOM_COORD(_VertexDeformationIntensityCoord);
+    float4 _VertexDeformationMap_ST;
+    DECLARE_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_VertexDeformationMapOffsetYCoord);
+    half _VertexDeformationMapChannel;
+    float _VertexDeformationIntensity;
+    DECLARE_CUSTOM_COORD(_VertexDeformationIntensityCoord);
 
-float _SoftParticlesIntensity;
-float _DepthFadeNear;
-float _DepthFadeFar;
-float _DepthFadeWidth;
-// Normal map
-half _NormalMapBumpScale;
-// Parallax Map
-half _ParallaxMapChannel;
-half _ParallaxStrength;
-float4 _ParallaxMap_ST;
-float4 _ParallaxMap2DArray_ST;
-float4 _ParallaxMap3D_ST;
-float _ParallaxMapProgress;
-DECLARE_CUSTOM_COORD(_ParallaxMapProgressCoord);
-float _ParallaxMapSliceCount;
-DECLARE_CUSTOM_COORD(_ParallaxMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_ParallaxMapOffsetYCoord);
-// Specular Map
-half4 _SpecularColor;
-// Metallic Map
-half _MetallicMapChannelsX;
-float _Metallic;
-// Smoothness Map
-half _SmoothnessMapChannelsX;
-float _Smoothness;
-// Shadow Caster
-half _ShadowCasterEnabled;
-half _ShadowCasterApplyVertexDeformation;
-half _ShadowCasterAlphaTestEnabled;
-half _ShadowCasterAlphaCutoff;
-half _ShadowCasterAlphaAffectedByTintColor;
-half _ShadowCasterAlphaAffectedByFlowMap;
-half _ShadowCasterAlphaAffectedByAlphaTransitionMap;
-half _ShadowCasterAlphaAffectedByTransparencyLuminance;
+    float _SoftParticlesIntensity;
+    float _DepthFadeNear;
+    float _DepthFadeFar;
+    float _DepthFadeWidth;
+    // Normal map
+    half _NormalMapBumpScale;
+    // Parallax Map
+    half _ParallaxMapChannel;
+    half _ParallaxStrength;
+    float4 _ParallaxMap_ST;
+    float4 _ParallaxMap2DArray_ST;
+    float4 _ParallaxMap3D_ST;
+    float _ParallaxMapProgress;
+    DECLARE_CUSTOM_COORD(_ParallaxMapProgressCoord);
+    float _ParallaxMapSliceCount;
+    DECLARE_CUSTOM_COORD(_ParallaxMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_ParallaxMapOffsetYCoord);
+    // Specular Map
+    half4 _SpecularColor;
+    // Metallic Map
+    half _MetallicMapChannelsX;
+    float _Metallic;
+    // Smoothness Map
+    half _SmoothnessMapChannelsX;
+    float _Smoothness;
+    // Shadow Caster
+    half _ShadowCasterEnabled;
+    half _ShadowCasterApplyVertexDeformation;
+    half _ShadowCasterAlphaTestEnabled;
+    half _ShadowCasterAlphaCutoff;
+    half _ShadowCasterAlphaAffectedByTintColor;
+    half _ShadowCasterAlphaAffectedByFlowMap;
+    half _ShadowCasterAlphaAffectedByAlphaTransitionMap;
+    half _ShadowCasterAlphaAffectedByTransparencyLuminance;
 
 CBUFFER_END
 
@@ -349,19 +349,19 @@ SamplerState GetEmissionMapSamplerState()
 // Transforms the alpha transition map UV by the scale/bias property
 #ifdef _ALPHA_TRANSITION_MAP_MODE_2D
 #define TRANSFORM_ALPHA_TRANSITION_MAP(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMap);
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     #define TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture);
-    #endif
+#endif
 #elif _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
 #define TRANSFORM_ALPHA_TRANSITION_MAP(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMap2DArray);
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     #define TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture2DArray);
-    #endif
+#endif
 #elif _ALPHA_TRANSITION_MAP_MODE_3D
 #define TRANSFORM_ALPHA_TRANSITION_MAP(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMap3D);
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     #define TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture3D);
-    #endif
+#endif
 #endif
 
 // Transforms the alpha transition map UV by the scale/bias property
@@ -461,19 +461,19 @@ void ApplyColorCorrection(in out float3 color)
 // Sample the alpha transition map.
 #ifdef _ALPHA_TRANSITION_MAP_MODE_2D
 #define SAMPLE_ALPHA_TRANSITION_MAP(uv, progress) SAMPLE_TEXTURE2D(_AlphaTransitionMap, sampler_AlphaTransitionMap, uv);
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE2D(_AlphaTransitionMapSecondTexture, sampler_AlphaTransitionMapSecondTexture, uv);
-    #endif
+#endif
 #elif _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
 #define SAMPLE_ALPHA_TRANSITION_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_AlphaTransitionMap2DArray, sampler_AlphaTransitionMap2DArray, uv, progress);
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_AlphaTransitionMapSecondTexture2DArray, sampler_AlphaTransitionMapSecondTexture2DArray, uv, progress);
-    #endif
+#endif
 #elif _ALPHA_TRANSITION_MAP_MODE_3D
 #define SAMPLE_ALPHA_TRANSITION_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMap3D, sampler_AlphaTransitionMap3D, float3(uv, progress), 0);
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMapSecondTexture3D, sampler_AlphaTransitionMapSecondTexture3D, float3(uv, progress), 0);
-    #endif
+#endif
 #endif
 
 void ModulateAlphaTransitionProgress(in out half progress, half vertexAlpha)
@@ -514,12 +514,12 @@ half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half 
     half mainTexAlpha = GetTransitionAlphaImpl(mainTexMap, (uint)_AlphaTransitionMapChannelsX, transitionProgress, _DissolveSharpness);
     half secondTexAlpha = GetTransitionAlphaImpl(secondTexMap, (uint)_AlphaTransitionMapSecondTextureChannelsX, transitionProgressSecond, _DissolveSharpnessSecondTexture);
     
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE)
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE)
     mainTexAlpha = (mainTexAlpha + secondTexAlpha) * 0.5;
-    #endif
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+#endif
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     mainTexAlpha = mainTexAlpha * secondTexAlpha;
-    #endif
+#endif
 
     return mainTexAlpha;
 }
@@ -527,7 +527,8 @@ half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half 
 half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half transitionProgress)
 {
     half4 mainTexMap = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
-    return GetTransitionAlphaImpl(mainTexMap, (uint)_AlphaTransitionMapChannelsX, transitionProgress, _DissolveSharpness);
+    return GetTransitionAlphaImpl(mainTexMap, (uint)_AlphaTransitionMapChannelsX, transitionProgress,
+                                  _DissolveSharpness);
 }
 #endif
 
@@ -642,12 +643,15 @@ inline void ApplyDepthFade(in out half4 color, float4 projection)
     color.a *= DepthFade(_DepthFadeNear, _DepthFadeFar, _DepthFadeWidth, projection);
     #endif
 }
-inline void CalculateTangetAndBinormalInWorldSpace(out float4 tangentWS, out float3 binormalWS, float3 normalWS, float4 tangentOS )
+
+inline void CalculateTangetAndBinormalInWorldSpace(out float4 tangentWS, out float3 binormalWS, float3 normalWS,
+                                                   float4 tangentOS)
 {
     tangentWS.xyz = TransformObjectToWorldDir(tangentOS.xyz, true);
     tangentWS.w = tangentOS.w;
     binormalWS = cross(normalWS, tangentWS.xyz) * tangentOS.w;
 }
+
 /**
  * \brief Get normal in world space.
  * \param normalTS Normal in tangent space.

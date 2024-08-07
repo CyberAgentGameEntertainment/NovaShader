@@ -185,7 +185,7 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
     float sliceCount = _AlphaTransitionMapSliceCount;
     #endif
-    
+
     #ifdef _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
     output.transitionEmissionProgresses.x = FlipBookProgress(transitionMapProgress, sliceCount);
     #elif _ALPHA_TRANSITION_MAP_MODE_3D

@@ -108,7 +108,7 @@ struct VaryingsDrawDepth
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     float4 flowTransitionSecondUVs : TEXCOORD8; // xy: FlowMap UV, zw: TransitionMap UV
     #endif
-    
+
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -206,7 +206,7 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     output.flowTransitionSecondUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord)
     #endif
     #endif
-    
+
     #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
 
     // Base Map Progress
@@ -240,7 +240,7 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
     float sliceCount = _AlphaTransitionMapSliceCount;
     #endif
-    
+
     #ifdef _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
     output.transitionEmissionProgresses.x = FlipBookProgress(transitionMapProgress, sliceCount);
     #elif _ALPHA_TRANSITION_MAP_MODE_3D
@@ -397,7 +397,7 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     #endif
     return half4(NormalizeNormalPerPixel(normalWS), 0.0);
     #else
-    return half4( 0.0, 0.0, 0.0, 0.0);
+    return half4(0.0, 0.0, 0.0, 0.0);
     #endif
 }
 

@@ -279,7 +279,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
-            
+
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
             #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
