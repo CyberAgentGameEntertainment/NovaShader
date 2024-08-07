@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2021 CyberAgent, Inc.
+// Copyright 2024 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using UnityEngine;
@@ -16,7 +16,7 @@ namespace Nova.Runtime.Core.Scripts
         private readonly int _mainTexPropertyId = Shader.PropertyToID("_MainTex");
         private readonly Material _material;
         private readonly ProfilingSampler _renderPassProfilingSampler;
-        
+
         private RenderTargetIdentifier _distortedUvBufferIdentifier;
 
         public ApplyDistortionPass(bool applyToSceneView, Shader shader)
@@ -35,30 +35,24 @@ namespace Nova.Runtime.Core.Scripts
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             if (_material == null)
-            {
-                return;
-            }
+            { return; }
 
             if (!_applyToSceneView && renderingData.cameraData.cameraType == CameraType.SceneView)
-            {
-                return;
-            }
-            
-        #if UNITY_2022_1_OR_NEWER
+            { return; }
+
+#if UNITY_2022_1_OR_NEWER
             var source = renderingData.cameraData.renderer.cameraColorTargetHandle.nameID;
-        #else
+#else
             var source = renderingData.cameraData.renderer.cameraColorTarget;
-        #endif
+#endif
 
             var cmd = CommandBufferPool.Get();
             cmd.Clear();
             using (new ProfilingScope(cmd, _renderPassProfilingSampler))
-            {
-                cmd.SetGlobalTexture(_mainTexPropertyId, source);
-                cmd.SetGlobalTexture(_distortionBufferPropertyId, _distortedUvBufferIdentifier);
-                Blit(cmd, ref renderingData, _material);
-            }
-            
+            { cmd.SetGlobalTexture(_mainTexPropertyId, source);
+              cmd.SetGlobalTexture(_distortionBufferPropertyId, _distortedUvBufferIdentifier);
+              Blit(cmd, ref renderingData, _material); }
+
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
         }
