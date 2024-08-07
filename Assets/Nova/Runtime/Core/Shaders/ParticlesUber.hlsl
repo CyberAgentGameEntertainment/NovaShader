@@ -70,124 +70,124 @@ TEXTURE3D(_SmoothnessMap3D);
 SAMPLER(sampler_SmoothnessMap3D);
 
 CBUFFER_START(UnityPerMaterial)
-float4 _BaseMap_ST;
-float4 _BaseMap2DArray_ST;
-float4 _BaseMap3D_ST;
-float _BaseMapProgress;
-float _BaseMapProgressCoord;
-float _BaseMapSliceCount;
-DECLARE_CUSTOM_COORD(_BaseMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_BaseMapOffsetYCoord);
-float _BaseMapRotation;
-DECLARE_CUSTOM_COORD(_BaseMapRotationCoord);
-float4 _BaseMapRotationOffsets;
+    float4 _BaseMap_ST;
+    float4 _BaseMap2DArray_ST;
+    float4 _BaseMap3D_ST;
+    float _BaseMapProgress;
+    float _BaseMapProgressCoord;
+    float _BaseMapSliceCount;
+    DECLARE_CUSTOM_COORD(_BaseMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_BaseMapOffsetYCoord);
+    float _BaseMapRotation;
+    DECLARE_CUSTOM_COORD(_BaseMapRotationCoord);
+    float4 _BaseMapRotationOffsets;
 
-half4 _TintColor;
-float4 _TintMap_ST;
-float4 _TintMap3D_ST;
-float _TintMap3DProgress;
-DECLARE_CUSTOM_COORD(_TintMap3DProgressCoord);
-float _TintMapSliceCount;
-DECLARE_CUSTOM_COORD(_TintMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_TintMapOffsetYCoord);
-float _TintBlendRate;
-float _TintBlendRateCoord;
-float _TintRimProgress;
-float _TintRimProgressCoord;
-float _TintRimSharpness;
-float _TintRimSharpnessCoord;
-float _InverseTintRim;
+    half4 _TintColor;
+    float4 _TintMap_ST;
+    float4 _TintMap3D_ST;
+    float _TintMap3DProgress;
+    DECLARE_CUSTOM_COORD(_TintMap3DProgressCoord);
+    float _TintMapSliceCount;
+    DECLARE_CUSTOM_COORD(_TintMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_TintMapOffsetYCoord);
+    float _TintBlendRate;
+    float _TintBlendRateCoord;
+    float _TintRimProgress;
+    float _TintRimProgressCoord;
+    float _TintRimSharpness;
+    float _TintRimSharpnessCoord;
+    float _InverseTintRim;
 
-float4 _FlowMap_ST;
-DECLARE_CUSTOM_COORD(_FlowMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_FlowMapOffsetYCoord);
-half _FlowMapChannelsX;
-half _FlowMapChannelsY;
-float _FlowIntensity;
-DECLARE_CUSTOM_COORD(_FlowIntensityCoord);
+    float4 _FlowMap_ST;
+    DECLARE_CUSTOM_COORD(_FlowMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_FlowMapOffsetYCoord);
+    half _FlowMapChannelsX;
+    half _FlowMapChannelsY;
+    float _FlowIntensity;
+    DECLARE_CUSTOM_COORD(_FlowIntensityCoord);
 
-float4 _AlphaTransitionMap_ST;
-float4 _AlphaTransitionMap2DArray_ST;
-float4 _AlphaTransitionMap3D_ST;
-float _AlphaTransitionMapProgress;
-DECLARE_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
-float _AlphaTransitionMapSliceCount;
-DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
-half _AlphaTransitionMapChannelsX;
-float _AlphaTransitionProgress;
-DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoord);
-float _DissolveSharpness;
+    float4 _AlphaTransitionMap_ST;
+    float4 _AlphaTransitionMap2DArray_ST;
+    float4 _AlphaTransitionMap3D_ST;
+    float _AlphaTransitionMapProgress;
+    DECLARE_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
+    float _AlphaTransitionMapSliceCount;
+    DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
+    half _AlphaTransitionMapChannelsX;
+    float _AlphaTransitionProgress;
+    DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoord);
+    float _DissolveSharpness;
 
-float4 _EmissionMap_ST;
-float4 _EmissionMap2DArray_ST;
-float4 _EmissionMap3D_ST;
-float _EmissionMapProgress;
-DECLARE_CUSTOM_COORD(_EmissionMapProgressCoord);
-float _EmissionMapSliceCount;
-DECLARE_CUSTOM_COORD(_EmissionMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_EmissionMapOffsetYCoord);
-half _EmissionMapChannelsX;
+    float4 _EmissionMap_ST;
+    float4 _EmissionMap2DArray_ST;
+    float4 _EmissionMap3D_ST;
+    float _EmissionMapProgress;
+    DECLARE_CUSTOM_COORD(_EmissionMapProgressCoord);
+    float _EmissionMapSliceCount;
+    DECLARE_CUSTOM_COORD(_EmissionMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_EmissionMapOffsetYCoord);
+    half _EmissionMapChannelsX;
 
-float3 _EmissionColor;
-float _EmissionIntensity;
-DECLARE_CUSTOM_COORD(_EmissionIntensityCoord);
-float _KeepEdgeTransparency;
+    float3 _EmissionColor;
+    float _EmissionIntensity;
+    DECLARE_CUSTOM_COORD(_EmissionIntensityCoord);
+    float _KeepEdgeTransparency;
 
-float _Cutoff;
-float _Greyscale;
-float _InverseRimTransparency;
-float _RimTransparencyProgress;
-DECLARE_CUSTOM_COORD(_RimTransparencyProgressCoord);
-float _RimTransparencySharpness;
-DECLARE_CUSTOM_COORD(_RimTransparencySharpnessCoord);
-float _InverseLuminanceTransparency;
-float _LuminanceTransparencyProgress;
-DECLARE_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
-float _LuminanceTransparencySharpness;
-DECLARE_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
+    float _Cutoff;
+    float _Greyscale;
+    float _InverseRimTransparency;
+    float _RimTransparencyProgress;
+    DECLARE_CUSTOM_COORD(_RimTransparencyProgressCoord);
+    float _RimTransparencySharpness;
+    DECLARE_CUSTOM_COORD(_RimTransparencySharpnessCoord);
+    float _InverseLuminanceTransparency;
+    float _LuminanceTransparencyProgress;
+    DECLARE_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
+    float _LuminanceTransparencySharpness;
+    DECLARE_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
 
-float4 _VertexDeformationMap_ST;
-DECLARE_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_VertexDeformationMapOffsetYCoord);
-half _VertexDeformationMapChannel;
-float _VertexDeformationIntensity;
-DECLARE_CUSTOM_COORD(_VertexDeformationIntensityCoord);
+    float4 _VertexDeformationMap_ST;
+    DECLARE_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_VertexDeformationMapOffsetYCoord);
+    half _VertexDeformationMapChannel;
+    float _VertexDeformationIntensity;
+    DECLARE_CUSTOM_COORD(_VertexDeformationIntensityCoord);
 
-float _SoftParticlesIntensity;
-float _DepthFadeNear;
-float _DepthFadeFar;
-float _DepthFadeWidth;
-// Normal map
-half _NormalMapBumpScale;
-// Parallax Map
-half _ParallaxMapChannel;
-half _ParallaxStrength;
-float4 _ParallaxMap_ST;
-float4 _ParallaxMap2DArray_ST;
-float4 _ParallaxMap3D_ST;
-float _ParallaxMapProgress;
-DECLARE_CUSTOM_COORD(_ParallaxMapProgressCoord);
-float _ParallaxMapSliceCount;
-DECLARE_CUSTOM_COORD(_ParallaxMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_ParallaxMapOffsetYCoord);
-// Specular Map
-half4 _SpecularColor;
-// Metallic Map
-half _MetallicMapChannelsX;
-float _Metallic;
-// Smoothness Map
-half _SmoothnessMapChannelsX;
-float _Smoothness;
-// Shadow Caster
-half _ShadowCasterEnabled;
-half _ShadowCasterApplyVertexDeformation;
-half _ShadowCasterAlphaTestEnabled;
-half _ShadowCasterAlphaCutoff;
-half _ShadowCasterAlphaAffectedByTintColor;
-half _ShadowCasterAlphaAffectedByFlowMap;
-half _ShadowCasterAlphaAffectedByAlphaTransitionMap;
-half _ShadowCasterAlphaAffectedByTransparencyLuminance;
+    float _SoftParticlesIntensity;
+    float _DepthFadeNear;
+    float _DepthFadeFar;
+    float _DepthFadeWidth;
+    // Normal map
+    half _NormalMapBumpScale;
+    // Parallax Map
+    half _ParallaxMapChannel;
+    half _ParallaxStrength;
+    float4 _ParallaxMap_ST;
+    float4 _ParallaxMap2DArray_ST;
+    float4 _ParallaxMap3D_ST;
+    float _ParallaxMapProgress;
+    DECLARE_CUSTOM_COORD(_ParallaxMapProgressCoord);
+    float _ParallaxMapSliceCount;
+    DECLARE_CUSTOM_COORD(_ParallaxMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_ParallaxMapOffsetYCoord);
+    // Specular Map
+    half4 _SpecularColor;
+    // Metallic Map
+    half _MetallicMapChannelsX;
+    float _Metallic;
+    // Smoothness Map
+    half _SmoothnessMapChannelsX;
+    float _Smoothness;
+    // Shadow Caster
+    half _ShadowCasterEnabled;
+    half _ShadowCasterApplyVertexDeformation;
+    half _ShadowCasterAlphaTestEnabled;
+    half _ShadowCasterAlphaCutoff;
+    half _ShadowCasterAlphaAffectedByTintColor;
+    half _ShadowCasterAlphaAffectedByFlowMap;
+    half _ShadowCasterAlphaAffectedByAlphaTransitionMap;
+    half _ShadowCasterAlphaAffectedByTransparencyLuminance;
 
 CBUFFER_END
 
@@ -578,12 +578,15 @@ inline void ApplyDepthFade(in out half4 color, float4 projection)
     color.a *= DepthFade(_DepthFadeNear, _DepthFadeFar, _DepthFadeWidth, projection);
     #endif
 }
-inline void CalculateTangetAndBinormalInWorldSpace(out float4 tangentWS, out float3 binormalWS, float3 normalWS, float4 tangentOS )
+
+inline void CalculateTangetAndBinormalInWorldSpace(out float4 tangentWS, out float3 binormalWS, float3 normalWS,
+                                                   float4 tangentOS)
 {
     tangentWS.xyz = TransformObjectToWorldDir(tangentOS.xyz, true);
     tangentWS.w = tangentOS.w;
     binormalWS = cross(normalWS, tangentWS.xyz) * tangentOS.w;
 }
+
 /**
  * \brief Get normal in world space.
  * \param normalTS Normal in tangent space.

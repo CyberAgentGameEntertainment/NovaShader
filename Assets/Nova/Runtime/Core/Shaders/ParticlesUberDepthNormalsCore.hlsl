@@ -17,16 +17,16 @@
 #endif
 
 #if defined( _ALPHATEST_ENABLED )
-    #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
+#if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
         #define _USE_FLOW_MAP
-    #endif
-    #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
+#endif
+#if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
         #define _USE_TRANSITION_MAP
-    #endif
+#endif
 #elif defined(_USE_BASE_MAP_UV)
-    #if defined(_FLOW_MAP_ENABLED)
+#if defined(_FLOW_MAP_ENABLED)
         #define _USE_FLOW_MAP
-    #endif
+#endif
 #endif
 
 #if defined( _ALPHATEST_ENABLED ) || defined(_USE_FLOW_MAP) || defined(_USE_BASE_MAP_UV)

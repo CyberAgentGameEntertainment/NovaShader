@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2021 CyberAgent, Inc.
+// Copyright 2024 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using UnityEngine;
@@ -11,16 +11,16 @@ namespace Nova.Runtime.Core.Scripts
     public sealed class DistortedUvBufferPass : ScriptableRenderPass
     {
         private const string ProfilerTag = nameof(DistortedUvBufferPass);
-        private readonly ProfilingSampler _profilingSampler = new ProfilingSampler(ProfilerTag);
+        private readonly ProfilingSampler _profilingSampler = new(ProfilerTag);
         private readonly RenderQueueRange _renderQueueRange = RenderQueueRange.all;
         private readonly ShaderTagId _shaderTagId;
         private FilteringSettings _filteringSettings;
 
-    #if UNITY_2022_1_OR_NEWER
+#if UNITY_2022_1_OR_NEWER
         private RTHandle _renderTargetRTHandle;
-    #else
+#else
         private RenderTargetIdentifier _renderTargetIdentifier;
-    #endif
+#endif
 
         public DistortedUvBufferPass(string lightMode)
         {
@@ -29,26 +29,26 @@ namespace Nova.Runtime.Core.Scripts
             _shaderTagId = new ShaderTagId(lightMode);
         }
 
-    #if UNITY_2022_1_OR_NEWER
+#if UNITY_2022_1_OR_NEWER
         public void Setup(RTHandle renderTargetRTHandle)
         {
             _renderTargetRTHandle = renderTargetRTHandle;
         }
-    #else
+#else
         public void Setup(RenderTargetIdentifier renderTargetIdentifier)
         {
             _renderTargetIdentifier = renderTargetIdentifier;
         }
-    #endif
+#endif
 
         public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
             var renderer = renderingData.cameraData.renderer;
-        #if UNITY_2022_1_OR_NEWER
+#if UNITY_2022_1_OR_NEWER
             ConfigureTarget(_renderTargetRTHandle, renderer.cameraDepthTargetHandle);
-        #else
+#else
             ConfigureTarget(_renderTargetIdentifier, renderer.cameraDepthTarget);
-        #endif
+#endif
             ConfigureClear(ClearFlag.Color, Color.gray);
         }
 
@@ -58,21 +58,21 @@ namespace Nova.Runtime.Core.Scripts
             cmd.Clear();
 
             using (new ProfilingScope(cmd, _profilingSampler))
-            {
-                context.ExecuteCommandBuffer(cmd);
-                cmd.Clear();
+            { context.ExecuteCommandBuffer(cmd);
+              cmd.Clear();
 
-                var drawingSettings =
-                    CreateDrawingSettings(_shaderTagId, ref renderingData, SortingCriteria.CommonTransparent);
-                
-            #if UNITY_2023_1_OR_NEWER
+              var drawingSettings =
+                  CreateDrawingSettings(_shaderTagId, ref renderingData, SortingCriteria.CommonTransparent);
+
+#if UNITY_2023_1_OR_NEWER
                 var param = new RendererListParams(renderingData.cullResults, drawingSettings, _filteringSettings);
                 var renderList = context.CreateRendererList(ref param);
                 cmd.DrawRendererList(renderList);
-            #else
-                context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref _filteringSettings);
-            #endif
+#else
+              context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref _filteringSettings);
+#endif
             }
+
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
         }

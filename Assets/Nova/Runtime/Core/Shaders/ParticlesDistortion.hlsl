@@ -31,40 +31,40 @@ TEXTURE2D(_AlphaTransitionMap);
 SAMPLER(sampler_AlphaTransitionMap);
 
 CBUFFER_START(UnityPerMaterial)
-float4 _BaseMap_ST;
-DECLARE_CUSTOM_COORD(_BaseMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_BaseMapOffsetYCoord);
-half _BaseMapChannelsX;
-half _BaseMapChannelsY;
+    float4 _BaseMap_ST;
+    DECLARE_CUSTOM_COORD(_BaseMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_BaseMapOffsetYCoord);
+    half _BaseMapChannelsX;
+    half _BaseMapChannelsY;
 
-float _BaseMapRotation;
-DECLARE_CUSTOM_COORD(_BaseMapRotationCoord);
-float4 _BaseMapRotationOffsets;
-float _DistortionIntensity;
-float _DistortionIntensityCoord;
+    float _BaseMapRotation;
+    DECLARE_CUSTOM_COORD(_BaseMapRotationCoord);
+    float4 _BaseMapRotationOffsets;
+    float _DistortionIntensity;
+    float _DistortionIntensityCoord;
 
-float4 _FlowMap_ST;
-DECLARE_CUSTOM_COORD(_FlowMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_FlowMapOffsetYCoord);
-half _FlowMapChannelsX;
-half _FlowMapChannelsY;
+    float4 _FlowMap_ST;
+    DECLARE_CUSTOM_COORD(_FlowMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_FlowMapOffsetYCoord);
+    half _FlowMapChannelsX;
+    half _FlowMapChannelsY;
 
-float _FlowIntensity;
-DECLARE_CUSTOM_COORD(_FlowIntensityCoord);
+    float _FlowIntensity;
+    DECLARE_CUSTOM_COORD(_FlowIntensityCoord);
 
-float4 _AlphaTransitionMap_ST;
-DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
-DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
-half _AlphaTransitionMapChannelsX;
+    float4 _AlphaTransitionMap_ST;
+    DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
+    DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
+    half _AlphaTransitionMapChannelsX;
 
-float _AlphaTransitionProgress;
-DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoord);
-float _DissolveSharpness;
+    float _AlphaTransitionProgress;
+    DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoord);
+    float _DissolveSharpness;
 
-float _SoftParticlesIntensity;
-float _DepthFadeNear;
-float _DepthFadeFar;
-float _DepthFadeWidth;
+    float _SoftParticlesIntensity;
+    float _DepthFadeNear;
+    float _DepthFadeFar;
+    float _DepthFadeWidth;
 CBUFFER_END
 
 #endif

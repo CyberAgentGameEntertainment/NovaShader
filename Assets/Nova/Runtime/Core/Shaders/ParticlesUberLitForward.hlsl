@@ -128,11 +128,11 @@ half3 GetSpecular(float3 uvw)
 float4 GetShadowCoord(VaryingsLit input)
 {
     float4 shadowCoord = float4(0, 0, 0, 0);
-    #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
     shadowCoord = input.shadowCoord;
-    #else
+#else
     shadowCoord = TransformWorldToShadowCoord(input.positionWS);
-    #endif
+#endif
     return shadowCoord;
 }
 

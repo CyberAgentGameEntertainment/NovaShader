@@ -3,7 +3,7 @@ charset = utf-8
 end_of_line = lf
 indent_size = 4
 indent_style = space
-insert_final_newline = false
+insert_final_newline = true
 max_line_length = 120
 tab_width = 4
 trim_trailing_whitespace = false
@@ -15,7 +15,7 @@ ij_smart_tabs = false
 ij_visual_guides = none
 ij_wrap_on_typing = false
 
-file_header_template = --------------------------------------------------------------\nCopyright $CURRENT_YEAR$ CyberAgent, Inc.\n--------------------------------------------------------------
+file_header_template = --------------------------------------------------------------\nCopyright ${CurrentDate.Year} CyberAgent, Inc.\n--------------------------------------------------------------
 
 # Microsoft .NET properties
 csharp_new_line_before_members_in_object_initializers = false
@@ -77,7 +77,7 @@ indent_size = 2
 
 [*.asmdef]
 indent_style = space
-indent_size = 2
+indent_size = 4
 
 [*.{appxmanifest,asax,ascx,aspx,axaml,build,cg,cginc,compute,cs,cshtml,dtd,fs,fsi,fsscript,fsx,hlsl,hlsli,hlslinc,master,ml,mli,nuspec,paml,razor,resw,resx,shader,skin,usf,ush,vb,xaml,xamlx,xoml,xsd}]
 indent_style = space
