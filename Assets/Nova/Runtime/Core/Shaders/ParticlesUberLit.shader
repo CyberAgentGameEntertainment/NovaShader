@@ -620,7 +620,10 @@ Shader "Nova/Particles/UberLit"
         Pass
         {
             Name "ShadowCaster"
-            Tags{"LightMode" = "ShadowCaster"}
+            Tags
+            {
+                "LightMode" = "ShadowCaster"
+            }
 
             ZWrite On
             ZTest LEqual
