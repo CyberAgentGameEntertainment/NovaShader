@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2022 CyberAgent, Inc.
+// Copyright 2024 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -307,8 +307,8 @@ namespace Nova.Editor.Core.Scripts
                                        || material.GetTexture(AlphaTransitionMapSecondTexture2DArrayId) != null
                                        || material.GetTexture(AlphaTransitionMapSecondTexture3DId) != null;
                 var blendMode = (AlphaTransitionBlendMode)material.GetFloat(AlphaTransitionSecondTextureBlendMode);
-                MaterialEditorUtility.SetKeyword(material, ShaderKeywords.AlphaTransitionBlendSecondTexAdditive,
-                    secondTexEnabled && blendMode == AlphaTransitionBlendMode.Additive);
+                MaterialEditorUtility.SetKeyword(material, ShaderKeywords.AlphaTransitionBlendSecondTexAverage,
+                    secondTexEnabled && blendMode == AlphaTransitionBlendMode.Average);
                 MaterialEditorUtility.SetKeyword(material, ShaderKeywords.AlphaTransitionBlendSecondTexMultiply,
                     secondTexEnabled && blendMode == AlphaTransitionBlendMode.Multiply);
             }

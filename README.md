@@ -248,7 +248,7 @@ You can specify the color blend method from the following options.
 <p>
 <ul>
 <li>Alpha (Alpha Blending / Default)</li>
-<li>Additive</li>
+<li>Average</li>
 <li>Multiply</li>
 </ul>
 </p>

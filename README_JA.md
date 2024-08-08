@@ -737,7 +737,7 @@ Flip-BookあるいはFlip-Book Blendingの進行度を設定します。
 <p>
 <ul>
 <li>None: 利用しない（デフォルト）</li>
-<li>Additive: 加算。2つのテクスチャの平均値を参照します。</li>
+<li>Average: 平均。2つのテクスチャの平均値を参照します。</li>
 <li>Multiply: 乗算</li>
 </ul>
 </p>

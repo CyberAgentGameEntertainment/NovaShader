@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2022 CyberAgent, Inc.
+// Copyright 2024 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -46,7 +46,7 @@ namespace Nova.Editor.Core.Scripts
         public const string FlowMapTargetTint = "_FLOW_MAP_TARGET_TINT";
         public const string FlowMapTargetEmission = "_FLOW_MAP_TARGET_EMISSION";
         public const string FlowMapTargetAlphaTransition = "_FLOW_MAP_TARGET_ALPHA_TRANSITION";
-        
+
         // Parallax Map
         public const string ParallaxMapTargetBase = "_PARALLAX_MAP_TARGET_BASE";
         public const string ParallaxMapTargetTint = "_PARALLAX_MAP_TARGET_TINT";
@@ -61,7 +61,7 @@ namespace Nova.Editor.Core.Scripts
         public const string AlphaTransitionMapMode2D = "_ALPHA_TRANSITION_MAP_MODE_2D";
         public const string AlphaTransitionMapMode2DArray = "_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY";
         public const string AlphaTransitionMapMode3D = "_ALPHA_TRANSITION_MAP_MODE_3D";
-        public const string AlphaTransitionBlendSecondTexAdditive = "_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE";
+        public const string AlphaTransitionBlendSecondTexAverage = "_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE";
         public const string AlphaTransitionBlendSecondTexMultiply = "_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY";
 
         // Emission
@@ -80,7 +80,7 @@ namespace Nova.Editor.Core.Scripts
         public const string TransparencyByLuminance = "_TRANSPARENCY_BY_LUMINANCE";
         public const string SoftParticlesEnabled = "_SOFT_PARTICLES_ENABLED";
         public const string DepthFadeEnabled = "_DEPTH_FADE_ENABLED";
-        
+
         // Vertex Deformation
         public const string VertexDeformationEnabled = "_VERTEX_DEFORMATION_ENABLED";
 

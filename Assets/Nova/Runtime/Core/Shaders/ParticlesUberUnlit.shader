@@ -234,7 +234,7 @@ Shader "Nova/Particles/UberUnlit"
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
-            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
@@ -310,7 +310,7 @@ Shader "Nova/Particles/UberUnlit"
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
-            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Emission
             //#pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
@@ -386,7 +386,7 @@ Shader "Nova/Particles/UberUnlit"
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
-            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Emission
             //#pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
@@ -465,7 +465,7 @@ Shader "Nova/Particles/UberUnlit"
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
-            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
@@ -544,7 +544,7 @@ Shader "Nova/Particles/UberUnlit"
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
-            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
@@ -605,7 +605,7 @@ Shader "Nova/Particles/UberUnlit"
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
-            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Transparency
             #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE

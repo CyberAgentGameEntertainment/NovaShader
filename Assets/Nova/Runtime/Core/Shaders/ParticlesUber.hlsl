@@ -349,17 +349,17 @@ SamplerState GetEmissionMapSamplerState()
 // Transforms the alpha transition map UV by the scale/bias property
 #ifdef _ALPHA_TRANSITION_MAP_MODE_2D
 #define TRANSFORM_ALPHA_TRANSITION_MAP(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMap);
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     #define TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture);
 #endif
 #elif _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
 #define TRANSFORM_ALPHA_TRANSITION_MAP(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMap2DArray);
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     #define TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture2DArray);
 #endif
 #elif _ALPHA_TRANSITION_MAP_MODE_3D
 #define TRANSFORM_ALPHA_TRANSITION_MAP(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMap3D);
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     #define TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture3D);
 #endif
 #endif
@@ -461,17 +461,17 @@ void ApplyColorCorrection(in out float3 color)
 // Sample the alpha transition map.
 #ifdef _ALPHA_TRANSITION_MAP_MODE_2D
 #define SAMPLE_ALPHA_TRANSITION_MAP(uv, progress) SAMPLE_TEXTURE2D(_AlphaTransitionMap, sampler_AlphaTransitionMap, uv);
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE2D(_AlphaTransitionMapSecondTexture, sampler_AlphaTransitionMapSecondTexture, uv);
 #endif
 #elif _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
 #define SAMPLE_ALPHA_TRANSITION_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_AlphaTransitionMap2DArray, sampler_AlphaTransitionMap2DArray, uv, progress);
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_AlphaTransitionMapSecondTexture2DArray, sampler_AlphaTransitionMapSecondTexture2DArray, uv, progress);
 #endif
 #elif _ALPHA_TRANSITION_MAP_MODE_3D
 #define SAMPLE_ALPHA_TRANSITION_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMap3D, sampler_AlphaTransitionMap3D, float3(uv, progress), 0);
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMapSecondTexture3D, sampler_AlphaTransitionMapSecondTexture3D, float3(uv, progress), 0);
 #endif
 #endif
@@ -506,7 +506,7 @@ half GetTransitionAlphaImpl(half4 map, uint channel, half transitionProgress, fl
     return ApplyAlphaTransitionProgress(transitionAlpha, transitionProgress, dissolveSharpness);
 }
 
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
 half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half transitionProgress, half2 transitionMapSecondUv, half transitionProgressSecond)
 {
     half4 mainTexMap = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
@@ -514,7 +514,7 @@ half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half 
     half mainTexAlpha = GetTransitionAlphaImpl(mainTexMap, (uint)_AlphaTransitionMapChannelsX, transitionProgress, _DissolveSharpness);
     half secondTexAlpha = GetTransitionAlphaImpl(secondTexMap, (uint)_AlphaTransitionMapSecondTextureChannelsX, transitionProgressSecond, _DissolveSharpnessSecondTexture);
     
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE)
+#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE)
     mainTexAlpha = (mainTexAlpha + secondTexAlpha) * 0.5;
 #endif
 #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)

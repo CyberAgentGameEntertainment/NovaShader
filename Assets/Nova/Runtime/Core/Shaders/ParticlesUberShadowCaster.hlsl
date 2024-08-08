@@ -37,7 +37,7 @@ struct Varyings
     float2 tintUV : TEXCOORD4; // xy: TintMap UV, zw: EmissionMap UV
     #endif
     float transitionProgress : TEXCOORD5;
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     float4 flowTransitionSecondUVs : TEXCOORD6; // xy: FlowMap UV, zw: TransitionMap UV
     #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -141,7 +141,7 @@ Varyings ShadowPassVertex(Attributes input)
     output.flowTransitionUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP(input.texcoord.xy);
     output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord)
     output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord)
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     output.flowTransitionSecondUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(input.texcoord.xy);
     output.flowTransitionSecondUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord)
     output.flowTransitionSecondUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord)
@@ -150,7 +150,7 @@ Varyings ShadowPassVertex(Attributes input)
 
     // Transition Map Progress
     #if defined(_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY) || defined(_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY)
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     float transitionMapProgress = _AlphaTransitionMapSecondTextureProgress + GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureProgressCoord);
     float sliceCount = _AlphaTransitionMapSecondTextureSliceCount;
     #else
@@ -194,7 +194,7 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
     #endif
     #ifdef _FLOW_MAP_TARGET_ALPHA_TRANSITION
         input.flowTransitionUVs.zw += flowMapUvOffset;
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
         input.flowTransitionSecondUVs.zw += flowMapUvOffset;
     #endif
     #endif
@@ -223,7 +223,7 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
     {
         half alphaTransitionProgress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
         ModulateAlphaTransitionProgress(alphaTransitionProgress, input.color.a);
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_ADDITIVE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
         half alphaTransitionProgressSecondTexture = _AlphaTransitionProgressSecondTexture + GET_CUSTOM_COORD(_AlphaTransitionProgressCoordSecondTexture);
         ModulateAlphaTransitionProgress(alphaTransitionProgressSecondTexture, input.color.a);
         color.a *= GetTransitionAlpha(input.flowTransitionUVs.zw, input.transitionProgress, alphaTransitionProgress, input.flowTransitionSecondUVs.xy, alphaTransitionProgressSecondTexture);

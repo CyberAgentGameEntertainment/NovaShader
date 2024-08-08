@@ -7,7 +7,7 @@ namespace Nova.Editor.Core.Scripts
     public enum AlphaTransitionBlendMode
     {
         None,
-        Additive,
+        Average,
         Multiply
     }
 }
