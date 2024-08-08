@@ -27,7 +27,7 @@ namespace Nova.Editor.Core.Scripts
 
         private static readonly int BaseMapRotationCoordId =
             Shader.PropertyToID(MaterialPropertyNames.BaseMapRotationCoord);
-        
+
         private static readonly int TintAreaModeId = Shader.PropertyToID(MaterialPropertyNames.TintAreaMode);
         private static readonly int TintMapModeId = Shader.PropertyToID(MaterialPropertyNames.TintColorMode);
         private static readonly int FlowMapId = Shader.PropertyToID(MaterialPropertyNames.FlowMap);
@@ -35,10 +35,13 @@ namespace Nova.Editor.Core.Scripts
 
         private static readonly int FlowIntensityCoordId =
             Shader.PropertyToID(MaterialPropertyNames.FlowIntensityCoord);
-        
+
         private static readonly int ParallaxMapModeId = Shader.PropertyToID(MaterialPropertyNames.ParallaxMapMode);
         private static readonly int ParallaxMapId = Shader.PropertyToID(MaterialPropertyNames.ParallaxMap);
-        private static readonly int ParallaxMap2DArrayId = Shader.PropertyToID(MaterialPropertyNames.ParallaxMap2DArray);
+
+        private static readonly int ParallaxMap2DArrayId =
+            Shader.PropertyToID(MaterialPropertyNames.ParallaxMap2DArray);
+
         private static readonly int ParallaxMap3DId = Shader.PropertyToID(MaterialPropertyNames.ParallaxMap3D);
         private static readonly int ParallaxMapTargetId = Shader.PropertyToID(MaterialPropertyNames.ParallaxMapTarget);
 
@@ -53,7 +56,7 @@ namespace Nova.Editor.Core.Scripts
 
         private static readonly int AlphaTransitionMap3DId =
             Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionMap3D);
-        
+
         private static readonly int AlphaTransitionMapSecondTextureId =
             Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionMapSecondTexture);
 
@@ -87,7 +90,7 @@ namespace Nova.Editor.Core.Scripts
 
         private static readonly int SoftParticlesEnabledId =
             Shader.PropertyToID(MaterialPropertyNames.SoftParticlesEnabled);
-        
+
         private static readonly int VertexDeformationMapId =
             Shader.PropertyToID(MaterialPropertyNames.VertexDeformationMap);
 
@@ -101,9 +104,10 @@ namespace Nova.Editor.Core.Scripts
 
         private static readonly int TransparentBlendModeId =
             Shader.PropertyToID(MaterialPropertyNames.TransparentBlendMode);
-        
-        private static readonly int ShadowCasterEnabledId = 
+
+        private static readonly int ShadowCasterEnabledId =
             Shader.PropertyToID(MaterialPropertyNames.ShadowCasterEnabled);
+
         private static readonly int ShadowCasterAlphaTestEnabledId =
             Shader.PropertyToID(MaterialPropertyNames.ShadowCasterAlphaTestEnabled);
 
@@ -223,20 +227,20 @@ namespace Nova.Editor.Core.Scripts
         {
             //NOTE: Remove the keyword because it is obsolete.
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapEnabled, false);
-            
+
             var flowMapTarget = (FlowMapTarget)material.GetFloat(FlowMapTargetId);
             var hasFlowMap = material.GetTexture(FlowMapId) != null;
-            
+
             var baseEnabled = hasFlowMap && (flowMapTarget & FlowMapTarget.BaseMap) != 0;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetBase, baseEnabled);
-            
+
             var tintEnabled = hasFlowMap && (flowMapTarget & FlowMapTarget.TintMap) != 0;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetTint, tintEnabled);
 
             var alphaTransitionEnabled = hasFlowMap && (flowMapTarget & FlowMapTarget.AlphaTransitionMap) != 0;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetAlphaTransition,
                 alphaTransitionEnabled);
-            
+
             var emissionEnabled = hasFlowMap && (flowMapTarget & FlowMapTarget.EmissionMap) != 0;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FlowMapTargetEmission, emissionEnabled);
         }
@@ -250,8 +254,8 @@ namespace Nova.Editor.Core.Scripts
                 var keyword = value.GetShaderKeyword();
                 MaterialEditorUtility.SetKeyword(material, keyword, isOn);
             }
-            
-            bool hasParallaxMap = false;
+
+            var hasParallaxMap = false;
             switch (parallaxMapMode)
             {
                 case ParallaxMapMode.SingleTexture:
@@ -268,7 +272,7 @@ namespace Nova.Editor.Core.Scripts
             var parallaxMapTarget = (ParallaxMapTarget)material.GetFloat(ParallaxMapTargetId);
             var baseEnabled = hasParallaxMap && (parallaxMapTarget &　ParallaxMapTarget.BaseMap) != 0;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.ParallaxMapTargetBase, baseEnabled);
-            
+
             var tintEnabled = hasParallaxMap && (parallaxMapTarget & ParallaxMapTarget.TintMap) != 0;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.ParallaxMapTargetTint, tintEnabled);
 
@@ -288,7 +292,7 @@ namespace Nova.Editor.Core.Scripts
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.FadeTransitionEnabled, fadeTransitionEnabled);
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.DissolveTransitionEnabled,
                 dissolveTransitionEnabled);
-            
+
             var alphaTransitionMapMode = (AlphaTransitionMapMode)material.GetFloat(AlphaTransitionMapModeId);
             foreach (AlphaTransitionMapMode value in Enum.GetValues(typeof(AlphaTransitionMapMode)))
             {
@@ -296,12 +300,12 @@ namespace Nova.Editor.Core.Scripts
                 var keyword = value.GetShaderKeyword();
                 MaterialEditorUtility.SetKeyword(material, keyword, isOn);
             }
-            
+
             // 2nd Texture
             {
-                bool secondTexEnabled = material.GetTexture(AlphaTransitionMapSecondTextureId) != null
-                                        || material.GetTexture(AlphaTransitionMapSecondTexture2DArrayId) != null
-                                        || material.GetTexture(AlphaTransitionMapSecondTexture3DId) != null;
+                var secondTexEnabled = material.GetTexture(AlphaTransitionMapSecondTextureId) != null
+                                       || material.GetTexture(AlphaTransitionMapSecondTexture2DArrayId) != null
+                                       || material.GetTexture(AlphaTransitionMapSecondTexture3DId) != null;
                 var blendMode = (AlphaTransitionBlendMode)material.GetFloat(AlphaTransitionSecondTextureBlendMode);
                 MaterialEditorUtility.SetKeyword(material, ShaderKeywords.AlphaTransitionBlendSecondTexAdditive,
                     secondTexEnabled && blendMode == AlphaTransitionBlendMode.Additive);
@@ -356,21 +360,23 @@ namespace Nova.Editor.Core.Scripts
             var depthFadeEnabled = material.GetFloat(DepthFadeEnabledId) > 0.5f;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.DepthFadeEnabled, depthFadeEnabled);
         }
-        
+
         private static void SetupVertexDeformationMaterialKeywords(Material material)
         {
             var vertexDeformationEnabled = material.GetTexture(VertexDeformationMapId) != null;
-            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.VertexDeformationEnabled, vertexDeformationEnabled);
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.VertexDeformationEnabled,
+                vertexDeformationEnabled);
         }
 
         private static void SetupShadowCasterMaterialKeywords(Material material)
         {
-            bool shadowCasterEnabled = material.GetFloat(ShadowCasterEnabledId) > 0.5f;
+            var shadowCasterEnabled = material.GetFloat(ShadowCasterEnabledId) > 0.5f;
             material.SetShaderPassEnabled("ShadowCaster", shadowCasterEnabled);
             if (shadowCasterEnabled)
             {
-                bool alphaTestEnabled = material.GetFloat(ShadowCasterAlphaTestEnabledId) > 0.5f;
-                MaterialEditorUtility.SetKeyword(material, ShaderKeywords.ShadowCasterAlphaTestEnable, alphaTestEnabled);
+                var alphaTestEnabled = material.GetFloat(ShadowCasterAlphaTestEnabledId) > 0.5f;
+                MaterialEditorUtility.SetKeyword(material, ShaderKeywords.ShadowCasterAlphaTestEnable,
+                    alphaTestEnabled);
             }
         }
 
