@@ -248,7 +248,7 @@ You can specify the color blend method from the following options.
 <p>
 <ul>
 <li>Alpha (Alpha Blending / Default)</li>
-<li>Additive</li>
+<li>Average</li>
 <li>Multiply</li>
 </ul>
 </p>
@@ -656,7 +656,7 @@ Sets the Gradient Map. The specifications are as follows.
 Alpha Transition controls the alpha value using a texture.
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173483478-fe1c8b9d-c449-4fad-8325-195385eab7ee.png" alt="Alpha Transition"><br>
+  <img width="60%" src="Documentation~/Images/unlit_alpha_transition.png" alt="Alpha Transition"><br>
   <font color="grey">Alpha Transition</font>
 </p>
 
@@ -722,6 +722,17 @@ Sets the progress of Flip-Book or Flip-Book Blending.
 Sets the progress of Transition.
 </p>
 </td></tr>
+<tr><td colspan="3"><b>2nd Texture Blend Mode</b></td><td>
+<p>
+You can specify how to composite the second texture from the following options.
+</p>
+<p>
+<ul>
+<li>None: Don't use The second texture (Default).</li>
+<li>Additive: Referring to the average of two textures.</li>
+<li>Multiply</li>
+</ul>
+</p>
 <tr><td colspan="3"><b>Edge Sharpness</b></td><td>
 <p>
 <b>This property is visible only when the Mode is set to Dissolve.</b>

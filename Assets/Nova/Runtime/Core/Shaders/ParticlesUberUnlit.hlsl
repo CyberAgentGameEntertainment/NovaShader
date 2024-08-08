@@ -46,6 +46,9 @@ struct Varyings
     float3 viewDirTS : TEXCOORD9;
     float3 parallaxMapUVAndProgress : TEXCOORD10;
     #endif
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    float4 flowTransitionSecondUVs : TEXCOORD11; // xy: FlowMap UV, zw: TransitionMap UV
+    #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -166,15 +169,28 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     output.flowTransitionUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP(input.texcoord.xy);
     output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord)
     output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord)
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    output.flowTransitionSecondUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(input.texcoord.xy);
+    output.flowTransitionSecondUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord)
+    output.flowTransitionSecondUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord)
+    #endif
     #endif
 
     // Transition Map Progress
+    #if defined(_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY) || defined(_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY)
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    float transitionMapProgress = _AlphaTransitionMapSecondTextureProgress + GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureProgressCoord);
+    float sliceCount = _AlphaTransitionMapSecondTextureSliceCount;
+    #else
+    float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
+    float sliceCount = _AlphaTransitionMapSliceCount;
+    #endif
+
     #ifdef _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
-    float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
-    output.transitionEmissionProgresses.x = FlipBookProgress(transitionMapProgress, _AlphaTransitionMapSliceCount);
+    output.transitionEmissionProgresses.x = FlipBookProgress(transitionMapProgress, sliceCount);
     #elif _ALPHA_TRANSITION_MAP_MODE_3D
-    float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
-    output.transitionEmissionProgresses.x = FlipBookBlendingProgress(transitionMapProgress, _AlphaTransitionMapSliceCount);
+    output.transitionEmissionProgresses.x = FlipBookBlendingProgress(transitionMapProgress, sliceCount);
+    #endif
     #endif
 
     if (useEmission)
@@ -233,6 +249,9 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     #endif
     #ifdef _FLOW_MAP_TARGET_ALPHA_TRANSITION
     input.flowTransitionUVs.zw += flowMapUvOffset;
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    input.flowTransitionSecondUVs.zw += flowMapUvOffset;
+    #endif
     #endif
     #endif
 
@@ -281,7 +300,13 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     half alphaTransitionProgress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
     ModulateAlphaTransitionProgress(alphaTransitionProgress, input.color.a);
-    color.a *= GetTransitionAlpha(alphaTransitionProgress, input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x, _AlphaTransitionMapChannelsX);
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    half alphaTransitionProgressSecondTexture = _AlphaTransitionProgressSecondTexture + GET_CUSTOM_COORD(_AlphaTransitionProgressCoordSecondTexture);
+    ModulateAlphaTransitionProgress(alphaTransitionProgressSecondTexture, input.color.a);
+    color.a *= GetTransitionAlpha(input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x, alphaTransitionProgress, input.flowTransitionSecondUVs.zw, alphaTransitionProgressSecondTexture);
+    #else
+    color.a *= GetTransitionAlpha(input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x, alphaTransitionProgress);
+    #endif
     #endif
 
     // Vertex Color

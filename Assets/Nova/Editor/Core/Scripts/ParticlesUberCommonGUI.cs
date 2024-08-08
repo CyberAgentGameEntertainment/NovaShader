@@ -379,16 +379,20 @@ namespace Nova.Editor.Core.Scripts
                     props.AlphaTransitionMapModeProp.Value);
                 var alphaTransitionMapMode = (AlphaTransitionMapMode)props.AlphaTransitionMapModeProp.Value.floatValue;
                 MaterialProperty alphaTransitionMapProp;
+                MaterialProperty alphaTransitionMapSecondTextureProp;
                 switch (alphaTransitionMapMode)
                 {
                     case AlphaTransitionMapMode.SingleTexture:
                         alphaTransitionMapProp = props.AlphaTransitionMapProp.Value;
+                        alphaTransitionMapSecondTextureProp = props.AlphaTransitionMapSecondTextureProp.Value;
                         break;
                     case AlphaTransitionMapMode.FlipBook:
                         alphaTransitionMapProp = props.AlphaTransitionMap2DArrayProp.Value;
+                        alphaTransitionMapSecondTextureProp = props.AlphaTransitionMapSecondTexture2DArrayProp.Value;
                         break;
                     case AlphaTransitionMapMode.FlipBookBlending:
                         alphaTransitionMapProp = props.AlphaTransitionMap3DProp.Value;
+                        alphaTransitionMapSecondTextureProp = props.AlphaTransitionMapSecondTexture3DProp.Value;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -427,6 +431,57 @@ namespace Nova.Editor.Core.Scripts
                     props.AlphaTransitionProgressProp.Value, props.AlphaTransitionProgressCoordProp.Value);
                 if (mode == AlphaTransitionMode.Dissolve)
                     _editor.ShaderProperty(props.DissolveSharpnessProp.Value, "Edge Sharpness");
+
+                // 2nd Texture
+                {
+                    MaterialEditorUtility.DrawEnumProperty<AlphaTransitionBlendMode>(_editor, "2nd Texture Blend Mode",
+                        props.AlphaTransitionSecondTextureBlendModeProp.Value);
+                    var alphaTransitionSecondTextureBlendMode =
+                        (AlphaTransitionBlendMode)props.AlphaTransitionSecondTextureBlendModeProp.Value.floatValue;
+                    if (alphaTransitionSecondTextureBlendMode != AlphaTransitionBlendMode.None)
+                    {
+                        using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
+                        {
+                            MaterialEditorUtility.DrawTexture(_editor, alphaTransitionMapSecondTextureProp,
+                                props.AlphaTransitionMapSecondTextureOffsetXCoordProp.Value,
+                                props.AlphaTransitionMapSecondTextureOffsetYCoordProp.Value,
+                                props.AlphaTransitionMapSecondTextureChannelsXProp.Value, null);
+
+                            if (changeCheckScope.changed)
+                            {
+                                if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook
+                                    && props.AlphaTransitionMapSecondTexture2DArrayProp.Value.textureValue != null)
+                                {
+                                    var tex2DArray = (Texture2DArray)props.AlphaTransitionMapSecondTexture2DArrayProp
+                                        .Value.textureValue;
+                                    props.AlphaTransitionMapSecondTextureSliceCountProp.Value.floatValue =
+                                        tex2DArray.depth;
+                                }
+
+                                if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending
+                                    && props.AlphaTransitionMapSecondTexture3DProp.Value.textureValue != null)
+                                {
+                                    var tex3D = (Texture3D)props.AlphaTransitionMapSecondTexture3DProp.Value
+                                        .textureValue;
+                                    props.AlphaTransitionMapSecondTextureSliceCountProp.Value.floatValue = tex3D.depth;
+                                }
+                            }
+                        }
+
+                        if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook
+                            || alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending)
+                            MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Flip-Book Progress",
+                                props.AlphaTransitionMapSecondTextureProgressProp.Value,
+                                props.AlphaTransitionMapSecondTextureProgressCoordProp.Value);
+
+                        MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Transition Progress",
+                            props.AlphaTransitionProgressSecondTextureProp.Value,
+                            props.AlphaTransitionProgressCoordSecondTextureProp.Value);
+
+                        if (mode == AlphaTransitionMode.Dissolve)
+                            _editor.ShaderProperty(props.DissolveSharpnessSecondTextureProp.Value, "Edge Sharpness");
+                    }
+                }
             }
         }
 
@@ -599,22 +654,29 @@ namespace Nova.Editor.Core.Scripts
             if (props.ShadowCasterEnabledProp.Value.floatValue < 0.5f)
                 return;
 
-            MaterialEditorUtility.DrawToggleProperty(_editor, "Apply Vertex Deformation", props.ShadowCasterApplyVertexDeformationProp.Value);
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Apply Vertex Deformation",
+                props.ShadowCasterApplyVertexDeformationProp.Value);
 
-            MaterialEditorUtility.DrawToggleProperty(_editor, "Alpha Test Enable", props.ShadowCasterAlphaTestEnabledProp.Value);
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Alpha Test Enable",
+                props.ShadowCasterAlphaTestEnabledProp.Value);
             if (props.ShadowCasterAlphaTestEnabledProp.Value.floatValue < 0.5f)
                 return;
 
             EditorGUI.indentLevel++;
-            MaterialEditorUtility.DrawFloatRangeProperty(_editor, "Cutoff", props.ShadowCasterAlphaCutoffProp.Value, 0, 1);
+            MaterialEditorUtility.DrawFloatRangeProperty(_editor, "Cutoff", props.ShadowCasterAlphaCutoffProp.Value, 0,
+                1);
             EditorGUI.indentLevel--;
 
             EditorGUI.LabelField(EditorGUILayout.GetControlRect(), "Alpha Affected By");
             EditorGUI.indentLevel++;
-            MaterialEditorUtility.DrawToggleProperty(_editor, "Tint Color", props.ShadowCasterAlphaAffectedByTintColorProp.Value);
-            MaterialEditorUtility.DrawToggleProperty(_editor, "Flow Map", props.ShadowCasterAlphaAffectedByFlowMapProp.Value);
-            MaterialEditorUtility.DrawToggleProperty(_editor, "Alpha Transition Map", props.ShadowCasterAlphaAffectedByAlphaTransitionMapProp.Value);
-            MaterialEditorUtility.DrawToggleProperty(_editor, "Transparency Luminance", props.ShadowCasterAlphaAffectedByTransparencyLuminanceProp.Value);
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Tint Color",
+                props.ShadowCasterAlphaAffectedByTintColorProp.Value);
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Flow Map",
+                props.ShadowCasterAlphaAffectedByFlowMapProp.Value);
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Alpha Transition Map",
+                props.ShadowCasterAlphaAffectedByAlphaTransitionMapProp.Value);
+            MaterialEditorUtility.DrawToggleProperty(_editor, "Transparency Luminance",
+                props.ShadowCasterAlphaAffectedByTransparencyLuminanceProp.Value);
             EditorGUI.indentLevel--;
         }
 

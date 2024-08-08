@@ -664,7 +664,7 @@ Color Correctionはここまでの色を補正します。
 Alpha Transitionは徐々に消えていく表現に使用します。
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173495515-eb46ad7e-9ee3-4d2d-9a4a-6ef64d046604.png" alt="Alpha Transition"><br>
+  <img width="60%" src="Documentation~/Images/unlit_alpha_transition.png" alt="Alpha Transition"><br>
   <font color="grey">Alpha Transition</font>
 </p>
 
@@ -730,6 +730,17 @@ Flip-BookあるいはFlip-Book Blendingの進行度を設定します。
 トランジションの進行度を設定します。
 </p>
 </td></tr>
+<tr><td colspan="3"><b>2nd Texture Blend Mode</b></td><td>
+<p>
+2枚目のテクスチャの合成方法を以下の選択肢から指定できます。
+</p>
+<p>
+<ul>
+<li>None: 利用しない（デフォルト）</li>
+<li>Average: 平均。2つのテクスチャの平均値を参照します。</li>
+<li>Multiply: 乗算</li>
+</ul>
+</p>
 <tr><td colspan="3"><b>Edge Sharpness</b></td><td>
 <p>
 <b>ModeをDissolveに設定した時のみ表示されます。</b>
