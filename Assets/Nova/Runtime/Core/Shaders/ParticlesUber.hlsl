@@ -445,7 +445,7 @@ inline void ApplyTintColor(in out half4 color, half2 uv, half progress, half ble
     #elif defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
     tintColor = SAMPLE_TINT_MAP(uv, progress);
     #endif
-    color *= lerp(1, tintColor, saturate(blendRate));
+    color *= lerp(half4(1, 1, 1, 1), tintColor, saturate(blendRate));
 }
 
 // Apply the color correction.
