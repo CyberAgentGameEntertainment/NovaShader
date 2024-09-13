@@ -141,6 +141,7 @@ namespace Nova.Editor.Core.Scripts
             AlphaTransitionMapSecondTextureOffsetXCoordProp.Setup(properties);
             AlphaTransitionMapSecondTextureOffsetYCoordProp.Setup(properties);
             AlphaTransitionMapSecondTextureChannelsXProp.Setup(properties);
+            AlphaTransitionMapSecondTextureSliceCountProp.Setup(properties);
             AlphaTransitionProgressSecondTextureProp.Setup(properties);
             AlphaTransitionProgressCoordSecondTextureProp.Setup(properties);
             DissolveSharpnessSecondTextureProp.Setup(properties);
