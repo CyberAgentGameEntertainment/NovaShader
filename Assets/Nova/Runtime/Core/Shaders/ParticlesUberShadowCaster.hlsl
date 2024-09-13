@@ -39,6 +39,7 @@ struct Varyings
     float transitionProgress : TEXCOORD5;
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     float4 flowTransitionSecondUVs : TEXCOORD6; // xy: FlowMap UV, zw: TransitionMap UV
+    float transitionProgressSecond : TEXCOORD7;
     #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
@@ -149,23 +150,26 @@ Varyings ShadowPassVertex(Attributes input)
     #endif
 
     // Transition Map Progress
-    #if defined(_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY) || defined(_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY)
-    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    float transitionMapProgress = _AlphaTransitionMapSecondTextureProgress + GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureProgressCoord);
-    float sliceCount = _AlphaTransitionMapSecondTextureSliceCount;
-    #else
+    #if defined(_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY) || defined(_ALPHA_TRANSITION_MAP_MODE_3D)
     float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
     float sliceCount = _AlphaTransitionMapSliceCount;
-    #endif
-
     #ifdef _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
     output.transitionProgress = FlipBookProgress(transitionMapProgress, sliceCount);
     #elif _ALPHA_TRANSITION_MAP_MODE_3D
     output.transitionProgress = FlipBookBlendingProgress(transitionMapProgress, sliceCount);
     #endif
-    #endif
-    #endif
 
+    #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    float transitionMapProgressSecond = _AlphaTransitionMapSecondTextureProgress + GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureProgressCoord);
+    float sliceCountSecond = _AlphaTransitionMapSecondTextureSliceCount;
+    #ifdef _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
+    output.transitionProgressSecond = FlipBookProgress(transitionMapProgressSecond, sliceCountSecond);
+    #elif _ALPHA_TRANSITION_MAP_MODE_3D
+    output.transitionProgressSecond = FlipBookBlendingProgress(transitionMapProgressSecond, sliceCountSecond);
+    #endif
+    #endif
+    #endif
+    #endif
     return output;
 }
 
@@ -226,7 +230,7 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
         half alphaTransitionProgressSecondTexture = _AlphaTransitionProgressSecondTexture + GET_CUSTOM_COORD(_AlphaTransitionProgressCoordSecondTexture);
         ModulateAlphaTransitionProgress(alphaTransitionProgressSecondTexture, input.color.a);
-        color.a *= GetTransitionAlpha(input.flowTransitionUVs.zw, input.transitionProgress, alphaTransitionProgress, input.flowTransitionSecondUVs.xy, alphaTransitionProgressSecondTexture);
+        color.a *= GetTransitionAlpha(input.flowTransitionUVs.zw, input.transitionProgress, alphaTransitionProgress, input.flowTransitionSecondUVs.zw, input.transitionProgressSecond, alphaTransitionProgressSecondTexture);
     #else
         color.a *= GetTransitionAlpha(input.flowTransitionUVs.zw, input.transitionProgress, alphaTransitionProgress);
     #endif
