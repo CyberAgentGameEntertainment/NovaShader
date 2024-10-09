@@ -1,4 +1,4 @@
-Shader "Nova/UIParticles/UberUnlit"
+Shader "Nova/UIParticles/UberLit"
 {
     Properties
     {
@@ -14,6 +14,31 @@ Shader "Nova/UIParticles/UberUnlit"
         _ZWrite("ZWrite", Float) = 1.0
         _ZWriteOverride("ZWrite Override", Float) = -1.0
         _ZTest("ZTest", Float) = 4.0
+        _LitWorkflowMode("Lit Workflow Mode",Float) = 0.0
+        _LitReceiveShadows("Lit Receive Shadows", Float) = 0.0
+        _SpecularHighlights("Specular Highlights", Float) = 0.0
+        _EnvironmentReflections("Environment Reflections", Float) = 1.0
+
+        // Surface Maps
+        _NormalMap("Normal Map", 2D) = "" {}
+        _NormalMap2DArray("Normal Map 2D Array", 2DArray) = "" {}
+        _NormalMap3D("Normal Map 3D", 3D) = "" {}
+        _NormalMapBumpScale("Normal Map Bump Scale", Float) = 1.0
+        _SpecularMap("Specular Map", 2D) = "" {}
+        _SpecularMap2DArray("Specular Map 2D Array", 2DArray) = "" {}
+        _SpecularMap3D("Specluar Map 3D", 3D) = "" {}
+        _SpecularColor("Specular Color", Color) = (1, 1, 1, 1)
+        _SpecularMapChannelsX("Specular Map Channes X", Float) = 0.0
+        _MetallicMap("Metallic Map", 2D) = "" {}
+        _MetallicMap2DArray("Metallic Map 2D Array", 2DArray) = "" {}
+        _MetallicMap3D("Metallic Map 3D", 3D) = "" {}
+        [Gamma]_Metallic("Metallic", Range( 0.0, 1.0)) = 1.0
+        _MetallicMapChannelsX("Metallic Map Channes X", Float) = 0.0
+        _SmoothnessMap("Smoothness Map", 2D) = "" {}
+        _SmoothnessMap2DArray("Smoothness Map 2D Array", 2DArray) = "" {}
+        _SmoothnessMap3D("Smoothness Map 3D", 3D) = "" {}
+        _Smoothness("Smoothness", Range( 0.0, 1.0)) = 1.0
+        _SmoothnessMapChannelsX("Smoothness Map Channes X", Float) = 3.0
 
         // Base Map
         _BaseMapMode("Base Map Mode", Float) = 0.0
@@ -38,7 +63,7 @@ Shader "Nova/UIParticles/UberUnlit"
         _TintMap3D("Tint Map 3D", 3D) = "" {}
         _TintMap3DProgress("Tint Map 3D Progress", Range(0, 1)) = 0.0
         _TintMap3DProgressCoord("Tint Map 3D Progress Coord", Float) = 0.0
-        _TintMapSliceCount("Tint Map Slice Count", Float) = 4.0
+        _TintMapSliceCount("Base Map Slice Count", Float) = 4.0
         _TintMapOffsetXCoord("Tint Map Offset X Coord", Float) = 0.0
         _TintMapOffsetYCoord("Tint Map Offset Y Coord", Float) = 0.0
         _TintBlendRate("Tint Blend Rate", Range(0.0, 1.0)) = 1.0
@@ -68,8 +93,8 @@ Shader "Nova/UIParticles/UberUnlit"
         _ParallaxMapProgressCoord("Parallax Map Progress Coord", Float) = 0.0
         _ParallaxMapOffsetXCoord("Parallax Map Offset X Coord", Float) = 0.0
         _ParallaxMapOffsetYCoord("Parallax Map Offset Y Coord", Float) = 0.0
-        _ParallaxMapChannel("Parallax Map Channel", Float) = 0.0
         _ParallaxMapSliceCount("Parallax Map Slice Count", Float) = 4.0
+        _ParallaxMapChannel("Parallax Map Channel", Float) = 0.0
         _ParallaxStrength("Parallax Strength", Range(0.0, 1.0)) = 0.3
         _ParallaxMapTarget("Parallax Map Target", Float) = 1.0
 
@@ -190,8 +215,8 @@ Shader "Nova/UIParticles/UberUnlit"
             ZTest [_ZTest]
 
             HLSLPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
+            #pragma vertex vertLit
+            #pragma fragment fragLit
             #pragma target 3.5
 
             // Unity Defined
@@ -201,10 +226,29 @@ Shader "Nova/UIParticles/UberUnlit"
             #pragma instancing_options procedural:ParticleInstancingSetup
             #pragma require 2darray
 
+            // -------------------------------------
+            // Universal Pipeline keywords
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+            #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+            #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
+            #pragma multi_compile_fragment _ _SHADOWS_SOFT
+
             // Render Settings
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
             #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
+
+            #pragma shader_feature_local _RECEIVE_SHADOWS_ENABLED
+            #pragma shader_feature_local _SPECULAR_HIGHLIGHTS_ENABLED
+            #pragma shader_feature_local _ENVIRONMENT_REFLECTIONS_ENABLED
+            #pragma shader_feature_local _SPECULAR_SETUP
+
+            // Surface maps
+            #pragma shader_feature_local _NORMAL_MAP_ENABLED
+            #pragma shader_feature_local_fragment _METALLIC_MAP_ENABLED
+            #pragma shader_feature_local_fragment _SMOOTHNESS_MAP_ENABLED
+            #pragma shader_feature_local_fragment _SPECULAR_MAP_ENABLED
 
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
@@ -242,7 +286,7 @@ Shader "Nova/UIParticles/UberUnlit"
             #pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
 
             // Transparency
-            #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
+            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
@@ -250,9 +294,9 @@ Shader "Nova/UIParticles/UberUnlit"
             // Vertex Deformation
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
 
-            #include "ParticlesUberUnlitForward.hlsl"
+            #include "ParticlesUberLitForward.hlsl"
             ENDHLSL
         }
     }
-    CustomEditor "Nova.Editor.Core.Scripts.UIParticlesUberUnlitGUI"
+    CustomEditor "Nova.Editor.Core.Scripts.UIParticlesUberLitGUI"
 }

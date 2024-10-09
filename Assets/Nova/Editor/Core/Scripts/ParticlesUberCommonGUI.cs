@@ -14,7 +14,7 @@ namespace Nova.Editor.Core.Scripts
     /// <summary>
     ///     Common GUI for ParticleUberUnlit, ParticleUberLit classes.
     /// </summary>
-    internal class ParticlesUberCommonGUI
+    internal class ParticlesUberCommonGUI<TCustomCoord> where TCustomCoord : Enum
     {
         public ParticlesUberCommonGUI(MaterialEditor editor)
         {
@@ -128,6 +128,13 @@ namespace Nova.Editor.Core.Scripts
             }
         }
 
+        public void DrawErrorMessage()
+        {
+            if (string.IsNullOrEmpty(_errorMessage)) return;
+                EditorGUILayout.HelpBox(
+                    _errorMessage, MessageType.Error, true);
+            _errorMessage = "";
+        }
         public void DrawProperties(BoolEditorPrefsProperty foldout, string categoryName, Action internalDrawFunction)
         {
             using var foldoutScope = new MaterialEditorUtility.FoldoutHeaderScope(foldout.Value, categoryName);
@@ -181,7 +188,7 @@ namespace Nova.Editor.Core.Scripts
 
             using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
             {
-                MaterialEditorUtility.DrawTexture(_editor, baseMapMaterialProp, props.BaseMapOffsetXCoordProp.Value,
+                MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, baseMapMaterialProp, props.BaseMapOffsetXCoordProp.Value,
                     props.BaseMapOffsetYCoordProp.Value, null, null);
 
                 if (changeCheckScope.changed)
@@ -201,7 +208,7 @@ namespace Nova.Editor.Core.Scripts
                 }
             }
 
-            MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Rotation",
+            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Rotation",
                 props.BaseMapRotationProp.Value, props.BaseMapRotationCoordProp.Value);
             using (new EditorGUI.IndentLevelScope())
             {
@@ -212,7 +219,7 @@ namespace Nova.Editor.Core.Scripts
                 props.BaseMapMirrorSamplingProp.Value);
 
             if (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending)
-                MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Flip-Book Progress",
+                MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                     props.BaseMapProgressProp.Value, props.BaseMapProgressCoordProp.Value);
         }
 
@@ -240,7 +247,7 @@ namespace Nova.Editor.Core.Scripts
 
             using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
             {
-                MaterialEditorUtility.DrawTexture(
+                MaterialEditorUtility.DrawTexture<TCustomCoord>(
                     _editor,
                     textureProp,
                     props.ParallaxMapOffsetXCoordProp.Value,
@@ -268,7 +275,7 @@ namespace Nova.Editor.Core.Scripts
             }
 
             if (parallaxMapMode > ParallaxMapMode.SingleTexture)
-                MaterialEditorUtility.DrawPropertyAndCustomCoord(
+                MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
                     _editor,
                     "Flip-Book Progress",
                     props.ParallaxMapProgressProp.Value,
@@ -286,7 +293,7 @@ namespace Nova.Editor.Core.Scripts
                 "Target",
                 props.ParallaxMapTargetProp.Value);
         }
-
+        
         private void InternalDrawTintColorProperties()
         {
             var props = _commonMaterialProperties;
@@ -297,10 +304,10 @@ namespace Nova.Editor.Core.Scripts
             if (tintAreaMode == TintAreaMode.Rim)
                 using (new EditorGUI.IndentLevelScope())
                 {
-                    MaterialEditorUtility.DrawPropertyAndCustomCoord(
+                    MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
                         _editor, "Progress", props.TintRimProgressProp.Value,
                         props.TintRimProgressCoordProp.Value);
-                    MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Sharpness",
+                    MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Sharpness",
                         props.TintRimSharpnessProp.Value,
                         props.TintRimSharpnessCoordProp.Value);
                     MaterialEditorUtility.DrawToggleProperty(_editor, "Inverse", props.InverseTintRimProp.Value);
@@ -314,7 +321,7 @@ namespace Nova.Editor.Core.Scripts
             }
             else if (tintColorMode == TintColorMode.Texture2D)
             {
-                MaterialEditorUtility.DrawTexture(_editor, props.TintMapProp.Value,
+                MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, props.TintMapProp.Value,
                     props.TintMapOffsetXCoordProp.Value, props.TintMapOffsetYCoordProp.Value,
                     null, null);
             }
@@ -322,7 +329,7 @@ namespace Nova.Editor.Core.Scripts
             {
                 using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                 {
-                    MaterialEditorUtility.DrawTexture(_editor, props.TintMap3DProp.Value,
+                    MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, props.TintMap3DProp.Value,
                         props.TintMapOffsetXCoordProp.Value, props.TintMapOffsetYCoordProp.Value,
                         null, null);
 
@@ -333,22 +340,22 @@ namespace Nova.Editor.Core.Scripts
                     }
                 }
 
-                MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Progress",
+                MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Progress",
                     props.TintMap3DProgressProp.Value, props.TintMap3DProgressCoordProp.Value);
             }
 
-            MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Blend Rate", props.TintMapBlendRateProp.Value,
+            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Blend Rate", props.TintMapBlendRateProp.Value,
                 props.TintMapBlendRateCoordProp.Value);
         }
 
         private void InternalDrawFlowMapProperties()
         {
             var props = _commonMaterialProperties;
-            MaterialEditorUtility.DrawTexture(_editor, props.FlowMapProp.Value,
+            MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, props.FlowMapProp.Value,
                 props.FlowMapOffsetXCoordProp.Value,
                 props.FlowMapOffsetYCoordProp.Value,
                 props.FlowMapChannelsXProp.Value, props.FlowMapChannelsYProp.Value);
-            MaterialEditorUtility.DrawPropertyAndCustomCoord(
+            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
                 _editor,
                 "Intensity",
                 props.FlowIntensityProp.Value,
@@ -364,7 +371,7 @@ namespace Nova.Editor.Core.Scripts
                 props.ColorCorrectionModeProp.Value);
             var colorCorrectionMode = (ColorCorrectionMode)props.ColorCorrectionModeProp.Value.floatValue;
             if (colorCorrectionMode == ColorCorrectionMode.GradientMap)
-                MaterialEditorUtility.DrawTexture(_editor, props.GradientMapProp.Value, false);
+                MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, props.GradientMapProp.Value, false);
         }
 
         private void InternalDrawAlphaTransitionProperties()
@@ -400,7 +407,7 @@ namespace Nova.Editor.Core.Scripts
 
                 using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                 {
-                    MaterialEditorUtility.DrawTexture(_editor, alphaTransitionMapProp,
+                    MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, alphaTransitionMapProp,
                         props.AlphaTransitionMapOffsetXCoordProp.Value, props.AlphaTransitionMapOffsetYCoordProp.Value,
                         props.AlphaTransitionMapChannelsXProp.Value, null);
 
@@ -424,10 +431,10 @@ namespace Nova.Editor.Core.Scripts
 
                 if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook
                     || alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending)
-                    MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Flip-Book Progress",
+                    MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                         props.AlphaTransitionMapProgressProp.Value, props.AlphaTransitionMapProgressCoordProp.Value);
 
-                MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Transition Progress",
+                MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Transition Progress",
                     props.AlphaTransitionProgressProp.Value, props.AlphaTransitionProgressCoordProp.Value);
                 if (mode == AlphaTransitionMode.Dissolve)
                     _editor.ShaderProperty(props.DissolveSharpnessProp.Value, "Edge Sharpness");
@@ -442,7 +449,7 @@ namespace Nova.Editor.Core.Scripts
                     {
                         using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                         {
-                            MaterialEditorUtility.DrawTexture(_editor, alphaTransitionMapSecondTextureProp,
+                            MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, alphaTransitionMapSecondTextureProp,
                                 props.AlphaTransitionMapSecondTextureOffsetXCoordProp.Value,
                                 props.AlphaTransitionMapSecondTextureOffsetYCoordProp.Value,
                                 props.AlphaTransitionMapSecondTextureChannelsXProp.Value, null);
@@ -470,11 +477,11 @@ namespace Nova.Editor.Core.Scripts
 
                         if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook
                             || alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending)
-                            MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Flip-Book Progress",
+                            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                                 props.AlphaTransitionMapSecondTextureProgressProp.Value,
                                 props.AlphaTransitionMapSecondTextureProgressCoordProp.Value);
 
-                        MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Transition Progress",
+                        MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Transition Progress",
                             props.AlphaTransitionProgressSecondTextureProp.Value,
                             props.AlphaTransitionProgressCoordSecondTextureProp.Value);
 
@@ -521,7 +528,7 @@ namespace Nova.Editor.Core.Scripts
 
                     using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                     {
-                        MaterialEditorUtility.DrawTexture(_editor, emissionMapProp,
+                        MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, emissionMapProp,
                             props.EmissionMapOffsetXCoordProp.Value,
                             props.EmissionMapOffsetYCoordProp.Value, props.EmissionMapChannelsXProp.Value, null);
 
@@ -545,7 +552,7 @@ namespace Nova.Editor.Core.Scripts
 
                     if (emissionMapMode == EmissionMapMode.FlipBook
                         || emissionMapMode == EmissionMapMode.FlipBookBlending)
-                        MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Flip-Book Progress",
+                        MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                             props.EmissionMapProgressProp.Value, props.EmissionMapProgressCoordProp.Value);
 
                     MaterialEditorUtility.DrawEnumProperty<EmissionColorType>(_editor, "Color Type",
@@ -561,7 +568,7 @@ namespace Nova.Editor.Core.Scripts
                 if (colorType == EmissionColorType.Color)
                     _editor.ShaderProperty(props.EmissionColorProp.Value, "Color");
                 else if (colorType == EmissionColorType.GradiantMap)
-                    MaterialEditorUtility.DrawTexture(_editor, props.EmissionColorRampProp.Value, false);
+                    MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, props.EmissionColorRampProp.Value, false);
 
                 if (areaType == EmissionAreaType.Edge)
                     MaterialEditorUtility.DrawToggleProperty(_editor, "Keep Edge Transparency",
@@ -569,7 +576,7 @@ namespace Nova.Editor.Core.Scripts
 
                 using (var ccs2 = new EditorGUI.ChangeCheckScope())
                 {
-                    MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Intensity",
+                    MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Intensity",
                         props.EmissionIntensityProp.Value, props.EmissionIntensityCoordProp.Value);
                     if (ccs2.changed)
                         props.EmissionIntensityProp.Value.floatValue =
@@ -585,9 +592,9 @@ namespace Nova.Editor.Core.Scripts
             if (props.RimTransparencyEnabledProp.Value.floatValue > 0.5f)
                 using (new EditorGUI.IndentLevelScope())
                 {
-                    MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Progress",
+                    MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Progress",
                         props.RimTransparencyProgressProp.Value, props.RimTransparencyProgressCoordProp.Value);
-                    MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Sharpness",
+                    MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Sharpness",
                         props.RimTransparencySharpnessProp.Value, props.RimTransparencySharpnessCoordProp.Value);
                     MaterialEditorUtility.DrawToggleProperty(_editor, "Inverse",
                         props.InverseRimTransparencyProp.Value);
@@ -598,10 +605,10 @@ namespace Nova.Editor.Core.Scripts
             if (props.LuminanceTransparencyEnabledProp.Value.floatValue > 0.5f)
                 using (new EditorGUI.IndentLevelScope())
                 {
-                    MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Progress",
+                    MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Progress",
                         props.LuminanceTransparencyProgressProp.Value,
                         props.LuminanceTransparencyProgressCoordProp.Value);
-                    MaterialEditorUtility.DrawPropertyAndCustomCoord(_editor, "Sharpness",
+                    MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Sharpness",
                         props.LuminanceTransparencySharpnessProp.Value,
                         props.LuminanceTransparencySharpnessCoordProp.Value);
                     MaterialEditorUtility.DrawToggleProperty(_editor, "Inverse",
@@ -636,11 +643,11 @@ namespace Nova.Editor.Core.Scripts
         {
             var props = _commonMaterialProperties;
 
-            MaterialEditorUtility.DrawTexture(_editor, props.VertexDeformationMapProp.Value,
+            MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, props.VertexDeformationMapProp.Value,
                 props.VertexDeformationMapOffsetXCoordProp.Value,
                 props.VertexDeformationMapOffsetYCoordProp.Value,
                 props.VertexDeformationMapChannelProp.Value, null);
-            MaterialEditorUtility.DrawPropertyAndCustomCoord(
+            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
                 _editor,
                 "Intensity",
                 props.VertexDeformationIntensityProp.Value,
@@ -682,6 +689,7 @@ namespace Nova.Editor.Core.Scripts
 
         #region private variable
 
+        private string _errorMessage = "";
         private const int RenderPriorityMax = 50;
         private const int RenderPriorityMin = -RenderPriorityMax;
         private MaterialEditor _editor;
