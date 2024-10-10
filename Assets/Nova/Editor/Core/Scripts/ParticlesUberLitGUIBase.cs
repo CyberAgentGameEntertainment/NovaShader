@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2023 CyberAgent, Inc.
+// Copyright 2024 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -13,7 +13,7 @@ namespace Nova.Editor.Core.Scripts
     /// <summary>
     ///     GUI for a material assigned the ParticlesUberUnlit Shader.
     /// </summary>
-    internal class ParticlesUberLitGUIBase<TCustomCoord> : ParticlesGUI where TCustomCoord : Enum  
+    internal class ParticlesUberLitGUIBase<TCustomCoord> : ParticlesGUI where TCustomCoord : Enum
     {
         private ParticlesUberCommonGUI<TCustomCoord> _commonGUI;
         private ParticlesUberCommonMaterialProperties _commonMaterialProperties;
