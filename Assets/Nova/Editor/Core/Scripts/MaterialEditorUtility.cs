@@ -3,6 +3,7 @@
 // --------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -246,10 +247,10 @@ namespace Nova.Editor.Core.Scripts
         /// <param name="editor"></param>
         /// <param name="textureProperty"></param>
         /// <param name="drawTilingAndOffset"></param>
-        public static void DrawTexture(MaterialEditor editor, MaterialProperty textureProperty,
-            bool drawTilingAndOffset)
+        public static void DrawTexture<TCustomCoord>(MaterialEditor editor, MaterialProperty textureProperty,
+            bool drawTilingAndOffset) where TCustomCoord : Enum
         {
-            DrawTexture(editor, textureProperty, drawTilingAndOffset, null, null, null, null);
+            DrawTexture<TCustomCoord>(editor, textureProperty, drawTilingAndOffset, null, null, null, null);
         }
 
         /// <summary>
@@ -261,18 +262,18 @@ namespace Nova.Editor.Core.Scripts
         /// <param name="offsetCoordYProperty"></param>
         /// <param name="channelsXProperty"></param>
         /// <param name="channelsYProperty"></param>
-        public static void DrawTexture(MaterialEditor editor, MaterialProperty textureProperty,
+        public static void DrawTexture<TCustomCoord>(MaterialEditor editor, MaterialProperty textureProperty,
             MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty,
-            MaterialProperty channelsXProperty, MaterialProperty channelsYProperty)
+            MaterialProperty channelsXProperty, MaterialProperty channelsYProperty) where TCustomCoord : Enum
         {
-            DrawTexture(editor, textureProperty, true,
+            DrawTexture<TCustomCoord>(editor, textureProperty, true,
                 offsetCoordXProperty, offsetCoordYProperty, channelsXProperty, channelsYProperty);
         }
 
-        private static void DrawTexture(MaterialEditor editor, MaterialProperty textureProperty,
+        private static void DrawTexture<TCustomCoord>(MaterialEditor editor, MaterialProperty textureProperty,
             bool drawTilingAndOffset,
             MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty,
-            MaterialProperty channelsXProperty, MaterialProperty channelsYProperty)
+            MaterialProperty channelsXProperty, MaterialProperty channelsYProperty) where TCustomCoord : Enum
         {
             var propertyCount = 0;
             if (drawTilingAndOffset) propertyCount += 2;
@@ -402,7 +403,7 @@ namespace Nova.Editor.Core.Scripts
                     var xPropertyRect = xRect;
                     xPropertyRect.xMin += 12;
                     EditorGUI.LabelField(xRect, new GUIContent("X"));
-                    DrawEnumContentsProperty<CustomCoord>(editor, xPropertyRect, offsetCoordXProperty);
+                    DrawEnumContentsProperty<TCustomCoord>(editor, xPropertyRect, offsetCoordXProperty);
 
                     var yRect = xRect;
                     yRect.x += yRect.width + 2;
@@ -410,7 +411,7 @@ namespace Nova.Editor.Core.Scripts
                     var yPropertyRect = yRect;
                     yPropertyRect.xMin += 12;
                     EditorGUI.LabelField(yRect, new GUIContent("Y"));
-                    DrawEnumContentsProperty<CustomCoord>(editor, yPropertyRect, offsetCoordYProperty);
+                    DrawEnumContentsProperty<TCustomCoord>(editor, yPropertyRect, offsetCoordYProperty);
                 }
 
                 // Channels
@@ -446,8 +447,8 @@ namespace Nova.Editor.Core.Scripts
         /// <param name="label"></param>
         /// <param name="property"></param>
         /// <param name="coordProperty"></param>
-        public static void DrawPropertyAndCustomCoord(MaterialEditor editor, string label, MaterialProperty property,
-            MaterialProperty coordProperty)
+        public static void DrawPropertyAndCustomCoord<T>(MaterialEditor editor, string label, MaterialProperty property,
+            MaterialProperty coordProperty) where T : Enum
         {
             var fullRect = EditorGUILayout.GetControlRect();
             var contentsRect = fullRect;
@@ -462,17 +463,22 @@ namespace Nova.Editor.Core.Scripts
 
             using (new ResetIndentLevelScope())
             {
-                var coord = (CustomCoord)coordProperty.floatValue;
+                T coord = (T)Enum.ToObject(typeof(T), Convert.ToInt32(coordProperty.floatValue));
+                if (!Enum.IsDefined(typeof(T), coord))
+                {
+                    EditorGUILayout.HelpBox(
+                        $"Invalid coord value\n", MessageType.Error, true);
+                }
                 using (var ccs = new EditorGUI.ChangeCheckScope())
                 {
                     EditorGUI.showMixedValue = coordProperty.hasMixedValue;
-                    coord = (CustomCoord)EditorGUI.EnumPopup(coordRect, coord);
+                    coord = (T)EditorGUI.EnumPopup(coordRect, coord);
                     EditorGUI.showMixedValue = false;
 
                     if (ccs.changed)
                     {
                         editor.RegisterPropertyChangeUndo(coordProperty.name);
-                        coordProperty.floatValue = (int)coord;
+                        coordProperty.floatValue = Convert.ToInt32(coord);
                     }
                 }
             }
@@ -667,9 +673,16 @@ namespace Nova.Editor.Core.Scripts
             var value = (T)Enum.ToObject(typeof(T), (int)property.floatValue);
             using (var ccs = new EditorGUI.ChangeCheckScope())
             {
-                EditorGUI.showMixedValue = property.hasMixedValue;
-
+                EditorGUI.showMixedValue = property.hasMixedValue; 
+                if (!Enum.IsDefined(typeof(T), value))
+                {
+                    EditorGUILayout.HelpBox(
+                        $"Invalid coord value\n", MessageType.Error, true);
+                }
+                
                 var intValue = Convert.ToInt32(EditorGUI.EnumPopup(rect, value));
+                
+                
                 EditorGUI.showMixedValue = false;
 
                 if (ccs.changed)

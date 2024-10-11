@@ -141,12 +141,12 @@ namespace Nova.Editor.Core.Scripts
 
         private void DrawDistortionProperties(MaterialEditor editor, MaterialProperty[] properties)
         {
-            MaterialEditorUtility.DrawTexture(editor, _baseMapProp.Value, _baseMapOffsetXCoordProp.Value,
+            MaterialEditorUtility.DrawTexture<CustomCoord>(editor, _baseMapProp.Value, _baseMapOffsetXCoordProp.Value,
                 _baseMapOffsetYCoordProp.Value,
                 _baseMapChannelsXProp.Value, _baseMapChannelsYProp.Value);
-            MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Intensity",
+            MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Intensity",
                 _distortionIntensityProp.Value, _distortionIntensityCoordProp.Value);
-            MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Rotation",
+            MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Rotation",
                 _baseMapRotationProp.Value, _baseMapRotationCoordProp.Value);
             using (new EditorGUI.IndentLevelScope())
             {
@@ -158,9 +158,9 @@ namespace Nova.Editor.Core.Scripts
 
         private void DrawFlowMapProperties(MaterialEditor editor, MaterialProperty[] properties)
         {
-            MaterialEditorUtility.DrawTexture(editor, _flowMapProp.Value, _flowMapOffsetXCoordProp.Value,
+            MaterialEditorUtility.DrawTexture<CustomCoord>(editor, _flowMapProp.Value, _flowMapOffsetXCoordProp.Value,
                 _flowMapOffsetYCoordProp.Value, _flowMapChannelsXProp.Value, _flowMapChannelsYProp.Value);
-            MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Intensity", _flowIntensityProp.Value,
+            MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Intensity", _flowIntensityProp.Value,
                 _flowIntensityCoordProp.Value);
             MaterialEditorUtility.DrawEnumFlagsProperty<FlowMapTargetDistortion>(editor, "Targets",
                 _flowMapTargetProp.Value);
@@ -173,11 +173,11 @@ namespace Nova.Editor.Core.Scripts
             var mode = (AlphaTransitionMode)_alphaTransitionModeProp.Value.floatValue;
             if (mode != AlphaTransitionMode.None)
             {
-                MaterialEditorUtility.DrawTexture(editor, _alphaTransitionMapProp.Value,
+                MaterialEditorUtility.DrawTexture<CustomCoord>(editor, _alphaTransitionMapProp.Value,
                     _alphaTransitionMapOffsetXCoordProp.Value, _alphaTransitionMapOffsetYCoordProp.Value,
                     _alphaTransitionMapChannelsXProp.Value, null);
 
-                MaterialEditorUtility.DrawPropertyAndCustomCoord(editor, "Progress",
+                MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Progress",
                     _alphaTransitionProgressProp.Value, _alphaTransitionProgressCoordProp.Value);
                 if (mode == AlphaTransitionMode.Dissolve)
                     editor.ShaderProperty(_dissolveSharpnessProp.Value, "Edge Sharpness");
