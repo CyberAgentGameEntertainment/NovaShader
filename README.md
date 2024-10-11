@@ -1335,6 +1335,28 @@ The distance from the beginning of transparency to the end of complete transpare
 </tbody>
 </table>
 
+
+## Uber Unlit/Lit shaders( for uGUI )
+Uber Unlit/Lit shaders are available for uGUI. if you want to play the effect on uGUI, use `Nova/UIParticles/UberUnlit` or `Nova/UIParticles/UberLit`.
+
+The items that can be set in the material inspector are basically the same as for the regular `UberUnlit` and `UberLit`, but note that the z and w elements are not available when working with Custom Vertex Streams.
+This is because z and w data are discarded inside uGUI.
+
+If z and w are used, an error will be displayed as shown in the following figure.
+
+<p align="center">
+  <img width="60%" src="Documentation~/Images/custom_vertex_error.png" alt="Custom Vertex Error"><br>
+  <font color="grey">Custom Vertex Error</font>
+</p>
+
+Also, if you want to [use with the Custom Vertex Streams](#use-with-the-custom-vertex-streams), please add TexCoord1 and TexCoord2 to `Additional Shader Channels` in Canvas.
+
+<p align="center">
+  <img width="60%" src="Documentation~/Images/additional_shader_channels.png" alt="Additional Shader Channels"><br>
+  <font color="grey">Additional Shader Channels</font>
+</p>
+
+
 ## Abort Shadow Caster
 Enabling the Shadow Caster feature will allow you to cast shadows from NovaShader.
 <p align="center">
@@ -1399,18 +1421,6 @@ If checked, Transparency Luminance will affect Alpha value
   <font color="grey">Shadow Caster Demo</font>
 </p>
 
-## Uber Unlit/Lit shaders( for uGUI )
-Uber Unlit/Lit shaders are available for uGUI. if you want to play the effect on uGUI, use `Nova/UIParticles/UberUnlit` or `Nova/UIParticles/UberLit`.
-
-The items that can be set in the material inspector are basically the same as for the regular `UberUnlit` and `UberLit`, but note that the z and w elements are not available when working with Custom Vertex Streams.
-This is because z and w data are discarded inside uGUI.
-
-If z and w are used, an error will be displayed as shown in the following figure.
-
-<p align="center">
-  <img width="60%" src="Documentation~/Images/custom_vertex_error.png" alt="Render Settings"><br>
-  <font color="grey">Render Settings</font>
-</p>
 
 ## Use with the Custom Vertex Streams
 Using the Particle System's Custom Vertex Streams, you can animate the properties of the Material.

@@ -1343,6 +1343,25 @@ Transparencyは透明度を調整できます。
 </tbody>
 </table>
 
+## Uber Unlit/Litシェーダ（ for uGUI )
+Uber Unlit/LitシェーダにはuGUI用のシェーダーが用意されています。uGUI上でエフェクトを再生したい場合は、`Nova/UIParticles/UberUnlit`か`Nova/UIParticles/UberLit`を利用してください。
+
+マテリアルインスペクタで設定できる項目は基本的に通常の`UberUnlit`と`UberLit`と同様ですが、Custom Vertex Streamsと連携する際はzとwの要素を利用できないことに注意してください。
+これはuGUIの内部でzとwのデータが破棄されているためです。
+
+zとwが利用されている場合は次の図のようにエラーが表示されます。
+
+<p align="center">
+  <img width="60%" src="Documentation~/Images/custom_vertex_error.png" alt="Custom Vertex Error"><br>
+  <font color="grey">Custom Vertex Error</font>
+</p>
+
+また、[Custom Vertex Streamsとの連携](#custom-vertex-streamsとの連携)を利用する場合はCanvasの`Additional Shader Channels`にTexCoord1とTexCoord2を追加してください。
+<p align="center">
+  <img width="60%" src="Documentation~/Images/additional_shader_channels.png" alt="Additional Shader Channels"><br>
+  <font color="grey">Additional Shader Channels</font>
+</p>
+
 ## 影を落とす機能について
 Shadow Caster機能を有効にするとNovaShaderから影を落とすことができるようになります
 <p align="center">
@@ -1407,18 +1426,6 @@ Alpha値がCutoff値以下の部分は影を落とさなくなります（描画
   <font color="grey">Shadow Caster Demo</font>
 </p>
 
-## Uber Unlit/Litシェーダ（ for uGUI )
-Uber Unlit/LitシェーダにはuGUI用のシェーダーが用意されています。uGUI上でエフェクトを再生したい場合は、`Nova/UIParticles/UberUnlit`か`Nova/UIParticles/UberLit`を利用してください。
-
-マテリアルインスペクタで設定できる項目は基本的に通常の`UberUnlit`と`UberLit`と同様ですが、Custom Vertex Streamsと連携する際はzとwの要素を利用できないことに注意してください。
-これはuGUIの内部でzとwのデータが破棄されているためです。
-
-zとwが利用されている場合は次の図のようにエラーが表示されます。
-
-<p align="center">
-  <img width="60%" src="Documentation~/Images/custom_vertex_error.png" alt="Render Settings"><br>
-  <font color="grey">Render Settings</font>
-</p>
 
 ## Custom Vertex Streamsとの連携
 Particle SystemのCustom Vertex Streamsを使うと、マテリアルのプロパティを自由にアニメーションさせることができます。  
