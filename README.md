@@ -68,6 +68,7 @@ For more information, please refer to the following documents, [Samples](Assets/
     - [Alpha Transition](#alpha-transition-1)
     - [Transparency](#transparency-1)
 - [Abort Shadow Caster](#abort-shadow-caster)
+- [Uber Unlit/Lit shaders( for uGUI )](#uber-unlitlit-shaders-for-ugui-)
 - [Use with the Custom Vertex Streams](#use-with-the-custom-vertex-streams)
     - [Set up the Custom Data](#set-up-the-custom-data)
     - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams)
@@ -1396,6 +1397,19 @@ If checked, Transparency Luminance will affect Alpha value
 <p align="center">
   <img width="60%" src="Documentation~/Images/shadow_caster_demo01.gif" alt="Shadow Caster Demo"><br>
   <font color="grey">Shadow Caster Demo</font>
+</p>
+
+## Uber Unlit/Lit shaders( for uGUI )
+Uber Unlit/Lit shaders are available for uGUI. if you want to play the effect on uGUI, use `Nova/UIParticles/UberUnlit` or `Nova/UIParticles/UberLit`.
+
+The items that can be set in the material inspector are basically the same as for the regular `UberUnlit` and `UberLit`, but note that the z and w elements are not available when working with Custom Vertex Streams.
+This is because z and w data are discarded inside uGUI.
+
+If z and w are used, an error will be displayed as shown in the following figure.
+
+<p align="center">
+  <img width="60%" src="Documentation~/Images/custom_vertex_error.png" alt="Render Settings"><br>
+  <font color="grey">Render Settings</font>
 </p>
 
 ## Use with the Custom Vertex Streams
