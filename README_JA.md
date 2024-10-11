@@ -1068,7 +1068,7 @@ https://docs.unity3d.com/ja/2018.4/Manual/StandardShaderMaterialParameterSpecula
 </ul>
 </tbody>
 </table>
-    
+
 ## Distortionシェーダ
 Distortionは画面に対して歪み効果をかけるためのシェーダです。  
 熱波など、歪み効果が必要なエフェクトにはこのシェーダを使用します。
@@ -1404,6 +1404,19 @@ Alpha値がCutoff値以下の部分は影を落とさなくなります（描画
 <p align="center">
   <img width="60%" src="Documentation~/Images/shadow_caster_demo01.gif" alt="Shadow Caster Demo"><br>
   <font color="grey">Shadow Caster Demo</font>
+</p>
+
+## Uber Unlit/Litシェーダ（ for uGUI )
+Uber Unlit/LitシェーダにはuGUI用のシェーダーが用意されています。uGUI上でエフェクトを再生したい場合は、`Nova/UIParticles/UberUnlit`か`Nova/UIParticles/UberLit`を利用してください。
+
+マテリアルインスペクタで設定できる項目は基本的に通常の`UberUnlit`と`UberLit`と同様ですが、Custom Vertex Streamsと連携する際はzとwの要素を利用できないことに注意してください。
+これはuGUIの内部でzとwのデータが破棄されているためです。
+
+zとwが利用されている場合は次の図のようにエラーが表示されます。
+
+<p align="center">
+  <img width="60%" src="Documentation~/Images/custom_vertex_error.png" alt="Render Settings"><br>
+  <font color="grey">Render Settings</font>
 </p>
 
 ## Custom Vertex Streamsとの連携

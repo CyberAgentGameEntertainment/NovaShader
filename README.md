@@ -1398,6 +1398,19 @@ If checked, Transparency Luminance will affect Alpha value
   <font color="grey">Shadow Caster Demo</font>
 </p>
 
+## Uber Unlit/Lit shaders( for uGUI )
+Uber Unlit/Lit shaders are available for uGUI. if you want to play the effect on uGUI, use `Nova/UIParticles/UberUnlit` or `Nova/UIParticles/UberLit`.
+
+The items that can be set in the material inspector are basically the same as for the regular `UberUnlit` and `UberLit`, but note that the z and w elements are not available when working with Custom Vertex Streams.
+This is because z and w data are discarded inside uGUI.
+
+If z and w are used, an error will be displayed as shown in the following figure.
+
+<p align="center">
+  <img width="60%" src="Documentation~/Images/custom_vertex_error.png" alt="Render Settings"><br>
+  <font color="grey">Render Settings</font>
+</p>
+
 ## Use with the Custom Vertex Streams
 Using the Particle System's Custom Vertex Streams, you can animate the properties of the Material.
 In the following example, we will use the Custom Vertex Streams to rotate the texture.
