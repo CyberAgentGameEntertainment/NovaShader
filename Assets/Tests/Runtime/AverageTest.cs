@@ -43,14 +43,16 @@ namespace Tests.Runtime
             
             // シーンのレンダリングが一回終わるまで待つ
             yield return new WaitForEndOfFrame();
-            // このタイミングでスクリーンショットを撮ればシーンの描画結果と一致するらしい
-            var screenshotSrc = ScreenCapture.CaptureScreenshotAsTexture();
             
             // 一回描画するとシェーダーの非同期コンパイルが走るので、コンパイルが終わるのを待つ
             while (ShaderUtil.anythingCompiling)
             {
                 yield return null;
             }
+            
+            // さらにシーンのレンダリングが一回終わるまで待ってスクリーンショットを撮る
+            yield return new WaitForEndOfFrame();
+            var screenshotSrc = ScreenCapture.CaptureScreenshotAsTexture();
             
             var settings = new ImageComparisonSettings()
             {
