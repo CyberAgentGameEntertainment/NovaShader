@@ -21,6 +21,7 @@ namespace Tests.Runtime
     {
         [TestCase("Test_Unlit", ExpectedResult = (IEnumerator)null)]
         [TestCase("Test_Lit", ExpectedResult = (IEnumerator)null)]
+        [TestCase("Test_Distortion", ExpectedResult = (IEnumerator)null)]
         [GameViewResolution(1920, 1080, "Full HD")]
         public IEnumerator Test(string scenePath)
         {
