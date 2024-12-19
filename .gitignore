@@ -25,6 +25,7 @@
 
 # Graphicsテストが失敗したときのデータ
 /[Aa]ssets/ActualImages/
+/[Aa]ssets/ActualImages.meta
 
 # Visual Studio cache directory
 .vs/
