@@ -110,7 +110,8 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
         _VertexDeformationMap, sampler_VertexDeformationMap,
         vertexDeformationIntensity,
         vertexDeformationUVs,
-        _VertexDeformationMapChannel);
+        _VertexDeformationMapChannel,
+        _VertexDeformationBaseValue);
     input.positionOS.xyz += normalize(input.normalOS) * vertexDeformationIntensity;
     #endif
 

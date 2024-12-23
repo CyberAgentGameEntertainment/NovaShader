@@ -172,6 +172,7 @@ CBUFFER_START(UnityPerMaterial)
     half _VertexDeformationMapChannel;
     float _VertexDeformationIntensity;
     DECLARE_CUSTOM_COORD(_VertexDeformationIntensityCoord);
+    float _VertexDeformationBaseValue;
 
     float _SoftParticlesIntensity;
     float _DepthFadeNear;

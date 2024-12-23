@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2023 CyberAgent, Inc.
+// Copyright 2024 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -131,10 +131,11 @@ namespace Nova.Editor.Core.Scripts
         public void DrawErrorMessage()
         {
             if (string.IsNullOrEmpty(_errorMessage)) return;
-                EditorGUILayout.HelpBox(
-                    _errorMessage, MessageType.Error, true);
+            EditorGUILayout.HelpBox(
+                _errorMessage, MessageType.Error, true);
             _errorMessage = "";
         }
+
         public void DrawProperties(BoolEditorPrefsProperty foldout, string categoryName, Action internalDrawFunction)
         {
             using var foldoutScope = new MaterialEditorUtility.FoldoutHeaderScope(foldout.Value, categoryName);
@@ -188,7 +189,8 @@ namespace Nova.Editor.Core.Scripts
 
             using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
             {
-                MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, baseMapMaterialProp, props.BaseMapOffsetXCoordProp.Value,
+                MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, baseMapMaterialProp,
+                    props.BaseMapOffsetXCoordProp.Value,
                     props.BaseMapOffsetYCoordProp.Value, null, null);
 
                 if (changeCheckScope.changed)
@@ -293,7 +295,7 @@ namespace Nova.Editor.Core.Scripts
                 "Target",
                 props.ParallaxMapTargetProp.Value);
         }
-        
+
         private void InternalDrawTintColorProperties()
         {
             var props = _commonMaterialProperties;
@@ -344,7 +346,8 @@ namespace Nova.Editor.Core.Scripts
                     props.TintMap3DProgressProp.Value, props.TintMap3DProgressCoordProp.Value);
             }
 
-            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Blend Rate", props.TintMapBlendRateProp.Value,
+            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Blend Rate",
+                props.TintMapBlendRateProp.Value,
                 props.TintMapBlendRateCoordProp.Value);
         }
 
@@ -449,7 +452,8 @@ namespace Nova.Editor.Core.Scripts
                     {
                         using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                         {
-                            MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, alphaTransitionMapSecondTextureProp,
+                            MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor,
+                                alphaTransitionMapSecondTextureProp,
                                 props.AlphaTransitionMapSecondTextureOffsetXCoordProp.Value,
                                 props.AlphaTransitionMapSecondTextureOffsetYCoordProp.Value,
                                 props.AlphaTransitionMapSecondTextureChannelsXProp.Value, null);
@@ -477,7 +481,8 @@ namespace Nova.Editor.Core.Scripts
 
                         if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook
                             || alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending)
-                            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
+                            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor,
+                                "Flip-Book Progress",
                                 props.AlphaTransitionMapSecondTextureProgressProp.Value,
                                 props.AlphaTransitionMapSecondTextureProgressCoordProp.Value);
 
@@ -652,6 +657,9 @@ namespace Nova.Editor.Core.Scripts
                 "Intensity",
                 props.VertexDeformationIntensityProp.Value,
                 props.VertexDeformationIntensityCoordProp.Value);
+            MaterialEditorUtility.DrawFloatRangeProperty(_editor, "Base Value",
+                props.VertexDeformationBaseValueProp.Value, 0,
+                1);
         }
 
         private void InternalDrawShadowCasterProperties()

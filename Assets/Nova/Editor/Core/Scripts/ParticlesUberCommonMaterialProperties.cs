@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2023 CyberAgent, Inc.
+// Copyright 2024 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using Nova.Editor.Foundation.Scripts;
@@ -192,6 +192,7 @@ namespace Nova.Editor.Core.Scripts
             VertexDeformationMapChannelProp.Setup(properties);
             VertexDeformationIntensityProp.Setup(properties);
             VertexDeformationIntensityCoordProp.Setup(properties);
+            VertexDeformationBaseValueProp.Setup(properties);
 
             // Shadow Caster
             ShadowCasterEnabledProp.Setup(properties);
@@ -386,25 +387,27 @@ namespace Nova.Editor.Core.Scripts
 
         public ParticlesGUI.Property AlphaTransitionMapSliceCountProp { get; } =
             new(PropertyNames.AlphaTransitionMapSliceCount);
-        
+
         public ParticlesGUI.Property DissolveSharpnessProp { get; } = new(PropertyNames.DissolveSharpness);
-        
+
         public ParticlesGUI.Property AlphaTransitionSecondTextureBlendModeProp { get; } =
             new(PropertyNames.AlphaTransitionSecondTextureBlendMode);
-        
-        public ParticlesGUI.Property AlphaTransitionMapSecondTextureProp { get; } = new(PropertyNames.AlphaTransitionMapSecondTexture);
+
+        public ParticlesGUI.Property AlphaTransitionMapSecondTextureProp { get; } =
+            new(PropertyNames.AlphaTransitionMapSecondTexture);
 
         public ParticlesGUI.Property AlphaTransitionMapSecondTexture2DArrayProp { get; } =
             new(PropertyNames.AlphaTransitionMapSecondTexture2DArray);
 
-        public ParticlesGUI.Property AlphaTransitionMapSecondTexture3DProp { get; } = new(PropertyNames.AlphaTransitionMapSecondTexture3D);
+        public ParticlesGUI.Property AlphaTransitionMapSecondTexture3DProp { get; } =
+            new(PropertyNames.AlphaTransitionMapSecondTexture3D);
 
         public ParticlesGUI.Property AlphaTransitionMapSecondTextureProgressProp { get; } =
             new(PropertyNames.AlphaTransitionMapSecondTextureProgress);
 
         public ParticlesGUI.Property AlphaTransitionMapSecondTextureProgressCoordProp { get; } =
             new(PropertyNames.AlphaTransitionMapSecondTextureProgressCoord);
-        
+
         public ParticlesGUI.Property AlphaTransitionMapSecondTextureOffsetXCoordProp { get; } =
             new(PropertyNames.AlphaTransitionMapSecondTextureOffsetXCoord);
 
@@ -416,19 +419,21 @@ namespace Nova.Editor.Core.Scripts
 
         public ParticlesGUI.Property AlphaTransitionMapSecondTextureSliceCountProp { get; } =
             new(PropertyNames.AlphaTransitionMapSecondTextureSliceCount);
-        
+
         public ParticlesGUI.Property AlphaTransitionProgressProp { get; } = new(PropertyNames.AlphaTransitionProgress);
 
         public ParticlesGUI.Property AlphaTransitionProgressCoordProp { get; } =
             new(PropertyNames.AlphaTransitionProgressCoord);
-        
-        public ParticlesGUI.Property AlphaTransitionProgressSecondTextureProp { get; } = new(PropertyNames.AlphaTransitionProgressSecondTexture);
+
+        public ParticlesGUI.Property AlphaTransitionProgressSecondTextureProp { get; } =
+            new(PropertyNames.AlphaTransitionProgressSecondTexture);
 
         public ParticlesGUI.Property AlphaTransitionProgressCoordSecondTextureProp { get; } =
             new(PropertyNames.AlphaTransitionProgressCoordSecondTexture);
 
-        public ParticlesGUI.Property DissolveSharpnessSecondTextureProp { get; } = new(PropertyNames.DissolveSharpnessSecondTexture);
-        
+        public ParticlesGUI.Property DissolveSharpnessSecondTextureProp { get; } =
+            new(PropertyNames.DissolveSharpnessSecondTexture);
+
         #endregion
 
         #region Emission Material Properties
@@ -536,6 +541,9 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property VertexDeformationIntensityProp { get; } =
             new(PropertyNames.VertexDeformationIntensity);
 
+        public ParticlesGUI.Property VertexDeformationBaseValueProp { get; } =
+            new(PropertyNames.VertexDeformationBaseValue);
+
         public ParticlesGUI.Property VertexDeformationIntensityCoordProp { get; } =
             new(PropertyNames.VertexDeformationIntensityCoord);
 
@@ -544,13 +552,26 @@ namespace Nova.Editor.Core.Scripts
         #region Shadow Caster Material Properties
 
         public ParticlesGUI.Property ShadowCasterEnabledProp { get; } = new(PropertyNames.ShadowCasterEnabled);
-        public ParticlesGUI.Property ShadowCasterApplyVertexDeformationProp { get; } = new(PropertyNames.ShadowCasterApplyVertexDeformation);
-        public ParticlesGUI.Property ShadowCasterAlphaTestEnabledProp { get; } = new(PropertyNames.ShadowCasterAlphaTestEnabled);
+
+        public ParticlesGUI.Property ShadowCasterApplyVertexDeformationProp { get; } =
+            new(PropertyNames.ShadowCasterApplyVertexDeformation);
+
+        public ParticlesGUI.Property ShadowCasterAlphaTestEnabledProp { get; } =
+            new(PropertyNames.ShadowCasterAlphaTestEnabled);
+
         public ParticlesGUI.Property ShadowCasterAlphaCutoffProp { get; } = new(PropertyNames.ShadowCasterAlphaCutoff);
-        public ParticlesGUI.Property ShadowCasterAlphaAffectedByTintColorProp { get; } = new(PropertyNames.ShadowCasterAlphaAffectedByTintColor);
-        public ParticlesGUI.Property ShadowCasterAlphaAffectedByFlowMapProp { get; } = new(PropertyNames.ShadowCasterAlphaAffectedByFlowMap);
-        public ParticlesGUI.Property ShadowCasterAlphaAffectedByAlphaTransitionMapProp { get; } = new(PropertyNames.ShadowCasterAlphaAffectedByAlphaTransitionMap);
-        public ParticlesGUI.Property ShadowCasterAlphaAffectedByTransparencyLuminanceProp { get; } = new(PropertyNames.ShadowCasterAlphaAffectedByTransparencyLuminance);
+
+        public ParticlesGUI.Property ShadowCasterAlphaAffectedByTintColorProp { get; } =
+            new(PropertyNames.ShadowCasterAlphaAffectedByTintColor);
+
+        public ParticlesGUI.Property ShadowCasterAlphaAffectedByFlowMapProp { get; } =
+            new(PropertyNames.ShadowCasterAlphaAffectedByFlowMap);
+
+        public ParticlesGUI.Property ShadowCasterAlphaAffectedByAlphaTransitionMapProp { get; } =
+            new(PropertyNames.ShadowCasterAlphaAffectedByAlphaTransitionMap);
+
+        public ParticlesGUI.Property ShadowCasterAlphaAffectedByTransparencyLuminanceProp { get; } =
+            new(PropertyNames.ShadowCasterAlphaAffectedByTransparencyLuminance);
 
         #endregion
     }
