@@ -1124,7 +1124,7 @@ You can set ZTest value.
 Distortion controls how it is distorted.
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173484623-01bec5e8-68ea-4afe-8679-90a31a3fa62c.png" alt="Distortion"><br>
+  <img width="60%" src="Documentation~/Images/distortion.png" alt="Distortion"><br>
   <font color="grey">Distortion</font>
 </p>
 
@@ -1163,6 +1163,11 @@ Shifts the center coordinate of rotation.
 <tr><td colspan="3"><b>Mirror Sampling</b></td><td>
 <p>
 If true, mirrors the texture to create a repeating pattern.
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Use As Normal Map</b></td><td>
+<p>
+If true, the Texture Type is treated as a Normal Map and will be unpacked for sampling.
 </p>
 </td></tr>
 </tbody>

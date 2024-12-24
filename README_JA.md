@@ -1133,7 +1133,7 @@ ZTestを設定できます。
 Distortionでは歪ませ方を設定できます。
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173495634-33aa9641-ee8e-4f15-9707-0753acceffb7.png" alt="Distortion"><br>
+  <img width="60%" src="Documentation~/Images/distortion.png" alt="Distortion"><br>
   <font color="grey">Distortion</font>
 </p>
 
@@ -1172,6 +1172,11 @@ Distortionでは歪ませ方を設定できます。
 <tr><td colspan="3"><b>Mirror Sampling</b></td><td>
 <p>
 チェックをつけるとテクスチャがミラーサンプリングされます。
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Use As Normal Map</b></td><td>
+<p>
+チェックをつけるとTexture TypeをNormal Mapとみなし、Unpackしてサンプリングされます。
 </p>
 </td></tr>
 </tbody>
