@@ -320,7 +320,7 @@ You can set ZTest value.
 With Vertex Deformation, you can control the deformation of vertices.
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/47441314/217997198-d7e04974-0373-48bd-a6bd-5fce53797709.png" alt="Vertex Deformation"><br>
+  <img width="60%" src="Documentation~/Images/vertex_deformation.png" alt="Vertex Deformation"><br>
   <font color="grey">Vertex Deformation</font>
 </p>
 
@@ -347,6 +347,11 @@ Note that you need to uncheck sRGB Color in the texture import setting because t
 Sets the Vertex Deformation intensity.
 </p>
 </td></tr>
+<tr><td colspan=3><b>Base Value</b></td><td>
+<p>
+It is an offset applied to the values of the texture.<br>
+Values lower than this will be pushed inward, while larger values will be pushed outward.
+</p>
 </tbody>
 </table>
 

@@ -326,7 +326,7 @@ ZTestを設定できます。
 Vertex Deformationでは頂点の変形を制御できます。
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/47441314/217997198-d7e04974-0373-48bd-a6bd-5fce53797709.png" alt="Vertex Deformation"><br>
+  <img width="60%" src="Documentation~/Images/vertex_deformation.png" alt="Vertex Deformation"><br>
   <font color="grey">Vertex Deformation</font>
 </p>
 
@@ -351,6 +351,12 @@ Vertex Deformationでは頂点の変形を制御できます。
 <tr><td colspan=3><b>Intensity</b></td><td>
 <p>
 頂点変形を適用する際の強度を設定します。
+</p>
+</td></tr>
+<tr><td colspan=3><b>Base Value</b></td><td>
+<p>
+テクスチャの値に対してのオフセットです。<br>
+これよりも低い値は内側に、大きい値は外側に押し出されます。
 </p>
 </td></tr>
 </tbody>
