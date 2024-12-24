@@ -65,7 +65,7 @@
 - [Distortionシェーダ](#distortion%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80)
     - [Render Settings](#render-settings-2)
     - [Distortion](#distortion)
-    - [Flow Map](#flow-map-1)
+    - [Flow Mapping](#flow-mapping)
     - [Alpha Transition](#alpha-transition-1)
     - [Transparency](#transparency-1)
 - [Uber Unlit/Litシェーダ（ for uGUI )](#uber-unlitlit%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80-for-ugui-)

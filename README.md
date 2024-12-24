@@ -64,7 +64,7 @@ For more information, please refer to the following documents, [Samples](Assets/
 - [Distortion Shader](#distortion-shader)
     - [Render Settings](#render-settings-2)
     - [Distortion](#distortion)
-    - [Flow Map](#flow-map-1)
+    - [Flow Mapping](#flow-mapping)
     - [Alpha Transition](#alpha-transition-1)
     - [Transparency](#transparency-1)
 - [Uber Unlit/Lit shaders( for uGUI )](#uber-unlitlit-shaders-for-ugui-)
