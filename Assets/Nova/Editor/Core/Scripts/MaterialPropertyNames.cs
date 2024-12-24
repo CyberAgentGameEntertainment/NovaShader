@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2022 CyberAgent, Inc.
+// Copyright 2024 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 namespace Nova.Editor.Core.Scripts
@@ -128,9 +128,16 @@ namespace Nova.Editor.Core.Scripts
         public const string AlphaTransitionMapSecondTexture2DArray = "_AlphaTransitionMapSecondTexture2DArray";
         public const string AlphaTransitionMapSecondTexture3D = "_AlphaTransitionMapSecondTexture3D";
         public const string AlphaTransitionMapSecondTextureProgress = "_AlphaTransitionMapSecondTextureProgress";
-        public const string AlphaTransitionMapSecondTextureProgressCoord = "_AlphaTransitionMapSecondTextureProgressCoord";
-        public const string AlphaTransitionMapSecondTextureOffsetXCoord = "_AlphaTransitionMapSecondTextureOffsetXCoord";
-        public const string AlphaTransitionMapSecondTextureOffsetYCoord = "_AlphaTransitionMapSecondTextureOffsetYCoord";
+
+        public const string AlphaTransitionMapSecondTextureProgressCoord =
+            "_AlphaTransitionMapSecondTextureProgressCoord";
+
+        public const string AlphaTransitionMapSecondTextureOffsetXCoord =
+            "_AlphaTransitionMapSecondTextureOffsetXCoord";
+
+        public const string AlphaTransitionMapSecondTextureOffsetYCoord =
+            "_AlphaTransitionMapSecondTextureOffsetYCoord";
+
         public const string AlphaTransitionMapSecondTextureChannelsX = "_AlphaTransitionMapSecondTextureChannelsX";
         public const string AlphaTransitionMapSecondTextureSliceCount = "_AlphaTransitionMapSecondTextureSliceCount";
         public const string AlphaTransitionProgressSecondTexture = "_AlphaTransitionProgressSecondTexture";
@@ -187,6 +194,7 @@ namespace Nova.Editor.Core.Scripts
         public const string VertexDeformationMapChannel = "_VertexDeformationMapChannel";
         public const string VertexDeformationIntensity = "_VertexDeformationIntensity";
         public const string VertexDeformationIntensityCoord = "_VertexDeformationIntensityCoord";
+        public const string VertexDeformationBaseValue = "_VertexDeformationBaseValue";
 
         // Shadow Caster
         public const string ShadowCasterEnabled = "_ShadowCasterEnabled";
@@ -195,7 +203,11 @@ namespace Nova.Editor.Core.Scripts
         public const string ShadowCasterAlphaCutoff = "_ShadowCasterAlphaCutoff";
         public const string ShadowCasterAlphaAffectedByTintColor = "_ShadowCasterAlphaAffectedByTintColor";
         public const string ShadowCasterAlphaAffectedByFlowMap = "_ShadowCasterAlphaAffectedByFlowMap";
-        public const string ShadowCasterAlphaAffectedByAlphaTransitionMap = "_ShadowCasterAlphaAffectedByAlphaTransitionMap";
-        public const string ShadowCasterAlphaAffectedByTransparencyLuminance = "_ShadowCasterAlphaAffectedByTransparencyLuminance";
+
+        public const string ShadowCasterAlphaAffectedByAlphaTransitionMap =
+            "_ShadowCasterAlphaAffectedByAlphaTransitionMap";
+
+        public const string ShadowCasterAlphaAffectedByTransparencyLuminance =
+            "_ShadowCasterAlphaAffectedByTransparencyLuminance";
     }
 }

@@ -153,6 +153,7 @@ Shader "Nova/UIParticles/UberUnlit"
         _VertexDeformationMapChannel("VertexDeformation Map Channel", Float) = 0.0
         _VertexDeformationIntensity("VertexDeformation Intensity", Float) = 0.1
         _VertexDeformationIntensityCoord("VertexDeformation Intensity Coord", Float) = 0.0
+        _VertexDeformationBaseValue("Vertex Deformation Base Value", Range(0.0, 1.0)) = 0
 
         // Shadow Caster
         _ShadowCasterEnabled("Shadow Caster", Float) = 0

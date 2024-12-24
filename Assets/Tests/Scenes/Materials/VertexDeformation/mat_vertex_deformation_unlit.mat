@@ -348,6 +348,7 @@ Material:
     - _TintRimSharpnessCoord: 0
     - _TransparentBlendMode: 0
     - _VertexAlphaMode: 0
+    - _VertexDeformationBaseValue: 0.3
     - _VertexDeformationEnabled: 0
     - _VertexDeformationIntensity: 0.11
     - _VertexDeformationIntensityCoord: 0

@@ -193,11 +193,12 @@ half GetVertexDeformationIntensity(
     TEXTURE2D_PARAM(vertexDeformationMap, sampler_vertexDeformationMap),
     in float intensity,
     in float2 uv,
-    in half mapChannel)
+    in half mapChannel,
+    in float baseValue)
 {
     #if defined(_VERTEX_DEFORMATION_ENABLED)
     half4 vertexDeformation = SAMPLE_TEXTURE2D_LOD(vertexDeformationMap, sampler_vertexDeformationMap, uv, 0);
-    float mapIntensity = vertexDeformation[(uint)mapChannel];
+    float mapIntensity = vertexDeformation[(uint)mapChannel] - baseValue;
     mapIntensity *= intensity;
     return mapIntensity;
     #endif
