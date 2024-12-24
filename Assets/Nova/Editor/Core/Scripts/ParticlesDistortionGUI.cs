@@ -98,7 +98,8 @@ namespace Nova.Editor.Core.Scripts
                 DistortionFoldout.Value = foldoutScope.Foldout;
             }
 
-            using (var foldoutScope = new MaterialEditorUtility.FoldoutHeaderScope(FlowMapFoldout.Value, "Flow Map"))
+            using (var foldoutScope =
+                   new MaterialEditorUtility.FoldoutHeaderScope(FlowMapFoldout.Value, "Flow Mapping"))
             {
                 if (foldoutScope.Foldout) DrawFlowMapProperties(editor, properties);
 

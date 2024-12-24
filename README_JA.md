@@ -1182,7 +1182,7 @@ Distortionでは歪ませ方を設定できます。
 </tbody>
 </table>
 
-#### Flow Map
+#### Flow Mapping
 Flow Mapを使うとディストーションマップを指定した方向に歪ませることができます。
 
 <p align="center">

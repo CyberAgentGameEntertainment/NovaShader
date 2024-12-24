@@ -1173,11 +1173,11 @@ If true, the Texture Type is treated as a Normal Map and will be unpacked for sa
 </tbody>
 </table>
 
-#### Flow Map
+#### Flow Mapping
 You can use the Flow Map to distort the Distortion Map to the specified directions.
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173484646-d134aad0-3e2d-45c3-b4ae-7017d5a07801.png" alt="Flow Map"><br>
+  <img width="60%" src="Documentation~/Images/flow_mapping.png" alt="Flow Map"><br>
   <font color="grey">Flow Map</font>
 </p>
 
