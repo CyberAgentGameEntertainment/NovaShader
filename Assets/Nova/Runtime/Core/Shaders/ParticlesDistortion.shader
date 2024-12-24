@@ -16,6 +16,7 @@ Shader "Nova/Particles/Distortion"
         _BaseMapRotationCoord("Base Map Rotation Coord", Float) = 0.0
         _BaseMapRotationOffsets("Base Map Rotation Offsets", Vector) = (0.0, 0.0, 0.0, 0.0)
         _BaseMapMirrorSampling("Base Map Mirror Sampling", Float) = 0
+        _BaseMapUnpackNormal("Base Map Unpack Normal", Float) = 0
         [PowerSlider(3)]_DistortionIntensity("Distortion Intensity", Range(0, 1)) = 0.1
         _DistortionIntensityCoord("Distortion Intensity Coord", Range(0, 1)) = 0.0
 

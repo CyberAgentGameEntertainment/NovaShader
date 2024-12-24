@@ -70,6 +70,14 @@ half4 frag(Varyings input) : SV_Target
     baseMapSamplerState = sampler_BaseMap;
     #endif
     half4 distortionSrc = SAMPLE_TEXTURE2D(_BaseMap, baseMapSamplerState, input.baseUv.xy);
+    if (_BaseMapUnpackNormal)
+    {
+        // [???] => [-1, 1]
+        half3 unpackedNormal = UnpackNormal(distortionSrc);
+        // [-1, 1] => [0, 1]
+        distortionSrc = half4((unpackedNormal + 1) * 0.5f, 1);
+    }
+
     half2 distortion;
     distortion.x = distortionSrc[(uint)_BaseMapChannelsX];
     distortion.y = distortionSrc[(uint)_BaseMapChannelsY];

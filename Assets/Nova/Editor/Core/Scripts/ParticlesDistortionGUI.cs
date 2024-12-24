@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2022 CyberAgent, Inc.
+// Copyright 2024 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using Nova.Editor.Foundation.Scripts;
@@ -14,13 +14,6 @@ namespace Nova.Editor.Core.Scripts
     /// </summary>
     internal sealed class ParticlesDistortionGUI : ParticlesGUI
     {
-        #region Render Settings Material Properties
-
-        private readonly Property _cullProp = new Property(PropertyNames.Cull);
-        private readonly Property _zTestProp = new Property(PropertyNames.ZTest);
-
-        #endregion
-
         protected override void SetupProperties(MaterialProperty[] properties)
         {
             // Render Settings
@@ -37,6 +30,7 @@ namespace Nova.Editor.Core.Scripts
             _baseMapRotationCoordProp.Setup(properties);
             _baseMapRotationOffsetsProp.Setup(properties);
             _baseMapMirrorSamplingProp.Setup(properties);
+            _baseMapUnpackNormalProp.Setup(properties);
             _distortionIntensityProp.Setup(properties);
             _distortionIntensityCoordProp.Setup(properties);
 
@@ -154,6 +148,7 @@ namespace Nova.Editor.Core.Scripts
             }
 
             MaterialEditorUtility.DrawToggleProperty(editor, "Mirror Sampling", _baseMapMirrorSamplingProp.Value);
+            MaterialEditorUtility.DrawToggleProperty(editor, "Use As Normal Map", _baseMapUnpackNormalProp.Value);
         }
 
         private void DrawFlowMapProperties(MaterialEditor editor, MaterialProperty[] properties)
@@ -210,6 +205,13 @@ namespace Nova.Editor.Core.Scripts
                 }
         }
 
+        #region Render Settings Material Properties
+
+        private readonly Property _cullProp = new(PropertyNames.Cull);
+        private readonly Property _zTestProp = new(PropertyNames.ZTest);
+
+        #endregion
+
         #region Foldout Properties
 
         private BoolEditorPrefsProperty RenderSettingsFoldout { get; set; }
@@ -222,64 +224,63 @@ namespace Nova.Editor.Core.Scripts
 
         #region Distortion Material Properties
 
-        private readonly Property _baseMapProp = new Property(PropertyNames.BaseMap);
-        private readonly Property _baseMapOffsetXCoordProp = new Property(PropertyNames.BaseMapOffsetXCoord);
-        private readonly Property _baseMapOffsetYCoordProp = new Property(PropertyNames.BaseMapOffsetYCoord);
-        private readonly Property _baseMapChannelsXProp = new Property(PropertyNames.BaseMapChannelsX);
-        private readonly Property _baseMapChannelsYProp = new Property(PropertyNames.BaseMapChannelsY);
-        private readonly Property _baseMapRotationProp = new Property(PropertyNames.BaseMapRotation);
-        private readonly Property _baseMapRotationCoordProp = new Property(PropertyNames.BaseMapRotationCoord);
-        private readonly Property _baseMapRotationOffsetsProp = new Property(PropertyNames.BaseMapRotationOffsets);
-        private readonly Property _baseMapMirrorSamplingProp = new Property(PropertyNames.BaseMapMirrorSampling);
-        private readonly Property _distortionIntensityProp = new Property(PropertyNames.DistortionIntensity);
-        private readonly Property _distortionIntensityCoordProp = new Property(PropertyNames.DistortionIntensityCoord);
+        private readonly Property _baseMapProp = new(PropertyNames.BaseMap);
+        private readonly Property _baseMapOffsetXCoordProp = new(PropertyNames.BaseMapOffsetXCoord);
+        private readonly Property _baseMapOffsetYCoordProp = new(PropertyNames.BaseMapOffsetYCoord);
+        private readonly Property _baseMapChannelsXProp = new(PropertyNames.BaseMapChannelsX);
+        private readonly Property _baseMapChannelsYProp = new(PropertyNames.BaseMapChannelsY);
+        private readonly Property _baseMapRotationProp = new(PropertyNames.BaseMapRotation);
+        private readonly Property _baseMapRotationCoordProp = new(PropertyNames.BaseMapRotationCoord);
+        private readonly Property _baseMapRotationOffsetsProp = new(PropertyNames.BaseMapRotationOffsets);
+        private readonly Property _baseMapMirrorSamplingProp = new(PropertyNames.BaseMapMirrorSampling);
+        private readonly Property _baseMapUnpackNormalProp = new(PropertyNames.BaseMapUnpackNormal);
+        private readonly Property _distortionIntensityProp = new(PropertyNames.DistortionIntensity);
+        private readonly Property _distortionIntensityCoordProp = new(PropertyNames.DistortionIntensityCoord);
 
         #endregion
 
         #region Flow Map Material Properties
 
-        private readonly Property _flowMapProp = new Property(PropertyNames.FlowMap);
-        private readonly Property _flowMapOffsetXCoordProp = new Property(PropertyNames.FlowMapOffsetXCoord);
-        private readonly Property _flowMapOffsetYCoordProp = new Property(PropertyNames.FlowMapOffsetYCoord);
-        private readonly Property _flowMapChannelsXProp = new Property(PropertyNames.FlowMapChannelsX);
-        private readonly Property _flowMapChannelsYProp = new Property(PropertyNames.FlowMapChannelsY);
-        private readonly Property _flowIntensityProp = new Property(PropertyNames.FlowIntensity);
-        private readonly Property _flowIntensityCoordProp = new Property(PropertyNames.FlowIntensityCoord);
-        private readonly Property _flowMapTargetProp = new Property(PropertyNames.FlowMapTarget);
+        private readonly Property _flowMapProp = new(PropertyNames.FlowMap);
+        private readonly Property _flowMapOffsetXCoordProp = new(PropertyNames.FlowMapOffsetXCoord);
+        private readonly Property _flowMapOffsetYCoordProp = new(PropertyNames.FlowMapOffsetYCoord);
+        private readonly Property _flowMapChannelsXProp = new(PropertyNames.FlowMapChannelsX);
+        private readonly Property _flowMapChannelsYProp = new(PropertyNames.FlowMapChannelsY);
+        private readonly Property _flowIntensityProp = new(PropertyNames.FlowIntensity);
+        private readonly Property _flowIntensityCoordProp = new(PropertyNames.FlowIntensityCoord);
+        private readonly Property _flowMapTargetProp = new(PropertyNames.FlowMapTarget);
 
         #endregion
 
         #region Alpha Transition Material Properties
 
-        private readonly Property _alphaTransitionModeProp = new Property(PropertyNames.AlphaTransitionMode);
-        private readonly Property _alphaTransitionMapProp = new Property(PropertyNames.AlphaTransitionMap);
+        private readonly Property _alphaTransitionModeProp = new(PropertyNames.AlphaTransitionMode);
+        private readonly Property _alphaTransitionMapProp = new(PropertyNames.AlphaTransitionMap);
 
         private readonly Property _alphaTransitionMapOffsetXCoordProp =
-            new Property(PropertyNames.AlphaTransitionMapOffsetXCoord);
+            new(PropertyNames.AlphaTransitionMapOffsetXCoord);
 
         private readonly Property _alphaTransitionMapOffsetYCoordProp =
-            new Property(PropertyNames.AlphaTransitionMapOffsetYCoord);
+            new(PropertyNames.AlphaTransitionMapOffsetYCoord);
 
-        private readonly Property _alphaTransitionMapChannelsXProp =
-            new Property(PropertyNames.AlphaTransitionMapChannelsX);
+        private readonly Property _alphaTransitionMapChannelsXProp = new(PropertyNames.AlphaTransitionMapChannelsX);
 
-        private readonly Property _alphaTransitionProgressProp = new Property(PropertyNames.AlphaTransitionProgress);
+        private readonly Property _alphaTransitionProgressProp = new(PropertyNames.AlphaTransitionProgress);
 
-        private readonly Property _alphaTransitionProgressCoordProp =
-            new Property(PropertyNames.AlphaTransitionProgressCoord);
+        private readonly Property _alphaTransitionProgressCoordProp = new(PropertyNames.AlphaTransitionProgressCoord);
 
-        private readonly Property _dissolveSharpnessProp = new Property(PropertyNames.DissolveSharpness);
+        private readonly Property _dissolveSharpnessProp = new(PropertyNames.DissolveSharpness);
 
         #endregion
 
         #region Transparency Material Properties
 
-        private readonly Property _softParticlesEnabledProp = new Property(PropertyNames.SoftParticlesEnabled);
-        private readonly Property _softParticlesIntensityProp = new Property(PropertyNames.SoftParticlesIntensity);
-        private readonly Property _depthFadeEnabledProp = new Property(PropertyNames.DepthFadeEnabled);
-        private readonly Property _depthFadeNearProp = new Property(PropertyNames.DepthFadeNear);
-        private readonly Property _depthFadeFarProp = new Property(PropertyNames.DepthFadeFar);
-        private readonly Property _depthFadeWidthProp = new Property(PropertyNames.DepthFadeWidth);
+        private readonly Property _softParticlesEnabledProp = new(PropertyNames.SoftParticlesEnabled);
+        private readonly Property _softParticlesIntensityProp = new(PropertyNames.SoftParticlesIntensity);
+        private readonly Property _depthFadeEnabledProp = new(PropertyNames.DepthFadeEnabled);
+        private readonly Property _depthFadeNearProp = new(PropertyNames.DepthFadeNear);
+        private readonly Property _depthFadeFarProp = new(PropertyNames.DepthFadeFar);
+        private readonly Property _depthFadeWidthProp = new(PropertyNames.DepthFadeWidth);
 
         #endregion
     }
