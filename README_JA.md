@@ -1176,7 +1176,8 @@ Distortionでは歪ませ方を設定できます。
 </td></tr>
 <tr><td colspan="3"><b>Use As Normal Map</b></td><td>
 <p>
-チェックをつけるとTexture TypeをNormal Mapとみなし、Unpackしてサンプリングされます。
+チェックをつけるとTexture TypeをNormal Mapとみなし、Unpackしてサンプリングされます。<br>
+また、Textureには正規化されたNormal Mapを指定してください。そうでない場合はプラットフォームよって描画結果が変わる可能性があります。
 </p>
 </td></tr>
 </tbody>
