@@ -1167,7 +1167,8 @@ If true, mirrors the texture to create a repeating pattern.
 </td></tr>
 <tr><td colspan="3"><b>Use As Normal Map</b></td><td>
 <p>
-If true, the Texture Type is treated as a Normal Map and will be unpacked for sampling.
+If true, the Texture Type is treated as a Normal Map and will be unpacked for sampling.<br>
+Additionally, please specify a normalized Normal Map for the Texture. Otherwise, the rendering results may vary depending on the platform.
 </p>
 </td></tr>
 </tbody>
