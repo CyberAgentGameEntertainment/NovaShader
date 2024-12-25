@@ -42,6 +42,7 @@ CBUFFER_START(UnityPerMaterial)
     float4 _BaseMapRotationOffsets;
     float _DistortionIntensity;
     float _DistortionIntensityCoord;
+    half _BaseMapUnpackNormal;
 
     float4 _FlowMap_ST;
     DECLARE_CUSTOM_COORD(_FlowMapOffsetXCoord);

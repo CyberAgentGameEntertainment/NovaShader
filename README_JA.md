@@ -65,7 +65,7 @@
 - [Distortionシェーダ](#distortion%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80)
     - [Render Settings](#render-settings-2)
     - [Distortion](#distortion)
-    - [Flow Map](#flow-map-1)
+    - [Flow Mapping](#flow-mapping)
     - [Alpha Transition](#alpha-transition-1)
     - [Transparency](#transparency-1)
 - [Uber Unlit/Litシェーダ（ for uGUI )](#uber-unlitlit%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80-for-ugui-)
@@ -1133,7 +1133,7 @@ ZTestを設定できます。
 Distortionでは歪ませ方を設定できます。
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173495634-33aa9641-ee8e-4f15-9707-0753acceffb7.png" alt="Distortion"><br>
+  <img width="60%" src="Documentation~/Images/distortion.png" alt="Distortion"><br>
   <font color="grey">Distortion</font>
 </p>
 
@@ -1174,10 +1174,15 @@ Distortionでは歪ませ方を設定できます。
 チェックをつけるとテクスチャがミラーサンプリングされます。
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Use As Normal Map</b></td><td>
+<p>
+チェックをつけるとTexture TypeをNormal Mapとみなし、Unpackしてサンプリングされます。
+</p>
+</td></tr>
 </tbody>
 </table>
 
-#### Flow Map
+#### Flow Mapping
 Flow Mapを使うとディストーションマップを指定した方向に歪ませることができます。
 
 <p align="center">

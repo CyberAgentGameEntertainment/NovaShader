@@ -64,7 +64,7 @@ For more information, please refer to the following documents, [Samples](Assets/
 - [Distortion Shader](#distortion-shader)
     - [Render Settings](#render-settings-2)
     - [Distortion](#distortion)
-    - [Flow Map](#flow-map-1)
+    - [Flow Mapping](#flow-mapping)
     - [Alpha Transition](#alpha-transition-1)
     - [Transparency](#transparency-1)
 - [Uber Unlit/Lit shaders( for uGUI )](#uber-unlitlit-shaders-for-ugui-)
@@ -1124,7 +1124,7 @@ You can set ZTest value.
 Distortion controls how it is distorted.
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173484623-01bec5e8-68ea-4afe-8679-90a31a3fa62c.png" alt="Distortion"><br>
+  <img width="60%" src="Documentation~/Images/distortion.png" alt="Distortion"><br>
   <font color="grey">Distortion</font>
 </p>
 
@@ -1165,14 +1165,19 @@ Shifts the center coordinate of rotation.
 If true, mirrors the texture to create a repeating pattern.
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Use As Normal Map</b></td><td>
+<p>
+If true, the Texture Type is treated as a Normal Map and will be unpacked for sampling.
+</p>
+</td></tr>
 </tbody>
 </table>
 
-#### Flow Map
+#### Flow Mapping
 You can use the Flow Map to distort the Distortion Map to the specified directions.
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173484646-d134aad0-3e2d-45c3-b4ae-7017d5a07801.png" alt="Flow Map"><br>
+  <img width="60%" src="Documentation~/Images/flow_mapping.png" alt="Flow Map"><br>
   <font color="grey">Flow Map</font>
 </p>
 
