@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Demo/Demo03/Demo03.unity
     guid: acf798dfa02ffe148a00164ae76416c9
+  - enabled: 1
+    path: Assets/Tests/Scenes/Test_Vertex_Deformation.unity
+    guid: 4ebf724041851ce4c8bc8e860ad400e2
   m_configObjects: {}
