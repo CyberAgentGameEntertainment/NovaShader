@@ -14,9 +14,7 @@ Material:
   - _BASE_MAP_MODE_2D
   - _EMISSION_COLOR_COLOR
   - _EMISSION_MAP_MODE_2D
-  - _ENVIRONMENT_REFLECTIONS_ENABLED
   - _PARALLAX_MAP_MODE_2D
-  - _RECEIVE_SHADOWS_ENABLED
   - _SPECULAR_HIGHLIGHTS_ENABLED
   - _TINT_AREA_ALL
   - _TINT_MAP_3D_ENABLED
@@ -269,7 +267,7 @@ Material:
     - _EmissionMapProgress: 0
     - _EmissionMapProgressCoord: 0
     - _EmissionMapSliceCount: 4
-    - _EnvironmentReflections: 1
+    - _EnvironmentReflections: 0
     - _FlowIntensity: 1
     - _FlowIntensityCoord: 0
     - _FlowMapChannelsX: 0
@@ -284,7 +282,7 @@ Material:
     - _InverseRimTransparency: 0
     - _InverseTintRim: 0
     - _KeepEdgeTransparency: 1
-    - _LitReceiveShadows: 1
+    - _LitReceiveShadows: 0
     - _LitWorkflowMode: 1
     - _LuminanceTransparencyEnabled: 0
     - _LuminanceTransparencyProgress: 0.5
