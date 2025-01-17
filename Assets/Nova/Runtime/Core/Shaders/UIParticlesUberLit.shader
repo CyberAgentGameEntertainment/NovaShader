@@ -312,6 +312,9 @@ Shader "Nova/UIParticles/UberLit"
             // Vertex Deformation
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
 
+            // Rect2D Clip
+            #pragma multi_compile_local _ UNITY_UI_CLIP_RECT
+
             #include "ParticlesUberLitForward.hlsl"
             ENDHLSL
         }
