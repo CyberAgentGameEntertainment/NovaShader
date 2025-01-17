@@ -19,6 +19,14 @@ Shader "Nova/UIParticles/UberLit"
         _SpecularHighlights("Specular Highlights", Float) = 0.0
         _EnvironmentReflections("Environment Reflections", Float) = 1.0
 
+        _StencilComp ("Stencil Comparison", Float) = 8
+        _Stencil ("Stencil ID", Float) = 0
+        _StencilOp ("Stencil Operation", Float) = 0
+        _StencilWriteMask ("Stencil Write Mask", Float) = 255
+        _StencilReadMask ("Stencil Read Mask", Float) = 255
+
+        _ColorMask ("Color Mask", Float) = 15
+
         // Surface Maps
         _NormalMap("Normal Map", 2D) = "" {}
         _NormalMap2DArray("Normal Map 2D Array", 2DArray) = "" {}
@@ -200,6 +208,15 @@ Shader "Nova/UIParticles/UberLit"
             "PreviewType" = "Plane"
             "PerformanceChecks" = "False"
             "RenderPipeline" = "UniversalPipeline"
+        }
+
+        Stencil
+        {
+            Ref [_Stencil]
+            Comp [_StencilComp]
+            Pass [_StencilOp]
+            ReadMask [_StencilReadMask]
+            WriteMask [_StencilWriteMask]
         }
 
         Pass
