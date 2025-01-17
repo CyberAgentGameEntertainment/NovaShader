@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------
-// Copyright 2023 CyberAgent, Inc.
+// Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System.Collections.Generic;
@@ -141,16 +141,32 @@ namespace Nova.Editor.Core.Scripts
         private static bool IsCustomCoordUsedInAlphaTransition(
             ParticlesUberCommonMaterialProperties commonMaterialProperties)
         {
-            var mode = (AlphaTransitionMode)commonMaterialProperties.AlphaTransitionModeProp.Value.floatValue;
+            var props = commonMaterialProperties;
+            var mode = (AlphaTransitionMode)props.AlphaTransitionModeProp.Value.floatValue;
             if (mode == AlphaTransitionMode.None) return false;
-            var isCustomCoordUsed = false;
-            isCustomCoordUsed = IsCustomCoordUsed(commonMaterialProperties.AlphaTransitionProgressCoordProp);
-            isCustomCoordUsed |= IsCustomCoordUsed(commonMaterialProperties.AlphaTransitionMapOffsetXCoordProp)
-                                 || IsCustomCoordUsed(commonMaterialProperties.AlphaTransitionMapOffsetYCoordProp);
-            isCustomCoordUsed |=
-                (AlphaTransitionMapMode)commonMaterialProperties.AlphaTransitionMapModeProp.Value.floatValue !=
-                AlphaTransitionMapMode.SingleTexture
-                && IsCustomCoordUsed(commonMaterialProperties.AlphaTransitionMapProgressCoordProp);
+
+            bool isCustomCoordUsed;
+            var isFlipBook = (AlphaTransitionMapMode)props.AlphaTransitionMapModeProp.Value.floatValue !=
+                             AlphaTransitionMapMode.SingleTexture;
+            // 1st texture
+            {
+                isCustomCoordUsed = IsCustomCoordUsed(props.AlphaTransitionProgressCoordProp);
+                isCustomCoordUsed |= IsCustomCoordUsed(props.AlphaTransitionMapOffsetXCoordProp)
+                                     || IsCustomCoordUsed(props.AlphaTransitionMapOffsetYCoordProp);
+                isCustomCoordUsed |= isFlipBook && IsCustomCoordUsed(props.AlphaTransitionMapProgressCoordProp);
+            }
+            // 2nd texture
+            {
+                if ((AlphaTransitionBlendMode)props.AlphaTransitionSecondTextureBlendModeProp.Value.floatValue !=
+                    AlphaTransitionBlendMode.None)
+                {
+                    isCustomCoordUsed |= IsCustomCoordUsed(props.AlphaTransitionProgressCoordSecondTextureProp);
+                    isCustomCoordUsed |= IsCustomCoordUsed(props.AlphaTransitionMapSecondTextureOffsetXCoordProp) ||
+                                         IsCustomCoordUsed(props.AlphaTransitionMapSecondTextureOffsetYCoordProp);
+                    isCustomCoordUsed |= isFlipBook &&
+                                         IsCustomCoordUsed(props.AlphaTransitionMapSecondTextureProgressCoordProp);
+                }
+            }
             return isCustomCoordUsed;
         }
 
