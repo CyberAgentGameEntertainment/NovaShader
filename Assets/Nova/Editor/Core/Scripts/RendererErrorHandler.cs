@@ -238,12 +238,17 @@ namespace Nova.Editor.Core.Scripts
                 correctVertexStreams.Add(ParticleSystemVertexStream.Custom1XYZW);
                 correctVertexStreams.Add(ParticleSystemVertexStream.Custom2XYZW);
             }
-
-            if (material.shader.name == "Nova/Particles/UberLit"
-                && material.IsKeywordEnabled(ShaderKeywords.NormalMapEnabled))
+            
+            // Tangent
             {
-                correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Tangent);
-                correctVertexStreams.Add(ParticleSystemVertexStream.Tangent);
+                bool useParallaxMap = material.IsKeywordEnabled(ShaderKeywords.ParallaxMapTargetBase) ||
+                                      material.IsKeywordEnabled(ShaderKeywords.ParallaxMapTargetTint) ||
+                                      material.IsKeywordEnabled(ShaderKeywords.ParallaxMapTargetEmission);
+                if (useParallaxMap || (material.shader.name == "Nova/Particles/UberLit" && material.IsKeywordEnabled(ShaderKeywords.NormalMapEnabled)))
+                {
+                    correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Tangent);
+                    correctVertexStreams.Add(ParticleSystemVertexStream.Tangent);
+                }
             }
         }
 
