@@ -25,6 +25,8 @@ namespace Tests.Runtime
     {
         [TestCase("Test_Unlit", ExpectedResult = null)]
         [TestCase("Test_Lit", ExpectedResult = null)]
+        [TestCase("Test_UIParticleUnlit", ExpectedResult = null)]
+        [TestCase("Test_UIParticleLit", ExpectedResult = null)]
         [TestCase("Test_Distortion", ExpectedResult = null)]
         [TestCase("Test_Vertex_Deformation", ExpectedResult = null)]
         [GameViewResolution(1920, 1080, "Full HD")]
