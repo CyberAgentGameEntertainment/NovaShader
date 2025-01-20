@@ -158,17 +158,22 @@ void InitializeSurfaceData(out SurfaceData surfaceData, VaryingsLit input, half4
 {
     surfaceData = (SurfaceData)0;
     Varyings inputUnlit = input.varyingsUnlit;
-    surfaceData.albedo = albedoColor.xyz;
-    surfaceData.normalTS = SAMPLE_NORMAL_MAP(inputUnlit.baseMapUVAndProgresses.xy, inputUnlit.baseMapUVAndProgresses.z,
-                                             _NormalMapBumpScale);
-    surfaceData.metallic = GetMetallic(inputUnlit.baseMapUVAndProgresses.xyz);
-    surfaceData.specular = GetSpecular(inputUnlit.baseMapUVAndProgresses.xyz);
-    surfaceData.smoothness = GetSmoothness(inputUnlit.baseMapUVAndProgresses.xyz);
+    surfaceData.albedo = half4(1,0,0,1);//albedoColor.xyz;
+    /*surfaceData.normalTS = SAMPLE_NORMAL_MAP(inputUnlit.baseMapUVAndProgresses.xy, inputUnlit.baseMapUVAndProgresses.z,
+                                             _NormalMapBumpScale);*/
+    surfaceData.normalTS = half3(0,0,1);
+    surfaceData.metallic = 1;
+    surfaceData.specular = 1;
+    surfaceData.smoothness = 1;
+    // surfaceData.metallic = GetMetallic(inputUnlit.baseMapUVAndProgresses.xyz);
+    // surfaceData.specular = GetSpecular(inputUnlit.baseMapUVAndProgresses.xyz);
+    // surfaceData.smoothness = GetSmoothness(inputUnlit.baseMapUVAndProgresses.xyz);
     surfaceData.alpha = albedoColor.a;
-    surfaceData.emission = 0;
+    
+    /*surfaceData.emission = 0;
     // The values of clearCoatMask,clearCoatSmoothness and occlusion is referenced from ParticlesLitInput.hlsl in UPR Package. 
     surfaceData.clearCoatMask = 0;
-    surfaceData.clearCoatSmoothness = 0;
+    surfaceData.clearCoatSmoothness = 0;*/
     surfaceData.occlusion = 1;
 }
 
@@ -228,20 +233,109 @@ VaryingsLit vertLit(AttributesLit input)
     return output;
 }
 
+half4 UniversalFragmentPBR2(InputData inputData, SurfaceData surfaceData)
+{
+    #if defined(_SPECULARHIGHLIGHTS_OFF)
+    bool specularHighlightsOff = true;
+    #else
+    bool specularHighlightsOff = false;
+    #endif
+    BRDFData brdfData;
+
+    // NOTE: can modify "surfaceData"...
+    InitializeBRDFData(surfaceData, brdfData);
+
+    #if defined(DEBUG_DISPLAY)
+    half4 debugColor;
+
+    if (CanDebugOverrideOutputColor(inputData, surfaceData, brdfData, debugColor))
+    {
+        return debugColor;
+    }
+    #endif
+
+    // Clear-coat calculation...
+    BRDFData brdfDataClearCoat = CreateClearCoatBRDFData(surfaceData, brdfData);
+    half4 shadowMask = CalculateShadowMask(inputData);
+    AmbientOcclusionFactor aoFactor = CreateAmbientOcclusionFactor(inputData, surfaceData);
+    uint meshRenderingLayers = GetMeshRenderingLightLayer();
+    Light mainLight = GetMainLight(inputData, shadowMask, aoFactor);
+
+    // NOTE: We don't apply AO to the GI here because it's done in the lighting calculation below...
+    MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI);
+
+    LightingData lightingData = CreateLightingData(inputData, surfaceData);
+
+    lightingData.giColor = GlobalIllumination(brdfData, brdfDataClearCoat, surfaceData.clearCoatMask,
+                                              inputData.bakedGI, aoFactor.indirectAmbientOcclusion, inputData.positionWS,
+                                              inputData.normalWS, inputData.viewDirectionWS);
+
+    if (IsMatchingLightLayer(mainLight.layerMask, meshRenderingLayers))
+    {
+        lightingData.mainLightColor = LightingPhysicallyBased(brdfData, brdfDataClearCoat,
+                                                              mainLight,
+                                                              inputData.normalWS, inputData.viewDirectionWS,
+                                                              surfaceData.clearCoatMask, specularHighlightsOff);
+    }
+    return half4(lightingData.mainLightColor, 1);
+    #if defined(_ADDITIONAL_LIGHTS)
+    uint pixelLightCount = GetAdditionalLightsCount();
+
+    #if USE_CLUSTERED_LIGHTING
+    for (uint lightIndex = 0; lightIndex < min(_AdditionalLightsDirectionalCount, MAX_VISIBLE_LIGHTS); lightIndex++)
+    {
+        Light light = GetAdditionalLight(lightIndex, inputData, shadowMask, aoFactor);
+
+        if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
+        {
+            lightingData.additionalLightsColor += LightingPhysicallyBased(brdfData, brdfDataClearCoat, light,
+                                                                          inputData.normalWS, inputData.viewDirectionWS,
+                                                                          surfaceData.clearCoatMask, specularHighlightsOff);
+        }
+    }
+    #endif
+
+    LIGHT_LOOP_BEGIN(pixelLightCount)
+        Light light = GetAdditionalLight(lightIndex, inputData, shadowMask, aoFactor);
+
+        if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
+        {
+            lightingData.additionalLightsColor += LightingPhysicallyBased(brdfData, brdfDataClearCoat, light,
+                                                                          inputData.normalWS, inputData.viewDirectionWS,
+                                                                          surfaceData.clearCoatMask, specularHighlightsOff);
+        }
+    LIGHT_LOOP_END
+    #endif
+
+    #if defined(_ADDITIONAL_LIGHTS_VERTEX)
+    lightingData.vertexLightingColor += inputData.vertexLighting * brdfData.diffuse;
+    #endif
+
+    return CalculateFinalColor(lightingData, surfaceData.alpha);
+}
+
 /**
  * \brief Fragment shader entry point. 
  */
 half4 fragLit(VaryingsLit input) : SV_Target
 {
     half4 albedoColor = fragUnlit(input.varyingsUnlit, true);
-
-    SurfaceData surfaceData;
+    
+    SurfaceData surfaceData = (SurfaceData)0;
     InitializeSurfaceData(surfaceData, input, albedoColor);
 
-    InputData inputData;
+    InputData inputData = (InputData)0;
     InitializeInputData(inputData, surfaceData, input);
 
-    half4 color = UniversalFragmentPBR(inputData, surfaceData);
+    half4 color = UniversalFragmentPBR2(inputData, surfaceData);
+    // return half4(surfaceData.specular, 1);
+    // return half4(surfaceData.metallic, surfaceData.metallic, surfaceData.metallic, 1);
+    // return half4(surfaceData.smoothness, surfaceData.smoothness, surfaceData.smoothness, 1);
+    // return half4(inputData.normalWS, 1);
+    // return half4(surfaceData.emission, 1);
+    // return half4(surfaceData.alpha, surfaceData.alpha, surfaceData.alpha, 1);
+    // return half4(surfaceData.occlusion, surfaceData.occlusion, surfaceData.occlusion, 1);
+    // return half4(surfaceData.clearCoatSmoothness, surfaceData.clearCoatSmoothness, surfaceData.clearCoatSmoothness, 1);
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
     return color;
 }

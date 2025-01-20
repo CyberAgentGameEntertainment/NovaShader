@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Demo/Demo03/Demo03.unity
     guid: acf798dfa02ffe148a00164ae76416c9
+  - enabled: 1
+    path: Assets/Tests/Scenes/Test_UIParticleMask.unity
+    guid: d8ef6ba537bf0844a8bc55c0a3522691
   m_configObjects: {}

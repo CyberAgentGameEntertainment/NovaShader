@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class test : MonoBehaviour
 {
@@ -13,7 +14,9 @@ public class test : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 v = new Vector3(1.0f, 0.5f, 1.0f);
-        Debug.Log(v.normalized.ToString());
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            SceneManager.LoadScene("Test_UIParticleMask");
+        }
     }
 }
