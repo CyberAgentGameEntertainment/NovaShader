@@ -50,6 +50,11 @@ struct Varyings
     float4 flowTransitionSecondUVs : TEXCOORD11; // xy: FlowMap UV, zw: TransitionMap UV
     float2 transitionEmissionProgressesSecond : TEXCOORD12; // x: TransitionMap Progress, y: EmissionMap Progress
     #endif
+
+    #ifdef UNITY_UI_CLIP_RECT
+    float4 mask : TEXCOORD13;
+    #endif
+
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -74,6 +79,14 @@ inline void InitializeVertexOutput(in Attributes input, in out Varyings output, 
     tangentWS.xyz = TransformObjectToWorldDir(input.tangentOS.xyz);
     tangentWS.w = input.tangentOS.w * GetOddNegativeScale();
     output.viewDirTS = GetViewDirectionTangentSpace(tangentWS, output.normalWS, output.viewDirWS);
+    #endif
+
+    #ifdef UNITY_UI_CLIP_RECT
+    float2 pixelSize = output.positionHCS.w;
+    pixelSize /= float2(1, 1) * abs(mul((float2x2)UNITY_MATRIX_P, _ScreenParams.xy));
+
+    float4 clampedRect = clamp(_ClipRect, -2e10, 2e10);
+    output.mask = float4(input.positionOS.xy * 2 - clampedRect.xy - clampedRect.zw, 0.25 / (0.25 * half2(_UIMaskSoftnessX, _UIMaskSoftnessY) + abs(pixelSize.xy)));
     #endif
 }
 
@@ -355,8 +368,15 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     ApplyDepthFade(color, input.projectedPosition);
     #endif
 
+
+    #ifdef UNITY_UI_CLIP_RECT
+    half2 m = saturate((_ClipRect.zw - _ClipRect.xy - abs(input.mask.xy)) * input.mask.zw);
+    color.a *= m.x * m.y;  
+    #endif
+
     AlphaClip(color.a, _Cutoff);
     color.rgb = ApplyAlpha(color.rgb, color.a);
+
     return color;
 }
 #endif

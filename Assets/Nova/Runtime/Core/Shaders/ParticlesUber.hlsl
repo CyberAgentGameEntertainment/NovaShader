@@ -211,6 +211,12 @@ CBUFFER_START(UnityPerMaterial)
 
 CBUFFER_END
 
+#ifdef UNITY_UI_CLIP_RECT
+    float4 _ClipRect;
+    float _UIMaskSoftnessX;
+    float _UIMaskSoftnessY;
+#endif
+
 // Returns the sampler state of the base map.
 SamplerState GetBaseMapSamplerState()
 {
