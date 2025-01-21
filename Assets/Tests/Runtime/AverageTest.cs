@@ -25,6 +25,9 @@ namespace Tests.Runtime
     {
         [TestCase("Test_Unlit", ExpectedResult = null)]
         [TestCase("Test_Lit", ExpectedResult = null)]
+        [TestCase("Test_UIParticleUnlit", ExpectedResult = null)]
+        [TestCase("Test_UIParticleLit", ExpectedResult = null)]
+        [TestCase("Test_UIParticleMask", ExpectedResult = null)]
         [TestCase("Test_Distortion", ExpectedResult = null)]
         [TestCase("Test_Vertex_Deformation", ExpectedResult = null)]
         [GameViewResolution(1920, 1080, "Full HD")]
@@ -38,7 +41,7 @@ namespace Tests.Runtime
             // タイムスケールを0に指定しても、バインドポーズになるときもあれば、
             // 0フレームのアニメーションが再生されてしまうことがあり、テストが不安定だった。
             // そこでシーンに含まれているアニメーターを無効にしてアニメーションが再生されないようにする。
-            var animators = GameObject.FindObjectsOfType<Animator>();
+            var animators = Object.FindObjectsOfType<Animator>();
             foreach (var animator in animators) animator.enabled = false;
 
             // シーンのレンダリングが一回終わるまで待つ
