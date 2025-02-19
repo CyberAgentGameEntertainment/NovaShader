@@ -8,7 +8,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace Nova.Runtime.Core.Scripts
 {
-    public sealed class DistortedUvBufferPass : ScriptableRenderPass
+    public partial class DistortedUvBufferPass : ScriptableRenderPass
     {
         private const string ProfilerTag = nameof(DistortedUvBufferPass);
         private readonly ProfilingSampler _profilingSampler = new(ProfilerTag);
