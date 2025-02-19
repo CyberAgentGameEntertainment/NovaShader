@@ -4,6 +4,7 @@
 
 #if UNITY_2023_3_OR_NEWER
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.RenderGraphModule;
 using UnityEngine.Rendering.Universal;
@@ -12,15 +13,19 @@ namespace Nova.Runtime.Core.Scripts
 {
     public partial class DistortedUvBufferPass : ScriptableRenderPass
     {
+        private TextureHandle _distortedUvBufferTHdl;
+        private static readonly string DistortedUvBufferTexName = "DistortedUvBuffer";
+
         public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
         {
             using (var builder = renderGraph.AddRasterRenderPass<PassData>("NOVA.DistortedUvBufferPass",
                        out var passData))
             {
                 var resourcesData = frameData.Get<UniversalResourceData>();
-                builder.SetRenderAttachment(resourcesData.activeColorTexture, 0, AccessFlags.Write);
+                _distortedUvBufferTHdl = CreateRenderTargets(renderGraph, frameData);
+                builder.SetRenderAttachment(_distortedUvBufferTHdl, 0, AccessFlags.Write);
                 builder.SetRenderAttachmentDepth(resourcesData.activeDepthTexture, AccessFlags.Write);
-                
+                // builder.SetGlobalTextureAfterPass(_distortedUvBufferTHdl, TransparentTexturePropID);
                 
                 RendererListHandle renderList;
                 {
@@ -39,6 +44,18 @@ namespace Nova.Runtime.Core.Scripts
                     context.cmd.DrawRendererList(data.RendererList);
                 });
             }
+        }
+
+        private static TextureHandle CreateRenderTargets(RenderGraph renderGraph, ContextContainer frameData)
+        {
+            var resourceData = frameData.Get<UniversalResourceData>();
+            var desc = renderGraph.GetTextureDesc(resourceData.activeColorTexture);
+            desc.depthBufferBits = 0;
+            if (SystemInfo.IsFormatSupported(GraphicsFormat.R8G8_UNorm, GraphicsFormatUsage.Render))
+            {
+                desc.colorFormat = GraphicsFormat.R8G8_UNorm;
+            }
+            return renderGraph.CreateTexture(desc);
         }
 
         private static RendererListParams InitRendererListParams(
