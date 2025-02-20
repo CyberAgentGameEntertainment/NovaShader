@@ -2,6 +2,7 @@
 // Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
+using Nova.Editor.Core.Scripts;
 using UnityEditor;
 using UnityEngine;
 
@@ -79,6 +80,8 @@ namespace Nova.Editor.Foundation.Scripts
                 if (!material.HasProperty(propertyName) || !MaterialPropertyIsUnused(material, propertyName))
                     continue;
                 // 使用されていないテクスチャを削除する
+                {
+                }
                 material.SetTexture(propertyName, null);
                 Debug.Log($"[NOVA] {material.name}: Removed unused texture from property: {propertyName}");
             }
@@ -98,6 +101,33 @@ namespace Nova.Editor.Foundation.Scripts
         private static void RemoveUnusedReferencesFromUIParticlesUberUnlit(Material material)
         {
         }
+
+        private static void FixBaseMap(Material material)
+        {
+            var baseMapMode = material.GetFloat(MaterialPropertyNames.BaseMapMode);
+            switch (baseMapMode)
+            {
+                case (float)BaseMapMode.SingleTexture:
+                    ClearTexture(material, MaterialPropertyNames.BaseMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.BaseMap3D);
+                    break;
+                case (float)BaseMapMode.FlipBook:
+                    ClearTexture(material, MaterialPropertyNames.BaseMap);
+                    ClearTexture(material, MaterialPropertyNames.BaseMap3D);
+                    break;
+                case (float)BaseMapMode.FlipBookBlending:
+                    ClearTexture(material, MaterialPropertyNames.BaseMap);
+                    ClearTexture(material, MaterialPropertyNames.BaseMap2DArray);
+                    break;
+            }
+        }
+
+        private static void ClearTexture(Material material, string propertyName)
+        {
+            material.SetTexture(propertyName, null);
+            Debug.Log($"[NOVA] {material.name}: Removed unused texture from property: {propertyName}");
+        }
+
 
         private static class ShaderNames
         {
