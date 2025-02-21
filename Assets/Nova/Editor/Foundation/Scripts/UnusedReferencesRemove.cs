@@ -2,6 +2,7 @@
 // Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
+using System;
 using Nova.Editor.Core.Scripts;
 using UnityEditor;
 using UnityEngine;
@@ -65,26 +66,10 @@ namespace Nova.Editor.Foundation.Scripts
 
         private static void RemoveUnusedReferencesFromParticlesUberLit(Material material)
         {
-            var shader = material.shader;
-            var propertyCount = ShaderUtil.GetPropertyCount(shader);
-
-            for (var i = 0; i < propertyCount; i++)
-            {
-                var propertyName = ShaderUtil.GetPropertyName(shader, i);
-                var propertyType = ShaderUtil.GetPropertyType(shader, i);
-
-                // テクスチャプロパティのみを対象とする
-                if (propertyType != ShaderUtil.ShaderPropertyType.TexEnv)
-                    continue;
-                // 現在Materialのプロパティにテクスチャが設定されているかチェック
-                if (!material.HasProperty(propertyName) || !MaterialPropertyIsUnused(material, propertyName))
-                    continue;
-                // 使用されていないテクスチャを削除する
-                {
-                }
-                material.SetTexture(propertyName, null);
-                Debug.Log($"[NOVA] {material.name}: Removed unused texture from property: {propertyName}");
-            }
+            FixBaseMap(material);
+            FixTintColor(material);
+            FixParallaxMap(material);
+            FixColorCorrection(material);
 
             // マテリアルを保存する
             EditorUtility.SetDirty(material);
@@ -104,21 +89,81 @@ namespace Nova.Editor.Foundation.Scripts
 
         private static void FixBaseMap(Material material)
         {
-            var baseMapMode = material.GetFloat(MaterialPropertyNames.BaseMapMode);
-            switch (baseMapMode)
+            var mode = (BaseMapMode)material.GetFloat(MaterialPropertyNames.BaseMapMode);
+            switch (mode)
             {
-                case (float)BaseMapMode.SingleTexture:
+                case BaseMapMode.SingleTexture:
                     ClearTexture(material, MaterialPropertyNames.BaseMap2DArray);
                     ClearTexture(material, MaterialPropertyNames.BaseMap3D);
                     break;
-                case (float)BaseMapMode.FlipBook:
+                case BaseMapMode.FlipBook:
                     ClearTexture(material, MaterialPropertyNames.BaseMap);
                     ClearTexture(material, MaterialPropertyNames.BaseMap3D);
                     break;
-                case (float)BaseMapMode.FlipBookBlending:
+                case BaseMapMode.FlipBookBlending:
                     ClearTexture(material, MaterialPropertyNames.BaseMap);
                     ClearTexture(material, MaterialPropertyNames.BaseMap2DArray);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private static void FixTintColor(Material material)
+        {
+            var mode = (TintColorMode)material.GetFloat(MaterialPropertyNames.TintColorMode);
+            switch (mode)
+            {
+                case TintColorMode.SingleColor:
+                    ClearTexture(material, MaterialPropertyNames.TintMap);
+                    ClearTexture(material, MaterialPropertyNames.TintMap3D);
+                    break;
+                case TintColorMode.Texture2D:
+                    ClearTexture(material, MaterialPropertyNames.TintMap3D);
+                    break;
+                case TintColorMode.Texture3D:
+                    ClearTexture(material, MaterialPropertyNames.TintMap);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private static void FixParallaxMap(Material material)
+        {
+            var mode = (ParallaxMapMode)material.GetFloat(MaterialPropertyNames.ParallaxMapMode);
+            switch (mode)
+            {
+                case ParallaxMapMode.SingleTexture:
+                    ClearTexture(material, MaterialPropertyNames.ParallaxMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.ParallaxMap3D);
+                    break;
+                case ParallaxMapMode.FlipBook:
+                    ClearTexture(material, MaterialPropertyNames.ParallaxMap);
+                    ClearTexture(material, MaterialPropertyNames.ParallaxMap3D);
+                    break;
+                case ParallaxMapMode.FlipBookBlending:
+                    ClearTexture(material, MaterialPropertyNames.ParallaxMap);
+                    ClearTexture(material, MaterialPropertyNames.ParallaxMap2DArray);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private static void FixColorCorrection(Material material)
+        {
+            var mode = (ColorCorrectionMode)material.GetFloat(MaterialPropertyNames.ColorCorrectionMode);
+            switch (mode)
+            {
+                case ColorCorrectionMode.None:
+                case ColorCorrectionMode.Greyscale:
+                    ClearTexture(material, MaterialPropertyNames.GradientMap);
+                    break;
+                case ColorCorrectionMode.GradientMap:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
