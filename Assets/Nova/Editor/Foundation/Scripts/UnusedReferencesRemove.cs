@@ -70,6 +70,8 @@ namespace Nova.Editor.Foundation.Scripts
             FixTintColor(material);
             FixParallaxMap(material);
             FixColorCorrection(material);
+            FixAlphaTransition(material);
+            FixEmission(material);
 
             // マテリアルを保存する
             EditorUtility.SetDirty(material);
@@ -166,6 +168,96 @@ namespace Nova.Editor.Foundation.Scripts
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        private static void FixAlphaTransition(Material material)
+        {
+            var mode = (AlphaTransitionMapMode)material.GetFloat(MaterialPropertyNames.AlphaTransitionMapMode);
+            // 1st Texture
+            {
+                switch (mode)
+                {
+                    case AlphaTransitionMapMode.SingleTexture:
+                        ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap2DArray);
+                        ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap3D);
+                        break;
+                    case AlphaTransitionMapMode.FlipBook:
+                        ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap);
+                        ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap3D);
+                        break;
+                    case AlphaTransitionMapMode.FlipBookBlending:
+                        ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap);
+                        ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap2DArray);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            // 2nd Texture
+            {
+                var blendMode = (AlphaTransitionBlendMode)material.GetFloat(MaterialPropertyNames
+                    .AlphaTransitionSecondTextureBlendMode);
+                if (blendMode == AlphaTransitionBlendMode.None)
+                {
+                    ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture);
+                    ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture2DArray);
+                    ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture3D);
+                }
+                else
+                {
+                    switch (mode)
+                    {
+                        case AlphaTransitionMapMode.SingleTexture:
+                            ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture2DArray);
+                            ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture3D);
+                            break;
+                        case AlphaTransitionMapMode.FlipBook:
+                            ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture);
+                            ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture3D);
+                            break;
+                        case AlphaTransitionMapMode.FlipBookBlending:
+                            ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture);
+                            ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture2DArray);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+            }
+        }
+
+        private static void FixEmission(Material material)
+        {
+            var areaMode = (EmissionAreaType)material.GetFloat(MaterialPropertyNames.EmissionAreaType);
+            if (areaMode != EmissionAreaType.ByTexture)
+            {
+                ClearTexture(material, MaterialPropertyNames.EmissionMap);
+                ClearTexture(material, MaterialPropertyNames.EmissionMap2DArray);
+                ClearTexture(material, MaterialPropertyNames.EmissionMap3D);
+                return;
+            }
+
+            var mode = (EmissionMapMode)material.GetFloat(MaterialPropertyNames.EmissionMapMode);
+            switch (mode)
+            {
+                case EmissionMapMode.SingleTexture:
+                    ClearTexture(material, MaterialPropertyNames.EmissionMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.EmissionMap3D);
+                    break;
+                case EmissionMapMode.FlipBook:
+                    ClearTexture(material, MaterialPropertyNames.EmissionMap);
+                    ClearTexture(material, MaterialPropertyNames.EmissionMap3D);
+                    break;
+                case EmissionMapMode.FlipBookBlending:
+                    ClearTexture(material, MaterialPropertyNames.EmissionMap);
+                    ClearTexture(material, MaterialPropertyNames.EmissionMap2DArray);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            // TODO GradientMap
+        }
+
 
         private static void ClearTexture(Material material, string propertyName)
         {
