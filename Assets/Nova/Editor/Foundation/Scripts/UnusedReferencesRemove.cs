@@ -15,28 +15,14 @@ namespace Nova.Editor.Foundation.Scripts
         private static void RemoveUnusedReferences()
         {
             Debug.Log("[NOVA] Start remove unused references.");
-
-            // 選択されたオブジェクトを取得
-            var selectedObjects = Selection.objects;
-
-            foreach (var obj in selectedObjects)
+            foreach (var obj in Selection.objects)
                 if (obj is Material material)
                     RemoveUnusedReferences(material);
 
-            // アセットデータベースを保存
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
             Debug.Log("[NOVA] Finished remove unused references.");
-        }
-
-        private static bool MaterialPropertyIsUnused(Material material, string propertyName)
-        {
-            // この関数はプロジェクトに応じて拡張する必要があります。
-            // 現在のシェーダコード、カスタムロジックなどを使ってプロパティの使用状況を判定するべきです。
-            // ここでは単純にテクスチャが割り当てられているかを確認します。
-            var texture = material.GetTexture(propertyName);
-            return texture == null;
         }
 
         private static void RemoveUnusedReferences(Material material)
@@ -66,6 +52,27 @@ namespace Nova.Editor.Foundation.Scripts
 
         private static void RemoveUnusedReferencesFromParticlesUberLit(Material material)
         {
+            // Same Unlit
+            {
+                FixBaseMap(material);
+                FixTintColor(material);
+                FixParallaxMap(material);
+                FixColorCorrection(material);
+                FixAlphaTransition(material);
+                FixEmission(material);
+            }
+
+            // Lit Specific
+            {
+                FixSurfaceMap(material);
+            }
+
+            // Save Material
+            EditorUtility.SetDirty(material);
+        }
+
+        private static void RemoveUnusedReferencesFromParticlesUberUnlit(Material material)
+        {
             FixBaseMap(material);
             FixTintColor(material);
             FixParallaxMap(material);
@@ -73,20 +80,18 @@ namespace Nova.Editor.Foundation.Scripts
             FixAlphaTransition(material);
             FixEmission(material);
 
-            // マテリアルを保存する
+            // Save Material
             EditorUtility.SetDirty(material);
-        }
-
-        private static void RemoveUnusedReferencesFromParticlesUberUnlit(Material material)
-        {
         }
 
         private static void RemoveUnusedReferencesFromUIParticlesUberLit(Material material)
         {
+            RemoveUnusedReferencesFromParticlesUberLit(material);
         }
 
         private static void RemoveUnusedReferencesFromUIParticlesUberUnlit(Material material)
         {
+            RemoveUnusedReferencesFromParticlesUberUnlit(material);
         }
 
         private static void FixBaseMap(Material material)
@@ -271,13 +276,68 @@ namespace Nova.Editor.Foundation.Scripts
             }
         }
 
+        private static void FixSurfaceMap(Material material)
+        {
+            var baseMapMode = (BaseMapMode)material.GetFloat(MaterialPropertyNames.BaseMapMode);
+            switch (baseMapMode)
+            {
+                case BaseMapMode.SingleTexture:
+                    ClearTexture(material, MaterialPropertyNames.NormalMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.NormalMap3D);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap3D);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap3D);
+                    ClearTexture(material, MaterialPropertyNames.SmoothnessMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.SmoothnessMap3D);
+                    break;
+                case BaseMapMode.FlipBook:
+                    ClearTexture(material, MaterialPropertyNames.NormalMap);
+                    ClearTexture(material, MaterialPropertyNames.NormalMap3D);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap3D);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap3D);
+                    ClearTexture(material, MaterialPropertyNames.SmoothnessMap);
+                    ClearTexture(material, MaterialPropertyNames.SmoothnessMap3D);
+                    break;
+                case BaseMapMode.FlipBookBlending:
+                    ClearTexture(material, MaterialPropertyNames.NormalMap);
+                    ClearTexture(material, MaterialPropertyNames.NormalMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.SmoothnessMap);
+                    ClearTexture(material, MaterialPropertyNames.SmoothnessMap2DArray);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            var workFlowMode = (LitWorkflowMode)material.GetFloat(MaterialPropertyNames.LitWorkflowMode);
+            switch (workFlowMode)
+            {
+                case LitWorkflowMode.Specular:
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap3D);
+                    break;
+                case LitWorkflowMode.Metallic:
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap3D);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
         private static void ClearTexture(Material material, string propertyName)
         {
             material.SetTexture(propertyName, null);
             Debug.Log($"[NOVA] {material.name}: Removed unused texture from property: {propertyName}");
         }
-
 
         private static class ShaderNames
         {
