@@ -335,6 +335,8 @@ namespace Nova.Editor.Foundation.Scripts
 
         private static void ClearTexture(Material material, string propertyName)
         {
+            if (material.GetTexture(propertyName) == null)
+                return;
             material.SetTexture(propertyName, null);
             Debug.Log($"[NOVA] {material.name}: Removed unused texture from property: {propertyName}");
         }
