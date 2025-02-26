@@ -17,12 +17,11 @@ namespace Nova.Editor.Foundation.Scripts
             Debug.Log("[NOVA] Start remove unused references.");
             foreach (var obj in Selection.objects)
                 if (obj is Material material)
-                {
                     RemoveUnusedReferences(material);
-                    AssetDatabase.SaveAssetIfDirty(material);
-                }
 
+            AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+
             Debug.Log("[NOVA] Finished remove unused references.");
         }
 
@@ -53,40 +52,36 @@ namespace Nova.Editor.Foundation.Scripts
 
         private static void RemoveUnusedReferencesFromParticlesUberLit(Material material)
         {
-            var isChanged = false;
-
             // Same Unlit
             {
-                isChanged |= FixBaseMap(material);
-                isChanged |= FixTintColor(material);
-                isChanged |= FixParallaxMap(material);
-                isChanged |= FixColorCorrection(material);
-                isChanged |= FixAlphaTransition(material);
-                isChanged |= FixEmission(material);
+                FixBaseMap(material);
+                FixTintColor(material);
+                FixParallaxMap(material);
+                FixColorCorrection(material);
+                FixAlphaTransition(material);
+                FixEmission(material);
             }
 
             // Lit Specific
             {
-                isChanged |= FixSurfaceMap(material);
+                FixSurfaceMap(material);
             }
 
-            if (isChanged)
-                EditorUtility.SetDirty(material);
+            // Save Material
+            EditorUtility.SetDirty(material);
         }
 
         private static void RemoveUnusedReferencesFromParticlesUberUnlit(Material material)
         {
-            var isChanged = false;
+            FixBaseMap(material);
+            FixTintColor(material);
+            FixParallaxMap(material);
+            FixColorCorrection(material);
+            FixAlphaTransition(material);
+            FixEmission(material);
 
-            isChanged |= FixBaseMap(material);
-            isChanged |= FixTintColor(material);
-            isChanged |= FixParallaxMap(material);
-            isChanged |= FixColorCorrection(material);
-            isChanged |= FixAlphaTransition(material);
-            isChanged |= FixEmission(material);
-
-            if (isChanged)
-                EditorUtility.SetDirty(material);
+            // Save Material
+            EditorUtility.SetDirty(material);
         }
 
         private static void RemoveUnusedReferencesFromUIParticlesUberLit(Material material)
@@ -99,117 +94,104 @@ namespace Nova.Editor.Foundation.Scripts
             RemoveUnusedReferencesFromParticlesUberUnlit(material);
         }
 
-        private static bool FixBaseMap(Material material)
+        private static void FixBaseMap(Material material)
         {
-            var isChanged = false;
             var mode = (BaseMapMode)material.GetFloat(MaterialPropertyNames.BaseMapMode);
             switch (mode)
             {
                 case BaseMapMode.SingleTexture:
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.BaseMap2DArray);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.BaseMap3D);
+                    ClearTexture(material, MaterialPropertyNames.BaseMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.BaseMap3D);
                     break;
                 case BaseMapMode.FlipBook:
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.BaseMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.BaseMap3D);
+                    ClearTexture(material, MaterialPropertyNames.BaseMap);
+                    ClearTexture(material, MaterialPropertyNames.BaseMap3D);
                     break;
                 case BaseMapMode.FlipBookBlending:
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.BaseMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.BaseMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.BaseMap);
+                    ClearTexture(material, MaterialPropertyNames.BaseMap2DArray);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            return isChanged;
         }
 
-        private static bool FixTintColor(Material material)
+        private static void FixTintColor(Material material)
         {
-            var isChanged = false;
             var mode = (TintColorMode)material.GetFloat(MaterialPropertyNames.TintColorMode);
             switch (mode)
             {
                 case TintColorMode.SingleColor:
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.TintMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.TintMap3D);
+                    ClearTexture(material, MaterialPropertyNames.TintMap);
+                    ClearTexture(material, MaterialPropertyNames.TintMap3D);
                     break;
                 case TintColorMode.Texture2D:
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.TintMap3D);
+                    ClearTexture(material, MaterialPropertyNames.TintMap3D);
                     break;
                 case TintColorMode.Texture3D:
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.TintMap);
+                    ClearTexture(material, MaterialPropertyNames.TintMap);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            return isChanged;
         }
 
-        private static bool FixParallaxMap(Material material)
+        private static void FixParallaxMap(Material material)
         {
-            var isChanged = false;
             var mode = (ParallaxMapMode)material.GetFloat(MaterialPropertyNames.ParallaxMapMode);
             switch (mode)
             {
                 case ParallaxMapMode.SingleTexture:
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.ParallaxMap2DArray);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.ParallaxMap3D);
+                    ClearTexture(material, MaterialPropertyNames.ParallaxMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.ParallaxMap3D);
                     break;
                 case ParallaxMapMode.FlipBook:
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.ParallaxMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.ParallaxMap3D);
+                    ClearTexture(material, MaterialPropertyNames.ParallaxMap);
+                    ClearTexture(material, MaterialPropertyNames.ParallaxMap3D);
                     break;
                 case ParallaxMapMode.FlipBookBlending:
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.ParallaxMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.ParallaxMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.ParallaxMap);
+                    ClearTexture(material, MaterialPropertyNames.ParallaxMap2DArray);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            return isChanged;
         }
 
-        private static bool FixColorCorrection(Material material)
+        private static void FixColorCorrection(Material material)
         {
-            var isChanged = false;
             var mode = (ColorCorrectionMode)material.GetFloat(MaterialPropertyNames.ColorCorrectionMode);
             switch (mode)
             {
                 case ColorCorrectionMode.None:
                 case ColorCorrectionMode.Greyscale:
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.GradientMap);
+                    ClearTexture(material, MaterialPropertyNames.GradientMap);
                     break;
                 case ColorCorrectionMode.GradientMap:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            return isChanged;
         }
 
-        private static bool FixAlphaTransition(Material material)
+        private static void FixAlphaTransition(Material material)
         {
-            var isChanged = false;
             var mode = (AlphaTransitionMapMode)material.GetFloat(MaterialPropertyNames.AlphaTransitionMapMode);
             // 1st Texture
             {
                 switch (mode)
                 {
                     case AlphaTransitionMapMode.SingleTexture:
-                        isChanged |= ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap2DArray);
-                        isChanged |= ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap3D);
+                        ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap2DArray);
+                        ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap3D);
                         break;
                     case AlphaTransitionMapMode.FlipBook:
-                        isChanged |= ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap);
-                        isChanged |= ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap3D);
+                        ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap);
+                        ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap3D);
                         break;
                     case AlphaTransitionMapMode.FlipBookBlending:
-                        isChanged |= ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap);
-                        isChanged |= ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap2DArray);
+                        ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap);
+                        ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap2DArray);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -221,50 +203,44 @@ namespace Nova.Editor.Foundation.Scripts
                     .AlphaTransitionSecondTextureBlendMode);
                 if (blendMode == AlphaTransitionBlendMode.None)
                 {
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture2DArray);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture3D);
+                    ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture);
+                    ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture2DArray);
+                    ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture3D);
                 }
                 else
                 {
                     switch (mode)
                     {
                         case AlphaTransitionMapMode.SingleTexture:
-                            isChanged |= ClearTexture(material,
-                                MaterialPropertyNames.AlphaTransitionMapSecondTexture2DArray);
-                            isChanged |= ClearTexture(material,
-                                MaterialPropertyNames.AlphaTransitionMapSecondTexture3D);
+                            ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture2DArray);
+                            ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture3D);
                             break;
                         case AlphaTransitionMapMode.FlipBook:
-                            isChanged |= ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture);
-                            isChanged |= ClearTexture(material,
-                                MaterialPropertyNames.AlphaTransitionMapSecondTexture3D);
+                            ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture);
+                            ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture3D);
                             break;
                         case AlphaTransitionMapMode.FlipBookBlending:
-                            isChanged |= ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture);
-                            isChanged |= ClearTexture(material,
-                                MaterialPropertyNames.AlphaTransitionMapSecondTexture2DArray);
+                            ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture);
+                            ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture2DArray);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
                 }
             }
-            return isChanged;
         }
 
-        private static bool FixEmission(Material material)
+        private static void FixEmission(Material material)
         {
-            var isChanged = false;
             var areaMode = (EmissionAreaType)material.GetFloat(MaterialPropertyNames.EmissionAreaType);
 
             // EmissionMap
             {
                 if (areaMode != EmissionAreaType.ByTexture)
                 {
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.EmissionMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.EmissionMap2DArray);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.EmissionMap3D);
+                    ClearTexture(material, MaterialPropertyNames.EmissionMap);
+                    ClearTexture(material, MaterialPropertyNames.EmissionMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.EmissionMap3D);
                 }
                 else
                 {
@@ -272,16 +248,16 @@ namespace Nova.Editor.Foundation.Scripts
                     switch (mode)
                     {
                         case EmissionMapMode.SingleTexture:
-                            isChanged |= ClearTexture(material, MaterialPropertyNames.EmissionMap2DArray);
-                            isChanged |= ClearTexture(material, MaterialPropertyNames.EmissionMap3D);
+                            ClearTexture(material, MaterialPropertyNames.EmissionMap2DArray);
+                            ClearTexture(material, MaterialPropertyNames.EmissionMap3D);
                             break;
                         case EmissionMapMode.FlipBook:
-                            isChanged |= ClearTexture(material, MaterialPropertyNames.EmissionMap);
-                            isChanged |= ClearTexture(material, MaterialPropertyNames.EmissionMap3D);
+                            ClearTexture(material, MaterialPropertyNames.EmissionMap);
+                            ClearTexture(material, MaterialPropertyNames.EmissionMap3D);
                             break;
                         case EmissionMapMode.FlipBookBlending:
-                            isChanged |= ClearTexture(material, MaterialPropertyNames.EmissionMap);
-                            isChanged |= ClearTexture(material, MaterialPropertyNames.EmissionMap2DArray);
+                            ClearTexture(material, MaterialPropertyNames.EmissionMap);
+                            ClearTexture(material, MaterialPropertyNames.EmissionMap2DArray);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -292,50 +268,48 @@ namespace Nova.Editor.Foundation.Scripts
             // GradientMap
             {
                 if (areaMode != EmissionAreaType.ByTexture && areaMode != EmissionAreaType.Edge)
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.EmissionColorRamp);
+                    ClearTexture(material, MaterialPropertyNames.EmissionColorRamp);
 
                 var colorType = (EmissionColorType)material.GetFloat(MaterialPropertyNames.EmissionColorType);
                 if (colorType != EmissionColorType.GradiantMap)
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.EmissionColorRamp);
+                    ClearTexture(material, MaterialPropertyNames.EmissionColorRamp);
             }
-            return isChanged;
         }
 
-        private static bool FixSurfaceMap(Material material)
+        private static void FixSurfaceMap(Material material)
         {
-            var isChanged = false;
             var baseMapMode = (BaseMapMode)material.GetFloat(MaterialPropertyNames.BaseMapMode);
             switch (baseMapMode)
             {
                 case BaseMapMode.SingleTexture:
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.NormalMap2DArray);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.NormalMap3D);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.SpecularMap2DArray);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.SpecularMap3D);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.MetallicMap2DArray);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.MetallicMap3D);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.SmoothnessMap2DArray);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.SmoothnessMap3D);
+                    ClearTexture(material, MaterialPropertyNames.NormalMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.NormalMap3D);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap3D);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap3D);
+                    ClearTexture(material, MaterialPropertyNames.SmoothnessMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.SmoothnessMap3D);
                     break;
                 case BaseMapMode.FlipBook:
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.NormalMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.NormalMap3D);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.SpecularMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.SpecularMap3D);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.MetallicMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.MetallicMap3D);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.SmoothnessMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.SmoothnessMap3D);
+                    ClearTexture(material, MaterialPropertyNames.NormalMap);
+                    ClearTexture(material, MaterialPropertyNames.NormalMap3D);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap3D);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap3D);
+                    ClearTexture(material, MaterialPropertyNames.SmoothnessMap);
+                    ClearTexture(material, MaterialPropertyNames.SmoothnessMap3D);
                     break;
                 case BaseMapMode.FlipBookBlending:
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.NormalMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.NormalMap2DArray);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.SpecularMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.SpecularMap2DArray);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.MetallicMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.MetallicMap2DArray);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.SmoothnessMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.SmoothnessMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.NormalMap);
+                    ClearTexture(material, MaterialPropertyNames.NormalMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.SmoothnessMap);
+                    ClearTexture(material, MaterialPropertyNames.SmoothnessMap2DArray);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -345,29 +319,26 @@ namespace Nova.Editor.Foundation.Scripts
             switch (workFlowMode)
             {
                 case LitWorkflowMode.Specular:
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.MetallicMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.MetallicMap2DArray);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.MetallicMap3D);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.MetallicMap3D);
                     break;
                 case LitWorkflowMode.Metallic:
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.SpecularMap);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.SpecularMap2DArray);
-                    isChanged |= ClearTexture(material, MaterialPropertyNames.SpecularMap3D);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap2DArray);
+                    ClearTexture(material, MaterialPropertyNames.SpecularMap3D);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            return isChanged;
         }
 
-        private static bool ClearTexture(Material material, string propertyName)
+        private static void ClearTexture(Material material, string propertyName)
         {
             if (material.GetTexture(propertyName) == null)
-                return false;
+                return;
             material.SetTexture(propertyName, null);
             Debug.Log($"[NOVA] {material.name}: Removed unused texture from property: {propertyName}");
-            return true;
         }
 
         private static class ShaderNames
