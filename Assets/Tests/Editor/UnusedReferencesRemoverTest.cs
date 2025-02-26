@@ -12,18 +12,19 @@ namespace Tests.Editor
     public class UnusedReferencesRemoverTest
     {
         [Test]
-        public void TestParticlesUberLit()
+        public void TestParticlesUberUnlit()
         {
-            var material = new Material(Shader.Find("Nova/Particles/UberLit"));
+            var material = new Material(Shader.Find("Nova/Particles/UberUnlit"));
             TestUnlitParams(material);
             Object.DestroyImmediate(material);
         }
 
         [Test]
-        public void TestParticlesUberUnlit()
+        public void TestParticlesUberLit()
         {
-            var material = new Material(Shader.Find("Nova/Particles/UberUnlit"));
+            var material = new Material(Shader.Find("Nova/Particles/UberLit"));
             TestUnlitParams(material);
+            TestLitParams(material);
             Object.DestroyImmediate(material);
         }
 
@@ -32,6 +33,13 @@ namespace Tests.Editor
             SetupUnlitParams(material);
             UnusedReferencesRemover.RemoveUnusedReferences(material);
             CheckUnlitParams(material);
+        }
+
+        private static void TestLitParams(Material material)
+        {
+            SetupLitParams(material);
+            UnusedReferencesRemover.RemoveUnusedReferences(material);
+            CheckLitParams(material);
         }
 
         private static void SetupUnlitParams(Material material)
@@ -87,6 +95,35 @@ namespace Tests.Editor
             }
         }
 
+        private static void SetupLitParams(Material material)
+        {
+            // SurfaceMap
+            {
+                material.SetTexture(MaterialPropertyNames.NormalMap, new Texture2D(1, 1));
+                material.SetTexture(MaterialPropertyNames.NormalMap2DArray,
+                    new Texture2DArray(1, 1, 1, TextureFormat.RGBA32, false));
+                material.SetTexture(MaterialPropertyNames.NormalMap3D,
+                    new Texture3D(1, 1, 1, TextureFormat.RGBA32, false));
+                material.SetTexture(MaterialPropertyNames.SpecularMap, new Texture2D(1, 1));
+                material.SetTexture(MaterialPropertyNames.SpecularMap2DArray,
+                    new Texture2DArray(1, 1, 1, TextureFormat.RGBA32, false));
+                material.SetTexture(MaterialPropertyNames.SpecularMap3D,
+                    new Texture3D(1, 1, 1, TextureFormat.RGBA32, false));
+                material.SetTexture(MaterialPropertyNames.MetallicMap, new Texture2D(1, 1));
+                material.SetTexture(MaterialPropertyNames.MetallicMap2DArray,
+                    new Texture2DArray(1, 1, 1, TextureFormat.RGBA32, false));
+                material.SetTexture(MaterialPropertyNames.MetallicMap3D,
+                    new Texture3D(1, 1, 1, TextureFormat.RGBA32, false));
+                material.SetTexture(MaterialPropertyNames.SmoothnessMap, new Texture2D(1, 1));
+                material.SetTexture(MaterialPropertyNames.SmoothnessMap2DArray,
+                    new Texture2DArray(1, 1, 1, TextureFormat.RGBA32, false));
+                material.SetTexture(MaterialPropertyNames.SmoothnessMap3D,
+                    new Texture3D(1, 1, 1, TextureFormat.RGBA32, false));
+                material.SetFloat(MaterialPropertyNames.BaseMapMode, (float)BaseMapMode.SingleTexture);
+                material.SetFloat(MaterialPropertyNames.LitWorkflowMode, (float)LitWorkflowMode.Specular);
+            }
+        }
+
         private static void CheckUnlitParams(Material material)
         {
             // BaseMap
@@ -125,6 +162,28 @@ namespace Tests.Editor
             {
                 Assert.IsNull(material.GetTexture(MaterialPropertyNames.EmissionMap2DArray));
                 Assert.IsNotNull(material.GetTexture(MaterialPropertyNames.EmissionMap));
+            }
+        }
+
+        private static void CheckLitParams(Material material)
+        {
+            // SurfaceMap
+            {
+                Assert.IsNotNull(material.GetTexture(MaterialPropertyNames.NormalMap));
+                Assert.IsNull(material.GetTexture(MaterialPropertyNames.NormalMap2DArray));
+                Assert.IsNull(material.GetTexture(MaterialPropertyNames.NormalMap3D));
+                Assert.IsNotNull(material.GetTexture(MaterialPropertyNames.SpecularMap));
+                Assert.IsNull(material.GetTexture(MaterialPropertyNames.SpecularMap2DArray));
+                Assert.IsNull(material.GetTexture(MaterialPropertyNames.SpecularMap3D));
+                Assert.IsNull(material.GetTexture(MaterialPropertyNames.MetallicMap));
+                Assert.IsNull(material.GetTexture(MaterialPropertyNames.MetallicMap2DArray));
+                Assert.IsNull(material.GetTexture(MaterialPropertyNames.MetallicMap3D));
+                Assert.IsNotNull(material.GetTexture(MaterialPropertyNames.SmoothnessMap));
+                Assert.IsNull(material.GetTexture(MaterialPropertyNames.SmoothnessMap2DArray));
+                Assert.IsNull(material.GetTexture(MaterialPropertyNames.SmoothnessMap3D));
+                Assert.AreEqual((float)BaseMapMode.SingleTexture, material.GetFloat(MaterialPropertyNames.BaseMapMode));
+                Assert.AreEqual((float)LitWorkflowMode.Specular,
+                    material.GetFloat(MaterialPropertyNames.LitWorkflowMode));
             }
         }
     }
