@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Nova.Editor.Foundation.Scripts
 {
-    internal static class UnusedReferencesRemover
+    public static class UnusedReferencesRemover
     {
         [MenuItem("Tools/NOVA Shader/RemoveUnusedReferences")]
         private static void RemoveUnusedReferences()
@@ -29,7 +29,7 @@ namespace Nova.Editor.Foundation.Scripts
             Debug.Log("[NOVA] Finished remove unused references.");
         }
 
-        private static void RemoveUnusedReferences(Material material)
+        public static void RemoveUnusedReferences(Material material)
         {
             var shader = material.shader;
             var shaderName = shader.name;

@@ -7,7 +7,8 @@
         "UnityEngine.TestTools.Graphics",
         "UnityEditor.TestTools.Graphics",
         "TestHelper.Editor",
-        "TestHelper"
+        "TestHelper",
+        "Nova.Editor"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
