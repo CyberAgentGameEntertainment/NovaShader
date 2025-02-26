@@ -17,7 +17,11 @@ namespace Nova.Editor.Foundation.Scripts
             Debug.Log("[NOVA] Start remove unused references.");
             foreach (var obj in Selection.objects)
                 if (obj is Material material)
+                {
+                    Undo.RecordObject(material, "[NOVA] Remove Unused References");
                     RemoveUnusedReferences(material);
+                    EditorUtility.SetDirty(material);
+                }
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -66,9 +70,6 @@ namespace Nova.Editor.Foundation.Scripts
             {
                 FixSurfaceMap(material);
             }
-
-            // Save Material
-            EditorUtility.SetDirty(material);
         }
 
         private static void RemoveUnusedReferencesFromParticlesUberUnlit(Material material)
@@ -79,9 +80,6 @@ namespace Nova.Editor.Foundation.Scripts
             FixColorCorrection(material);
             FixAlphaTransition(material);
             FixEmission(material);
-
-            // Save Material
-            EditorUtility.SetDirty(material);
         }
 
         private static void RemoveUnusedReferencesFromUIParticlesUberLit(Material material)
