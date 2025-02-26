@@ -16,6 +16,7 @@ Material:
   - _EMISSION_COLOR_BASECOLOR
   - _EMISSION_MAP_MODE_2D
   - _FADE_TRANSITION_ENABLED
+  - _PARALLAX_MAP_MODE_2D
   - _SOFT_PARTICLES_ENABLED
   - _TINT_AREA_ALL
   - _TINT_COLOR_ENABLED
@@ -27,7 +28,8 @@ Material:
   m_CustomRenderQueue: 2950
   stringTagMap:
     RenderType: Transparent
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
