@@ -26,9 +26,6 @@ namespace Nova.Runtime.Core.Scripts
                 builder.SetRenderAttachment(_distortedUvBufferTHdl, 0);
                 builder.SetRenderAttachmentDepth(resourcesData.activeDepthTexture);
 
-                // TODO: ApplyDistortionPass側でGlobalTextureを設定する
-                // builder.SetGlobalTextureAfterPass(_distortedUvBufferTHdl, TransparentTexturePropID);
-
                 RendererListHandle renderList;
                 {
                     var renderingData = frameData.Get<UniversalRenderingData>();
@@ -40,8 +37,9 @@ namespace Nova.Runtime.Core.Scripts
                     renderList = renderGraph.CreateRendererList(param);
                 }
                 builder.UseRendererList(renderList);
+                passData.RendererList = renderList;
 
-                builder.SetRenderFunc((PassData data, RasterGraphContext context) =>
+                builder.SetRenderFunc(static (PassData data, RasterGraphContext context) =>
                 {
                     context.cmd.DrawRendererList(data.RendererList);
                 });
@@ -73,7 +71,6 @@ namespace Nova.Runtime.Core.Scripts
 
         private class PassData
         {
-            internal Material Material;
             internal RendererListHandle RendererList;
         }
     }
