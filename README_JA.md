@@ -79,6 +79,7 @@
     - [Custom Vertex Streamsを設定する](#custom-vertex-streams%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B-1)
 - [Custom Vertex Streamsを自動的に設定する](#custom-vertex-streams%E3%82%92%E8%87%AA%E5%8B%95%E7%9A%84%E3%81%AB%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B)
     - [Fix Now](#fix-now)
+- [不要なパラメータ参照を削除する](#不要なパラメータ参照を削除する)
 - [Editor APIs リファレンス](#editor-apis-%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9)
 - [ライセンス](#%E3%83%A9%E3%82%A4%E3%82%BB%E3%83%B3%E3%82%B9)
 
@@ -1524,6 +1525,14 @@ GPUが求めている頂点ストリームとの差異が生じている時に�
 カスタム頂点アトリビュートの設定に詳しくない場合は、<br/>
 不要なエラーを避けるために`Fix Now`を利用してエラーを修正することを推奨します。<br/>
 
+## 不要なパラメータ参照を削除する
+
+エフェクト制作での試行錯誤の過程で、実際には利用しないパラメータの参照が残ってしまう場合があります。<br/>
+（例：Base MapのModeをSingle Textureに指定しているが、Flip Bookの場合のTexture 2D Arrayが指定されている）<br/>
+不要なテクスチャ参照が残っている場合Asset Bundleの容量の増大を始めとした不都合が生じるため、解消することが望ましいです。<br/>
+この不要な参照を削除するための機能`RemoveUnusedReferences`があります。<br/>
+Projectビュー上でマテリアルを選択した状態で`Tools > NOVA Shader > RemoveUnusedReferences`から実行することができます。<br/>
+削除された参照があった場合はConsoleに出力されます。<br/>
 
 ## Editor APIs リファレンス
 - [RenderErrorHandler](Documentation~/RenderErrorHandler_JA.md)
