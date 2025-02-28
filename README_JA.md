@@ -79,7 +79,7 @@
     - [Custom Vertex Streamsを設定する](#custom-vertex-streams%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B-1)
 - [Custom Vertex Streamsを自動的に設定する](#custom-vertex-streams%E3%82%92%E8%87%AA%E5%8B%95%E7%9A%84%E3%81%AB%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B)
     - [Fix Now](#fix-now)
-- [不要なパラメータ参照を削除する](#不要なパラメータ参照を削除する)
+- [不要なパラメータ参照を削除する](#%E4%B8%8D%E8%A6%81%E3%81%AA%E3%83%91%E3%83%A9%E3%83%A1%E3%83%BC%E3%82%BF%E5%8F%82%E7%85%A7%E3%82%92%E5%89%8A%E9%99%A4%E3%81%99%E3%82%8B)
 - [Editor APIs リファレンス](#editor-apis-%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9)
 - [ライセンス](#%E3%83%A9%E3%82%A4%E3%82%BB%E3%83%B3%E3%82%B9)
 
