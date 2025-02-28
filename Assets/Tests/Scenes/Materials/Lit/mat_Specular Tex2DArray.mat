@@ -15,7 +15,6 @@ Material:
   - _EMISSION_COLOR_COLOR
   - _EMISSION_MAP_MODE_2D
   - _ENVIRONMENT_REFLECTIONS_ENABLED
-  - _METALLIC_MAP_ENABLED
   - _NORMAL_MAP_ENABLED
   - _PARALLAX_MAP_MODE_2D
   - _RECEIVE_SHADOWS_ENABLED
@@ -61,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: b987ac2e4789ad142ad7148791a60152, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap2DArray:
@@ -69,7 +68,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap3D:
-        m_Texture: {fileID: 11700000, guid: ec7e4a6d54f4341ccbafd5d594a097ba, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -121,11 +120,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicMap:
-        m_Texture: {fileID: 2800000, guid: 568737f2009916e40b4682067d4a56b8, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicMap2DArray:
-        m_Texture: {fileID: 18700000, guid: bfba06b4c23e6b348a357f76925b7d08, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicMap3D:
@@ -133,7 +132,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 8aca3c0c233a9ad4ba9f4927c0a34b22, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap2DArray:
@@ -161,7 +160,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SmoothnessMap:
-        m_Texture: {fileID: 2800000, guid: 568737f2009916e40b4682067d4a56b8, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SmoothnessMap2DArray:
@@ -348,6 +347,7 @@ Material:
     - _TintRimSharpnessCoord: 0
     - _TransparentBlendMode: 0
     - _VertexAlphaMode: 0
+    - _VertexDeformationBaseValue: 0
     - _VertexDeformationEnabled: 0
     - _VertexDeformationIntensity: 0.1
     - _VertexDeformationIntensityCoord: 0

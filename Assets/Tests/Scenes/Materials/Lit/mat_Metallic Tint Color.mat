@@ -185,7 +185,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TintMap:
-        m_Texture: {fileID: 2800000, guid: f4fa818b17f5d4014a924801d07cd980, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 3, y: 3}
         m_Offset: {x: 0, y: 0}
     - _TintMap3D:
@@ -344,6 +344,7 @@ Material:
     - _TintRimSharpnessCoord: 0
     - _TransparentBlendMode: 0
     - _VertexAlphaMode: 0
+    - _VertexDeformationBaseValue: 0
     - _VertexDeformationEnabled: 0
     - _VertexDeformationIntensity: 0.1
     - _VertexDeformationIntensityCoord: 0

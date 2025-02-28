@@ -102,6 +102,7 @@ Material:
     - _BaseMapRotation: 0
     - _BaseMapRotationCoord: 0
     - _BaseMapSamplerStateOverride: 0
+    - _BaseMapUnpackNormal: 0
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0

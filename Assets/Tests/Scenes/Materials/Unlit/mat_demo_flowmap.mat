@@ -182,10 +182,15 @@ Material:
     - _AlphaTransitionMapSecondTextureChannelsX: 0
     - _AlphaTransitionMapSecondTextureOffsetXCoord: 0
     - _AlphaTransitionMapSecondTextureOffsetYCoord: 0
+    - _AlphaTransitionMapSecondTextureProgress: 0
+    - _AlphaTransitionMapSecondTextureProgressCoord: 0
+    - _AlphaTransitionMapSecondTextureSliceCount: 4
     - _AlphaTransitionMapSliceCount: 4
     - _AlphaTransitionMode: 0
     - _AlphaTransitionProgress: 0
     - _AlphaTransitionProgressCoord: 0
+    - _AlphaTransitionProgressCoordSecondTexture: 0
+    - _AlphaTransitionProgressSecondTexture: 0
     - _AlphaTransitionSecondTextureBlendMode: 0
     - _BaseMapMirrorSampling: 0
     - _BaseMapMode: 0
@@ -212,6 +217,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DissolveSharpness: 0.5
+    - _DissolveSharpnessSecondTexture: 0.5
     - _DstBlend: 0
     - _EmissionAreaType: 0
     - _EmissionColorType: 0
@@ -285,6 +291,8 @@ Material:
     - _TintColorMode: 0
     - _TintMap3DProgress: 0
     - _TintMap3DProgressCoord: 0
+    - _TintMapOffsetXCoord: 0
+    - _TintMapOffsetYCoord: 0
     - _TintMapSliceCount: 4
     - _TintRimProgress: 0.5
     - _TintRimProgressCoord: 0
@@ -292,6 +300,7 @@ Material:
     - _TintRimSharpnessCoord: 0
     - _TransparentBlendMode: 0
     - _VertexAlphaMode: 0
+    - _VertexDeformationBaseValue: 0
     - _VertexDeformationEnabled: 0
     - _VertexDeformationIntensity: 0.1
     - _VertexDeformationIntensityCoord: 0
