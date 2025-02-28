@@ -78,6 +78,7 @@ For more information, please refer to the following documents, [Samples](Assets/
     - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams-1)
 - [Automatic set up the Custom Vertex Streams.](#automatic-set-up-the-custom-vertex-streams)
     - [Fix Now](#fix-now)
+- [Remove Unused Parameter References](#remove-unused-parameter-references)
 - [Editor APIs Reference](#editor-apis-reference)
 - [Licenses](#licenses)
 
@@ -1517,6 +1518,14 @@ At this time, pressing this button will automatically set the typical vertex str
 
 If you are not familiar with setting up Custom Vertex Streams,<br/>
 It is recommended that you use `Fix Now` to correct errors to avoid unwanted errors.
+
+## Remove Unused Parameter References
+During the trial-and-error process of effect creation, references to parameters that are not actually used may remain.<br/>
+(Example: The Base Map Mode is set to Single Texture, but a Texture 2D Array for Flip Book is also assigned.)<br/>
+If unused texture references remain, issues such as an increase in Asset Bundle size may occur, so it is recommended to remove them.<br/>
+To address this, there is a feature called `RemoveUnusedReferences`.<br/>
+You can execute this feature by selecting one or more materials in the Project view and navigating to `Tools > NOVA Shader > RemoveUnusedReferences`.<br/>
+If any unused references are removed, a log will be output to the Console.<br/>
 
 ## Editor APIs Reference
 - [RenderErrorHandler](Documentation~/RenderErrorHandler.md)
