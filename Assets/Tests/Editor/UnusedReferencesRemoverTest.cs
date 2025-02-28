@@ -11,20 +11,29 @@ namespace Tests.Editor
 {
     public class UnusedReferencesRemoverTest
     {
-        [Test]
-        public void TestParticlesUberUnlit()
+        [TestCase("Nova/Particles/UberUnlit")]
+        [TestCase("Nova/Particles/UberLit")]
+        [TestCase("Nova/UIParticles/UberLit")]
+        [TestCase("Nova/UIParticles/UberUnlit")]
+        public void TestParticles(string shaderName)
         {
-            var material = new Material(Shader.Find("Nova/Particles/UberUnlit"));
-            TestUnlitParams(material);
-            Object.DestroyImmediate(material);
-        }
+            var material = new Material(Shader.Find(shaderName));
+            switch (shaderName)
+            {
+                case UnusedReferencesRemover.ShaderNames.ParticlesUberLit:
+                case UnusedReferencesRemover.ShaderNames.UIParticlesUberLit:
+                    TestUnlitParams(material);
+                    TestLitParams(material);
+                    break;
+                case UnusedReferencesRemover.ShaderNames.ParticlesUberUnlit:
+                case UnusedReferencesRemover.ShaderNames.UIParticlesUberUnlit:
+                    TestUnlitParams(material);
+                    break;
+                default:
+                    Debug.LogWarning($"[NOVA] Testing: {material.name} is not a target shader.");
+                    break;
+            }
 
-        [Test]
-        public void TestParticlesUberLit()
-        {
-            var material = new Material(Shader.Find("Nova/Particles/UberLit"));
-            TestUnlitParams(material);
-            TestLitParams(material);
             Object.DestroyImmediate(material);
         }
 

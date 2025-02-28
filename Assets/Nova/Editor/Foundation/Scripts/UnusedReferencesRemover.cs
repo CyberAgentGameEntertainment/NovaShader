@@ -339,7 +339,7 @@ namespace Nova.Editor.Foundation.Scripts
             Debug.Log($"[NOVA] {material.name}: Removed unused texture from property: {propertyName}");
         }
 
-        private static class ShaderNames
+        public static class ShaderNames
         {
             public const string ParticlesUberLit = "Nova/Particles/UberLit";
             public const string ParticlesUberUnlit = "Nova/Particles/UberUnlit";
