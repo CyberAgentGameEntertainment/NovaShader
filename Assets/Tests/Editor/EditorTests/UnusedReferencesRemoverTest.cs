@@ -85,6 +85,8 @@ namespace Tests.Editor
 
             // AlphaTransition
             {
+                material.SetFloat(MaterialPropertyNames.AlphaTransitionMode,
+                    (float)AlphaTransitionMode.Fade);
                 material.SetTexture(MaterialPropertyNames.AlphaTransitionMap, new Texture2D(1, 1));
                 material.SetTexture(MaterialPropertyNames.AlphaTransitionMap2DArray,
                     new Texture2DArray(1, 1, 1, TextureFormat.RGBA32, false));
