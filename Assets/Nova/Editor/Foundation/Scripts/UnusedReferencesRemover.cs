@@ -174,10 +174,22 @@ namespace Nova.Editor.Foundation.Scripts
 
         private static void FixAlphaTransition(Material material)
         {
-            var mode = (AlphaTransitionMapMode)material.GetFloat(MaterialPropertyNames.AlphaTransitionMapMode);
+            var mode = (AlphaTransitionMode)material.GetFloat(MaterialPropertyNames.AlphaTransitionMode);
+            if (mode == AlphaTransitionMode.None)
+            {
+                ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap);
+                ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap2DArray);
+                ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap3D);
+                ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture);
+                ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture2DArray);
+                ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture3D);
+                return;
+            }
+
+            var mapMode = (AlphaTransitionMapMode)material.GetFloat(MaterialPropertyNames.AlphaTransitionMapMode);
             // 1st Texture
             {
-                switch (mode)
+                switch (mapMode)
                 {
                     case AlphaTransitionMapMode.SingleTexture:
                         ClearTexture(material, MaterialPropertyNames.AlphaTransitionMap2DArray);
@@ -207,7 +219,7 @@ namespace Nova.Editor.Foundation.Scripts
                 }
                 else
                 {
-                    switch (mode)
+                    switch (mapMode)
                     {
                         case AlphaTransitionMapMode.SingleTexture:
                             ClearTexture(material, MaterialPropertyNames.AlphaTransitionMapSecondTexture2DArray);
