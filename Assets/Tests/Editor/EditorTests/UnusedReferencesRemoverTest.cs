@@ -63,6 +63,7 @@ namespace Tests.Editor
 
             // TintColor
             {
+                material.SetFloat(MaterialPropertyNames.TintAreaMode, (float)TintAreaMode.All);
                 material.SetTexture(MaterialPropertyNames.TintMap, new Texture2D(1, 1));
                 material.SetTexture(MaterialPropertyNames.TintMap3D,
                     new Texture3D(1, 1, 1, TextureFormat.RGBA32, false));

@@ -129,8 +129,16 @@ namespace Nova.Editor.Foundation.Scripts
 
         private static void FixTintColor(Material material)
         {
-            var mode = (TintColorMode)material.GetFloat(MaterialPropertyNames.TintColorMode);
-            switch (mode)
+            var areaMode = (TintAreaMode)material.GetFloat(MaterialPropertyNames.TintAreaMode);
+            if (areaMode == TintAreaMode.None)
+            {
+                ClearTexture(material, MaterialPropertyNames.TintMap);
+                ClearTexture(material, MaterialPropertyNames.TintMap3D);
+                return;
+            }
+
+            var colorMode = (TintColorMode)material.GetFloat(MaterialPropertyNames.TintColorMode);
+            switch (colorMode)
             {
                 case TintColorMode.SingleColor:
                     ClearTexture(material, MaterialPropertyNames.TintMap);
