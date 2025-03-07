@@ -6,6 +6,7 @@ using System;
 using Nova.Editor.Core.Scripts;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Nova.Editor.Foundation.Scripts
 {
@@ -19,6 +20,7 @@ namespace Nova.Editor.Foundation.Scripts
                 if (obj is Material material)
                 {
                     Undo.RecordObject(material, "[NOVA] Remove Unused References");
+                    RefreshMaterial(material);
                     RemoveUnusedReferences(material);
                     EditorUtility.SetDirty(material);
                 }
@@ -80,6 +82,17 @@ namespace Nova.Editor.Foundation.Scripts
             FixColorCorrection(material);
             FixAlphaTransition(material);
             FixEmission(material);
+        }
+
+        private static void RefreshMaterial(Material material)
+        {
+            if (material == null)
+                return;
+            var newMaterial = new Material(material.shader);
+            // Remove Another Shader's Properties
+            newMaterial.CopyMatchingPropertiesFromMaterial(material);
+            material.CopyPropertiesFromMaterial(newMaterial);
+            Object.DestroyImmediate(newMaterial);
         }
 
         private static void RemoveUnusedReferencesFromUIParticlesUberLit(Material material)
