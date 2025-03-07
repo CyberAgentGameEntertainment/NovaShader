@@ -112,6 +112,11 @@ namespace Nova.Editor.Foundation.Scripts
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            // The MainTexture attribute is declared in the BaseMap,
+            // but should be null because the reference may remain in _MainTex.
+            if (material.GetTexture(MaterialPropertyNames.BaseMap) == null)
+                ClearTexture(material, "_MainTex");
         }
 
         private static void FixTintColor(Material material)
@@ -345,9 +350,10 @@ namespace Nova.Editor.Foundation.Scripts
 
         private static void ClearTexture(Material material, string propertyName)
         {
-            if (material.GetTexture(propertyName) == null)
+            var id = Shader.PropertyToID(propertyName);
+            if (material.GetTexture(id) == null)
                 return;
-            material.SetTexture(propertyName, null);
+            material.SetTexture(id, null);
             Debug.Log($"[NOVA] {material.name}: Removed unused texture from property: {propertyName}");
         }
 
