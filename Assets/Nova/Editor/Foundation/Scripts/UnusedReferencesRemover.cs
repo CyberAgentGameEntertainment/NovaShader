@@ -125,11 +125,6 @@ namespace Nova.Editor.Foundation.Scripts
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            // The MainTexture attribute is declared in the BaseMap,
-            // but should be null because the reference may remain in _MainTex.
-            if (material.GetTexture(MaterialPropertyNames.BaseMap) == null)
-                ClearTexture(material, "_MainTex");
         }
 
         private static void FixTintColor(Material material)
