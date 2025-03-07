@@ -16,7 +16,6 @@ Material:
   - _EMISSION_COLOR_MAP
   - _EMISSION_MAP_MODE_2D
   - _ENVIRONMENT_REFLECTIONS_ENABLED
-  - _METALLIC_MAP_ENABLED
   - _NORMAL_MAP_ENABLED
   - _PARALLAX_MAP_MODE_2D
   - _RECEIVE_SHADOWS_ENABLED
@@ -160,7 +159,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TintMap3D:
-        m_Texture: {fileID: 11700000, guid: 4cd912d6be39142cb96b7d79f9f04c57, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _VertexDeformationMap:
