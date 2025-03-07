@@ -47,7 +47,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlphaTransitionMap:
-        m_Texture: {fileID: 2800000, guid: 5b82920c3b4f6eb4a83a6e5b98cff1e3, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 3, y: 2}
         m_Offset: {x: 0, y: 0}
     - _AlphaTransitionMap2DArray:
