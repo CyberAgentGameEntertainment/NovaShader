@@ -23,10 +23,8 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
   m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
-  disabledShaderPasses:
-  - SHADOWCASTER
+  stringTagMap: {}
+  disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -66,10 +64,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _DistTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _EmissionColorRamp:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -91,14 +85,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GradientMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b90281a6dbbe4f84b94b5fde99cd557a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MaskTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -157,22 +143,9 @@ Material:
     - _BaseMapRotationCoord: 0
     - _BaseMapSliceCount: 4
     - _BlendDst: 1
-    - _BlendMode: 2
-    - _BlendRateFromZDistance: 1
-    - _BlendRateHeightDistance: 1
-    - _BlendRateHeightStartOffset: 0
-    - _BlendRateRimInverse: 0
-    - _BlendRateRimSharpness: 1
-    - _BlendRateRimSharpnessCoord: 2
-    - _BlendRateRimSharpnessSwizzle: 0
     - _BlendSrc: 5
     - _ColorCorrectionMode: 0
-    - _ColorMagnification: 2
-    - _ColorMagnificationCoord: 2
-    - _ColorMagnificationSwizzle: 0
-    - _ColorMask: 14
     - _Cull: 0
-    - _CullMode: 0
     - _Cutoff: 0.5
     - _DepthFadeEnabled: 0
     - _DepthFadeFar: 10
@@ -180,13 +153,6 @@ Material:
     - _DepthFadeWidth: 1
     - _DissolveSharpness: 0.5
     - _DissolveSharpnessSecondTexture: 0.5
-    - _DistPow: 0
-    - _DistPowCoord: 2
-    - _DistPowSwizzle: 0
-    - _DistUCoord: 2
-    - _DistUSwizzle: 0
-    - _DistVCoord: 2
-    - _DistVSwizzle: 0
     - _EmissionAreaType: 1
     - _EmissionColorType: 1
     - _EmissionIntensity: 10
@@ -205,7 +171,6 @@ Material:
     - _FlowMapOffsetXCoord: 0
     - _FlowMapOffsetYCoord: 0
     - _FlowMapTarget: 1
-    - _HDRThresholdParticle: 0.9
     - _InverseLuminanceTransparency: 0
     - _InverseRimTransparency: 0
     - _InverseTintRim: 0
@@ -215,17 +180,6 @@ Material:
     - _LuminanceTransparencyProgressCoord: 0
     - _LuminanceTransparencySharpness: 0.5
     - _LuminanceTransparencySharpnessCoord: 0
-    - _MainUCoord: 2
-    - _MainUSwizzle: 0
-    - _MainVCoord: 2
-    - _MainVSwizzle: 0
-    - _MaskPow: 0
-    - _MaskPowCoord: 2
-    - _MaskPowSwizzle: 0
-    - _MaskUCoord: 2
-    - _MaskUSwizzle: 0
-    - _MaskVCoord: 2
-    - _MaskVSwizzle: 0
     - _ParallaxMapChannel: 0
     - _ParallaxMapMode: 0
     - _ParallaxMapOffsetXCoord: 0
@@ -236,8 +190,6 @@ Material:
     - _ParallaxMapTarget: 1
     - _ParallaxStrength: 0.3
     - _QueueOffset: 0
-    - _ReflectionPower: 1
-    - _ReflectionRoughness: 1
     - _RenderType: 2
     - _RimTransparencyEnabled: 0
     - _RimTransparencyProgress: 0.5
@@ -268,15 +220,6 @@ Material:
     - _TintRimSharpness: 0.5
     - _TintRimSharpnessCoord: 0
     - _TransparentBlendMode: 1
-    - _UseBlendRateFromHeight: 0
-    - _UseBlendRateFromRGB: 0
-    - _UseBlendRateFromRim: 0
-    - _UseBlendRateFromZ: 0
-    - _UseDist: 0
-    - _UseDitherTransparent: 0
-    - _UseMask: 0
-    - _UseReflection: 0
-    - _UseZWrite: 0
     - _VertexAlphaMode: 0
     - _VertexDeformationBaseValue: 0
     - _VertexDeformationEnabled: 0
@@ -285,14 +228,11 @@ Material:
     - _VertexDeformationMapChannel: 0
     - _VertexDeformationMapOffsetXCoord: 0
     - _VertexDeformationMapOffsetYCoord: 0
-    - _ZOffset: 0
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteOverride: -1
     m_Colors:
     - _BaseMapRotationOffsets: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _StartColor: {r: 0, g: 0, b: 0, a: 1}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
