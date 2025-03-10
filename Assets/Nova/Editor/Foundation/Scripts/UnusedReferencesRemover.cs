@@ -6,6 +6,7 @@ using System;
 using Nova.Editor.Core.Scripts;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Nova.Editor.Foundation.Scripts
 {
@@ -19,6 +20,7 @@ namespace Nova.Editor.Foundation.Scripts
                 if (obj is Material material)
                 {
                     Undo.RecordObject(material, "[NOVA] Remove Unused References");
+                    RefreshMaterial(material);
                     RemoveUnusedReferences(material);
                     EditorUtility.SetDirty(material);
                 }
@@ -82,6 +84,17 @@ namespace Nova.Editor.Foundation.Scripts
             FixEmission(material);
         }
 
+        private static void RefreshMaterial(Material material)
+        {
+            if (material == null)
+                return;
+            var newMaterial = new Material(material.shader);
+            // Remove Another Shader's Properties
+            newMaterial.CopyMatchingPropertiesFromMaterial(material);
+            material.CopyPropertiesFromMaterial(newMaterial);
+            Object.DestroyImmediate(newMaterial);
+        }
+
         private static void RemoveUnusedReferencesFromUIParticlesUberLit(Material material)
         {
             RemoveUnusedReferencesFromParticlesUberLit(material);
@@ -116,8 +129,16 @@ namespace Nova.Editor.Foundation.Scripts
 
         private static void FixTintColor(Material material)
         {
-            var mode = (TintColorMode)material.GetFloat(MaterialPropertyNames.TintColorMode);
-            switch (mode)
+            var areaMode = (TintAreaMode)material.GetFloat(MaterialPropertyNames.TintAreaMode);
+            if (areaMode == TintAreaMode.None)
+            {
+                ClearTexture(material, MaterialPropertyNames.TintMap);
+                ClearTexture(material, MaterialPropertyNames.TintMap3D);
+                return;
+            }
+
+            var colorMode = (TintColorMode)material.GetFloat(MaterialPropertyNames.TintColorMode);
+            switch (colorMode)
             {
                 case TintColorMode.SingleColor:
                     ClearTexture(material, MaterialPropertyNames.TintMap);
@@ -345,9 +366,10 @@ namespace Nova.Editor.Foundation.Scripts
 
         private static void ClearTexture(Material material, string propertyName)
         {
-            if (material.GetTexture(propertyName) == null)
+            var id = Shader.PropertyToID(propertyName);
+            if (material.GetTexture(id) == null)
                 return;
-            material.SetTexture(propertyName, null);
+            material.SetTexture(id, null);
             Debug.Log($"[NOVA] {material.name}: Removed unused texture from property: {propertyName}");
         }
 
