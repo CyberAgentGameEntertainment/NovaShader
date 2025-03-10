@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2024 CyberAgent, Inc.
+// Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -104,7 +104,7 @@ namespace Tests.Runtime
             return expected;
         }
 
-        [MenuItem("Window/Nava Shader/Test/Copy AverageTest Result")]
+        [MenuItem("Tools/NOVA Shader/Test/Copy AverageTest Result")]
         private static void CopyResult()
         {
             string[] platforms = { @"WindowsEditor/Direct3D11", @"OSXEditor_AppleSilicon/Metal" };
