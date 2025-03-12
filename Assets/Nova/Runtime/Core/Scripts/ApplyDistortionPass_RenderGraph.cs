@@ -15,6 +15,11 @@ namespace Nova.Runtime.Core.Scripts
     {
         public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
         {
+            if (_material == null)
+                return;
+            if (!_applyToSceneView && frameData.Get<UniversalCameraData>().cameraType == CameraType.SceneView)
+                return;
+
             var resourceData = frameData.Get<UniversalResourceData>();
             TextureHandle destTexture;
             {
