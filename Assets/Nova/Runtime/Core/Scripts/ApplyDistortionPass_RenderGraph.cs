@@ -4,7 +4,6 @@
 
 #if UNITY_2023_3_OR_NEWER
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.RenderGraphModule;
 using UnityEngine.Rendering.Universal;
@@ -13,6 +12,8 @@ namespace Nova.Runtime.Core.Scripts
 {
     public partial class ApplyDistortionPass : ScriptableRenderPass
     {
+        private static readonly string DistortedCameraColorTextureName = "DistortedCameraColorTexture";
+
         public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
         {
             if (_material == null)
@@ -20,10 +21,17 @@ namespace Nova.Runtime.Core.Scripts
             if (!_applyToSceneView && frameData.Get<UniversalCameraData>().cameraType == CameraType.SceneView)
                 return;
 
+            if (!frameData.Contains<DistortionContextItem>())
+            {
+                Debug.LogError("[NOVA] Cannot execute ApplyDistortionPass. DistortedUvBufferPass must be executed.");
+                return;
+            }
+
             var resourceData = frameData.Get<UniversalResourceData>();
             TextureHandle destTexture;
             {
                 var desc = renderGraph.GetTextureDesc(resourceData.activeColorTexture);
+                desc.name = DistortedCameraColorTextureName;
                 destTexture = renderGraph.CreateTexture(desc);
             }
 
@@ -42,11 +50,8 @@ namespace Nova.Runtime.Core.Scripts
 
                 // DistortedUvBuffer
                 {
-                    var desc = renderGraph.GetTextureDesc(resourceData.activeColorTexture);
-                    desc.depthBufferBits = 0;
-                    if (SystemInfo.IsFormatSupported(GraphicsFormat.R8G8_UNorm, GraphicsFormatUsage.Render))
-                        desc.colorFormat = GraphicsFormat.R8G8_UNorm;
-                    passData.DistortedUvBuffer = renderGraph.CreateTexture(desc);
+                    var contextItem = frameData.Get<DistortionContextItem>();
+                    passData.DistortedUvBuffer = contextItem.DistortedUvTexture;
                     builder.UseTexture(passData.DistortedUvBuffer);
                     passData.DistortionBufferPropertyId = _distortionBufferPropertyId;
                 }

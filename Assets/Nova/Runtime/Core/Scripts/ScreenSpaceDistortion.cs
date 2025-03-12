@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2024 CyberAgent, Inc.
+// Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -27,8 +27,7 @@ namespace Nova.Runtime.Core.Scripts
         public override void Create()
         {
             _applyDistortionShader = Shader.Find("Hidden/Nova/Particles/ApplyDistortion");
-            if (_applyDistortionShader == null)
-            { return; }
+            if (_applyDistortionShader == null) return;
 
             _distortedUvBufferPass = new DistortedUvBufferPass(DistortionLightMode);
             _applyDistortionPass = new ApplyDistortionPass(_applyToSceneView, _applyDistortionShader);
@@ -39,7 +38,7 @@ namespace Nova.Runtime.Core.Scripts
             if (_applyDistortionShader == null
                 || renderingData.cameraData.cameraType == CameraType.Reflection
                 || renderingData.cameraData.cameraType == CameraType.Preview)
-            { return; }
+                return;
 
             var distortedUvBufferFormat = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RGHalf)
                 ? RenderTextureFormat.RGHalf
@@ -63,6 +62,7 @@ namespace Nova.Runtime.Core.Scripts
 #endif
             renderer.EnqueuePass(_distortedUvBufferPass);
             renderer.EnqueuePass(_applyDistortionPass);
+
 #if !UNITY_2022_1_OR_NEWER
             RenderTexture.ReleaseTemporary(distortedUvBuffer);
 #endif

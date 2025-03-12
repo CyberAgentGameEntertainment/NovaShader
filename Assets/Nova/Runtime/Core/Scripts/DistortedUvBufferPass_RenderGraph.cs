@@ -21,10 +21,13 @@ namespace Nova.Runtime.Core.Scripts
             using (var builder = renderGraph.AddRasterRenderPass<PassData>("NOVA.DistortedUvBufferPass",
                        out var passData))
             {
-                var resourcesData = frameData.Get<UniversalResourceData>();
-                _distortedUvBufferTHdl = CreateRenderTargets(renderGraph, frameData);
+                _distortedUvBufferTHdl = CreateRenderTarget(renderGraph, frameData);
+                // Insert data to be passed to ApplyDistortionPass.
+                {
+                    var contextItem = frameData.Create<DistortionContextItem>();
+                    contextItem.DistortedUvTexture = _distortedUvBufferTHdl;
+                }
                 builder.SetRenderAttachment(_distortedUvBufferTHdl, 0);
-                builder.SetRenderAttachmentDepth(resourcesData.activeDepthTexture);
 
                 RendererListHandle renderList;
                 {
@@ -46,13 +49,14 @@ namespace Nova.Runtime.Core.Scripts
             }
         }
 
-        private static TextureHandle CreateRenderTargets(RenderGraph renderGraph, ContextContainer frameData)
+        private static TextureHandle CreateRenderTarget(RenderGraph renderGraph, ContextContainer frameData)
         {
             var resourceData = frameData.Get<UniversalResourceData>();
             var desc = renderGraph.GetTextureDesc(resourceData.activeColorTexture);
+            desc.name = DistortedUvBufferTexName;
             desc.depthBufferBits = 0;
-            if (SystemInfo.IsFormatSupported(GraphicsFormat.R8G8_UNorm, GraphicsFormatUsage.Render))
-                desc.colorFormat = GraphicsFormat.R8G8_UNorm;
+            if (SystemInfo.IsFormatSupported(GraphicsFormat.R16G16_SFloat, GraphicsFormatUsage.Render))
+                desc.colorFormat = GraphicsFormat.R16G16_SFloat;
             return renderGraph.CreateTexture(desc);
         }
 
