@@ -2,6 +2,7 @@
 // Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -41,6 +42,9 @@ namespace Nova.Runtime.Core.Scripts
         }
 #endif
 
+#if UNITY_2023_3_OR_NEWER
+        [Obsolete(DeprecationMessage.CompatibilityScriptingAPIObsolete, false)]
+#endif
         public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
             var renderer = renderingData.cameraData.renderer;
@@ -52,6 +56,9 @@ namespace Nova.Runtime.Core.Scripts
             ConfigureClear(ClearFlag.Color, Color.gray);
         }
 
+#if UNITY_2023_3_OR_NEWER
+        [Obsolete(DeprecationMessage.CompatibilityScriptingAPIObsolete, false)]
+#endif
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             var cmd = CommandBufferPool.Get();

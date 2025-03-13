@@ -2,6 +2,7 @@
 // Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -32,6 +33,9 @@ namespace Nova.Runtime.Core.Scripts
             _distortedUvBufferIdentifier = distortedUvBufferIdentifier;
         }
 
+#if UNITY_2023_3_OR_NEWER
+        [Obsolete(DeprecationMessage.CompatibilityScriptingAPIObsolete, false)]
+#endif
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             if (_material == null) return;

@@ -60,7 +60,6 @@ namespace Nova.Runtime.Core.Scripts
 
                 builder.SetRenderFunc(static (PassData data, RasterGraphContext context) =>
                 {
-                    var cmd = context.cmd;
                     data.Material.SetTexture(data.MainTexPropertyId, data.MainTex);
                     data.Material.SetTexture(data.DistortionBufferPropertyId, data.DistortedUvBuffer);
                     Blitter.BlitTexture(context.cmd, data.MainTex, Vector2.one, data.Material, 0);
