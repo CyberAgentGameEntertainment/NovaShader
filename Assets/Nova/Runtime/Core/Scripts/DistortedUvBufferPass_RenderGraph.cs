@@ -54,6 +54,7 @@ namespace Nova.Runtime.Core.Scripts
             var desc = renderGraph.GetTextureDesc(resourceData.activeColorTexture);
             desc.name = DistortedUvBufferTexName;
             desc.depthBufferBits = 0;
+            desc.clearColor = Color.gray;
             if (SystemInfo.IsFormatSupported(GraphicsFormat.R16G16_SFloat, GraphicsFormatUsage.Render))
                 desc.colorFormat = GraphicsFormat.R16G16_SFloat;
             return renderGraph.CreateTexture(desc);
