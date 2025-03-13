@@ -8,13 +8,13 @@ using UnityEngine.Rendering.Universal;
 
 namespace Nova.Runtime.Core.Scripts
 {
-    public partial class DistortedUvBufferPass : ScriptableRenderPass
+    public class DistortedUvBufferPass : ScriptableRenderPass
     {
         private const string ProfilerTag = nameof(DistortedUvBufferPass);
         private readonly ProfilingSampler _profilingSampler = new(ProfilerTag);
         private readonly RenderQueueRange _renderQueueRange = RenderQueueRange.all;
         private readonly ShaderTagId _shaderTagId;
-        private readonly FilteringSettings _filteringSettings;
+        private FilteringSettings _filteringSettings;
 
 #if UNITY_2022_1_OR_NEWER
         private RTHandle _renderTargetRTHandle;
