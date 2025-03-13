@@ -1025,7 +1025,12 @@ namespace AssetStoreTools.Validator
                     return ShaderUtil.ShaderHasError(shader);
                 case ComputeShader shader:
                     return ShaderUtil.GetComputeShaderMessageCount(shader) > 0;
+                
+#if UNITY_2023_3_OR_NEWER
+                case UnityEngine.Rendering.RayTracingShader shader:
+#else
                 case RayTracingShader shader:
+#endif
                     return ShaderUtil.GetRayTracingShaderMessageCount(shader) > 0;
                 default:
                     return false;
