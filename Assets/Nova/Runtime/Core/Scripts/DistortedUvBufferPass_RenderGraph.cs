@@ -13,21 +13,20 @@ namespace Nova.Runtime.Core.Scripts
 {
     public partial class DistortedUvBufferPass : ScriptableRenderPass
     {
-        private static readonly string DistortedUvBufferTexName = "DistortedUvBuffer";
-        private TextureHandle _distortedUvBufferTHdl;
+        private const string DistortedUvBufferTexName = "DistortedUvBuffer";
 
         public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
         {
             using (var builder = renderGraph.AddRasterRenderPass<PassData>("NOVA.DistortedUvBufferPass",
                        out var passData))
             {
-                _distortedUvBufferTHdl = CreateRenderTarget(renderGraph, frameData);
+                var distortedUvTexture = CreateRenderTarget(renderGraph, frameData);
                 // Insert data to be passed to ApplyDistortionPass.
                 {
                     var contextItem = frameData.Create<DistortionContextItem>();
-                    contextItem.DistortedUvTexture = _distortedUvBufferTHdl;
+                    contextItem.DistortedUvTexture = distortedUvTexture;
                 }
-                builder.SetRenderAttachment(_distortedUvBufferTHdl, 0);
+                builder.SetRenderAttachment(distortedUvTexture, 0);
 
                 RendererListHandle renderList;
                 {

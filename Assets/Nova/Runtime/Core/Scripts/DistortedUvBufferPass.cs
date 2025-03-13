@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2024 CyberAgent, Inc.
+// Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using UnityEngine;
@@ -14,7 +14,7 @@ namespace Nova.Runtime.Core.Scripts
         private readonly ProfilingSampler _profilingSampler = new(ProfilerTag);
         private readonly RenderQueueRange _renderQueueRange = RenderQueueRange.all;
         private readonly ShaderTagId _shaderTagId;
-        private FilteringSettings _filteringSettings;
+        private readonly FilteringSettings _filteringSettings;
 
 #if UNITY_2022_1_OR_NEWER
         private RTHandle _renderTargetRTHandle;
@@ -58,18 +58,19 @@ namespace Nova.Runtime.Core.Scripts
             cmd.Clear();
 
             using (new ProfilingScope(cmd, _profilingSampler))
-            { context.ExecuteCommandBuffer(cmd);
-              cmd.Clear();
+            {
+                context.ExecuteCommandBuffer(cmd);
+                cmd.Clear();
 
-              var drawingSettings =
-                  CreateDrawingSettings(_shaderTagId, ref renderingData, SortingCriteria.CommonTransparent);
+                var drawingSettings =
+                    CreateDrawingSettings(_shaderTagId, ref renderingData, SortingCriteria.CommonTransparent);
 
 #if UNITY_2023_1_OR_NEWER
                 var param = new RendererListParams(renderingData.cullResults, drawingSettings, _filteringSettings);
                 var renderList = context.CreateRendererList(ref param);
                 cmd.DrawRendererList(renderList);
 #else
-              context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref _filteringSettings);
+                context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref _filteringSettings);
 #endif
             }
 

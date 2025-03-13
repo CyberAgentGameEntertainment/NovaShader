@@ -12,7 +12,7 @@ namespace Nova.Runtime.Core.Scripts
 {
     public partial class ApplyDistortionPass : ScriptableRenderPass
     {
-        private static readonly string DistortedCameraColorTextureName = "DistortedCameraColorTexture";
+        private const string DistortedCameraColorTextureName = "DistortedCameraColorTexture";
 
         public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
         {
