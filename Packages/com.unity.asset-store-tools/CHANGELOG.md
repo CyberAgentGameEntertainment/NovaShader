@@ -1,6 +1,139 @@
 # Changelog
 All notable changes to this package will be documented in this file.
 
+## [12.0.1] - 2025-01-16
+
+### Preview Generator changes
+- Updated generated preview collection UI to display the asset extension
+- Fixed an issue with some prefab and model asset types not generating previews
+- Fixed an error that could occur when changing scenes after deleting a preview source asset
+
+## [12.0.0] - 2025-01-13
+
+### General changes
+- The code comprising the Asset Store Publishing Tools has been refactored.
+- Added dependency on Newtonsoft Json
+
+### Uploader changes
+- Updated window to retain its state if closed unless a domain reload occurs
+- Added option to generate higher resolution asset previews when exporting
+- Fixed a rare issue where authentication would fail
+- Minor UI tweaks
+
+### Validator changes
+- Added validation tests for:
+    - Package naming
+	- Project Template assets
+- Updated the Type Namespace validation test to check for Unity top level namespaces
+
+### Exporter changes
+- Updated how asset previews are generated/included for the  package that is being exported
+
+### Preview Generator
+- Added a Preview Generator window that can be used to pre-generate and inspect package previews before exporting
+
+## [11.4.4] - 2024-11-29
+
+### Validator Changes
+- The validator UI window description section can now be expanded or shrunk to take up less screen space
+- Updated severity of the Model Importer Logs validation test
+
+### Exporter Changes
+- Updated exporter to always exclude hidden files and folders beginning with the dot symbol (e.g.: .hiddenFolder/ or .hiddenfile.txt)
+- Updated exporter to explicitly exclude extended attribute files when exporting packages on macOS systems
+
+### Other
+- Moved the Asset Store Tools toolbar items into the Tools section
+- Fixed several window-related compilation warnings when using Unity 6 versions of the Editor
+
+## [11.4.3] - 2024-08-01
+
+### Validator Changes
+- Hotfix: Remove non-ascii characters from the demo scene validation
+
+## [11.4.2] - 2024-07-30
+
+### Validator Changes
+- Check for nested .unitypackage files in the demo scene validation
+- Prevent normal map test from erroring when misc importer types are detected
+- Remove Templates category from the uncompressed images requirement list
+
+## [11.4.1] - 2024-05-10
+
+### Exporter Changes
+- Fixed an issue with bundled plugin folder contents not being exported
+
+### Other
+- Miscellaneous internal changes
+
+## [11.4.0] - 2024-01-23
+
+### Uploader Changes
+- Added prevention of uploading packages larger than 6 GB
+- Added a prompt to allow automatically generating meta files within hidden folders
+- Fixed some obsolete API usage warnings in newer Unity versions
+
+### Validator Changes
+- Added validation tests for:
+    - Animation Clip take names
+	- Model import logs
+	- Uncompressed Package size
+- Updated the fail severity of Audio Clipping validation test
+- Updated the Demo Scene test to treat default scenes with custom skyboxes as valid demo scenes
+- Fixed some obsolete API usage warnings in newer Unity versions
+
+### Other
+- Added an option to check for Asset Store Publishing Tools updates
+
+## [11.3.1] - 2023-08-14
+
+### Uploader Changes
+- Added the option to select indirect package dependencies from the project (e.g. Mathematics package installed by the Burst package)
+
+### Validator Changes
+- Updated the Texture Dimensions test to ignore 'Sprite' and 'Editor GUI' texture types
+
+### Exporter Changes
+- Updated exporter to ignore the 'ProjectSettings/ProjectVersion.txt' asset when exporting 'Complete Project' category packages
+
+## [11.3.0] - 2023-07-04
+
+### Uploader Changes
+
+- Added the option to validate a pre-exported package
+- Added the option to export a .unitypackage file without uploading
+- Updated the dependency selection UI
+
+### Validator Changes
+
+- Added the option to validate several asset paths at once
+    - Note: when validating package that is comprised of several folders (e.g. Assets/MyPackage + 
+	Assets/StreamingAssets + Assets/WebGLTemplates), please select all applicable paths that would be included in the package
+- Added several new validation tests for:
+    - File Menu Names
+	- Compressed files 
+	- Model Types
+	- Texture Dimensions
+	- Particle Systems
+	- Normal Map Textures
+    - Audio Clipping
+    - Path Lengths
+    - Script Compilation	
+- Updated validation test severities based on package category
+- Updated validation tests to each have their own test logic class
+- Updated validation tests to be displayed in alphabetical order
+- Fixed several issues with the namespace check test
+- Fixed scenes in Samples~ folders not being taken into account for the sample scene check test
+- Other internal changes
+
+### Exporter Changes
+
+- Package exporter is now a separate module (similar to Uploader and Validator)
+- Fixed hidden folders being included when exporting package content
+    - Note: this prevents an issue with the Unity Editor, where exported hidden folders would appear in the Project window 
+	as empty folders when imported, despite having content on disk. Content nested within hidden folders is still collected, 
+	provided it contains unique .meta files
+
 ## [11.2.2] - 2023-02-23
 
 ### Validator Changes
