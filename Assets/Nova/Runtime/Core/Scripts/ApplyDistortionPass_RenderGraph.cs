@@ -39,7 +39,7 @@ namespace Nova.Runtime.Core.Scripts
                    renderGraph.AddRasterRenderPass<PassData>("NOVA.ApplyDistortionPass", out var passData))
             {
                 // DestTexture
-                builder.SetRenderAttachment(destTexture, 0);
+                builder.SetRenderAttachment(destTexture, 0, AccessFlags.WriteAll);
 
                 // MainTexture
                 {
