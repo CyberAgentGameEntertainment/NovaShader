@@ -45,12 +45,19 @@ namespace Nova.Runtime.Core.Scripts
                 : RenderTextureFormat.DefaultHDR;
 
 #if UNITY_2022_1_OR_NEWER
-            var desc = renderingData.cameraData.cameraTargetDescriptor;
-            desc.depthBufferBits = 0;
-            desc.colorFormat = distortedUvBufferFormat;
-            RenderingUtils.ReAllocateIfNeeded(ref _distortedUvBufferRTHandle, desc);
-            _distortedUvBufferPass.Setup(_distortedUvBufferRTHandle);
-            _applyDistortionPass.Setup(_distortedUvBufferRTHandle);
+#if UNITY_2023_3_OR_NEWER
+            if (GraphicsSettings.GetRenderPipelineSettings<RenderGraphSettings>().enableRenderCompatibilityMode)
+#endif
+            {
+                var desc = renderingData.cameraData.cameraTargetDescriptor;
+                desc.depthBufferBits = 0;
+                desc.colorFormat = distortedUvBufferFormat;
+#pragma warning disable CS0618 // This method will be removed in a future release. Please use ReAllocateHandleIfNeeded instead. #from(2023.3)
+                RenderingUtils.ReAllocateIfNeeded(ref _distortedUvBufferRTHandle, desc);
+#pragma warning restore CS0618
+                _distortedUvBufferPass.Setup(_distortedUvBufferRTHandle);
+                _applyDistortionPass.Setup(_distortedUvBufferRTHandle);
+            }
 #else
             var cameraTargetDescriptor = renderingData.cameraData.cameraTargetDescriptor;
             var distortedUvBuffer = RenderTexture.GetTemporary(cameraTargetDescriptor.width,
