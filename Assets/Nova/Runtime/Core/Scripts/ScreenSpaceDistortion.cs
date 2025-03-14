@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2024 CyberAgent, Inc.
+// Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -27,8 +27,7 @@ namespace Nova.Runtime.Core.Scripts
         public override void Create()
         {
             _applyDistortionShader = Shader.Find("Hidden/Nova/Particles/ApplyDistortion");
-            if (_applyDistortionShader == null)
-            { return; }
+            if (_applyDistortionShader == null) return;
 
             _distortedUvBufferPass = new DistortedUvBufferPass(DistortionLightMode);
             _applyDistortionPass = new ApplyDistortionPass(_applyToSceneView, _applyDistortionShader);
@@ -39,19 +38,26 @@ namespace Nova.Runtime.Core.Scripts
             if (_applyDistortionShader == null
                 || renderingData.cameraData.cameraType == CameraType.Reflection
                 || renderingData.cameraData.cameraType == CameraType.Preview)
-            { return; }
+                return;
 
             var distortedUvBufferFormat = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RGHalf)
                 ? RenderTextureFormat.RGHalf
                 : RenderTextureFormat.DefaultHDR;
 
 #if UNITY_2022_1_OR_NEWER
-            var desc = renderingData.cameraData.cameraTargetDescriptor;
-            desc.depthBufferBits = 0;
-            desc.colorFormat = distortedUvBufferFormat;
-            RenderingUtils.ReAllocateIfNeeded(ref _distortedUvBufferRTHandle, desc);
-            _distortedUvBufferPass.Setup(_distortedUvBufferRTHandle);
-            _applyDistortionPass.Setup(_distortedUvBufferRTHandle);
+#if UNITY_2023_3_OR_NEWER
+            if (GraphicsSettings.GetRenderPipelineSettings<RenderGraphSettings>().enableRenderCompatibilityMode)
+#endif
+            {
+                var desc = renderingData.cameraData.cameraTargetDescriptor;
+                desc.depthBufferBits = 0;
+                desc.colorFormat = distortedUvBufferFormat;
+#pragma warning disable CS0618 // This method will be removed in a future release. Please use ReAllocateHandleIfNeeded instead. #from(2023.3)
+                RenderingUtils.ReAllocateIfNeeded(ref _distortedUvBufferRTHandle, desc);
+#pragma warning restore CS0618
+                _distortedUvBufferPass.Setup(_distortedUvBufferRTHandle);
+                _applyDistortionPass.Setup(_distortedUvBufferRTHandle);
+            }
 #else
             var cameraTargetDescriptor = renderingData.cameraData.cameraTargetDescriptor;
             var distortedUvBuffer = RenderTexture.GetTemporary(cameraTargetDescriptor.width,
@@ -63,6 +69,7 @@ namespace Nova.Runtime.Core.Scripts
 #endif
             renderer.EnqueuePass(_distortedUvBufferPass);
             renderer.EnqueuePass(_applyDistortionPass);
+
 #if !UNITY_2022_1_OR_NEWER
             RenderTexture.ReleaseTemporary(distortedUvBuffer);
 #endif

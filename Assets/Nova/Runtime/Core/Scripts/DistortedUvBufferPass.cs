@@ -1,14 +1,15 @@
 // --------------------------------------------------------------
-// Copyright 2024 CyberAgent, Inc.
+// Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 namespace Nova.Runtime.Core.Scripts
 {
-    public sealed class DistortedUvBufferPass : ScriptableRenderPass
+    public partial class DistortedUvBufferPass : ScriptableRenderPass
     {
         private const string ProfilerTag = nameof(DistortedUvBufferPass);
         private readonly ProfilingSampler _profilingSampler = new(ProfilerTag);
@@ -41,6 +42,9 @@ namespace Nova.Runtime.Core.Scripts
         }
 #endif
 
+#if UNITY_2023_3_OR_NEWER
+        [Obsolete(DeprecationMessage.CompatibilityScriptingAPIObsolete, false)]
+#endif
         public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
             var renderer = renderingData.cameraData.renderer;
@@ -52,24 +56,28 @@ namespace Nova.Runtime.Core.Scripts
             ConfigureClear(ClearFlag.Color, Color.gray);
         }
 
+#if UNITY_2023_3_OR_NEWER
+        [Obsolete(DeprecationMessage.CompatibilityScriptingAPIObsolete, false)]
+#endif
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             var cmd = CommandBufferPool.Get();
             cmd.Clear();
 
             using (new ProfilingScope(cmd, _profilingSampler))
-            { context.ExecuteCommandBuffer(cmd);
-              cmd.Clear();
+            {
+                context.ExecuteCommandBuffer(cmd);
+                cmd.Clear();
 
-              var drawingSettings =
-                  CreateDrawingSettings(_shaderTagId, ref renderingData, SortingCriteria.CommonTransparent);
+                var drawingSettings =
+                    CreateDrawingSettings(_shaderTagId, ref renderingData, SortingCriteria.CommonTransparent);
 
 #if UNITY_2023_1_OR_NEWER
                 var param = new RendererListParams(renderingData.cullResults, drawingSettings, _filteringSettings);
                 var renderList = context.CreateRendererList(ref param);
                 cmd.DrawRendererList(renderList);
 #else
-              context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref _filteringSettings);
+                context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref _filteringSettings);
 #endif
             }
 
