@@ -41,7 +41,12 @@ namespace Tests.Runtime
             // タイムスケールを0に指定しても、バインドポーズになるときもあれば、
             // 0フレームのアニメーションが再生されてしまうことがあり、テストが不安定だった。
             // そこでシーンに含まれているアニメーターを無効にしてアニメーションが再生されないようにする。
+#if UNITY_2023_3_OR_NEWER
+            var animators = Object.FindObjectsByType<Animator>(FindObjectsSortMode.None);
+#else
             var animators = Object.FindObjectsOfType<Animator>();
+#endif
+
             foreach (var animator in animators) animator.enabled = false;
 
             // シーンのレンダリングが一回終わるまで待つ
