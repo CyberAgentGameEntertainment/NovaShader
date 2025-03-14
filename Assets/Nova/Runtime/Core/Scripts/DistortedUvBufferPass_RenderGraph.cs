@@ -23,7 +23,7 @@ namespace Nova.Runtime.Core.Scripts
                 var distortedUvTexture = CreateRenderTarget(renderGraph, frameData);
                 // Insert data to be passed to ApplyDistortionPass.
                 {
-                    var contextItem = frameData.Create<DistortionContextItem>();
+                    var contextItem = frameData.GetOrCreate<DistortionContextItem>();
                     contextItem.DistortedUvTexture = distortedUvTexture;
                 }
                 builder.SetRenderAttachment(distortedUvTexture, 0);
