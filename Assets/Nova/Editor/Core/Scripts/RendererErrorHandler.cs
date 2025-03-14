@@ -254,13 +254,14 @@ namespace Nova.Editor.Core.Scripts
                 correctVertexStreams.Add(ParticleSystemVertexStream.Custom1XYZW);
                 correctVertexStreams.Add(ParticleSystemVertexStream.Custom2XYZW);
             }
-            
+
             // Tangent
             {
-                bool useParallaxMap = material.IsKeywordEnabled(ShaderKeywords.ParallaxMapTargetBase) ||
-                                      material.IsKeywordEnabled(ShaderKeywords.ParallaxMapTargetTint) ||
-                                      material.IsKeywordEnabled(ShaderKeywords.ParallaxMapTargetEmission);
-                if (useParallaxMap || (material.shader.name == "Nova/Particles/UberLit" && material.IsKeywordEnabled(ShaderKeywords.NormalMapEnabled)))
+                var useParallaxMap = material.IsKeywordEnabled(ShaderKeywords.ParallaxMapTargetBase) ||
+                                     material.IsKeywordEnabled(ShaderKeywords.ParallaxMapTargetTint) ||
+                                     material.IsKeywordEnabled(ShaderKeywords.ParallaxMapTargetEmission);
+                if (useParallaxMap || material.shader.name == "Nova/Particles/UberLit" &&
+                    material.IsKeywordEnabled(ShaderKeywords.NormalMapEnabled))
                 {
                     correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Tangent);
                     correctVertexStreams.Add(ParticleSystemVertexStream.Tangent);
@@ -286,7 +287,11 @@ namespace Nova.Editor.Core.Scripts
         internal static List<ParticleSystemRenderer> FindRendererWithMaterial(Material material)
         {
             var renderersWithMaterial = new List<ParticleSystemRenderer>();
+#if UNITY_2023_3_OR_NEWER
+            var renderers = Object.FindObjectsByType<ParticleSystemRenderer>(FindObjectsSortMode.None);
+#else
             var renderers = Object.FindObjectsOfType(typeof(ParticleSystemRenderer)) as ParticleSystemRenderer[];
+#endif
             if (renderers == null) return null;
             foreach (var renderer in renderers)
                 if (renderer.sharedMaterial == material)
