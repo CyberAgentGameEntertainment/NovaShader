@@ -190,11 +190,31 @@ void InitializeInputData(out InputData inputData, SurfaceData surfaceData, Varyi
     inputData.viewDirectionWS = SafeNormalize(inputUnlit.viewDirWS);
     GET_SHADOW_COORD(inputData.shadowCoord, input);
     inputData.fogCoord = inputUnlit.transitionEmissionProgresses.z;
+
+    #if !defined(LIGHTMAP_ON) && (defined(PROBE_VOLUMES_L1) || defined(PROBE_VOLUMES_L2))
+    inputData.bakedGI = SAMPLE_GI(input.vertexSH,
+        GetAbsolutePositionWS(inputData.positionWS),
+        inputData.normalWS,
+        inputData.viewDirectionWS,
+        input.clipPos.xy,
+        input.probeOcclusion,
+        inputData.shadowMask);
+    #else
     inputData.bakedGI = SampleSHPixel(input.vertexSH, inputData.normalWS);
+    #endif
+
     inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(inputUnlit.positionHCS);
     // The values of shadowMask and vertexLighting are referenced from ParticlesLitForwardPass.hlsl in UPR Package.
     inputData.shadowMask = half4(1, 1, 1, 1);
     inputData.vertexLighting = half3(0, 0, 0);
+
+    #if defined(DEBUG_DISPLAY) && defined(USE_APV_PROBE_OCCLUSION)
+    inputData.probeOcclusion = input.probeOcclusion;
+    #endif
+
+    #if defined(DEBUG_DISPLAY) && !defined(PARTICLES_EDITOR_META_PASS)
+    inputData.vertexSH = input.vertexSH;
+    #endif
 }
 
 /**
