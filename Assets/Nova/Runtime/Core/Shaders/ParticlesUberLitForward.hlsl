@@ -196,7 +196,7 @@ void InitializeInputData(out InputData inputData, SurfaceData surfaceData, Varyi
         GetAbsolutePositionWS(inputData.positionWS),
         inputData.normalWS,
         inputData.viewDirectionWS,
-        input.clipPos.xy,
+        input.varyingsUnlit.positionHCS.xy,
         input.probeOcclusion,
         inputData.shadowMask);
     #else
