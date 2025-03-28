@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BricksLit
+  m_Name: BricksLit_tmp_apv
   m_Shader: {fileID: 4800000, guid: 65654f079f6f340b09f954eb6366ad5a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -20,6 +20,7 @@ Material:
   - _NORMAL_MAP_ENABLED
   - _PARALLAX_MAP_MODE_2D
   - _PARALLAX_MAP_TARGET_BASE
+  - _RECEIVE_SHADOWS_ENABLED
   - _SPECULAR_HIGHLIGHTS_ENABLED
   - _TINT_MAP_ENABLED
   m_InvalidKeywords:
@@ -234,7 +235,7 @@ Material:
     - _InverseRimTransparency: 0
     - _InverseTintRim: 0
     - _KeepEdgeTransparency: 1
-    - _LitReceiveShadows: 0
+    - _LitReceiveShadows: 1
     - _LitWorkflowMode: 1
     - _LuminanceTransparencyEnabled: 0
     - _LuminanceTransparencyProgress: 0.5
