@@ -17,4 +17,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Demo/Demo03/Demo03.unity
     guid: acf798dfa02ffe148a00164ae76416c9
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 7c24b9cc230a645999cc395d46d68424, type: 2}
+  m_UseUCBPForAssetBundles: 0
