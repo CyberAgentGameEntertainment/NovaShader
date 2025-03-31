@@ -649,7 +649,7 @@ Shader "Nova/Particles/UberLit"
 
             // Tint Color
             // _TINT_AREA_ALLだけならfragmentのみでいい
-            #pragma shader_feature_local _ _TINT_AREA_ALL
+            #pragma shader_feature_local_fragment  _ _TINT_AREA_ALL
             #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
 
             // Flow Map
