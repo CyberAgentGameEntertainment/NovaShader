@@ -284,7 +284,7 @@ Shader "Nova/Particles/UberLit"
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
             #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
-            #pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+            #pragma shader_feature_local_fragment _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
 
             // Transparency
             #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
@@ -523,7 +523,7 @@ Shader "Nova/Particles/UberLit"
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
             #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
-            #pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+            #pragma shader_feature_local_fragment _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
 
             // Transparency
             #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
@@ -601,7 +601,7 @@ Shader "Nova/Particles/UberLit"
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
             #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
-            #pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+            #pragma shader_feature_local_fragment  _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
 
             // Transparency
             #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
@@ -648,7 +648,8 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Tint Color
-            #pragma shader_feature_local _ _TINT_AREA_ALL
+            // _TINT_AREA_ALLだけならfragmentのみでいい
+            #pragma shader_feature_local_fragment  _ _TINT_AREA_ALL
             #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
 
             // Flow Map
