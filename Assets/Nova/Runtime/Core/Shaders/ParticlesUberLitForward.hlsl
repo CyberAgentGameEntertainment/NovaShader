@@ -195,15 +195,6 @@ void InitializeInputData(out InputData inputData, SurfaceData surfaceData, Varyi
     // The values of shadowMask and vertexLighting are referenced from ParticlesLitForwardPass.hlsl in UPR Package.
     inputData.shadowMask = half4(1, 1, 1, 1);
     inputData.vertexLighting = half3(0, 0, 0);
-
-    #if defined(DEBUG_DISPLAY)
-    #if not defined(LIGHTMAP_ON)
-    inputData.vertexSH = input.vertexSH;
-    #endif
-    #if defined(USE_APV_PROBE_OCCLUSION)
-    inputData.probeOcclusion = input.probeOcclusion;
-    #endif
-    #endif
 }
 
 /**
@@ -241,6 +232,15 @@ VaryingsLit vertLit(AttributesLit input)
 
 void InitializeBakedGIData(VaryingsLit input, inout InputData inputData)
 {
+    #if defined(DEBUG_DISPLAY)
+    #if not defined(LIGHTMAP_ON)
+    inputData.vertexSH = input.vertexSH;
+    #endif
+    #if defined(USE_APV_PROBE_OCCLUSION)
+    inputData.probeOcclusion = input.probeOcclusion;
+    #endif
+    #endif
+
     // Does not support light maps.
     #if defined(DYNAMICLIGHTMAP_ON)
     // inputData.bakedGI = SAMPLE_GI(input.staticLightmapUV, input.dynamicLightmapUV, input.vertexSH, inputData.normalWS);
