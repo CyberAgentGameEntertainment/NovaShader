@@ -219,9 +219,13 @@ VaryingsLit vertLit(AttributesLit input)
     // half fogFactor = ComputeFogFactor(output.varyingsUnlit.positionHCS.z);
     // output.positionWS.w = fogFactor;
 
+    #if UNITY_VERSION >= 60000000
     VertexPositionInputs vertexInput = GetVertexPositionInputs(input.attributesUnlit.positionOS.xyz);
     OUTPUT_SH4(vertexInput.positionWS, output.varyingsUnlit.normalWS.xyz,
                GetWorldSpaceNormalizeViewDir(vertexInput.positionWS), output.vertexSH, output.probeOcclusion);
+    #else
+    OUTPUT_SH(output.varyingsUnlit.normalWS.xyz, output.vertexSH);
+    #endif
 
     #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(_RECEIVE_SHADOWS_ENABLED)
     output.shadowCoord = TransformWorldToShadowCoord(output.positionWS);
@@ -232,15 +236,7 @@ VaryingsLit vertLit(AttributesLit input)
 
 void InitializeBakedGIData(VaryingsLit input, inout InputData inputData)
 {
-    #if defined(DEBUG_DISPLAY)
-    #if not defined(LIGHTMAP_ON)
-    inputData.vertexSH = input.vertexSH;
-    #endif
-    #if defined(USE_APV_PROBE_OCCLUSION)
-    inputData.probeOcclusion = input.probeOcclusion;
-    #endif
-    #endif
-
+    #if UNITY_VERSION >= 60000000
     // Does not support light maps.
     #if defined(DYNAMICLIGHTMAP_ON)
     // inputData.bakedGI = SAMPLE_GI(input.staticLightmapUV, input.dynamicLightmapUV, input.vertexSH, inputData.normalWS);
@@ -256,6 +252,18 @@ void InitializeBakedGIData(VaryingsLit input, inout InputData inputData)
     #else
     // inputData.bakedGI = SAMPLE_GI(input.staticLightmapUV, input.vertexSH, inputData.normalWS);
     // inputData.shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
+    #endif
+
+    #if defined(DEBUG_DISPLAY)
+    #if not defined(LIGHTMAP_ON)
+    inputData.vertexSH = input.vertexSH;
+    #endif
+    #if defined(USE_APV_PROBE_OCCLUSION)
+    inputData.probeOcclusion = input.probeOcclusion;
+    #endif
+    #endif
+    #else
+    inputData.bakedGI = SampleSHPixel(input.vertexSH, inputData.normalWS);
     #endif
 }
 
