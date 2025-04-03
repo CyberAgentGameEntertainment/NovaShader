@@ -191,6 +191,9 @@ Shader "Nova/Particles/UberUnlit"
             ZTest [_ZTest]
 
             HLSLPROGRAM
+
+            #include "Config.hlsl"
+            
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.5
@@ -203,13 +206,22 @@ Shader "Nova/Particles/UberUnlit"
             #pragma require 2darray
 
             // Render Settings
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            #pragma dynamic_branch_local_fragment _ALPHAMODULATE_ENABLED
+            #else
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
+            #endif
             #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
 
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #else
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #endif
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Tint Color
@@ -249,7 +261,11 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
             // Vertex Deformation
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_vertex _VERTEX_DEFORMATION_ENABLED
+            #else
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
+            #endif
 
             #include "ParticlesUberUnlitForward.hlsl"
             ENDHLSL
@@ -268,6 +284,9 @@ Shader "Nova/Particles/UberUnlit"
             Cull Off
 
             HLSLPROGRAM
+
+            #include "Config.hlsl"
+            
             #pragma vertex vertEditor
             #pragma fragment fragSceneHighlight
             #pragma target 3.5
@@ -279,13 +298,22 @@ Shader "Nova/Particles/UberUnlit"
             #pragma require 2darray
 
             // Render Settings
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            #pragma dynamic_branch_local_fragment _ALPHAMODULATE_ENABLED
+            #else
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
+            #endif
             #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
 
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #else
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #endif
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Tint Color
@@ -325,7 +353,11 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
             // Vertex Deformation
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_vertex _VERTEX_DEFORMATION_ENABLED
+            #else
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
+            #endif
 
             #include "ParticlesUberUnlitEditor.hlsl"
             ENDHLSL
@@ -344,6 +376,9 @@ Shader "Nova/Particles/UberUnlit"
             Cull Off
 
             HLSLPROGRAM
+
+            #include "Config.hlsl"
+            
             #pragma vertex vertEditor
             #pragma fragment fragScenePicking
             #pragma target 3.5
@@ -355,13 +390,22 @@ Shader "Nova/Particles/UberUnlit"
             #pragma require 2darray
 
             // Render Settings
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            #pragma dynamic_branch_local_fragment _ALPHAMODULATE_ENABLED
+            #else
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
+            #endif
             #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
 
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #else
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #endif
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Tint Color
@@ -401,7 +445,11 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
             // Vertex Deformation
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_vertex _VERTEX_DEFORMATION_ENABLED
+            #else
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
+            #endif
 
             #include "ParticlesUberUnlitEditor.hlsl"
             ENDHLSL
@@ -421,6 +469,9 @@ Shader "Nova/Particles/UberUnlit"
             ZTest LEqual
 
             HLSLPROGRAM
+            
+            #include "Config.hlsl"
+            
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.5
@@ -432,14 +483,23 @@ Shader "Nova/Particles/UberUnlit"
             #pragma require 2darray
 
             // Render Settings
-            #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             // NOTE : Not need in DepthNormals pass.
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #define _ALPHAMODULATE_ENABLED 0
+            #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            #else
+            #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            #endif
             // #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
             #pragma shader_feature_local _ALPHATEST_ENABLED
 
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #else
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #endif
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Tint Color
@@ -480,7 +540,11 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
             // Vertex Deformation
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_vertex _VERTEX_DEFORMATION_ENABLED
+            #else
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
+            #endif
 
             #include "ParticlesUberDepthNormals.hlsl"
             ENDHLSL
@@ -500,6 +564,9 @@ Shader "Nova/Particles/UberUnlit"
             ZTest LEqual
 
             HLSLPROGRAM
+
+            #include "Config.hlsl"
+            
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.5
@@ -511,14 +578,23 @@ Shader "Nova/Particles/UberUnlit"
             #pragma require 2darray
 
             // Render Settings
-            #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             // NOTE : Not need in DepthNormals pass.
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #define _ALPHAMODULATE_ENABLED 0
+            #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            #else
+            #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            #endif
             // #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
             #pragma shader_feature_local _ALPHATEST_ENABLED
 
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #else
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #endif
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Tint Color
@@ -559,7 +635,11 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
             // Vertex Deformation
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_vertex _VERTEX_DEFORMATION_ENABLED
+            #else
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
+            #endif
 
             #include "ParticlesUberDepthOnly.hlsl"
             ENDHLSL
@@ -579,6 +659,9 @@ Shader "Nova/Particles/UberUnlit"
             Cull[_Cull]
 
             HLSLPROGRAM
+            
+            #include "Config.hlsl"
+            
             #pragma target 3.5
 
             // Unity Defined
@@ -587,11 +670,20 @@ Shader "Nova/Particles/UberUnlit"
             #pragma require 2darray
 
             // Render Settings
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #define _ALPHAMODULATE_ENABLED 0
+            #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            #else
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
-
+            #endif
+            
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #else
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #endif
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Tint Color
@@ -613,7 +705,11 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
 
             // Vertex Deformation
-            #pragma shader_feature_local_vertex _VERTEX_DEFORMATION_ENABLED
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_vertex _VERTEX_DEFORMATION_ENABLED
+            #else
+            #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
+            #endif
 
             // Shadow Caster
             #pragma shader_feature_local _SHADOW_CASTER_ALPHA_TEST_ENABLED

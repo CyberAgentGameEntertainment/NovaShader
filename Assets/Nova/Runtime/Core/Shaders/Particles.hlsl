@@ -3,6 +3,15 @@
 
 #include "ParticlesInstancing.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
+#include "Config.hlsl"
+
+#ifdef ENABLE_DYNAMIC_BRANCH
+    #define NOVA_IFDEF(condition) if(condition){
+    #define NOVA_ENDIF }
+#else
+    #define NOVA_IFDEF(condition) #ifdef condition
+    #define NOVA_ENDIF #endif
+#endif
 
 #if defined(_PARALLAX_MAP_TARGET_BASE) || defined(_PARALLAX_MAP_TARGET_TINT) || defined(_PARALLAX_MAP_TARGET_EMISSION)
 #define USE_PARALLAX_MAP
@@ -111,10 +120,18 @@ float2 RotateUV(float2 uv, half angle, half2 offsets)
 // Adjust the albedo according to the blending.
 half3 ApplyAlpha(half3 albedo, half alpha)
 {
+#ifdef ENABLE_DYNAMIC_BRANCH
+    if(_ALPHAMODULATE_ENABLED)
+    {
+        // In multiply, albedo needs to be white if the alpha is zero.
+        return lerp(half3(1.0h, 1.0h, 1.0h), albedo, alpha);
+    }
+#else
     #if defined(_ALPHAMODULATE_ENABLED)
     // In multiply, albedo needs to be white if the alpha is zero.
     return lerp(half3(1.0h, 1.0h, 1.0h), albedo, alpha);
     #endif
+#endif 
     return albedo;
 }
 

@@ -75,6 +75,10 @@ SAMPLER(sampler_SmoothnessMap2DArray);
 TEXTURE3D(_SmoothnessMap3D);
 SAMPLER(sampler_SmoothnessMap3D);
 
+namespace Hoge
+{
+    float _hoge;
+}
 CBUFFER_START(UnityPerMaterial)
     float4 _BaseMap_ST;
     float4 _BaseMap2DArray_ST;
@@ -486,8 +490,15 @@ void ApplyColorCorrection(in out float3 color)
 void ModulateAlphaTransitionProgress(in out half progress, half vertexAlpha)
 {
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    if(_VERTEX_ALPHA_AS_TRANSITION_PROGRESS)
+    {
+        progress += 1.0 - vertexAlpha;
+    }
+    #else
     #ifdef _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
     progress += 1.0 - vertexAlpha;
+    #endif
     #endif
     progress = min(1.0, progress);
     #endif
@@ -542,11 +553,21 @@ half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half 
 // Apply the vertex color.
 inline void ApplyVertexColor(in out half4 color, in half4 vertexColor)
 {
+#ifdef ENABLE_DYNAMIC_BRANCH
+    if( _VERTEX_ALPHA_AS_TRANSITION_PROGRESS)
+    {
+        color.rgb *= vertexColor.rgb;
+    }else
+    {
+        color *= vertexColor;
+    }
+#else    
     #ifdef _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
     color.rgb *= vertexColor.rgb;
     #else
     color *= vertexColor;
     #endif
+#endif
 }
 
 // Sample the emission map.
@@ -705,4 +726,5 @@ inline half2 GetParallaxMappingUVOffset(in half2 uv, in half progress, in half c
     half2 offset = ParallaxOffset(height, scale, viewDirTS);
     return offset;
 }
+
 #endif

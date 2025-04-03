@@ -66,6 +66,7 @@ float4 GetShadowPositionHClip(Attributes input)
     return positionCS;
 }
 
+
 Varyings ShadowPassVertex(Attributes input)
 {
     Varyings output = (Varyings)0;
@@ -76,22 +77,22 @@ Varyings ShadowPassVertex(Attributes input)
     TRANSFER_CUSTOM_COORD(input, output);
 
     // Vertex Deformation
-    #ifdef _VERTEX_DEFORMATION_ENABLED
-    if (_ShadowCasterApplyVertexDeformation)
-    {
-        float2 vertexDeformationUVs = TRANSFORM_TEX(input.texcoord.xy, _VertexDeformationMap);
-        vertexDeformationUVs.x += GET_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
-        vertexDeformationUVs.y += GET_CUSTOM_COORD(_VertexDeformationMapOffsetYCoord);
-        float vertexDeformationIntensity = _VertexDeformationIntensity + GET_CUSTOM_COORD(_VertexDeformationIntensityCoord);
-        vertexDeformationIntensity = GetVertexDeformationIntensity(
-            _VertexDeformationMap, sampler_VertexDeformationMap,
-            vertexDeformationIntensity,
-            vertexDeformationUVs,
-            _VertexDeformationMapChannel,
-            _VertexDeformationBaseValue);
-        input.positionOS.xyz += normalize(input.normalOS) * vertexDeformationIntensity;
-    }
-    #endif
+    NOVA_IFDEF(_VERTEX_DEFORMATION_ENABLED)
+        if (_ShadowCasterApplyVertexDeformation)
+        {
+            float2 vertexDeformationUVs = TRANSFORM_TEX(input.texcoord.xy, _VertexDeformationMap);
+            vertexDeformationUVs.x += GET_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
+            vertexDeformationUVs.y += GET_CUSTOM_COORD(_VertexDeformationMapOffsetYCoord);
+            float vertexDeformationIntensity = _VertexDeformationIntensity + GET_CUSTOM_COORD(_VertexDeformationIntensityCoord);
+            vertexDeformationIntensity = GetVertexDeformationIntensity(
+                _VertexDeformationMap, sampler_VertexDeformationMap,
+                vertexDeformationIntensity,
+                vertexDeformationUVs,
+                _VertexDeformationMapChannel,
+                _VertexDeformationBaseValue);
+            input.positionOS.xyz += normalize(input.normalOS) * vertexDeformationIntensity;
+        }
+    NOVA_ENDIF
 
     output.positionHCS = GetShadowPositionHClip(input);
 
@@ -100,10 +101,18 @@ Varyings ShadowPassVertex(Attributes input)
 
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;
+#ifdef ENABLE_DYNAMIC_BRANCH
+    if(_BASE_MAP_ROTATION_ENABLED)
+    {
+        half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
+        baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
+    }
+#else    
     #ifdef _BASE_MAP_ROTATION_ENABLED
     half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
     baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
     #endif
+#endif    
     baseMapUv = TRANSFORM_BASE_MAP(baseMapUv);
     baseMapUv.x += GET_CUSTOM_COORD(_BaseMapOffsetXCoord);
     baseMapUv.y += GET_CUSTOM_COORD(_BaseMapOffsetYCoord);
