@@ -245,6 +245,44 @@ int ParallaxMapMode2DEnabled()
     #endif
 }
 
+int IsKeywordEnabled_EMISSION_COLOR_COLOR()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return _EMISSION_COLOR_COLOR; 
+    #else
+    #ifdef _EMISSION_COLOR_COLOR
+    return 1;
+    #else
+    return 0;
+    #endif
+    #endif
+}
+
+int IsKeywordEnabled_EMISSION_COLOR_BASECOLOR()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return _EMISSION_COLOR_BASECOLOR; 
+    #else
+    #ifdef _EMISSION_COLOR_BASECOLOR
+    return 1;
+    #else
+    return 0;
+    #endif
+    #endif
+}
+int IsKeywordEnabled_EMISSION_COLOR_MAP()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return _EMISSION_COLOR_MAP; 
+    #else
+    #ifdef _EMISSION_COLOR_MAP
+    return 1;
+    #else
+    return 0;
+    #endif
+    #endif
+}
+
 int ParallaxMapMode2DArrayEnabled()
 {
     #ifdef ENABLE_DYNAMIC_BRANCH

@@ -314,7 +314,11 @@ Shader "Nova/Particles/UberLit"
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
             #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+            #else
             #pragma shader_feature_local_fragment _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+            #endif
 
             // Transparency
             #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
@@ -430,6 +434,9 @@ Shader "Nova/Particles/UberLit"
             #define _PARALLAX_MAP_MODE_2D 0
             #define _PARALLAX_MAP_MODE_2D_ARRAY 0
             #define _PARALLAX_MAP_MODE_3D 0
+            #define _EMISSION_COLOR_COLOR 0
+            #define _EMISSION_COLOR_BASECOLOR 0
+            #define _EMISSION_COLOR_MAP 0
             #endif
             
             // When LightMode is SceneSelectionPass, the shaders are the same as in the Unlit version,
@@ -534,6 +541,9 @@ Shader "Nova/Particles/UberLit"
             #define _PARALLAX_MAP_MODE_2D 0
             #define _PARALLAX_MAP_MODE_2D_ARRAY 0
             #define _PARALLAX_MAP_MODE_3D 0
+            #define _EMISSION_COLOR_COLOR 0
+            #define _EMISSION_COLOR_BASECOLOR 0
+            #define _EMISSION_COLOR_MAP 0
             #endif
             
             // When LightMode is Picking, the shaders are the same as in the Unlit version,
@@ -625,10 +635,14 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
-            // Emission
+            // Emission(TODO: これ本当に必要か要確認。)
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
             #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+            #else
             #pragma shader_feature_local_fragment _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+            #endif
 
             // Transparency
             #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
@@ -728,10 +742,14 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
-            // Emission
+            // Emission（TODO:これ本当に必要か要確認）
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
             #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
-            #pragma shader_feature_local_fragment  _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+            #else
+            #pragma shader_feature_local_fragment _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+            #endif
 
             // Transparency
             #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
@@ -846,6 +864,9 @@ Shader "Nova/Particles/UberLit"
             #define _PARALLAX_MAP_MODE_2D 0
             #define _PARALLAX_MAP_MODE_2D_ARRAY 0
             #define _PARALLAX_MAP_MODE_3D 0
+            #define _EMISSION_COLOR_COLOR 0
+            #define _EMISSION_COLOR_BASECOLOR 0
+            #define _EMISSION_COLOR_MAP 0
             #endif
             
             #include "ParticlesUberShadowCaster.hlsl"

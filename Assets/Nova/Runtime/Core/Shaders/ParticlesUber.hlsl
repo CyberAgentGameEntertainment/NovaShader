@@ -575,12 +575,13 @@ inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float in
     #elif _EMISSION_AREA_MAP
     half4 emissiomMap = SAMPLE_EMISSION_MAP(emissionMapUv, emissionMapProgress);
     half emissionMapValue = emissiomMap[emissionChannelsX];
-    #if defined(_EMISSION_COLOR_COLOR) || defined(_EMISSION_COLOR_BASECOLOR)
-    emissionIntensity = emissionMapValue;
-    #elif _EMISSION_COLOR_MAP
-    emissionIntensity = step(tex_comp_err_margin, emissionMapValue);
-    emissionColorRampU = emissionMapValue;
-    #endif
+    if(IsKeywordEnabled_EMISSION_COLOR_COLOR() || IsKeywordEnabled_EMISSION_COLOR_BASECOLOR())
+        emissionIntensity = emissionMapValue;
+    else if(IsKeywordEnabled_EMISSION_COLOR_MAP())
+    {
+        emissionIntensity = step(tex_comp_err_margin, emissionMapValue);
+        emissionColorRampU = emissionMapValue;
+    }
     #elif _EMISSION_AREA_ALPHA
     emissionIntensity = step(tex_comp_err_margin, 1.0 - color.a);
     emissionColorRampU = color.a;
@@ -588,13 +589,12 @@ inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float in
     #endif
 
     half3 emissionColor = 0;
-    #ifdef _EMISSION_COLOR_COLOR
-    emissionColor = _EmissionColor;
-    #elif _EMISSION_COLOR_BASECOLOR
-    emissionColor = color.rgb;
-    #elif _EMISSION_COLOR_MAP
-    emissionColor = SAMPLE_TEXTURE2D(_EmissionColorRamp, sampler_EmissionColorRamp, half2(emissionColorRampU, 0.5)).rgb;
-    #endif
+    if(IsKeywordEnabled_EMISSION_COLOR_COLOR())
+        emissionColor = _EmissionColor;
+    else if(IsKeywordEnabled_EMISSION_COLOR_BASECOLOR())
+        emissionColor = color.rgb;
+    else if(IsKeywordEnabled_EMISSION_COLOR_MAP())
+        emissionColor = SAMPLE_TEXTURE2D(_EmissionColorRamp, sampler_EmissionColorRamp, half2(emissionColorRampU, 0.5)).rgb;
 
     emissionIntensity *= intensity;
     color.rgb += emissionColor * emissionIntensity;
