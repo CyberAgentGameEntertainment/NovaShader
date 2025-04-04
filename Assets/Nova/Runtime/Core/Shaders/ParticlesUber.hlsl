@@ -238,13 +238,11 @@ SamplerState GetBaseMapSamplerState()
 
 SamplerState GetParallaxMapSamplerState()
 {
-    #ifdef _PARALLAX_MAP_MODE_2D
-    return sampler_ParallaxMap;
-    #elif _PARALLAX_MAP_MODE_2D_ARRAY
-    return sampler_ParallaxMap2DArray;
-    #elif _PARALLAX_MAP_MODE_3D
+    if(ParallaxMapMode2DEnabled())
+        return sampler_ParallaxMap;
+    if(ParallaxMapMode2DArrayEnabled())
+        return sampler_ParallaxMap2DArray;
     return sampler_ParallaxMap3D;
-    #endif
 }
 
 // Returns the sampler state of the alpha transition map.
@@ -344,17 +342,23 @@ half3 SampleNormalMap(float2 uv, float progress, half scale)
         return UnpackNormalScale(SAMPLE_TEXTURE2D_ARRAY(_NormalMap2DArray, GetNormalMapSamplerState(), uv, progress), scale);
     return UnpackNormalScale(SAMPLE_TEXTURE3D_LOD(_NormalMap3D, GetNormalMapSamplerState(), float3(uv, progress), 0), scale);
 }
+half4 SampleParallaxMap(float2 uv, float progress)
+{
+    if(ParallaxMapMode2DEnabled())
+        return SAMPLE_TEXTURE2D(_ParallaxMap, GetParallaxMapSamplerState(), uv);
+    if(ParallaxMapMode2DArrayEnabled())
+        return SAMPLE_TEXTURE2D_ARRAY(_ParallaxMap2DArray, GetParallaxMapSamplerState(), uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_ParallaxMap3D, GetParallaxMapSamplerState(), float3(uv, progress), 0);
+}
+float2 TransformParallaxMap(float2 texcoord)
+{
+    if(ParallaxMapMode2DEnabled())
+        return TRANSFORM_TEX(texcoord, _ParallaxMap);
+    if(ParallaxMapMode2DArrayEnabled())
+        return TRANSFORM_TEX(texcoord, _ParallaxMap2DArray);
+    return TRANSFORM_TEX(texcoord, _ParallaxMap3D);
+}
 // Sample the parallax map.
-#ifdef _PARALLAX_MAP_MODE_2D
-#define SAMPLE_PARALLAX_MAP(uv, progress) SAMPLE_TEXTURE2D(_ParallaxMap, GetParallaxMapSamplerState(), uv);
-#define TRANSFORM_PARALLAX_MAP(texcoord) TRANSFORM_TEX(texcoord, _ParallaxMap);
-#elif _PARALLAX_MAP_MODE_2D_ARRAY
-#define SAMPLE_PARALLAX_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_ParallaxMap2DArray, GetParallaxMapSamplerState(), uv, progress);
-#define TRANSFORM_PARALLAX_MAP(texcoord) TRANSFORM_TEX(texcoord, _ParallaxMap2DArray);
-#elif _PARALLAX_MAP_MODE_3D
-#define SAMPLE_PARALLAX_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_ParallaxMap3D, GetParallaxMapSamplerState(), float3(uv, progress), 0);
-#define TRANSFORM_PARALLAX_MAP(texcoord) TRANSFORM_TEX(texcoord, _ParallaxMap3D);
-#endif
 
 SamplerState GetMetallicMapSamplerState()
 {
@@ -699,7 +703,7 @@ inline half2 ParallaxOffset(in half height, in half scale, in half3 viewDirTS)
 
 inline half2 GetParallaxMappingUVOffset(in half2 uv, in half progress, in half channel, in half scale, in half3 viewDirTS)
 {
-    half4 map = SAMPLE_PARALLAX_MAP(uv, progress);
+    half4 map = SampleParallaxMap(uv, progress);
     half height = map[(int)channel];
     half2 offset = ParallaxOffset(height, scale, viewDirTS);
     return offset;

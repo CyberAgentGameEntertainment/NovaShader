@@ -240,7 +240,11 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _PARALLAX_MAP_TARGET_BASE
             #pragma shader_feature_local _PARALLAX_MAP_TARGET_TINT
             #pragma shader_feature_local _PARALLAX_MAP_TARGET_EMISSION
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
+            #else
             #pragma shader_feature_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
+            #endif
 
             // Color Correction
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
@@ -370,6 +374,9 @@ Shader "Nova/Particles/UberUnlit"
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
             #define _SPECULAR_MAP_ENABLED 0
+            #define _PARALLAX_MAP_MODE_2D 0
+            #define _PARALLAX_MAP_MODE_2D_ARRAY 0
+            #define _PARALLAX_MAP_MODE_3D 0
             #endif
 
             #include "ParticlesUberUnlitEditor.hlsl"
@@ -468,6 +475,9 @@ Shader "Nova/Particles/UberUnlit"
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
             #define _SPECULAR_MAP_ENABLED 0
+            #define _PARALLAX_MAP_MODE_2D 0
+            #define _PARALLAX_MAP_MODE_2D_ARRAY 0
+            #define _PARALLAX_MAP_MODE_3D 0
             #endif
 
             #include "ParticlesUberUnlitEditor.hlsl"
@@ -569,6 +579,9 @@ Shader "Nova/Particles/UberUnlit"
             #define _SMOOTHNESS_MAP_ENABLED 0
             #define _ALPHAMODULATE_ENABLED 0
             #define _SPECULAR_MAP_ENABLED 0
+            #define _PARALLAX_MAP_MODE_2D 0
+            #define _PARALLAX_MAP_MODE_2D_ARRAY 0
+            #define _PARALLAX_MAP_MODE_3D 0
             #endif
 
             #include "ParticlesUberDepthNormals.hlsl"
@@ -670,6 +683,9 @@ Shader "Nova/Particles/UberUnlit"
             #define _SMOOTHNESS_MAP_ENABLED 0
             #define _SPECULAR_MAP_ENABLED 0
             #define _ALPHAMODULATE_ENABLED 0
+            #define _PARALLAX_MAP_MODE_2D 0
+            #define _PARALLAX_MAP_MODE_2D_ARRAY 0
+            #define _PARALLAX_MAP_MODE_3D 0
             #endif
 
             #include "ParticlesUberDepthOnly.hlsl"
@@ -758,6 +774,9 @@ Shader "Nova/Particles/UberUnlit"
             #define _SMOOTHNESS_MAP_ENABLED 0
             #define _ALPHAMODULATE_ENABLED 0
             #define _SPECULAR_MAP_ENABLED 0
+            #define _PARALLAX_MAP_MODE_2D 0
+            #define _PARALLAX_MAP_MODE_2D_ARRAY 0
+            #define _PARALLAX_MAP_MODE_3D 0
             #endif
 
             #include "ParticlesUberShadowCaster.hlsl"

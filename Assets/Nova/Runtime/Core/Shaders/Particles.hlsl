@@ -232,6 +232,45 @@ int BaseMapMode3DEnabled()
     #endif
 }
 
+int ParallaxMapMode2DEnabled()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return _PARALLAX_MAP_MODE_2D; 
+    #else
+    #ifdef _PARALLAX_MAP_MODE_2D
+    return 1;
+    #else
+    return 0;
+    #endif
+    #endif
+}
+
+int ParallaxMapMode2DArrayEnabled()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return _PARALLAX_MAP_MODE_2D_ARRAY; 
+    #else
+    #ifdef _PARALLAX_MAP_MODE_2D_ARRAY
+    return 1;
+    #else
+    return 0;
+    #endif
+    #endif
+}
+
+int ParallaxMapMode3DEnabled()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return _PARALLAX_MAP_MODE_3D; 
+    #else
+    #ifdef _PARALLAX_MAP_MODE_3D
+    return 1;
+    #else
+    return 0;
+    #endif
+    #endif
+}
+
 // Adjust the albedo according to the blending.
 half3 ApplyAlpha(half3 albedo, half alpha)
 {

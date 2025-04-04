@@ -273,13 +273,16 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
             #endif
+            // これはDynamic Branch化できそう
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Tint Color
+            // Dynamic Branch無理
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
+            // Dynamic Branch無理
             #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
 
-            // Flow Map
+            // Flow Map(Dynamic Branch無理)
             #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
             #pragma shader_feature_local _FLOW_MAP_TARGET_BASE
             #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
@@ -287,11 +290,19 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
 
             // Parallax Map
+            // Dynamic Branch無理
             #pragma shader_feature_local _PARALLAX_MAP_TARGET_BASE
+            // Dynamic Branch無理
             #pragma shader_feature_local _PARALLAX_MAP_TARGET_TINT
+            // Dynamic Branch無理
             #pragma shader_feature_local _PARALLAX_MAP_TARGET_EMISSION
-            #pragma shader_feature_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
 
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
+            #else
+            #pragma shader_feature_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
+            #endif
+            
             // Color Correction
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
 
@@ -416,6 +427,9 @@ Shader "Nova/Particles/UberLit"
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
             #define _SPECULAR_MAP_ENABLED 0
+            #define _PARALLAX_MAP_MODE_2D 0
+            #define _PARALLAX_MAP_MODE_2D_ARRAY 0
+            #define _PARALLAX_MAP_MODE_3D 0
             #endif
             
             // When LightMode is SceneSelectionPass, the shaders are the same as in the Unlit version,
@@ -517,6 +531,9 @@ Shader "Nova/Particles/UberLit"
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
             #define _SPECULAR_MAP_ENABLED 0
+            #define _PARALLAX_MAP_MODE_2D 0
+            #define _PARALLAX_MAP_MODE_2D_ARRAY 0
+            #define _PARALLAX_MAP_MODE_3D 0
             #endif
             
             // When LightMode is Picking, the shaders are the same as in the Unlit version,
@@ -630,6 +647,9 @@ Shader "Nova/Particles/UberLit"
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
             #define _SPECULAR_MAP_ENABLED 0
+            #define _PARALLAX_MAP_MODE_2D 0
+            #define _PARALLAX_MAP_MODE_2D_ARRAY 0
+            #define _PARALLAX_MAP_MODE_3D 0
             #endif
             #include "ParticlesUberDepthNormals.hlsl"
             ENDHLSL
@@ -730,6 +750,9 @@ Shader "Nova/Particles/UberLit"
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
             #define _SPECULAR_MAP_ENABLED 0
+            #define _PARALLAX_MAP_MODE_2D 0
+            #define _PARALLAX_MAP_MODE_2D_ARRAY 0
+            #define _PARALLAX_MAP_MODE_3D 0
             #endif
             
             // When LightMode is DepthOnly, the shaders are the same as in the Unlit version,
@@ -820,6 +843,9 @@ Shader "Nova/Particles/UberLit"
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
             #define _SPECULAR_MAP_ENABLED 0
+            #define _PARALLAX_MAP_MODE_2D 0
+            #define _PARALLAX_MAP_MODE_2D_ARRAY 0
+            #define _PARALLAX_MAP_MODE_3D 0
             #endif
             
             #include "ParticlesUberShadowCaster.hlsl"

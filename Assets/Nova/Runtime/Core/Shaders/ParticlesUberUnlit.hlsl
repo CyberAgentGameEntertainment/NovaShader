@@ -178,7 +178,7 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
 
     // Parallax Map UV
     #if defined(USE_PARALLAX_MAP)
-    output.parallaxMapUVAndProgress.xy = TRANSFORM_PARALLAX_MAP(input.texcoord.xy)
+    output.parallaxMapUVAndProgress.xy = TransformParallaxMap(input.texcoord.xy);
     output.parallaxMapUVAndProgress.x += GET_CUSTOM_COORD(_ParallaxMapOffsetXCoord);
     output.parallaxMapUVAndProgress.y += GET_CUSTOM_COORD(_ParallaxMapOffsetYCoord);
     float parallaxMapProgress = _ParallaxMapProgress + GET_CUSTOM_COORD(_ParallaxMapProgressCoord);
