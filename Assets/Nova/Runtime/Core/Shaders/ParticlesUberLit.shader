@@ -410,6 +410,12 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
 
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #define _METALLIC_MAP_ENABLED 0
+            #define _SMOOTHNESS_MAP_ENABLED 0
+            #define _SPECULAR_MAP_ENABLED 0
+            #endif
+            
             // When LightMode is SceneSelectionPass, the shaders are the same as in the Unlit version,
             // so there is no problem.
             #include "ParticlesUberUnlitEditor.hlsl"
@@ -504,6 +510,12 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
 
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #define _METALLIC_MAP_ENABLED 0
+            #define _SMOOTHNESS_MAP_ENABLED 0
+            #define _SPECULAR_MAP_ENABLED 0
+            #endif
+            
             // When LightMode is Picking, the shaders are the same as in the Unlit version,
             // so there is no problem.
             #include "ParticlesUberUnlitEditor.hlsl"
@@ -610,6 +622,11 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
 
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #define _METALLIC_MAP_ENABLED 0
+            #define _SMOOTHNESS_MAP_ENABLED 0
+            #define _SPECULAR_MAP_ENABLED 0
+            #endif
             #include "ParticlesUberDepthNormals.hlsl"
             ENDHLSL
         }
@@ -704,6 +721,12 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
 
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #define _METALLIC_MAP_ENABLED 0
+            #define _SMOOTHNESS_MAP_ENABLED 0
+            #define _SPECULAR_MAP_ENABLED 0
+            #endif
+            
             // When LightMode is DepthOnly, the shaders are the same as in the Unlit version,
             // so there is no problem.
             #include "ParticlesUberDepthOnly.hlsl"
@@ -787,6 +810,12 @@ Shader "Nova/Particles/UberLit"
             #pragma vertex ShadowPassVertex
             #pragma fragment ShadowPassFragment
 
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #define _METALLIC_MAP_ENABLED 0
+            #define _SMOOTHNESS_MAP_ENABLED 0
+            #define _SPECULAR_MAP_ENABLED 0
+            #endif
+            
             #include "ParticlesUberShadowCaster.hlsl"
             ENDHLSL
         }

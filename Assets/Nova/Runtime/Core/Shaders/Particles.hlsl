@@ -3,7 +3,7 @@
 
 #include "ParticlesInstancing.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
-#include "Config.hlsl"
+
 
 #if defined(_PARALLAX_MAP_TARGET_BASE) || defined(_PARALLAX_MAP_TARGET_TINT) || defined(_PARALLAX_MAP_TARGET_EMISSION)
 #define USE_PARALLAX_MAP
@@ -112,7 +112,7 @@ float2 RotateUV(float2 uv, half angle, half2 offsets)
 int VertexDeformationEnabled()
 {
     #ifdef ENABLE_DYNAMIC_BRANCH
-        return _VERTEX_DEFORMATION_ENABLED; 
+        return _VERTEX_DEFORMATION_ENABLED ; 
     #else
         #ifdef _VERTEX_DEFORMATION_ENABLED
             return 1;
