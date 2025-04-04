@@ -5,14 +5,6 @@
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
 #include "Config.hlsl"
 
-#ifdef ENABLE_DYNAMIC_BRANCH
-    #define NOVA_IFDEF(condition) if(condition){
-    #define NOVA_ENDIF }
-#else
-    #define NOVA_IFDEF(condition) #ifdef condition
-    #define NOVA_ENDIF #endif
-#endif
-
 #if defined(_PARALLAX_MAP_TARGET_BASE) || defined(_PARALLAX_MAP_TARGET_TINT) || defined(_PARALLAX_MAP_TARGET_EMISSION)
 #define USE_PARALLAX_MAP
 #endif
@@ -117,21 +109,101 @@ float2 RotateUV(float2 uv, half angle, half2 offsets)
     return mul(uv - UvOffsets, rotateMatrix) + UvOffsets;
 }
 
+int VertexDeformationEnabled()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+        return _VERTEX_DEFORMATION_ENABLED; 
+    #else
+        #ifdef _VERTEX_DEFORMATION_ENABLED
+            return 1;
+        #else
+            return 0;
+        #endif
+    #endif
+}
+int MetallicMapEnabled()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+        return _METALLIC_MAP_ENABLED; 
+    #else
+        #ifdef _METALLIC_MAP_ENABLED
+            return 1;
+        #else
+            return 0;
+        #endif
+    #endif
+}
+int BaseMapRotationEnabled()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+        return _BASE_MAP_ROTATION_ENABLED; 
+    #else
+        #ifdef _BASE_MAP_ROTATION_ENABLED
+            return 1;
+        #else
+            return 0;
+        #endif
+    #endif
+}
+int AlphaModulateEnabled()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+        return _ALPHAMODULATE_ENABLED; 
+    #else
+        #ifdef _ALPHAMODULATE_ENABLED
+            return 1;
+        #else
+            return 0;
+        #endif
+    #endif
+}
+
+int VertexAlphaAsTransitionProgoress()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+        return _VERTEX_ALPHA_AS_TRANSITION_PROGRESS; 
+    #else
+        #ifdef _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            return 1;
+        #else
+            return 0;
+        #endif
+    #endif
+}
+int SmoothnessMapEnabled()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return _SMOOTHNESS_MAP_ENABLED; 
+    #else
+    #ifdef _SMOOTHNESS_MAP_ENABLED
+    return 1;
+    #else
+    return 0;
+    #endif
+    #endif
+}
+int SpecularMapEnabled()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return _SPECULAR_MAP_ENABLED; 
+    #else
+    #ifdef _SPECULAR_MAP_ENABLED
+    return 1;
+    #else
+    return 0;
+    #endif
+    #endif
+}
+
 // Adjust the albedo according to the blending.
 half3 ApplyAlpha(half3 albedo, half alpha)
 {
-#ifdef ENABLE_DYNAMIC_BRANCH
-    if(_ALPHAMODULATE_ENABLED)
+    if(AlphaModulateEnabled())
     {
         // In multiply, albedo needs to be white if the alpha is zero.
         return lerp(half3(1.0h, 1.0h, 1.0h), albedo, alpha);
     }
-#else
-    #if defined(_ALPHAMODULATE_ENABLED)
-    // In multiply, albedo needs to be white if the alpha is zero.
-    return lerp(half3(1.0h, 1.0h, 1.0h), albedo, alpha);
-    #endif
-#endif 
+ 
     return albedo;
 }
 
@@ -205,6 +277,7 @@ half FlipBookBlendingProgress(in half progress, in half sliceCount)
     return result;
 }
 
+
 // Get vertex deformation intensity by vertex deformation map
 half GetVertexDeformationIntensity(
     TEXTURE2D_PARAM(vertexDeformationMap, sampler_vertexDeformationMap),
@@ -213,12 +286,14 @@ half GetVertexDeformationIntensity(
     in half mapChannel,
     in float baseValue)
 {
-    #if defined(_VERTEX_DEFORMATION_ENABLED)
-    half4 vertexDeformation = SAMPLE_TEXTURE2D_LOD(vertexDeformationMap, sampler_vertexDeformationMap, uv, 0);
-    float mapIntensity = vertexDeformation[(uint)mapChannel] - baseValue;
-    mapIntensity *= intensity;
-    return mapIntensity;
-    #endif
+    if(VertexDeformationEnabled())
+    {
+        half4 vertexDeformation = SAMPLE_TEXTURE2D_LOD(vertexDeformationMap, sampler_vertexDeformationMap, uv, 0);
+        float mapIntensity = vertexDeformation[(uint)mapChannel] - baseValue;
+        mapIntensity *= intensity;
+        return mapIntensity;
+    }
+    return 0;
 }
 
 #endif

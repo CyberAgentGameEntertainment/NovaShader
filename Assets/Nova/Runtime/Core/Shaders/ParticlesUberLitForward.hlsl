@@ -57,24 +57,13 @@ half GetMetallic(float3 uvw)
     #ifdef _SPECULAR_SETUP
     return 1;
     #else
-
-#ifdef ENABLE_DYNAMIC_BRANCH    
-    if(_METALLIC_MAP_ENABLED)
+    
+    if(MetallicMapEnabled())
     {
         half4 metallic = SAMPLE_METALLIC_MAP(uvw.xy, uvw.z);
         return metallic[(int)_MetallicMapChannelsX.x] * _Metallic;
-    }else
-    {
-        return _Metallic;
     }
-#else 
-    #ifdef _METALLIC_MAP_ENABLED
-    half4 metallic = SAMPLE_METALLIC_MAP(uvw.xy, uvw.z);
-    return metallic[(int)_MetallicMapChannelsX.x] * _Metallic;
-    #else
     return _Metallic;
-    #endif
-#endif
     
     #endif
 }
@@ -92,25 +81,13 @@ half GetMetallic(float3 uvw)
  */
 half GetSmoothness(float3 uvw)
 {
-#ifdef ENABLE_DYNAMIC_BRANCH
-    if(_SMOOTHNESS_MAP_ENABLED)
+    if(SmoothnessMapEnabled())
     {
         const half4 smoothness = SAMPLE_SMOOTHNESS_MAP(uvw.xy, uvw.z);
         // The reason for multiplying _Smoothness is because it was done in URP's build-in shaders.
         return smoothness[(int)_SmoothnessMapChannelsX.x] * _Smoothness;
-    }else
-    {
-        return _Smoothness; 
     }
-#else
-    #ifdef _SMOOTHNESS_MAP_ENABLED
-    const half4 smoothness = SAMPLE_SMOOTHNESS_MAP(uvw.xy, uvw.z);
-    // The reason for multiplying _Smoothness is because it was done in URP's build-in shaders.
-    return smoothness[(int)_SmoothnessMapChannelsX.x] * _Smoothness;
-    #else
-    return _Smoothness;
-    #endif
-#endif
+    return _Smoothness; 
 }
 
 /**
@@ -129,23 +106,14 @@ half GetSmoothness(float3 uvw)
 half3 GetSpecular(float3 uvw)
 {
 #ifdef _SPECULAR_SETUP
-    #ifdef ENABLE_DYNAMIC_BRANCH
-        if(_SPECULAR_MAP_ENABLED)
-        {
-            const half4 specular = SAMPLE_SPECULAR_MAP(uvw.xy, uvw.z);
-            return specular.xyz * _SpecularColor.xyz;
-        }else
-        {
-            return _SpecularColor.xyz;    
-        }
-    #else
-        #ifdef _SPECULAR_MAP_ENABLED
+    if(SpecularMapEnabled())
+    {
         const half4 specular = SAMPLE_SPECULAR_MAP(uvw.xy, uvw.z);
         return specular.xyz * _SpecularColor.xyz;
-        #else
-        return _SpecularColor.xyz;
-        #endif
-    #endif
+    }else
+    {
+        return _SpecularColor.xyz;    
+    }
 #else
     return half3(0, 0, 0);
 #endif

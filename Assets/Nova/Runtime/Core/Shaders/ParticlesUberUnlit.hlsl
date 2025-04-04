@@ -114,36 +114,32 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     TRANSFER_CUSTOM_COORD(input, output);
 
     // Vertex Deformation
-    #ifdef _VERTEX_DEFORMATION_ENABLED
-    float2 vertexDeformationUVs = TRANSFORM_TEX(input.texcoord.xy, _VertexDeformationMap);
-    vertexDeformationUVs.x += GET_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
-    vertexDeformationUVs.y += GET_CUSTOM_COORD(_VertexDeformationMapOffsetYCoord);
-    float vertexDeformationIntensity = _VertexDeformationIntensity + GET_CUSTOM_COORD(_VertexDeformationIntensityCoord);
-    vertexDeformationIntensity = GetVertexDeformationIntensity(
-        _VertexDeformationMap, sampler_VertexDeformationMap,
-        vertexDeformationIntensity,
-        vertexDeformationUVs,
-        _VertexDeformationMapChannel,
-        _VertexDeformationBaseValue);
-    input.positionOS.xyz += normalize(input.normalOS) * vertexDeformationIntensity;
-    #endif
+    if(VertexDeformationEnabled())
+    {
+        float2 vertexDeformationUVs = TRANSFORM_TEX(input.texcoord.xy, _VertexDeformationMap);
+        vertexDeformationUVs.x += GET_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
+        vertexDeformationUVs.y += GET_CUSTOM_COORD(_VertexDeformationMapOffsetYCoord);
+        float vertexDeformationIntensity = _VertexDeformationIntensity + GET_CUSTOM_COORD(_VertexDeformationIntensityCoord);
+        vertexDeformationIntensity = GetVertexDeformationIntensity(
+            _VertexDeformationMap, sampler_VertexDeformationMap,
+            vertexDeformationIntensity,
+            vertexDeformationUVs,
+            _VertexDeformationMapChannel,
+            _VertexDeformationBaseValue);
+        input.positionOS.xyz += normalize(input.normalOS) * vertexDeformationIntensity;
+    }
 
     InitializeVertexOutput(input, output, positionWS);
 
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;
-#ifdef ENABLE_DYNAMIC_BRANCH
-    if(_BASE_MAP_ROTATION_ENABLED)
+
+    if(BaseMapRotationEnabled())
     {
         half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
         baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
     }
-#else    
-    #ifdef _BASE_MAP_ROTATION_ENABLED
-    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
-    baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
-    #endif
-#endif    
+    
     baseMapUv = TRANSFORM_BASE_MAP(baseMapUv);
     baseMapUv.x += GET_CUSTOM_COORD(_BaseMapOffsetXCoord);
     baseMapUv.y += GET_CUSTOM_COORD(_BaseMapOffsetYCoord);

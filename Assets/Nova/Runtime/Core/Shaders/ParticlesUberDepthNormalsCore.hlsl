@@ -179,18 +179,13 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #ifdef _USE_BASE_MAP_UV
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;
-#ifdef ENABLE_DYNAMIC_BRANCH
-    if(_BASE_MAP_ROTATION_ENABLED)
+
+    if(BaseMapRotationEnabled())
     {
         half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
         baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);    
     }
-#else  
-    #ifdef _BASE_MAP_ROTATION_ENABLED
-    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
-    baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
-    #endif
-#endif 
+ 
     baseMapUv = TRANSFORM_BASE_MAP(baseMapUv);
     baseMapUv.x += GET_CUSTOM_COORD(_BaseMapOffsetXCoord);
     baseMapUv.y += GET_CUSTOM_COORD(_BaseMapOffsetYCoord);
