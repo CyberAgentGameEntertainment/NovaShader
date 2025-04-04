@@ -388,7 +388,8 @@ Base Mapでは色のベースとなるテクスチャを制御できます。
 </ul>
 </p>
 <p>
-選択したモードによってテクスチャの型が変わります。
+選択したモードによってテクスチャの型が変わります。<br>
+なお、NOVA ShaderではParticle SystemのTexture Sheet Animationを利用せず、代わりにFlip Bookを利用してください。<br>
 </p>
 </td></tr>
 <tr><td colspan="3"><b>Texture</b></td><td>
