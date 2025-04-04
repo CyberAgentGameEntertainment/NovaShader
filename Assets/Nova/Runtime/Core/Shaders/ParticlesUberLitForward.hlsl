@@ -60,7 +60,7 @@ half GetMetallic(float3 uvw)
     
     if(MetallicMapEnabled())
     {
-        half4 metallic = SAMPLE_METALLIC_MAP(uvw.xy, uvw.z);
+        half4 metallic = SampleMetallicMap(uvw.xy, uvw.z);
         return metallic[(int)_MetallicMapChannelsX.x] * _Metallic;
     }
     return _Metallic;
@@ -83,7 +83,7 @@ half GetSmoothness(float3 uvw)
 {
     if(SmoothnessMapEnabled())
     {
-        const half4 smoothness = SAMPLE_SMOOTHNESS_MAP(uvw.xy, uvw.z);
+        const half4 smoothness = SampleSmoothnessMap(uvw.xy, uvw.z);
         // The reason for multiplying _Smoothness is because it was done in URP's build-in shaders.
         return smoothness[(int)_SmoothnessMapChannelsX.x] * _Smoothness;
     }
@@ -108,7 +108,7 @@ half3 GetSpecular(float3 uvw)
 #ifdef _SPECULAR_SETUP
     if(SpecularMapEnabled())
     {
-        const half4 specular = SAMPLE_SPECULAR_MAP(uvw.xy, uvw.z);
+        const half4 specular = SampleSpecularMap(uvw.xy, uvw.z);
         return specular.xyz * _SpecularColor.xyz;
     }else
     {
@@ -163,7 +163,7 @@ void InitializeSurfaceData(out SurfaceData surfaceData, VaryingsLit input, half4
     surfaceData = (SurfaceData)0;
     Varyings inputUnlit = input.varyingsUnlit;
     surfaceData.albedo = albedoColor.xyz;
-    surfaceData.normalTS = SAMPLE_NORMAL_MAP(inputUnlit.baseMapUVAndProgresses.xy, inputUnlit.baseMapUVAndProgresses.z,
+    surfaceData.normalTS = SampleNormalMap(inputUnlit.baseMapUVAndProgresses.xy, inputUnlit.baseMapUVAndProgresses.z,
                                              _NormalMapBumpScale);
     surfaceData.metallic = GetMetallic(inputUnlit.baseMapUVAndProgresses.xyz);
     surfaceData.specular = GetSpecular(inputUnlit.baseMapUVAndProgresses.xyz);

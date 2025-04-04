@@ -79,6 +79,7 @@ output.customCoord2 = input.customCoord2;
 #if defined(_BASE_SAMPLER_STATE_POINT_MIRROR) || defined(_BASE_SAMPLER_STATE_LINEAR_MIRROR) || defined(_BASE_SAMPLER_STATE_TRILINEAR_MIRROR)
 #define BASE_SAMPLER_STATE_OVERRIDE_ENABLED
 #endif
+
 #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
 #ifdef _BASE_SAMPLER_STATE_POINT_MIRROR
 #define BASE_SAMPLER_STATE_NAME sampler_point_mirror
@@ -188,6 +189,42 @@ int SpecularMapEnabled()
     return _SPECULAR_MAP_ENABLED; 
     #else
     #ifdef _SPECULAR_MAP_ENABLED
+    return 1;
+    #else
+    return 0;
+    #endif
+    #endif
+}
+int BaseMapMode2DEnabled()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return _BASE_MAP_MODE_2D; 
+    #else
+    #ifdef _BASE_MAP_MODE_2D
+    return 1;
+    #else
+    return 0;
+    #endif
+    #endif
+}
+int BaseMapMode2DArrayEnabled()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return _BASE_MAP_MODE_2D_ARRAY; 
+    #else
+    #ifdef _BASE_MAP_MODE_2D_ARRAY
+    return 1;
+    #else
+    return 0;
+    #endif
+    #endif
+}
+int BaseMapMode3DEnabled()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return _BASE_MAP_MODE_3D; 
+    #else
+    #ifdef _BASE_MAP_MODE_3D
     return 1;
     #else
     return 0;

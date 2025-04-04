@@ -186,7 +186,7 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
         baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);    
     }
  
-    baseMapUv = TRANSFORM_BASE_MAP(baseMapUv);
+    baseMapUv = TransformBaseMap(baseMapUv);
     baseMapUv.x += GET_CUSTOM_COORD(_BaseMapOffsetXCoord);
     baseMapUv.y += GET_CUSTOM_COORD(_BaseMapOffsetYCoord);
     output.baseMapUVAndProgresses.xy = baseMapUv;
@@ -214,13 +214,15 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
 
     // Base Map Progress
-    #ifdef _BASE_MAP_MODE_2D_ARRAY
-    float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
-    output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
-    #elif _BASE_MAP_MODE_3D
-    float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
-    output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
-    #endif
+    if(BaseMapMode2DArrayEnabled())
+    {
+        float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
+        output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
+    }else if(BaseMapMode3DEnabled())
+    {
+        float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
+        output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
+    }
 
     // Tint Map UV
     #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
@@ -324,7 +326,7 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
 
     #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
     // Base Color
-    half4 color = SAMPLE_BASE_MAP(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z);
+    half4 color = SampleBaseMap(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z);
 
     // Tint Color
     #if defined(_TINT_AREA_ALL) || defined(_TINT_AREA_RIM)
@@ -399,7 +401,7 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     #ifdef DEPTH_NORMALS_PASS
     float3 normalWS = input.normalWS;
     #ifdef _NORMAL_MAP_ENABLED
-    float3 normalTS = SAMPLE_NORMAL_MAP(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z,
+    float3 normalTS = SampleNormalMap(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z,
                                              _NormalMapBumpScale);
     normalWS = GetNormalWS(normalTS, input.tangentWS, input.binormalWS, input.normalWS );
     #endif

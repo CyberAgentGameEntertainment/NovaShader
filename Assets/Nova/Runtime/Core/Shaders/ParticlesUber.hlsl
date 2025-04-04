@@ -75,10 +75,6 @@ SAMPLER(sampler_SmoothnessMap2DArray);
 TEXTURE3D(_SmoothnessMap3D);
 SAMPLER(sampler_SmoothnessMap3D);
 
-namespace Hoge
-{
-    float _hoge;
-}
 CBUFFER_START(UnityPerMaterial)
     float4 _BaseMap_ST;
     float4 _BaseMap2DArray_ST;
@@ -227,30 +223,18 @@ SamplerState GetBaseMapSamplerState()
     #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
     return BASE_SAMPLER_STATE_NAME;
     #else
-    #ifdef _BASE_MAP_MODE_2D
-    return sampler_BaseMap;
-    #elif _BASE_MAP_MODE_2D_ARRAY
-    return sampler_BaseMap2DArray;
-    #elif _BASE_MAP_MODE_3D
+    if(BaseMapMode2DEnabled())
+    {
+        return sampler_BaseMap;
+    }
+    if(BaseMapMode2DArrayEnabled())
+    {
+        return sampler_BaseMap2DArray;
+    }
     return sampler_BaseMap3D;
-    #endif
     #endif
 }
 
-SamplerState GetNormalMapSamplerState()
-{
-    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
-    return BASE_SAMPLER_STATE_NAME;
-    #else
-    #ifdef _BASE_MAP_MODE_2D
-    return sampler_NormalMap;
-    #elif _BASE_MAP_MODE_2D_ARRAY
-    return sampler_NormalMap2DArray;
-    #elif _BASE_MAP_MODE_3D
-    return sampler_NormalMap3D;
-    #endif
-    #endif
-}
 
 SamplerState GetParallaxMapSamplerState()
 {
@@ -260,51 +244,6 @@ SamplerState GetParallaxMapSamplerState()
     return sampler_ParallaxMap2DArray;
     #elif _PARALLAX_MAP_MODE_3D
     return sampler_ParallaxMap3D;
-    #endif
-}
-
-SamplerState GetMetallicMapSamplerState()
-{
-    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
-    return BASE_SAMPLER_STATE_NAME;
-    #else
-    #ifdef _BASE_MAP_MODE_2D
-    return sampler_MetallicMap;
-    #elif _BASE_MAP_MODE_2D_ARRAY
-    return sampler_MetallicMap2DArray;
-    #elif _BASE_MAP_MODE_3D
-    return sampler_MetallicMap3D;
-    #endif
-    #endif
-}
-
-SamplerState GetSmoothnessMapSamplerState()
-{
-    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
-    return BASE_SAMPLER_STATE_NAME;
-    #else
-    #ifdef _BASE_MAP_MODE_2D
-    return sampler_SmoothnessMap;
-    #elif _BASE_MAP_MODE_2D_ARRAY
-    return sampler_SmoothnessMap2DArray;
-    #elif _BASE_MAP_MODE_3D
-    return sampler_SmoothnessMap3D;
-    #endif
-    #endif
-}
-
-SamplerState GetSpecularMapSamplerState()
-{
-    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
-    return BASE_SAMPLER_STATE_NAME;
-    #else
-    #ifdef _BASE_MAP_MODE_2D
-    return sampler_SpecularMap;
-    #elif _BASE_MAP_MODE_2D_ARRAY
-    return sampler_SpecularMap2DArray;
-    #elif _BASE_MAP_MODE_3D
-    return sampler_SpecularMap3D;
-    #endif
     #endif
 }
 
@@ -332,23 +271,22 @@ SamplerState GetEmissionMapSamplerState()
     #endif
 }
 
-// Transforms the base map UV by the scale/bias property
-#ifdef _BASE_MAP_MODE_2D
-#define TRANSFORM_BASE_MAP(texcoord) TRANSFORM_TEX(texcoord, _BaseMap);
-#elif _BASE_MAP_MODE_2D_ARRAY
-#define TRANSFORM_BASE_MAP(texcoord) TRANSFORM_TEX(texcoord, _BaseMap2DArray);
-#elif _BASE_MAP_MODE_3D
-#define TRANSFORM_BASE_MAP(texcoord) TRANSFORM_TEX(texcoord, _BaseMap3D);
-#endif
-
-// Sample the base map.
-#ifdef _BASE_MAP_MODE_2D
-#define SAMPLE_BASE_MAP(uv, progress) SAMPLE_TEXTURE2D(_BaseMap, GetBaseMapSamplerState(), uv);
-#elif _BASE_MAP_MODE_2D_ARRAY
-#define SAMPLE_BASE_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_BaseMap2DArray, GetBaseMapSamplerState(), uv, progress);
-#elif _BASE_MAP_MODE_3D
-#define SAMPLE_BASE_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_BaseMap3D, GetBaseMapSamplerState(), float3(uv, progress), 0);
-#endif
+float2 TransformBaseMap(float2 texcoord)
+{
+    if(BaseMapMode2DEnabled())
+        return TRANSFORM_TEX(texcoord, _BaseMap);
+    if(BaseMapMode2DArrayEnabled())
+        return TRANSFORM_TEX(texcoord, _BaseMap2DArray);
+    return TRANSFORM_TEX(texcoord, _BaseMap3D);
+}
+float4 SampleBaseMap(float2 uv, float progress)
+{
+    if(BaseMapMode2DEnabled())
+        return SAMPLE_TEXTURE2D(_BaseMap, GetBaseMapSamplerState(), uv);;
+    if(BaseMapMode2DArrayEnabled())
+        return SAMPLE_TEXTURE2D_ARRAY(_BaseMap2DArray, GetBaseMapSamplerState(), uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_BaseMap3D, GetBaseMapSamplerState(), float3(uv, progress), 0);
+}
 
 // Transforms the tint map UV by the scale/bias property
 #ifdef _TINT_MAP_ENABLED
@@ -384,15 +322,28 @@ SamplerState GetEmissionMapSamplerState()
 #define TRANSFORM_EMISSION_MAP(texcoord) TRANSFORM_TEX(texcoord, _EmissionMap3D);
 #endif
 
-// Sample the normal map.
-#ifdef _BASE_MAP_MODE_2D
-#define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE2D(_NormalMap, GetNormalMapSamplerState(), uv), scale);
-#elif _BASE_MAP_MODE_2D_ARRAY
-#define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE2D_ARRAY(_NormalMap2DArray, GetNormalMapSamplerState(), uv, progress), scale);
-#elif _BASE_MAP_MODE_3D
-#define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE3D_LOD(_NormalMap3D, GetNormalMapSamplerState(), float3(uv, progress), 0), scale);
-#endif
-
+SamplerState GetNormalMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+    if(BaseMapMode2DEnabled())
+        return sampler_NormalMap;
+    if(BaseMapMode2DArrayEnabled())
+        return sampler_NormalMap2DArray;
+    return sampler_NormalMap3D;
+    
+    #endif
+}
+half3 SampleNormalMap(float2 uv, float progress, half scale)
+{
+    // Sample the normal map.
+    if(BaseMapMode2DEnabled())
+        return UnpackNormalScale(SAMPLE_TEXTURE2D(_NormalMap, GetNormalMapSamplerState(), uv), scale);
+    if(BaseMapMode2DArrayEnabled())
+        return UnpackNormalScale(SAMPLE_TEXTURE2D_ARRAY(_NormalMap2DArray, GetNormalMapSamplerState(), uv, progress), scale);
+    return UnpackNormalScale(SAMPLE_TEXTURE3D_LOD(_NormalMap3D, GetNormalMapSamplerState(), float3(uv, progress), 0), scale);
+}
 // Sample the parallax map.
 #ifdef _PARALLAX_MAP_MODE_2D
 #define SAMPLE_PARALLAX_MAP(uv, progress) SAMPLE_TEXTURE2D(_ParallaxMap, GetParallaxMapSamplerState(), uv);
@@ -405,32 +356,73 @@ SamplerState GetEmissionMapSamplerState()
 #define TRANSFORM_PARALLAX_MAP(texcoord) TRANSFORM_TEX(texcoord, _ParallaxMap3D);
 #endif
 
-// Sample the metallic map.
-#ifdef _BASE_MAP_MODE_2D
-#define SAMPLE_METALLIC_MAP(uv, progress) SAMPLE_TEXTURE2D(_MetallicMap, GetMetallicMapSamplerState(), uv);
-#elif _BASE_MAP_MODE_2D_ARRAY
-#define SAMPLE_METALLIC_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_MetallicMap2DArray, GetMetallicMapSamplerState(), uv, progress);
-#elif _BASE_MAP_MODE_3D
-#define SAMPLE_METALLIC_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_MetallicMap3D, GetMetallicMapSamplerState(), float3(uv, progress), 0);
-#endif
+SamplerState GetMetallicMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+    if(BaseMapMode2DEnabled())
+        return sampler_MetallicMap;
+    if(BaseMapMode2DArrayEnabled())
+        return sampler_MetallicMap2DArray;
+    return sampler_MetallicMap3D;
+    #endif
+}
 
-// Sample the smoothness map.
-#ifdef _BASE_MAP_MODE_2D
-#define SAMPLE_SMOOTHNESS_MAP(uv, progress) SAMPLE_TEXTURE2D(_SmoothnessMap, GetSmoothnessMapSamplerState(), uv);
-#elif _BASE_MAP_MODE_2D_ARRAY
-#define SAMPLE_SMOOTHNESS_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_SmoothnessMap2DArray, GetSmoothnessMapSamplerState(), uv, progress);
-#elif _BASE_MAP_MODE_3D
-#define SAMPLE_SMOOTHNESS_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_SmoothnessMap3D, GetSmoothnessMapSamplerState(), float3(uv, progress), 0);
-#endif
 
-// Sample the specular map.
-#ifdef _BASE_MAP_MODE_2D
-#define SAMPLE_SPECULAR_MAP(uv, progress) SAMPLE_TEXTURE2D(_SpecularMap, GetSpecularMapSamplerState(), uv);
-#elif _BASE_MAP_MODE_2D_ARRAY
-#define SAMPLE_SPECULAR_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_SpecularMap2DArray, GetSpecularMapSamplerState(), uv, progress);
-#elif _BASE_MAP_MODE_3D
-#define SAMPLE_SPECULAR_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_SpecularMap3D, GetSpecularMapSamplerState(), float3(uv, progress), 0);
-#endif
+half4 SampleMetallicMap(float2 uv, float progress)
+{
+    if(BaseMapMode2DEnabled())
+        return SAMPLE_TEXTURE2D(_MetallicMap, GetMetallicMapSamplerState(), uv);
+    if(BaseMapMode2DArrayEnabled())
+        return SAMPLE_TEXTURE2D_ARRAY(_MetallicMap2DArray, GetMetallicMapSamplerState(), uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_MetallicMap3D, GetMetallicMapSamplerState(), float3(uv, progress), 0);
+}
+
+SamplerState GetSmoothnessMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+    if(BaseMapMode2DEnabled())
+        return sampler_SmoothnessMap;
+    if(BaseMapMode2DArrayEnabled())
+        return sampler_SmoothnessMap2DArray;
+    return sampler_SmoothnessMap3D;
+    #endif
+}
+
+half4 SampleSmoothnessMap(float2 uv, float progress)
+{
+    // Sample the smoothness map.
+    if(BaseMapMode2DEnabled())
+        return SAMPLE_TEXTURE2D(_SmoothnessMap, GetSmoothnessMapSamplerState(), uv);
+    if(BaseMapMode2DArrayEnabled())
+        return SAMPLE_TEXTURE2D_ARRAY(_SmoothnessMap2DArray, GetSmoothnessMapSamplerState(), uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_SmoothnessMap3D, GetSmoothnessMapSamplerState(), float3(uv, progress), 0);
+}
+
+SamplerState GetSpecularMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+    if(BaseMapMode2DEnabled())
+        return sampler_SpecularMap;
+    if(BaseMapMode2DArrayEnabled())
+        return sampler_SpecularMap2DArray;
+    return sampler_SpecularMap3D;
+    #endif
+}
+
+half4 SampleSpecularMap(float2 uv, float progress)
+{
+    if(BaseMapMode2DEnabled())
+        return SAMPLE_TEXTURE2D(_SpecularMap, GetSpecularMapSamplerState(), uv);
+    if(BaseMapMode2DArrayEnabled())
+        return SAMPLE_TEXTURE2D_ARRAY(_SpecularMap2DArray, GetSpecularMapSamplerState(), uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_SpecularMap3D, GetSpecularMapSamplerState(), float3(uv, progress), 0);
+}
 
 // Returns the progress of the 2DArray/3d tint map.
 half TintMapProgress(in half progress)
