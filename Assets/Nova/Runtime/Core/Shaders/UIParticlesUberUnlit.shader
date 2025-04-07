@@ -11,9 +11,9 @@ Shader "Nova/UIParticles/UberUnlit"
         _VertexAlphaMode("Vertex Alpha Mode", Float) = 0.0
         _BlendSrc("Blend Src", Float) = 1.0
         _BlendDst("Blend Dst", Float) = 0.0
-        _ZWrite("ZWrite", Float) = 1.0
+        _ZWrite("ZWrite", Float) = 0.0
         _ZWriteOverride("ZWrite Override", Float) = -1.0
-        _ZTest("ZTest", Float) = 4.0
+        _ZTest("ZTest", Float) = 8.0
 
         _StencilComp ("Stencil Comparison", Float) = 8
         _Stencil ("Stencil ID", Float) = 0
