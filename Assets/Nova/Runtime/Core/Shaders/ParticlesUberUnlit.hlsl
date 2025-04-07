@@ -114,7 +114,7 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     TRANSFER_CUSTOM_COORD(input, output);
 
     // Vertex Deformation
-    if(VertexDeformationEnabled())
+    if(IsKeywordEnabled_VERTEX_DEFORMATION_ENABLED())
     {
         float2 vertexDeformationUVs = TRANSFORM_TEX(input.texcoord.xy, _VertexDeformationMap);
         vertexDeformationUVs.x += GET_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
@@ -134,7 +134,7 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;
 
-    if(BaseMapRotationEnabled())
+    if(IsKeywordEnabled_BASE_MAP_ROTATION_ENABLED())
     {
         half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
         baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
@@ -146,11 +146,11 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     output.baseMapUVAndProgresses.xy = baseMapUv;
 
     // Base Map Progress
-    if(BaseMapMode2DArrayEnabled())
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
     {
         float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
         output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
-    }else if(BaseMapMode3DEnabled())
+    }else if(IsKeywordEnabled_BASE_MAP_MODE_3D())
     {
         float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
         output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);

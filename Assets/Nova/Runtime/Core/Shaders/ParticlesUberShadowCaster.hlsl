@@ -76,7 +76,7 @@ Varyings ShadowPassVertex(Attributes input)
     TRANSFER_CUSTOM_COORD(input, output);
 
     // Vertex Deformation
-    if(VertexDeformationEnabled())
+    if(IsKeywordEnabled_VERTEX_DEFORMATION_ENABLED())
     {
         if (_ShadowCasterApplyVertexDeformation)
         {
@@ -101,7 +101,7 @@ Varyings ShadowPassVertex(Attributes input)
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;
 
-    if(BaseMapRotationEnabled())
+    if(IsKeywordEnabled_BASE_MAP_ROTATION_ENABLED())
     {
         half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
         baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
@@ -113,11 +113,11 @@ Varyings ShadowPassVertex(Attributes input)
     output.baseMapUVAndProgresses.xy = baseMapUv;
 
     // Base Map Progress
-    if(BaseMapMode2DArrayEnabled())
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
     {
         float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
         output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
-    }else if(BaseMapMode3DEnabled())
+    }else if(IsKeywordEnabled_BASE_MAP_MODE_3D())
     {
         float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
         output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);

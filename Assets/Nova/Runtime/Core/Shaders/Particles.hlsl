@@ -2,6 +2,7 @@
 #define NOVA_PARTICLES_INCLUDED
 
 #include "ParticlesInstancing.hlsl"
+#include "SwitchableBranch.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
 
 
@@ -110,209 +111,10 @@ float2 RotateUV(float2 uv, half angle, half2 offsets)
     return mul(uv - UvOffsets, rotateMatrix) + UvOffsets;
 }
 
-int VertexDeformationEnabled()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-        return _VERTEX_DEFORMATION_ENABLED ; 
-    #else
-        #ifdef _VERTEX_DEFORMATION_ENABLED
-            return 1;
-        #else
-            return 0;
-        #endif
-    #endif
-}
-int MetallicMapEnabled()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-        return _METALLIC_MAP_ENABLED; 
-    #else
-        #ifdef _METALLIC_MAP_ENABLED
-            return 1;
-        #else
-            return 0;
-        #endif
-    #endif
-}
-int BaseMapRotationEnabled()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-        return _BASE_MAP_ROTATION_ENABLED; 
-    #else
-        #ifdef _BASE_MAP_ROTATION_ENABLED
-            return 1;
-        #else
-            return 0;
-        #endif
-    #endif
-}
-int AlphaModulateEnabled()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-        return _ALPHAMODULATE_ENABLED; 
-    #else
-        #ifdef _ALPHAMODULATE_ENABLED
-            return 1;
-        #else
-            return 0;
-        #endif
-    #endif
-}
-
-int VertexAlphaAsTransitionProgoress()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-        return _VERTEX_ALPHA_AS_TRANSITION_PROGRESS; 
-    #else
-        #ifdef _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
-            return 1;
-        #else
-            return 0;
-        #endif
-    #endif
-}
-int SmoothnessMapEnabled()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-    return _SMOOTHNESS_MAP_ENABLED; 
-    #else
-    #ifdef _SMOOTHNESS_MAP_ENABLED
-    return 1;
-    #else
-    return 0;
-    #endif
-    #endif
-}
-int SpecularMapEnabled()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-    return _SPECULAR_MAP_ENABLED; 
-    #else
-    #ifdef _SPECULAR_MAP_ENABLED
-    return 1;
-    #else
-    return 0;
-    #endif
-    #endif
-}
-int BaseMapMode2DEnabled()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-    return _BASE_MAP_MODE_2D; 
-    #else
-    #ifdef _BASE_MAP_MODE_2D
-    return 1;
-    #else
-    return 0;
-    #endif
-    #endif
-}
-int BaseMapMode2DArrayEnabled()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-    return _BASE_MAP_MODE_2D_ARRAY; 
-    #else
-    #ifdef _BASE_MAP_MODE_2D_ARRAY
-    return 1;
-    #else
-    return 0;
-    #endif
-    #endif
-}
-int BaseMapMode3DEnabled()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-    return _BASE_MAP_MODE_3D; 
-    #else
-    #ifdef _BASE_MAP_MODE_3D
-    return 1;
-    #else
-    return 0;
-    #endif
-    #endif
-}
-
-int ParallaxMapMode2DEnabled()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-    return _PARALLAX_MAP_MODE_2D; 
-    #else
-    #ifdef _PARALLAX_MAP_MODE_2D
-    return 1;
-    #else
-    return 0;
-    #endif
-    #endif
-}
-
-int IsKeywordEnabled_EMISSION_COLOR_COLOR()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-    return _EMISSION_COLOR_COLOR; 
-    #else
-    #ifdef _EMISSION_COLOR_COLOR
-    return 1;
-    #else
-    return 0;
-    #endif
-    #endif
-}
-
-int IsKeywordEnabled_EMISSION_COLOR_BASECOLOR()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-    return _EMISSION_COLOR_BASECOLOR; 
-    #else
-    #ifdef _EMISSION_COLOR_BASECOLOR
-    return 1;
-    #else
-    return 0;
-    #endif
-    #endif
-}
-int IsKeywordEnabled_EMISSION_COLOR_MAP()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-    return _EMISSION_COLOR_MAP; 
-    #else
-    #ifdef _EMISSION_COLOR_MAP
-    return 1;
-    #else
-    return 0;
-    #endif
-    #endif
-}
-
-int ParallaxMapMode2DArrayEnabled()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-    return _PARALLAX_MAP_MODE_2D_ARRAY; 
-    #else
-    #ifdef _PARALLAX_MAP_MODE_2D_ARRAY
-    return 1;
-    #else
-    return 0;
-    #endif
-    #endif
-}
-
-int ParallaxMapMode3DEnabled()
-{
-    #ifdef ENABLE_DYNAMIC_BRANCH
-    return _PARALLAX_MAP_MODE_3D; 
-    #else
-    #ifdef _PARALLAX_MAP_MODE_3D
-    return 1;
-    #else
-    return 0;
-    #endif
-    #endif
-}
-
 // Adjust the albedo according to the blending.
 half3 ApplyAlpha(half3 albedo, half alpha)
 {
-    if(AlphaModulateEnabled())
+    if(IsKeywordEnabled_ALPHAMODULATE_ENABLED())
     {
         // In multiply, albedo needs to be white if the alpha is zero.
         return lerp(half3(1.0h, 1.0h, 1.0h), albedo, alpha);
@@ -400,7 +202,7 @@ half GetVertexDeformationIntensity(
     in half mapChannel,
     in float baseValue)
 {
-    if(VertexDeformationEnabled())
+    if(IsKeywordEnabled_VERTEX_DEFORMATION_ENABLED())
     {
         half4 vertexDeformation = SAMPLE_TEXTURE2D_LOD(vertexDeformationMap, sampler_vertexDeformationMap, uv, 0);
         float mapIntensity = vertexDeformation[(uint)mapChannel] - baseValue;

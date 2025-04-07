@@ -58,7 +58,7 @@ half GetMetallic(float3 uvw)
     return 1;
     #else
     
-    if(MetallicMapEnabled())
+    if(IsKeywordEnabled_METALLIC_MAP_ENABLED())
     {
         half4 metallic = SampleMetallicMap(uvw.xy, uvw.z);
         return metallic[(int)_MetallicMapChannelsX.x] * _Metallic;
@@ -81,7 +81,7 @@ half GetMetallic(float3 uvw)
  */
 half GetSmoothness(float3 uvw)
 {
-    if(SmoothnessMapEnabled())
+    if(IsKeywordEnabled_SMOOTHNESS_MAP_ENABLED())
     {
         const half4 smoothness = SampleSmoothnessMap(uvw.xy, uvw.z);
         // The reason for multiplying _Smoothness is because it was done in URP's build-in shaders.
@@ -106,7 +106,7 @@ half GetSmoothness(float3 uvw)
 half3 GetSpecular(float3 uvw)
 {
 #ifdef _SPECULAR_SETUP
-    if(SpecularMapEnabled())
+    if(IsKeywordEnabled_SPECULAR_MAP_ENABLED())
     {
         const half4 specular = SampleSpecularMap(uvw.xy, uvw.z);
         return specular.xyz * _SpecularColor.xyz;

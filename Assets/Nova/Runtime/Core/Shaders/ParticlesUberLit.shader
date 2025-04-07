@@ -304,7 +304,11 @@ Shader "Nova/Particles/UberLit"
             #endif
             
             // Color Correction
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
+            #else
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
+            #endif
 
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
@@ -402,7 +406,11 @@ Shader "Nova/Particles/UberLit"
             // #pragma shader_feature_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
 
             // Color Correction
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
+            #else
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
+            #endif
 
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
@@ -509,7 +517,11 @@ Shader "Nova/Particles/UberLit"
             // #pragma shader_feature_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
 
             // Color Correction
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
+            #else
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
+            #endif
 
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
@@ -582,12 +594,6 @@ Shader "Nova/Particles/UberLit"
             // Render Settings
             // NOTE : Not need in DepthNormals pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
-            // Dynamic Brahchを利用している場合は不要でも定義しないとマテリアルプロパティが定義されないので、
-            // コンパイルエラーになってしまう。
-            // しかし、dynamic_branchを利用して定義すると不要なif文が生成されてしまう。
-            // そこでdefineで定義して0を指定することでif(0){}のコードが生成されて、
-            // コンパイラの最適化でif文をなくすことができる。
-            #define _ALPHAMODULATE_ENABLED 0
             #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #else
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
@@ -635,14 +641,10 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
-            // Emission(TODO: これ本当に必要か要確認。)
-            #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
+            // _EMISSION_AREA_ALPHA keyword affects the depth value, so disable all other keywords.
+            // #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
+            #pragma shader_feature_local_fragment _ _EMISSION_AREA_ALPHA
             #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
-            #ifdef ENABLE_DYNAMIC_BRANCH
-            #pragma dynamic_branch_local_fragment _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
-            #else
-            #pragma shader_feature_local_fragment _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
-            #endif
 
             // Transparency
             #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
@@ -658,12 +660,18 @@ Shader "Nova/Particles/UberLit"
             #endif
 
             #ifdef ENABLE_DYNAMIC_BRANCH
+            #define _ALPHAMODULATE_ENABLED 0
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
             #define _SPECULAR_MAP_ENABLED 0
             #define _PARALLAX_MAP_MODE_2D 0
             #define _PARALLAX_MAP_MODE_2D_ARRAY 0
             #define _PARALLAX_MAP_MODE_3D 0
+            #define _GREYSCALE_ENABLED 0
+            #define _GRADIENT_MAP_ENABLED 0
+            #define _EMISSION_COLOR_COLOR 0
+            #define _EMISSION_COLOR_BASECOLOR 0
+            #define _EMISSION_COLOR_MAP 0
             #endif
             #include "ParticlesUberDepthNormals.hlsl"
             ENDHLSL
@@ -698,7 +706,6 @@ Shader "Nova/Particles/UberLit"
             // Render Settings
             // NOTE : Not need in DepthNormals pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
-            #define _ALPHAMODULATE_ENABLED 0
             #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #else
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
@@ -742,14 +749,10 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
-            // Emission（TODO:これ本当に必要か要確認）
-            #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
+            // _EMISSION_AREA_ALPHA keyword affects the depth value, so disable all other keywords.
+            // #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
+            #pragma shader_feature_local_fragment _ _EMISSION_AREA_ALPHA 
             #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
-            #ifdef ENABLE_DYNAMIC_BRANCH
-            #pragma dynamic_branch_local_fragment _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
-            #else
-            #pragma shader_feature_local_fragment _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
-            #endif
 
             // Transparency
             #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
@@ -765,12 +768,18 @@ Shader "Nova/Particles/UberLit"
             #endif
 
             #ifdef ENABLE_DYNAMIC_BRANCH
+            #define _ALPHAMODULATE_ENABLED 0
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
             #define _SPECULAR_MAP_ENABLED 0
             #define _PARALLAX_MAP_MODE_2D 0
             #define _PARALLAX_MAP_MODE_2D_ARRAY 0
             #define _PARALLAX_MAP_MODE_3D 0
+            #define _GREYSCALE_ENABLED 0
+            #define _GRADIENT_MAP_ENABLED 0
+            #define _EMISSION_COLOR_COLOR 0
+            #define _EMISSION_COLOR_BASECOLOR 0
+            #define _EMISSION_COLOR_MAP 0
             #endif
             
             // When LightMode is DepthOnly, the shaders are the same as in the Unlit version,
@@ -805,7 +814,6 @@ Shader "Nova/Particles/UberLit"
 
             // Render Settings
             #ifdef ENABLE_DYNAMIC_BRANCH
-            #define _ALPHAMODULATE_ENABLED 0
             #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #else
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
@@ -858,6 +866,7 @@ Shader "Nova/Particles/UberLit"
             #pragma fragment ShadowPassFragment
 
             #ifdef ENABLE_DYNAMIC_BRANCH
+            #define _ALPHAMODULATE_ENABLED 0
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
             #define _SPECULAR_MAP_ENABLED 0
@@ -867,6 +876,8 @@ Shader "Nova/Particles/UberLit"
             #define _EMISSION_COLOR_COLOR 0
             #define _EMISSION_COLOR_BASECOLOR 0
             #define _EMISSION_COLOR_MAP 0
+            #define _GREYSCALE_ENABLED 0
+            #define _GRADIENT_MAP_ENABLED 0
             #endif
             
             #include "ParticlesUberShadowCaster.hlsl"

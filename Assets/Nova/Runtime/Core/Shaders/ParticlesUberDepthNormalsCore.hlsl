@@ -180,7 +180,7 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;
 
-    if(BaseMapRotationEnabled())
+    if(IsKeywordEnabled_BASE_MAP_ROTATION_ENABLED())
     {
         half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
         baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);    
@@ -214,11 +214,11 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
 
     // Base Map Progress
-    if(BaseMapMode2DArrayEnabled())
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
     {
         float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
         output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
-    }else if(BaseMapMode3DEnabled())
+    }else if(IsKeywordEnabled_BASE_MAP_MODE_3D())
     {
         float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
         output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);

@@ -18,7 +18,7 @@ Varyings vert(Attributes input)
 
     float2 baseMapUv = input.texcoord.xy;
 
-    if(BaseMapRotationEnabled())
+    if(IsKeywordEnabled_BASE_MAP_ROTATION_ENABLED())
     {
         half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
         baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
@@ -91,7 +91,7 @@ half4 frag(Varyings input) : SV_Target
     half transitionAlpha = SAMPLE_TEXTURE2D(_AlphaTransitionMap, sampler_AlphaTransitionMap, input.flowTransitionUVs.zw)[_AlphaTransitionMapChannelsX];
     half progress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
 
-    if(VertexAlphaAsTransitionProgoress())
+    if(IsKeywordEnabled_VERTEX_ALPHA_AS_TRANSITION_PROGRESS())
     {
         progress += 1.0 - input.color.a;
     }
