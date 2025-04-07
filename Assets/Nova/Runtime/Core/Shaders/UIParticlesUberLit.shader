@@ -11,9 +11,9 @@ Shader "Nova/UIParticles/UberLit"
         _VertexAlphaMode("Vertex Alpha Mode", Float) = 0.0
         _BlendSrc("Blend Src", Float) = 1.0
         _BlendDst("Blend Dst", Float) = 0.0
-        _ZWrite("ZWrite", Float) = 1.0
+        _ZWrite("ZWrite", Float) = 0.0
         _ZWriteOverride("ZWrite Override", Float) = -1.0
-        _ZTest("ZTest", Float) = 4.0
+        _ZTest("ZTest", Float) = 8.0
         _LitWorkflowMode("Lit Workflow Mode",Float) = 0.0
         _LitReceiveShadows("Lit Receive Shadows", Float) = 0.0
         _SpecularHighlights("Specular Highlights", Float) = 0.0
