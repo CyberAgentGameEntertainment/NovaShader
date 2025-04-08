@@ -195,7 +195,7 @@ Shader "Nova/Particles/UberUnlit"
 
             #pragma vertex vert
             #pragma fragment frag
-            #pragma target 3.5
+            #pragma target 5.0
 
             // Unity Defined
             #pragma multi_compile_fog
@@ -255,7 +255,11 @@ Shader "Nova/Particles/UberUnlit"
 
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #else
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #endif
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Emission
@@ -307,7 +311,7 @@ Shader "Nova/Particles/UberUnlit"
 
             #pragma vertex vertEditor
             #pragma fragment fragSceneHighlight
-            #pragma target 3.5
+            #pragma target 5.0
 
             // Unity Defined
             //#pragma multi_compile_fog
@@ -361,7 +365,11 @@ Shader "Nova/Particles/UberUnlit"
 
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #else
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #endif
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Emission
@@ -415,7 +423,7 @@ Shader "Nova/Particles/UberUnlit"
 
             #pragma vertex vertEditor
             #pragma fragment fragScenePicking
-            #pragma target 3.5
+            #pragma target 5.0
 
             // Unity Defined
             //#pragma multi_compile_fog
@@ -469,7 +477,11 @@ Shader "Nova/Particles/UberUnlit"
 
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #else
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #endif
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Emission
@@ -524,7 +536,7 @@ Shader "Nova/Particles/UberUnlit"
 
             #pragma vertex vert
             #pragma fragment frag
-            #pragma target 3.5
+            #pragma target 5.0
 
             // Unity Defined
             #pragma multi_compile_fog
@@ -575,7 +587,11 @@ Shader "Nova/Particles/UberUnlit"
 
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #else
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #endif
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Emission
@@ -632,7 +648,7 @@ Shader "Nova/Particles/UberUnlit"
 
             #pragma vertex vert
             #pragma fragment frag
-            #pragma target 3.5
+            #pragma target 5.0
 
             // Unity Defined
             #pragma multi_compile_fog
@@ -664,7 +680,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
             #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
 
-            // Flow Map
+            // Flow Map 
             #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
             #pragma shader_feature_local _FLOW_MAP_TARGET_BASE
             #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
@@ -683,7 +699,11 @@ Shader "Nova/Particles/UberUnlit"
 
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #else
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #endif
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
@@ -738,7 +758,7 @@ Shader "Nova/Particles/UberUnlit"
             HLSLPROGRAM
             #include "Config.hlsl"
 
-            #pragma target 3.5
+            #pragma target 5.0
 
             // Unity Defined
             #pragma multi_compile_instancing
@@ -774,7 +794,11 @@ Shader "Nova/Particles/UberUnlit"
 
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #else
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #endif
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Transparency

@@ -260,13 +260,11 @@ SamplerState GetParallaxMapSamplerState()
 // Returns the sampler state of the alpha transition map.
 SamplerState GetAlphaTransitionMapSamplerState()
 {
-    #ifdef _ALPHA_TRANSITION_MAP_MODE_2D
-    return sampler_AlphaTransitionMap;
-    #elif _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
-    return sampler_AlphaTransitionMap2DArray;
-    #elif _ALPHA_TRANSITION_MAP_MODE_3D
+    if( IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D())
+        return sampler_AlphaTransitionMap;
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY())
+        return sampler_AlphaTransitionMap2DArray;
     return sampler_AlphaTransitionMap3D;
-    #endif
 }
 
 // Returns the sampler state of the alpha emission map.
@@ -305,23 +303,25 @@ float4 SampleBaseMap(float2 uv, float progress)
 #define TRANSFORM_TINT_MAP(texcoord) TRANSFORM_TEX(texcoord, _TintMap3D);
 #endif
 
-// Transforms the alpha transition map UV by the scale/bias property
-#ifdef _ALPHA_TRANSITION_MAP_MODE_2D
-#define TRANSFORM_ALPHA_TRANSITION_MAP(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMap);
+float2 TransformAlphaTransitionMap(float2 texcoord)
+{
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D())
+        return TRANSFORM_TEX(texcoord, _AlphaTransitionMap);
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY())
+        return TRANSFORM_TEX(texcoord, _AlphaTransitionMap2DArray);
+    return TRANSFORM_TEX(texcoord, _AlphaTransitionMap3D);
+}
 #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    #define TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture);
+float2 TransformAlphaTransitionMapSecond(float2 texcoord)
+{
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D())
+        return TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture);
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY())
+        return TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture2DArray);
+    return TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture3D);
+}
 #endif
-#elif _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
-#define TRANSFORM_ALPHA_TRANSITION_MAP(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMap2DArray);
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    #define TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture2DArray);
-#endif
-#elif _ALPHA_TRANSITION_MAP_MODE_3D
-#define TRANSFORM_ALPHA_TRANSITION_MAP(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMap3D);
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    #define TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture3D);
-#endif
-#endif
+
 
 // Transforms the alpha transition map UV by the scale/bias property
 #ifdef _EMISSION_MAP_MODE_2D
@@ -487,10 +487,11 @@ inline void ApplyTintColor(in out half4 color, half2 uv, half progress, half ble
     half4 tintColor;
     #ifdef _TINT_COLOR_ENABLED
     tintColor = _TintColor;
+    color *= lerp(half4(1, 1, 1, 1), tintColor, saturate(blendRate));
     #elif defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
     tintColor = SAMPLE_TINT_MAP(uv, progress);
-    #endif
     color *= lerp(half4(1, 1, 1, 1), tintColor, saturate(blendRate));
+    #endif
 }
 
 // Apply the color correction.
@@ -502,22 +503,23 @@ void ApplyColorCorrection(in out float3 color)
         color.rgb = SAMPLE_TEXTURE2D(_GradientMap, sampler_GradientMap, half2(GetLuminance(color.rgb), 0.5)).rgb;
 }
 
-// Sample the alpha transition map.
-#ifdef _ALPHA_TRANSITION_MAP_MODE_2D
-#define SAMPLE_ALPHA_TRANSITION_MAP(uv, progress) SAMPLE_TEXTURE2D(_AlphaTransitionMap, sampler_AlphaTransitionMap, uv);
+half4 SampleAlphaTransitionMap(float2 uv, float progress)
+{
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D())
+        return SAMPLE_TEXTURE2D(_AlphaTransitionMap, sampler_AlphaTransitionMap, uv);
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY())
+        return SAMPLE_TEXTURE2D_ARRAY(_AlphaTransitionMap2DArray, sampler_AlphaTransitionMap2DArray, uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMap3D, sampler_AlphaTransitionMap3D, float3(uv, progress), 0);
+}
 #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE2D(_AlphaTransitionMapSecondTexture, sampler_AlphaTransitionMapSecondTexture, uv);
-#endif
-#elif _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
-#define SAMPLE_ALPHA_TRANSITION_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_AlphaTransitionMap2DArray, sampler_AlphaTransitionMap2DArray, uv, progress);
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_AlphaTransitionMapSecondTexture2DArray, sampler_AlphaTransitionMapSecondTexture2DArray, uv, progress);
-#endif
-#elif _ALPHA_TRANSITION_MAP_MODE_3D
-#define SAMPLE_ALPHA_TRANSITION_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMap3D, sampler_AlphaTransitionMap3D, float3(uv, progress), 0);
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMapSecondTexture3D, sampler_AlphaTransitionMapSecondTexture3D, float3(uv, progress), 0);
-#endif
+half4 SampleAlphaTransitionMapSecond(float2 uv, float progress)
+{
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D())
+        return SAMPLE_TEXTURE2D(_AlphaTransitionMapSecondTexture, sampler_AlphaTransitionMapSecondTexture, uv);
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY())
+        return SAMPLE_TEXTURE2D_ARRAY(_AlphaTransitionMapSecondTexture2DArray, sampler_AlphaTransitionMapSecondTexture2DArray, uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMapSecondTexture3D, sampler_AlphaTransitionMapSecondTexture3D, float3(uv, progress), 0);
+}
 #endif
 
 void ModulateAlphaTransitionProgress(in out half progress, half vertexAlpha)
@@ -554,8 +556,8 @@ half GetTransitionAlphaImpl(half4 map, uint channel, half transitionProgress, fl
 #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
 half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half transitionProgress, half2 transitionMapSecondUv, half transitionMapProgressSecond, half transitionProgressSecond)
 {
-    half4 mainTexMap = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
-    half4 secondTexMap = SAMPLE_ALPHA_TRANSITION_MAP_SECOND(transitionMapSecondUv, transitionMapProgressSecond);
+    half4 mainTexMap = SampleAlphaTransitionMap(transitionMapUv, transitionMapProgress);
+    half4 secondTexMap = SampleAlphaTransitionMapSecond(transitionMapSecondUv, transitionMapProgressSecond);
     half mainTexAlpha = GetTransitionAlphaImpl(mainTexMap, (uint)_AlphaTransitionMapChannelsX, transitionProgress, _DissolveSharpness);
     half secondTexAlpha = GetTransitionAlphaImpl(secondTexMap, (uint)_AlphaTransitionMapSecondTextureChannelsX, transitionProgressSecond, _DissolveSharpnessSecondTexture);
     
@@ -571,7 +573,7 @@ half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half 
 #else
 half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half transitionProgress)
 {
-    half4 mainTexMap = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
+    half4 mainTexMap = SampleAlphaTransitionMap(transitionMapUv, transitionMapProgress);
     return GetTransitionAlphaImpl(mainTexMap, (uint)_AlphaTransitionMapChannelsX, transitionProgress,
                                   _DissolveSharpness);
 }
