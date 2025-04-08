@@ -255,7 +255,7 @@ void InitializeBakedGIData(VaryingsLit input, inout InputData inputData)
     #endif
 
     #if defined(DEBUG_DISPLAY)
-    #if not defined(LIGHTMAP_ON)
+    #ifndef LIGHTMAP_ON
     inputData.vertexSH = input.vertexSH;
     #endif
     #if defined(USE_APV_PROBE_OCCLUSION)
