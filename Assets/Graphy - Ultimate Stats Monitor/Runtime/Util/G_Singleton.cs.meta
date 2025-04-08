@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: dbf324bd9d0eaf7408f3b72ed03e2588
+timeCreated: 1512413989
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 105778
+  packageName: '[Graphy] - Ultimate FPS Counter - Stats Monitor & Debugger'
+  packageVersion: 3.0.5
+  assetPath: Assets/Graphy - Ultimate Stats Monitor/Runtime/Util/G_Singleton.cs
+  uploadId: 626547

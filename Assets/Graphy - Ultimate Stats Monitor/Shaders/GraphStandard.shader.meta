@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: bc65170c051b0724287a7f1636d87573
+timeCreated: 1511697757
+licenseType: Store
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 105778
+  packageName: '[Graphy] - Ultimate FPS Counter - Stats Monitor & Debugger'
+  packageVersion: 3.0.5
+  assetPath: Assets/Graphy - Ultimate Stats Monitor/Shaders/GraphStandard.shader
+  uploadId: 626547

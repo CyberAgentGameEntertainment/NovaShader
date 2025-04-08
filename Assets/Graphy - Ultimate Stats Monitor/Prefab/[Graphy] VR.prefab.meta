@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 018247255856540428a6c9bc11629902
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 105778
+  packageName: '[Graphy] - Ultimate FPS Counter - Stats Monitor & Debugger'
+  packageVersion: 3.0.5
+  assetPath: Assets/Graphy - Ultimate Stats Monitor/Prefab/[Graphy] VR.prefab
+  uploadId: 626547

@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: a9c49f1e95f2dab428b3a0ed56328a1c
+timeCreated: 1512484813
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 105778
+  packageName: '[Graphy] - Ultimate FPS Counter - Stats Monitor & Debugger'
+  packageVersion: 3.0.5
+  assetPath: Assets/Graphy - Ultimate Stats Monitor/Runtime/Ram/G_RamGraph.cs
+  uploadId: 626547

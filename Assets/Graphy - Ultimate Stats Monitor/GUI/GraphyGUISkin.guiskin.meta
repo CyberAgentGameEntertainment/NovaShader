@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 663039f397abaa648854c3b8ef8f4256
+labels:
+- gui
+timeCreated: 1513980352
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 105778
+  packageName: '[Graphy] - Ultimate FPS Counter - Stats Monitor & Debugger'
+  packageVersion: 3.0.5
+  assetPath: Assets/Graphy - Ultimate Stats Monitor/GUI/GraphyGUISkin.guiskin
+  uploadId: 626547

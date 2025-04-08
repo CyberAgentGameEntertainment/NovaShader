@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 18e5109d897e1b244ab2dfeaf5482c7b
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 105778
+  packageName: '[Graphy] - Ultimate FPS Counter - Stats Monitor & Debugger'
+  packageVersion: 3.0.5
+  assetPath: Assets/Graphy - Ultimate Stats Monitor/Runtime/Tayx.Graphy.asmdef
+  uploadId: 626547

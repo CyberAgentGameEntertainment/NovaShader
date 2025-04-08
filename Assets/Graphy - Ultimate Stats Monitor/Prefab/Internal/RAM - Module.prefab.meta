@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 6387d68cbe02d2d4fb8912f794606585
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 105778
+  packageName: '[Graphy] - Ultimate FPS Counter - Stats Monitor & Debugger'
+  packageVersion: 3.0.5
+  assetPath: Assets/Graphy - Ultimate Stats Monitor/Prefab/Internal/RAM - Module.prefab
+  uploadId: 626547

@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 6b025b045db969e4988a6267cc04938d
+labels:
+- counter
+- graph
+- material
+- memory
+- monitor
+- ram
+- shader
+timeCreated: 1512500596
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 105778
+  packageName: '[Graphy] - Ultimate FPS Counter - Stats Monitor & Debugger'
+  packageVersion: 3.0.5
+  assetPath: Assets/Graphy - Ultimate Stats Monitor/Materials/RAM_Allocated_Graph.mat
+  uploadId: 626547

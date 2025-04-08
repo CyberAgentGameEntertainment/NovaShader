@@ -1,0 +1,26 @@
+{
+    "name": "Tayx.Graphy",
+    "references": [
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.inputsystem",
+            "expression": "",
+            "define": "GRAPHY_NEW_INPUT"
+        },
+        {
+            "name": "com.unity.modules.xr",
+            "expression": "",
+            "define": "GRAPHY_XR"
+        }
+    ],
+    "noEngineReferences": false
+}

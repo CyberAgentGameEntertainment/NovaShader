@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: eb908df110bf2314d94d245f8a338830
+labels:
+- font
+timeCreated: 1515073036
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 105778
+  packageName: '[Graphy] - Ultimate FPS Counter - Stats Monitor & Debugger'
+  packageVersion: 3.0.5
+  assetPath: Assets/Graphy - Ultimate Stats Monitor/Font/Roboto/LICENSE.txt
+  uploadId: 626547
