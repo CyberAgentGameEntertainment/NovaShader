@@ -266,13 +266,15 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #endif
 
     // Emission Map Progress
-    #ifdef _EMISSION_MAP_MODE_2D_ARRAY
-    float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
-    output.transitionEmissionProgresses.y = FlipBookProgress(emissionMapProgress, _EmissionMapSliceCount);
-    #elif _EMISSION_MAP_MODE_3D
-    float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
-    output.transitionEmissionProgresses.y = FlipBookBlendingProgress(emissionMapProgress, _EmissionMapSliceCount);
-    #endif
+    if( IsKeywordEnabled_EMISSION_MAP_MODE_2D_ARRAY())
+    {
+        float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
+        output.transitionEmissionProgresses.y = FlipBookProgress(emissionMapProgress, _EmissionMapSliceCount);
+    }else if(IsKeywordEnabled_EMISSION_MAP_MODE_3D())
+    {
+        float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
+        output.transitionEmissionProgresses.y = FlipBookBlendingProgress(emissionMapProgress, _EmissionMapSliceCount);
+    }
 
     // NOTE : Not need in DepthNormals pass.
     //Fog

@@ -49,11 +49,11 @@ SAMPLER(sampler_NormalMap3D);
 
 // Parallax Map
 TEXTURE2D(_ParallaxMap);
-SAMPLER(sampler_ParallaxMap);
+// SAMPLER(sampler_ParallaxMap);
 TEXTURE2D_ARRAY(_ParallaxMap2DArray);
-SAMPLER(sampler_ParallaxMap2DArray);
+// SAMPLER(sampler_ParallaxMap2DArray);
 TEXTURE3D(_ParallaxMap3D);
-SAMPLER(sampler_ParallaxMap3D);
+// SAMPLER(sampler_ParallaxMap3D);
 // Specular Map
 TEXTURE2D(_SpecularMap);
 TEXTURE2D_ARRAY(_SpecularMap2DArray);
@@ -247,14 +247,15 @@ SamplerState GetBaseMapSamplerState()
     #endif
 }
 
-
+SamplerState my_sampler_clamp_linear;
 SamplerState GetParallaxMapSamplerState()
 {
-    if(IsKeywordEnabled_PARALLAX_MAP_MODE_2D())
+    return my_sampler_clamp_linear;
+    /*if(IsKeywordEnabled_PARALLAX_MAP_MODE_2D())
         return sampler_ParallaxMap;
     if(IsKeywordEnabled_PARALLAX_MAP_MODE_2D_ARRAY())
         return sampler_ParallaxMap2DArray;
-    return sampler_ParallaxMap3D;
+    return sampler_ParallaxMap3D;*/
 }
 
 // Returns the sampler state of the alpha transition map.
@@ -270,13 +271,11 @@ SamplerState GetAlphaTransitionMapSamplerState()
 // Returns the sampler state of the alpha emission map.
 SamplerState GetEmissionMapSamplerState()
 {
-    #ifdef _EMISSION_MAP_MODE_2D
-    return sampler_EmissionMap;
-    #elif _EMISSION_MAP_MODE_2D_ARRAY
-    return sampler_EmissionMap2DArray;
-    #elif _EMISSION_MAP_MODE_3D
+    if( IsKeywordEnabled_EMISSION_MAP_MODE_2D())
+        return sampler_EmissionMap;
+    if( IsKeywordEnabled_EMISSION_MAP_MODE_2D_ARRAY())
+        return sampler_EmissionMap2DArray;
     return sampler_EmissionMap3D;
-    #endif
 }
 
 float2 TransformBaseMap(float2 texcoord)
@@ -322,15 +321,15 @@ float2 TransformAlphaTransitionMapSecond(float2 texcoord)
 }
 #endif
 
-
-// Transforms the alpha transition map UV by the scale/bias property
-#ifdef _EMISSION_MAP_MODE_2D
-#define TRANSFORM_EMISSION_MAP(texcoord) TRANSFORM_TEX(texcoord, _EmissionMap);
-#elif _EMISSION_MAP_MODE_2D_ARRAY
-#define TRANSFORM_EMISSION_MAP(texcoord) TRANSFORM_TEX(texcoord, _EmissionMap2DArray);
-#elif _EMISSION_MAP_MODE_3D
-#define TRANSFORM_EMISSION_MAP(texcoord) TRANSFORM_TEX(texcoord, _EmissionMap3D);
-#endif
+float2 TransformEmissionMap(float2 texcoord)
+{
+    // Transforms the alpha transition map UV by the scale/bias property
+    if( IsKeywordEnabled_EMISSION_MAP_MODE_2D())
+        return TRANSFORM_TEX(texcoord, _EmissionMap);
+    if( IsKeywordEnabled_EMISSION_MAP_MODE_2D_ARRAY())
+        return TRANSFORM_TEX(texcoord, _EmissionMap2DArray);
+    return TRANSFORM_TEX(texcoord, _EmissionMap3D);
+}
 
 SamplerState GetNormalMapSamplerState()
 {
@@ -590,16 +589,15 @@ inline void ApplyVertexColor(in out half4 color, in half4 vertexColor)
         color *= vertexColor;
     }
 }
-
-// Sample the emission map.
-#ifdef _EMISSION_MAP_MODE_2D
-#define SAMPLE_EMISSION_MAP(uv, progress) SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, uv);
-#elif _EMISSION_MAP_MODE_2D_ARRAY
-#define SAMPLE_EMISSION_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_EmissionMap2DArray, sampler_EmissionMap2DArray, uv, progress);
-#elif _EMISSION_MAP_MODE_3D
-#define SAMPLE_EMISSION_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_EmissionMap3D, sampler_EmissionMap3D, float3(uv, progress), 0);
-#endif
-
+half4 SampleEmissionMap(float2 uv, float progress)
+{
+    // Sample the emission map.
+    if( IsKeywordEnabled_EMISSION_MAP_MODE_2D())
+        return SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, uv);
+    if( IsKeywordEnabled_EMISSION_MAP_MODE_2D_ARRAY())
+        return SAMPLE_TEXTURE2D_ARRAY(_EmissionMap2DArray, sampler_EmissionMap2DArray, uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_EmissionMap3D, sampler_EmissionMap3D, float3(uv, progress), 0);
+}
 // Apply the emission color.
 inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float intensity, half emissionMapProgress,
                                half emissionChannelsX)
@@ -612,7 +610,7 @@ inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float in
     #ifdef _EMISSION_AREA_ALL
     emissionIntensity = 1;
     #elif _EMISSION_AREA_MAP
-    half4 emissiomMap = SAMPLE_EMISSION_MAP(emissionMapUv, emissionMapProgress);
+    half4 emissiomMap = SampleEmissionMap(emissionMapUv, emissionMapProgress);
     half emissionMapValue = emissiomMap[emissionChannelsX];
     if(IsKeywordEnabled_EMISSION_COLOR_COLOR() || IsKeywordEnabled_EMISSION_COLOR_BASECOLOR())
         emissionIntensity = emissionMapValue;

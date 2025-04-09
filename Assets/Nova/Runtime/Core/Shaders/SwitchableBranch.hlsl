@@ -278,4 +278,40 @@ int IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_3D()
     #endif
     #endif
 }
+int IsKeywordEnabled_EMISSION_MAP_MODE_2D()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return _EMISSION_MAP_MODE_2D; 
+    #else
+    #ifdef _EMISSION_MAP_MODE_2D
+    return 1;
+    #else
+    return 0;
+    #endif
+    #endif
+}
+int IsKeywordEnabled_EMISSION_MAP_MODE_2D_ARRAY()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return _EMISSION_MAP_MODE_2D_ARRAY; 
+    #else
+    #ifdef _EMISSION_MAP_MODE_2D_ARRAY
+    return 1;
+    #else
+    return 0;
+    #endif
+    #endif
+}
+int IsKeywordEnabled_EMISSION_MAP_MODE_3D()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return _EMISSION_MAP_MODE_3D; 
+    #else
+    #ifdef _EMISSION_MAP_MODE_3D
+    return 1;
+    #else
+    return 0;
+    #endif
+    #endif
+}
 #endif // NOVA_SWICTHABLE_BRANCH

@@ -222,19 +222,21 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     {
         // Emission Map UV
         #ifdef _EMISSION_AREA_MAP
-        output.tintEmissionUV.zw = TRANSFORM_EMISSION_MAP(input.texcoord.xy);
+        output.tintEmissionUV.zw = TransformEmissionMap(input.texcoord.xy);
         output.tintEmissionUV.z += GET_CUSTOM_COORD(_EmissionMapOffsetXCoord)
         output.tintEmissionUV.w += GET_CUSTOM_COORD(_EmissionMapOffsetYCoord)
         #endif
 
         // Emission Map Progress
-        #ifdef _EMISSION_MAP_MODE_2D_ARRAY
-        float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
-        output.transitionEmissionProgresses.y = FlipBookProgress(emissionMapProgress, _EmissionMapSliceCount);
-        #elif _EMISSION_MAP_MODE_3D
-        float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
-        output.transitionEmissionProgresses.y = FlipBookBlendingProgress(emissionMapProgress, _EmissionMapSliceCount);
-        #endif
+        if( IsKeywordEnabled_EMISSION_MAP_MODE_2D_ARRAY())
+        {
+            float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
+            output.transitionEmissionProgresses.y = FlipBookProgress(emissionMapProgress, _EmissionMapSliceCount);
+        }else if(IsKeywordEnabled_EMISSION_MAP_MODE_3D())
+        {
+            float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
+            output.transitionEmissionProgresses.y = FlipBookBlendingProgress(emissionMapProgress, _EmissionMapSliceCount);
+        }
     }
     if (useFog)
     {

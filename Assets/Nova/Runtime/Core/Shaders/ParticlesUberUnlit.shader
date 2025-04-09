@@ -195,7 +195,7 @@ Shader "Nova/Particles/UberUnlit"
 
             #pragma vertex vert
             #pragma fragment frag
-            #pragma target 5.0
+            #pragma target 3.5
 
             // Unity Defined
             #pragma multi_compile_fog
@@ -264,10 +264,12 @@ Shader "Nova/Particles/UberUnlit"
 
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
-            #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
+            
             #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
             #pragma dynamic_branch_local_fragment _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
             #else
+            #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
             #pragma shader_feature_local_fragment _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
             #endif
 
@@ -311,7 +313,7 @@ Shader "Nova/Particles/UberUnlit"
 
             #pragma vertex vertEditor
             #pragma fragment fragSceneHighlight
-            #pragma target 5.0
+            #pragma target 3.5
 
             // Unity Defined
             //#pragma multi_compile_fog
@@ -400,6 +402,9 @@ Shader "Nova/Particles/UberUnlit"
             #define _EMISSION_COLOR_COLOR 0
             #define _EMISSION_COLOR_BASECOLOR 0
             #define _EMISSION_COLOR_MAP 0
+            #define _EMISSION_MAP_MODE_2D 0
+            #define _EMISSION_MAP_MODE_2D_ARRAY 0
+            #define _EMISSION_MAP_MODE_3D 0
             #endif
 
             #include "ParticlesUberUnlitEditor.hlsl"
@@ -423,7 +428,7 @@ Shader "Nova/Particles/UberUnlit"
 
             #pragma vertex vertEditor
             #pragma fragment fragScenePicking
-            #pragma target 5.0
+            #pragma target 3.5
 
             // Unity Defined
             //#pragma multi_compile_fog
@@ -512,6 +517,9 @@ Shader "Nova/Particles/UberUnlit"
             #define _EMISSION_COLOR_COLOR 0
             #define _EMISSION_COLOR_BASECOLOR 0
             #define _EMISSION_COLOR_MAP 0
+            #define _EMISSION_MAP_MODE_2D 0
+            #define _EMISSION_MAP_MODE_2D_ARRAY 0
+            #define _EMISSION_MAP_MODE_3D 0
             #endif
 
             #include "ParticlesUberUnlitEditor.hlsl"
@@ -536,7 +544,7 @@ Shader "Nova/Particles/UberUnlit"
 
             #pragma vertex vert
             #pragma fragment frag
-            #pragma target 5.0
+            #pragma target 3.5
 
             // Unity Defined
             #pragma multi_compile_fog
@@ -596,7 +604,11 @@ Shader "Nova/Particles/UberUnlit"
 
             // Emission
             #pragma shader_feature_local_fragment _ _EMISSION_AREA_ALPHA
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
+            #else
             #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
+            #endif
 
             // Transparency
             #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
@@ -648,7 +660,7 @@ Shader "Nova/Particles/UberUnlit"
 
             #pragma vertex vert
             #pragma fragment frag
-            #pragma target 5.0
+            #pragma target 3.5
 
             // Unity Defined
             #pragma multi_compile_fog
@@ -708,8 +720,12 @@ Shader "Nova/Particles/UberUnlit"
 
             // #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
             #pragma shader_feature_local_fragment _ _EMISSION_AREA_ALPHA
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
+            #else
             #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
-
+            #endif
+            
             // Transparency
             #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
@@ -758,7 +774,7 @@ Shader "Nova/Particles/UberUnlit"
             HLSLPROGRAM
             #include "Config.hlsl"
 
-            #pragma target 5.0
+            #pragma target 3.5
 
             // Unity Defined
             #pragma multi_compile_instancing
@@ -836,6 +852,9 @@ Shader "Nova/Particles/UberUnlit"
             #define _EMISSION_COLOR_MAP 0
             #define _GREYSCALE_ENABLED 0
             #define _GRADIENT_MAP_ENABLED 0
+            #define _EMISSION_MAP_MODE_2D 0
+            #define _EMISSION_MAP_MODE_2D_ARRAY 0
+            #define _EMISSION_MAP_MODE_3D 0
             #endif
 
             #include "ParticlesUberShadowCaster.hlsl"
