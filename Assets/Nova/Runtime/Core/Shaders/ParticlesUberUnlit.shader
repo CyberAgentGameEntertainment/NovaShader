@@ -274,7 +274,12 @@ Shader "Nova/Particles/UberUnlit"
             #endif
 
             // Transparency
-            #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #else
+            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #endif
+            
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
@@ -380,7 +385,12 @@ Shader "Nova/Particles/UberUnlit"
             //#pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
 
             // Transparency
-            #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #else
+            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #endif
+
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
@@ -495,7 +505,12 @@ Shader "Nova/Particles/UberUnlit"
             //#pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
 
             // Transparency
-            #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #else
+            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #endif
+
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
@@ -611,7 +626,11 @@ Shader "Nova/Particles/UberUnlit"
             #endif
 
             // Transparency
-            #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #else
+            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #endif
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
@@ -727,7 +746,11 @@ Shader "Nova/Particles/UberUnlit"
             #endif
             
             // Transparency
-            #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #else
+            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #endif
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
@@ -818,8 +841,12 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Transparency
-            #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
-
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #else
+            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #endif
+            
             // Vertex Deformation
             #ifdef ENABLE_DYNAMIC_BRANCH
             #pragma dynamic_branch_local _VERTEX_DEFORMATION_ENABLED

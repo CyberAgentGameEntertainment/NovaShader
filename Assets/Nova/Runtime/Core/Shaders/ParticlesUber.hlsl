@@ -71,8 +71,9 @@ TEXTURE3D(_SmoothnessMap3D);
 
 #ifdef ENABLE_DYNAMIC_BRANCH
 #else
-// TODO: 削除候補互換性のために残しているが問題なければ削除する
-// これらはサーフェイス設定のサンプラなのでBase Mapのサンプラを利用すればよい
+// TODO: Candidate for removal, retained for compatibility but should be removed if no issues arise.
+// These are surface setting samplers, so the Base Map sampler can be used instead.
+
 SAMPLER(sampler_MetallicMap);
 SAMPLER(sampler_MetallicMap2DArray);
 SAMPLER(sampler_MetallicMap3D);
@@ -246,16 +247,21 @@ SamplerState GetBaseMapSamplerState()
     return sampler_BaseMap3D;
     #endif
 }
-
+// TODO: Temporary workaround for sampler state shortage (implement the proper solution after testing version 3.0 (beta) and confirming performance improvements).
+#ifdef ENABLE_DYNAMIC_BRANCH
 SamplerState my_sampler_clamp_linear;
+#endif
 SamplerState GetParallaxMapSamplerState()
 {
+    #ifdef ENABLE_DYNAMIC_BRANCH
     return my_sampler_clamp_linear;
-    /*if(IsKeywordEnabled_PARALLAX_MAP_MODE_2D())
+    #else
+    if(IsKeywordEnabled_PARALLAX_MAP_MODE_2D())
         return sampler_ParallaxMap;
     if(IsKeywordEnabled_PARALLAX_MAP_MODE_2D_ARRAY())
         return sampler_ParallaxMap2DArray;
-    return sampler_ParallaxMap3D;*/
+    return sampler_ParallaxMap3D;
+    #endif
 }
 
 // Returns the sampler state of the alpha transition map.
@@ -662,19 +668,20 @@ inline void ApplyRimTransparency(in out half4 color, half rim, half progress, ha
 
 inline void ApplyLuminanceTransparency(in out half4 color, half progress, half sharpness)
 {
-    #ifdef _TRANSPARENCY_BY_LUMINANCE
-    half luminance = GetLuminance(color.rgb);
-    if (_InverseLuminanceTransparency >= 0.5)
+    if( IsKeywordEnabled_TRANSPARENCY_BY_LUMINANCE())
     {
-        luminance = 1.0 - luminance;
+        half luminance = GetLuminance(color.rgb);
+        if (_InverseLuminanceTransparency >= 0.5)
+        {
+            luminance = 1.0 - luminance;
+        }
+        progress = min(1.0, progress);
+        half width = 1.0 - min(1.0, sharpness);
+        half start = lerp(-width, 1.0, progress);
+        half end = lerp(0.0, 1.0 + width, progress);
+        luminance = smoothstep(start, end, luminance);
+        color.a *= luminance;
     }
-    progress = min(1.0, progress);
-    half width = 1.0 - min(1.0, sharpness);
-    half start = lerp(-width, 1.0, progress);
-    half end = lerp(0.0, 1.0 + width, progress);
-    luminance = smoothstep(start, end, luminance);
-    color.a *= luminance;
-    #endif
 }
 
 inline void ApplySoftParticles(in out half4 color, float4 projection)

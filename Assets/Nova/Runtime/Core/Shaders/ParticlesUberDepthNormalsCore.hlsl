@@ -379,11 +379,12 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     #endif
 
     // Luminance Transparency
-    #ifdef _TRANSPARENCY_BY_LUMINANCE
-    half luminanceTransparencyProgress = _LuminanceTransparencyProgress + GET_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
-    half luminanceTransparencySharpness = _LuminanceTransparencySharpness + GET_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
-    ApplyLuminanceTransparency(color, luminanceTransparencyProgress, luminanceTransparencySharpness);
-    #endif
+    if (IsKeywordEnabled_TRANSPARENCY_BY_LUMINANCE())
+    {
+        half luminanceTransparencyProgress = _LuminanceTransparencyProgress + GET_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
+        half luminanceTransparencySharpness = _LuminanceTransparencySharpness + GET_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
+        ApplyLuminanceTransparency(color, luminanceTransparencyProgress, luminanceTransparencySharpness);
+    }
 
     // Soft Particle
     #ifdef _SOFT_PARTICLES_ENABLED

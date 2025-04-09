@@ -260,7 +260,7 @@ Shader "Nova/UIParticles/UberUnlit"
             #pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
 
             // Transparency
-            #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
+            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED

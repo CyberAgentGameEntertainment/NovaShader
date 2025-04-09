@@ -247,14 +247,15 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
     ApplyVertexColor(color, input.color);
 
     // Luminance Transparency
-    #ifdef _TRANSPARENCY_BY_LUMINANCE
-    if (_ShadowCasterAlphaAffectedByTransparencyLuminance)
+    if(IsKeywordEnabled_TRANSPARENCY_BY_LUMINANCE())
     {
-        half luminanceTransparencyProgress = _LuminanceTransparencyProgress + GET_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
-        half luminanceTransparencySharpness = _LuminanceTransparencySharpness + GET_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
-        ApplyLuminanceTransparency(color, luminanceTransparencyProgress, luminanceTransparencySharpness);
+        if (_ShadowCasterAlphaAffectedByTransparencyLuminance)
+        {
+            half luminanceTransparencyProgress = _LuminanceTransparencyProgress + GET_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
+            half luminanceTransparencySharpness = _LuminanceTransparencySharpness + GET_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
+            ApplyLuminanceTransparency(color, luminanceTransparencyProgress, luminanceTransparencySharpness);
+        }
     }
-    #endif
 
     clip(color.a - _ShadowCasterAlphaCutoff);
     #endif

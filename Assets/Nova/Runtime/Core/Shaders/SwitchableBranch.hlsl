@@ -314,4 +314,16 @@ int IsKeywordEnabled_EMISSION_MAP_MODE_3D()
     #endif
     #endif
 }
+int IsKeywordEnabled_TRANSPARENCY_BY_LUMINANCE()
+{
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return _TRANSPARENCY_BY_LUMINANCE; 
+    #else
+    #ifdef _TRANSPARENCY_BY_LUMINANCE
+    return 1;
+    #else
+    return 0;
+    #endif
+    #endif
+}
 #endif // NOVA_SWICTHABLE_BRANCH
