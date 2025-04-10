@@ -57,12 +57,14 @@ half GetMetallic(float3 uvw)
     #ifdef _SPECULAR_SETUP
     return 1;
     #else
-    #ifdef _METALLIC_MAP_ENABLED
-    half4 metallic = SAMPLE_METALLIC_MAP(uvw.xy, uvw.z);
-    return metallic[(int)_MetallicMapChannelsX.x] * _Metallic;
-    #else
+    
+    if(IsKeywordEnabled_METALLIC_MAP_ENABLED())
+    {
+        half4 metallic = SampleMetallicMap(uvw.xy, uvw.z);
+        return metallic[(int)_MetallicMapChannelsX.x] * _Metallic;
+    }
     return _Metallic;
-    #endif
+    
     #endif
 }
 
@@ -79,13 +81,13 @@ half GetMetallic(float3 uvw)
  */
 half GetSmoothness(float3 uvw)
 {
-    #ifdef _SMOOTHNESS_MAP_ENABLED
-    const half4 smoothness = SAMPLE_SMOOTHNESS_MAP(uvw.xy, uvw.z);
-    // The reason for multiplying _Smoothness is because it was done in URP's build-in shaders.
-    return smoothness[(int)_SmoothnessMapChannelsX.x] * _Smoothness;
-    #else
-    return _Smoothness;
-    #endif
+    if(IsKeywordEnabled_SMOOTHNESS_MAP_ENABLED())
+    {
+        const half4 smoothness = SampleSmoothnessMap(uvw.xy, uvw.z);
+        // The reason for multiplying _Smoothness is because it was done in URP's build-in shaders.
+        return smoothness[(int)_SmoothnessMapChannelsX.x] * _Smoothness;
+    }
+    return _Smoothness; 
 }
 
 /**
@@ -100,19 +102,21 @@ half GetSmoothness(float3 uvw)
  *  the returned value is  multiplied the sampled value from specular map by _SpecularColor.\n
  *  If _SPECULAR_MAP_ENABLED isn't defined, the returned value is _SpecularColor. 
  */
+
 half3 GetSpecular(float3 uvw)
 {
-    #ifdef _SPECULAR_SETUP
-    #ifdef _SPECULAR_MAP_ENABLED
-    const half4 specular = SAMPLE_SPECULAR_MAP(uvw.xy, uvw.z);
-    return specular.xyz * _SpecularColor.xyz;
-    #else
-    return _SpecularColor.xyz;
-    #endif
-
-    #else
+#ifdef _SPECULAR_SETUP
+    if(IsKeywordEnabled_SPECULAR_MAP_ENABLED())
+    {
+        const half4 specular = SampleSpecularMap(uvw.xy, uvw.z);
+        return specular.xyz * _SpecularColor.xyz;
+    }else
+    {
+        return _SpecularColor.xyz;    
+    }
+#else
     return half3(0, 0, 0);
-    #endif
+#endif
 }
 
 #ifdef _RECEIVE_SHADOWS_ENABLED
@@ -159,7 +163,7 @@ void InitializeSurfaceData(out SurfaceData surfaceData, VaryingsLit input, half4
     surfaceData = (SurfaceData)0;
     Varyings inputUnlit = input.varyingsUnlit;
     surfaceData.albedo = albedoColor.xyz;
-    surfaceData.normalTS = SAMPLE_NORMAL_MAP(inputUnlit.baseMapUVAndProgresses.xy, inputUnlit.baseMapUVAndProgresses.z,
+    surfaceData.normalTS = SampleNormalMap(inputUnlit.baseMapUVAndProgresses.xy, inputUnlit.baseMapUVAndProgresses.z,
                                              _NormalMapBumpScale);
     surfaceData.metallic = GetMetallic(inputUnlit.baseMapUVAndProgresses.xyz);
     surfaceData.specular = GetSpecular(inputUnlit.baseMapUVAndProgresses.xyz);

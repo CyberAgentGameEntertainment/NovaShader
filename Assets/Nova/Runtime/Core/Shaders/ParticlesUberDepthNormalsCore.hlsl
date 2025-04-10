@@ -179,11 +179,14 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #ifdef _USE_BASE_MAP_UV
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;
-    #ifdef _BASE_MAP_ROTATION_ENABLED
-    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
-    baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
-    #endif
-    baseMapUv = TRANSFORM_BASE_MAP(baseMapUv);
+
+    if(IsKeywordEnabled_BASE_MAP_ROTATION_ENABLED())
+    {
+        half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
+        baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);    
+    }
+ 
+    baseMapUv = TransformBaseMap(baseMapUv);
     baseMapUv.x += GET_CUSTOM_COORD(_BaseMapOffsetXCoord);
     baseMapUv.y += GET_CUSTOM_COORD(_BaseMapOffsetYCoord);
     output.baseMapUVAndProgresses.xy = baseMapUv;
@@ -198,11 +201,11 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
 
     #ifdef _USE_TRANSITION_MAP
     // Transition Map UV
-    output.flowTransitionUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP(input.texcoord.xy);
+    output.flowTransitionUVs.zw = TransformAlphaTransitionMap(input.texcoord.xy);
     output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord)
     output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord)
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    output.flowTransitionSecondUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(input.texcoord.xy);
+    output.flowTransitionSecondUVs.zw = TransformAlphaTransitionMapSecond(input.texcoord.xy);
     output.flowTransitionSecondUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord)
     output.flowTransitionSecondUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord)
     #endif
@@ -211,13 +214,15 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
 
     // Base Map Progress
-    #ifdef _BASE_MAP_MODE_2D_ARRAY
-    float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
-    output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
-    #elif _BASE_MAP_MODE_3D
-    float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
-    output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
-    #endif
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+    {
+        float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
+        output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
+    }else if(IsKeywordEnabled_BASE_MAP_MODE_3D())
+    {
+        float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
+        output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
+    }
 
     // Tint Map UV
     #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
@@ -261,13 +266,15 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #endif
 
     // Emission Map Progress
-    #ifdef _EMISSION_MAP_MODE_2D_ARRAY
-    float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
-    output.transitionEmissionProgresses.y = FlipBookProgress(emissionMapProgress, _EmissionMapSliceCount);
-    #elif _EMISSION_MAP_MODE_3D
-    float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
-    output.transitionEmissionProgresses.y = FlipBookBlendingProgress(emissionMapProgress, _EmissionMapSliceCount);
-    #endif
+    if( IsKeywordEnabled_EMISSION_MAP_MODE_2D_ARRAY())
+    {
+        float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
+        output.transitionEmissionProgresses.y = FlipBookProgress(emissionMapProgress, _EmissionMapSliceCount);
+    }else if(IsKeywordEnabled_EMISSION_MAP_MODE_3D())
+    {
+        float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
+        output.transitionEmissionProgresses.y = FlipBookBlendingProgress(emissionMapProgress, _EmissionMapSliceCount);
+    }
 
     // NOTE : Not need in DepthNormals pass.
     //Fog
@@ -321,7 +328,7 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
 
     #ifdef _ALPHATEST_ENABLED // This code is not used for opaque objects.
     // Base Color
-    half4 color = SAMPLE_BASE_MAP(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z);
+    half4 color = SampleBaseMap(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z);
 
     // Tint Color
     #if defined(_TINT_AREA_ALL) || defined(_TINT_AREA_RIM)
@@ -372,11 +379,12 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     #endif
 
     // Luminance Transparency
-    #ifdef _TRANSPARENCY_BY_LUMINANCE
-    half luminanceTransparencyProgress = _LuminanceTransparencyProgress + GET_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
-    half luminanceTransparencySharpness = _LuminanceTransparencySharpness + GET_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
-    ApplyLuminanceTransparency(color, luminanceTransparencyProgress, luminanceTransparencySharpness);
-    #endif
+    if (IsKeywordEnabled_TRANSPARENCY_BY_LUMINANCE())
+    {
+        half luminanceTransparencyProgress = _LuminanceTransparencyProgress + GET_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
+        half luminanceTransparencySharpness = _LuminanceTransparencySharpness + GET_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
+        ApplyLuminanceTransparency(color, luminanceTransparencyProgress, luminanceTransparencySharpness);
+    }
 
     // Soft Particle
     #ifdef _SOFT_PARTICLES_ENABLED
@@ -396,7 +404,7 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     #ifdef DEPTH_NORMALS_PASS
     float3 normalWS = input.normalWS;
     #ifdef _NORMAL_MAP_ENABLED
-    float3 normalTS = SAMPLE_NORMAL_MAP(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z,
+    float3 normalTS = SampleNormalMap(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z,
                                              _NormalMapBumpScale);
     normalWS = GetNormalWS(normalTS, input.tangentWS, input.binormalWS, input.normalWS );
     #endif

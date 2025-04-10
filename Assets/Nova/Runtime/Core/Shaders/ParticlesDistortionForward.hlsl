@@ -17,11 +17,13 @@ Varyings vert(Attributes input)
     output.projectedPosition = ComputeScreenPos(output.positionHCS);
 
     float2 baseMapUv = input.texcoord.xy;
-    #ifdef _BASE_MAP_ROTATION_ENABLED
-    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
-    baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
-    #endif
 
+    if(IsKeywordEnabled_BASE_MAP_ROTATION_ENABLED())
+    {
+        half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
+        baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
+    }
+ 
     baseMapUv.xy = TRANSFORM_TEX(baseMapUv, _BaseMap);
     baseMapUv.x += GET_CUSTOM_COORD(_BaseMapOffsetXCoord);
     baseMapUv.y += GET_CUSTOM_COORD(_BaseMapOffsetYCoord);
@@ -88,9 +90,12 @@ half4 frag(Varyings input) : SV_Target
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     half transitionAlpha = SAMPLE_TEXTURE2D(_AlphaTransitionMap, sampler_AlphaTransitionMap, input.flowTransitionUVs.zw)[_AlphaTransitionMapChannelsX];
     half progress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
-    #ifdef _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
-    progress += 1.0 - input.color.a;
-    #endif
+
+    if(IsKeywordEnabled_VERTEX_ALPHA_AS_TRANSITION_PROGRESS())
+    {
+        progress += 1.0 - input.color.a;
+    }
+    
     progress = min(1.0, progress);
 
     #ifdef _FADE_TRANSITION_ENABLED

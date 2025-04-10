@@ -76,23 +76,23 @@ Varyings ShadowPassVertex(Attributes input)
     TRANSFER_CUSTOM_COORD(input, output);
 
     // Vertex Deformation
-    #ifdef _VERTEX_DEFORMATION_ENABLED
-    if (_ShadowCasterApplyVertexDeformation)
+    if(IsKeywordEnabled_VERTEX_DEFORMATION_ENABLED())
     {
-        float2 vertexDeformationUVs = TRANSFORM_TEX(input.texcoord.xy, _VertexDeformationMap);
-        vertexDeformationUVs.x += GET_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
-        vertexDeformationUVs.y += GET_CUSTOM_COORD(_VertexDeformationMapOffsetYCoord);
-        float vertexDeformationIntensity = _VertexDeformationIntensity + GET_CUSTOM_COORD(_VertexDeformationIntensityCoord);
-        vertexDeformationIntensity = GetVertexDeformationIntensity(
-            _VertexDeformationMap, sampler_VertexDeformationMap,
-            vertexDeformationIntensity,
-            vertexDeformationUVs,
-            _VertexDeformationMapChannel,
-            _VertexDeformationBaseValue);
-        input.positionOS.xyz += normalize(input.normalOS) * vertexDeformationIntensity;
+        if (_ShadowCasterApplyVertexDeformation)
+        {
+            float2 vertexDeformationUVs = TRANSFORM_TEX(input.texcoord.xy, _VertexDeformationMap);
+            vertexDeformationUVs.x += GET_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
+            vertexDeformationUVs.y += GET_CUSTOM_COORD(_VertexDeformationMapOffsetYCoord);
+            float vertexDeformationIntensity = _VertexDeformationIntensity + GET_CUSTOM_COORD(_VertexDeformationIntensityCoord);
+            vertexDeformationIntensity = GetVertexDeformationIntensity(
+                _VertexDeformationMap, sampler_VertexDeformationMap,
+                vertexDeformationIntensity,
+                vertexDeformationUVs,
+                _VertexDeformationMapChannel,
+                _VertexDeformationBaseValue);
+            input.positionOS.xyz += normalize(input.normalOS) * vertexDeformationIntensity;
+        }
     }
-    #endif
-
     output.positionHCS = GetShadowPositionHClip(input);
 
     #ifdef _SHADOW_CASTER_ALPHA_TEST_ENABLED
@@ -100,23 +100,28 @@ Varyings ShadowPassVertex(Attributes input)
 
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;
-    #ifdef _BASE_MAP_ROTATION_ENABLED
-    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
-    baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
-    #endif
-    baseMapUv = TRANSFORM_BASE_MAP(baseMapUv);
+
+    if(IsKeywordEnabled_BASE_MAP_ROTATION_ENABLED())
+    {
+        half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
+        baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
+    }
+    
+    baseMapUv = TransformBaseMap(baseMapUv);
     baseMapUv.x += GET_CUSTOM_COORD(_BaseMapOffsetXCoord);
     baseMapUv.y += GET_CUSTOM_COORD(_BaseMapOffsetYCoord);
     output.baseMapUVAndProgresses.xy = baseMapUv;
 
     // Base Map Progress
-    #ifdef _BASE_MAP_MODE_2D_ARRAY
-    float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
-    output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
-    #elif _BASE_MAP_MODE_3D
-    float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
-    output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
-    #endif
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+    {
+        float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
+        output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
+    }else if(IsKeywordEnabled_BASE_MAP_MODE_3D())
+    {
+        float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
+        output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
+    }
 
     // Tint Map UV
     #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
@@ -140,7 +145,7 @@ Varyings ShadowPassVertex(Attributes input)
 
     // Transition Map UV
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
-    output.flowTransitionUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP(input.texcoord.xy);
+    output.flowTransitionUVs.zw = TransformAlphaTransitionMap(input.texcoord.xy);
     output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord)
     output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord)
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
@@ -207,7 +212,7 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
     #endif
 
     // Base Color
-    half4 color = SAMPLE_BASE_MAP(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z);
+    half4 color = SampleBaseMap(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z);
 
     // Tint Color
     #if defined(_TINT_AREA_ALL)
@@ -242,14 +247,15 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
     ApplyVertexColor(color, input.color);
 
     // Luminance Transparency
-    #ifdef _TRANSPARENCY_BY_LUMINANCE
-    if (_ShadowCasterAlphaAffectedByTransparencyLuminance)
+    if(IsKeywordEnabled_TRANSPARENCY_BY_LUMINANCE())
     {
-        half luminanceTransparencyProgress = _LuminanceTransparencyProgress + GET_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
-        half luminanceTransparencySharpness = _LuminanceTransparencySharpness + GET_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
-        ApplyLuminanceTransparency(color, luminanceTransparencyProgress, luminanceTransparencySharpness);
+        if (_ShadowCasterAlphaAffectedByTransparencyLuminance)
+        {
+            half luminanceTransparencyProgress = _LuminanceTransparencyProgress + GET_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
+            half luminanceTransparencySharpness = _LuminanceTransparencySharpness + GET_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
+            ApplyLuminanceTransparency(color, luminanceTransparencyProgress, luminanceTransparencySharpness);
+        }
     }
-    #endif
 
     clip(color.a - _ShadowCasterAlphaCutoff);
     #endif

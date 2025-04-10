@@ -2,7 +2,9 @@
 #define NOVA_PARTICLES_INCLUDED
 
 #include "ParticlesInstancing.hlsl"
+#include "SwitchableBranch.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
+
 
 #if defined(_PARALLAX_MAP_TARGET_BASE) || defined(_PARALLAX_MAP_TARGET_TINT) || defined(_PARALLAX_MAP_TARGET_EMISSION)
 #define USE_PARALLAX_MAP
@@ -78,6 +80,7 @@ output.customCoord2 = input.customCoord2;
 #if defined(_BASE_SAMPLER_STATE_POINT_MIRROR) || defined(_BASE_SAMPLER_STATE_LINEAR_MIRROR) || defined(_BASE_SAMPLER_STATE_TRILINEAR_MIRROR)
 #define BASE_SAMPLER_STATE_OVERRIDE_ENABLED
 #endif
+
 #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
 #ifdef _BASE_SAMPLER_STATE_POINT_MIRROR
 #define BASE_SAMPLER_STATE_NAME sampler_point_mirror
@@ -111,10 +114,12 @@ float2 RotateUV(float2 uv, half angle, half2 offsets)
 // Adjust the albedo according to the blending.
 half3 ApplyAlpha(half3 albedo, half alpha)
 {
-    #if defined(_ALPHAMODULATE_ENABLED)
-    // In multiply, albedo needs to be white if the alpha is zero.
-    return lerp(half3(1.0h, 1.0h, 1.0h), albedo, alpha);
-    #endif
+    if(IsKeywordEnabled_ALPHAMODULATE_ENABLED())
+    {
+        // In multiply, albedo needs to be white if the alpha is zero.
+        return lerp(half3(1.0h, 1.0h, 1.0h), albedo, alpha);
+    }
+ 
     return albedo;
 }
 
@@ -188,6 +193,7 @@ half FlipBookBlendingProgress(in half progress, in half sliceCount)
     return result;
 }
 
+
 // Get vertex deformation intensity by vertex deformation map
 half GetVertexDeformationIntensity(
     TEXTURE2D_PARAM(vertexDeformationMap, sampler_vertexDeformationMap),
@@ -196,12 +202,14 @@ half GetVertexDeformationIntensity(
     in half mapChannel,
     in float baseValue)
 {
-    #if defined(_VERTEX_DEFORMATION_ENABLED)
-    half4 vertexDeformation = SAMPLE_TEXTURE2D_LOD(vertexDeformationMap, sampler_vertexDeformationMap, uv, 0);
-    float mapIntensity = vertexDeformation[(uint)mapChannel] - baseValue;
-    mapIntensity *= intensity;
-    return mapIntensity;
-    #endif
+    if(IsKeywordEnabled_VERTEX_DEFORMATION_ENABLED())
+    {
+        half4 vertexDeformation = SAMPLE_TEXTURE2D_LOD(vertexDeformationMap, sampler_vertexDeformationMap, uv, 0);
+        float mapIntensity = vertexDeformation[(uint)mapChannel] - baseValue;
+        mapIntensity *= intensity;
+        return mapIntensity;
+    }
+    return 0;
 }
 
 #endif

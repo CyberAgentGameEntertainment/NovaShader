@@ -46,34 +46,50 @@ TEXTURE2D_ARRAY(_NormalMap2DArray);
 SAMPLER(sampler_NormalMap2DArray);
 TEXTURE3D(_NormalMap3D);
 SAMPLER(sampler_NormalMap3D);
+
 // Parallax Map
 TEXTURE2D(_ParallaxMap);
-SAMPLER(sampler_ParallaxMap);
 TEXTURE2D_ARRAY(_ParallaxMap2DArray);
-SAMPLER(sampler_ParallaxMap2DArray);
 TEXTURE3D(_ParallaxMap3D);
-SAMPLER(sampler_ParallaxMap3D);
+
 // Specular Map
 TEXTURE2D(_SpecularMap);
-SAMPLER(sampler_SpecularMap);
 TEXTURE2D_ARRAY(_SpecularMap2DArray);
-SAMPLER(sampler_SpecularMap2DArray);
 TEXTURE3D(_SpecularMap3D);
-SAMPLER(sampler_SpecularMap3D);
+
 // Metallic Map
 TEXTURE2D(_MetallicMap);
-SAMPLER(sampler_MetallicMap);
 TEXTURE2D_ARRAY(_MetallicMap2DArray);
-SAMPLER(sampler_MetallicMap2DArray);
 TEXTURE3D(_MetallicMap3D);
-SAMPLER(sampler_MetallicMap3D);
 // Smoothness Map
 TEXTURE2D(_SmoothnessMap);
-SAMPLER(sampler_SmoothnessMap);
 TEXTURE2D_ARRAY(_SmoothnessMap2DArray);
-SAMPLER(sampler_SmoothnessMap2DArray);
 TEXTURE3D(_SmoothnessMap3D);
+
+
+#ifdef ENABLE_DYNAMIC_BRANCH
+#else
+// TODO: Candidate for removal, retained for compatibility but should be removed if no issues arise.
+// These are surface setting samplers, so the Base Map sampler can be used instead.
+
+SAMPLER(sampler_MetallicMap);
+SAMPLER(sampler_MetallicMap2DArray);
+SAMPLER(sampler_MetallicMap3D);
+
+SAMPLER(sampler_SmoothnessMap);
+SAMPLER(sampler_SmoothnessMap2DArray);
 SAMPLER(sampler_SmoothnessMap3D);
+
+SAMPLER(sampler_SpecularMap);
+SAMPLER(sampler_SpecularMap2DArray);
+SAMPLER(sampler_SpecularMap3D);
+
+// TODO: Temporary workaround for sampler state shortage (implement the proper solution after testing version 3.0 (beta) and confirming performance improvements).
+SAMPLER(sampler_ParallaxMap);
+SAMPLER(sampler_ParallaxMap2DArray);
+SAMPLER(sampler_ParallaxMap3D);
+
+#endif
 
 CBUFFER_START(UnityPerMaterial)
     float4 _BaseMap_ST;
@@ -223,128 +239,70 @@ SamplerState GetBaseMapSamplerState()
     #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
     return BASE_SAMPLER_STATE_NAME;
     #else
-    #ifdef _BASE_MAP_MODE_2D
-    return sampler_BaseMap;
-    #elif _BASE_MAP_MODE_2D_ARRAY
-    return sampler_BaseMap2DArray;
-    #elif _BASE_MAP_MODE_3D
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D())
+    {
+        return sampler_BaseMap;
+    }
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+    {
+        return sampler_BaseMap2DArray;
+    }
     return sampler_BaseMap3D;
     #endif
-    #endif
 }
-
-SamplerState GetNormalMapSamplerState()
-{
-    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
-    return BASE_SAMPLER_STATE_NAME;
-    #else
-    #ifdef _BASE_MAP_MODE_2D
-    return sampler_NormalMap;
-    #elif _BASE_MAP_MODE_2D_ARRAY
-    return sampler_NormalMap2DArray;
-    #elif _BASE_MAP_MODE_3D
-    return sampler_NormalMap3D;
-    #endif
-    #endif
-}
-
+// TODO: Temporary workaround for sampler state shortage (implement the proper solution after testing version 3.0 (beta) and confirming performance improvements).
+#ifdef ENABLE_DYNAMIC_BRANCH
+SamplerState my_sampler_clamp_linear;
+#endif
 SamplerState GetParallaxMapSamplerState()
 {
-    #ifdef _PARALLAX_MAP_MODE_2D
-    return sampler_ParallaxMap;
-    #elif _PARALLAX_MAP_MODE_2D_ARRAY
-    return sampler_ParallaxMap2DArray;
-    #elif _PARALLAX_MAP_MODE_3D
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    return my_sampler_clamp_linear;
+    #else
+    if(IsKeywordEnabled_PARALLAX_MAP_MODE_2D())
+        return sampler_ParallaxMap;
+    if(IsKeywordEnabled_PARALLAX_MAP_MODE_2D_ARRAY())
+        return sampler_ParallaxMap2DArray;
     return sampler_ParallaxMap3D;
-    #endif
-}
-
-SamplerState GetMetallicMapSamplerState()
-{
-    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
-    return BASE_SAMPLER_STATE_NAME;
-    #else
-    #ifdef _BASE_MAP_MODE_2D
-    return sampler_MetallicMap;
-    #elif _BASE_MAP_MODE_2D_ARRAY
-    return sampler_MetallicMap2DArray;
-    #elif _BASE_MAP_MODE_3D
-    return sampler_MetallicMap3D;
-    #endif
-    #endif
-}
-
-SamplerState GetSmoothnessMapSamplerState()
-{
-    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
-    return BASE_SAMPLER_STATE_NAME;
-    #else
-    #ifdef _BASE_MAP_MODE_2D
-    return sampler_SmoothnessMap;
-    #elif _BASE_MAP_MODE_2D_ARRAY
-    return sampler_SmoothnessMap2DArray;
-    #elif _BASE_MAP_MODE_3D
-    return sampler_SmoothnessMap3D;
-    #endif
-    #endif
-}
-
-SamplerState GetSpecularMapSamplerState()
-{
-    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
-    return BASE_SAMPLER_STATE_NAME;
-    #else
-    #ifdef _BASE_MAP_MODE_2D
-    return sampler_SpecularMap;
-    #elif _BASE_MAP_MODE_2D_ARRAY
-    return sampler_SpecularMap2DArray;
-    #elif _BASE_MAP_MODE_3D
-    return sampler_SpecularMap3D;
-    #endif
     #endif
 }
 
 // Returns the sampler state of the alpha transition map.
 SamplerState GetAlphaTransitionMapSamplerState()
 {
-    #ifdef _ALPHA_TRANSITION_MAP_MODE_2D
-    return sampler_AlphaTransitionMap;
-    #elif _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
-    return sampler_AlphaTransitionMap2DArray;
-    #elif _ALPHA_TRANSITION_MAP_MODE_3D
+    if( IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D())
+        return sampler_AlphaTransitionMap;
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY())
+        return sampler_AlphaTransitionMap2DArray;
     return sampler_AlphaTransitionMap3D;
-    #endif
 }
 
 // Returns the sampler state of the alpha emission map.
 SamplerState GetEmissionMapSamplerState()
 {
-    #ifdef _EMISSION_MAP_MODE_2D
-    return sampler_EmissionMap;
-    #elif _EMISSION_MAP_MODE_2D_ARRAY
-    return sampler_EmissionMap2DArray;
-    #elif _EMISSION_MAP_MODE_3D
+    if( IsKeywordEnabled_EMISSION_MAP_MODE_2D())
+        return sampler_EmissionMap;
+    if( IsKeywordEnabled_EMISSION_MAP_MODE_2D_ARRAY())
+        return sampler_EmissionMap2DArray;
     return sampler_EmissionMap3D;
-    #endif
 }
 
-// Transforms the base map UV by the scale/bias property
-#ifdef _BASE_MAP_MODE_2D
-#define TRANSFORM_BASE_MAP(texcoord) TRANSFORM_TEX(texcoord, _BaseMap);
-#elif _BASE_MAP_MODE_2D_ARRAY
-#define TRANSFORM_BASE_MAP(texcoord) TRANSFORM_TEX(texcoord, _BaseMap2DArray);
-#elif _BASE_MAP_MODE_3D
-#define TRANSFORM_BASE_MAP(texcoord) TRANSFORM_TEX(texcoord, _BaseMap3D);
-#endif
-
-// Sample the base map.
-#ifdef _BASE_MAP_MODE_2D
-#define SAMPLE_BASE_MAP(uv, progress) SAMPLE_TEXTURE2D(_BaseMap, GetBaseMapSamplerState(), uv);
-#elif _BASE_MAP_MODE_2D_ARRAY
-#define SAMPLE_BASE_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_BaseMap2DArray, GetBaseMapSamplerState(), uv, progress);
-#elif _BASE_MAP_MODE_3D
-#define SAMPLE_BASE_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_BaseMap3D, GetBaseMapSamplerState(), float3(uv, progress), 0);
-#endif
+float2 TransformBaseMap(float2 texcoord)
+{
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D())
+        return TRANSFORM_TEX(texcoord, _BaseMap);
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+        return TRANSFORM_TEX(texcoord, _BaseMap2DArray);
+    return TRANSFORM_TEX(texcoord, _BaseMap3D);
+}
+float4 SampleBaseMap(float2 uv, float progress)
+{
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D())
+        return SAMPLE_TEXTURE2D(_BaseMap, GetBaseMapSamplerState(), uv);;
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+        return SAMPLE_TEXTURE2D_ARRAY(_BaseMap2DArray, GetBaseMapSamplerState(), uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_BaseMap3D, GetBaseMapSamplerState(), float3(uv, progress), 0);
+}
 
 // Transforms the tint map UV by the scale/bias property
 #ifdef _TINT_MAP_ENABLED
@@ -353,80 +311,168 @@ SamplerState GetEmissionMapSamplerState()
 #define TRANSFORM_TINT_MAP(texcoord) TRANSFORM_TEX(texcoord, _TintMap3D);
 #endif
 
-// Transforms the alpha transition map UV by the scale/bias property
-#ifdef _ALPHA_TRANSITION_MAP_MODE_2D
-#define TRANSFORM_ALPHA_TRANSITION_MAP(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMap);
+float2 TransformAlphaTransitionMap(float2 texcoord)
+{
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D())
+        return TRANSFORM_TEX(texcoord, _AlphaTransitionMap);
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY())
+        return TRANSFORM_TEX(texcoord, _AlphaTransitionMap2DArray);
+    return TRANSFORM_TEX(texcoord, _AlphaTransitionMap3D);
+}
 #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    #define TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture);
-#endif
-#elif _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
-#define TRANSFORM_ALPHA_TRANSITION_MAP(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMap2DArray);
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    #define TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture2DArray);
-#endif
-#elif _ALPHA_TRANSITION_MAP_MODE_3D
-#define TRANSFORM_ALPHA_TRANSITION_MAP(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMap3D);
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    #define TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(texcoord) TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture3D);
-#endif
+float2 TransformAlphaTransitionMapSecond(float2 texcoord)
+{
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D())
+        return TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture);
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY())
+        return TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture2DArray);
+    return TRANSFORM_TEX(texcoord, _AlphaTransitionMapSecondTexture3D);
+}
 #endif
 
-// Transforms the alpha transition map UV by the scale/bias property
-#ifdef _EMISSION_MAP_MODE_2D
-#define TRANSFORM_EMISSION_MAP(texcoord) TRANSFORM_TEX(texcoord, _EmissionMap);
-#elif _EMISSION_MAP_MODE_2D_ARRAY
-#define TRANSFORM_EMISSION_MAP(texcoord) TRANSFORM_TEX(texcoord, _EmissionMap2DArray);
-#elif _EMISSION_MAP_MODE_3D
-#define TRANSFORM_EMISSION_MAP(texcoord) TRANSFORM_TEX(texcoord, _EmissionMap3D);
-#endif
+float2 TransformEmissionMap(float2 texcoord)
+{
+    // Transforms the alpha transition map UV by the scale/bias property
+    if( IsKeywordEnabled_EMISSION_MAP_MODE_2D())
+        return TRANSFORM_TEX(texcoord, _EmissionMap);
+    if( IsKeywordEnabled_EMISSION_MAP_MODE_2D_ARRAY())
+        return TRANSFORM_TEX(texcoord, _EmissionMap2DArray);
+    return TRANSFORM_TEX(texcoord, _EmissionMap3D);
+}
 
-// Sample the normal map.
-#ifdef _BASE_MAP_MODE_2D
-#define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE2D(_NormalMap, GetNormalMapSamplerState(), uv), scale);
-#elif _BASE_MAP_MODE_2D_ARRAY
-#define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE2D_ARRAY(_NormalMap2DArray, GetNormalMapSamplerState(), uv, progress), scale);
-#elif _BASE_MAP_MODE_3D
-#define SAMPLE_NORMAL_MAP(uv, progress, scale) UnpackNormalScale(SAMPLE_TEXTURE3D_LOD(_NormalMap3D, GetNormalMapSamplerState(), float3(uv, progress), 0), scale);
-#endif
-
+SamplerState GetNormalMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+    
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D())
+        return sampler_NormalMap;
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+        return sampler_NormalMap2DArray;
+    return sampler_NormalMap3D;
+    
+    #endif
+}
+half3 SampleNormalMap(float2 uv, float progress, half scale)
+{
+    // Sample the normal map.
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D())
+        return UnpackNormalScale(SAMPLE_TEXTURE2D(_NormalMap, GetNormalMapSamplerState(), uv), scale);
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+        return UnpackNormalScale(SAMPLE_TEXTURE2D_ARRAY(_NormalMap2DArray, GetNormalMapSamplerState(), uv, progress), scale);
+    return UnpackNormalScale(SAMPLE_TEXTURE3D_LOD(_NormalMap3D, GetNormalMapSamplerState(), float3(uv, progress), 0), scale);
+}
+half4 SampleParallaxMap(float2 uv, float progress)
+{
+    if(IsKeywordEnabled_PARALLAX_MAP_MODE_2D())
+        return SAMPLE_TEXTURE2D(_ParallaxMap, GetParallaxMapSamplerState(), uv);
+    if(IsKeywordEnabled_PARALLAX_MAP_MODE_2D_ARRAY())
+        return SAMPLE_TEXTURE2D_ARRAY(_ParallaxMap2DArray, GetParallaxMapSamplerState(), uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_ParallaxMap3D, GetParallaxMapSamplerState(), float3(uv, progress), 0);
+}
+float2 TransformParallaxMap(float2 texcoord)
+{
+    if(IsKeywordEnabled_PARALLAX_MAP_MODE_2D())
+        return TRANSFORM_TEX(texcoord, _ParallaxMap);
+    if(IsKeywordEnabled_PARALLAX_MAP_MODE_2D_ARRAY())
+        return TRANSFORM_TEX(texcoord, _ParallaxMap2DArray);
+    return TRANSFORM_TEX(texcoord, _ParallaxMap3D);
+}
 // Sample the parallax map.
-#ifdef _PARALLAX_MAP_MODE_2D
-#define SAMPLE_PARALLAX_MAP(uv, progress) SAMPLE_TEXTURE2D(_ParallaxMap, GetParallaxMapSamplerState(), uv);
-#define TRANSFORM_PARALLAX_MAP(texcoord) TRANSFORM_TEX(texcoord, _ParallaxMap);
-#elif _PARALLAX_MAP_MODE_2D_ARRAY
-#define SAMPLE_PARALLAX_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_ParallaxMap2DArray, GetParallaxMapSamplerState(), uv, progress);
-#define TRANSFORM_PARALLAX_MAP(texcoord) TRANSFORM_TEX(texcoord, _ParallaxMap2DArray);
-#elif _PARALLAX_MAP_MODE_3D
-#define SAMPLE_PARALLAX_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_ParallaxMap3D, GetParallaxMapSamplerState(), float3(uv, progress), 0);
-#define TRANSFORM_PARALLAX_MAP(texcoord) TRANSFORM_TEX(texcoord, _ParallaxMap3D);
-#endif
 
-// Sample the metallic map.
-#ifdef _BASE_MAP_MODE_2D
-#define SAMPLE_METALLIC_MAP(uv, progress) SAMPLE_TEXTURE2D(_MetallicMap, GetMetallicMapSamplerState(), uv);
-#elif _BASE_MAP_MODE_2D_ARRAY
-#define SAMPLE_METALLIC_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_MetallicMap2DArray, GetMetallicMapSamplerState(), uv, progress);
-#elif _BASE_MAP_MODE_3D
-#define SAMPLE_METALLIC_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_MetallicMap3D, GetMetallicMapSamplerState(), float3(uv, progress), 0);
-#endif
+SamplerState GetMetallicMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D())
+        return sampler_BaseMap;
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+        return sampler_BaseMap2DArray;
+    return sampler_BaseMap3D;
+    #else
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D())
+        return sampler_MetallicMap;
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+        return sampler_MetallicMap2DArray;
+    return sampler_MetallicMap3D;
+    #endif
+    #endif
+}
 
-// Sample the smoothness map.
-#ifdef _BASE_MAP_MODE_2D
-#define SAMPLE_SMOOTHNESS_MAP(uv, progress) SAMPLE_TEXTURE2D(_SmoothnessMap, GetSmoothnessMapSamplerState(), uv);
-#elif _BASE_MAP_MODE_2D_ARRAY
-#define SAMPLE_SMOOTHNESS_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_SmoothnessMap2DArray, GetSmoothnessMapSamplerState(), uv, progress);
-#elif _BASE_MAP_MODE_3D
-#define SAMPLE_SMOOTHNESS_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_SmoothnessMap3D, GetSmoothnessMapSamplerState(), float3(uv, progress), 0);
-#endif
 
-// Sample the specular map.
-#ifdef _BASE_MAP_MODE_2D
-#define SAMPLE_SPECULAR_MAP(uv, progress) SAMPLE_TEXTURE2D(_SpecularMap, GetSpecularMapSamplerState(), uv);
-#elif _BASE_MAP_MODE_2D_ARRAY
-#define SAMPLE_SPECULAR_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_SpecularMap2DArray, GetSpecularMapSamplerState(), uv, progress);
-#elif _BASE_MAP_MODE_3D
-#define SAMPLE_SPECULAR_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_SpecularMap3D, GetSpecularMapSamplerState(), float3(uv, progress), 0);
-#endif
+half4 SampleMetallicMap(float2 uv, float progress)
+{
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D())
+        return SAMPLE_TEXTURE2D(_MetallicMap, GetMetallicMapSamplerState(), uv);
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+        return SAMPLE_TEXTURE2D_ARRAY(_MetallicMap2DArray, GetMetallicMapSamplerState(), uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_MetallicMap3D, GetMetallicMapSamplerState(), float3(uv, progress), 0);
+}
+
+SamplerState GetSmoothnessMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D())
+        return sampler_BaseMap;
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+        return sampler_BaseMap2DArray;
+    return sampler_BaseMap3D;
+    #else
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D())
+        return sampler_SmoothnessMap;
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+        return sampler_SmoothnessMap2DArray;
+    return sampler_SmoothnessMap3D;
+    #endif
+    #endif
+}
+
+half4 SampleSmoothnessMap(float2 uv, float progress)
+{
+    // Sample the smoothness map.
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D())
+        return SAMPLE_TEXTURE2D(_SmoothnessMap, GetSmoothnessMapSamplerState(), uv);
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+        return SAMPLE_TEXTURE2D_ARRAY(_SmoothnessMap2DArray, GetSmoothnessMapSamplerState(), uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_SmoothnessMap3D, GetSmoothnessMapSamplerState(), float3(uv, progress), 0);
+}
+
+SamplerState GetSpecularMapSamplerState()
+{
+    #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
+    return BASE_SAMPLER_STATE_NAME;
+    #else
+
+    #ifdef ENABLE_DYNAMIC_BRANCH
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D())
+        return sampler_BaseMap;
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+        return sampler_BaseMap2DArray;
+    return sampler_BaseMap3D;
+    #else
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D())
+        return sampler_SpecularMap;
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+        return sampler_SpecularMap2DArray;
+    return sampler_SpecularMap3D;
+    #endif
+    #endif
+}
+
+half4 SampleSpecularMap(float2 uv, float progress)
+{
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D())
+        return SAMPLE_TEXTURE2D(_SpecularMap, GetSpecularMapSamplerState(), uv);
+    if(IsKeywordEnabled_BASE_MAP_MODE_2D_ARRAY())
+        return SAMPLE_TEXTURE2D_ARRAY(_SpecularMap2DArray, GetSpecularMapSamplerState(), uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_SpecularMap3D, GetSpecularMapSamplerState(), float3(uv, progress), 0);
+}
 
 // Returns the progress of the 2DArray/3d tint map.
 half TintMapProgress(in half progress)
@@ -449,46 +495,48 @@ inline void ApplyTintColor(in out half4 color, half2 uv, half progress, half ble
     half4 tintColor;
     #ifdef _TINT_COLOR_ENABLED
     tintColor = _TintColor;
+    color *= lerp(half4(1, 1, 1, 1), tintColor, saturate(blendRate));
     #elif defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
     tintColor = SAMPLE_TINT_MAP(uv, progress);
-    #endif
     color *= lerp(half4(1, 1, 1, 1), tintColor, saturate(blendRate));
+    #endif
 }
 
 // Apply the color correction.
 void ApplyColorCorrection(in out float3 color)
 {
-    #ifdef _GREYSCALE_ENABLED
-    color.rgb = GetLuminance(color.rgb);
-    #elif _GRADIENT_MAP_ENABLED
-    color.rgb = SAMPLE_TEXTURE2D(_GradientMap, sampler_GradientMap, half2(GetLuminance(color.rgb), 0.5)).rgb;
-    #endif
+    if( IsKeywordEnabled_GREYSCALE_ENABLED())
+        color.rgb = GetLuminance(color.rgb);
+    else if( IsKeywordEnabled_GRADIENT_MAP_ENABLED())
+        color.rgb = SAMPLE_TEXTURE2D(_GradientMap, sampler_GradientMap, half2(GetLuminance(color.rgb), 0.5)).rgb;
 }
 
-// Sample the alpha transition map.
-#ifdef _ALPHA_TRANSITION_MAP_MODE_2D
-#define SAMPLE_ALPHA_TRANSITION_MAP(uv, progress) SAMPLE_TEXTURE2D(_AlphaTransitionMap, sampler_AlphaTransitionMap, uv);
+half4 SampleAlphaTransitionMap(float2 uv, float progress)
+{
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D())
+        return SAMPLE_TEXTURE2D(_AlphaTransitionMap, sampler_AlphaTransitionMap, uv);
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY())
+        return SAMPLE_TEXTURE2D_ARRAY(_AlphaTransitionMap2DArray, sampler_AlphaTransitionMap2DArray, uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMap3D, sampler_AlphaTransitionMap3D, float3(uv, progress), 0);
+}
 #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE2D(_AlphaTransitionMapSecondTexture, sampler_AlphaTransitionMapSecondTexture, uv);
-#endif
-#elif _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
-#define SAMPLE_ALPHA_TRANSITION_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_AlphaTransitionMap2DArray, sampler_AlphaTransitionMap2DArray, uv, progress);
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_AlphaTransitionMapSecondTexture2DArray, sampler_AlphaTransitionMapSecondTexture2DArray, uv, progress);
-#endif
-#elif _ALPHA_TRANSITION_MAP_MODE_3D
-#define SAMPLE_ALPHA_TRANSITION_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMap3D, sampler_AlphaTransitionMap3D, float3(uv, progress), 0);
-#if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMapSecondTexture3D, sampler_AlphaTransitionMapSecondTexture3D, float3(uv, progress), 0);
-#endif
+half4 SampleAlphaTransitionMapSecond(float2 uv, float progress)
+{
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D())
+        return SAMPLE_TEXTURE2D(_AlphaTransitionMapSecondTexture, sampler_AlphaTransitionMapSecondTexture, uv);
+    if(IsKeywordEnabled_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY())
+        return SAMPLE_TEXTURE2D_ARRAY(_AlphaTransitionMapSecondTexture2DArray, sampler_AlphaTransitionMapSecondTexture2DArray, uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMapSecondTexture3D, sampler_AlphaTransitionMapSecondTexture3D, float3(uv, progress), 0);
+}
 #endif
 
 void ModulateAlphaTransitionProgress(in out half progress, half vertexAlpha)
 {
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
-    #ifdef _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
-    progress += 1.0 - vertexAlpha;
-    #endif
+    if(IsKeywordEnabled_VERTEX_ALPHA_AS_TRANSITION_PROGRESS())
+    {
+        progress += 1.0 - vertexAlpha;
+    }
     progress = min(1.0, progress);
     #endif
 }
@@ -516,8 +564,8 @@ half GetTransitionAlphaImpl(half4 map, uint channel, half transitionProgress, fl
 #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
 half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half transitionProgress, half2 transitionMapSecondUv, half transitionMapProgressSecond, half transitionProgressSecond)
 {
-    half4 mainTexMap = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
-    half4 secondTexMap = SAMPLE_ALPHA_TRANSITION_MAP_SECOND(transitionMapSecondUv, transitionMapProgressSecond);
+    half4 mainTexMap = SampleAlphaTransitionMap(transitionMapUv, transitionMapProgress);
+    half4 secondTexMap = SampleAlphaTransitionMapSecond(transitionMapSecondUv, transitionMapProgressSecond);
     half mainTexAlpha = GetTransitionAlphaImpl(mainTexMap, (uint)_AlphaTransitionMapChannelsX, transitionProgress, _DissolveSharpness);
     half secondTexAlpha = GetTransitionAlphaImpl(secondTexMap, (uint)_AlphaTransitionMapSecondTextureChannelsX, transitionProgressSecond, _DissolveSharpnessSecondTexture);
     
@@ -533,7 +581,7 @@ half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half 
 #else
 half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half transitionProgress)
 {
-    half4 mainTexMap = SAMPLE_ALPHA_TRANSITION_MAP(transitionMapUv, transitionMapProgress);
+    half4 mainTexMap = SampleAlphaTransitionMap(transitionMapUv, transitionMapProgress);
     return GetTransitionAlphaImpl(mainTexMap, (uint)_AlphaTransitionMapChannelsX, transitionProgress,
                                   _DissolveSharpness);
 }
@@ -542,22 +590,23 @@ half GetTransitionAlpha(half2 transitionMapUv, half transitionMapProgress, half 
 // Apply the vertex color.
 inline void ApplyVertexColor(in out half4 color, in half4 vertexColor)
 {
-    #ifdef _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
-    color.rgb *= vertexColor.rgb;
-    #else
-    color *= vertexColor;
-    #endif
+    if(IsKeywordEnabled_VERTEX_ALPHA_AS_TRANSITION_PROGRESS())
+    {
+        color.rgb *= vertexColor.rgb;
+    }else
+    {
+        color *= vertexColor;
+    }
 }
-
-// Sample the emission map.
-#ifdef _EMISSION_MAP_MODE_2D
-#define SAMPLE_EMISSION_MAP(uv, progress) SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, uv);
-#elif _EMISSION_MAP_MODE_2D_ARRAY
-#define SAMPLE_EMISSION_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_EmissionMap2DArray, sampler_EmissionMap2DArray, uv, progress);
-#elif _EMISSION_MAP_MODE_3D
-#define SAMPLE_EMISSION_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_EmissionMap3D, sampler_EmissionMap3D, float3(uv, progress), 0);
-#endif
-
+half4 SampleEmissionMap(float2 uv, float progress)
+{
+    // Sample the emission map.
+    if( IsKeywordEnabled_EMISSION_MAP_MODE_2D())
+        return SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, uv);
+    if( IsKeywordEnabled_EMISSION_MAP_MODE_2D_ARRAY())
+        return SAMPLE_TEXTURE2D_ARRAY(_EmissionMap2DArray, sampler_EmissionMap2DArray, uv, progress);
+    return SAMPLE_TEXTURE3D_LOD(_EmissionMap3D, sampler_EmissionMap3D, float3(uv, progress), 0);
+}
 // Apply the emission color.
 inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float intensity, half emissionMapProgress,
                                half emissionChannelsX)
@@ -570,14 +619,15 @@ inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float in
     #ifdef _EMISSION_AREA_ALL
     emissionIntensity = 1;
     #elif _EMISSION_AREA_MAP
-    half4 emissiomMap = SAMPLE_EMISSION_MAP(emissionMapUv, emissionMapProgress);
+    half4 emissiomMap = SampleEmissionMap(emissionMapUv, emissionMapProgress);
     half emissionMapValue = emissiomMap[emissionChannelsX];
-    #if defined(_EMISSION_COLOR_COLOR) || defined(_EMISSION_COLOR_BASECOLOR)
-    emissionIntensity = emissionMapValue;
-    #elif _EMISSION_COLOR_MAP
-    emissionIntensity = step(tex_comp_err_margin, emissionMapValue);
-    emissionColorRampU = emissionMapValue;
-    #endif
+    if(IsKeywordEnabled_EMISSION_COLOR_COLOR() || IsKeywordEnabled_EMISSION_COLOR_BASECOLOR())
+        emissionIntensity = emissionMapValue;
+    else if(IsKeywordEnabled_EMISSION_COLOR_MAP())
+    {
+        emissionIntensity = step(tex_comp_err_margin, emissionMapValue);
+        emissionColorRampU = emissionMapValue;
+    }
     #elif _EMISSION_AREA_ALPHA
     emissionIntensity = step(tex_comp_err_margin, 1.0 - color.a);
     emissionColorRampU = color.a;
@@ -585,13 +635,12 @@ inline void ApplyEmissionColor(in out half4 color, half2 emissionMapUv, float in
     #endif
 
     half3 emissionColor = 0;
-    #ifdef _EMISSION_COLOR_COLOR
-    emissionColor = _EmissionColor;
-    #elif _EMISSION_COLOR_BASECOLOR
-    emissionColor = color.rgb;
-    #elif _EMISSION_COLOR_MAP
-    emissionColor = SAMPLE_TEXTURE2D(_EmissionColorRamp, sampler_EmissionColorRamp, half2(emissionColorRampU, 0.5)).rgb;
-    #endif
+    if(IsKeywordEnabled_EMISSION_COLOR_COLOR())
+        emissionColor = _EmissionColor;
+    else if(IsKeywordEnabled_EMISSION_COLOR_BASECOLOR())
+        emissionColor = color.rgb;
+    else if(IsKeywordEnabled_EMISSION_COLOR_MAP())
+        emissionColor = SAMPLE_TEXTURE2D(_EmissionColorRamp, sampler_EmissionColorRamp, half2(emissionColorRampU, 0.5)).rgb;
 
     emissionIntensity *= intensity;
     color.rgb += emissionColor * emissionIntensity;
@@ -622,19 +671,20 @@ inline void ApplyRimTransparency(in out half4 color, half rim, half progress, ha
 
 inline void ApplyLuminanceTransparency(in out half4 color, half progress, half sharpness)
 {
-    #ifdef _TRANSPARENCY_BY_LUMINANCE
-    half luminance = GetLuminance(color.rgb);
-    if (_InverseLuminanceTransparency >= 0.5)
+    if( IsKeywordEnabled_TRANSPARENCY_BY_LUMINANCE())
     {
-        luminance = 1.0 - luminance;
+        half luminance = GetLuminance(color.rgb);
+        if (_InverseLuminanceTransparency >= 0.5)
+        {
+            luminance = 1.0 - luminance;
+        }
+        progress = min(1.0, progress);
+        half width = 1.0 - min(1.0, sharpness);
+        half start = lerp(-width, 1.0, progress);
+        half end = lerp(0.0, 1.0 + width, progress);
+        luminance = smoothstep(start, end, luminance);
+        color.a *= luminance;
     }
-    progress = min(1.0, progress);
-    half width = 1.0 - min(1.0, sharpness);
-    half start = lerp(-width, 1.0, progress);
-    half end = lerp(0.0, 1.0 + width, progress);
-    luminance = smoothstep(start, end, luminance);
-    color.a *= luminance;
-    #endif
 }
 
 inline void ApplySoftParticles(in out half4 color, float4 projection)
@@ -700,9 +750,11 @@ inline half2 ParallaxOffset(in half height, in half scale, in half3 viewDirTS)
 
 inline half2 GetParallaxMappingUVOffset(in half2 uv, in half progress, in half channel, in half scale, in half3 viewDirTS)
 {
-    half4 map = SAMPLE_PARALLAX_MAP(uv, progress);
+    half4 map = SampleParallaxMap(uv, progress);
     half height = map[(int)channel];
     half2 offset = ParallaxOffset(height, scale, viewDirTS);
     return offset;
 }
+
 #endif
+

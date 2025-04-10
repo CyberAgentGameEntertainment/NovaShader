@@ -208,6 +208,9 @@ Shader "Nova/UIParticles/UberUnlit"
             ZTest [_ZTest]
 
             HLSLPROGRAM
+
+            #include "Config.hlsl"
+
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.5
@@ -220,14 +223,24 @@ Shader "Nova/UIParticles/UberUnlit"
             #pragma require 2darray
 
             // Render Settings
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            #pragma dynamic_branch_local_fragment _ALPHAMODULATE_ENABLED
+            #else
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
+            #endif
             #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
 
             // Base Map
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
+            #pragma dynamic_branch_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #else
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
-            #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
+            #endif
+            #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRRORs
 
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
@@ -244,32 +257,64 @@ Shader "Nova/UIParticles/UberUnlit"
             #pragma shader_feature_local _PARALLAX_MAP_TARGET_BASE
             #pragma shader_feature_local _PARALLAX_MAP_TARGET_TINT
             #pragma shader_feature_local _PARALLAX_MAP_TARGET_EMISSION
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
+            #else
             #pragma shader_feature_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
+            #endif
 
             // Color Correction
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
+            #else
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
+            #endif
 
             // Alpha Transition
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #else
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
+            #endif
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
 
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
+            #pragma dynamic_branch_local_fragment _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+            #else
             #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
-            #pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+            #pragma shader_feature_local_fragment _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+            #endif
 
             // Transparency
-            #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #else
+            #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
+            #endif
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
 
             // Vertex Deformation
-            #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #pragma dynamic_branch_local _VERTEX_DEFORMATION_ENABLED
+            #else
+            #pragma shader_feature_local_vertex _VERTEX_DEFORMATION_ENABLED
+            #endif
 
             // Rect2D Clip
             #pragma multi_compile_local _ UNITY_UI_CLIP_RECT
+
+            // Define unused Dynamic Branch keywords as 0 in this pass.
+            #ifdef ENABLE_DYNAMIC_BRANCH
+            #define _METALLIC_MAP_ENABLED 0
+            #define _SMOOTHNESS_MAP_ENABLED 0
+            #define _SPECULAR_MAP_ENABLED 0
+            #endif
 
             #include "ParticlesUberUnlitForward.hlsl"
             ENDHLSL
