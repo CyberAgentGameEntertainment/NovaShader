@@ -381,7 +381,8 @@ You can specify the type of the Base Map from the following options.
 </ul>
 </p>
 <p>
-The required texture type will change depending on the mode you selected.
+The required texture type will change depending on the mode you selected.<br>
+Note: In NOVA Shader, please do not use the Particle System's Texture Sheet Animation. Instead, use the Flip Book feature.
 </p>
 </td></tr>
 <tr><td colspan="3"><b>Texture</b></td><td>

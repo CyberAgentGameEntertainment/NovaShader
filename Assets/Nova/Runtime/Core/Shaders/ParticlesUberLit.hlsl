@@ -29,6 +29,10 @@ struct VaryingsLit
     float4 shadowCoord : COLOR2;
     #endif
     half3 vertexSH : COLOR3; // SH
+
+    #ifdef USE_APV_PROBE_OCCLUSION
+    float4 probeOcclusion : TEXCOORD14;
+    #endif
 };
 
 #endif

@@ -394,7 +394,7 @@ namespace Nova.Editor.Core.Scripts
                 var zWrite = zWriteOverride == ZWriteOverride.Auto ? defaultValue : (int)zWriteOverride;
                 return zWrite;
             }
-
+            var uiShader = material.shader.name.Contains("Nova/UIParticles/");
             if (renderType == RenderType.Opaque)
             {
                 material.renderQueue = (int)RenderQueue.Geometry;
@@ -402,7 +402,7 @@ namespace Nova.Editor.Core.Scripts
                 material.renderQueue += (int)material.GetFloat(QueueOffsetId);
                 material.SetInt(BlendSrcId, (int)BlendMode.One);
                 material.SetInt(BlendDstId, (int)BlendMode.Zero);
-                material.SetInt(ZWriteId, GetZWriteValue(1));
+                material.SetInt(ZWriteId, uiShader ? GetZWriteValue(0) : GetZWriteValue(1));
                 material.DisableKeyword(ShaderKeywords.AlphaModulateEnabled);
             }
             else if (renderType == RenderType.Cutout)
@@ -412,7 +412,7 @@ namespace Nova.Editor.Core.Scripts
                 material.renderQueue += (int)material.GetFloat(QueueOffsetId);
                 material.SetInt(BlendSrcId, (int)BlendMode.One);
                 material.SetInt(BlendDstId, (int)BlendMode.Zero);
-                material.SetInt(ZWriteId, GetZWriteValue(1));
+                material.SetInt(ZWriteId, uiShader ? GetZWriteValue(0) : GetZWriteValue(1));
                 material.DisableKeyword(ShaderKeywords.AlphaModulateEnabled);
             }
             else if (renderType == RenderType.Transparent)
