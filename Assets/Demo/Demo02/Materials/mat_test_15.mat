@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: mat_test_15
   m_Shader: {fileID: 4800000, guid: 65654f079f6f340b09f954eb6366ad5a, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHA_TRANSITION_MAP_MODE_2D
   - _BASE_MAP_MODE_2D
@@ -16,7 +18,6 @@ Material:
   - _EMISSION_COLOR_MAP
   - _EMISSION_MAP_MODE_2D
   - _ENVIRONMENT_REFLECTIONS_ENABLED
-  - _METALLIC_MAP_ENABLED
   - _NORMAL_MAP_ENABLED
   - _PARALLAX_MAP_MODE_2D
   - _RECEIVE_SHADOWS_ENABLED
@@ -30,8 +31,11 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
-  stringTagMap: {}
-  disabledShaderPasses: []
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - SHADOWCASTER
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
