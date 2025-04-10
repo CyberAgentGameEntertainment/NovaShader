@@ -206,8 +206,8 @@ Shader "Nova/Particles/UberUnlit"
 
             // Render Settings
             #ifdef ENABLE_DYNAMIC_BRANCH
-            #pragma dynamic_branch_local _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
-            #pragma dynamic_branch_local _ALPHAMODULATE_ENABLED
+            #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            #pragma dynamic_branch_local_fragment _ALPHAMODULATE_ENABLED
             #else
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
@@ -218,7 +218,7 @@ Shader "Nova/Particles/UberUnlit"
             
             #ifdef ENABLE_DYNAMIC_BRANCH
             #pragma dynamic_branch_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
-            #pragma dynamic_branch_local _BASE_MAP_ROTATION_ENABLED
+            #pragma dynamic_branch_local_vertex _BASE_MAP_ROTATION_ENABLED
             #else
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
@@ -226,10 +226,10 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Tint Color
-            #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
-            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
+            #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM 
+            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED 
 
-            // Flow Map
+            // Flow Map(Cannot be converted to Dynamic Branch.)
             #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
             #pragma shader_feature_local _FLOW_MAP_TARGET_BASE
             #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
@@ -288,7 +288,7 @@ Shader "Nova/Particles/UberUnlit"
             #ifdef ENABLE_DYNAMIC_BRANCH
             #pragma dynamic_branch_local _VERTEX_DEFORMATION_ENABLED
             #else
-            #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
+            #pragma shader_feature_local_vertex _VERTEX_DEFORMATION_ENABLED
             #endif
 
             #ifdef ENABLE_DYNAMIC_BRANCH
@@ -448,8 +448,8 @@ Shader "Nova/Particles/UberUnlit"
 
             // Render Settings
             #ifdef ENABLE_DYNAMIC_BRANCH
-            #pragma dynamic_branch_local _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
-            #pragma dynamic_branch_local _ALPHAMODULATE_ENABLED
+            #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            #pragma dynamic_branch_local_fragment _ALPHAMODULATE_ENABLED
             #else
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
@@ -459,7 +459,7 @@ Shader "Nova/Particles/UberUnlit"
             // Base Map
             #ifdef ENABLE_DYNAMIC_BRANCH
             #pragma dynamic_branch_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
-            #pragma dynamic_branch_local _BASE_MAP_ROTATION_ENABLED
+            #pragma dynamic_branch_local_vertex _BASE_MAP_ROTATION_ENABLED
             #else
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
@@ -517,7 +517,7 @@ Shader "Nova/Particles/UberUnlit"
 
             // Vertex Deformation
             #ifdef ENABLE_DYNAMIC_BRANCH
-            #pragma dynamic_branch_local _VERTEX_DEFORMATION_ENABLED
+            #pragma dynamic_branch_local_vertex _VERTEX_DEFORMATION_ENABLED
             #else
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
@@ -568,19 +568,17 @@ Shader "Nova/Particles/UberUnlit"
             #pragma require 2darray
 
             // Render Settings
-            // NOTE : Not need in DepthNormals pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
-            #pragma dynamic_branch_local _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #else
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #endif
-            // #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
             #pragma shader_feature_local _ALPHATEST_ENABLED
 
             // Base Map
             #ifdef ENABLE_DYNAMIC_BRANCH
             #pragma dynamic_branch_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
-            #pragma dynamic_branch_local _BASE_MAP_ROTATION_ENABLED
+            #pragma dynamic_branch_local_vertex _BASE_MAP_ROTATION_ENABLED
             #else
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
@@ -637,7 +635,7 @@ Shader "Nova/Particles/UberUnlit"
 
             // Vertex Deformation
             #ifdef ENABLE_DYNAMIC_BRANCH
-            #pragma dynamic_branch_local _VERTEX_DEFORMATION_ENABLED
+            #pragma dynamic_branch_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #else
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
@@ -690,7 +688,7 @@ Shader "Nova/Particles/UberUnlit"
             // Render Settings
             // NOTE : Not need in DepthNormals pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
-            #pragma dynamic_branch_local _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #else
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #endif
@@ -700,7 +698,7 @@ Shader "Nova/Particles/UberUnlit"
             // Base Map
             #ifdef ENABLE_DYNAMIC_BRANCH
             #pragma dynamic_branch_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
-            #pragma dynamic_branch_local _BASE_MAP_ROTATION_ENABLED
+            #pragma dynamic_branch_local_vertex _BASE_MAP_ROTATION_ENABLED
             #else
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
@@ -757,7 +755,7 @@ Shader "Nova/Particles/UberUnlit"
 
             // Vertex Deformation
             #ifdef ENABLE_DYNAMIC_BRANCH
-            #pragma dynamic_branch_local _VERTEX_DEFORMATION_ENABLED
+            #pragma dynamic_branch_local_vertex _VERTEX_DEFORMATION_ENABLED
             #else
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
@@ -806,7 +804,7 @@ Shader "Nova/Particles/UberUnlit"
 
             // Render Settings
             #ifdef ENABLE_DYNAMIC_BRANCH
-            #pragma dynamic_branch_local _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+            #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #else
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #endif
@@ -814,7 +812,7 @@ Shader "Nova/Particles/UberUnlit"
             // Base Map
             #ifdef ENABLE_DYNAMIC_BRANCH
             #pragma dynamic_branch_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
-            #pragma dynamic_branch_local _BASE_MAP_ROTATION_ENABLED
+            #pragma dynamic_branch_local_vertex _BASE_MAP_ROTATION_ENABLED
             #else
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
@@ -849,7 +847,7 @@ Shader "Nova/Particles/UberUnlit"
             
             // Vertex Deformation
             #ifdef ENABLE_DYNAMIC_BRANCH
-            #pragma dynamic_branch_local _VERTEX_DEFORMATION_ENABLED
+            #pragma dynamic_branch_local_vertex _VERTEX_DEFORMATION_ENABLED
             #else
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
@@ -865,7 +863,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma vertex ShadowPassVertex
             #pragma fragment ShadowPassFragment
 
-            // このパスで使用しないDynamic Branchのキーワードを0で定義する
+            // Define unused Dynamic Branch keywords as 0 in this pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0

@@ -273,16 +273,13 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
             #endif
-            // これはDynamic Branch化できそう
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Tint Color
-            // Dynamic Branch無理
-            #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
-            // Dynamic Branch無理
-            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
+            #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM // Cannot be converted to Dynamic Branch."
+            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED // Cannot be converted to Dynamic Branch."
 
-            // Flow Map(Dynamic Branch無理)
+            // Flow Map(// Cannot be converted to Dynamic Branch.)
             #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
             #pragma shader_feature_local _FLOW_MAP_TARGET_BASE
             #pragma shader_feature_local _FLOW_MAP_TARGET_TINT
@@ -290,13 +287,9 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
 
             // Parallax Map
-            // Dynamic Branch無理
-            #pragma shader_feature_local _PARALLAX_MAP_TARGET_BASE
-            // Dynamic Branch無理
-            #pragma shader_feature_local _PARALLAX_MAP_TARGET_TINT
-            // Dynamic Branch無理
-            #pragma shader_feature_local _PARALLAX_MAP_TARGET_EMISSION
-
+            #pragma shader_feature_local _PARALLAX_MAP_TARGET_BASE // Cannot be converted to Dynamic Branch.
+            #pragma shader_feature_local _PARALLAX_MAP_TARGET_TINT // Cannot be converted to Dynamic Branch.
+            #pragma shader_feature_local _PARALLAX_MAP_TARGET_EMISSION // Cannot be converted to Dynamic Branch.
             #ifdef ENABLE_DYNAMIC_BRANCH
             #pragma dynamic_branch_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
             #else
@@ -321,6 +314,7 @@ Shader "Nova/Particles/UberLit"
 
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
+
             #ifdef ENABLE_DYNAMIC_BRANCH
             #pragma dynamic_branch_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
             #pragma dynamic_branch_local_fragment _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
@@ -344,7 +338,7 @@ Shader "Nova/Particles/UberLit"
             #ifdef ENABLE_DYNAMIC_BRANCH
             #pragma dynamic_branch_local_vertex _VERTEX_DEFORMATION_ENABLED
             #else
-            #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
+            #pragma shader_feature_local_vertex _VERTEX_DEFORMATION_ENABLED
             #endif
 
             #include "ParticlesUberLitForward.hlsl"
@@ -890,7 +884,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Tint Color
-            // _TINT_AREA_ALLだけならfragmentのみでいい
+            // If only _TINT_AREA_ALL is used, fragment is sufficient.
             #pragma shader_feature_local_fragment  _ _TINT_AREA_ALL
             #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
 

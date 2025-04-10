@@ -49,11 +49,9 @@ SAMPLER(sampler_NormalMap3D);
 
 // Parallax Map
 TEXTURE2D(_ParallaxMap);
-// SAMPLER(sampler_ParallaxMap);
 TEXTURE2D_ARRAY(_ParallaxMap2DArray);
-// SAMPLER(sampler_ParallaxMap2DArray);
 TEXTURE3D(_ParallaxMap3D);
-// SAMPLER(sampler_ParallaxMap3D);
+
 // Specular Map
 TEXTURE2D(_SpecularMap);
 TEXTURE2D_ARRAY(_SpecularMap2DArray);
@@ -85,6 +83,11 @@ SAMPLER(sampler_SmoothnessMap3D);
 SAMPLER(sampler_SpecularMap);
 SAMPLER(sampler_SpecularMap2DArray);
 SAMPLER(sampler_SpecularMap3D);
+
+// TODO: Temporary workaround for sampler state shortage (implement the proper solution after testing version 3.0 (beta) and confirming performance improvements).
+SAMPLER(sampler_ParallaxMap);
+SAMPLER(sampler_ParallaxMap2DArray);
+SAMPLER(sampler_ParallaxMap3D);
 
 #endif
 
