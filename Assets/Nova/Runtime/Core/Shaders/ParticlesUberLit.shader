@@ -249,7 +249,6 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
             #endif
-            
             #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
 
             #pragma shader_feature_local _RECEIVE_SHADOWS_ENABLED
@@ -318,7 +317,6 @@ Shader "Nova/Particles/UberLit"
 
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
-
             #ifdef ENABLE_DYNAMIC_BRANCH
             #pragma dynamic_branch_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
             #pragma dynamic_branch_local_fragment _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
@@ -333,7 +331,6 @@ Shader "Nova/Particles/UberLit"
             #else
             #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
             #endif
-
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
@@ -440,7 +437,6 @@ Shader "Nova/Particles/UberLit"
             #else
             #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
             #endif
-
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
@@ -452,6 +448,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
 
+            // Define unused Dynamic Branch keywords as 0 in this pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
@@ -563,7 +560,6 @@ Shader "Nova/Particles/UberLit"
             #else
             #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
             #endif
-
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
@@ -575,6 +571,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
 
+            // Define unused Dynamic Branch keywords as 0 in this pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
@@ -624,14 +621,13 @@ Shader "Nova/Particles/UberLit"
             #pragma require 2darray
 
             // Render Settings
-            // NOTE : Not need in DepthNormals pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
             #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #else
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #endif
+            // NOTE : Not need in DepthNormals pass.
             // #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
-            
             #pragma shader_feature_local _ALPHATEST_ENABLED
 
             // Base Map
@@ -704,6 +700,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
 
+            // Define unused Dynamic Branch keywords as 0 in this pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
             #define _ALPHAMODULATE_ENABLED 0
             #define _METALLIC_MAP_ENABLED 0
@@ -749,12 +746,13 @@ Shader "Nova/Particles/UberLit"
             #pragma require 2darray
 
             // Render Settings
-            // NOTE : Not need in DepthNormals pass.
+    
             #ifdef ENABLE_DYNAMIC_BRANCH
             #pragma dynamic_branch_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #else
             #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
             #endif
+            // NOTE : Not need in DepthNormals pass.
             // #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
             #pragma shader_feature_local _ALPHATEST_ENABLED
 
@@ -813,7 +811,6 @@ Shader "Nova/Particles/UberLit"
             #else
             #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
             #endif
-
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
@@ -825,6 +822,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
 
+            // Define unused Dynamic Branch keywords as 0 in this pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
             #define _ALPHAMODULATE_ENABLED 0
             #define _METALLIC_MAP_ENABLED 0
@@ -931,6 +929,7 @@ Shader "Nova/Particles/UberLit"
             #pragma vertex ShadowPassVertex
             #pragma fragment ShadowPassFragment
 
+            // Define unused Dynamic Branch keywords as 0 in this pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
             #define _ALPHAMODULATE_ENABLED 0
             #define _METALLIC_MAP_ENABLED 0

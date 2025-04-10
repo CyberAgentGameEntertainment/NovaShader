@@ -191,6 +191,7 @@ Shader "Nova/Particles/UberUnlit"
             ZTest [_ZTest]
 
             HLSLPROGRAM
+
             #include "Config.hlsl"
 
             #pragma vertex vert
@@ -215,7 +216,6 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_fragment _ALPHATEST_ENABLED
 
             // Base Map
-            
             #ifdef ENABLE_DYNAMIC_BRANCH
             #pragma dynamic_branch_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma dynamic_branch_local_vertex _BASE_MAP_ROTATION_ENABLED
@@ -264,7 +264,6 @@ Shader "Nova/Particles/UberUnlit"
 
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
-            
             #ifdef ENABLE_DYNAMIC_BRANCH
             #pragma dynamic_branch_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
             #pragma dynamic_branch_local_fragment _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
@@ -279,7 +278,6 @@ Shader "Nova/Particles/UberUnlit"
             #else
             #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
             #endif
-            
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
@@ -291,6 +289,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_vertex _VERTEX_DEFORMATION_ENABLED
             #endif
 
+            // Define unused Dynamic Branch keywords as 0 in this pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
@@ -390,7 +389,6 @@ Shader "Nova/Particles/UberUnlit"
             #else
             #pragma shader_feature_local_fragment _TRANSPARENCY_BY_LUMINANCE
             #endif
-
             #pragma shader_feature_local _TRANSPARENCY_BY_RIM
             #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
             #pragma shader_feature_local _DEPTH_FADE_ENABLED
@@ -402,6 +400,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
 
+            // Define unused Dynamic Branch keywords as 0 in this pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
@@ -522,6 +521,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
 
+            // Define unused Dynamic Branch keywords as 0 in this pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
@@ -640,6 +640,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
 
+            // Define unused Dynamic Branch keywords as 0 in this pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
@@ -760,6 +761,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_vertex _ _VERTEX_DEFORMATION_ENABLED
             #endif
 
+            // Define unused Dynamic Branch keywords as 0 in this pass.
             #ifdef ENABLE_DYNAMIC_BRANCH
             #define _METALLIC_MAP_ENABLED 0
             #define _SMOOTHNESS_MAP_ENABLED 0
