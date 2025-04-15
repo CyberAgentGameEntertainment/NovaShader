@@ -35,8 +35,7 @@ namespace Nova.Runtime.Core.Scripts
 
         private bool IsPostProcessingAllowed()
         {
-#if UNITY_2023_3_OR_NEWER
-#elif UNITY_2022_1_OR_NEWER
+#if UNITY_2022_1_OR_NEWER
             return UniversalRenderPipelineDebugDisplaySettings.Instance.IsPostProcessingAllowed;
 #else
             return DebugDisplaySettings.Instance.IsPostProcessingAllowed;
