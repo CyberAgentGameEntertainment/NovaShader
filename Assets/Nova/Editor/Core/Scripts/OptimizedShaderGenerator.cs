@@ -11,10 +11,14 @@ using UnityEngine;
 
 namespace Nova.Editor.Core.Scripts
 {
-    public class OptimizedShaderGenerator : AssetPostprocessor
+    internal class OptimizedShaderGenerator : AssetPostprocessor
     {
-        // 対象Pass名一覧（case-insensitive）
-        // 対象とする LightMode タグ値
+        private enum RenderType{
+            Opaque,
+            Transparent,
+            Cutoff,
+            Num,
+        }
         private static readonly string[] TargetLightModes =
         {
             "DepthOnly",
@@ -112,44 +116,57 @@ namespace Nova.Editor.Core.Scripts
                     RequiredOptionalLightMode.ShadowCaster
                 };
 
-                var optimizedShaderNames = new[]
+                var UsedPassNames = new[]
                 {
-                    "(Optimized None)",
-                    "(Optimized DepthOnly)",
-                    "(Optimized DepthOnly DepthNormals)",
-                    "(Optimized DepthOnly ShadowCaster)",
-                    "(Optimized DepthOnly DepthNormals ShadowCaster)",
-                    "(Optimized DepthNormals)",
-                    "(Optimized DepthNormals ShadowCaster)",
-                    "(Optimized ShadowCaster)"
+                    "None",
+                    "DepthOnly",
+                    "DepthOnly DepthNormals",
+                    "DepthOnly ShadowCaster",
+                    "DepthOnly DepthNormals ShadowCaster",
+                    "DepthNormals",
+                    "DepthNormals ShadowCaster",
+                    "ShadowCaster"
                 };
-
-                for (var i = 0; i < requiredLightModes.Length; i++)
+                var renderTypeNames = new[]
                 {
-                    var optimizedDir = Path.GetDirectoryName(assetPath);
-                    var optimizedShaderDir = Path.Combine(optimizedDir, "OptimizedShaders");
-                    if (!Directory.Exists(optimizedShaderDir)) Directory.CreateDirectory(optimizedShaderDir);
-                    var optimizedPath = Path.Combine(optimizedShaderDir,
-                        Path.GetFileNameWithoutExtension(assetPath) + $"{optimizedShaderNames[i]}.shader");
-                    if (File.Exists(optimizedPath))
+                    "Opaque",
+                    "Transparent",
+                    "Cutoff",
+                };
+                for (var renderType = 0; renderType < (int)RenderType.Num; renderType++)
+                {
+                    for (var lightMode = 0; lightMode < requiredLightModes.Length; lightMode++)
                     {
-                        var optimizedWriteTime = File.GetLastWriteTime(optimizedPath);
-                        var sourceWriteTime = File.GetLastWriteTime(assetPath);
-                        if (sourceWriteTime <= optimizedWriteTime) continue;
+                        var postFixName = $"(Optimized {renderTypeNames[renderType]} {UsedPassNames[lightMode]})";
+                        var optimizedDir = Path.GetDirectoryName(assetPath);
+                        var optimizedShaderDir = Path.Combine(optimizedDir, "OptimizedShaders");
+                        if (!Directory.Exists(optimizedShaderDir)) Directory.CreateDirectory(optimizedShaderDir);
+                        var optimizedPath = Path.Combine(optimizedShaderDir,
+                            Path.GetFileNameWithoutExtension(assetPath) 
+                            + $"{postFixName}.shader");
+                        if (File.Exists(optimizedPath))
+                        {
+                            var optimizedWriteTime = File.GetLastWriteTime(optimizedPath);
+                            var sourceWriteTime = File.GetLastWriteTime(assetPath);
+                            if (sourceWriteTime <= optimizedWriteTime) continue;
+                        }
+
+                        var optimizedSource = "";
+                        if (source.Contains("Nova/Particles/UberUnlit"))
+                            optimizedSource = source.Replace("Nova/Particles/UberUnlit",
+                                $"Hidden/Nova/Particles/UberUnlit{postFixName}");
+                        else if (source.Contains("Nova/Particles/UberLit"))
+                            optimizedSource = source.Replace("Nova/Particles/UberLit",
+                                $"Hidden/Nova/Particles/UberLit{postFixName}");
+
+                        optimizedSource =
+                            OptimizeShader(optimizedSource, requiredLightModes[lightMode], (RenderType)renderType);    
+                        // Since the output folder is OptimizedShaders, adjust the include paths accordingly
+                        optimizedSource = ReplaceIncludePath(optimizedSource);
+                        File.WriteAllText(optimizedPath, optimizedSource);
+
+                        AssetDatabase.ImportAsset(optimizedPath);
                     }
-
-                    var optimizedSource = "";
-                    if (source.Contains("Nova/Particles/UberUnlit"))
-                        optimizedSource = source.Replace("Nova/Particles/UberUnlit",
-                            $"Hidden/Nova/Particles/UberUnlit{optimizedShaderNames[i]}");
-                    else if (source.Contains("Nova/Particles/UberLit"))
-                        optimizedSource = source.Replace("Nova/Particles/UberLit",
-                            $"Hidden/Nova/Particles/UberLit{optimizedShaderNames[i]}");
-                    optimizedSource = RemoveTargetKeywordsFromPasses(optimizedSource, requiredLightModes[i]);
-                    optimizedSource = ReplaceIncludePath(optimizedSource);
-                    File.WriteAllText(optimizedPath, optimizedSource);
-
-                    AssetDatabase.ImportAsset(optimizedPath);
                 }
             }
         }
@@ -172,13 +189,12 @@ namespace Nova.Editor.Core.Scripts
             return regex.IsMatch(shaderText);
         }
 
-        private static string RemoveTargetKeywordsFromPasses(string shaderCode,
-            RequiredOptionalLightMode requiredLightMode)
+        private static string OptimizeShader(string shaderCode,RequiredOptionalLightMode requiredLightMode, 
+            RenderType renderType)
         {
             foreach (var passName in TargetLightModes)
                 shaderCode = OptimizeShaderPass(
-                    shaderCode, passName, requiredLightMode);
-
+                    shaderCode, passName, requiredLightMode, renderType);
             return shaderCode;
         }
 
@@ -192,7 +208,7 @@ namespace Nova.Editor.Core.Scripts
         }
 
         private static string OptimizeShaderPass(string shaderCode, string passName,
-            RequiredOptionalLightMode requiredLightMode)
+            RequiredOptionalLightMode requiredLightMode, RenderType renderType)
         {
             var result = "";
             var lines = new List<string>(shaderCode.Split('\n'));
@@ -209,7 +225,7 @@ namespace Nova.Editor.Core.Scripts
                     continue;
                 }
 
-                // Pass開始を見つけた → 次の { 探す
+                // Found Pass start -> Looking for next {
                 var startLine = i;
 
                 // Scan forward to find the first {
@@ -253,6 +269,7 @@ namespace Nova.Editor.Core.Scripts
                 }
 
                 var enablePass = true;
+                // Disable DepthOnly, ShadowCaster, and DepthNormals passes if they are not required
                 if (lightMode == "DepthOnly")
                     enablePass = (requiredLightMode & RequiredOptionalLightMode.DepthOnly) != 0;
                 else if (lightMode == "ShadowCaster")
@@ -261,14 +278,19 @@ namespace Nova.Editor.Core.Scripts
                     enablePass = (requiredLightMode & RequiredOptionalLightMode.DepthNormals) != 0;
                 if (enablePass)
                 {
-                    if (!string.IsNullOrEmpty(lightMode) && Array.Exists(TargetLightModes, x => x.Equals(lightMode)))
+                    // Remove Unused Keywords
+                    if (!string.IsNullOrEmpty(lightMode) 
+                        && Array.Exists(TargetLightModes, x => x.Equals(lightMode))
+                        && renderType == (int)RenderType.Opaque)
+                    {
                         for (var k = startLine; k <= passEnd; k++)
                         {
                             var lineCache = lines[k];
                             if (!ShaderFeaturePragmaRegex.IsMatch(lineCache)) continue;
                             if (!ShaderKeywordRegex.IsMatch(lineCache)) continue;
-                            lines[k] = ""; // 削除対象を空行に
+                            lines[k] = "";
                         }
+                    }
                 }
                 else
                 {
