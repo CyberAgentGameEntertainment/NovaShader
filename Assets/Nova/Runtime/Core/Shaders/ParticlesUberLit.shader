@@ -485,10 +485,10 @@ Shader "Nova/Particles/UberLit"
             #pragma require 2darray
 
             // Render Settings
-            #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+
             // NOTE : Not need in DepthNormals pass.
             // #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
-            #pragma shader_feature_local _ALPHATEST_ENABLED
+
 
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
@@ -566,10 +566,10 @@ Shader "Nova/Particles/UberLit"
             #pragma require 2darray
 
             // Render Settings
-            #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+
             // NOTE : Not need in DepthNormals pass.
             // #pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
-            #pragma shader_feature_local _ALPHATEST_ENABLED
+
 
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
@@ -644,7 +644,7 @@ Shader "Nova/Particles/UberLit"
             #pragma require 2darray
 
             // Render Settings
-            #pragma shader_feature_local_fragment _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
+
 
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
