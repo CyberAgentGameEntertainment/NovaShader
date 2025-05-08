@@ -2,13 +2,16 @@
 // Copyright 2021 CyberAgent, Inc.
 // --------------------------------------------------------------
 
+using System;
+
 namespace Nova.Editor.Core.Scripts
-{
-    public enum RenderType
+{   
+    [Flags]
+    public enum OptionalShaderPass
     {
-        Opaque = 0,
-        Cutout = 1,
-        Transparent = 2,
-        Num,
+        None = 0,
+        DepthOnly = 1,
+        DepthNormals = 1 << 1,
+        ShadowCaster = 1 << 2
     }
 }

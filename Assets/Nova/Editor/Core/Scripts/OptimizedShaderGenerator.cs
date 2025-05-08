@@ -13,12 +13,6 @@ namespace Nova.Editor.Core.Scripts
 {
     internal class OptimizedShaderGenerator : AssetPostprocessor
     {
-        private enum RenderType{
-            Opaque,
-            Transparent,
-            Cutoff,
-            Num,
-        }
         private static readonly string[] TargetLightModes =
         {
             "DepthOnly",
@@ -105,15 +99,15 @@ namespace Nova.Editor.Core.Scripts
 
                 var requiredLightModes = new[]
                 {
-                    RequiredOptionalLightMode.None,
-                    RequiredOptionalLightMode.DepthOnly,
-                    RequiredOptionalLightMode.DepthOnly | RequiredOptionalLightMode.DepthNormals,
-                    RequiredOptionalLightMode.DepthOnly | RequiredOptionalLightMode.ShadowCaster,
-                    RequiredOptionalLightMode.DepthOnly | RequiredOptionalLightMode.DepthNormals |
-                    RequiredOptionalLightMode.ShadowCaster,
-                    RequiredOptionalLightMode.DepthNormals,
-                    RequiredOptionalLightMode.DepthNormals | RequiredOptionalLightMode.ShadowCaster,
-                    RequiredOptionalLightMode.ShadowCaster
+                    OptionalShaderPass.None,
+                    OptionalShaderPass.DepthOnly,
+                    OptionalShaderPass.DepthOnly | OptionalShaderPass.DepthNormals,
+                    OptionalShaderPass.DepthOnly | OptionalShaderPass.ShadowCaster,
+                    OptionalShaderPass.DepthOnly | OptionalShaderPass.DepthNormals |
+                    OptionalShaderPass.ShadowCaster,
+                    OptionalShaderPass.DepthNormals,
+                    OptionalShaderPass.DepthNormals | OptionalShaderPass.ShadowCaster,
+                    OptionalShaderPass.ShadowCaster
                 };
 
                 var UsedPassNames = new[]
@@ -131,7 +125,7 @@ namespace Nova.Editor.Core.Scripts
                 {
                     "Opaque",
                     "Transparent",
-                    "Cutoff",
+                    "Cutout",
                 };
                 for (var renderType = 0; renderType < (int)RenderType.Num; renderType++)
                 {
@@ -189,7 +183,7 @@ namespace Nova.Editor.Core.Scripts
             return regex.IsMatch(shaderText);
         }
 
-        private static string OptimizeShader(string shaderCode,RequiredOptionalLightMode requiredLightMode, 
+        private static string OptimizeShader(string shaderCode,OptionalShaderPass requiredLightMode, 
             RenderType renderType)
         {
             foreach (var passName in TargetLightModes)
@@ -208,7 +202,7 @@ namespace Nova.Editor.Core.Scripts
         }
 
         private static string OptimizeShaderPass(string shaderCode, string passName,
-            RequiredOptionalLightMode requiredLightMode, RenderType renderType)
+            OptionalShaderPass requiredLightMode, RenderType renderType)
         {
             var result = "";
             var lines = new List<string>(shaderCode.Split('\n'));
@@ -271,11 +265,11 @@ namespace Nova.Editor.Core.Scripts
                 var enablePass = true;
                 // Disable DepthOnly, ShadowCaster, and DepthNormals passes if they are not required
                 if (lightMode == "DepthOnly")
-                    enablePass = (requiredLightMode & RequiredOptionalLightMode.DepthOnly) != 0;
+                    enablePass = (requiredLightMode & OptionalShaderPass.DepthOnly) != 0;
                 else if (lightMode == "ShadowCaster")
-                    enablePass = (requiredLightMode & RequiredOptionalLightMode.ShadowCaster) != 0;
+                    enablePass = (requiredLightMode & OptionalShaderPass.ShadowCaster) != 0;
                 else if (lightMode == "DepthNormals")
-                    enablePass = (requiredLightMode & RequiredOptionalLightMode.DepthNormals) != 0;
+                    enablePass = (requiredLightMode & OptionalShaderPass.DepthNormals) != 0;
                 if (enablePass)
                 {
                     // Remove Unused Keywords
@@ -307,14 +301,6 @@ namespace Nova.Editor.Core.Scripts
             }
 
             return result;
-        }
-
-        private enum RequiredOptionalLightMode
-        {
-            None = 0,
-            DepthOnly = 1,
-            ShadowCaster = 1 << 1,
-            DepthNormals = 1 << 2
         }
     }
 }
