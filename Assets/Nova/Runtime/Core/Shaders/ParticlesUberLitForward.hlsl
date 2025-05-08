@@ -241,10 +241,7 @@ VaryingsLit vertLit(AttributesLit input)
 void InitializeBakedGIData(VaryingsLit input, inout InputData inputData)
 {
     #if UNITY_VERSION >= 60000000
-    // Does not support light maps.
-    #if defined(DYNAMICLIGHTMAP_ON)
-    // inputData.bakedGI = SAMPLE_GI(input.staticLightmapUV, input.dynamicLightmapUV, input.vertexSH, inputData.normalWS);
-    #elif !defined(LIGHTMAP_ON) && (defined(PROBE_VOLUMES_L1) || defined(PROBE_VOLUMES_L2))
+    #if !defined(LIGHTMAP_ON) && (defined(PROBE_VOLUMES_L1) || defined(PROBE_VOLUMES_L2))
     inputData.bakedGI = SAMPLE_GI(input.vertexSH,
         GetAbsolutePositionWS(inputData.positionWS),
         inputData.normalWS,
