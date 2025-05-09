@@ -31,53 +31,49 @@ namespace Tests.Runtime
                 $"Assets/Tests/Scenes/{scenePath}.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
             // シーンの読み込み待ち
-            while (!asyncOp.isDone)
-            {
-                yield return null;
-            }
+            while (!asyncOp.isDone) yield return null;
             // タイムスケールを0に指定しても、バインドポーズになるときもあれば、
             // 0フレームのアニメーションが再生されてしまうことがあり、テストが不安定だった。
             // そこでシーンに含まれているアニメーターを無効にしてアニメーションが再生されないようにする。
-            var animators = GameObject.FindObjectsOfType<Animator>();
-            foreach (var animator in animators)
-            {
-                animator.enabled = false;
-            }
+            var animators = Object.FindObjectsOfType<Animator>();
+            foreach (var animator in animators) animator.enabled = false;
 
             // シーンのレンダリングが一回終わるまで待つ
             yield return new WaitForEndOfFrame();
 
             // 一回描画するとシェーダーの非同期コンパイルが走るので、コンパイルが終わるのを待つ
-            while (ShaderUtil.anythingCompiling)
-            {
-                yield return null;
-            }
+            while (ShaderUtil.anythingCompiling) yield return null;
 
             // シーンのレンダリングが一回終わるまで待つ
             yield return new WaitForEndOfFrame();
         }
+
         /// <summary>
-        /// 指定されたカメラの描画結果をキャプチャーします。
-        /// キャプチャーの処理はTest FrameworkのImageAssert.AreEqualの実装を参考にしています。
+        ///     指定されたカメラの描画結果をキャプチャーします。
+        ///     キャプチャーの処理はTest FrameworkのImageAssert.AreEqualの実装を参考にしています。
         /// </summary>
         private static Texture2D CaptureActualImage(List<Camera> cameras, ImageComparisonSettings settings)
         {
-            int width = settings.TargetWidth;
-            int height = settings.TargetHeight;
-            int samples = settings.TargetMSAASamples;
+            var width = settings.TargetWidth;
+            var height = settings.TargetHeight;
+            var samples = settings.TargetMSAASamples;
             var format = TextureFormat.ARGB32;
             Texture2D actualImage = null;
-            int dummyRenderedFrameCount = 1;
+            var dummyRenderedFrameCount = 1;
 
-            var defaultFormat = (settings.UseHDR) ? SystemInfo.GetGraphicsFormat(DefaultFormat.HDR) : SystemInfo.GetGraphicsFormat(DefaultFormat.LDR);
-            RenderTextureDescriptor desc = new RenderTextureDescriptor(width, height, defaultFormat, 24);
+            var defaultFormat = settings.UseHDR
+                ? SystemInfo.GetGraphicsFormat(DefaultFormat.HDR)
+                : SystemInfo.GetGraphicsFormat(DefaultFormat.LDR);
+            var desc = new RenderTextureDescriptor(width, height, defaultFormat, 24);
             desc.msaaSamples = samples;
             var rt = RenderTexture.GetTemporary(desc);
             Graphics.SetRenderTarget(rt);
-            GL.Clear(true, true, UnityEngine.Color.black);
+            GL.Clear(true, true, Color.black);
             Graphics.SetRenderTarget(null);
 
-            for (int i = 0; i < dummyRenderedFrameCount + 1; i++) // x frame delay + the last one is the one really tested ( ie 5 frames delay means 6 frames are rendered )
+            for (var i = 0;
+                 i < dummyRenderedFrameCount + 1;
+                 i++) // x frame delay + the last one is the one really tested ( ie 5 frames delay means 6 frames are rendered )
             {
                 foreach (var camera in cameras)
                 {
@@ -98,10 +94,12 @@ namespace Tests.Runtime
                     {
                         desc.graphicsFormat = SystemInfo.GetGraphicsFormat(DefaultFormat.LDR);
                         dummy = RenderTexture.GetTemporary(desc);
-                        UnityEngine.Graphics.Blit(rt, dummy);
+                        Graphics.Blit(rt, dummy);
                     }
                     else
+                    {
                         RenderTexture.active = rt;
+                    }
 
                     actualImage.ReadPixels(new Rect(0, 0, width, height), 0, 0);
                     RenderTexture.active = null;
@@ -115,7 +113,7 @@ namespace Tests.Runtime
 
             return actualImage;
         }
-        
+
         [TestCase("Test_Unlit", ExpectedResult = null)]
         [TestCase("Test_Lit", ExpectedResult = null)]
         [TestCase("Test_UIParticleUnlit", ExpectedResult = null)]
@@ -127,7 +125,7 @@ namespace Tests.Runtime
         public IEnumerator Test(string scenePath)
         {
             yield return LoadScene(scenePath);
-            
+
             var screenshotSrc = ScreenCapture.CaptureScreenshotAsTexture();
 
             var settings = new ImageComparisonSettings
@@ -149,10 +147,11 @@ namespace Tests.Runtime
             Object.Destroy(expected);
             yield return null;
         }
-        [Test(ExpectedResult = (IEnumerator)null)]
+
+        [Test(ExpectedResult = null)]
         public IEnumerator TestOptimizedShader()
         {
-            var settings = new ImageComparisonSettings()
+            var settings = new ImageComparisonSettings
             {
                 TargetWidth = Screen.width,
                 TargetHeight = Screen.height,
@@ -160,12 +159,13 @@ namespace Tests.Runtime
                 PerPixelCorrectnessThreshold = 0.0005f
             };
             yield return LoadScene("Test_NotOptimizedShader");
-            var expected = CaptureActualImage(new List<Camera>() { Camera.main }, settings);
+            var expected = CaptureActualImage(new List<Camera> { Camera.main }, settings);
             yield return LoadScene("Test_OptimizedShader");
-            var actual = CaptureActualImage(new List<Camera>() { Camera.main }, settings);
+            var actual = CaptureActualImage(new List<Camera> { Camera.main }, settings);
             ImageAssert.AreEqual(expected, actual, settings);
             yield return null;
         }
+
         private Texture2D ExpectedImage()
         {
             Texture2D expected = null;
