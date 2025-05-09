@@ -23,7 +23,7 @@ namespace Nova.Editor.Core.Scripts.Optimizer
         /// UberLit and UberUnlit shaders are optimized and saved in the specified output folder.
         /// </summary>
         /// <param name="outputFolderPath"></param>
-        public static void Execute(string outputFolderPath)
+        public static void Generate(string outputFolderPath)
         {
             // Find UberLit and UberUnlit shaders
             var uberShaderPaths = new[]
@@ -49,7 +49,7 @@ namespace Nova.Editor.Core.Scripts.Optimizer
                 var shaderFullPath = Path.GetFullPath(uberShaderFolderPath);
                 relativePath = Path.GetRelativePath(outputFullPath, shaderFullPath);
             }
-            foreach (var assetPath in uberShaderPaths) Execute(outputFolderPath, assetPath, relativePath);
+            foreach (var assetPath in uberShaderPaths) Generate(outputFolderPath, assetPath, relativePath);
         }
         /// <summary>
         /// TODO: Experimental Function
@@ -62,11 +62,11 @@ namespace Nova.Editor.Core.Scripts.Optimizer
             {
                 var outputDir = Path.GetDirectoryName(assetPath);
                 outputDir = Path.Combine(outputDir, "OptimizedShaders");
-                Execute(outputDir, assetPath, "../");
+                Generate(outputDir, assetPath, "../");
             }
         }
 
-        private static void Execute(string outputFolderPath, string assetPath, string additionalIncludePath)
+        private static void Generate(string outputFolderPath, string assetPath, string additionalIncludePath)
         {
             var source = File.ReadAllText(assetPath);
 

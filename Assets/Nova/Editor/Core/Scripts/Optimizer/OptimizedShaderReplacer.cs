@@ -9,16 +9,16 @@ using UnityEngine;
 namespace Nova.Editor.Core.Scripts.Optimizer
 {
     /// <summary>
-    /// Optimize shaders
+    /// Class for replacing Uber shader with optimized shader.
     /// </summary>
-    public static class ShaderOptimizer
+    public static class OptimizedShaderReplacer
     {
         private static readonly int RenderType = Shader.PropertyToID("_RenderType");
         
         /// <summary>
-        /// Parameters for shader optimization
+        /// Parameters for shader replacement.
         /// </summary>
-        public class Parameters
+        public class Settings
         {
             /// <summary>
             /// Required shader passes for Opaque render type
@@ -34,33 +34,17 @@ namespace Nova.Editor.Core.Scripts.Optimizer
             /// Required shader passes for Cutoff render type
             /// </summary>
             public OptionalShaderPass CutoutRequiredPasses { get; set; }
-            /// <summary>
-            /// Output path for optimized shaders
-            /// </summary>
-            public string OutputPath { get; set; }
-            /// <summary>
-            /// Whether to generate optimized shaders
-            /// </summary>
-            /// <remarks>
-            /// If you want to use the previously created optimized shaders, set this to false.
-            /// </remarks>
-            public bool GenerateOptimizedShader { get; set; } = true;
         }
 
         /// <summary>
         /// Replace Uber shader with optimized shader.
         /// </summary>
-        /// <param name="parameters">
-        ///     Parameters for shader optimization
-        ///     <see cref="Parameters"/>
+        /// <param name="settings">
+        ///     Parameters for shader replacement.
+        ///     <see cref="Settings"/>
         /// </param>
-        public static void Execute(Parameters parameters)
+        public static void Replace(Settings settings)
         {
-            if (parameters.GenerateOptimizedShader)
-            {
-                OptimizedShaderGenerator.Execute(parameters.OutputPath);
-            }
-
             // Find all materials in the project
             // and filter them to only include those using the UberLit or UberUnlit shaders
             var materials = UnityEditor.AssetDatabase.FindAssets("t:Material")
@@ -76,15 +60,15 @@ namespace Nova.Editor.Core.Scripts.Optimizer
                 OptionalShaderPass requiredPasses;
                 if (renderType == Scripts.RenderType.Opaque) // Opaque
                 {
-                    requiredPasses = parameters.OpaqueRequiredPasses;
+                    requiredPasses = settings.OpaqueRequiredPasses;
                 }
                 else if (renderType == Scripts.RenderType.Transparent) // Transparent
                 {
-                    requiredPasses = parameters.TransparentRequiredPasses;
+                    requiredPasses = settings.TransparentRequiredPasses;
                 }
                 else if (renderType == Scripts.RenderType.Cutout) // Cutoff
                 {
-                    requiredPasses = parameters.CutoutRequiredPasses;
+                    requiredPasses = settings.CutoutRequiredPasses;
                 }
                 else
                 {
