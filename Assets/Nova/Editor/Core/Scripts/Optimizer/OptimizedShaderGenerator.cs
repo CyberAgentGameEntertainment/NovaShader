@@ -36,9 +36,19 @@ namespace Nova.Editor.Core.Scripts.Optimizer
                 .ToArray();
             // Get relative path from output directory to shader directory
             var uberShaderFolderPath = Path.GetDirectoryName(uberShaderPaths[0]);
-            var outputFullPath = Path.GetFullPath(outputFolderPath);
-            var shaderFullPath = Path.GetFullPath(uberShaderFolderPath);
-            var relativePath = Path.GetRelativePath(outputFullPath, shaderFullPath);
+            string relativePath;
+            if (uberShaderFolderPath.Contains("Packages"))
+            {
+                // パッケージとしてインポートされているのでそのまま使う
+                relativePath = uberShaderFolderPath;
+            }
+            else
+            {
+                // Assetsフォルダにインポートされている
+                var outputFullPath = Path.GetFullPath(outputFolderPath);
+                var shaderFullPath = Path.GetFullPath(uberShaderFolderPath);
+                relativePath = Path.GetRelativePath(outputFullPath, shaderFullPath);
+            }
             foreach (var assetPath in uberShaderPaths) Execute(outputFolderPath, assetPath, relativePath);
         }
         /// <summary>
@@ -56,7 +66,7 @@ namespace Nova.Editor.Core.Scripts.Optimizer
             }
         }
 
-        private static void Execute(string outputFolderPath, string assetPath, string relativePath)
+        private static void Execute(string outputFolderPath, string assetPath, string additionalIncludePath)
         {
             var source = File.ReadAllText(assetPath);
 
@@ -111,19 +121,19 @@ namespace Nova.Editor.Core.Scripts.Optimizer
                 optimizedSource =
                     OptimizeShader(optimizedSource, requiredLightModes[lightMode], (RenderType)renderType);
                 // Since the output folder is OptimizedShaders, adjust the include paths accordingly
-                optimizedSource = ReplaceIncludePath(optimizedSource, relativePath);
+                optimizedSource = AdditionalIncludePath(optimizedSource, additionalIncludePath);
                 File.WriteAllText(optimizedPath, optimizedSource);
                 AssetDatabase.ImportAsset(optimizedPath);
             }
         }
 
-        private static string ReplaceIncludePath(string shaderCode, string relativePath)
+        private static string AdditionalIncludePath(string shaderCode, string additionalIncludePath)
         {
             var regex = new Regex(@"#include\s+""([^""]+)""", RegexOptions.Multiline);
             return regex.Replace(shaderCode, match =>
             {
                 var path = match.Groups[1].Value;
-                return $"#include \"{relativePath}/{path}\"";
+                return $"#include \"{additionalIncludePath}/{path}\"";
             });
         }
 

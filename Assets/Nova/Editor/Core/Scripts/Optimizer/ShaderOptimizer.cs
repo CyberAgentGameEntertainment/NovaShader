@@ -46,19 +46,15 @@ namespace Nova.Editor.Core.Scripts.Optimizer
             /// </remarks>
             public bool GenerateOptimizedShader { get; set; } = true;
         }
-        public static void GenerateOptimizedShader(string outputPath)
-        {
-            // Generate optimized shaders
-            OptimizedShaderGenerator.Execute(outputPath);
-        }
+
         /// <summary>
-        /// Uberシェーダーを最適化されたシェーダーに差し替えます。
+        /// Replace Uber shader with optimized shader.
         /// </summary>
         /// <param name="parameters">
         ///     Parameters for shader optimization
         ///     <see cref="Parameters"/>
         /// </param>
-        public static void ReplaceOptimizedShader(Parameters parameters)
+        public static void Execute(Parameters parameters)
         {
             if (parameters.GenerateOptimizedShader)
             {

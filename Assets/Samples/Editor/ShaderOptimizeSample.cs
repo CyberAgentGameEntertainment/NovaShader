@@ -18,7 +18,7 @@ namespace Samples.Editor
                 TransparentRequiredPasses = OptionalShaderPass.None,
                 OutputPath = "Assets/OptimizedShaders"
             };
-            ShaderOptimizer.ReplaceOptimizedShader(optimizeParameters);
+            ShaderOptimizer.Execute(optimizeParameters);
 
             // ビルドパイプラインの設定
             var buildPlayerOptions = new BuildPlayerOptions
