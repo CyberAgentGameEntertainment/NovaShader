@@ -1,4 +1,4 @@
-namespace Nova.Editor.Core.Scripts.Optimizer
+namespace Nova.Editor.Core.Scripts.Optimizer.Internal
 {
     internal static class OptimizedShaderUtillity
     {

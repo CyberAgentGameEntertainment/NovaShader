@@ -3,6 +3,7 @@
 // --------------------------------------------------------------
 
 using System.Linq;
+using Nova.Editor.Core.Scripts.Optimizer.Internal;
 using UnityEngine;
 
 namespace Nova.Editor.Core.Scripts.Optimizer
@@ -14,7 +15,10 @@ namespace Nova.Editor.Core.Scripts.Optimizer
     {
         private static readonly int RenderType = Shader.PropertyToID("_RenderType");
         
-        public class Parameter
+        /// <summary>
+        /// Parameters for shader optimization
+        /// </summary>
+        public class Parameters
         {
             /// <summary>
             /// Required shader passes for Opaque render type
@@ -42,15 +46,23 @@ namespace Nova.Editor.Core.Scripts.Optimizer
             /// </remarks>
             public bool GenerateOptimizedShader { get; set; } = true;
         }
-        /// <summary>
-        /// Optimize shaders
-        /// </summary>
-        /// <param name="parameter">Parameter</param>
-        public static void Execute(Parameter parameter)
+        public static void GenerateOptimizedShader(string outputPath)
         {
-            if (parameter.GenerateOptimizedShader)
+            // Generate optimized shaders
+            OptimizedShaderGenerator.Execute(outputPath);
+        }
+        /// <summary>
+        /// Uberシェーダーを最適化されたシェーダーに差し替えます。
+        /// </summary>
+        /// <param name="parameters">
+        ///     Parameters for shader optimization
+        ///     <see cref="Parameters"/>
+        /// </param>
+        public static void ReplaceOptimizedShader(Parameters parameters)
+        {
+            if (parameters.GenerateOptimizedShader)
             {
-                OptimizedShaderGenerator.Execute(parameter.OutputPath);
+                OptimizedShaderGenerator.Execute(parameters.OutputPath);
             }
 
             // Find all materials in the project
@@ -68,15 +80,15 @@ namespace Nova.Editor.Core.Scripts.Optimizer
                 OptionalShaderPass requiredPasses;
                 if (renderType == Scripts.RenderType.Opaque) // Opaque
                 {
-                    requiredPasses = parameter.OpaqueRequiredPasses;
+                    requiredPasses = parameters.OpaqueRequiredPasses;
                 }
                 else if (renderType == Scripts.RenderType.Transparent) // Transparent
                 {
-                    requiredPasses = parameter.TransparentRequiredPasses;
+                    requiredPasses = parameters.TransparentRequiredPasses;
                 }
                 else if (renderType == Scripts.RenderType.Cutout) // Cutoff
                 {
-                    requiredPasses = parameter.CutoutRequiredPasses;
+                    requiredPasses = parameters.CutoutRequiredPasses;
                 }
                 else
                 {

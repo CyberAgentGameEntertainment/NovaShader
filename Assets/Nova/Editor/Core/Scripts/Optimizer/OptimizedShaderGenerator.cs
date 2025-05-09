@@ -14,11 +14,15 @@ using UnityEngine;
 
 namespace Nova.Editor.Core.Scripts.Optimizer
 {
-    internal static class OptimizedShaderGenerator
+    public static class OptimizedShaderGenerator
     #if NOVA_USE_ASSET_POSTPROCESSOR
         : AssetPostprocessor
     #endif
     {
+        /// <summary>
+        /// UberLit and UberUnlit shaders are optimized and saved in the specified output folder.
+        /// </summary>
+        /// <param name="outputFolderPath"></param>
         public static void Execute(string outputFolderPath)
         {
             // Find UberLit and UberUnlit shaders
@@ -37,7 +41,10 @@ namespace Nova.Editor.Core.Scripts.Optimizer
             var relativePath = Path.GetRelativePath(outputFullPath, shaderFullPath);
             foreach (var assetPath in uberShaderPaths) Execute(outputFolderPath, assetPath, relativePath);
         }
-    
+        /// <summary>
+        /// TODO: Experimental Function
+        /// This feature will be enabled when NOVA_USE_ASSET_POSTPROCESSOR is activated.
+        /// </summary>
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets,
             string[] movedAssets, string[] movedFromAssetPaths)
         {

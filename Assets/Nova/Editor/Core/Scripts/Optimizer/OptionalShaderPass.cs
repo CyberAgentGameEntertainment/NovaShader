@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Nova.Editor.Core.Scripts
+namespace Nova.Editor.Core.Scripts.Optimizer
 {   
     [Flags]
     public enum OptionalShaderPass
