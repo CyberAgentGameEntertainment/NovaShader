@@ -1,8 +1,8 @@
-namespace Nova.Editor.Core.Scripts
+namespace Nova.Editor.Core.Scripts.Optimizer
 {
     internal static class OptimizedShaderUtillity
     {
-        public static string GetOptimizedShaderPostFixName(RenderType renderType, OptionalShaderPass requiredPasses)
+        private static string GetOptimizedShaderPostFixName(RenderType renderType, OptionalShaderPass requiredPasses)
         {
             var requiredOptionalPassName = "";
             if(requiredPasses == OptionalShaderPass.None)
@@ -16,11 +16,11 @@ namespace Nova.Editor.Core.Scripts
                 }
                 if((requiredPasses & OptionalShaderPass.DepthNormals) != 0)
                 {
-                    requiredOptionalPassName += " DepthNormals";
+                    requiredOptionalPassName += "DepthNormals";
                 }
                 if((requiredPasses & OptionalShaderPass.ShadowCaster) != 0)
                 {
-                    requiredOptionalPassName += " ShadowCaster";
+                    requiredOptionalPassName += "ShadowCaster";
                 }
             }
             var renderTypeName = "";

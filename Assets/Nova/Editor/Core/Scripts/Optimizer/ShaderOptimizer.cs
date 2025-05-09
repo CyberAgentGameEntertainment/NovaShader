@@ -5,16 +5,16 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Nova.Editor.Core.Scripts
+namespace Nova.Editor.Core.Scripts.Optimizer
 {
     /// <summary>
-    ///     Replaces uber shaders with optimized shaders
+    /// Optimize shaders
     /// </summary>
-    public static class ReplaceOptimizedShader
+    public static class ShaderOptimizer
     {
         private static readonly int RenderType = Shader.PropertyToID("_RenderType");
-
-        public class Settings
+        
+        public class Parameter
         {
             /// <summary>
             /// Required shader passes for Opaque render type
@@ -29,14 +29,32 @@ namespace Nova.Editor.Core.Scripts
             /// <summary>
             /// Required shader passes for Cutoff render type
             /// </summary>
-            public OptionalShaderPass CutoutRequiredPasses { get; set; }    
-
+            public OptionalShaderPass CutoutRequiredPasses { get; set; }
+            /// <summary>
+            /// Output path for optimized shaders
+            /// </summary>
+            public string OutputPath { get; set; }
+            /// <summary>
+            /// Whether to generate optimized shaders
+            /// </summary>
+            /// <remarks>
+            /// If you want to use the previously created optimized shaders, set this to false.
+            /// </remarks>
+            public bool GenerateOptimizedShader { get; set; } = true;
         }
-        public static void Execute(Settings settings)
+        /// <summary>
+        /// Optimize shaders
+        /// </summary>
+        /// <param name="parameter">Parameter</param>
+        public static void Execute(Parameter parameter)
         {
+            if (parameter.GenerateOptimizedShader)
+            {
+                OptimizedShaderGenerator.Execute(parameter.OutputPath);
+            }
+
             // Find all materials in the project
             // and filter them to only include those using the UberLit or UberUnlit shaders
-            
             var materials = UnityEditor.AssetDatabase.FindAssets("t:Material")
                 .Select(UnityEditor.AssetDatabase.GUIDToAssetPath)
                 .Select(UnityEditor.AssetDatabase.LoadAssetAtPath<Material>)
@@ -50,15 +68,15 @@ namespace Nova.Editor.Core.Scripts
                 OptionalShaderPass requiredPasses;
                 if (renderType == Scripts.RenderType.Opaque) // Opaque
                 {
-                    requiredPasses = settings.OpaqueRequiredPasses;
+                    requiredPasses = parameter.OpaqueRequiredPasses;
                 }
                 else if (renderType == Scripts.RenderType.Transparent) // Transparent
                 {
-                    requiredPasses = settings.TransparentRequiredPasses;
+                    requiredPasses = parameter.TransparentRequiredPasses;
                 }
                 else if (renderType == Scripts.RenderType.Cutout) // Cutoff
                 {
-                    requiredPasses = settings.CutoutRequiredPasses;
+                    requiredPasses = parameter.CutoutRequiredPasses;
                 }
                 else
                 {
@@ -72,7 +90,9 @@ namespace Nova.Editor.Core.Scripts
                 var optimizedShader = Shader.Find(optimizedShaderName);
                 if (optimizedShader != null)
                 {
+                    var renderQueue = material.renderQueue;
                     material.shader = optimizedShader;
+                    material.renderQueue = renderQueue;
                 }
                 else 
                 {
