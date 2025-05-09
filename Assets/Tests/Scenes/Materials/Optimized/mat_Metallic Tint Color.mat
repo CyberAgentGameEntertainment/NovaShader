@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: mat_Metallic Tint Color
-  m_Shader: {fileID: 4800000, guid: 2d0f380e8a1262046b075902c0e44e55, type: 3}
+  m_Shader: {fileID: 4800000, guid: 65654f079f6f340b09f954eb6366ad5a, type: 3}
   m_ValidKeywords:
   - _ALPHA_TRANSITION_MAP_MODE_2D
   - _BASE_MAP_MODE_2D
@@ -25,7 +25,8 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2000
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses:
   - SHADOWCASTER
   m_SavedProperties:

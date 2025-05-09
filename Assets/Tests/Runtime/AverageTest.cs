@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Nova.Editor.Core.Scripts.Optimizer;
 using NUnit.Framework;
 using TestHelper.Attributes;
 using UnityEditor;
@@ -151,6 +152,30 @@ namespace Tests.Runtime
         [Test(ExpectedResult = null)]
         public IEnumerator TestOptimizedShader()
         {
+            // 最適化シェーダーを作成する
+            OptimizedShaderGenerator.Generate("Assets/OptimizedShader");
+            var optimizedMaterialsPath = "Assets/Tests/Scenes/Materials/Optimized";
+            // Get all materials in the Optimized folder
+            var materials = AssetDatabase.FindAssets("t:Material", new[] { optimizedMaterialsPath} )
+                .Select(guid => AssetDatabase.LoadAssetAtPath<Material>(AssetDatabase.GUIDToAssetPath(guid)))
+                .ToList();
+
+            // Store original shader and render queue settings for each material
+            var originalSettings = materials.Select(material => new
+            {
+                Material = material,
+                Shader = material.shader,
+                RenderQueue = material.renderQueue
+            }).ToList();
+            // テスト用のマテリアルのシェーダーを最適化シェーダーに置き換える
+            OptimizedShaderReplacer.Replace(new OptimizedShaderReplacer.Settings
+            {
+                OpaqueRequiredPasses = OptionalShaderPass.DepthOnly | OptionalShaderPass.DepthNormals | OptionalShaderPass.ShadowCaster,
+                CutoutRequiredPasses = OptionalShaderPass.ShadowCaster,
+                TransparentRequiredPasses = OptionalShaderPass.None,
+                TargetFolderPath = "Assets/Tests/Scenes/Materials/Optimized",
+            });
+    
             var settings = new ImageComparisonSettings
             {
                 TargetWidth = Screen.width,
@@ -163,6 +188,14 @@ namespace Tests.Runtime
             yield return LoadScene("Test_OptimizedShader");
             var actual = CaptureActualImage(new List<Camera> { Camera.main }, settings);
             ImageAssert.AreEqual(expected, actual, settings);
+
+            // Restore original shader and render queue settings for each material
+            foreach (var setting in originalSettings)
+            {
+                setting.Material.shader = setting.Shader;
+                setting.Material.renderQueue = setting.RenderQueue;
+            }
+            
             yield return null;
         }
 
