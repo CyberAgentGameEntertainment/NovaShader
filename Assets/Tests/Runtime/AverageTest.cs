@@ -171,13 +171,22 @@ namespace Tests.Runtime
                 .Select(guid => AssetDatabase.LoadAssetAtPath<Material>(AssetDatabase.GUIDToAssetPath(guid)))
                 .ToList();
 
-            // Store original shader and render queue settings for each material
-            var originalSettings = materials.Select(material => new
+            // Create a temporary folder for material copies
+            var tempFolderPath = "Assets/Tests/Scenes/Materials/Temp";
+            if (!Directory.Exists(tempFolderPath))
             {
-                Material = material,
-                Shader = material.shader,
-                RenderQueue = material.renderQueue
-            }).ToList();
+                Directory.CreateDirectory(tempFolderPath);
+            }
+
+            // Copy each material to temp folder
+            foreach (var material in materials)
+            {
+                var originalPath = AssetDatabase.GetAssetPath(material);
+                var fileName = Path.GetFileName(originalPath);
+                var tempPath = Path.Combine(tempFolderPath, fileName);
+                AssetDatabase.CopyAsset(originalPath, tempPath);
+            }
+         
             // テスト用のマテリアルのシェーダーを最適化シェーダーに置き換える
             OptimizedShaderReplacer.Replace(new OptimizedShaderReplacer.Settings
             {
@@ -191,12 +200,23 @@ namespace Tests.Runtime
             var actual = CaptureActualImage(new List<Camera> { Camera.main }, settings);
             ImageAssert.AreEqual(expected, actual, settings);
 
-            // Restore original shader and render queue settings for each material
-            foreach (var setting in originalSettings)
+            // Restore materials from temp folder and delete it
+            // Move materials back to original location
+            var tempMaterials = AssetDatabase.FindAssets("t:Material", new[] { tempFolderPath })
+                .Select(guid => AssetDatabase.GUIDToAssetPath(guid));
+            foreach (var tempPath in tempMaterials)
             {
-                setting.Material.shader = setting.Shader;
-                setting.Material.renderQueue = setting.RenderQueue;
+                var fileName = Path.GetFileName(tempPath);
+                var originalPath = Path.Combine(optimizedMaterialsPath, fileName);
+                var material = AssetDatabase.LoadAssetAtPath<Material>(tempPath);
+                var originalMaterial = AssetDatabase.LoadAssetAtPath<Material>(originalPath);
+                EditorUtility.CopySerialized(material, originalMaterial);
+                AssetDatabase.SaveAssets();
             }
+
+            // Delete temp folder
+            AssetDatabase.DeleteAsset(tempFolderPath);
+            AssetDatabase.Refresh();
             
             yield return null;
         }
