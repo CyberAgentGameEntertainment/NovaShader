@@ -28,8 +28,8 @@
 /[Aa]ssets/ActualImages.meta
 
 # OptimizedShaders
-/[Aa]ssets/ActualImages/OptimizedShaders/
-/[Aa]ssets/ActualImages/OptimizedShaders.meta
+/[Aa]ssets/OptimizedShaders/
+/[Aa]ssets/OptimizedShaders.meta
 
 # Visual Studio cache directory
 .vs/
