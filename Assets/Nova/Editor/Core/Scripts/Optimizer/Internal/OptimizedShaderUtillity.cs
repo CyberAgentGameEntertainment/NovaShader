@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Nova.Editor.Core.Scripts.Optimizer.Internal
 {
     internal static class OptimizedShaderUtillity
@@ -10,19 +12,22 @@ namespace Nova.Editor.Core.Scripts.Optimizer.Internal
                 requiredOptionalPassName = "None";
             }else
             {
+                var optionalPassNames = new List<string>();
                 if((requiredPasses & OptionalShaderPass.DepthOnly) != 0)
                 {
-                    requiredOptionalPassName = "DepthOnly";
+                    optionalPassNames.Add("DepthOnly");
                 }
                 if((requiredPasses & OptionalShaderPass.DepthNormals) != 0)
                 {
-                    requiredOptionalPassName += "DepthNormals";
+                    optionalPassNames.Add("DepthNormals");
                 }
                 if((requiredPasses & OptionalShaderPass.ShadowCaster) != 0)
                 {
-                    requiredOptionalPassName += "ShadowCaster";
+                    optionalPassNames.Add("ShadowCaster");
                 }
+                requiredOptionalPassName = string.Join(" ", optionalPassNames);
             }
+            
             var renderTypeName = "";
             if(renderType == RenderType.Opaque)
             {

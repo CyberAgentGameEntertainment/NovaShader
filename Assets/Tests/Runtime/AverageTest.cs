@@ -152,8 +152,19 @@ namespace Tests.Runtime
         [Test(ExpectedResult = null)]
         public IEnumerator TestOptimizedShader()
         {
-            // 最適化シェーダーを作成する
-            OptimizedShaderGenerator.Generate("Assets/OptimizedShader");
+            var settings = new ImageComparisonSettings
+            {
+                TargetWidth = Screen.width,
+                TargetHeight = Screen.height,
+                AverageCorrectnessThreshold = 0.0005f,
+                PerPixelCorrectnessThreshold = 0.0005f
+            };
+            // シェーダー差し替え前でキャプチャする
+            yield return LoadScene("Test_OptimizedShader");
+            var expected = CaptureActualImage(new List<Camera> { Camera.main }, settings);
+            
+            // 最適化シェーダーを作成して差し替える
+            OptimizedShaderGenerator.Generate("Assets/OptimizedShaders");
             var optimizedMaterialsPath = "Assets/Tests/Scenes/Materials/Optimized";
             // Get all materials in the Optimized folder
             var materials = AssetDatabase.FindAssets("t:Material", new[] { optimizedMaterialsPath} )
@@ -175,16 +186,7 @@ namespace Tests.Runtime
                 TransparentRequiredPasses = OptionalShaderPass.None,
                 TargetFolderPath = "Assets/Tests/Scenes/Materials/Optimized",
             });
-    
-            var settings = new ImageComparisonSettings
-            {
-                TargetWidth = Screen.width,
-                TargetHeight = Screen.height,
-                AverageCorrectnessThreshold = 0.0005f,
-                PerPixelCorrectnessThreshold = 0.0005f
-            };
-            yield return LoadScene("Test_NotOptimizedShader");
-            var expected = CaptureActualImage(new List<Camera> { Camera.main }, settings);
+            // 差し替え後でキャプチャする
             yield return LoadScene("Test_OptimizedShader");
             var actual = CaptureActualImage(new List<Camera> { Camera.main }, settings);
             ImageAssert.AreEqual(expected, actual, settings);
