@@ -4,13 +4,16 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Nova.Editor.Core.Scripts.Optimizer;
 using NUnit.Framework;
 using TestHelper.Attributes;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools.Graphics;
 using Object = UnityEngine.Object;
@@ -23,6 +26,95 @@ namespace Tests.Runtime
     /// </summary>
     public class AverageTest
     {
+        private IEnumerator LoadScene(string scenePath)
+        {
+            var asyncOp = EditorSceneManager.LoadSceneAsyncInPlayMode(
+                $"Assets/Tests/Scenes/{scenePath}.unity",
+                new LoadSceneParameters(LoadSceneMode.Single));
+            // シーンの読み込み待ち
+            while (!asyncOp.isDone) yield return null;
+            // タイムスケールを0に指定しても、バインドポーズになるときもあれば、
+            // 0フレームのアニメーションが再生されてしまうことがあり、テストが不安定だった。
+            // そこでシーンに含まれているアニメーターを無効にしてアニメーションが再生されないようにする。
+            var animators = Object.FindObjectsOfType<Animator>();
+            foreach (var animator in animators) animator.enabled = false;
+
+            // シーンのレンダリングが一回終わるまで待つ
+            yield return new WaitForEndOfFrame();
+
+            // 一回描画するとシェーダーの非同期コンパイルが走るので、コンパイルが終わるのを待つ
+            while (ShaderUtil.anythingCompiling) yield return null;
+
+            // シーンのレンダリングが一回終わるまで待つ
+            yield return new WaitForEndOfFrame();
+        }
+
+        /// <summary>
+        ///     指定されたカメラの描画結果をキャプチャーします。
+        ///     キャプチャーの処理はTest FrameworkのImageAssert.AreEqualの実装を参考にしています。
+        /// </summary>
+        private static Texture2D CaptureActualImage(List<Camera> cameras, ImageComparisonSettings settings)
+        {
+            var width = settings.TargetWidth;
+            var height = settings.TargetHeight;
+            var samples = settings.TargetMSAASamples;
+            var format = TextureFormat.ARGB32;
+            Texture2D actualImage = null;
+            var dummyRenderedFrameCount = 1;
+
+            var defaultFormat = settings.UseHDR
+                ? SystemInfo.GetGraphicsFormat(DefaultFormat.HDR)
+                : SystemInfo.GetGraphicsFormat(DefaultFormat.LDR);
+            var desc = new RenderTextureDescriptor(width, height, defaultFormat, 24);
+            desc.msaaSamples = samples;
+            var rt = RenderTexture.GetTemporary(desc);
+            Graphics.SetRenderTarget(rt);
+            GL.Clear(true, true, Color.black);
+            Graphics.SetRenderTarget(null);
+
+            for (var i = 0;
+                 i < dummyRenderedFrameCount + 1;
+                 i++) // x frame delay + the last one is the one really tested ( ie 5 frames delay means 6 frames are rendered )
+            {
+                foreach (var camera in cameras)
+                {
+                    if (camera == null)
+                        continue;
+                    camera.targetTexture = rt;
+                    camera.Render();
+                    camera.targetTexture = null;
+                }
+
+                // only proceed the test on the last rendered frame
+                if (dummyRenderedFrameCount == i)
+                {
+                    actualImage = new Texture2D(width, height, format, false);
+                    RenderTexture dummy = null;
+
+                    if (settings.UseHDR)
+                    {
+                        desc.graphicsFormat = SystemInfo.GetGraphicsFormat(DefaultFormat.LDR);
+                        dummy = RenderTexture.GetTemporary(desc);
+                        Graphics.Blit(rt, dummy);
+                    }
+                    else
+                    {
+                        RenderTexture.active = rt;
+                    }
+
+                    actualImage.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+                    RenderTexture.active = null;
+
+                    if (dummy != null)
+                        RenderTexture.ReleaseTemporary(dummy);
+
+                    actualImage.Apply();
+                }
+            }
+
+            return actualImage;
+        }
+
         [TestCase("Test_Unlit", ExpectedResult = null)]
         [TestCase("Test_Lit", ExpectedResult = null)]
         [TestCase("Test_UIParticleUnlit", ExpectedResult = null)]
@@ -33,30 +125,8 @@ namespace Tests.Runtime
         [GameViewResolution(1920, 1080, "Full HD")]
         public IEnumerator Test(string scenePath)
         {
-            var asyncOp = EditorSceneManager.LoadSceneAsyncInPlayMode(
-                $"Assets/Tests/Scenes/{scenePath}.unity",
-                new LoadSceneParameters(LoadSceneMode.Single));
-            // シーンの読み込み待ち
-            while (!asyncOp.isDone) yield return null;
-            // タイムスケールを0に指定しても、バインドポーズになるときもあれば、
-            // 0フレームのアニメーションが再生されてしまうことがあり、テストが不安定だった。
-            // そこでシーンに含まれているアニメーターを無効にしてアニメーションが再生されないようにする。
-#if UNITY_2023_3_OR_NEWER
-            var animators = Object.FindObjectsByType<Animator>(FindObjectsSortMode.None);
-#else
-            var animators = Object.FindObjectsOfType<Animator>();
-#endif
+            yield return LoadScene(scenePath);
 
-            foreach (var animator in animators) animator.enabled = false;
-
-            // シーンのレンダリングが一回終わるまで待つ
-            yield return new WaitForEndOfFrame();
-
-            // 一回描画するとシェーダーの非同期コンパイルが走るので、コンパイルが終わるのを待つ
-            while (ShaderUtil.anythingCompiling) yield return null;
-
-            // さらにシーンのレンダリングが一回終わるまで待ってスクリーンショットを撮る
-            yield return new WaitForEndOfFrame();
             var screenshotSrc = ScreenCapture.CaptureScreenshotAsTexture();
 
             var settings = new ImageComparisonSettings
@@ -76,6 +146,78 @@ namespace Tests.Runtime
             ImageAssert.AreEqual(expected, screenshot, settings);
             Object.Destroy(screenshot);
             Object.Destroy(expected);
+            yield return null;
+        }
+
+        [Test(ExpectedResult = null)]
+        public IEnumerator TestOptimizedShader()
+        {
+            var settings = new ImageComparisonSettings
+            {
+                TargetWidth = Screen.width,
+                TargetHeight = Screen.height,
+                AverageCorrectnessThreshold = 0.0005f,
+                PerPixelCorrectnessThreshold = 0.0005f
+            };
+            // シェーダー差し替え前でキャプチャする
+            yield return LoadScene("Test_OptimizedShader");
+            var expected = CaptureActualImage(new List<Camera> { Camera.main }, settings);
+            
+            // 最適化シェーダーを作成して差し替える
+            OptimizedShaderGenerator.Generate("Assets/OptimizedShaders");
+            var optimizedMaterialsPath = "Assets/Tests/Scenes/Materials/Optimized";
+            // Get all materials in the Optimized folder
+            var materials = AssetDatabase.FindAssets("t:Material", new[] { optimizedMaterialsPath} )
+                .Select(guid => AssetDatabase.LoadAssetAtPath<Material>(AssetDatabase.GUIDToAssetPath(guid)))
+                .ToList();
+
+            // Create a temporary folder for material copies
+            var tempFolderPath = "Assets/Tests/Scenes/Materials/Temp";
+            if (!Directory.Exists(tempFolderPath))
+            {
+                Directory.CreateDirectory(tempFolderPath);
+            }
+
+            // Copy each material to temp folder
+            foreach (var material in materials)
+            {
+                var originalPath = AssetDatabase.GetAssetPath(material);
+                var fileName = Path.GetFileName(originalPath);
+                var tempPath = Path.Combine(tempFolderPath, fileName);
+                AssetDatabase.CopyAsset(originalPath, tempPath);
+            }
+         
+            // テスト用のマテリアルのシェーダーを最適化シェーダーに置き換える
+            OptimizedShaderReplacer.Replace(new OptimizedShaderReplacer.Settings
+            {
+                OpaqueRequiredPasses = OptionalShaderPass.DepthOnly | OptionalShaderPass.DepthNormals | OptionalShaderPass.ShadowCaster,
+                CutoutRequiredPasses = OptionalShaderPass.ShadowCaster,
+                TransparentRequiredPasses = OptionalShaderPass.None,
+                TargetFolderPath = "Assets/Tests/Scenes/Materials/Optimized",
+            });
+            // 差し替え後でキャプチャする
+            yield return LoadScene("Test_OptimizedShader");
+            var actual = CaptureActualImage(new List<Camera> { Camera.main }, settings);
+            ImageAssert.AreEqual(expected, actual, settings);
+
+            // Restore materials from temp folder and delete it
+            // Move materials back to original location
+            var tempMaterials = AssetDatabase.FindAssets("t:Material", new[] { tempFolderPath })
+                .Select(guid => AssetDatabase.GUIDToAssetPath(guid));
+            foreach (var tempPath in tempMaterials)
+            {
+                var fileName = Path.GetFileName(tempPath);
+                var originalPath = Path.Combine(optimizedMaterialsPath, fileName);
+                var material = AssetDatabase.LoadAssetAtPath<Material>(tempPath);
+                var originalMaterial = AssetDatabase.LoadAssetAtPath<Material>(originalPath);
+                EditorUtility.CopySerialized(material, originalMaterial);
+                AssetDatabase.SaveAssets();
+            }
+
+            // Delete temp folder
+            AssetDatabase.DeleteAsset(tempFolderPath);
+            AssetDatabase.Refresh();
+            
             yield return null;
         }
 
