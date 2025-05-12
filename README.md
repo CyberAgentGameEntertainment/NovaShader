@@ -1530,6 +1530,8 @@ If any unused references are removed, a log will be output to the Console.<br/>
 
 ## Editor APIs Reference
 - [RenderErrorHandler](Documentation~/RenderErrorHandler.md)
+- [OptimizedShaderGenerator](Documentation~/OptimizedShaderGenerator.md)
+- [OptimizedShaderReplacer](Documentation~/OptimizedShaderReplacer.md)
 ## Licenses
 This software is released under the MIT license.
 You are free to use it within the scope of the license, but the following copyright and license notices are required.

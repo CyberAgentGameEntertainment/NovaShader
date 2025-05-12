@@ -1537,6 +1537,8 @@ Projectビュー上でマテリアルを選択した状態で`Tools > NOVA Shade
 
 ## Editor APIs リファレンス
 - [RenderErrorHandler](Documentation~/RenderErrorHandler_JA.md)
+- [OptimizedShaderGenerator](Documentation~/OptimizedShaderGenerator_JA.md)
+- [OptimizedShaderReplacer](Documentation~/OptimizedShaderReplacer_JA.md)
 
 ## ライセンス
 本ソフトウェアはMITライセンスで公開しています。  
