@@ -335,6 +335,8 @@ SamplerState GetEmissionMapSamplerState()
 #define TRANSFORM_BASE_MAP(texcoord) TRANSFORM_TEX(texcoord, _BaseMap2DArray);
 #elif _BASE_MAP_MODE_3D
 #define TRANSFORM_BASE_MAP(texcoord) TRANSFORM_TEX(texcoord, _BaseMap3D);
+#else
+#define TRANSFORM_BASE_MAP(texcoord) texcoord
 #endif
 
 // Sample the base map.
@@ -344,6 +346,8 @@ SamplerState GetEmissionMapSamplerState()
 #define SAMPLE_BASE_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_BaseMap2DArray, GetBaseMapSamplerState(), uv, progress);
 #elif _BASE_MAP_MODE_3D
 #define SAMPLE_BASE_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_BaseMap3D, GetBaseMapSamplerState(), float3(uv, progress), 0);
+#else
+#define SAMPLE_BASE_MAP(uv, progress) half4(0, 0, 0, 1)
 #endif
 
 // Transforms the tint map UV by the scale/bias property
@@ -481,6 +485,10 @@ void ApplyColorCorrection(in out float3 color)
 #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     #define SAMPLE_ALPHA_TRANSITION_MAP_SECOND(uv, progress) SAMPLE_TEXTURE3D_LOD(_AlphaTransitionMapSecondTexture3D, sampler_AlphaTransitionMapSecondTexture3D, float3(uv, progress), 0);
 #endif
+#endif
+
+#ifndef SAMPLE_ALPHA_TRANSITION_MAP
+#define SAMPLE_ALPHA_TRANSITION_MAP(uv, progress) half4(0, 0, 0, 1)
 #endif
 
 void ModulateAlphaTransitionProgress(in out half progress, half vertexAlpha)
