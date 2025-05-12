@@ -40,47 +40,53 @@ For more information, please refer to the following documents, [Samples](Assets/
 <details>
 <summary>Details</summary>
 
-- [Setup](#setup)
-  - [Requirements](#requirements)
-    - [Install](#install)
-- [Usage](#usage)
-    - [Add Renderer Feature](#add-renderer-feature)
-    - [Activate Depth Texture](#activate-depth-texture)
-    - [Create and assign the Material](#create-and-assign-the-material)
-- [Uber Unlit Shader](#uber-unlit-shader)
-    - [Render Settings](#render-settings)
-    - [Vertex Deformation](#vertex-deformation)
-    - [Base Map](#base-map)
-    - [Tint Color](#tint-color)
-    - [Flow Map](#flow-map)
-    - [Parallax Map](#parallax-map)
-    - [Color Correction](#color-correction)
-    - [Alpha Transition](#alpha-transition)
-    - [Emission](#emission)
-    - [Transparency](#transparency)
-- [Uber Lit Shader](#uber-lit-shader)
-    - [Render Settings](#render-settings-1)
-    - [Surface Maps](#surface-maps)
-- [Distortion Shader](#distortion-shader)
-    - [Render Settings](#render-settings-2)
-    - [Distortion](#distortion)
-    - [Flow Mapping](#flow-mapping)
-    - [Alpha Transition](#alpha-transition-1)
-    - [Transparency](#transparency-1)
-- [Uber Unlit/Lit shaders( for uGUI )](#uber-unlitlit-shaders-for-ugui-)
-- [Abort Shadow Caster](#abort-shadow-caster)
-- [Use with the Custom Vertex Streams](#use-with-the-custom-vertex-streams)
-    - [Set up the Custom Data](#set-up-the-custom-data)
-    - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams)
-    - [Set up the Material Property](#set-up-the-material-property)
-- [Use Mesh GPU Instancing](#use-mesh-gpu-instancing)
-    - [Enable Mesh GPU Instancing](#enable-mesh-gpu-instancing)
-    - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams-1)
-- [Automatic set up the Custom Vertex Streams.](#automatic-set-up-the-custom-vertex-streams)
-    - [Fix Now](#fix-now)
-- [Remove Unused Parameter References](#remove-unused-parameter-references)
-- [Editor APIs Reference](#editor-apis-reference)
-- [Licenses](#licenses)
+- [NOVA Shader: Uber shader for Particle System](#nova-shader-uber-shader-for-particle-system)
+  - [Table of Contents](#table-of-contents)
+  - [Setup](#setup)
+    - [Requirements](#requirements)
+      - [Install](#install)
+  - [Usage](#usage)
+      - [Add Renderer Feature](#add-renderer-feature)
+      - [Activate Depth Texture](#activate-depth-texture)
+      - [Create and assign the Material](#create-and-assign-the-material)
+  - [Uber Unlit Shader](#uber-unlit-shader)
+      - [Render Settings](#render-settings)
+      - [Vertex Deformation](#vertex-deformation)
+      - [Base Map](#base-map)
+      - [Tint Color](#tint-color)
+      - [Flow Map](#flow-map)
+      - [Parallax Map](#parallax-map)
+      - [Color Correction](#color-correction)
+      - [Alpha Transition](#alpha-transition)
+      - [Emission](#emission)
+      - [Transparency](#transparency)
+  - [Uber Lit Shader](#uber-lit-shader)
+      - [Render Settings](#render-settings-1)
+      - [Surface Maps](#surface-maps)
+  - [Distortion Shader](#distortion-shader)
+      - [Render Settings](#render-settings-2)
+      - [Distortion](#distortion)
+      - [Flow Mapping](#flow-mapping)
+      - [Alpha Transition](#alpha-transition-1)
+      - [Transparency](#transparency-1)
+  - [Uber Unlit/Lit shaders( for uGUI )](#uber-unlitlit-shaders-for-ugui-)
+  - [Abort Shadow Caster](#abort-shadow-caster)
+  - [Use with the Custom Vertex Streams](#use-with-the-custom-vertex-streams)
+      - [Set up the Custom Data](#set-up-the-custom-data)
+      - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams)
+      - [Set up the Material Property](#set-up-the-material-property)
+  - [Use Mesh GPU Instancing](#use-mesh-gpu-instancing)
+      - [Enable Mesh GPU Instancing](#enable-mesh-gpu-instancing)
+      - [Set up the Custom Vertex Streams](#set-up-the-custom-vertex-streams-1)
+  - [Automatic set up the Custom Vertex Streams.](#automatic-set-up-the-custom-vertex-streams)
+      - [Fix Now](#fix-now)
+  - [Remove Unused Parameter References](#remove-unused-parameter-references)
+  - [Reducing Memory Usage with Optimized Shaders](#reducing-memory-usage-with-optimized-shaders)
+    - [OptimizedShaderGenerator.Generate()](#optimizedshadergeneratorgenerate)
+    - [OptimizedShaderGenerator.Replace()](#optimizedshadergeneratorreplace)
+    - [Sample Code](#sample-code)
+  - [Editor APIs Reference](#editor-apis-reference)
+  - [Licenses](#licenses)
 
 </details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -1527,6 +1533,38 @@ If unused texture references remain, issues such as an increase in Asset Bundle 
 To address this, there is a feature called `RemoveUnusedReferences`.<br/>
 You can execute this feature by selecting one or more materials in the Project view and navigating to `Tools > NOVA Shader > RemoveUnusedReferences`.<br/>
 If any unused references are removed, a log will be output to the Console.<br/>
+
+## Reducing Memory Usage with Optimized Shaders
+The Uber Unlit/Lit shaders are versatile general-purpose shaders with many shader keywords defined. This can potentially lead to an explosion of variants due to keyword combinations.
+
+Additionally, shader passes such as `Depth Only Pass`, `Depth Normals Pass`, and `Shadow Caster Pass` may be included even when unnecessary for certain projects.
+
+These factors can cause increased memory usage in Uber shaders.
+
+To address this issue, Nova Shader provides the following editor APIs for generating and applying optimized shaders:
+
+|API|Description|
+|---|---|
+|OptimizedShaderGenerator.Generate()|Generate optimized shaders|
+|OptimizedShaderGenerator.Replace()|Replace with optimized shaders|
+
+By utilizing these APIs to optimize shaders, we have confirmed that memory usage can be reduced by up to 50%.
+
+
+### OptimizedShaderGenerator.Generate()
+Generates optimized shaders from the Uber shader. The generated shaders are created based on combinations of `Rendering Type` and `Used Shader Passes` as shown below.<br/>
+For detailed information on how to use the API, please refer to the API reference [OptimizedShaderGenerator](Documentation~/OptimizedShaderGenerator.md).
+<p align="center">
+  <img width="60%" src="Documentation~/Images/optimized_shader.png" alt="Optimized Shader"><br>
+  <font color="grey">Optimized Shader</font>
+</p>
+
+### OptimizedShaderGenerator.Replace()
+Replaces Uber shaders assigned to materials with appropriate optimized shaders based on their rendering type and shader pass settings. To use this API, you must first generate optimized shaders using `OptimizedShaderGenerator.Generate()`.<br/>
+For detailed information on how to use the API, please refer to the API reference [OptimizedShaderReplacer](Documentation~/OptimizedShaderReplacer.md).
+
+### Sample Code
+Please refer to [ShaderOptimizeSample.cs](https://github.com/CyberAgentGameEntertainment/NovaShader/blob/main/Assets/Samples/Editor/ShaderOptimizeSample.cs) for a sample implementation of using these APIs.
 
 ## Editor APIs Reference
 - [RenderErrorHandler](Documentation~/RenderErrorHandler.md)

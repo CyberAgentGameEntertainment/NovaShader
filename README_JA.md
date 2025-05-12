@@ -41,47 +41,53 @@
 <details>
 <summary>詳細</summary>
 
-- [セットアップ](#%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97)
-    - [要件](#%E8%A6%81%E4%BB%B6)
-    - [インストール](#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
-- [使い方](#%E4%BD%BF%E3%81%84%E6%96%B9)
-    - [Renderer Feature を登録](#renderer-feature-%E3%82%92%E7%99%BB%E9%8C%B2)
-    - [Depth Textureを有効化](#depth-texture%E3%82%92%E6%9C%89%E5%8A%B9%E5%8C%96)
-    - [マテリアル作成、アサイン](#%E3%83%9E%E3%83%86%E3%83%AA%E3%82%A2%E3%83%AB%E4%BD%9C%E6%88%90%E3%82%A2%E3%82%B5%E3%82%A4%E3%83%B3)
-- [Uber Unlitシェーダ](#uber-unlit%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80)
-    - [Render Settings](#render-settings)
-    - [Vertex Deformation](#vertex-deformation)
-    - [Base Map](#base-map)
-    - [Tint Color](#tint-color)
-    - [Flow Map](#flow-map)
-    - [Parallax Map](#parallax-map)
-    - [Color Correction](#color-correction)
-    - [Alpha Transition](#alpha-transition)
-    - [Emission](#emission)
-    - [Transparency](#transparency)
-- [Uber Litシェーダー](#uber-lit%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80%E3%83%BC)
-    - [Render Settings](#render-settings-1)
-    - [Surface Maps](#surface-maps)
-- [Distortionシェーダ](#distortion%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80)
-    - [Render Settings](#render-settings-2)
-    - [Distortion](#distortion)
-    - [Flow Mapping](#flow-mapping)
-    - [Alpha Transition](#alpha-transition-1)
-    - [Transparency](#transparency-1)
-- [Uber Unlit/Litシェーダ（ for uGUI )](#uber-unlitlit%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80-for-ugui-)
-- [影を落とす機能について](#%E5%BD%B1%E3%82%92%E8%90%BD%E3%81%A8%E3%81%99%E6%A9%9F%E8%83%BD%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)
-- [Custom Vertex Streamsとの連携](#custom-vertex-streams%E3%81%A8%E3%81%AE%E9%80%A3%E6%90%BA)
-    - [Custom Dataを設定](#custom-data%E3%82%92%E8%A8%AD%E5%AE%9A)
-    - [Custom Vertex Streamsを設定する](#custom-vertex-streams%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B)
-    - [マテリアルプロパティを設定する](#%E3%83%9E%E3%83%86%E3%83%AA%E3%82%A2%E3%83%AB%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B)
-- [Mesh GPU Instancingを使う](#mesh-gpu-instancing%E3%82%92%E4%BD%BF%E3%81%86)
-    - [Mesh GPU Instancingを有効化する](#mesh-gpu-instancing%E3%82%92%E6%9C%89%E5%8A%B9%E5%8C%96%E3%81%99%E3%82%8B)
-    - [Custom Vertex Streamsを設定する](#custom-vertex-streams%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B-1)
-- [Custom Vertex Streamsを自動的に設定する](#custom-vertex-streams%E3%82%92%E8%87%AA%E5%8B%95%E7%9A%84%E3%81%AB%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B)
-    - [Fix Now](#fix-now)
-- [不要なパラメータ参照を削除する](#%E4%B8%8D%E8%A6%81%E3%81%AA%E3%83%91%E3%83%A9%E3%83%A1%E3%83%BC%E3%82%BF%E5%8F%82%E7%85%A7%E3%82%92%E5%89%8A%E9%99%A4%E3%81%99%E3%82%8B)
-- [Editor APIs リファレンス](#editor-apis-%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9)
-- [ライセンス](#%E3%83%A9%E3%82%A4%E3%82%BB%E3%83%B3%E3%82%B9)
+- [NOVA Shader: Particle System用多機能シェーダ](#nova-shader-particle-system用多機能シェーダ)
+  - [目次](#目次)
+  - [セットアップ](#セットアップ)
+      - [要件](#要件)
+      - [インストール](#インストール)
+  - [使い方](#使い方)
+      - [Renderer Feature を登録](#renderer-feature-を登録)
+      - [Depth Textureを有効化](#depth-textureを有効化)
+      - [マテリアル作成、アサイン](#マテリアル作成アサイン)
+  - [Uber Unlitシェーダ](#uber-unlitシェーダ)
+      - [Render Settings](#render-settings)
+      - [Vertex Deformation](#vertex-deformation)
+      - [Base Map](#base-map)
+      - [Tint Color](#tint-color)
+      - [Flow Map](#flow-map)
+      - [Parallax Map](#parallax-map)
+      - [Color Correction](#color-correction)
+      - [Alpha Transition](#alpha-transition)
+      - [Emission](#emission)
+      - [Transparency](#transparency)
+  - [Uber Litシェーダー](#uber-litシェーダー)
+      - [Render Settings](#render-settings-1)
+      - [Surface Maps](#surface-maps)
+  - [Distortionシェーダ](#distortionシェーダ)
+      - [Render Settings](#render-settings-2)
+      - [Distortion](#distortion)
+      - [Flow Mapping](#flow-mapping)
+      - [Alpha Transition](#alpha-transition-1)
+      - [Transparency](#transparency-1)
+  - [Uber Unlit/Litシェーダ（ for uGUI )](#uber-unlitlitシェーダ-for-ugui-)
+  - [影を落とす機能について](#影を落とす機能について)
+  - [Custom Vertex Streamsとの連携](#custom-vertex-streamsとの連携)
+      - [Custom Dataを設定](#custom-dataを設定)
+      - [Custom Vertex Streamsを設定する](#custom-vertex-streamsを設定する)
+      - [マテリアルプロパティを設定する](#マテリアルプロパティを設定する)
+  - [Mesh GPU Instancingを使う](#mesh-gpu-instancingを使う)
+      - [Mesh GPU Instancingを有効化する](#mesh-gpu-instancingを有効化する)
+      - [Custom Vertex Streamsを設定する](#custom-vertex-streamsを設定する-1)
+  - [Custom Vertex Streamsを自動的に設定する](#custom-vertex-streamsを自動的に設定する)
+      - [Fix Now](#fix-now)
+  - [不要なパラメータ参照を削除する](#不要なパラメータ参照を削除する)
+  - [最適化シェーダーの利用によるメモリ使用量の削減](#最適化シェーダーの利用によるメモリ使用量の削減)
+    - [OptimizedShaderGenerator.Generate()](#optimizedshadergeneratorgenerate)
+    - [OptimizedShaderGenerator.Replace()](#optimizedshadergeneratorreplace)
+    - [サンプルコード](#サンプルコード)
+  - [Editor APIs リファレンス](#editor-apis-リファレンス)
+  - [ライセンス](#ライセンス)
 
 </details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -1534,6 +1540,38 @@ GPUが求めている頂点ストリームとの差異が生じている時に�
 この不要な参照を削除するための機能`RemoveUnusedReferences`があります。<br/>
 Projectビュー上でマテリアルを選択した状態で`Tools > NOVA Shader > RemoveUnusedReferences`から実行することができます。<br/>
 削除された参照があった場合はConsoleに出力されます。<br/>
+
+## 最適化シェーダーの利用によるメモリ使用量の削減
+Uber Unlit/Lit シェーダーは多機能な汎用シェーダーであり、多数のシェーダーキーワードが定義されています。このため、キーワードの組み合わせによるバリアントの爆発が起こる可能性があります。
+
+また、`Depth Only パス`、`Depth Normals パス`、`Shadow Caster パス`など、プロジェクトによっては不要なシェーダーパスが含まれてしまうことがあります。
+
+こうした要因により、Uber シェーダーのメモリ使用量が増大するケースがあります。
+
+Nova Shader では、この問題を解消するために、最適化シェーダーの生成および適用を行う以下のエディタAPIを提供しています。
+
+|API|説明|
+|---|---|
+|OptimizedShaderGenerator.Generate()|最適化シェーダーを生成|
+|OptimizedShaderGenerator.Replace()|最適化シェーダーに差し替え|
+
+これらのAPIを活用してシェーダーを最適化することで、メモリ使用量を最大50%削減できることを確認しています。
+
+
+### OptimizedShaderGenerator.Generate()
+Uberシェーダーから最適化シェーダーを生成します。生成されるシェーダーは`レンダリングタイプ`と`使用されるシェーダーパス`の組み合わせによって次のように生成されます。<br/>
+なお、APIの利用方法の詳細については、APIリファレンスの[OptimizedShaderGenerator](Documentation~/OptimizedShaderGenerator_JA.md)を参照してください。
+<p align="center">
+  <img width="60%" src="Documentation~/Images/optimized_shader.png" alt="最適化されたシェーダー"><br>
+  <font color="grey">最適化シェーダー</font>
+</p>
+
+### OptimizedShaderGenerator.Replace()
+Uberシェーダーが割り当てられているマテリアルのレンダリングタイプとシェーダーパスの設定に応じて適切な最適化シェーダーに差し替えます。このAPIを利用する場合は`OptimizedShaderGenerator.Generate()`を利用して最適化シェーダーを生成する必要があります。<br/>
+なお、APIの利用方法の詳細についてはAPIリファレンスの[OptimizedShaderReplacer](Documentation~/OptimizedShaderReplacer_JA.md)を参照してください。
+
+### サンプルコード
+APIを利用するサンプルとして[ShaderOptimizeSample.cs](https://github.com/CyberAgentGameEntertainment/NovaShader/blob/main/Assets/Samples/Editor/ShaderOptimizeSample.cs)を用意しているので、こちらも参照してください。
 
 ## Editor APIs リファレンス
 - [RenderErrorHandler](Documentation~/RenderErrorHandler_JA.md)
