@@ -67,6 +67,7 @@ namespace Nova.Editor.Core.Scripts.Optimizer
                 else
                 {
                     Debug.LogWarning($"Could not find optimized shader: {optimizedShaderName}");
+                    Debug.LogWarning($"Please run OptimizedShaderGenerator.Generate() to create optimized shaders.");
                 }
             }
         }

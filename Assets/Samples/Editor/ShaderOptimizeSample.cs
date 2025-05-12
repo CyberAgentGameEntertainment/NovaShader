@@ -40,5 +40,18 @@ namespace Samples.Editor
         {
             OptimizedShaderGenerator.Generate("Assets/OptimizedShaders");
         }
+        [MenuItem("Tools/NOVA Shader/Sample/Replace Optimized Shader")]
+        public static void ReplaceOptimizedShader()
+        {
+            // Create shader replacement settings
+            var replaceSettings = new OptimizedShaderReplacer.Settings
+            {
+                OpaqueRequiredPasses = OptionalShaderPass.DepthOnly | OptionalShaderPass.ShadowCaster,
+                CutoutRequiredPasses = OptionalShaderPass.ShadowCaster,
+                TransparentRequiredPasses = OptionalShaderPass.None
+            };
+            // Replace uber shaders with optimized shaders
+            OptimizedShaderReplacer.Replace(replaceSettings);
+        }
     }
 }
