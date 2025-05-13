@@ -8,6 +8,7 @@ namespace Nova.Editor.Core.Scripts
     {
         Opaque = 0,
         Cutout = 1,
-        Transparent = 2
+        Transparent = 2,
+        Num,
     }
 }
