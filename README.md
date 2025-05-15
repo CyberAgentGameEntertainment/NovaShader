@@ -1539,7 +1539,7 @@ Additionally, shader passes such as `Depth Only Pass`, `Depth Normals Pass`, and
 
 These factors can cause increased memory usage in Uber shaders.
 
-To address this issue, Nova Shader provides the following editor APIs for generating and applying optimized shaders:
+To address this issue, Nova Shader provides the following editor APIs that generate and apply optimized shaders by removing unused shader keywords and passes:
 
 |API|Description|
 |---|---|
