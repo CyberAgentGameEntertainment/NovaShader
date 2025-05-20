@@ -42,11 +42,7 @@ namespace Nova.Runtime.Core.Scripts
 
             if (!_applyToSceneView && renderingData.cameraData.cameraType == CameraType.SceneView) return;
 
-#if UNITY_2022_1_OR_NEWER
             var source = renderingData.cameraData.renderer.cameraColorTargetHandle.nameID;
-#else
-            var source = renderingData.cameraData.renderer.cameraColorTarget;
-#endif
 
             var cmd = CommandBufferPool.Get();
             cmd.Clear();
