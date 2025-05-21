@@ -17,11 +17,7 @@ namespace Nova.Runtime.Core.Scripts
         private readonly ShaderTagId _shaderTagId;
         private FilteringSettings _filteringSettings;
 
-#if UNITY_2022_1_OR_NEWER
         private RTHandle _renderTargetRTHandle;
-#else
-        private RenderTargetIdentifier _renderTargetIdentifier;
-#endif
 
         public DistortedUvBufferPass(string lightMode)
         {
@@ -30,17 +26,10 @@ namespace Nova.Runtime.Core.Scripts
             _shaderTagId = new ShaderTagId(lightMode);
         }
 
-#if UNITY_2022_1_OR_NEWER
         public void Setup(RTHandle renderTargetRTHandle)
         {
             _renderTargetRTHandle = renderTargetRTHandle;
         }
-#else
-        public void Setup(RenderTargetIdentifier renderTargetIdentifier)
-        {
-            _renderTargetIdentifier = renderTargetIdentifier;
-        }
-#endif
 
 #if UNITY_2023_3_OR_NEWER
         [Obsolete(DeprecationMessage.CompatibilityScriptingAPIObsolete, false)]
@@ -48,11 +37,7 @@ namespace Nova.Runtime.Core.Scripts
         public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
             var renderer = renderingData.cameraData.renderer;
-#if UNITY_2022_1_OR_NEWER
             ConfigureTarget(_renderTargetRTHandle, renderer.cameraDepthTargetHandle);
-#else
-            ConfigureTarget(_renderTargetIdentifier, renderer.cameraDepthTarget);
-#endif
             ConfigureClear(ClearFlag.Color, Color.gray);
         }
 

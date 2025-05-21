@@ -7,7 +7,7 @@
 
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
 [![license](https://img.shields.io/badge/PR-welcome-green.svg)](https://github.com/CyberAgentGameEntertainment/NovaShader/pulls)
-[![license](https://img.shields.io/badge/Unity-2021.3-green.svg)](#Requirements)
+[![license](https://img.shields.io/badge/Unity-2022.1-green.svg)](#Requirements)
 
 **ドキュメント** ([English](README.md), [日本語](README_JA.md))
 | **サンプル** ([English](Assets/Samples/README.md), [日本語](Assets/Samples/README_JA.md))
@@ -95,7 +95,7 @@
 #### 要件
 本ライブラリは以下の環境に対応しています。
 
-* Unity 2021.3 以上
+* Unity 2022.1 以上
 * Universal Render Pipeline
 * Shader Model 3.5
 
