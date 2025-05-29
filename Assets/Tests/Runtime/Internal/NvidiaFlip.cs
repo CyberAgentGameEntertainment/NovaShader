@@ -13,7 +13,7 @@ using Debug = UnityEngine.Debug;
 namespace Tests.Runtime.Internal
 {
     /// <summary>
-    ///     NvidiaのFlipを利用する画像比較機能を提供するクラス
+    ///     Class providing image comparison functionality using NVIDIA's Flip tool
     /// </summary>
     internal static class NvidiaFlip
     {
@@ -23,29 +23,29 @@ namespace Tests.Runtime.Internal
                 : base(message){}
         }
         /// <summary>
-        ///     Flipによる画像比較を実行する
+        ///     Execute image comparison using Flip
         /// </summary>
         /// <param name="referenceImagePath"></param>
         /// <param name="testImagePath"></param>
-        /// <returns>flipによる実行結果</returns>
+        /// <returns>Execution results from flip</returns>
         public static Result Execute(string referenceImagePath, string testImagePath)
         {
             Result result = null;
-            // flip 実行ファイル（環境によってはフルパスを指定する必要があります）
-            // string command = "/Library/Frameworks/Python.framework/Versions/3.13/bin/flip";  // 例えば "./flip" または "C:/Tools/flip.exe" に置き換える
+            // Flip executable (full path may be required depending on environment)
+            // string command = "/Library/Frameworks/Python.framework/Versions/3.13/bin/flip";  // Replace with "./flip" or "C:/Tools/flip.exe" for example
             var projectRoot = Directory.GetParent(Application.dataPath).FullName;
             #if UNITY_EDITOR_WIN
-            var command = $"{projectRoot}/Assets/Tests/bin/Windows/flip"; // 例えば "./flip" または "C:/Tools/flip.exe" に置き換える
+            var command = $"{projectRoot}/Assets/Tests/bin/Windows/flip"; // Replace with "./flip" or "C:/Tools/flip.exe" for example
             #elif UNITY_EDITOR_OSX
-            var command = $"{projectRoot}/Assets/Tests/bin/Mac/flip";  // 例えば "./flip" または "C:/Tools/flip.exe" に置き換える
+            var command = $"{projectRoot}/Assets/Tests/bin/Mac/flip";  // Replace with "./flip" or "C:/Tools/flip.exe" for example
             #else
             var command = $"{projectRoot}/Assets/Tests/bin/flip"
             #endif
-            // 画像ファイルのパス - Unityプロジェクト内の "Assets/StreamingAssets/" フォルダに置いた場合
+            // Image file paths - when placed in the "Assets/StreamingAssets/" folder of Unity project
 
             referenceImagePath = Path.Combine(projectRoot, referenceImagePath);
             testImagePath = Path.Combine(projectRoot, testImagePath);
-            // コマンドライン引数
+            // Command line arguments
             var args = $"-r \"{referenceImagePath}\" -t \"{testImagePath}\"";
 
             var psi = new ProcessStartInfo();
@@ -77,6 +77,7 @@ namespace Tests.Runtime.Internal
             }
             catch (Exception e)
             {
+                Debug.LogError("Failed to run flip command. Please read Documentation~/TestDocuments.md for required environment setup instructions.");
                 Debug.LogError("Error running flip command: " + e.Message);
                 throw;
             }
@@ -86,7 +87,7 @@ namespace Tests.Runtime.Internal
         {
             var result = new Result();
 
-            // 各行を正規表現でマッチ（キー: 値 の形式）
+            // Match each line with regex (key: value format)
             result.mean = ParseKey(output, @"Mean:\s*([-+]?[0-9]*\.?[0-9]+)");
             result.weightedMedian = ParseKey(output, @"Weighted median:\s*([-+]?[0-9]*\.?[0-9]+)");
             result.firstQuartile = ParseKey(output, @"1st weighted quartile:\s*([-+]?[0-9]*\.?[0-9]+)");
@@ -105,16 +106,16 @@ namespace Tests.Runtime.Internal
             return -1f;
         }
         /// <summary>
-        /// Flipの実行結果
+        /// Results from Flip execution
         /// </summary>
         public class Result
         {
-            public float firstQuartile; // 第1重み付き四分位数。差分マップの値の下位25%がこの値以下であることを示します。（重み付き）
-            public float max;　// 差分マップにおける最も大きい差分値。
-            public float mean; // 差分マップの重み付き平均値。
-            public float min; // 差分マップにおける最も小さい差分値。
-            public float thirdQuartile; // 第3重み付き四分位数。 差分マップの値の下位75%がこの値以下であることを示します（重み付き）
-            public float weightedMedian; // // 重み付き中央値。差分マップにおけるピクセルごとの差分値を小さい順に並べたときの中央に位置する値。
+            public float firstQuartile; // First weighted quartile. Indicates that the bottom 25% of the values in the difference map are below this value (weighted).
+            public float max; // The largest difference value in the difference map.
+            public float mean; // Weighted average value of the difference map.
+            public float min; // The smallest difference value in the difference map.
+            public float thirdQuartile; // Third weighted quartile. Indicates that the bottom 75% of the values in the difference map are below this value (weighted).
+            public float weightedMedian; // Weighted median. The middle value when pixel-by-pixel difference values in the difference map are arranged in ascending order.
         }
     }
 }

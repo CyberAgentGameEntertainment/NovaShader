@@ -18,6 +18,11 @@ using Object = UnityEngine.Object;
 
 namespace Tests.Runtime
 {
+    /// <summary>
+    /// Regression tests that run from Unity Test Runner.
+    /// Before running these tests, please read Documentation~/TestDucument.md
+    /// for required environment setup instructions.
+    /// </summary>
     public class AverageTest
     {
         [TestCase("Test_Unlit", ExpectedResult = null)]
@@ -41,14 +46,14 @@ namespace Tests.Runtime
                 PerPixelCorrectnessThreshold = 0.005f,
                 IncorrectPixelsThreshold = 0.1f
             };
-            // このタイミングでスクリーンショットを撮ればシーンの描画結果と一致するらしい
+            // Take a screenshot at this timing to match the scene rendering result
             var screenshotSrc = ScreenCapture.CaptureScreenshotAsTexture();
             var expected = TestUtility.ExpectedImage();
-            // 成功イメージのフォーマットに合わせて再作成する。
+            // Recreate to match the successful image format
             var screenshot = new Texture2D(expected.width, expected.height, expected.format, false);
             screenshot.SetPixels(screenshotSrc.GetPixels());
             screenshot.Apply();
-            // Flipを使った画像比較
+            // Image comparison using Flip
             ImageAssertExtensions.AreEqualWithFlip(screenshot, settings);
             
             Object.Destroy(screenshotSrc);
@@ -67,11 +72,11 @@ namespace Tests.Runtime
                 AverageCorrectnessThreshold = 0.0005f,
                 PerPixelCorrectnessThreshold = 0.0005f
             };
-            // シェーダー差し替え前でキャプチャする
+            // Capture before shader replacement
             yield return TestUtility.LoadScene($"Assets/Tests/Scenes/Test_OptimizedShader.unity");
             var expected = TestUtility.CaptureActualImage(new List<Camera> { Camera.main }, settings);
             
-            // 最適化シェーダーを作成して差し替える
+            // Generate and replace with optimized shaders
             OptimizedShaderGenerator.Generate("Assets/OptimizedShaders");
             var optimizedMaterialsPath = "Assets/Tests/Scenes/Materials/Optimized";
             // Get all materials in the Optimized folder
@@ -95,7 +100,7 @@ namespace Tests.Runtime
                 AssetDatabase.CopyAsset(originalPath, tempPath);
             }
          
-            // テスト用のマテリアルのシェーダーを最適化シェーダーに置き換える
+            // Replace test materials' shaders with optimized shaders
             OptimizedShaderReplacer.Replace(new OptimizedShaderReplacer.Settings
             {
                 OpaqueRequiredPasses = OptionalShaderPass.DepthOnly | OptionalShaderPass.DepthNormals | OptionalShaderPass.ShadowCaster,
@@ -103,7 +108,7 @@ namespace Tests.Runtime
                 TransparentRequiredPasses = OptionalShaderPass.None,
                 TargetFolderPath = "Assets/Tests/Scenes/Materials/Optimized",
             });
-            // 差し替え後でキャプチャする
+            // Capture after replacement
             yield return TestUtility.LoadScene($"Assets/Tests/Scenes/Test_OptimizedShader.unity");
             var actual = TestUtility.CaptureActualImage(new List<Camera> { Camera.main }, settings);
             ImageAssertExtensions.AreEqualWithFlip(expected, actual, settings);
@@ -136,28 +141,28 @@ namespace Tests.Runtime
             string[] platforms = { @"WindowsEditor/Direct3D11", @"OSXEditor_AppleSilicon/Metal" };
             foreach (var platform in platforms)
             {
-                // コピー元とコピー先のパスを定義
+                // Define source and destination paths
                 var sourceDirectory = $"Assets/ActualImages/Linear/{platform}/None";
                 var destinationDirectory = $"Assets/Tests/SuccessfulImages/Linear/{platform}/None";
 
                 if (!Directory.Exists(sourceDirectory)) continue;
-                // コピー先のディレクトリが存在しない場合は作成
+                // Create destination directory if it doesn't exist
                 if (!Directory.Exists(destinationDirectory)) Directory.CreateDirectory(destinationDirectory);
 
-                // コピー元ディレクトリからファイルを取得し、条件に合うものをコピー
+                // Get files from source directory and copy those that meet the conditions
                 var files = Directory.EnumerateFiles(sourceDirectory, "*.png")
                     .Where(file => !file.EndsWith(".diff.png", StringComparison.OrdinalIgnoreCase)
                                    && !file.EndsWith(".expected.png", StringComparison.OrdinalIgnoreCase));
 
                 foreach (var file in files)
                 {
-                    // ファイル名を取得
+                    // Get filename
                     var fileName = Path.GetFileName(file);
 
-                    // コピー先のパスを定義
+                    // Define destination path
                     var destFile = Path.Combine(destinationDirectory, fileName);
 
-                    // ファイルをコピー
+                    // Copy file
                     File.Copy(file, destFile, true);
                 }
             }

@@ -1,5 +1,11 @@
-﻿    // --------------------------------------------------------------
+﻿// --------------------------------------------------------------
 // Copyright 2025 CyberAgent, Inc.
+// --------------------------------------------------------------
+//
+// This file uses the flip tool from NVIDIA CORPORATION & AFFILIATES
+// which is licensed under the BSD 3-Clause License.
+// See Assets/Tests/LICENSE.md for the full license text.
+// SPDX-License-Identifier: BSD-3-Clause
 // --------------------------------------------------------------
 
 using System;
@@ -11,7 +17,7 @@ using UnityEngine.TestTools.Graphics;
 namespace Tests.Runtime.Internal
 {
     /// <summary>
-    ///     ImageAssertの拡張メソッド
+    ///     Extension methods for ImageAssert
     /// </summary>
     internal static class ImageAssertExtensions
     {
@@ -28,7 +34,7 @@ namespace Tests.Runtime.Internal
                 PathName = dirName,
                 ImageName = TestUtility.StripParametricTestCharacters(imageName)
             };
-            // テスト画像、リファレンス画像、ヒートマップを保存
+            // Save test image, reference image, and heatmap
             imageMessage.ActualImage = actualImage.EncodeToPNG();
             imageMessage.DiffImage = heatmapImage.EncodeToPNG();
             imageMessage.ExpectedImage = expectedImage.EncodeToPNG();
@@ -58,7 +64,7 @@ namespace Tests.Runtime.Internal
             }
             finally
             {
-                // 一時ファイルを削除
+                // Delete temporary files
                 if (File.Exists(actualPath))
                     File.Delete(actualPath);
                 if(File.Exists(actualPath))
@@ -71,14 +77,14 @@ namespace Tests.Runtime.Internal
         }
 
         /// <summary>
-        ///     Flip画像比較を行うメソッド
+        ///     Method to perform Flip image comparison
         /// </summary>
-        /// <param name="actualPath">実際の画像のファイルパス</param>
+        /// <param name="actualPath">File path of the actual image</param>
         /// <param name="cameras"></param>
-        /// <param name="settings">比較設定</param>
+        /// <param name="settings">Comparison settings</param>
         public static void AreEqualWithFlip(Texture2D actualImage, ImageComparisonSettings settings)
         {
-            // テストイメージをキャプチャして一時ファイルとして保存する
+            // Capture test image and save as temporary file
             var bytes = actualImage.EncodeToPNG();
             File.WriteAllBytes("Assets/Tests/actual.png", bytes);
             var actualPath = "Assets/Tests/actual.png";
@@ -98,10 +104,10 @@ namespace Tests.Runtime.Internal
             }
             finally
             {
-                // 一時ファイルを削除
+                // Delete temporary files
                 if (File.Exists(actualPath))
                     File.Delete(actualPath);
-                // ヒートマップを削除
+                // Delete heatmap
                 if (File.Exists(heatmapFilePath))
                     File.Delete(heatmapFilePath);
             }

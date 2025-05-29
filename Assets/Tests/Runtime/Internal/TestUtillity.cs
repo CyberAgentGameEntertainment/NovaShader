@@ -17,33 +17,31 @@ namespace Tests.Runtime.Internal
 {
     internal static class TestUtility
     {
-        public static IEnumerator LoadScene(string scenePath, int addRenderCount = 0)
+        public static IEnumerator LoadScene(string scenePath)
         {
             var asyncOp = EditorSceneManager.LoadSceneAsyncInPlayMode(scenePath,
                 new LoadSceneParameters(LoadSceneMode.Single));
-            // シーンの読み込み待ち
+            // Wait for scene loading
             while (!asyncOp.isDone) yield return null;
-            // タイムスケールを0に指定しても、バインドポーズになるときもあれば、
-            // 0フレームのアニメーションが再生されてしまうことがあり、テストが不安定だった。
-            // そこでシーンに含まれているアニメーターを無効にしてアニメーションが再生されないようにする。
+            // Even when setting timeScale to 0, sometimes it goes to bind pose,
+            // and sometimes the animation plays at frame 0, making the test unstable.
+            // Therefore, disable all animators in the scene to prevent animation playback.
             var animators = Object.FindObjectsOfType<Animator>();
             foreach (var animator in animators) animator.enabled = false;
 
-            // シーンのレンダリングが一回終わるまで待つ
+            // Wait for the scene to finish rendering once
             yield return new WaitForEndOfFrame();
 
-            // 一回描画するとシェーダーの非同期コンパイルが走るので、コンパイルが終わるのを待つ
+            // Shader async compilation starts after first render, so wait for compilation to complete
             while (ShaderUtil.anythingCompiling) yield return null;
             
-            // シーンのレンダリングが一回終わるまで待つ
+            // Wait for the scene to finish rendering once
             yield return new WaitForEndOfFrame();
             
-            // GTAOなどでTemporalフィルタを使っているのでシーンのテストを安定させるために指定回数描画する
-            for (var i = 0; i < addRenderCount; i++) yield return new WaitForEndOfFrame();
         }
         /// <summary>
-        ///     指定されたカメラの描画結果をキャプチャーします。
-        ///     キャプチャーの処理はTest FrameworkのImageAssert.AreEqualの実装を参考にしています。
+        ///     Captures the rendering result of the specified camera.
+        ///     The capture process is based on the implementation of ImageAssert.AreEqual in the Test Framework.
         /// </summary>
         public static Texture2D CaptureActualImage(List<Camera> cameras, ImageComparisonSettings settings)
         {
@@ -149,7 +147,7 @@ namespace Tests.Runtime.Internal
             }
             else
             {
-                // ダミーのテクスチャを作成
+                // Create a dummy texture
                 expected = new Texture2D(Screen.width, Screen.height);
                 for (var x = 0; x < Screen.width; x++)
                 for (var y = 0; y < Screen.height; y++)
