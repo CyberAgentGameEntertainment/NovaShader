@@ -57,7 +57,7 @@ namespace Tests.Runtime.Internal
                 var result = NvidiaFlip.Execute(expectedPath, actualPath);
                 Assert.Less(result.mean, settings.AverageCorrectnessThreshold);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 OnTestFailed(actualImage, expectedImage, TestUtility.LoadImage(Path.GetFullPath(heatmapFilePath)));
                 throw;
@@ -96,7 +96,7 @@ namespace Tests.Runtime.Internal
                 var result = NvidiaFlip.Execute(expectedPath, actualPath);
                 Assert.Less(result.mean, settings.AverageCorrectnessThreshold);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 OnTestFailed(actualImage, TestUtility.LoadImage(expectedPath), 
                     TestUtility.LoadImage(Path.GetFullPath(heatmapFilePath)));

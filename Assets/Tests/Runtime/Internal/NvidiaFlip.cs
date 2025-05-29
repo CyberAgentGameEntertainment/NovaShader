@@ -70,15 +70,16 @@ namespace Tests.Runtime.Internal
                 }
                 if (!string.IsNullOrEmpty(error)) Debug.LogError("Flip Error: " + error);
             }
+            
             catch (ParseException e)
             {
-                Debug.LogWarning("flip result parse error: ");
+                Debug.LogWarning($"flip result parse error: {e.Message}");
                 throw;
             }
             catch (Exception e)
             {
                 Debug.LogError("Failed to run flip command. Please read Documentation~/TestDocuments.md for required environment setup instructions.");
-                Debug.LogError("Error running flip command: " + e.Message);
+                Debug.LogError($"Error running flip command: {e.Message}");
                 throw;
             }
             return result;
