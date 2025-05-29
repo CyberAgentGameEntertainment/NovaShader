@@ -8,7 +8,8 @@
         "UnityEditor.TestTools.Graphics",
         "TestHelper.Editor",
         "TestHelper",
-        "Nova.Editor"
+        "Nova.Editor",
+        "Unity.RenderPipelines.Universal.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
