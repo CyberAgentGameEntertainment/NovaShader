@@ -171,6 +171,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.search.extensions": {
+      "version": "https://github.com/Unity-Technologies/com.unity.search.extensions.git?path=package",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "eedf323e613a9f94c8cf5a3e436e12602a77fcf4"
+    },
     "com.unity.searcher": {
       "version": "4.9.2",
       "depth": 2,
