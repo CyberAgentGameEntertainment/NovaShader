@@ -5,18 +5,18 @@ using UnityEngine;
 
 namespace Demo.Demo_OptimizedShader.Editor
 {
-    public class CustomBuild : MonoBehaviour
+    public class Workshop_CustomBuild : MonoBehaviour
     {
         [MenuItem("Tools/Custom Build With Shader Optimize")]
         public static void Execute()
         {
-            // 最適化シェーダーの生成
+            // step-1 最適化シェーダーの生成
             
             
-            // シェーダー置き換え設定
+            // step-2 シェーダー置き換え設定
             
 
-            // マテリアルのシェーダーの置き換えを実行
+            // step-3 マテリアルのシェーダーの置き換えを実行
             
 
             // Configure build pipeline settings

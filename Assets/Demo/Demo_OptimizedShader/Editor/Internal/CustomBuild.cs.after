@@ -10,10 +10,10 @@ namespace Demo.Demo_OptimizedShader.Editor
         [MenuItem("Tools/Custom Build With Shader Optimize")]
         public static void Execute()
         {
-            // Create optimized shaders
+            // step-1 最適化シェーダーの生成
             OptimizedShaderGenerator.Generate("Assets/Demo/Demo_OptimizedShader/OptimizedShaders");
             
-            // Create shader replacement settings
+            // step-2 シェーダー置き換え設定
             var replaceSettings = new OptimizedShaderReplacer.Settings
             {
                 OpaqueRequiredPasses = OptionalShaderPass.ShadowCaster,
@@ -21,7 +21,7 @@ namespace Demo.Demo_OptimizedShader.Editor
                 TransparentRequiredPasses = OptionalShaderPass.None,
                 TargetFolderPath = "Assets/Demo/Demo_OptimizedShader/GeneratedMaterials",
             };
-            // Replace uber shaders with optimized shaders
+            // step-3 マテリアルのシェーダーの置き換えを実行
             OptimizedShaderReplacer.Replace(replaceSettings);
 
             // Configure build pipeline settings
