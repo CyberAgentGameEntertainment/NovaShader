@@ -10,15 +10,8 @@ namespace Demo.Demo_OptimizedShader.Editor
         [MenuItem("Tools/Custom Build With Shader Optimize")]
         public static void Execute()
         {
-            // step-1 最適化シェーダーの生成
+            // ユースケース１：カスタムビルド時に最適化シェーダーを自動生成/置き換え
             
-            
-            // step-2 シェーダー置き換え設定
-            
-
-            // step-3 マテリアルのシェーダーの置き換えを実行
-            
-
             // Configure build pipeline settings
             var buildPlayerOptions = new BuildPlayerOptions
             {
@@ -30,6 +23,16 @@ namespace Demo.Demo_OptimizedShader.Editor
 
             // Execute build
             BuildPipeline.BuildPlayer(buildPlayerOptions);
+        }
+        [MenuItem("Tools/Generate Optimized Shader")]
+        public static void GenerateOptimizedShader()
+        {
+            // ユースケース１：最適化シェーダーを生成する
+        }
+        [MenuItem("Tools/Replace Optimized Shader")]
+        public static void ReplaceOptimizedShader()
+        {
+            // ユースケース2：最適化シェーダーに置き換える
         }
     }
 }
