@@ -67,7 +67,6 @@ Unityの回答を得て、Nova Shaderに不要なパスをストリップでき�
 
 まずは、最適化シェーダーを生成します。
 該当するコメントの箇所に`リスト1`のコードを入力してください。<br/>
-入力できたら Tools -> Demo -> Generate Optimized Shaderを実行してください。`Assets/Demo/Demo_OptimizedShaders`の中に生成されたシェーダーが格納されています。<br/>
 
 [リスト1]
 ```cs
@@ -78,6 +77,10 @@ OptimizedShaderGenerator.Generate(
 );
 
 ```
+
+入力できたら Tools -> Demo -> Generate Optimized Shaderを実行してください。実行できたら次の図のように、`Assets/Demo/Demo_OptimizedShaders/OptimizedShaders`の中に生成されたシェーダーが格納されています。<br/>
+
+![最適化後のメモリ使用量](Documentation~/Images/workshop_03.png)
 
 ### step-2 最適化シェーダーに置き換える
 続いて、Uberシェーダーが割り当てられているマテリアルに、先ほど生成した最適化シェーダーを割り当てていきます。<br/>
