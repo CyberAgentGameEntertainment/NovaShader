@@ -52,7 +52,7 @@ Uberシェーダーで問題になっているのは下記の3つのパスです
 
 ### 1.4 最適化API
 
-Unityの回答を得て、Nova Shaderに不要なパスをストリップできる最適化シェーダーの自動生成機能を実装しました。この機能を使って、`Assets/Demo/Demo_OptimizedShaders/Demo_OptimizedShader`シーンをビルドしたした時のNova Shaderのメモリ使用量は次のようになります。
+Unityの回答を得て、Nova Shaderに不要なパスをストリップできる最適化シェーダーの自動生成機能を実装しました。この機能を使って、`Assets/Demo/Demo_OptimizedShaders/Demo_OptimizedShader`シーンをビルドした時のNova Shaderのメモリ使用量は次のようになります。
 
 ![最適化後のメモリ使用量](Documentation~/Images/workshop_01.png)
 
