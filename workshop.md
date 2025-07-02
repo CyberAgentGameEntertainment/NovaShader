@@ -79,7 +79,7 @@ OptimizedShaderGenerator.Generate(
 
 ```
 
-入力できたら Tools -> Demo -> Generate Optimized Shaderを実行してください。実行できたら次の図のように、`Assets/Demo/Demo_OptimizedShaders/OptimizedShaders`の中に生成されたシェーダーが格納されています。<br/>
+入力できたら Tools ->  Generate Optimized Shaderを実行してください。実行できたら次の図のように、`Assets/Demo/Demo_OptimizedShaders/OptimizedShaders`の中に生成されたシェーダーが格納されています。<br/>
 
 ![最適化後のメモリ使用量](Documentation~/Images/workshop_03.png)
 
