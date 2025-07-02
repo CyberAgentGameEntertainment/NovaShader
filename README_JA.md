@@ -7,7 +7,7 @@
 
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
 [![license](https://img.shields.io/badge/PR-welcome-green.svg)](https://github.com/CyberAgentGameEntertainment/NovaShader/pulls)
-[![license](https://img.shields.io/badge/Unity-2021.3-green.svg)](#Requirements)
+[![license](https://img.shields.io/badge/Unity-2022.1-green.svg)](#Requirements)
 
 **ドキュメント** ([English](README.md), [日本語](README_JA.md))
 | **サンプル** ([English](Assets/Samples/README.md), [日本語](Assets/Samples/README_JA.md))
@@ -80,6 +80,10 @@
 - [Custom Vertex Streamsを自動的に設定する](#custom-vertex-streams%E3%82%92%E8%87%AA%E5%8B%95%E7%9A%84%E3%81%AB%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B)
     - [Fix Now](#fix-now)
 - [不要なパラメータ参照を削除する](#%E4%B8%8D%E8%A6%81%E3%81%AA%E3%83%91%E3%83%A9%E3%83%A1%E3%83%BC%E3%82%BF%E5%8F%82%E7%85%A7%E3%82%92%E5%89%8A%E9%99%A4%E3%81%99%E3%82%8B)
+- [最適化シェーダーの利用によるメモリ使用量の削減](#%E6%9C%80%E9%81%A9%E5%8C%96%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80%E3%83%BC%E3%81%AE%E5%88%A9%E7%94%A8%E3%81%AB%E3%82%88%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E4%BD%BF%E7%94%A8%E9%87%8F%E3%81%AE%E5%89%8A%E6%B8%9B)
+  - [OptimizedShaderGenerator.Generate()](#optimizedshadergeneratorgenerate)
+  - [OptimizedShaderGenerator.Replace()](#optimizedshadergeneratorreplace)
+  - [サンプルコード](#%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB%E3%82%B3%E3%83%BC%E3%83%89)
 - [Editor APIs リファレンス](#editor-apis-%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9)
 - [ライセンス](#%E3%83%A9%E3%82%A4%E3%82%BB%E3%83%B3%E3%82%B9)
 
@@ -91,7 +95,7 @@
 #### 要件
 本ライブラリは以下の環境に対応しています。
 
-* Unity 2021.3 以上
+* Unity 2022.1 以上
 * Universal Render Pipeline
 * Shader Model 3.5
 
@@ -1535,8 +1539,42 @@ GPUが求めている頂点ストリームとの差異が生じている時に�
 Projectビュー上でマテリアルを選択した状態で`Tools > NOVA Shader > RemoveUnusedReferences`から実行することができます。<br/>
 削除された参照があった場合はConsoleに出力されます。<br/>
 
+## 最適化シェーダーの利用によるメモリ使用量の削減
+Uber Unlit/Lit シェーダーは多機能な汎用シェーダーであり、多数のシェーダーキーワードが定義されています。このため、キーワードの組み合わせによるバリアントの爆発が起こる可能性があります。
+
+また、`Depth Only パス`、`Depth Normals パス`、`Shadow Caster パス`など、プロジェクトによっては不要なシェーダーパスが含まれてしまうことがあります。
+
+こうした要因により、Uber シェーダーのメモリ使用量が増大するケースがあります。
+
+Nova Shader では、この問題を解消するために、使用していないシェーダーキーワードとパスを削除した最適化シェーダーの生成および適用を行う以下のエディタAPIを提供しています。
+
+|API|説明|
+|---|---|
+|OptimizedShaderGenerator.Generate()|最適化シェーダーを生成|
+|OptimizedShaderGenerator.Replace()|最適化シェーダーに差し替え|
+
+これらのAPIを活用してシェーダーを最適化することで、メモリ使用量を最大50%削減できることを確認しています。
+
+
+### OptimizedShaderGenerator.Generate()
+Uberシェーダーから最適化シェーダーを生成します。生成されるシェーダーは`レンダリングタイプ`と`使用されるシェーダーパス`の組み合わせによって次のように生成されます。<br/>
+なお、APIの利用方法の詳細については、APIリファレンスの[OptimizedShaderGenerator](Documentation~/OptimizedShaderGenerator_JA.md)を参照してください。
+<p align="center">
+  <img width="60%" src="Documentation~/Images/optimized_shader.png" alt="最適化されたシェーダー"><br>
+  <font color="grey">最適化シェーダー</font>
+</p>
+
+### OptimizedShaderGenerator.Replace()
+Uberシェーダーが割り当てられているマテリアルのレンダリングタイプとシェーダーパスの設定に応じて適切な最適化シェーダーに差し替えます。このAPIを利用する場合は`OptimizedShaderGenerator.Generate()`を利用して最適化シェーダーを生成する必要があります。<br/>
+なお、APIの利用方法の詳細についてはAPIリファレンスの[OptimizedShaderReplacer](Documentation~/OptimizedShaderReplacer_JA.md)を参照してください。
+
+### サンプルコード
+APIを利用するサンプルとして[ShaderOptimizeSample.cs](https://github.com/CyberAgentGameEntertainment/NovaShader/blob/main/Assets/Samples/Editor/ShaderOptimizeSample.cs)を用意しているので、こちらも参照してください。
+
 ## Editor APIs リファレンス
 - [RenderErrorHandler](Documentation~/RenderErrorHandler_JA.md)
+- [OptimizedShaderGenerator](Documentation~/OptimizedShaderGenerator_JA.md)
+- [OptimizedShaderReplacer](Documentation~/OptimizedShaderReplacer_JA.md)
 
 ## ライセンス
 本ソフトウェアはMITライセンスで公開しています。  

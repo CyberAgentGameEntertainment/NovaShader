@@ -7,7 +7,7 @@
 
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
 [![license](https://img.shields.io/badge/PR-welcome-green.svg)](https://github.com/CyberAgentGameEntertainment/NovaShader/pulls)
-[![license](https://img.shields.io/badge/Unity-2021.3-green.svg)](#Requirements)
+[![license](https://img.shields.io/badge/Unity-2022.1-green.svg)](#Requirements)
 
 **Docs** ([English](README.md), [日本語](README_JA.md))
 | **Samples** ([English](Assets/Samples/README.md), [日本語](Assets/Samples/README_JA.md))
@@ -79,6 +79,10 @@ For more information, please refer to the following documents, [Samples](Assets/
 - [Automatic set up the Custom Vertex Streams.](#automatic-set-up-the-custom-vertex-streams)
     - [Fix Now](#fix-now)
 - [Remove Unused Parameter References](#remove-unused-parameter-references)
+- [Reducing Memory Usage with Optimized Shaders](#reducing-memory-usage-with-optimized-shaders)
+  - [OptimizedShaderGenerator.Generate()](#optimizedshadergeneratorgenerate)
+  - [OptimizedShaderGenerator.Replace()](#optimizedshadergeneratorreplace)
+  - [Sample Code](#sample-code)
 - [Editor APIs Reference](#editor-apis-reference)
 - [Licenses](#licenses)
 
@@ -90,7 +94,7 @@ For more information, please refer to the following documents, [Samples](Assets/
 ### Requirements
 This library is compatible with the following environments.
 
-* Unity 2021.3 or higher
+* Unity 2022.1 or higher
 * Universal Render Pipeline
 * Shader Model 3.5
 
@@ -1528,8 +1532,42 @@ To address this, there is a feature called `RemoveUnusedReferences`.<br/>
 You can execute this feature by selecting one or more materials in the Project view and navigating to `Tools > NOVA Shader > RemoveUnusedReferences`.<br/>
 If any unused references are removed, a log will be output to the Console.<br/>
 
+## Reducing Memory Usage with Optimized Shaders
+The Uber Unlit/Lit shaders are versatile general-purpose shaders with many shader keywords defined. This can potentially lead to an explosion of variants due to keyword combinations.
+
+Additionally, shader passes such as `Depth Only Pass`, `Depth Normals Pass`, and `Shadow Caster Pass` may be included even when unnecessary for certain projects.
+
+These factors can cause increased memory usage in Uber shaders.
+
+To address this issue, Nova Shader provides the following editor APIs that generate and apply optimized shaders by removing unused shader keywords and passes:
+
+|API|Description|
+|---|---|
+|OptimizedShaderGenerator.Generate()|Generate optimized shaders|
+|OptimizedShaderGenerator.Replace()|Replace with optimized shaders|
+
+By utilizing these APIs to optimize shaders, we have confirmed that memory usage can be reduced by up to 50%.
+
+
+### OptimizedShaderGenerator.Generate()
+Generates optimized shaders from the Uber shader. The generated shaders are created based on combinations of `Rendering Type` and `Used Shader Passes` as shown below.<br/>
+For detailed information on how to use the API, please refer to the API reference [OptimizedShaderGenerator](Documentation~/OptimizedShaderGenerator.md).
+<p align="center">
+  <img width="60%" src="Documentation~/Images/optimized_shader.png" alt="Optimized Shader"><br>
+  <font color="grey">Optimized Shader</font>
+</p>
+
+### OptimizedShaderGenerator.Replace()
+Replaces Uber shaders assigned to materials with appropriate optimized shaders based on their rendering type and shader pass settings. To use this API, you must first generate optimized shaders using `OptimizedShaderGenerator.Generate()`.<br/>
+For detailed information on how to use the API, please refer to the API reference [OptimizedShaderReplacer](Documentation~/OptimizedShaderReplacer.md).
+
+### Sample Code
+Please refer to [ShaderOptimizeSample.cs](https://github.com/CyberAgentGameEntertainment/NovaShader/blob/main/Assets/Samples/Editor/ShaderOptimizeSample.cs) for a sample implementation of using these APIs.
+
 ## Editor APIs Reference
 - [RenderErrorHandler](Documentation~/RenderErrorHandler.md)
+- [OptimizedShaderGenerator](Documentation~/OptimizedShaderGenerator.md)
+- [OptimizedShaderReplacer](Documentation~/OptimizedShaderReplacer.md)
 ## Licenses
 This software is released under the MIT license.
 You are free to use it within the scope of the license, but the following copyright and license notices are required.

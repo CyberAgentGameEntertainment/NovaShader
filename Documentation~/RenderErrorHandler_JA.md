@@ -1,29 +1,25 @@
-# RenderErrorHandler クラス
-レンダリングに関するエラーハンドリングを提供するユーティリティです。
+# OptimizedShaderGenerator クラス
+UberUnlit/Litシェーダーからシェーダーキーワード、パスを必要最小限にした、最適化されたシェーダーを生成する機能を提供するクラスです。<br/>
+
+このクラスと併用してOptimizedShaderReplacerを利用すると、UberUnlit/UberLitを利用しているマテリアルのシェーダーを最適化シェーダーに差し替えることができます。
 
 ## APIs
-- [CheckErrorWithMaterial](#CheckErrorWithMaterial)
-- [FixErrorWithMaterial](#fixerrorwithmaterial)
-
-## CheckErrorWithMaterial
+- [Generate](#optimizedshadergenerator-クラス)
+  
+## Generate
 ### 概要
-指定されたマテリアルを使用するパーティクルシステムレンダラーのエラーをチェックします。
+UberLitとUberUnlitシェーダーを最適化し、指定された出力フォルダに保存します。
 
 ### 引数
 |パラメータ|説明|
 |---|---|
-|material|ParticleSystemRendererに指定されているマテリアル|
-
-### 戻り値
-エラーがある場合はtrueを返します。<br/>
+|outputFolderPath|最適化されたシェーダーを出力するフォルダのパス|
 
 ### サンプルコード
 ```C#
-if (RendererErrorHandler.CheckErrorWithMaterial(material))
-    Debug.Log("Errors");
-else
-    Debug.Log("No Errors");
+OptimizedShaderGenerator.Generate("Assets/OptimizedShaders");
 ```
+
 ## FixErrorWithMaterial
 ### 概要
 指定されたマテリアルを使用するParticleSystemRendereのエラーを修正します。<br/>
