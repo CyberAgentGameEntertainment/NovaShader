@@ -36,24 +36,50 @@ namespace Nova.Editor.Foundation.Scripts
             var shader = material.shader;
             var shaderName = shader.name;
 
-            switch (shaderName)
+            if (IsParticlesUberLitShader(shaderName))
             {
-                case ShaderNames.ParticlesUberLit:
-                    RemoveUnusedReferencesFromParticlesUberLit(material);
-                    break;
-                case ShaderNames.ParticlesUberUnlit:
-                    RemoveUnusedReferencesFromParticlesUberUnlit(material);
-                    break;
-                case ShaderNames.UIParticlesUberLit:
-                    RemoveUnusedReferencesFromUIParticlesUberLit(material);
-                    break;
-                case ShaderNames.UIParticlesUberUnlit:
-                    RemoveUnusedReferencesFromUIParticlesUberUnlit(material);
-                    break;
-                default:
-                    Debug.LogWarning($"[NOVA] {material.name} is not a target shader.");
-                    break;
+                RemoveUnusedReferencesFromParticlesUberLit(material);
             }
+            else if (IsParticlesUberUnlitShader(shaderName))
+            {
+                RemoveUnusedReferencesFromParticlesUberUnlit(material);
+            }
+            else if (IsUIParticlesUberLitShader(shaderName))
+            {
+                RemoveUnusedReferencesFromUIParticlesUberLit(material);
+            }
+            else if (IsUIParticlesUberUnlitShader(shaderName))
+            {
+                RemoveUnusedReferencesFromUIParticlesUberUnlit(material);
+            }
+            else
+            {
+                Debug.LogWarning($"[NOVA] {material.name} is not a target shader.");
+            }
+        }
+
+        private static bool IsParticlesUberLitShader(string shaderName)
+        {
+            return shaderName == ShaderNames.ParticlesUberLit || 
+                   shaderName.StartsWith("Hidden/Nova/Particles/UberLit");
+        }
+
+        private static bool IsParticlesUberUnlitShader(string shaderName)
+        {
+            return shaderName == ShaderNames.ParticlesUberUnlit || 
+                   shaderName.StartsWith("Hidden/Nova/Particles/UberUnlit");
+        }
+
+        private static bool IsUIParticlesUberLitShader(string shaderName)
+        {
+            return shaderName == ShaderNames.UIParticlesUberLit || 
+                   shaderName.StartsWith("Hidden/Nova/UIParticles/UberLit");
+        }
+
+        private static bool IsUIParticlesUberUnlitShader(string shaderName)
+        {
+            return shaderName == ShaderNames.UIParticlesUberUnlit || 
+                   shaderName.StartsWith("Hidden/Nova/UIParticles/UberUnlit");
         }
 
         private static void RemoveUnusedReferencesFromParticlesUberLit(Material material)
