@@ -30,12 +30,13 @@ namespace Nova.Editor.Core.Scripts
             var materialProperties = MaterialEditor.GetMaterialProperties(materials);
             ParticlesUberCommonMaterialProperties commonMaterialProperties = new(materialProperties);
             SetupCorrectVertexStreams(material, out var correctVertexStreams, out var correctVertexStreamsInstanced,
-                commonMaterialProperties);
-            var renderersWithMaterial = FindRendererWithMaterial(material);
+                out var correctTrailVertexStreams, out var correctTrailVertexStreamsInstanced, commonMaterialProperties);
+            var allRenderersWithMaterial = FindAllRenderersWithMaterial(material);
             // If there is no renderer using this material, there is no error.
-            if (renderersWithMaterial == null) return true;
+            if (allRenderersWithMaterial == null || allRenderersWithMaterial.Count == 0) return false;
 
-            return CheckError(renderersWithMaterial, correctVertexStreams, correctVertexStreamsInstanced);
+            return CheckError(allRenderersWithMaterial, material, correctVertexStreams, correctVertexStreamsInstanced,
+                correctTrailVertexStreams, correctTrailVertexStreamsInstanced);
         }
 
         /// <summary>
@@ -54,12 +55,13 @@ namespace Nova.Editor.Core.Scripts
             var materialProperties = MaterialEditor.GetMaterialProperties(materials);
             ParticlesUberCommonMaterialProperties commonMaterialProperties = new(materialProperties);
             SetupCorrectVertexStreams(material, out var correctVertexStreams, out var correctVertexStreamsInstanced,
-                commonMaterialProperties);
-            var renderersWithMaterial = FindRendererWithMaterial(material);
+                out var correctTrailVertexStreams, out var correctTrailVertexStreamsInstanced, commonMaterialProperties);
+            var allRenderersWithMaterial = FindAllRenderersWithMaterial(material);
             // If there is no renderer using this material, there is no error.
-            if (renderersWithMaterial == null) return;
+            if (allRenderersWithMaterial == null || allRenderersWithMaterial.Count == 0) return;
 
-            FixError(renderersWithMaterial, correctVertexStreams, correctVertexStreamsInstanced);
+            FixError(allRenderersWithMaterial, material, correctVertexStreams, correctVertexStreamsInstanced,
+                correctTrailVertexStreams, correctTrailVertexStreamsInstanced);
         }
 
         private static bool IsCustomCoordUsed(ParticlesGUI.Property prop)
@@ -228,6 +230,8 @@ namespace Nova.Editor.Core.Scripts
         internal static void SetupCorrectVertexStreams(Material material,
             out List<ParticleSystemVertexStream> correctVertexStreams,
             out List<ParticleSystemVertexStream> correctVertexStreamsInstanced,
+            out List<ParticleSystemVertexStream> correctTrailVertexStreams,
+            out List<ParticleSystemVertexStream> correctTrailVertexStreamsInstanced,
             ParticlesUberCommonMaterialProperties commonMaterialProperties)
         {
             // Correct vertex streams when enabled GPU Instance.
@@ -267,6 +271,10 @@ namespace Nova.Editor.Core.Scripts
                     correctVertexStreams.Add(ParticleSystemVertexStream.Tangent);
                 }
             }
+
+            // Trail Vertex Streams - same logic as regular vertex streams
+            correctTrailVertexStreamsInstanced = new List<ParticleSystemVertexStream>(correctVertexStreamsInstanced);
+            correctTrailVertexStreams = new List<ParticleSystemVertexStream>(correctVertexStreams);
         }
 
         private static bool IsEnabledGPUInstancing(ParticleSystemRenderer particleSystem)
@@ -299,25 +307,88 @@ namespace Nova.Editor.Core.Scripts
             return renderersWithMaterial;
         }
 
+        internal static List<ParticleSystemRenderer> FindRendererWithTrailMaterial(Material material)
+        {
+            var renderersWithMaterial = new List<ParticleSystemRenderer>();
+#if UNITY_2023_3_OR_NEWER
+            var renderers = Object.FindObjectsByType<ParticleSystemRenderer>(FindObjectsSortMode.None);
+#else
+            var renderers = Object.FindObjectsOfType(typeof(ParticleSystemRenderer)) as ParticleSystemRenderer[];
+#endif
+            if (renderers == null) return null;
+            foreach (var renderer in renderers)
+                if (renderer.trailMaterial == material)
+                    renderersWithMaterial.Add(renderer);
+            return renderersWithMaterial;
+        }
+
+        internal static List<ParticleSystemRenderer> FindAllRenderersWithMaterial(Material material)
+        {
+            var renderersWithMaterial = new HashSet<ParticleSystemRenderer>();
+#if UNITY_2023_3_OR_NEWER
+            var renderers = Object.FindObjectsByType<ParticleSystemRenderer>(FindObjectsSortMode.None);
+#else
+            var renderers = Object.FindObjectsOfType(typeof(ParticleSystemRenderer)) as ParticleSystemRenderer[];
+#endif
+            if (renderers == null) return new List<ParticleSystemRenderer>();
+            
+            foreach (var renderer in renderers)
+            {
+                // Add if shared material matches
+                if (renderer.sharedMaterial == material)
+                    renderersWithMaterial.Add(renderer);
+                
+                // Add if trail material matches
+                if (renderer.trailMaterial == material)
+                    renderersWithMaterial.Add(renderer);
+            }
+            
+            return new List<ParticleSystemRenderer>(renderersWithMaterial);
+        }
+
+
         internal static bool CheckError(
             List<ParticleSystemRenderer> renderers,
+            Material targetMaterial,
             List<ParticleSystemVertexStream> correctVertexStreams,
-            List<ParticleSystemVertexStream> correctVertexStreamsInstanced)
+            List<ParticleSystemVertexStream> correctVertexStreamsInstanced,
+            List<ParticleSystemVertexStream> correctTrailVertexStreams,
+            List<ParticleSystemVertexStream> correctTrailVertexStreamsInstanced)
         {
             var hasError = false;
             var rendererStreams = new List<ParticleSystemVertexStream>();
             foreach (var renderer in renderers)
             {
-                renderer.GetActiveVertexStreams(rendererStreams);
-                var streamsValid = false;
-                if (IsEnabledGPUInstancing(renderer))
-                    streamsValid = CompareVertexStreams(rendererStreams, correctVertexStreamsInstanced);
-                else
-                    streamsValid = CompareVertexStreams(rendererStreams, correctVertexStreams);
-                if (!streamsValid)
+                // Check regular vertex streams if this renderer uses the target material as sharedMaterial
+                if (renderer.sharedMaterial == targetMaterial)
                 {
-                    hasError = true;
-                    break;
+                    renderer.GetActiveVertexStreams(rendererStreams);
+                    var streamsValid = false;
+                    if (IsEnabledGPUInstancing(renderer))
+                        streamsValid = CompareVertexStreams(rendererStreams, correctVertexStreamsInstanced);
+                    else
+                        streamsValid = CompareVertexStreams(rendererStreams, correctVertexStreams);
+                    if (!streamsValid)
+                    {
+                        hasError = true;
+                        break;
+                    }
+                }
+
+                // Check trail vertex streams if this renderer uses the target material as trailMaterial
+                if (renderer.trailMaterial == targetMaterial)
+                {
+                    renderer.GetActiveTrailVertexStreams(rendererStreams);
+                    var trailStreamsValid = false;
+                    if (IsEnabledGPUInstancing(renderer))
+                        trailStreamsValid = CompareVertexStreams(rendererStreams, correctTrailVertexStreamsInstanced);
+                    else
+                        trailStreamsValid = CompareVertexStreams(rendererStreams, correctTrailVertexStreams);
+                    if (!trailStreamsValid)
+                    {
+                        hasError = true;
+                        break;
+                    }
                 }
             }
 
@@ -325,13 +396,30 @@ namespace Nova.Editor.Core.Scripts
         }
 
         internal static void FixError(List<ParticleSystemRenderer> renderers,
+            Material targetMaterial,
             List<ParticleSystemVertexStream> correctVertexStreams,
-            List<ParticleSystemVertexStream> correctVertexStreamsInstanced)
+            List<ParticleSystemVertexStream> correctVertexStreamsInstanced,
+            List<ParticleSystemVertexStream> correctTrailVertexStreams,
+            List<ParticleSystemVertexStream> correctTrailVertexStreamsInstanced)
         {
             foreach (var renderer in renderers)
-                renderer.SetActiveVertexStreams(IsEnabledGPUInstancing(renderer)
-                    ? correctVertexStreamsInstanced
-                    : correctVertexStreams);
+            {
+                // Fix regular vertex streams if this renderer uses the target material as sharedMaterial
+                if (renderer.sharedMaterial == targetMaterial)
+                {
+                    renderer.SetActiveVertexStreams(IsEnabledGPUInstancing(renderer)
+                        ? correctVertexStreamsInstanced
+                        : correctVertexStreams);
+                }
+
+                // Fix trail vertex streams if this renderer uses the target material as trailMaterial
+                if (renderer.trailMaterial == targetMaterial)
+                {
+                    renderer.SetActiveTrailVertexStreams(IsEnabledGPUInstancing(renderer)
+                        ? correctTrailVertexStreamsInstanced
+                        : correctTrailVertexStreams);
+                }
+            }
         }
     }
 }
