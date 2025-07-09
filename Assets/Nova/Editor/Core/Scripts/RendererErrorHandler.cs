@@ -273,8 +273,13 @@ namespace Nova.Editor.Core.Scripts
             }
 
             // Trail Vertex Streams - same logic as regular vertex streams
-            correctTrailVertexStreamsInstanced = new List<ParticleSystemVertexStream>(correctVertexStreamsInstanced);
-            correctTrailVertexStreams = new List<ParticleSystemVertexStream>(correctVertexStreams);
+            correctTrailVertexStreamsInstanced = CopyVertexStreams(correctVertexStreamsInstanced);
+            correctTrailVertexStreams = CopyVertexStreams(correctVertexStreams);
+        }
+
+        private static List<ParticleSystemVertexStream> CopyVertexStreams(List<ParticleSystemVertexStream> source)
+        {
+            return new List<ParticleSystemVertexStream>(source);
         }
 
         private static bool IsEnabledGPUInstancing(ParticleSystemRenderer particleSystem)
