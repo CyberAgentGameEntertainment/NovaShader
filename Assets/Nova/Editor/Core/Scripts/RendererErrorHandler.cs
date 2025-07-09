@@ -83,7 +83,6 @@ namespace Nova.Editor.Core.Scripts
         {
             var isCustomCoordUsed = IsCustomCoordUsed(commonMaterialProperties.BaseMapOffsetXCoordProp)
                                     || IsCustomCoordUsed(commonMaterialProperties.BaseMapOffsetYCoordProp)
-                                    || IsCustomCoordUsed(commonMaterialProperties.BaseMapRotationCoordProp)
                                     || IsCustomCoordUsed(commonMaterialProperties.BaseMapRotationCoordProp);
             isCustomCoordUsed |= (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue !=
                                  BaseMapMode.SingleTexture
@@ -176,8 +175,7 @@ namespace Nova.Editor.Core.Scripts
         {
             var mode = (EmissionAreaType)commonMaterialProperties.EmissionAreaTypeProp.Value.floatValue;
             if (mode == EmissionAreaType.None) return false;
-            var isCustomCoordUsed = false;
-            isCustomCoordUsed = IsCustomCoordUsed(commonMaterialProperties.EmissionIntensityCoordProp);
+            var isCustomCoordUsed = IsCustomCoordUsed(commonMaterialProperties.EmissionIntensityCoordProp);
             if (mode == EmissionAreaType.ByTexture)
             {
                 isCustomCoordUsed |= IsCustomCoordUsed(commonMaterialProperties.EmissionMapOffsetXCoordProp)

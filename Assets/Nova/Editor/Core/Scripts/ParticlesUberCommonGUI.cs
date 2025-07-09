@@ -96,17 +96,6 @@ namespace Nova.Editor.Core.Scripts
                 "Shadow Caster", InternalDrawShadowCasterProperties);
         }
 
-        private static bool CompareVertexStreams(List<ParticleSystemVertexStream> a,
-            List<ParticleSystemVertexStream> b)
-        {
-            if (a.Count != b.Count) return false;
-            for (var i = 0; i < a.Count; i++)
-                if (a[i] != b[i])
-                    return false;
-            return true;
-        }
-
-
         public void DrawFixNowButton()
         {
             if (!RendererErrorHandler.CheckError(_renderersUsingThisMaterial, _editor.target as Material, _correctVertexStreams,
