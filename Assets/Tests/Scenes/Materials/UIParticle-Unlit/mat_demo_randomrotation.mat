@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: mat_demo_randomrotation
   m_Shader: {fileID: 4800000, guid: 72225468864e7e849bc3e630d1756259, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHATEST_ENABLED
   - _ALPHA_TRANSITION_MAP_MODE_2D
@@ -23,8 +25,10 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
   m_CustomRenderQueue: 2450
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: TransparentCutout
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -235,7 +239,7 @@ Material:
     - _VertexDeformationMapOffsetXCoord: 0
     - _VertexDeformationMapOffsetYCoord: 0
     - _ZTest: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     - _ZWriteOverride: -1
     m_Colors:
     - _BaseMapRotationOffsets: {r: 0, g: 0, b: 0, a: 0}

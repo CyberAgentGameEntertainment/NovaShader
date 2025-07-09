@@ -7,7 +7,7 @@
 
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
 [![license](https://img.shields.io/badge/PR-welcome-green.svg)](https://github.com/CyberAgentGameEntertainment/NovaShader/pulls)
-[![license](https://img.shields.io/badge/Unity-2022.1-green.svg)](#Requirements)
+[![license](https://img.shields.io/badge/Unity-2022.3-green.svg)](#Requirements)
 
 **Docs** ([English](README.md), [日本語](README_JA.md))
 | **Samples** ([English](Assets/Samples/README.md), [日本語](Assets/Samples/README_JA.md))
@@ -94,7 +94,7 @@ For more information, please refer to the following documents, [Samples](Assets/
 ### Requirements
 This library is compatible with the following environments.
 
-* Unity 2022.1 or higher
+* Unity 2022.3 LTS or higher
 * Universal Render Pipeline
 * Shader Model 3.5
 
@@ -1441,6 +1441,7 @@ If checked, Transparency Luminance will affect Alpha value
 
 ## Use with the Custom Vertex Streams
 Using the Particle System's Custom Vertex Streams, you can animate the properties of the Material.
+The shader supports both regular vertex streams and trail vertex streams.
 In the following example, we will use the Custom Vertex Streams to rotate the texture.
 
 #### Set up the Custom Data
@@ -1508,13 +1509,13 @@ Now you can use `Mesh GPU Instancing`.
 We have seen several cases where Custom Vertex Streams are set up manually.<br/>
 In addition, the vertex streams required by the GPUs vary depending on their settings.<br/>
 
-It has a feature that automatically set up the Custom vertex streams as `Fix Now`.
+It has a feature that automatically set up the Custom vertex streams as `Fix Now`. The automatic setup feature supports both regular particle systems and trail vertex streams.
 
 #### Fix Now
 If vertex streams are different from what the CPUs require, <br/>
 `Fix Now` button and error will appear at bottom of the inspector.<br/>
 
-At this time, pressing this button will automatically set the typical vertex stream needed.
+At this time, pressing this button will automatically set the typical vertex stream needed. This feature works for both sharedMaterial and trailMaterial configurations, ensuring that all necessary vertex streams are properly configured.
 
 <p align="center">
   <img width="60%" src="https://user-images.githubusercontent.com/106138524/191191870-7b22351b-e826-4ccb-92c9-693009133909.png" alt="Fix Now"><br>
