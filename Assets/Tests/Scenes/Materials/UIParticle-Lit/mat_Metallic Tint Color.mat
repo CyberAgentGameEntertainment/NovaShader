@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: mat_Metallic Tint Color
   m_Shader: {fileID: 4800000, guid: 5befadde7f2b6a9498dd225c31369d75, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHA_TRANSITION_MAP_MODE_2D
   - _BASE_MAP_MODE_2D
@@ -25,8 +27,11 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2000
-  stringTagMap: {}
-  disabledShaderPasses: []
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses:
+  - SHADOWCASTER
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -295,7 +300,7 @@ Material:
     - _VertexDeformationMapOffsetXCoord: 0
     - _VertexDeformationMapOffsetYCoord: 0
     - _ZTest: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     - _ZWriteOverride: -1
     m_Colors:
     - _BaseMapRotationOffsets: {r: 0, g: 0, b: 0, a: 0}
