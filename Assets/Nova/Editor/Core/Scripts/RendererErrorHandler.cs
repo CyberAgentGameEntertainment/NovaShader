@@ -307,21 +307,6 @@ namespace Nova.Editor.Core.Scripts
             return renderersWithMaterial;
         }
 
-        internal static List<ParticleSystemRenderer> FindRendererWithTrailMaterial(Material material)
-        {
-            var renderersWithMaterial = new List<ParticleSystemRenderer>();
-#if UNITY_2023_3_OR_NEWER
-            var renderers = Object.FindObjectsByType<ParticleSystemRenderer>(FindObjectsSortMode.None);
-#else
-            var renderers = Object.FindObjectsOfType(typeof(ParticleSystemRenderer)) as ParticleSystemRenderer[];
-#endif
-            if (renderers == null) return null;
-            foreach (var renderer in renderers)
-                if (renderer.trailMaterial == material)
-                    renderersWithMaterial.Add(renderer);
-            return renderersWithMaterial;
-        }
-
         internal static List<ParticleSystemRenderer> FindAllRenderersWithMaterial(Material material)
         {
             var renderersWithMaterial = new HashSet<ParticleSystemRenderer>();
@@ -362,6 +347,7 @@ namespace Nova.Editor.Core.Scripts
                 // Check regular vertex streams if this renderer uses the target material as sharedMaterial
                 if (renderer.sharedMaterial == targetMaterial)
                 {
+                    rendererStreams.Clear();
                     renderer.GetActiveVertexStreams(rendererStreams);
                     var streamsValid = false;
                     if (IsEnabledGPUInstancing(renderer))
@@ -378,6 +364,7 @@ namespace Nova.Editor.Core.Scripts
                 // Check trail vertex streams if this renderer uses the target material as trailMaterial
                 if (renderer.trailMaterial == targetMaterial)
                 {
+                    rendererStreams.Clear();
                     renderer.GetActiveTrailVertexStreams(rendererStreams);
                     var trailStreamsValid = false;
                     if (IsEnabledGPUInstancing(renderer))
