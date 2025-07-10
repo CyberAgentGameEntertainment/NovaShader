@@ -267,12 +267,13 @@ namespace Nova.Editor.Core.Scripts
                         
                         EditorGUILayout.HelpBox(
                             "Setup Instructions for Random Row Selection:\n" +
-                            "1. In Particle System > Renderer > Custom Vertex Streams:\n" +
-                            "   - Ensure Custom1.xyzw and Custom2.xyzw are present\n" +
-                            "   - Replace any unused Custom channel (e.g., Custom1.x) with 'StableRandom.x'\n" +
-                            "2. Set Random Coord below to match the channel you used\n" +
-                            "3. Click 'Fix Now' if it appears to auto-configure vertex streams\n" +
-                            "4. Common configurations: 4x4 (Row Count: 4), 8x8 (Row Count: 8)",
+                            "1. Random Coord: Select 'StableRandom.x' (recommended for best performance)\n" +
+                            "2. Vertex Streams (Particle System > Renderer > Custom Vertex Streams):\n" +
+                            "   • GPU Instancing: Automatic (no additional setup required)\n" +
+                            "   • Non-GPU Instancing: StableRandom.x will be added automatically\n" +
+                            "3. Use 'Fix Now' button if it appears for automatic configuration\n" +
+                            "4. Examples: 4×4 texture (Row Count: 4), 8×8 texture (Row Count: 8)\n" +
+                            "\nOptimal setup: Use StableRandom.x without other CustomCoord features for minimal vertex data.",
                             MessageType.Info);
                     }
                 }

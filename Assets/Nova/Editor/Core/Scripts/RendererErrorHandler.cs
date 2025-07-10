@@ -235,11 +235,10 @@ namespace Nova.Editor.Core.Scripts
                    || IsCustomCoordUsedInTransparency(commonMaterialProperties);
         }
 
-        private static bool IsOtherCustomCoordUsed(ParticlesUberCommonMaterialProperties commonMaterialProperties)
+        private static bool IsCustomCoordUsedExcludingRandomRow(ParticlesUberCommonMaterialProperties commonMaterialProperties)
         {
             if (commonMaterialProperties == null) return false;
 
-            // Check if any CustomCoord other than StableRandomX is used
             return IsCustomCoordUsedInVertexDeformation(commonMaterialProperties)
                    || IsCustomCoordUsedInBaseMapExcludingRandomRow(commonMaterialProperties)
                    || IsCustomCoordUsedInTintColor(commonMaterialProperties)
@@ -263,9 +262,10 @@ namespace Nova.Editor.Core.Scripts
                                  BaseMapMode.SingleTexture
                                  && IsCustomCoordUsed(commonMaterialProperties.BaseMapProgressCoordProp);
 
-            // Exclude Random Row Selection coordinate from this check
+            // Exclude Random Row Selection from this check
             return isCustomCoordUsed;
         }
+
 
         internal static void SetupCorrectVertexStreams(Material material,
             out List<ParticleSystemVertexStream> correctVertexStreams,
@@ -281,10 +281,13 @@ namespace Nova.Editor.Core.Scripts
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Color);
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.UV);
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.UV2);
-            correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Custom1XYZW);
-            correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Custom2XYZW);
-            // Note: GPU Instancing only supports Custom1XYZW and Custom2XYZW
-            // StableRandom.x must be placed within these channels for Random Row Selection
+            
+            // GPU Instancing: StableRandom is accessed from instanceData, not vertex streams
+            if (IsCustomCoordUsed(commonMaterialProperties))
+            {
+                correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Custom1XYZW);
+                correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Custom2XYZW);
+            }
 
             // Correct vertex streams when disabled GPU Instance.
             correctVertexStreams = new List<ParticleSystemVertexStream>();
@@ -294,44 +297,38 @@ namespace Nova.Editor.Core.Scripts
             correctVertexStreams.Add(ParticleSystemVertexStream.UV);
             correctVertexStreams.Add(ParticleSystemVertexStream.UV2);
 
-            // Is custom coord Used ?
-            if (IsCustomCoordUsed(commonMaterialProperties))
+            // Check for regular CustomCoord usage (excluding Random Row Selection)
+            bool isRegularCustomCoordUsed = IsCustomCoordUsedExcludingRandomRow(commonMaterialProperties);
+            
+            // Check for Random Row Selection
+            var baseMapMode = (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue;
+            bool isRandomRowSelectionEnabled = (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending) &&
+                                              commonMaterialProperties.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
+            
+            if (isRegularCustomCoordUsed)
             {
+                // Regular CustomCoord usage requires TEXCOORD1 and TEXCOORD2
                 correctVertexStreams.Add(ParticleSystemVertexStream.Custom1XYZW);
+                correctVertexStreams.Add(ParticleSystemVertexStream.Custom2XYZW);
+            }
+            
+            if (isRandomRowSelectionEnabled)
+            {
+                var randomCoord = (CustomCoord)commonMaterialProperties.BaseMapRandomRowCoordProp.Value.floatValue;
                 
-                // Check if Random Row Selection is enabled and which coordinate is used
-                var baseMapMode = (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue;
-                bool isRandomRowSelectionEnabled = (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending) &&
-                                                  commonMaterialProperties.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
-                
-                if (isRandomRowSelectionEnabled)
+                if (randomCoord == CustomCoord.StableRandomX)
                 {
-                    var randomCoord = (CustomCoord)commonMaterialProperties.BaseMapRandomRowCoordProp.Value.floatValue;
-                    
-                    if (randomCoord == CustomCoord.StableRandomX)
-                    {
-                        // StableRandom.x is used for Random Row Selection
-                        correctVertexStreams.Add(ParticleSystemVertexStream.StableRandomX);
-                        // Only add Custom2XYZW if other CustomCoords are also used
-                        if (IsOtherCustomCoordUsed(commonMaterialProperties))
-                        {
-                            correctVertexStreams.Add(ParticleSystemVertexStream.Custom2XYZW);
-                        }
-                    }
-                    else if (randomCoord == CustomCoord.Coord2X)
-                    {
-                        // Coord2.x is used, which means we need Custom2XYZW
-                        correctVertexStreams.Add(ParticleSystemVertexStream.Custom2XYZW);
-                    }
-                    else
-                    {
-                        // Other Custom Coords are used
-                        correctVertexStreams.Add(ParticleSystemVertexStream.Custom2XYZW);
-                    }
+                    // StableRandom.x requires dedicated vertex stream (TEXCOORD3) for Non-GPU Instancing
+                    correctVertexStreams.Add(ParticleSystemVertexStream.StableRandomX);
                 }
                 else
                 {
-                    correctVertexStreams.Add(ParticleSystemVertexStream.Custom2XYZW);
+                    // Random Row Selection using Custom Coords requires TEXCOORD1 and TEXCOORD2
+                    if (!isRegularCustomCoordUsed)
+                    {
+                        correctVertexStreams.Add(ParticleSystemVertexStream.Custom1XYZW);
+                        correctVertexStreams.Add(ParticleSystemVertexStream.Custom2XYZW);
+                    }
                 }
             }
 
@@ -503,50 +500,18 @@ namespace Nova.Editor.Core.Scripts
         }
 
         /// <summary>
-        /// Preserves StableRandom streams from current vertex streams when applying correct streams.
-        /// Now supports StableRandom.x as a first-class stream with Unity compatibility.
+        /// Preserves necessary streams from current vertex streams when applying correct streams.
+        /// GPU Instancing and Non-GPU Instancing have different requirements for StableRandom.x.
         /// </summary>
         private static List<ParticleSystemVertexStream> PreserveStableRandomStreams(
             List<ParticleSystemVertexStream> currentStreams, 
             List<ParticleSystemVertexStream> correctStreams)
         {
-            var mergedStreams = new List<ParticleSystemVertexStream>(correctStreams);
-            
-            // Check if StableRandom.x is present in current streams
-            bool hasStableRandomX = currentStreams.Contains(ParticleSystemVertexStream.StableRandomX);
-            
-            if (hasStableRandomX)
-            {
-                // StableRandom.x is now supported by NOVA system
-                if (!mergedStreams.Contains(ParticleSystemVertexStream.StableRandomX))
-                {
-                    mergedStreams.Add(ParticleSystemVertexStream.StableRandomX);
-                }
-            }
-            
-            // Preserve Custom1/Custom2 streams that might contain other StableRandom data
-            foreach (var stream in currentStreams)
-            {
-                if (stream == ParticleSystemVertexStream.Custom1XYZW || 
-                    stream == ParticleSystemVertexStream.Custom2XYZW)
-                {
-                    if (!mergedStreams.Contains(stream))
-                    {
-                        mergedStreams.Add(stream);
-                    }
-                }
-            }
-            
-            return mergedStreams;
+            // For GPU Instancing, correctStreams should not contain StableRandom.x
+            // For Non-GPU Instancing, correctStreams may contain StableRandom.x if needed
+            // Simply return the correct streams as they are already properly configured
+            return new List<ParticleSystemVertexStream>(correctStreams);
         }
 
-        /// <summary>
-        /// Checks if a vertex stream represents StableRandom data
-        /// </summary>
-        private static bool IsStableRandomStream(ParticleSystemVertexStream stream)
-        {
-            // Check for StableRandom components (only StableRandomX is available in Unity)
-            return stream == ParticleSystemVertexStream.StableRandomX;
-        }
     }
 }
