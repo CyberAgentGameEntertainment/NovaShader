@@ -14,6 +14,11 @@ namespace Nova.Editor.Core.Scripts
         Coord2X = 2,
         Coord2Y = 12,
         Coord2Z = 22,
-        Coord2W = 32
+        Coord2W = 32,
+        // StableRandom support for Unity compatibility
+        StableRandomX = 50,
+        StableRandomY = 51,
+        StableRandomZ = 52,
+        StableRandomW = 53
     }
 }

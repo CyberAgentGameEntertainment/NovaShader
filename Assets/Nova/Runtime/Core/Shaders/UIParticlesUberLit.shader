@@ -62,6 +62,11 @@ Shader "Nova/UIParticles/UberLit"
         _BaseMapRotationCoord("Base Map Rotation Coord", Float) = 0.0
         _BaseMapRotationOffsets("Base Map Rotation Offsets", Vector) = (0.0, 0.0, 0.0, 0.0)
         _BaseMapMirrorSampling("Base Map Mirror Sampling", Float) = 0.0
+        
+        // Base Map Random Row Selection
+        _BaseMapRandomRowSelectionEnabled("Base Map Random Row Selection Enabled", Float) = 0.0
+        _BaseMapRandomRowCoord("Base Map Random Row Coord", Float) = 0.0
+        _BaseMapRowCount("Base Map Row Count", Float) = 1.0
 
         // Tint Color
         _TintAreaMode("Tint Area Mode", Float) = 0.0

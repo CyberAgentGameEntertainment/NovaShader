@@ -82,7 +82,7 @@ half4 frag(Varyings input) : SV_Target
     distortion.x = distortionSrc[(uint)_BaseMapChannelsX];
     distortion.y = distortionSrc[(uint)_BaseMapChannelsY];
     distortion = distortion * 2.0 - 1.0;
-    half distortionIntensity = _DistortionIntensity + GET_CUSTOM_COORD(_DistortionIntensityCoord)
+    half distortionIntensity = _DistortionIntensity + GET_CUSTOM_COORD(_DistortionIntensityCoord);
     distortion *= 0.1 * distortionIntensity;
 
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)

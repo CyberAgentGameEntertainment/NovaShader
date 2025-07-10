@@ -3,6 +3,8 @@
 
 #include "ParticlesUberUnlit.hlsl"
 
+// StableRandom access is already defined in ParticlesUberUnlit.hlsl
+
 /**
  * \brief Vertex shader input attributes for UberLit.
  */

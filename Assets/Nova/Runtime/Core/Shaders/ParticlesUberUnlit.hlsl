@@ -4,6 +4,14 @@
 #include "ParticlesUber.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/ParallaxMapping.hlsl"
 
+// Override StableRandom access for non-instanced particles
+#ifndef NOVA_PARTICLE_INSTANCING_ENABLED
+#ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+#undef GET_STABLE_RANDOM_X
+#define GET_STABLE_RANDOM_X() input.stableRandomX
+#endif
+#endif
+
 struct Attributes
 {
     float4 positionOS : POSITION;
@@ -15,6 +23,9 @@ struct Attributes
     float2 texcoord : TEXCOORD0;
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     INPUT_CUSTOM_COORD(1, 2)
+    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+    float stableRandomX : TEXCOORD3;  // StableRandom.x support for Random Row Selection
+    #endif
     #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
@@ -133,7 +144,7 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;
     #ifdef _BASE_MAP_ROTATION_ENABLED
-    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
+    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord);
     baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
     #endif
     baseMapUv = TRANSFORM_BASE_MAP(baseMapUv);
@@ -144,10 +155,24 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     // Base Map Progress
     #ifdef _BASE_MAP_MODE_2D_ARRAY
     float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
-    output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
+    
+    // Random Row Selection
+    if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) {
+        float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord);
+        output.baseMapUVAndProgresses.z = FlipBookProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, randomValue);
+    } else {
+        output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
+    }
     #elif _BASE_MAP_MODE_3D
     float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
-    output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
+    
+    // Random Row Selection
+    if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) {
+        float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord);
+        output.baseMapUVAndProgresses.z = FlipBookBlendingProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, randomValue);
+    } else {
+        output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
+    }
     #endif
 
     // Tint Map UV
@@ -182,12 +207,12 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     // Transition Map UV
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     output.flowTransitionUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP(input.texcoord.xy);
-    output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord)
-    output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord)
+    output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
+    output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     output.flowTransitionSecondUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(input.texcoord.xy);
-    output.flowTransitionSecondUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord)
-    output.flowTransitionSecondUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord)
+    output.flowTransitionSecondUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord);
+    output.flowTransitionSecondUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord);
     #endif
     #endif
 
@@ -217,8 +242,8 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
         // Emission Map UV
         #ifdef _EMISSION_AREA_MAP
         output.tintEmissionUV.zw = TRANSFORM_EMISSION_MAP(input.texcoord.xy);
-        output.tintEmissionUV.z += GET_CUSTOM_COORD(_EmissionMapOffsetXCoord)
-        output.tintEmissionUV.w += GET_CUSTOM_COORD(_EmissionMapOffsetYCoord)
+        output.tintEmissionUV.z += GET_CUSTOM_COORD(_EmissionMapOffsetXCoord);
+        output.tintEmissionUV.w += GET_CUSTOM_COORD(_EmissionMapOffsetYCoord);
         #endif
 
         // Emission Map Progress

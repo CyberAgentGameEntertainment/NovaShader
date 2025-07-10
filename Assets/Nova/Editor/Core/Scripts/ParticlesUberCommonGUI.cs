@@ -210,8 +210,73 @@ namespace Nova.Editor.Core.Scripts
                 props.BaseMapMirrorSamplingProp.Value);
 
             if (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending)
+            {
                 MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                     props.BaseMapProgressProp.Value, props.BaseMapProgressCoordProp.Value);
+                
+                // Random Row Selection
+                MaterialEditorUtility.DrawToggleProperty(_editor, "Random Row Selection",
+                    props.BaseMapRandomRowSelectionEnabledProp.Value);
+                
+                bool randomRowEnabled = props.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
+                if (randomRowEnabled)
+                {
+                    using (new EditorGUI.IndentLevelScope())
+                    {
+                        // Custom Coord selection for Random Row
+                        using (new EditorGUILayout.HorizontalScope())
+                        {
+                            EditorGUILayout.PrefixLabel("Random Coord");
+                            var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), Convert.ToInt32(props.BaseMapRandomRowCoordProp.Value.floatValue));
+                            var newCoord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
+                            props.BaseMapRandomRowCoordProp.Value.floatValue = Convert.ToSingle(newCoord);
+                        }
+                        
+                        _editor.FloatProperty(props.BaseMapRowCountProp.Value, "Row Count");
+                        
+                        // Validation and help message
+                        var sliceCount = props.BaseMapSliceCountProp.Value.floatValue;
+                        var rowCount = props.BaseMapRowCountProp.Value.floatValue;
+                        
+                        if (rowCount <= 0)
+                        {
+                            EditorGUILayout.HelpBox("Row Count must be greater than 0. Setting to 1 will disable random row selection.", MessageType.Warning);
+                        }
+                        else if (rowCount > sliceCount && sliceCount > 0)
+                        {
+                            EditorGUILayout.HelpBox(
+                                $"Row Count ({rowCount}) cannot be greater than Slice Count ({sliceCount}). Reduce Row Count or increase Slice Count.", 
+                                MessageType.Error);
+                        }
+                        else if (sliceCount > 0 && !Mathf.Approximately(sliceCount % rowCount, 0))
+                        {
+                            var framesPerRow = Mathf.FloorToInt(sliceCount / rowCount);
+                            var unusedSlices = Mathf.FloorToInt(sliceCount) - (Mathf.FloorToInt(rowCount) * framesPerRow);
+                            EditorGUILayout.HelpBox(
+                                $"Row Count ({rowCount}) does not divide Slice Count ({sliceCount}) evenly. Each row will have {framesPerRow} frames, with {unusedSlices} unused slices.", 
+                                MessageType.Warning);
+                        }
+                        
+                        // Performance warning for high row counts
+                        if (rowCount > 16)
+                        {
+                            EditorGUILayout.HelpBox(
+                                $"High Row Count ({rowCount}) may impact performance. Consider using fewer rows for optimal results.", 
+                                MessageType.Warning);
+                        }
+                        
+                        EditorGUILayout.HelpBox(
+                            "Setup Instructions for Random Row Selection:\n" +
+                            "1. In Particle System > Renderer > Custom Vertex Streams:\n" +
+                            "   - Ensure Custom1.xyzw and Custom2.xyzw are present\n" +
+                            "   - Replace any unused Custom channel (e.g., Custom1.x) with 'StableRandom.x'\n" +
+                            "2. Set Random Coord below to match the channel you used\n" +
+                            "3. Click 'Fix Now' if it appears to auto-configure vertex streams\n" +
+                            "4. Common configurations: 4x4 (Row Count: 4), 8x8 (Row Count: 8)",
+                            MessageType.Info);
+                    }
+                }
+            }
         }
 
         private void InternalDrawParallaxMapsProperties()

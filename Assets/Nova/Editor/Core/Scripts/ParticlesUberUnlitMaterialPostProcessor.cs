@@ -28,6 +28,9 @@ namespace Nova.Editor.Core.Scripts
         private static readonly int BaseMapRotationCoordId =
             Shader.PropertyToID(MaterialPropertyNames.BaseMapRotationCoord);
 
+        private static readonly int BaseMapRandomRowSelectionEnabledId =
+            Shader.PropertyToID(MaterialPropertyNames.BaseMapRandomRowSelectionEnabled);
+
         private static readonly int TintAreaModeId = Shader.PropertyToID(MaterialPropertyNames.TintAreaMode);
         private static readonly int TintMapModeId = Shader.PropertyToID(MaterialPropertyNames.TintColorMode);
         private static readonly int FlowMapId = Shader.PropertyToID(MaterialPropertyNames.FlowMap);
@@ -190,6 +193,11 @@ namespace Nova.Editor.Core.Scripts
                                          || (CustomCoord)material.GetFloat(BaseMapRotationCoordId) !=
                                          CustomCoord.Unused;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapRotationEnabled, baseMapRotationEnabled);
+
+            // Random Row Selection
+            var randomRowSelectionEnabled = (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending) &&
+                                           material.GetFloat(BaseMapRandomRowSelectionEnabledId) > 0.5f;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapRandomRowSelectionEnabled, randomRowSelectionEnabled);
 
             var tintAreaMode = (TintAreaMode)material.GetFloat(TintAreaModeId);
             foreach (TintAreaMode value in Enum.GetValues(typeof(TintAreaMode)))

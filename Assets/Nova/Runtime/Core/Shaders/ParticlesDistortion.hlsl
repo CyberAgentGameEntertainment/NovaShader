@@ -3,12 +3,23 @@
 
 #include "Particles.hlsl"
 
+// Override StableRandom access for non-instanced particles
+#ifndef NOVA_PARTICLE_INSTANCING_ENABLED
+#ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+#undef GET_STABLE_RANDOM_X
+#define GET_STABLE_RANDOM_X() input.stableRandomX
+#endif
+#endif
+
 struct Attributes
 {
     float4 positionOS : POSITION;
     float2 texcoord : TEXCOORD0;
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     INPUT_CUSTOM_COORD(1, 2)
+    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+    float stableRandomX : TEXCOORD5;  // StableRandom.x support (TEXCOORD3-4 are used by Varyings)
+    #endif
     #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
