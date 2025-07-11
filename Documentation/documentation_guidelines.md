@@ -1,5 +1,7 @@
 # NOVA Shader Documentation Guidelines
 
+<!-- This document defines guidelines for all NOVA Shader documentation -->
+
 ## Language and Format Requirements
 
 - **MUST** Use clear, structured markdown with proper headings and formatting
@@ -33,3 +35,13 @@
 - Use tables for structured data
 - Use emoji indicators (✅/❌) for status information
 - Keep content focused on current implementation state
+
+## Guideline Compliance
+
+All NOVA Shader documentation **MUST** include the following compliance statement at the beginning:
+
+```markdown
+<!-- This document is written in accordance with @documentation/documentation_guidelines.md -->
+```
+
+This ensures consistency and AI agent readability across all documentation files.

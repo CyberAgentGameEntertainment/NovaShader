@@ -1,5 +1,7 @@
 # NOVA Shader Custom Coord System Technical Documentation
 
+<!-- This document is written in accordance with @documentation/documentation_guidelines.md -->
+
 ## Table of Contents
 
 1. [Overview](#overview)
@@ -599,9 +601,3 @@ The NOVA Shader Custom Coord system achieves high flexibility and maintainabilit
 - **Validation**: Maintain automatic Vertex Streams configuration when using Custom Coord
 
 This system enables artists to efficiently create complex particle effects while allowing developers to maintain a highly maintainable codebase.
-
----
-
-**Document Creation Date**: July 11, 2025  
-**Target Version**: NOVA Shader Current (Random Row Selection Support Version)  
-**Author**: Claude Code Analysis

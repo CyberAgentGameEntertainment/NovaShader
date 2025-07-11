@@ -108,7 +108,7 @@ struct VaryingsDrawDepth
     float3 transitionEmissionProgresses : TEXCOORD5;
     // x: TransitionMap Progress, y: EmissionMap Progress, z: Fog Factor
     #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
-    float stableRandomX : TEXCOORD7;  // StableRandom.x for Fragment Shader
+    float stableRandomX : TEXCOORD10;  // StableRandom.x for Fragment Shader
     #endif
     #ifdef FRAGMENT_USE_VIEW_DIR_WS
     float3 viewDirWS : TEXCOORD6;

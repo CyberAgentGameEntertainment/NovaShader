@@ -1,11 +1,15 @@
 # NOVA Shader Feature Specification Template
 
+<!-- This document is written in accordance with @documentation/documentation_guidelines.md -->
+
 ## Feature Specification Document Format - Standard Template
 
 ### 📝 Basic Structure
 
 ```markdown
 # NOVA Shader {Feature Name} Feature Specification
+
+<!-- This document is written in accordance with @documentation/documentation_guidelines.md -->
 
 ## 1. Overview
 - Purpose and background of the feature

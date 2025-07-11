@@ -54,7 +54,7 @@ struct Varyings
     float4 projectedPosition : TEXCOORD8;
     #endif
     #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
-    float stableRandomX : TEXCOORD11;  // StableRandom.x for Fragment Shader
+    float stableRandomX : TEXCOORD14;  // StableRandom.x for Fragment Shader
     #endif
     #ifdef USE_PARALLAX_MAP
     float3 viewDirTS : TEXCOORD9;

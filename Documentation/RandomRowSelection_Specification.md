@@ -1,5 +1,7 @@
 # NOVA Shader Random Row Selection Feature Design Document
 
+<!-- This document is written in accordance with @documentation/documentation_guidelines.md -->
+
 ## 1. Overview
 
 The Random Row Selection feature is an implementation of Unity Particle System's Texture Sheet Animation Row Mode > Random functionality for NOVA shaders. This feature allows random selection of one row from a texture sheet when generating animations for each particle.
@@ -181,9 +183,9 @@ output.stableRandomX = input.stableRandomX;
 
 | File | StableRandomX TEXCOORD | Notes |
 |---------|----------------------|------|
-| ParticlesUberUnlit.hlsl | TEXCOORD11 | High number to avoid duplication |
-| ParticlesUberShadowCaster.hlsl | TEXCOORD6 | Appropriate available number |
-| ParticlesUberDepthNormalsCore.hlsl | TEXCOORD7 | Appropriate available number |
+| ParticlesUberUnlit.hlsl | TEXCOORD14 | Avoids conflict with flowTransitionSecondUVs |
+| ParticlesUberShadowCaster.hlsl | TEXCOORD8 | Avoids conflict with flowTransitionSecondUVs |
+| ParticlesUberDepthNormalsCore.hlsl | TEXCOORD10 | Avoids conflict with projectedPosition |
 
 #### Issue 3: Unnecessary Distortion-related Code
 
@@ -227,6 +229,11 @@ Random Row Selection feature is **fully implemented**. All of the following comp
 
 **Solution**: Use different TEXCOORD numbers for each file to avoid duplication
 
+**Current TEXCOORD Index Assignments**:
+- ParticlesUberUnlit.hlsl: TEXCOORD14
+- ParticlesUberShadowCaster.hlsl: TEXCOORD8
+- ParticlesUberDepthNormalsCore.hlsl: TEXCOORD10
+
 #### 3. Random Row Selection Not Working
 
 **Causes and Solutions**:
@@ -247,6 +254,7 @@ Random Row Selection feature is **fully implemented**. All of the following comp
 - [✓] Vertex-Fragment data transfer verification
 - [✓] TEXCOORD index duplication resolution
 - [✓] Shader compile error resolution
+- [✓] TEXCOORD index conflict fixes applied
 - [ ] Random row selection operation check in FlipBook mode
 - [ ] Random row selection operation check in FlipBook Blending mode
 - [ ] GPU Instancing compatibility verification

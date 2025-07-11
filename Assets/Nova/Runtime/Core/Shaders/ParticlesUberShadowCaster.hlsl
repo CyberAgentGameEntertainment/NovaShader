@@ -45,7 +45,7 @@ struct Varyings
     float4 flowTransitionUVs : TEXCOORD3; // xy: FlowMap UV, zw: TransitionMap UV
     #endif
     #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
-    float stableRandomX : TEXCOORD6;  // StableRandom.x for Fragment Shader
+    float stableRandomX : TEXCOORD8;  // StableRandom.x for Fragment Shader
     #endif
     #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
     float2 tintUV : TEXCOORD4; // xy: TintMap UV, zw: EmissionMap UV
