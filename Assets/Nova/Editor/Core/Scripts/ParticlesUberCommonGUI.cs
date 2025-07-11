@@ -214,11 +214,37 @@ namespace Nova.Editor.Core.Scripts
                 MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                     props.BaseMapProgressProp.Value, props.BaseMapProgressCoordProp.Value);
                 
-                // Random Row Selection
-                MaterialEditorUtility.DrawToggleProperty(_editor, "Random Row Selection",
-                    props.BaseMapRandomRowSelectionEnabledProp.Value);
+                // Random Row Selection (not supported in UIParticles due to StableRandom limitation)
+                bool isUIParticles = typeof(TCustomCoord).Name == "UICustomCoord";
+                if (!isUIParticles)
+                {
+                    MaterialEditorUtility.DrawToggleProperty(_editor, "Random Row Selection",
+                        props.BaseMapRandomRowSelectionEnabledProp.Value);
+                }
                 
-                bool randomRowEnabled = props.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
+                bool randomRowEnabled = !isUIParticles && props.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
+                
+                // Show information for UIParticles users
+                if (isUIParticles)
+                {
+                    // Automatically disable Random Row Selection for UIParticles
+                    if (props.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f)
+                    {
+                        props.BaseMapRandomRowSelectionEnabledProp.Value.floatValue = 0f;
+                        EditorGUILayout.HelpBox(
+                            "Random Row Selection was automatically disabled for UIParticles.\n" +
+                            "UIParticles cannot use StableRandom streams due to Unity UI system limitations.",
+                            MessageType.Warning);
+                    }
+                    else
+                    {
+                        EditorGUILayout.HelpBox(
+                            "Random Row Selection is not available in UIParticles due to Unity UI system limitations.\n" +
+                            "UIParticles cannot use StableRandom streams. Use standard Particles shaders for this feature.",
+                            MessageType.Info);
+                    }
+                }
+                
                 if (randomRowEnabled)
                 {
                     using (new EditorGUI.IndentLevelScope())
@@ -241,6 +267,15 @@ namespace Nova.Editor.Core.Scripts
                         // Validation and help message
                         var sliceCount = props.BaseMapSliceCountProp.Value.floatValue;
                         var rowCount = props.BaseMapRowCountProp.Value.floatValue;
+                        
+                        // Warn about non-integer values
+                        if (sliceCount != Mathf.FloorToInt(sliceCount) || rowCount != Mathf.FloorToInt(rowCount))
+                        {
+                            EditorGUILayout.HelpBox(
+                                "Non-integer values detected. Random Row Selection works best with integer values. " +
+                                "Non-integer values will be used directly in shader calculations, which may cause unexpected results.",
+                                MessageType.Warning);
+                        }
                         
                         if (rowCount <= 0)
                         {

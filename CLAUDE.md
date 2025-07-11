@@ -66,3 +66,4 @@ If you find yourself wanting to add any of these, **STOP** and restructure as te
 
 - Random Row Selection Feature: @documentation/RandomRowSelection_Specification.md
 - Custom Coord System: @documentation/CustomCoord_SystemArchitecture.md
+- UIParticles Limitations: @documentation/UIParticles_Limitations.md

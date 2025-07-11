@@ -91,6 +91,44 @@ public enum UICustomCoord
 }
 ```
 
+### UIParticles Limitations
+
+UIParticles have specific limitations due to Unity UI system constraints:
+
+#### Unity UI System Constraints
+
+UIParticles are constrained by Unity's UIVertex structure:
+
+```csharp
+struct UIVertex
+{
+    public Vector3 position;
+    public Vector3 normal;
+    public Vector4 tangent;
+    public Color32 color;
+    public Vector4 uv0;    // ✅ Available (.xy components)
+    public Vector4 uv1;    // ✅ Available (.xy components)
+    public Vector4 uv2;    // ❌ Limited to .xy components
+    public Vector4 uv3;    // ❌ Limited to .xy components
+}
+```
+
+#### Custom Coord Support Matrix
+
+| Component | Standard Particles | UIParticles | Technical Reason |
+|-----------|-------------------|-------------|------------------|
+| Custom1.x | ✅ Available | ✅ Available | Maps to uv2.x |
+| Custom1.y | ✅ Available | ✅ Available | Maps to uv2.y |
+| Custom1.z | ✅ Available | ❌ Not available | Unity UI system limitation |
+| Custom1.w | ✅ Available | ❌ Not available | Unity UI system limitation |
+| Custom2.x | ✅ Available | ✅ Available | Maps to uv3.x |
+| Custom2.y | ✅ Available | ✅ Available | Maps to uv3.y |
+| Custom2.z | ✅ Available | ❌ Not available | Unity UI system limitation |
+| Custom2.w | ✅ Available | ❌ Not available | Unity UI system limitation |
+| StableRandom.x | ✅ Available | ❌ Not available | Unity UI system does not support StableRandom streams |
+
+**Impact on Features**: Features requiring StableRandom (e.g., Random Row Selection) are not supported in UIParticles. See @documentation/UIParticles_Limitations.md for detailed information.
+
 ### Encoding Rules
 
 Custom Coord values use **decimal encoding**:

@@ -63,10 +63,6 @@ Shader "Nova/UIParticles/UberLit"
         _BaseMapRotationOffsets("Base Map Rotation Offsets", Vector) = (0.0, 0.0, 0.0, 0.0)
         _BaseMapMirrorSampling("Base Map Mirror Sampling", Float) = 0.0
         
-        // Base Map Random Row Selection
-        _BaseMapRandomRowSelectionEnabled("Base Map Random Row Selection Enabled", Float) = 0.0
-        _BaseMapRandomRowCoord("Base Map Random Row Coord", Float) = 50.0
-        _BaseMapRowCount("Base Map Row Count", Float) = 1.0
 
         // Tint Color
         _TintAreaMode("Tint Area Mode", Float) = 0.0
@@ -275,7 +271,6 @@ Shader "Nova/UIParticles/UberLit"
 
             // Base Map
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
-            #pragma shader_feature_local _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 

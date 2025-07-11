@@ -194,8 +194,9 @@ namespace Nova.Editor.Core.Scripts
                                          CustomCoord.Unused;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapRotationEnabled, baseMapRotationEnabled);
 
-            // Random Row Selection
-            var randomRowSelectionEnabled = (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending) &&
+            // Random Row Selection (not supported in UIParticles)
+            bool isUIParticles = material.shader.name.Contains("UIParticles");
+            var randomRowSelectionEnabled = !isUIParticles && (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending) &&
                                            material.GetFloat(BaseMapRandomRowSelectionEnabledId) > 0.5f;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapRandomRowSelectionEnabled, randomRowSelectionEnabled);
 

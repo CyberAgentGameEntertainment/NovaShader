@@ -213,16 +213,21 @@ half FlipBookProgressWithRandomRow(in half progress, in half sliceCount, in half
         return FlipBookProgress(progress, sliceCount);
     }
     
-    // Ensure randomValue is in valid range [0, 1)
-    half clampedRandomValue = clamp(randomValue, 0.0, 0.999999);
+    // Ensure randomValue is in valid range [0, 1) with proper precision
+    half clampedRandomValue = clamp(randomValue, 0.0, 1.0 - 1e-6);
     
-    half framesPerRow = sliceCount / rowCount;
-    uint selectedRow = min(floor(clampedRandomValue * rowCount), rowCount - 1);
+    // Handle non-integer values: clamp rowCount to ensure selectedRow is valid
+    half clampedRowCount = max(rowCount, 1.0);
+    half framesPerRow = sliceCount / clampedRowCount;
+    
+    // Proper row selection with non-integer rowCount handling
+    uint selectedRow = (uint)floor(clampedRandomValue * clampedRowCount);
+    selectedRow = min(selectedRow, (uint)floor(clampedRowCount) - 1);  // Safety clamp for edge cases
     half frameProgress = FlipBookProgress(progress, framesPerRow);
     
-    // Ensure the result doesn't exceed slice count bounds
+    // Return result with proper mathematical bounds
     half result = selectedRow * framesPerRow + frameProgress;
-    return min(result, sliceCount - 0.001);
+    return result;
 }
 
 // Returns the progress for flip-book blending with random row selection.
@@ -233,11 +238,16 @@ half FlipBookBlendingProgressWithRandomRow(in half progress, in half sliceCount,
         return FlipBookBlendingProgress(progress, sliceCount);
     }
     
-    // Ensure randomValue is in valid range [0, 1)
-    half clampedRandomValue = clamp(randomValue, 0.0, 0.999999);
+    // Ensure randomValue is in valid range [0, 1) with proper precision
+    half clampedRandomValue = clamp(randomValue, 0.0, 1.0 - 1e-6);
     
-    half framesPerRow = sliceCount / rowCount;
-    uint selectedRow = min(floor(clampedRandomValue * rowCount), rowCount - 1);
+    // Handle non-integer values: clamp rowCount to ensure selectedRow is valid
+    half clampedRowCount = max(rowCount, 1.0);
+    half framesPerRow = sliceCount / clampedRowCount;
+    
+    // Proper row selection with non-integer rowCount handling
+    uint selectedRow = (uint)floor(clampedRandomValue * clampedRowCount);
+    selectedRow = min(selectedRow, (uint)floor(clampedRowCount) - 1);  // Safety clamp for edge cases
     half frameProgress = FlipBookBlendingProgress(progress, framesPerRow);
     
     // FlipBookBlendingProgress already returns normalized value (0-1)
@@ -245,8 +255,8 @@ half FlipBookBlendingProgressWithRandomRow(in half progress, in half sliceCount,
     half absoluteFrameProgress = frameProgress * framesPerRow;
     half result = (selectedRow * framesPerRow + absoluteFrameProgress) / sliceCount;
     
-    // Ensure the result stays within [0, 1) range
-    return clamp(result, 0.0, 0.999999);
+    // Return result with proper mathematical bounds (0-1 range for blending)
+    return clamp(result, 0.0, 1.0 - 1e-6);
 }
 
 // Get vertex deformation intensity by vertex deformation map

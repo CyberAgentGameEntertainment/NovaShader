@@ -17,8 +17,8 @@ The Random Row Selection feature is an implementation of Unity Particle System's
 |----------|---------|------|
 | ParticlesUberUnlit | ✅ Implemented | Full support |
 | ParticlesUberLit | ✅ Implemented | Full support |
-| UIParticlesUberUnlit | ✅ Implemented | Full support |
-| UIParticlesUberLit | ✅ Implemented | Full support |
+| UIParticlesUberUnlit | ❌ Not supported | Unity UI system limitations (see @documentation/UIParticles_Limitations.md) |
+| UIParticlesUberLit | ❌ Not supported | Unity UI system limitations (see @documentation/UIParticles_Limitations.md) |
 | ParticlesDistortion | ❌ Not supported | Excluded as FlipBook feature itself is not implemented |
 
 ### 2.2 Implementation Components
@@ -101,7 +101,9 @@ When not using GPU Instancing, the following setup is required:
 
 Keywords are set in ParticlesUberUnlitMaterialPostProcessor.cs under the following conditions:
 ```csharp
-var randomRowSelectionEnabled = (baseMapMode == BaseMapMode.FlipBook || 
+// UIParticles exclusion for Unity UI system compatibility
+bool isUIParticles = material.shader.name.Contains("UIParticles");
+var randomRowSelectionEnabled = !isUIParticles && (baseMapMode == BaseMapMode.FlipBook || 
                                 baseMapMode == BaseMapMode.FlipBookBlending) &&
                                 material.GetFloat(BaseMapRandomRowSelectionEnabledId) > 0.5f;
 ```
@@ -117,8 +119,28 @@ var randomRowSelectionEnabled = (baseMapMode == BaseMapMode.FlipBook ||
 1. Only available in FlipBook or FlipBook Blending modes
 2. Row Count must be an integer value of 1 or greater
 3. Texture sheet structure must be uniform rows × columns
+4. **Not supported in UIParticles** due to Unity UI system limitations
 
-## 8. Future Extension Possibilities
+## 8. Shader Optimization System Integration
+
+### 8.1 NOVA Shader Optimization Support
+
+Random Row Selection is **fully integrated** with NOVA's shader optimization system:
+
+- **OptimizedShaderGenerator**: Preserves Random Row Selection functionality in optimized shaders
+- **Keyword Protection**: `_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED` is excluded from optimization removal
+- **24 Shader Variants**: All optimized shader variants (Opaque/Transparent/Cutout × 8 passes) include Random Row Selection support
+- **Performance Benefits**: Maintains feature while eliminating unused shader passes
+
+### 8.2 Shader Variant Impact
+
+| Shader | Total Features | Random Row Selection Impact | Notes |
+|--------|---------------|-----------------------------|-------|
+| ParticlesUberUnlit | 166 shader_feature pragmas | +6 variants (6 passes) | Minimal impact with shader_feature_local |
+| ParticlesUberLit | 175 shader_feature pragmas | +6 variants (6 passes) | Minimal impact with shader_feature_local |
+| UIParticles | N/A | No impact | Feature excluded |
+
+## 9. Future Extension Possibilities
 
 The current implementation is complete and provides equivalent functionality to Unity's standard Row Mode > Random feature.
 Future extension ideas:
@@ -136,8 +158,8 @@ pragma declaration for `_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED` has been added t
 
 - ✅ ParticlesUberUnlit.shader
 - ✅ ParticlesUberLit.shader
-- ✅ UIParticlesUberUnlit.shader
-- ✅ UIParticlesUberLit.shader
+- ❌ UIParticlesUberUnlit.shader (removed due to Unity UI system limitations)
+- ❌ UIParticlesUberLit.shader (removed due to Unity UI system limitations)
 
 Implementation location:
 ```hlsl
