@@ -64,9 +64,9 @@ struct AttributesDrawDepth
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     #ifdef _USE_CUSTOM_COORD
     INPUT_CUSTOM_COORD(1, 2)
-    #endif
     #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
     float stableRandomX : TEXCOORD3;  // StableRandom.x support for Random Row Selection
+    #endif
     #endif
     #endif
     #ifdef _ALPHATEST_ENABLED // This attributes is not used for opaque objects.
@@ -234,22 +234,30 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
     
     // Random Row Selection
+    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
     if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) {
         float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord);
         output.baseMapUVAndProgresses.z = FlipBookProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, randomValue);
     } else {
         output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
     }
+    #else
+    output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
+    #endif
     #elif _BASE_MAP_MODE_3D
     float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
     
     // Random Row Selection
+    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
     if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) {
         float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord);
         output.baseMapUVAndProgresses.z = FlipBookBlendingProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, randomValue);
     } else {
         output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
     }
+    #else
+    output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
+    #endif
     #endif
 
     // Tint Map UV
