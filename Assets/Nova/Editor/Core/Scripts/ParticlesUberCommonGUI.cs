@@ -273,7 +273,8 @@ namespace Nova.Editor.Core.Scripts
                             "   • Non-GPU Instancing: StableRandom.x will be added automatically\n" +
                             "3. Use 'Fix Now' button if it appears for automatic configuration\n" +
                             "4. Examples: 4×4 texture (Row Count: 4), 8×8 texture (Row Count: 8)\n" +
-                            "\nOptimal setup: Use StableRandom.x without other CustomCoord features for minimal vertex data.",
+                            "\nNote: Requires Unity 2022.3+ and Base Map Mode set to FlipBook or FlipBook Blending.\n" +
+                            "Optimal setup: Use StableRandom.x without other CustomCoord features for minimal vertex data.",
                             MessageType.Info);
                     }
                 }
