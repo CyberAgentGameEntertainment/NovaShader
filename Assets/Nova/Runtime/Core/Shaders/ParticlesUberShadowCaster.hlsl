@@ -29,7 +29,7 @@ struct Attributes
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     INPUT_CUSTOM_COORD(1, 2)
     #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
-    float stableRandomX : TEXCOORD3;  // StableRandom.x support for Random Row Selection
+    float stableRandomX : TEXCOORD15;  // StableRandom.x support for Random Row Selection
     #endif
     #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID

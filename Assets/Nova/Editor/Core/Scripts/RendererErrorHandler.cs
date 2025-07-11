@@ -318,12 +318,14 @@ namespace Nova.Editor.Core.Scripts
                 
                 if (randomCoord == CustomCoord.StableRandomX)
                 {
-                    // StableRandom.x requires dedicated vertex stream (TEXCOORD3) for Non-GPU Instancing
+                    // StableRandom.x requires dedicated vertex stream only for Non-GPU Instancing
+                    // For GPU Instancing, StableRandom is accessed from instanceData
                     correctVertexStreams.Add(ParticleSystemVertexStream.StableRandomX);
                 }
                 else
                 {
                     // Random Row Selection using Custom Coords requires TEXCOORD1 and TEXCOORD2
+                    // Only add if not already added by regular CustomCoord usage
                     if (!isRegularCustomCoordUsed)
                     {
                         correctVertexStreams.Add(ParticleSystemVertexStream.Custom1XYZW);

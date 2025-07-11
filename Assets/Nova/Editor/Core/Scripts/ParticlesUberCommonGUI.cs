@@ -252,13 +252,20 @@ namespace Nova.Editor.Core.Scripts
                                 $"Row Count ({rowCount}) cannot be greater than Slice Count ({sliceCount}). Reduce Row Count or increase Slice Count.", 
                                 MessageType.Error);
                         }
-                        else if (sliceCount > 0 && !Mathf.Approximately(sliceCount % rowCount, 0))
+                        else if (sliceCount > 0)
                         {
-                            var framesPerRow = Mathf.FloorToInt(sliceCount / rowCount);
-                            var unusedSlices = Mathf.FloorToInt(sliceCount) - (Mathf.FloorToInt(rowCount) * framesPerRow);
-                            EditorGUILayout.HelpBox(
-                                $"Row Count ({rowCount}) does not divide Slice Count ({sliceCount}) evenly. Each row will have {framesPerRow} frames, with {unusedSlices} unused slices.", 
-                                MessageType.Warning);
+                            // Convert to integers for accurate division check
+                            var sliceCountInt = Mathf.FloorToInt(sliceCount);
+                            var rowCountInt = Mathf.FloorToInt(rowCount);
+                            
+                            if (sliceCountInt % rowCountInt != 0)
+                            {
+                                var framesPerRow = sliceCountInt / rowCountInt;
+                                var unusedSlices = sliceCountInt - (rowCountInt * framesPerRow);
+                                EditorGUILayout.HelpBox(
+                                    $"Row Count ({rowCountInt}) does not divide Slice Count ({sliceCountInt}) evenly. Each row will have {framesPerRow} frames, with {unusedSlices} unused slices.", 
+                                    MessageType.Warning);
+                            }
                         }
                         
                         // Performance warning for high row counts

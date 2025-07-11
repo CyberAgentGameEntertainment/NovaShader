@@ -85,7 +85,9 @@ output.customCoord2 = input.customCoord2;
 // For non-instanced particles, StableRandom should be available in vertex input
 // This will be defined per-shader where StableRandom input is available
 #ifndef GET_STABLE_RANDOM_X
-#define GET_STABLE_RANDOM_X() 0.5  // Fallback value
+// Fallback for StableRandom when vertex stream is not properly configured
+// This should rarely occur in normal operation
+#define GET_STABLE_RANDOM_X() 0.5  // Safe fallback - will select middle row consistently
 #endif
 #endif
 
@@ -206,29 +208,45 @@ half FlipBookBlendingProgress(in half progress, in half sliceCount)
 // Returns the progress for flip-book with random row selection.
 half FlipBookProgressWithRandomRow(in half progress, in half sliceCount, in half rowCount, in half randomValue)
 {
+    // Boundary condition checks
     if (rowCount <= 1.0 || sliceCount <= 1.0) {
         return FlipBookProgress(progress, sliceCount);
     }
     
+    // Ensure randomValue is in valid range [0, 1)
+    half clampedRandomValue = clamp(randomValue, 0.0, 0.999999);
+    
     half framesPerRow = sliceCount / rowCount;
-    uint selectedRow = min(floor(randomValue * rowCount), rowCount - 1);
+    uint selectedRow = min(floor(clampedRandomValue * rowCount), rowCount - 1);
     half frameProgress = FlipBookProgress(progress, framesPerRow);
     
-    return selectedRow * framesPerRow + frameProgress;
+    // Ensure the result doesn't exceed slice count bounds
+    half result = selectedRow * framesPerRow + frameProgress;
+    return min(result, sliceCount - 0.001);
 }
 
 // Returns the progress for flip-book blending with random row selection.
 half FlipBookBlendingProgressWithRandomRow(in half progress, in half sliceCount, in half rowCount, in half randomValue)
 {
+    // Boundary condition checks
     if (rowCount <= 1.0 || sliceCount <= 1.0) {
         return FlipBookBlendingProgress(progress, sliceCount);
     }
     
+    // Ensure randomValue is in valid range [0, 1)
+    half clampedRandomValue = clamp(randomValue, 0.0, 0.999999);
+    
     half framesPerRow = sliceCount / rowCount;
-    uint selectedRow = min(floor(randomValue * rowCount), rowCount - 1);
+    uint selectedRow = min(floor(clampedRandomValue * rowCount), rowCount - 1);
     half frameProgress = FlipBookBlendingProgress(progress, framesPerRow);
     
-    return (selectedRow * framesPerRow + frameProgress) / sliceCount;
+    // FlipBookBlendingProgress already returns normalized value (0-1)
+    // Convert back to absolute frame index for row calculation
+    half absoluteFrameProgress = frameProgress * framesPerRow;
+    half result = (selectedRow * framesPerRow + absoluteFrameProgress) / sliceCount;
+    
+    // Ensure the result stays within [0, 1) range
+    return clamp(result, 0.0, 0.999999);
 }
 
 // Get vertex deformation intensity by vertex deformation map

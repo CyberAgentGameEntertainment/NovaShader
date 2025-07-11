@@ -1,6 +1,9 @@
 # NOVA Shader Feature Specification Template
 
 <!-- This document is written in accordance with @documentation/documentation_guidelines.md -->
+<!-- EDITING REMINDER: Before editing, read CLAUDE.md Documentation Editing Protocol -->
+<!-- PROHIBITED: Troubleshooting sections, Checklists, Version history, Debug steps -->
+<!-- FOCUS: Current implementation state, Technical specifications with code examples -->
 
 ## Feature Specification Document Format - Standard Template
 
