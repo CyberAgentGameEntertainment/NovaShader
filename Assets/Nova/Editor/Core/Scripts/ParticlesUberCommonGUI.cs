@@ -266,15 +266,11 @@ namespace Nova.Editor.Core.Scripts
                         }
                         
                         EditorGUILayout.HelpBox(
-                            "Setup Instructions for Random Row Selection:\n" +
-                            "1. Random Coord: Select 'StableRandom.x' (recommended for best performance)\n" +
-                            "2. Vertex Streams (Particle System > Renderer > Custom Vertex Streams):\n" +
-                            "   • GPU Instancing: Automatic (no additional setup required)\n" +
-                            "   • Non-GPU Instancing: StableRandom.x will be added automatically\n" +
-                            "3. Use 'Fix Now' button if it appears for automatic configuration\n" +
-                            "4. Examples: 4×4 texture (Row Count: 4), 8×8 texture (Row Count: 8)\n" +
-                            "\nNote: Requires Unity 2022.3+ and Base Map Mode set to FlipBook or FlipBook Blending.\n" +
-                            "Optimal setup: Use StableRandom.x without other CustomCoord features for minimal vertex data.",
+                            "Quick Setup:\n" +
+                            "• Random Coord: Use 'StableRandom.x' for best performance\n" +
+                            "• Row Count: Set to number of rows in your texture (e.g., 4×4 texture = 4 rows)\n" +
+                            "• If 'Fix Now' button appears, click it for automatic configuration\n" +
+                            "\nThis feature randomly selects one row from your flip-book texture for each particle.",
                             MessageType.Info);
                     }
                 }
