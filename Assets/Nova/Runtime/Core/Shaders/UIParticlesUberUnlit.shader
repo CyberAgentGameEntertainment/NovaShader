@@ -40,7 +40,7 @@ Shader "Nova/UIParticles/UberUnlit"
         
         // Base Map Random Row Selection
         _BaseMapRandomRowSelectionEnabled("Base Map Random Row Selection Enabled", Float) = 0.0
-        _BaseMapRandomRowCoord("Base Map Random Row Coord", Float) = 0.0
+        _BaseMapRandomRowCoord("Base Map Random Row Coord", Float) = 50.0
         _BaseMapRowCount("Base Map Row Count", Float) = 1.0
 
         // Tint Color

@@ -71,9 +71,8 @@ public enum CustomCoord
     // Coord2 (CustomCoord2 vertex stream)  
     Coord2X = 2,   Coord2Y = 12,   Coord2Z = 22,   Coord2W = 32,
     
-    // StableRandom (Unity 2023.2+ StableRandom vertex stream)
-    StableRandomX = 50, StableRandomY = 51, 
-    StableRandomZ = 52, StableRandomW = 53
+    // StableRandom (Unity 2022.3+ StableRandom vertex stream)
+    StableRandomX = 50
 }
 ```
 
@@ -95,12 +94,12 @@ Custom Coord values use **decimal encoding**:
 
 - **Lower digit (value % 10)**: Stream index (1=Custom1, 2=Custom2, 0=Unused)
 - **Upper digit (value / 10)**: Component index (0=x, 1=y, 2=z, 3=w)
-- **50-53**: Special values dedicated to StableRandom
+- **50**: Special value dedicated to StableRandom
 
 Examples:
 - `Coord1Y = 11` → Y component of Custom1 stream
 - `Coord2Z = 22` → Z component of Custom2 stream
-- `StableRandomX = 50` → X component of StableRandom stream
+- `StableRandomX = 50` → StableRandom stream (X component)
 
 ---
 
@@ -137,15 +136,12 @@ Examples:
 ```hlsl
 #define GET_CUSTOM_COORD(propertyName) ( \
     ((uint)propertyName == 50) ? GET_STABLE_RANDOM_X() : \
-    ((uint)propertyName == 51) ? GET_STABLE_RANDOM_Y() : \
-    ((uint)propertyName == 52) ? GET_STABLE_RANDOM_Z() : \
-    ((uint)propertyName == 53) ? GET_STABLE_RANDOM_W() : \
     customCoords[(uint)propertyName % 10][(uint)propertyName / 10] \
 )
 ```
 
 **Analysis Process:**
-1. **StableRandom Detection**: If value is 50-53, call StableRandom-specific functions
+1. **StableRandom Detection**: If value is 50, call StableRandom-specific function
 2. **Index Decomposition**: `propertyName % 10` for stream, `/ 10` for component
 3. **Array Access**: Retrieve value with `customCoords[stream][component]`
 
@@ -154,17 +150,11 @@ Examples:
 #### During GPU Instancing
 ```hlsl
 #define GET_STABLE_RANDOM_X() instanceData.stableRandom.x
-#define GET_STABLE_RANDOM_Y() instanceData.stableRandom.y
-#define GET_STABLE_RANDOM_Z() instanceData.stableRandom.z
-#define GET_STABLE_RANDOM_W() instanceData.stableRandom.w
 ```
 
 #### During Normal Rendering (Fallback)
 ```hlsl
 #define GET_STABLE_RANDOM_X() 0.5  // Fallback value
-#define GET_STABLE_RANDOM_Y() 0.5
-#define GET_STABLE_RANDOM_Z() 0.5
-#define GET_STABLE_RANDOM_W() 0.5
 ```
 
 ---

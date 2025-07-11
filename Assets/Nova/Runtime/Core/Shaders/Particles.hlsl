@@ -74,9 +74,6 @@ output.customCoord2 = input.customCoord2;
 // Enhanced Custom Coord access with StableRandom support
 #define GET_CUSTOM_COORD(propertyName) ( \
     ((uint)propertyName == 50) ? GET_STABLE_RANDOM_X() : \
-    ((uint)propertyName == 51) ? GET_STABLE_RANDOM_Y() : \
-    ((uint)propertyName == 52) ? GET_STABLE_RANDOM_Z() : \
-    ((uint)propertyName == 53) ? GET_STABLE_RANDOM_W() : \
     customCoords[(uint)propertyName % 10][(uint)propertyName / 10] \
 )
 #define GET_CUSTOM_COORD_DIRECT(coordIndex, swizzleIndex) customCoords[coordIndex][swizzleIndex];
@@ -84,23 +81,11 @@ output.customCoord2 = input.customCoord2;
 // StableRandom access support for Unity compatibility
 #ifdef NOVA_PARTICLE_INSTANCING_ENABLED
 #define GET_STABLE_RANDOM_X() instanceData.stableRandom.x
-#define GET_STABLE_RANDOM_Y() instanceData.stableRandom.y
-#define GET_STABLE_RANDOM_Z() instanceData.stableRandom.z
-#define GET_STABLE_RANDOM_W() instanceData.stableRandom.w
 #else
 // For non-instanced particles, StableRandom should be available in vertex input
-// These will be defined per-shader where StableRandom input is available
+// This will be defined per-shader where StableRandom input is available
 #ifndef GET_STABLE_RANDOM_X
 #define GET_STABLE_RANDOM_X() 0.5  // Fallback value
-#endif
-#ifndef GET_STABLE_RANDOM_Y
-#define GET_STABLE_RANDOM_Y() 0.5  // Fallback value
-#endif
-#ifndef GET_STABLE_RANDOM_Z
-#define GET_STABLE_RANDOM_Z() 0.5  // Fallback value
-#endif
-#ifndef GET_STABLE_RANDOM_W
-#define GET_STABLE_RANDOM_W() 0.5  // Fallback value
 #endif
 #endif
 

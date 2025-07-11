@@ -42,17 +42,15 @@ The following Custom Coords are available in NOVA shader:
 - Coord1.x (0), Coord1.y (1), Coord1.z (2), Coord1.w (3)
 - Coord2.x (10), Coord2.y (11), Coord2.z (12), Coord2.w (13)
 
-#### StableRandom Coord (50-53)
-- StableRandom.x (50): **Recommended value** - Stable random value per particle
-- StableRandom.y (51)
-- StableRandom.z (52)
-- StableRandom.w (53)
+#### StableRandom Coord (50)
+- StableRandom.x (50): **Automatic selection** - Stable random value per particle
 
-### 3.2 Recommended Settings
+### 3.2 Automatic Settings
 
-Using `StableRandom.x` is recommended for Random Row Selection. This provides:
+Random Row Selection automatically uses `StableRandom.x` for optimal performance:
 - When using GPU Instancing: Random values are automatically provided
 - For normal rendering: Automatically added to Vertex Streams
+- No manual configuration required
 
 ## 4. Operation Principle
 
@@ -74,7 +72,7 @@ return selectedRow * framesPerRow + frameProgress;
 
 ParticlesUberCommonGUI.cs provides the following functionality:
 - Random Row Selection enable/disable toggle
-- Custom Coord selection for obtaining random values
+- Automatic StableRandom.x configuration (no manual selection required)
 - Row Count setting
 - Setting error detection and automatic correction functionality
 
@@ -84,7 +82,7 @@ ParticlesUberCommonGUI.cs provides the following functionality:
 
 1. Set material's Base Map Mode to FlipBook or FlipBook Blending
 2. Enable Random Row Selection
-3. Select StableRandom.x for Random Coord (recommended)
+3. StableRandom.x is automatically configured (no manual selection required)
 4. Set Row Count to the number of rows in texture sheet
 
 ### 5.2 Vertex Streams Setup
@@ -92,6 +90,7 @@ ParticlesUberCommonGUI.cs provides the following functionality:
 When not using GPU Instancing, the following setup is required:
 1. Open Particle System > Renderer > Custom Vertex Streams
 2. StableRandom.x is automatically added (can be auto-configured with editor's "Fix Now" button)
+3. No manual Custom Coord configuration needed
 
 ## 6. Implementation Details
 
@@ -195,20 +194,31 @@ output.stableRandomX = input.stableRandomX;
 - Removed unnecessary StableRandom related code from ParticlesDistortion.hlsl
 - Added appropriate comments explaining the reason
 
+#### Issue 4: StableRandomY/Z/W Inappropriate GUI Options
+
+**Cause**: StableRandomY/Z/W were displayed in GUI but technically non-functional in Non-GPU Instancing environments
+
+**Solution**:
+- Removed StableRandomY/Z/W (values 51-53) from CustomCoord enum
+- Updated HLSL GET_CUSTOM_COORD macro to only support StableRandomX
+- Changed GUI to fixed display of "StableRandom.x (Auto)" 
+- Set shader property defaults to 50.0 (StableRandomX)
+
 ### 9.3 Implementation Completion Report
 
-Random Row Selection feature is **fully implemented**. All of the following components are in place:
+Random Row Selection feature is **fully implemented and optimized**. All of the following components are in place:
 
 - ✅ HLSL function implementation (`FlipBookProgressWithRandomRow` etc.)
-- ✅ Material property definition
-- ✅ Editor GUI implementation
+- ✅ Material property definition with optimal defaults
+- ✅ Editor GUI implementation with automatic StableRandom.x configuration
 - ✅ Shader keyword management
 - ✅ pragma declaration addition
-- ✅ Custom Coord support (including StableRandom.x)
+- ✅ StableRandom.x automatic configuration (Y/Z/W removed for clarity)
 - ✅ Vertex Streams automatic setup
 - ✅ Vertex-Fragment data transfer
 - ✅ TEXCOORD channel optimization
 - ✅ Shader compile error resolution
+- ✅ GUI optimization for user-friendly experience
 
 ## 10. Troubleshooting Guide
 
@@ -240,7 +250,7 @@ Random Row Selection feature is **fully implemented**. All of the following comp
 - Missing pragma declaration → Add `#pragma shader_feature_local _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED`
 - Wrong Base Map Mode → Set to FlipBook or FlipBook Blending
 - Row Count is 1 → Set to 2 or higher
-- Custom Coord not set → Select StableRandom.x
+- StableRandom.x not configured → Enable Random Row Selection (automatically configures StableRandom.x)
 
 ### Debug Steps
 
@@ -250,14 +260,21 @@ Random Row Selection feature is **fully implemented**. All of the following comp
 
 ## 11. Test Items
 
+### Completed Implementation Tests
 - [✓] Shader compilation check after pragma declaration addition
 - [✓] Vertex-Fragment data transfer verification
 - [✓] TEXCOORD index duplication resolution
 - [✓] Shader compile error resolution
 - [✓] TEXCOORD index conflict fixes applied
+- [✓] StableRandomY/Z/W removal from CustomCoord enum
+- [✓] GUI optimization to StableRandom.x fixed display
+- [✓] Shader property defaults updated to StableRandomX (50.0)
+- [✓] HLSL macro optimization for StableRandomX only
+
+### Functional Tests (Pending)
 - [ ] Random row selection operation check in FlipBook mode
 - [ ] Random row selection operation check in FlipBook Blending mode
 - [ ] GPU Instancing compatibility verification
-- [ ] Operation verification with various Custom Coord values
+- [ ] StableRandom.x automatic configuration verification
 - [ ] Error handling and automatic correction functionality verification
 - [ ] Performance test (shader variant switching verification)

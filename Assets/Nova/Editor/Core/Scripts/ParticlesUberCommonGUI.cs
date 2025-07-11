@@ -223,14 +223,18 @@ namespace Nova.Editor.Core.Scripts
                 {
                     using (new EditorGUI.IndentLevelScope())
                     {
-                        // Custom Coord selection for Random Row
+                        // Random Coord fixed to StableRandom.x for optimal performance
                         using (new EditorGUILayout.HorizontalScope())
                         {
                             EditorGUILayout.PrefixLabel("Random Coord");
-                            var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), Convert.ToInt32(props.BaseMapRandomRowCoordProp.Value.floatValue));
-                            var newCoord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
-                            props.BaseMapRandomRowCoordProp.Value.floatValue = Convert.ToSingle(newCoord);
+                            using (new EditorGUI.DisabledScope(true))
+                            {
+                                EditorGUILayout.TextField("StableRandom.x (Auto)");
+                            }
                         }
+                        
+                        // Automatically set to StableRandomX (50)
+                        props.BaseMapRandomRowCoordProp.Value.floatValue = 50f;
                         
                         _editor.FloatProperty(props.BaseMapRowCountProp.Value, "Row Count");
                         
@@ -266,11 +270,11 @@ namespace Nova.Editor.Core.Scripts
                         }
                         
                         EditorGUILayout.HelpBox(
-                            "Quick Setup:\n" +
-                            "• Random Coord: Use 'StableRandom.x' for best performance\n" +
+                            "Setup:\n" +
                             "• Row Count: Set to number of rows in your texture (e.g., 4×4 texture = 4 rows)\n" +
                             "• If 'Fix Now' button appears, click it for automatic configuration\n" +
-                            "\nThis feature randomly selects one row from your flip-book texture for each particle.",
+                            "\nThis feature randomly selects one row from your flip-book texture for each particle.\n" +
+                            "Uses StableRandom.x automatically for optimal performance.",
                             MessageType.Info);
                     }
                 }
