@@ -429,6 +429,25 @@ ModeにFlip Book Blendingを指定した場合には、<a href="https://docs.uni
 Flip-BookあるいはFlip-Book Blendingの進行度を設定します。
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Random Row Selection</b></td><td>
+<p>
+<b>ModeをFlip BookあるいはFlip Book Blendingに設定した時のみ表示されます。</b>
+</p>
+<p>
+各パーティクルがテクスチャシートから1つの行をランダムに選択する機能を有効にします。UnityのTexture Sheet Animation Row Mode > Random機能と同等の機能です。有効にすると、各パーティクルがライフタイム中に1つの行を選択・維持し、同じテクスチャシートから多様なアニメーションを作成できます。
+</p>
+<p>
+GPU Instancingおよび標準レンダリングの両方で最適なパフォーマンスを実現するため、StableRandom.xを自動的に使用します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Row Count</b></td><td>
+<p>
+<b>Random Row Selectionが有効な時のみ表示されます。</b>
+</p>
+<p>
+テクスチャシートの行数を設定します（例：4×4のテクスチャシートの場合、Row Countを4に設定）。
+</p>
+</td></tr>
 </tbody>
 </table>
 
