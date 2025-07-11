@@ -209,15 +209,21 @@ Random Row Selection feature is **production-ready with comprehensive robustness
 
 ### 10.1 TEXCOORD Resource Allocation
 
-The implementation uses optimized TEXCOORD allocation to avoid conflicts:
+The implementation uses optimized TEXCOORD allocation to avoid conflicts. For detailed TEXCOORD usage strategy, see @documentation/TEXCOORD_Usage_Strategy.md.
 
 **Input Struct (All Shaders)**:
-- StableRandom.x: TEXCOORD15 (avoids conflict with Flow/Transition Maps at TEXCOORD3)
+- StableRandom.x: TEXCOORD15 (consistent across all shaders for Vertex Streams unity)
 
-**Varyings Struct (Per Shader)**:
-- ParticlesUberUnlit.hlsl: TEXCOORD14
-- ParticlesUberShadowCaster.hlsl: TEXCOORD8  
-- ParticlesUberDepthNormalsCore.hlsl: TEXCOORD10
+**Varyings Struct (Per Shader - Optimized Allocation)**:
+- ParticlesUberUnlit.hlsl: TEXCOORD14 (no conflict with probeOcclusion due to exclusive conditions)
+- ParticlesUberShadowCaster.hlsl: TEXCOORD8 (optimized for simplified pass)
+- ParticlesUberDepthNormalsCore.hlsl: TEXCOORD10 (optimized for available slots)
+
+**TEXCOORD Conflict Resolution**:
+The TEXCOORD14 usage in ParticlesUberLit (probeOcclusion) and ParticlesUberUnlit (stableRandomX) never conflicts because:
+- probeOcclusion: Requires APV + Debug Display mode (development only)
+- stableRandomX: Requires non-instanced Random Row Selection (production typically uses GPU Instancing)
+- These conditions are mutually exclusive in production environments
 
 ### 10.2 Mathematical Implementation
 
