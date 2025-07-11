@@ -37,6 +37,14 @@
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "ParticlesUberUnlit.hlsl"
 
+// Override StableRandom access for non-instanced particles
+#ifndef NOVA_PARTICLE_INSTANCING_ENABLED
+#ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+#undef GET_STABLE_RANDOM_X
+#define GET_STABLE_RANDOM_X() input.stableRandomX
+#endif
+#endif
+
 /**
  * \brief Input attribute of vertex shader.
  * \details This structure is used by DepthOnly pass and DepthNormalsPass.
@@ -56,6 +64,9 @@ struct AttributesDrawDepth
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     #ifdef _USE_CUSTOM_COORD
     INPUT_CUSTOM_COORD(1, 2)
+    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+    float stableRandomX : TEXCOORD15;  // StableRandom.x support for Random Row Selection
+    #endif
     #endif
     #endif
     #ifdef _ALPHATEST_ENABLED // This attributes is not used for opaque objects.
@@ -96,6 +107,9 @@ struct VaryingsDrawDepth
     float4 tintEmissionUV : TEXCOORD4; // xy: TintMap UV, zw: EmissionMap UV
     float3 transitionEmissionProgresses : TEXCOORD5;
     // x: TransitionMap Progress, y: EmissionMap Progress, z: Fog Factor
+    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
+    float stableRandomX : TEXCOORD10;  // StableRandom.x for Fragment Shader
+    #endif
     #ifdef FRAGMENT_USE_VIEW_DIR_WS
     float3 viewDirWS : TEXCOORD6;
     #endif
@@ -173,6 +187,11 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #ifdef _USE_CUSTOM_COORD // This code is not used for opaque objects.
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
+    
+    // Transfer StableRandom.x for Random Row Selection
+    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
+    output.stableRandomX = input.stableRandomX;
+    #endif
     #endif
     InitializeVertexOutputDrawDepth(input, output);
 
@@ -180,7 +199,7 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;
     #ifdef _BASE_MAP_ROTATION_ENABLED
-    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
+    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord);
     baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
     #endif
     baseMapUv = TRANSFORM_BASE_MAP(baseMapUv);
@@ -199,12 +218,12 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #ifdef _USE_TRANSITION_MAP
     // Transition Map UV
     output.flowTransitionUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP(input.texcoord.xy);
-    output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord)
-    output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord)
+    output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
+    output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     output.flowTransitionSecondUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(input.texcoord.xy);
-    output.flowTransitionSecondUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord)
-    output.flowTransitionSecondUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord)
+    output.flowTransitionSecondUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord);
+    output.flowTransitionSecondUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord);
     #endif
     #endif
 
@@ -213,10 +232,32 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     // Base Map Progress
     #ifdef _BASE_MAP_MODE_2D_ARRAY
     float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
+    
+    // Random Row Selection
+    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+    if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) {
+        float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord);
+        output.baseMapUVAndProgresses.z = FlipBookProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, randomValue);
+    } else {
+        output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
+    }
+    #else
     output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
+    #endif
     #elif _BASE_MAP_MODE_3D
     float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
+    
+    // Random Row Selection
+    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+    if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) {
+        float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord);
+        output.baseMapUVAndProgresses.z = FlipBookBlendingProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, randomValue);
+    } else {
+        output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
+    }
+    #else
     output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
+    #endif
     #endif
 
     // Tint Map UV
@@ -256,8 +297,8 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     // Emission Map UV
     #ifdef _EMISSION_AREA_MAP
     output.tintEmissionUV.zw = TRANSFORM_EMISSION_MAP(input.texcoord.xy);
-    output.tintEmissionUV.z += GET_CUSTOM_COORD(_EmissionMapOffsetXCoord)
-    output.tintEmissionUV.w += GET_CUSTOM_COORD(_EmissionMapOffsetYCoord)
+    output.tintEmissionUV.z += GET_CUSTOM_COORD(_EmissionMapOffsetXCoord);
+    output.tintEmissionUV.w += GET_CUSTOM_COORD(_EmissionMapOffsetYCoord);
     #endif
 
     // Emission Map Progress

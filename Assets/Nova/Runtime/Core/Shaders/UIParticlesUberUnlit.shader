@@ -37,6 +37,7 @@ Shader "Nova/UIParticles/UberUnlit"
         _BaseMapRotationCoord("Base Map Rotation Coord", Float) = 0.0
         _BaseMapRotationOffsets("Base Map Rotation Offsets", Vector) = (0.0, 0.0, 0.0, 0.0)
         _BaseMapMirrorSampling("Base Map Mirror Sampling", Float) = 0.0
+        
 
         // Tint Color
         _TintAreaMode("Tint Area Mode", Float) = 0.0

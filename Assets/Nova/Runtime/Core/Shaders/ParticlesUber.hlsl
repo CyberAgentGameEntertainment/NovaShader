@@ -87,6 +87,11 @@ CBUFFER_START(UnityPerMaterial)
     float _BaseMapRotation;
     DECLARE_CUSTOM_COORD(_BaseMapRotationCoord);
     float4 _BaseMapRotationOffsets;
+    
+    // Base Map Random Row Selection
+    float _BaseMapRandomRowSelectionEnabled;
+    DECLARE_CUSTOM_COORD(_BaseMapRandomRowCoord);
+    float _BaseMapRowCount;
 
     half4 _TintColor;
     float4 _TintMap_ST;

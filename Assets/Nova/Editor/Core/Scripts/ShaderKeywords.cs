@@ -23,6 +23,7 @@ namespace Nova.Editor.Core.Scripts
         public const string BaseMapMode2D = "_BASE_MAP_MODE_2D";
         public const string BaseMapMode2DArray = "_BASE_MAP_MODE_2D_ARRAY";
         public const string BaseMapMode3D = "_BASE_MAP_MODE_3D";
+        public const string BaseMapRandomRowSelectionEnabled = "_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED";
         public const string BaseSamplerStatePointMirror = "_BASE_SAMPLER_STATE_POINT_MIRROR";
         public const string BaseSamplerStateLinearMirror = "_BASE_SAMPLER_STATE_LINEAR_MIRROR";
         public const string BaseSamplerStateTrilinearMirror = "_BASE_SAMPLER_STATE_TRILINEAR_MIRROR";

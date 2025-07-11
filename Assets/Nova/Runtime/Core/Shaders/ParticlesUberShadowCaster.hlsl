@@ -6,6 +6,14 @@
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
 
+// Override StableRandom access for non-instanced particles
+#ifndef NOVA_PARTICLE_INSTANCING_ENABLED
+#ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+#undef GET_STABLE_RANDOM_X
+#define GET_STABLE_RANDOM_X() input.stableRandomX
+#endif
+#endif
+
 // Shadow Casting Light geometric parameters. These variables are used when applying the shadow Normal Bias and are set by UnityEngine.Rendering.Universal.ShadowUtils.SetupShadowCasterConstantBuffer in com.unity.render-pipelines.universal/Runtime/ShadowUtils.cs
 // For Directional lights, _LightDirection is used when applying shadow Normal Bias.
 // For Spot lights and Point lights, _LightPosition is used to compute the actual light direction because it is different at each shadow caster geometry vertex.
@@ -20,6 +28,9 @@ struct Attributes
     float2 texcoord : TEXCOORD0;
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     INPUT_CUSTOM_COORD(1, 2)
+    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+    float stableRandomX : TEXCOORD15;  // StableRandom.x support for Random Row Selection
+    #endif
     #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
@@ -32,6 +43,9 @@ struct Varyings
     float4 baseMapUVAndProgresses : TEXCOORD2; // xy: BaseMap UV, z: Base Map Progress, w: Tint Map Progress
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION) || defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     float4 flowTransitionUVs : TEXCOORD3; // xy: FlowMap UV, zw: TransitionMap UV
+    #endif
+    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
+    float stableRandomX : TEXCOORD8;  // StableRandom.x for Fragment Shader
     #endif
     #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
     float2 tintUV : TEXCOORD4; // xy: TintMap UV, zw: EmissionMap UV
@@ -74,6 +88,11 @@ Varyings ShadowPassVertex(Attributes input)
     SETUP_VERTEX;
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
+    
+    // Transfer StableRandom.x for Random Row Selection
+    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
+    output.stableRandomX = input.stableRandomX;
+    #endif
 
     // Vertex Deformation
     #ifdef _VERTEX_DEFORMATION_ENABLED
@@ -101,7 +120,7 @@ Varyings ShadowPassVertex(Attributes input)
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;
     #ifdef _BASE_MAP_ROTATION_ENABLED
-    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
+    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord);
     baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
     #endif
     baseMapUv = TRANSFORM_BASE_MAP(baseMapUv);
@@ -112,10 +131,32 @@ Varyings ShadowPassVertex(Attributes input)
     // Base Map Progress
     #ifdef _BASE_MAP_MODE_2D_ARRAY
     float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
+    
+    // Random Row Selection
+    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+    if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) {
+        float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord);
+        output.baseMapUVAndProgresses.z = FlipBookProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, randomValue);
+    } else {
+        output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
+    }
+    #else
     output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
+    #endif
     #elif _BASE_MAP_MODE_3D
     float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
+    
+    // Random Row Selection
+    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+    if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) {
+        float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord);
+        output.baseMapUVAndProgresses.z = FlipBookBlendingProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, randomValue);
+    } else {
+        output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
+    }
+    #else
     output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
+    #endif
     #endif
 
     // Tint Map UV
@@ -141,12 +182,12 @@ Varyings ShadowPassVertex(Attributes input)
     // Transition Map UV
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     output.flowTransitionUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP(input.texcoord.xy);
-    output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord)
-    output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord)
+    output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
+    output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     output.flowTransitionSecondUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(input.texcoord.xy);
-    output.flowTransitionSecondUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord)
-    output.flowTransitionSecondUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord)
+    output.flowTransitionSecondUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord);
+    output.flowTransitionSecondUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord);
     #endif
     #endif
 

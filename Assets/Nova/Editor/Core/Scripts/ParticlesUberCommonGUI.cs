@@ -210,8 +210,117 @@ namespace Nova.Editor.Core.Scripts
                 props.BaseMapMirrorSamplingProp.Value);
 
             if (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending)
+            {
                 MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                     props.BaseMapProgressProp.Value, props.BaseMapProgressCoordProp.Value);
+                
+                // Random Row Selection (not supported in UIParticles due to StableRandom limitation)
+                bool isUIParticles = typeof(TCustomCoord).Name == "UICustomCoord";
+                if (!isUIParticles)
+                {
+                    MaterialEditorUtility.DrawToggleProperty(_editor, "Random Row Selection",
+                        props.BaseMapRandomRowSelectionEnabledProp.Value);
+                }
+                
+                bool randomRowEnabled = !isUIParticles && props.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
+                
+                // Show information for UIParticles users
+                if (isUIParticles)
+                {
+                    // Automatically disable Random Row Selection for UIParticles
+                    if (props.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f)
+                    {
+                        props.BaseMapRandomRowSelectionEnabledProp.Value.floatValue = 0f;
+                        EditorGUILayout.HelpBox(
+                            "Random Row Selection was automatically disabled for UIParticles.\n" +
+                            "UIParticles cannot use StableRandom streams due to Unity UI system limitations.",
+                            MessageType.Warning);
+                    }
+                    else
+                    {
+                        EditorGUILayout.HelpBox(
+                            "Random Row Selection is not available in UIParticles due to Unity UI system limitations.\n" +
+                            "UIParticles cannot use StableRandom streams. Use standard Particles shaders for this feature.",
+                            MessageType.Info);
+                    }
+                }
+                
+                if (randomRowEnabled)
+                {
+                    using (new EditorGUI.IndentLevelScope())
+                    {
+                        // Random Coord fixed to StableRandom.x for optimal performance
+                        using (new EditorGUILayout.HorizontalScope())
+                        {
+                            EditorGUILayout.PrefixLabel("Random Coord");
+                            using (new EditorGUI.DisabledScope(true))
+                            {
+                                EditorGUILayout.TextField("StableRandom.x (Auto)");
+                            }
+                        }
+                        
+                        // Automatically set to StableRandomX (50)
+                        props.BaseMapRandomRowCoordProp.Value.floatValue = 50f;
+                        
+                        _editor.FloatProperty(props.BaseMapRowCountProp.Value, "Row Count");
+                        
+                        // Validation and help message
+                        var sliceCount = props.BaseMapSliceCountProp.Value.floatValue;
+                        var rowCount = props.BaseMapRowCountProp.Value.floatValue;
+                        
+                        // Warn about non-integer values
+                        if (sliceCount != Mathf.FloorToInt(sliceCount) || rowCount != Mathf.FloorToInt(rowCount))
+                        {
+                            EditorGUILayout.HelpBox(
+                                "Non-integer values detected. Random Row Selection works best with integer values. " +
+                                "Non-integer values will be used directly in shader calculations, which may cause unexpected results.",
+                                MessageType.Warning);
+                        }
+                        
+                        if (rowCount <= 0)
+                        {
+                            EditorGUILayout.HelpBox("Row Count must be greater than 0. Setting to 1 will disable random row selection.", MessageType.Warning);
+                        }
+                        else if (rowCount > sliceCount && sliceCount > 0)
+                        {
+                            EditorGUILayout.HelpBox(
+                                $"Row Count ({rowCount}) cannot be greater than Slice Count ({sliceCount}). Reduce Row Count or increase Slice Count.", 
+                                MessageType.Error);
+                        }
+                        else if (sliceCount > 0)
+                        {
+                            // Convert to integers for accurate division check
+                            var sliceCountInt = Mathf.FloorToInt(sliceCount);
+                            var rowCountInt = Mathf.FloorToInt(rowCount);
+                            
+                            if (sliceCountInt % rowCountInt != 0)
+                            {
+                                var framesPerRow = sliceCountInt / rowCountInt;
+                                var unusedSlices = sliceCountInt - (rowCountInt * framesPerRow);
+                                EditorGUILayout.HelpBox(
+                                    $"Row Count ({rowCountInt}) does not divide Slice Count ({sliceCountInt}) evenly. Each row will have {framesPerRow} frames, with {unusedSlices} unused slices.", 
+                                    MessageType.Warning);
+                            }
+                        }
+                        
+                        // Performance warning for high row counts
+                        if (rowCount > 16)
+                        {
+                            EditorGUILayout.HelpBox(
+                                $"High Row Count ({rowCount}) may impact performance. Consider using fewer rows for optimal results.", 
+                                MessageType.Warning);
+                        }
+                        
+                        EditorGUILayout.HelpBox(
+                            "Setup:\n" +
+                            "• Row Count: Set to number of rows in your texture (e.g., 4×4 texture = 4 rows)\n" +
+                            "• If 'Fix Now' button appears, click it for automatic configuration\n" +
+                            "\nThis feature randomly selects one row from your flip-book texture for each particle.\n" +
+                            "Uses StableRandom.x automatically for optimal performance.",
+                            MessageType.Info);
+                    }
+                }
+            }
         }
 
         private void InternalDrawParallaxMapsProperties()

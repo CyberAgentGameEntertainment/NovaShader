@@ -61,6 +61,11 @@ namespace Nova.Editor.Core.Scripts
         public const string BaseMapRotationOffsets = "_BaseMapRotationOffsets";
         public const string BaseMapMirrorSampling = "_BaseMapMirrorSampling";
         public const string BaseMapUnpackNormal = "_BaseMapUnpackNormal";
+        
+        // Base Map Random Row Selection
+        public const string BaseMapRandomRowSelectionEnabled = "_BaseMapRandomRowSelectionEnabled";
+        public const string BaseMapRandomRowCoord = "_BaseMapRandomRowCoord";
+        public const string BaseMapRowCount = "_BaseMapRowCount";
 
         // Tint Color
         public const string TintAreaMode = "_TintAreaMode";

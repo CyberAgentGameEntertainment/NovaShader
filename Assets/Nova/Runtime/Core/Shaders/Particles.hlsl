@@ -71,8 +71,25 @@ output.customCoord2 = instanceData.customCoord2;
 #define TRANSFER_CUSTOM_COORD(input, output) output.customCoord1 = input.customCoord1; \
 output.customCoord2 = input.customCoord2;
 #endif
-#define GET_CUSTOM_COORD(propertyName) customCoords[(uint)propertyName % 10][(uint)propertyName / 10];
+// Enhanced Custom Coord access with StableRandom support
+#define GET_CUSTOM_COORD(propertyName) ( \
+    ((uint)propertyName == 50) ? GET_STABLE_RANDOM_X() : \
+    customCoords[(uint)propertyName % 10][(uint)propertyName / 10] \
+)
 #define GET_CUSTOM_COORD_DIRECT(coordIndex, swizzleIndex) customCoords[coordIndex][swizzleIndex];
+
+// StableRandom access support for Unity compatibility
+#ifdef NOVA_PARTICLE_INSTANCING_ENABLED
+#define GET_STABLE_RANDOM_X() instanceData.stableRandom.x
+#else
+// For non-instanced particles, StableRandom should be available in vertex input
+// This will be defined per-shader where StableRandom input is available
+#ifndef GET_STABLE_RANDOM_X
+// Fallback for StableRandom when vertex stream is not properly configured
+// This should rarely occur in normal operation
+#define GET_STABLE_RANDOM_X() 0.5  // Safe fallback - will select middle row consistently
+#endif
+#endif
 
 // Base Map Sampler State Override
 #if defined(_BASE_SAMPLER_STATE_POINT_MIRROR) || defined(_BASE_SAMPLER_STATE_LINEAR_MIRROR) || defined(_BASE_SAMPLER_STATE_TRILINEAR_MIRROR)
@@ -186,6 +203,40 @@ half FlipBookBlendingProgress(in half progress, in half sliceCount)
     result = clamp(result, 0, 1.0);
     result = lerp(baseMapProgressOffset, 1.0 - baseMapProgressOffset, result);
     return result;
+}
+
+// Returns the progress for flip-book with random row selection.
+half FlipBookProgressWithRandomRow(in half progress, in half sliceCount, in half rowCount, in half randomValue)
+{
+    if (rowCount <= 1.0 || sliceCount <= 1.0) {
+        return FlipBookProgress(progress, sliceCount);
+    }
+    
+    half framesPerRow = sliceCount / rowCount;
+    uint selectedRow = min(floor(randomValue * rowCount), rowCount - 1);
+    half frameProgress = FlipBookProgress(progress, framesPerRow);
+    
+    return selectedRow * framesPerRow + frameProgress;
+}
+
+// Returns the progress for flip-book blending with random row selection.
+half FlipBookBlendingProgressWithRandomRow(in half progress, in half sliceCount, in half rowCount, in half randomValue)
+{
+    if (rowCount <= 1.0 || sliceCount <= 1.0) {
+        return FlipBookBlendingProgress(progress, sliceCount);
+    }
+    
+    half framesPerRow = sliceCount / rowCount;
+    uint selectedRow = min(floor(randomValue * rowCount), rowCount - 1);
+    
+    // Calculate frame progress within the selected row
+    half frameIndex = selectedRow * framesPerRow + progress * framesPerRow;
+    
+    // Apply FlipBookBlending offset calculation
+    half baseMapProgressOffset = 1.0 / sliceCount * 0.5;
+    half normalizedProgress = (frameIndex + 0.5) / sliceCount;
+    
+    return clamp(normalizedProgress, baseMapProgressOffset, 1.0 - baseMapProgressOffset);
 }
 
 // Get vertex deformation intensity by vertex deformation map
