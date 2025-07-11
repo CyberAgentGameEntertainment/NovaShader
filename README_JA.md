@@ -7,7 +7,7 @@
 
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
 [![license](https://img.shields.io/badge/PR-welcome-green.svg)](https://github.com/CyberAgentGameEntertainment/NovaShader/pulls)
-[![license](https://img.shields.io/badge/Unity-2022.1-green.svg)](#Requirements)
+[![license](https://img.shields.io/badge/Unity-2022.3-green.svg)](#Requirements)
 
 **ドキュメント** ([English](README.md), [日本語](README_JA.md))
 | **サンプル** ([English](Assets/Samples/README.md), [日本語](Assets/Samples/README_JA.md))
@@ -95,7 +95,7 @@
 #### 要件
 本ライブラリは以下の環境に対応しています。
 
-* Unity 2022.1 以上
+* Unity 2022.3 LTS 以上
 * Universal Render Pipeline
 * Shader Model 3.5
 
@@ -1447,6 +1447,7 @@ Alpha値がCutoff値以下の部分は影を落とさなくなります（描画
 
 ## Custom Vertex Streamsとの連携
 Particle SystemのCustom Vertex Streamsを使うと、マテリアルのプロパティを自由にアニメーションさせることができます。  
+シェーダーは通常の頂点ストリームと、トレイル頂点ストリームの両方をサポートしています。  
 以下では例として、Custom Vertex Streamsを使ってテクスチャを回転させる手順を説明します。
 
 #### Custom Dataを設定
@@ -1515,12 +1516,12 @@ Particle SystemのCustom Vertex Streamsを使うと、マテリアルのプロ�
 ここまでCustom Vertex Streamsを手動で設定するいくつかのケースを見てきました。<br/>
 これ以外にもGPUが求めている頂点ストリームは各種設定によって変わっていきます。<br/>
 
-この頂点ストリームを自動的に設定する機能`Fix Now`があります。<br/>
+この頂点ストリームを自動的に設定する機能`Fix Now`があります。自動設定機能は通常のパーティクルシステムとトレイル頂点ストリームの両方をサポートしています。<br/>
 
 #### Fix Now
 GPUが求めている頂点ストリームとの差異が生じている時に、<br/>
 マテリアルインスペクターの下部にエラーメッセージとエラーを修正するためのボタンが表示されています。<br/><br/>
-この時、このボタンを押すことで、必要とされている典型的な頂点ストリームが自動的に設定されます。<br/>
+この時、このボタンを押すことで、必要とされている典型的な頂点ストリームが自動的に設定されます。この機能はsharedMaterialとtrailMaterialの両方の設定に対応し、必要なすべての頂点ストリームが適切に構成されることを保証します。<br/>
 
 <p align="center">
   <img width="60%" src="https://user-images.githubusercontent.com/106138524/191191870-7b22351b-e826-4ccb-92c9-693009133909.png" alt="Fix Now"><br>

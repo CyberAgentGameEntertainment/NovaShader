@@ -27,6 +27,12 @@
 /[Aa]ssets/ActualImages/
 /[Aa]ssets/ActualImages.meta
 
+# Graphicsテストの一時ファイル
+/[Aa]ssets/[Tt]ests/expected.png
+/[Aa]ssets/[Tt]ests/expected.png.meta
+/[Aa]ssets/[Tt]ests/actual.png
+/[Aa]ssets/[Tt]ests/actual.png.meta
+
 # OptimizedShaders
 /[Aa]ssets/OptimizedShaders/
 /[Aa]ssets/OptimizedShaders.meta

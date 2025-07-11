@@ -19,7 +19,7 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesUberCommonGUI(MaterialEditor editor)
         {
             var material = editor.target as Material;
-            _renderersUsingThisMaterial = RendererErrorHandler.FindRendererWithMaterial(material);
+            _renderersUsingThisMaterial = RendererErrorHandler.FindAllRenderersWithMaterial(material);
         }
 
         public void Setup(MaterialEditor editor, ParticlesUberCommonMaterialProperties commonMaterialProperties)
@@ -27,7 +27,7 @@ namespace Nova.Editor.Core.Scripts
             _editor = editor;
             _commonMaterialProperties = commonMaterialProperties;
             RendererErrorHandler.SetupCorrectVertexStreams(_editor.target as Material, out _correctVertexStreams,
-                out _correctVertexStreamsInstanced, _commonMaterialProperties);
+                out _correctVertexStreamsInstanced, out _correctTrailVertexStreams, out _correctTrailVertexStreamsInstanced, _commonMaterialProperties);
         }
 
         public void DrawRenderSettingsProperties(Action drawPropertiesFunc)
@@ -96,25 +96,14 @@ namespace Nova.Editor.Core.Scripts
                 "Shadow Caster", InternalDrawShadowCasterProperties);
         }
 
-        private static bool CompareVertexStreams(List<ParticleSystemVertexStream> a,
-            List<ParticleSystemVertexStream> b)
-        {
-            if (a.Count != b.Count) return false;
-            for (var i = 0; i < a.Count; i++)
-                if (a[i] != b[i])
-                    return false;
-            return true;
-        }
-
-
         public void DrawFixNowButton()
         {
-            if (!RendererErrorHandler.CheckError(_renderersUsingThisMaterial, _correctVertexStreams,
-                    _correctVertexStreamsInstanced))
+            if (!RendererErrorHandler.CheckError(_renderersUsingThisMaterial, _editor.target as Material, _correctVertexStreams,
+                    _correctVertexStreamsInstanced, _correctTrailVertexStreams, _correctTrailVertexStreamsInstanced))
                 return;
 
             EditorGUILayout.HelpBox(
-                "Some particle System Renderers are using this material with incorrect Vertex Streams.\n" +
+                "Some particle System Renderers are using this material with incorrect Vertex Streams or Trail Vertex Streams.\n" +
                 "Recommend that you press the Fix Now button to correct the error."
                 , MessageType.Error, true);
             if (GUILayout.Button(StreamApplyToAllSystemsText, EditorStyles.miniButton,
@@ -123,8 +112,8 @@ namespace Nova.Editor.Core.Scripts
                 Undo.RecordObjects(
                     _renderersUsingThisMaterial.Where(r => r != null).ToArray(),
                     "Apply custom vertex streams from material");
-                RendererErrorHandler.FixError(_renderersUsingThisMaterial, _correctVertexStreams,
-                    _correctVertexStreamsInstanced);
+                RendererErrorHandler.FixError(_renderersUsingThisMaterial, _editor.target as Material, _correctVertexStreams,
+                    _correctVertexStreamsInstanced, _correctTrailVertexStreams, _correctTrailVertexStreamsInstanced);
             }
         }
 
@@ -711,6 +700,10 @@ namespace Nova.Editor.Core.Scripts
         private List<ParticleSystemVertexStream> _correctVertexStreams = new();
 
         private List<ParticleSystemVertexStream> _correctVertexStreamsInstanced = new();
+
+        private List<ParticleSystemVertexStream> _correctTrailVertexStreams = new();
+
+        private List<ParticleSystemVertexStream> _correctTrailVertexStreamsInstanced = new();
 
         # endregion
     }
