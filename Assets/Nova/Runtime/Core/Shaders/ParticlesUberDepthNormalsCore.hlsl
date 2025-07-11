@@ -107,6 +107,9 @@ struct VaryingsDrawDepth
     float4 tintEmissionUV : TEXCOORD4; // xy: TintMap UV, zw: EmissionMap UV
     float3 transitionEmissionProgresses : TEXCOORD5;
     // x: TransitionMap Progress, y: EmissionMap Progress, z: Fog Factor
+    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
+    float stableRandomX : TEXCOORD7;  // StableRandom.x for Fragment Shader
+    #endif
     #ifdef FRAGMENT_USE_VIEW_DIR_WS
     float3 viewDirWS : TEXCOORD6;
     #endif
@@ -184,6 +187,11 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #ifdef _USE_CUSTOM_COORD // This code is not used for opaque objects.
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
+    
+    // Transfer StableRandom.x for Random Row Selection
+    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
+    output.stableRandomX = input.stableRandomX;
+    #endif
     #endif
     InitializeVertexOutputDrawDepth(input, output);
 

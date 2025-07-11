@@ -44,6 +44,9 @@ struct Varyings
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION) || defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     float4 flowTransitionUVs : TEXCOORD3; // xy: FlowMap UV, zw: TransitionMap UV
     #endif
+    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
+    float stableRandomX : TEXCOORD6;  // StableRandom.x for Fragment Shader
+    #endif
     #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
     float2 tintUV : TEXCOORD4; // xy: TintMap UV, zw: EmissionMap UV
     #endif
@@ -85,6 +88,11 @@ Varyings ShadowPassVertex(Attributes input)
     SETUP_VERTEX;
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
+    
+    // Transfer StableRandom.x for Random Row Selection
+    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
+    output.stableRandomX = input.stableRandomX;
+    #endif
 
     // Vertex Deformation
     #ifdef _VERTEX_DEFORMATION_ENABLED

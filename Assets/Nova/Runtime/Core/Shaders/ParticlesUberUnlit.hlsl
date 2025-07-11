@@ -53,6 +53,9 @@ struct Varyings
     #ifdef USE_PROJECTED_POSITION
     float4 projectedPosition : TEXCOORD8;
     #endif
+    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
+    float stableRandomX : TEXCOORD11;  // StableRandom.x for Fragment Shader
+    #endif
     #ifdef USE_PARALLAX_MAP
     float3 viewDirTS : TEXCOORD9;
     float3 parallaxMapUVAndProgress : TEXCOORD10;
@@ -123,6 +126,11 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     SETUP_VERTEX;
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
+    
+    // Transfer StableRandom.x for Random Row Selection
+    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
+    output.stableRandomX = input.stableRandomX;
+    #endif
 
     // Vertex Deformation
     #ifdef _VERTEX_DEFORMATION_ENABLED
