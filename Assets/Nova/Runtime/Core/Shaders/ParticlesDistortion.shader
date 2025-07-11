@@ -100,6 +100,88 @@ Shader "Nova/Particles/Distortion"
             #include "ParticlesDistortionForward.hlsl"
             ENDHLSL
         }
+
+        Pass
+        {
+            Tags
+            {
+                "LightMode" = "SceneSelectionPass"
+            }
+
+            BlendOp Add
+            Blend One Zero
+            ZWrite On
+            Cull Off
+
+            HLSLPROGRAM
+            #pragma vertex vertEditor
+            #pragma fragment fragSceneHighlight
+            #pragma target 3.5
+
+            // Unity Defined
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:ParticleInstancingSetup
+
+            // Base Color
+            #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
+
+            // Flow Map
+            #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
+            #pragma shader_feature_local _FLOW_MAP_TARGET_BASE
+            #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
+
+            // Alpha Transition
+            #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
+
+            // Transparency
+            #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
+            #pragma shader_feature_local _DEPTH_FADE_ENABLED
+
+            #include "ParticlesDistortionEditor.hlsl"
+            ENDHLSL
+        }
+
+        Pass
+        {
+            Tags
+            {
+                "LightMode" = "Picking"
+            }
+
+            BlendOp Add
+            Blend One Zero
+            ZWrite On
+            Cull Off
+
+            HLSLPROGRAM
+            #pragma vertex vertEditor
+            #pragma fragment fragScenePicking
+            #pragma target 3.5
+
+            // Unity Defined
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:ParticleInstancingSetup
+
+            // Base Color
+            #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
+
+            // Flow Map
+            #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
+            #pragma shader_feature_local _FLOW_MAP_TARGET_BASE
+            #pragma shader_feature_local _FLOW_MAP_TARGET_ALPHA_TRANSITION
+
+            // Alpha Transition
+            #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
+
+            // Transparency
+            #pragma shader_feature_local _SOFT_PARTICLES_ENABLED
+            #pragma shader_feature_local _DEPTH_FADE_ENABLED
+
+            #include "ParticlesDistortionEditor.hlsl"
+            ENDHLSL
+        }
     }
 
     CustomEditor "Nova.Editor.Core.Scripts.ParticlesDistortionGUI"
