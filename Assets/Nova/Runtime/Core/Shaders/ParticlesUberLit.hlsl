@@ -3,7 +3,8 @@
 
 #include "ParticlesUberUnlit.hlsl"
 
-// StableRandom access is already defined in ParticlesUberUnlit.hlsl
+// StableRandom access is handled through varyingsUnlit.stableRandomX
+// No need to override GET_STABLE_RANDOM_X macro as it uses Unlit's implementation
 
 /**
  * \brief Vertex shader input attributes for UberLit.
@@ -13,6 +14,11 @@ struct AttributesLit
     Attributes attributesUnlit;
     #ifdef _NORMAL_MAP_ENABLED
     float4 tangentOS : TANGENT;
+    #endif
+    #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
+    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+    float stableRandomX : TEXCOORD3;  // StableRandom.x support for Random Row Selection (mobile-compatible)
+    #endif
     #endif
 };
 

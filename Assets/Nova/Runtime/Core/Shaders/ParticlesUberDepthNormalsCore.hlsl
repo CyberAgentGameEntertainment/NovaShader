@@ -65,7 +65,7 @@ struct AttributesDrawDepth
     #ifdef _USE_CUSTOM_COORD
     INPUT_CUSTOM_COORD(1, 2)
     #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
-    float stableRandomX : TEXCOORD15;  // StableRandom.x support for Random Row Selection
+    float stableRandomX : TEXCOORD3;  // StableRandom.x support for Random Row Selection (mobile-compatible)
     #endif
     #endif
     #endif

@@ -47,7 +47,7 @@ DepthNormals:     float stableRandomX : TEXCOORD10;
 | flowTransition2nd | - | TEXCOORD11 | TEXCOORD6 | TEXCOORD8 | Second texture |
 | transition2nd | - | TEXCOORD12 | TEXCOORD7 | TEXCOORD9 | Second texture |
 | mask | - | TEXCOORD13 | - | - | UI clipping |
-| stableRandomX | TEXCOORD15 | TEXCOORD14 | TEXCOORD8 | TEXCOORD10 | Random Row Selection |
+| stableRandomX | TEXCOORD3 | TEXCOORD14 | TEXCOORD8 | TEXCOORD10 | Random Row Selection |
 | probeOcclusion | - | TEXCOORD14 | - | - | APV (Lit only) |
 
 ### 3.2 Conflict Resolution
@@ -94,8 +94,8 @@ Unity supports up to 16 TEXCOORD semantics (TEXCOORD0-15). Current usage:
 The Random Row Selection feature uses StableRandom.x with the following strategy:
 
 ```hlsl
-// Input: Always TEXCOORD15 for consistency
-float stableRandomX : TEXCOORD15;
+// Input: Always TEXCOORD3 for mobile compatibility
+float stableRandomX : TEXCOORD3;
 
 // Varyings: Optimized per pass
 Forward:      TEXCOORD14  // Shared with probeOcclusion (exclusive conditions)
