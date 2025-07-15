@@ -53,12 +53,12 @@ struct UIVertex
 
 ### 3.1 Random Row Selection
 
-| Feature | Standard Particles | UIParticles | Alternative |
-|---------|-------------------|-------------|-------------|
-| Random Row Selection | ✅ Supported | ❌ Not supported | Use Custom1.x/Custom1.y with manual random setup |
-| StableRandom.x | ✅ Automatic | ❌ Not available | Pre-calculate random values in Custom Coord |
+| Feature | Standard Particles | UIParticles | Notes |
+|---------|-------------------|-------------|-------|
+| Random Row Selection | ✅ Supported | ✅ Supported | Uses Custom Coord system (Custom1.x/y, Custom2.x/y) |
+| Custom Data Integration | ✅ Available | ✅ Available | Random Between Two Constants with Custom Coord |
 
-**Technical Reason**: Random Row Selection requires StableRandom.x for optimal performance, which is not available in Unity UI system.
+**Implementation**: Random Row Selection now uses Unity's Custom Data system with Custom Coord, making it available for both Standard Particles and UIParticles.
 
 ### 3.2 Advanced Custom Coord Features
 
@@ -97,9 +97,9 @@ bool isRandomRowSelectionEnabled = !isUIParticles && /* other conditions */;
 
 ### 5.2 GUI Adaptations
 
-- **Hidden Features**: Random Row Selection UI is hidden for UIParticles
-- **Warning Messages**: Automatic warnings when incompatible features are detected
-- **Automatic Disabling**: Incompatible features are automatically disabled
+- **Available Features**: Random Row Selection is now available for UIParticles using Custom Coord
+- **Custom Coord Selection**: Limited to .xy components (Custom1.x/y, Custom2.x/y)
+- **Setup Guidance**: Editor provides guidance for Custom Data configuration
 
 ## 6. Alternative Solutions
 
@@ -157,7 +157,7 @@ customData.SetVector(ParticleSystemCustomData.Custom1, ParticleSystemMinMaxCurve
 |---------|-------------------|-------------------|
 | Basic FlipBook | Minimal | ✅ Supported |
 | FlipBook Blending | Low | ✅ Supported |
-| Random Row Selection | Medium | ❌ Not supported |
+| Random Row Selection | Medium | ✅ Supported (Custom Coord) |
 | Complex Custom Coord | High | ❌ Limited support |
 
 ## 8. Migration Guidelines
@@ -167,8 +167,8 @@ customData.SetVector(ParticleSystemCustomData.Custom1, ParticleSystemMinMaxCurve
 When converting materials from standard Particles to UIParticles:
 
 1. **Review Custom Coord Usage**: Ensure only .xy components are used
-2. **Disable Random Row Selection**: Feature will be automatically disabled
-3. **Update Vertex Streams**: Remove Z/W components and StableRandom streams
+2. **Configure Random Row Selection**: Use Custom1.x/y or Custom2.x/y for random values
+3. **Update Vertex Streams**: Remove Z/W components and StableRandom streams  
 4. **Test Functionality**: Verify all features work correctly
 
 ### 8.2 From UIParticles to Standard Particles
@@ -208,14 +208,14 @@ if (IsUIParticlesShader(material))
 
 ## 10. Summary
 
-UIParticles provide UI-optimized particle rendering with specific limitations due to Unity UI system constraints. While these limitations restrict some advanced features like Random Row Selection, UIParticles offer better performance and compatibility for UI-based particle effects. For applications requiring advanced features, standard Particle shaders should be used instead.
+UIParticles provide UI-optimized particle rendering with specific limitations due to Unity UI system constraints. Most features including Random Row Selection are available using the Custom Coord system (.xy components). UIParticles offer better performance and compatibility for UI-based particle effects.
 
 ### Key Limitations Summary
 
-- **Custom Coord**: Only .xy components available
-- **StableRandom**: Not supported
-- **Random Row Selection**: Not supported
-- **Advanced Features**: Limited due to Unity UI constraints
+- **Custom Coord**: Only .xy components available (but sufficient for Random Row Selection)
+- **StableRandom**: Not supported (use Custom Data instead)
+- **Random Row Selection**: ✅ Supported via Custom Coord system
+- **Advanced Features**: Limited to .xy components due to Unity UI constraints
 
 ### Recommended Usage
 
