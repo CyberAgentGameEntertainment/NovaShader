@@ -37,7 +37,6 @@
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "ParticlesUberUnlit.hlsl"
 
-
 /**
  * \brief Input attribute of vertex shader.
  * \details This structure is used by DepthOnly pass and DepthNormalsPass.
@@ -181,31 +180,31 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;
     #ifdef _BASE_MAP_ROTATION_ENABLED
-    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord);
+    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
     baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
     #endif
     baseMapUv = TRANSFORM_BASE_MAP(baseMapUv);
-    baseMapUv.x += GET_CUSTOM_COORD(_BaseMapOffsetXCoord);
-    baseMapUv.y += GET_CUSTOM_COORD(_BaseMapOffsetYCoord);
+    baseMapUv.x += GET_CUSTOM_COORD(_BaseMapOffsetXCoord)
+    baseMapUv.y += GET_CUSTOM_COORD(_BaseMapOffsetYCoord)
     output.baseMapUVAndProgresses.xy = baseMapUv;
     #endif
 
     // Flow Map UV
     #ifdef _USE_FLOW_MAP
     output.flowTransitionUVs.xy = TRANSFORM_TEX(input.texcoord.xy, _FlowMap);
-    output.flowTransitionUVs.x += GET_CUSTOM_COORD(_FlowMapOffsetXCoord);
-    output.flowTransitionUVs.y += GET_CUSTOM_COORD(_FlowMapOffsetYCoord);
+    output.flowTransitionUVs.x += GET_CUSTOM_COORD(_FlowMapOffsetXCoord)
+    output.flowTransitionUVs.y += GET_CUSTOM_COORD(_FlowMapOffsetYCoord)
     #endif
 
     #ifdef _USE_TRANSITION_MAP
     // Transition Map UV
     output.flowTransitionUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP(input.texcoord.xy);
-    output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
-    output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
+    output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord)
+    output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord)
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     output.flowTransitionSecondUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(input.texcoord.xy);
-    output.flowTransitionSecondUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord);
-    output.flowTransitionSecondUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord);
+    output.flowTransitionSecondUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord)
+    output.flowTransitionSecondUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord)
     #endif
     #endif
 
@@ -213,7 +212,7 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
 
     // Base Map Progress
     #ifdef _BASE_MAP_MODE_2D_ARRAY
-    float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
+    float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord)
     
     // Random Row Selection
     #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
@@ -227,7 +226,7 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
     #endif
     #elif _BASE_MAP_MODE_3D
-    float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
+    float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord)
     
     // Random Row Selection
     #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
@@ -245,19 +244,19 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     // Tint Map UV
     #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
     output.tintEmissionUV.xy = TRANSFORM_TINT_MAP(input.texcoord.xy);
-    output.tintEmissionUV.x += GET_CUSTOM_COORD(_TintMapOffsetXCoord);
-    output.tintEmissionUV.y += GET_CUSTOM_COORD(_TintMapOffsetYCoord);
+    output.tintEmissionUV.x += GET_CUSTOM_COORD(_TintMapOffsetXCoord)
+    output.tintEmissionUV.y += GET_CUSTOM_COORD(_TintMapOffsetYCoord)
     #endif
 
     // Tint Map Progress
     #ifdef _TINT_MAP_3D_ENABLED
-    output.baseMapUVAndProgresses.w = _TintMap3DProgress + GET_CUSTOM_COORD(_TintMap3DProgressCoord);
+    output.baseMapUVAndProgresses.w = _TintMap3DProgress + GET_CUSTOM_COORD(_TintMap3DProgressCoord)
     output.baseMapUVAndProgresses.w = TintMapProgress(output.baseMapUVAndProgresses.w);
     #endif
 
     // Transition Map Progress
     #if defined(_ALPHA_TRANSITION_MAP_MODE_2D_ARRAY) || defined(_ALPHA_TRANSITION_MAP_MODE_3D)
-    float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
+    float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord)
     float sliceCount = _AlphaTransitionMapSliceCount;
     #ifdef _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
     output.transitionEmissionProgresses.x = FlipBookProgress(transitionMapProgress, sliceCount);
@@ -266,7 +265,7 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #endif
 
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    float transitionMapProgressSecond = _AlphaTransitionMapSecondTextureProgress + GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureProgressCoord);
+    float transitionMapProgressSecond = _AlphaTransitionMapSecondTextureProgress + GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureProgressCoord)
     float sliceCountSecond = _AlphaTransitionMapSecondTextureSliceCount;
     #ifdef _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
     output.transitionEmissionProgressesSecond.x = FlipBookProgress(transitionMapProgressSecond, sliceCountSecond);
@@ -279,16 +278,16 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     // Emission Map UV
     #ifdef _EMISSION_AREA_MAP
     output.tintEmissionUV.zw = TRANSFORM_EMISSION_MAP(input.texcoord.xy);
-    output.tintEmissionUV.z += GET_CUSTOM_COORD(_EmissionMapOffsetXCoord);
-    output.tintEmissionUV.w += GET_CUSTOM_COORD(_EmissionMapOffsetYCoord);
+    output.tintEmissionUV.z += GET_CUSTOM_COORD(_EmissionMapOffsetXCoord)
+    output.tintEmissionUV.w += GET_CUSTOM_COORD(_EmissionMapOffsetYCoord)
     #endif
 
     // Emission Map Progress
     #ifdef _EMISSION_MAP_MODE_2D_ARRAY
-    float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
+    float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord)
     output.transitionEmissionProgresses.y = FlipBookProgress(emissionMapProgress, _EmissionMapSliceCount);
     #elif _EMISSION_MAP_MODE_3D
-    float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
+    float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord)
     output.transitionEmissionProgresses.y = FlipBookBlendingProgress(emissionMapProgress, _EmissionMapSliceCount);
     #endif
 
@@ -323,7 +322,7 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
 
     // Flow map
     #if defined( _USE_FLOW_MAP)
-    half intensity = _FlowIntensity + GET_CUSTOM_COORD(_FlowIntensityCoord);
+    half intensity = _FlowIntensity + GET_CUSTOM_COORD(_FlowIntensityCoord)
     half2 flowMapUvOffset = GetFlowMapUvOffset(_FlowMap, sampler_FlowMap, intensity, input.flowTransitionUVs.xy, _FlowMapChannelsX, _FlowMapChannelsY);
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE)
         input.baseMapUVAndProgresses.xy += flowMapUvOffset;
@@ -348,10 +347,10 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
 
     // Tint Color
     #if defined(_TINT_AREA_ALL) || defined(_TINT_AREA_RIM)
-    half tintBlendRate = _TintBlendRate + GET_CUSTOM_COORD(_TintBlendRateCoord);
+    half tintBlendRate = _TintBlendRate + GET_CUSTOM_COORD(_TintBlendRateCoord)
     #ifdef _TINT_AREA_RIM
-    half tintRimProgress = _TintRimProgress + GET_CUSTOM_COORD(_TintRimProgressCoord);
-    half tintRimSharpness = _TintRimSharpness + GET_CUSTOM_COORD(_TintRimSharpnessCoord);
+    half tintRimProgress = _TintRimProgress + GET_CUSTOM_COORD(_TintRimProgressCoord)
+    half tintRimSharpness = _TintRimSharpness + GET_CUSTOM_COORD(_TintRimSharpnessCoord)
     rim = GetRimValue(rim, tintRimProgress, tintRimSharpness, _InverseTintRim);
     tintBlendRate *= _TintBlendRate * rim;
     #endif
@@ -360,10 +359,10 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
 
     // Alpha Transition
     #ifdef _USE_TRANSITION_MAP
-    half alphaTransitionProgress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
+    half alphaTransitionProgress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord)
     ModulateAlphaTransitionProgress(alphaTransitionProgress, input.color.a);
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    half alphaTransitionProgressSecondTexture = _AlphaTransitionProgressSecondTexture + GET_CUSTOM_COORD(_AlphaTransitionProgressCoordSecondTexture);
+    half alphaTransitionProgressSecondTexture = _AlphaTransitionProgressSecondTexture + GET_CUSTOM_COORD(_AlphaTransitionProgressCoordSecondTexture)
     ModulateAlphaTransitionProgress(alphaTransitionProgressSecondTexture, input.color.a);
     color.a *= GetTransitionAlpha(input.flowTransitionUVs.zw, input.transitionEmissionProgresses.x, alphaTransitionProgress, input.flowTransitionSecondUVs.zw, input.transitionEmissionProgressesSecond.x, alphaTransitionProgressSecondTexture);
     #else
@@ -379,7 +378,7 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     ApplyVertexColor(color, input.color);
 
     // Emission
-    half emissionIntensity = _EmissionIntensity + GET_CUSTOM_COORD(_EmissionIntensityCoord);
+    half emissionIntensity = _EmissionIntensity + GET_CUSTOM_COORD(_EmissionIntensityCoord)
     ApplyEmissionColor(color, input.tintEmissionUV.zw, emissionIntensity, input.transitionEmissionProgresses.y, _EmissionMapChannelsX);
 
     // NOTE : Not need in DepthNormals pass.
@@ -389,15 +388,15 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
 
     // Rim Transparency
     #ifdef _TRANSPARENCY_BY_RIM
-    half rimTransparencyProgress = _RimTransparencyProgress + GET_CUSTOM_COORD(_RimTransparencyProgressCoord);
-    half rimTransparencySharpness = _RimTransparencySharpness + GET_CUSTOM_COORD(_RimTransparencySharpnessCoord);
+    half rimTransparencyProgress = _RimTransparencyProgress + GET_CUSTOM_COORD(_RimTransparencyProgressCoord)
+    half rimTransparencySharpness = _RimTransparencySharpness + GET_CUSTOM_COORD(_RimTransparencySharpnessCoord)
     ApplyRimTransparency(color, 1.0 - rim, rimTransparencyProgress, rimTransparencySharpness);
     #endif
 
     // Luminance Transparency
     #ifdef _TRANSPARENCY_BY_LUMINANCE
-    half luminanceTransparencyProgress = _LuminanceTransparencyProgress + GET_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
-    half luminanceTransparencySharpness = _LuminanceTransparencySharpness + GET_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
+    half luminanceTransparencyProgress = _LuminanceTransparencyProgress + GET_CUSTOM_COORD(_LuminanceTransparencyProgressCoord)
+    half luminanceTransparencySharpness = _LuminanceTransparencySharpness + GET_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord)
     ApplyLuminanceTransparency(color, luminanceTransparencyProgress, luminanceTransparencySharpness);
     #endif
 

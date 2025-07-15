@@ -71,8 +71,7 @@ output.customCoord2 = instanceData.customCoord2;
 #define TRANSFER_CUSTOM_COORD(input, output) output.customCoord1 = input.customCoord1; \
 output.customCoord2 = input.customCoord2;
 #endif
-// Custom Coord access macro
-#define GET_CUSTOM_COORD(propertyName) customCoords[(uint)propertyName % 10][(uint)propertyName / 10]
+#define GET_CUSTOM_COORD(propertyName) customCoords[(uint)propertyName % 10][(uint)propertyName / 10];
 #define GET_CUSTOM_COORD_DIRECT(coordIndex, swizzleIndex) customCoords[coordIndex][swizzleIndex];
 
 
