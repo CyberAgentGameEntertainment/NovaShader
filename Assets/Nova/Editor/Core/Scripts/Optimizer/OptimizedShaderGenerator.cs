@@ -275,6 +275,8 @@ namespace Nova.Editor.Core.Scripts.Optimizer
             RegexOptions.IgnoreCase | RegexOptions.Compiled
         );
 
+        // NOTE: Keywords listed here are REMOVED from optimized shaders.
+        // _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED is intentionally NOT listed to preserve Random Row Selection functionality.
         private static readonly Regex ShaderKeywordRegex = new(
             @"(?:" +
             @"_VERTEX_ALPHA_AS_TRANSITION_PROGRESS\b|" +
