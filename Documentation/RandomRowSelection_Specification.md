@@ -15,10 +15,10 @@ The Random Row Selection feature is an implementation of Unity Particle System's
 
 | Shader | Status | Notes |
 |----------|---------|------|
-| ParticlesUberUnlit | ✅ Implemented | Full support |
-| ParticlesUberLit | ✅ Implemented | Full support |
-| UIParticlesUberUnlit | ❌ Not supported | Unity UI system limitations (see @documentation/UIParticles_Limitations.md) |
-| UIParticlesUberLit | ❌ Not supported | Unity UI system limitations (see @documentation/UIParticles_Limitations.md) |
+| ParticlesUberUnlit | ✅ Implemented | Full support with any Custom Coord |
+| ParticlesUberLit | ✅ Implemented | Full support with any Custom Coord |
+| UIParticlesUberUnlit | ✅ Implemented | Supports Custom1.x/y, Custom2.x/y |
+| UIParticlesUberLit | ✅ Implemented | Supports Custom1.x/y, Custom2.x/y |
 | ParticlesDistortion | ❌ Not supported | Excluded as FlipBook feature itself is not implemented |
 
 ### 2.2 Implementation Components
@@ -26,6 +26,7 @@ The Random Row Selection feature is an implementation of Unity Particle System's
 #### Shader Properties
 - `_BaseMapRandomRowSelectionEnabled`: Enable/disable flag for Random Row Selection feature (Float: 0.0 or 1.0)
 - `_BaseMapRandomRowCoord`: Custom Coord for obtaining random values (Float: CustomCoord index)
+  - Default: 0.0 (Unused) for UIParticles compatibility
 - `_BaseMapRowCount`: Number of rows in texture sheet (Float: 1.0 or greater)
 
 #### Shader Keywords
@@ -37,13 +38,9 @@ The Random Row Selection feature is an implementation of Unity Particle System's
 
 ## 3. Custom Coord Design
 
-### 3.1 Custom Coord Types
+### 3.1 Custom Coord Integration
 
-The following Custom Coords are available in NOVA shader:
-
-#### Standard Custom Coord
-- Coord1.x (1), Coord1.y (11), Coord1.z (21), Coord1.w (31)
-- Coord2.x (2), Coord2.y (12), Coord2.z (22), Coord2.w (32)
+Random Row Selection integrates with NOVA's Custom Coord system (see @documentation/CustomCoord_SystemArchitecture.md for detailed information).
 
 ### 3.2 Random Value Configuration
 
@@ -52,6 +49,8 @@ Random Row Selection can use any Custom Coord channel:
 - Use "Random Between Two Constants" mode
 - Set range from 0 to Row Count (e.g., 0-4 for 4 rows)
 - Assign to desired Custom Coord channel
+
+**Note**: UIParticles support this feature using Custom1.x/y and Custom2.x/y components only.
 
 ## 4. Operation Principle
 
@@ -127,7 +126,7 @@ var randomRowSelectionEnabled = !isUIParticles && (baseMapMode == BaseMapMode.Fl
 1. Only available in FlipBook or FlipBook Blending modes
 2. Row Count must be an integer value of 1 or greater
 3. Texture sheet structure must be uniform rows × columns
-4. **Not supported in UIParticles** due to Unity UI system limitations
+4. **UIParticles limitation**: Only Custom1.x/y and Custom2.x/y components available (Z/W components not supported). For detailed UIParticles constraints, see @documentation/UIParticles_Limitations.md
 
 ## 8. Shader Optimization System Integration
 
@@ -146,7 +145,8 @@ Random Row Selection is **fully integrated** with NOVA's shader optimization sys
 |--------|---------------|-----------------------------|-------|
 | ParticlesUberUnlit | 166 shader_feature pragmas | +6 variants (6 passes) | Minimal impact with shader_feature_local |
 | ParticlesUberLit | 175 shader_feature pragmas | +6 variants (6 passes) | Minimal impact with shader_feature_local |
-| UIParticles | N/A | No impact | Feature excluded |
+| UIParticlesUberUnlit | Similar to Unlit | +1 variant (1 pass) | Custom Coord .xy components only |
+| UIParticlesUberLit | Similar to Lit | +1 variant (1 pass) | Custom Coord .xy components only |
 
 ## 9. Future Extension Possibilities
 
@@ -166,8 +166,8 @@ pragma declaration for `_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED` has been added t
 
 - ✅ ParticlesUberUnlit.shader
 - ✅ ParticlesUberLit.shader
-- ❌ UIParticlesUberUnlit.shader (removed due to Unity UI system limitations)
-- ❌ UIParticlesUberLit.shader (removed due to Unity UI system limitations)
+- ✅ UIParticlesUberUnlit.shader
+- ✅ UIParticlesUberLit.shader
 
 Implementation location:
 ```hlsl
@@ -177,22 +177,17 @@ Implementation location:
 #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
 ```
 
-✅ **StableRandom Transfer Between Vertex-Fragment**
+✅ **Custom Coord Integration**
 
-For Non-GPU Instancing, StableRandom needs to be transferred from vertex shader to fragment shader:
+Random Row Selection uses the standard Custom Coord system:
 
-**Addition to Varyings struct:**
+**HLSL Implementation:**
 ```hlsl
-#if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
-float stableRandomX : TEXCOORD[N];  // StableRandom.x for Fragment Shader
-#endif
-```
-
-**Transfer in Vertex Shader:**
-```hlsl
-// Transfer StableRandom.x for Random Row Selection
-#if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
-output.stableRandomX = input.stableRandomX;
+#ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) {
+    float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord);
+    progress = FlipBookProgressWithRandomRow(progress, _BaseMapSliceCount, _BaseMapRowCount, randomValue);
+}
 #endif
 ```
 
@@ -219,7 +214,7 @@ Random Row Selection feature is **production-ready with comprehensive robustness
 
 The implementation uses optimized TEXCOORD allocation to avoid conflicts. For detailed TEXCOORD usage strategy, see @documentation/TEXCOORD_Usage_Strategy.md.
 
-Random Row Selection now uses standard Custom Coord system, avoiding TEXCOORD conflicts entirely. The implementation relies on Unity's Custom Data system for random value input.
+Random Row Selection now uses standard Custom Coord system, avoiding TEXCOORD conflicts entirely. For comprehensive Custom Coord system architecture, see @documentation/CustomCoord_SystemArchitecture.md.
 
 ### 10.2 Mathematical Implementation
 

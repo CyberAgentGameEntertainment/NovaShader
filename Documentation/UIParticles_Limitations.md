@@ -40,14 +40,9 @@ struct UIVertex
 | Custom2.z | ✅ Available | ❌ Not available | Unity UI system constraint |
 | Custom2.w | ✅ Available | ❌ Not available | Unity UI system constraint |
 
-### 2.3 StableRandom Limitations
+### 2.3 Random Value Integration
 
-| Stream | Standard Particles | UIParticles | Reason |
-|--------|-------------------|-------------|--------|
-| StableRandom.x | ✅ Available | ❌ Not available | Unity UI system does not support StableRandom streams |
-| StableRandom.y | ✅ Available | ❌ Not available | Unity UI system does not support StableRandom streams |
-| StableRandom.z | ✅ Available | ❌ Not available | Unity UI system does not support StableRandom streams |
-| StableRandom.w | ✅ Available | ❌ Not available | Unity UI system does not support StableRandom streams |
+UIParticles integrate with Unity's Custom Data system for random value generation instead of special vertex streams. This provides compatibility with Unity UI constraints while maintaining flexible random value support.
 
 ## 3. Feature Limitations
 
@@ -70,19 +65,9 @@ Features requiring Z/W components are not supported:
 
 ## 4. UICustomCoord Enum
 
-UIParticles use a dedicated enum with restricted options:
+UIParticles use a dedicated enum with restricted options. For detailed Custom Coord system architecture and enum definitions, see @documentation/CustomCoord_SystemArchitecture.md.
 
-```csharp
-public enum UICustomCoord
-{
-    Unused = 0,
-    Coord1X = 1,   // Custom1.x
-    Coord1Y = 11,  // Custom1.y
-    Coord2X = 2,   // Custom2.x
-    Coord2Y = 12,  // Custom2.y
-    // Note: Z/W components and StableRandom are not supported
-}
-```
+**Key limitation**: UICustomCoord only supports .xy components (Custom1.x/y, Custom2.x/y) due to Unity UI system constraints.
 
 ## 5. Editor Integration
 
@@ -103,25 +88,11 @@ bool isRandomRowSelectionEnabled = !isUIParticles && /* other conditions */;
 
 ## 6. Alternative Solutions
 
-### 6.1 Manual Random Row Selection
+### 6.1 Random Row Selection Implementation
 
-For UIParticles requiring random row selection:
+For detailed Random Row Selection implementation and usage, see @documentation/RandomRowSelection_Specification.md.
 
-**Setup**:
-1. Use Custom1.x for random values (0.0-1.0)
-2. Pre-calculate random values in particle system or script
-3. Configure Custom Vertex Streams: Custom1XYZW
-
-**Implementation**:
-```hlsl
-// Manual random row selection using Custom1.x
-half randomValue = input.customCoord1.x;
-half rowCount = _BaseMapRowCount;
-half framesPerRow = _BaseMapSliceCount / rowCount;
-uint selectedRow = min(floor(randomValue * rowCount), rowCount - 1);
-half frameProgress = FlipBookProgress(progress, framesPerRow);
-half result = selectedRow * framesPerRow + frameProgress;
-```
+**UIParticles-specific constraint**: Only Custom1.x/y and Custom2.x/y components are available for random value input.
 
 ### 6.2 Scripted Random Value Generation
 
@@ -168,7 +139,7 @@ When converting materials from standard Particles to UIParticles:
 
 1. **Review Custom Coord Usage**: Ensure only .xy components are used
 2. **Configure Random Row Selection**: Use Custom1.x/y or Custom2.x/y for random values
-3. **Update Vertex Streams**: Remove Z/W components and StableRandom streams  
+3. **Update Vertex Streams**: Remove Z/W components, add Custom1/2 streams as needed
 4. **Test Functionality**: Verify all features work correctly
 
 ### 8.2 From UIParticles to Standard Particles
@@ -191,20 +162,7 @@ UIParticles use separate shader variants to enforce limitations:
 
 ### 9.2 Editor Integration
 
-```csharp
-// Automatic feature detection and restriction
-private static bool IsUIParticlesShader(Material material)
-{
-    return material.shader.name.Contains("UIParticles");
-}
-
-// Automatic disabling of incompatible features
-if (IsUIParticlesShader(material))
-{
-    material.SetFloat("_BaseMapRandomRowSelectionEnabled", 0.0f);
-    // Show warning message
-}
-```
+For detailed editor integration and automatic feature detection implementation, see @documentation/CustomCoord_SystemArchitecture.md.
 
 ## 10. Summary
 
@@ -213,7 +171,7 @@ UIParticles provide UI-optimized particle rendering with specific limitations du
 ### Key Limitations Summary
 
 - **Custom Coord**: Only .xy components available (but sufficient for Random Row Selection)
-- **StableRandom**: Not supported (use Custom Data instead)
+- **Random Values**: Use Unity Custom Data system instead of special vertex streams
 - **Random Row Selection**: ✅ Supported via Custom Coord system
 - **Advanced Features**: Limited to .xy components due to Unity UI constraints
 

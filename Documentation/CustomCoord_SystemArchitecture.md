@@ -23,13 +23,13 @@
 
 ## Overview
 
-The NOVA Shader Custom Coord system provides a mechanism for delivering independent parameters per particle. It supports Unity's standard Particle System Custom1/Custom2 streams and the StableRandom stream added in Unity 2023.2, and can be used as animation parameters in over 30 features.
+The NOVA Shader Custom Coord system provides a mechanism for delivering independent parameters per particle. It supports Unity's standard Particle System Custom1/Custom2 streams and can be used as animation parameters in over 30 features.
 
 ### Key Features
 
 - **Type Safety**: Type-safe implementation based on C# enums
 - **GPU Instancing Support**: High-performance instancing rendering
-- **StableRandom Support**: Supports features available in Unity 2022.3+
+- **Flexible Integration**: Compatible with Unity's Custom Data system for random values
 - **Automatic Validation**: Automatic verification and correction of Vertex Streams settings
 - **Comprehensive UI**: Intuitive editor interface
 
@@ -45,14 +45,14 @@ The NOVA Shader Custom Coord system provides a mechanism for delivering independ
 │                 │    │                 │    │ System          │
 │ CustomCoord     │◄──►│ GET_CUSTOM_COORD│◄──►│ Vertex Streams  │
 │ MaterialGUI     │    │ Macro           │    │ Custom1/2       │
-│ ErrorHandler    │    │ SETUP_CUSTOM_   │    │ StableRandom    │
+│ ErrorHandler    │    │ SETUP_CUSTOM_   │    │ Custom Data     │
 │                 │    │ COORD           │    │                 │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
 ### Data Flow
 
-1. **Particle System** → Custom1/Custom2/StableRandom Vertex Streams
+1. **Particle System** → Custom1/Custom2 Vertex Streams or Custom Data
 2. **Vertex Shader** → Create float4 array with SETUP_CUSTOM_COORD
 3. **Shader Functions** → Retrieve values with GET_CUSTOM_COORD
 4. **Material Editor** → Setting management with CustomCoord enum
@@ -72,10 +72,7 @@ public enum CustomCoord
     Coord1X = 1,   Coord1Y = 11,   Coord1Z = 21,   Coord1W = 31,
     
     // Coord2 (CustomCoord2 vertex stream)  
-    Coord2X = 2,   Coord2Y = 12,   Coord2Z = 22,   Coord2W = 32,
-    
-    // StableRandom (Unity 2022.3+ StableRandom vertex stream)
-    StableRandomX = 50
+    Coord2X = 2,   Coord2Y = 12,   Coord2Z = 22,   Coord2W = 32
 }
 ```
 
@@ -87,7 +84,7 @@ public enum UICustomCoord
     Unused = 0,
     Coord1X = 1,   Coord1Y = 11,
     Coord2X = 2,   Coord2Y = 12,
-    // Note: UI Particles do not support Z/W components and StableRandom
+    // Note: UI Particles do not support Z/W components
 }
 ```
 
@@ -95,39 +92,9 @@ public enum UICustomCoord
 
 UIParticles have specific limitations due to Unity UI system constraints:
 
-#### Unity UI System Constraints
+#### UIParticles Integration
 
-UIParticles are constrained by Unity's UIVertex structure:
-
-```csharp
-struct UIVertex
-{
-    public Vector3 position;
-    public Vector3 normal;
-    public Vector4 tangent;
-    public Color32 color;
-    public Vector4 uv0;    // ✅ Available (.xy components)
-    public Vector4 uv1;    // ✅ Available (.xy components)
-    public Vector4 uv2;    // ❌ Limited to .xy components
-    public Vector4 uv3;    // ❌ Limited to .xy components
-}
-```
-
-#### Custom Coord Support Matrix
-
-| Component | Standard Particles | UIParticles | Technical Reason |
-|-----------|-------------------|-------------|------------------|
-| Custom1.x | ✅ Available | ✅ Available | Maps to uv2.x |
-| Custom1.y | ✅ Available | ✅ Available | Maps to uv2.y |
-| Custom1.z | ✅ Available | ❌ Not available | Unity UI system limitation |
-| Custom1.w | ✅ Available | ❌ Not available | Unity UI system limitation |
-| Custom2.x | ✅ Available | ✅ Available | Maps to uv3.x |
-| Custom2.y | ✅ Available | ✅ Available | Maps to uv3.y |
-| Custom2.z | ✅ Available | ❌ Not available | Unity UI system limitation |
-| Custom2.w | ✅ Available | ❌ Not available | Unity UI system limitation |
-| StableRandom.x | ✅ Available | ❌ Not available | Unity UI system does not support StableRandom streams |
-
-**Impact on Features**: Features requiring StableRandom (e.g., Random Row Selection) are not supported in UIParticles. See @documentation/UIParticles_Limitations.md for detailed information.
+UIParticles have specific limitations due to Unity UI system constraints. For detailed information about UIParticles constraints and Custom Coord support, see @documentation/UIParticles_Limitations.md.
 
 ### Encoding Rules
 
@@ -135,12 +102,10 @@ Custom Coord values use **decimal encoding**:
 
 - **Lower digit (value % 10)**: Stream index (1=Custom1, 2=Custom2, 0=Unused)
 - **Upper digit (value / 10)**: Component index (0=x, 1=y, 2=z, 3=w)
-- **50**: Special value dedicated to StableRandom
 
 Examples:
 - `Coord1Y = 11` → Y component of Custom1 stream
 - `Coord2Z = 22` → Z component of Custom2 stream
-- `StableRandomX = 50` → StableRandom stream (X component)
 
 ---
 
@@ -175,28 +140,16 @@ Examples:
 #### GET_CUSTOM_COORD Macro
 
 ```hlsl
-#define GET_CUSTOM_COORD(propertyName) ( \
-    ((uint)propertyName == 50) ? GET_STABLE_RANDOM_X() : \
-    customCoords[(uint)propertyName % 10][(uint)propertyName / 10] \
-)
+#define GET_CUSTOM_COORD(propertyName) customCoords[(uint)propertyName % 10][(uint)propertyName / 10]
 ```
 
 **Analysis Process:**
-1. **StableRandom Detection**: If value is 50, call StableRandom-specific function
-2. **Index Decomposition**: `propertyName % 10` for stream, `/ 10` for component
-3. **Array Access**: Retrieve value with `customCoords[stream][component]`
+1. **Index Decomposition**: `propertyName % 10` for stream, `/ 10` for component
+2. **Array Access**: Retrieve value with `customCoords[stream][component]`
 
-### StableRandom Support
+### Random Value Integration
 
-#### During GPU Instancing
-```hlsl
-#define GET_STABLE_RANDOM_X() instanceData.stableRandom.x
-```
-
-#### During Normal Rendering (Fallback)
-```hlsl
-#define GET_STABLE_RANDOM_X() 0.5  // Fallback value
-```
+Random Row Selection feature integrates with the Custom Coord system by using any available Custom Coord channel for random value input. Unity's Custom Data system provides random values through standard Custom1/Custom2 streams.
 
 ---
 
@@ -211,7 +164,6 @@ struct DefaultParticleInstanceData
     uint color;                // Packed color information
     float4 customCoord1;       // Custom1 stream values
     float4 customCoord2;       // Custom2 stream values
-    float4 stableRandom;       // StableRandom stream values
 };
 ```
 
@@ -225,10 +177,10 @@ struct DefaultParticleInstanceData
 
 ### Data Transfer Method Comparison
 
-| Rendering Method | Custom Coord Data Source | StableRandom Data Source |
-|-----------------|---------------------------|---------------------------|
-| GPU Instancing  | `instanceData.customCoord1/2` | `instanceData.stableRandom` |
-| Normal Rendering | `input.customCoord1/2` (Vertex Streams) | `input.stableRandom` or fallback |
+| Rendering Method | Custom Coord Data Source | Random Value Source |
+|-----------------|---------------------------|------------------------|
+| GPU Instancing  | `instanceData.customCoord1/2` | Unity Custom Data → Custom Coord |
+| Normal Rendering | `input.customCoord1/2` (Vertex Streams) | Unity Custom Data → Custom Coord |
 
 ---
 
@@ -273,7 +225,7 @@ MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(editor,
 MaterialEditorUtility.DrawToggleProperty(editor, "Random Row Selection",
     props.BaseMapRandomRowSelectionEnabledProp.Value);
 
-// Custom Coord selection (displays StableRandom.x recommendation)
+// Custom Coord selection (any Custom Coord channel)
 var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 
     Convert.ToInt32(props.BaseMapRandomRowCoordProp.Value.floatValue));
 var newCoord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
@@ -291,7 +243,7 @@ var newCoord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
 | `_BaseMapOffsetYCoord` | Texture UV offset Y | Texture scrolling, etc. |
 | `_BaseMapRotationCoord` | Texture rotation angle | 0-1 → 0-360 degrees |
 | `_BaseMapProgressCoord` | FlipBook animation progress | 0-1 for frame selection |
-| `_BaseMapRandomRowCoord` | Random value for Random Row Selection | **StableRandom.x recommended** |
+| `_BaseMapRandomRowCoord` | Random value for Random Row Selection | **Any Custom Coord channel** |
 
 ### Tint Color Features
 
@@ -387,15 +339,10 @@ internal static void SetupCorrectVertexStreams(Material material,
         // Random Row Selection usage check
         bool isRandomRowSelectionEnabled = /* ... */;
         
-        if (isRegularCustomCoordUsed)
+        if (isRegularCustomCoordUsed || isRandomRowSelectionEnabled)
         {
             correctVertexStreams.Add(ParticleSystemVertexStream.Custom1XYZW);
             correctVertexStreams.Add(ParticleSystemVertexStream.Custom2XYZW);
-        }
-        else if (isRandomRowSelectionEnabled)
-        {
-            // Only StableRandom.x needed
-            correctVertexStreams.Add(ParticleSystemVertexStream.StableRandomX);
         }
     }
     
@@ -429,21 +376,20 @@ if (RendererErrorHandler.TryFindIncorrectVertexStreams(material, renderer,
 2. **Rendering Efficiency**: Significant reduction in Draw Call count
 3. **Memory Usage**: Reduced Vertex Buffer usage
 
-### StableRandom Usage Optimization
+### Random Row Selection Optimization
 
 #### Recommended Settings for Random Row Selection Feature
 
-- **Use StableRandom.x**: Utilizes dedicated optimization path
-- **GPU Instancing**: StableRandom automatically available
-- **Non-GPU Instancing**: Add minimal required Vertex Stream (StableRandomX only)
+- **Use Custom Coord**: Flexible channel selection (Custom1.x/y/z/w, Custom2.x/y/z/w)
+- **GPU Instancing**: Custom Coord automatically available
+- **Non-GPU Instancing**: Add Custom1XYZW/Custom2XYZW Vertex Streams
 
 #### Performance Comparison
 
 | Setting | Vertex Streams | GPU Load | Notes |
 |------|---------------|---------|------|
-| StableRandom.x (GPU Instancing) | None | Minimal | **Recommended setting** |
-| StableRandom.x (Normal) | StableRandomX | Low | Lightweight |
-| Custom1/Custom2 (Normal) | Custom1XYZW, Custom2XYZW | Medium | High versatility |
+| Custom Coord (GPU Instancing) | None | Minimal | **Recommended setting** |
+| Custom Coord (Normal) | Custom1XYZW, Custom2XYZW | Low | High versatility |
 
 ### Shader Variant Optimization
 
@@ -474,14 +420,14 @@ if (RendererErrorHandler.TryFindIncorrectVertexStreams(material, renderer,
 - Enable Custom1XYZW/Custom2XYZW in ParticleSystemRenderer
 - Use editor "Fix Now" button for automatic correction
 
-#### 2. StableRandom not working
+#### 2. Random Row Selection not receiving random values
 
-**Symptoms**: StableRandom.x selected but doesn't produce random values
+**Symptoms**: Random Row Selection enabled but produces consistent results
 
 **Causes and Solutions**:
-- Unity versions before 2022.3: StableRandom not supported, change to Custom Coord
-- Vertex Streams configuration: Add StableRandomX stream for Non-GPU Instancing
-- Fallback: Shader may be using fixed 0.5 value
+- Unity Custom Data not configured: Set "Random Between Two Constants" mode
+- Custom Coord channel not selected: Choose appropriate Custom Coord channel
+- Vertex Streams configuration: Add Custom1XYZW/Custom2XYZW for Non-GPU Instancing
 
 #### 3. Random Row Selection not working
 
@@ -492,19 +438,14 @@ if (RendererErrorHandler.TryFindIncorrectVertexStreams(material, renderer,
 - Base Map Mode: Set to FlipBook or FlipBook Blending
 - Row Count: Set to 2 or higher
 
-#### 4. Shader compile error "invalid subscript 'stableRandomX'"
+#### 4. Custom Coord values not transferred to Fragment shader
 
-**Symptoms**: Error accessing stableRandomX in Fragment shader
+**Symptoms**: GET_CUSTOM_COORD returns incorrect values in Fragment shader
 
 **Causes and Solutions**:
-- Varyings struct missing stableRandomX field
-- No transfer process from Vertex shader to Fragment shader
-- Duplicate TEXCOORD index
-
-**Resolution Steps**:
-1. Add stableRandomX field to Varyings struct
-2. Transfer value from input to output in Vertex shader
-3. Use TEXCOORD index that doesn't conflict with other features
+- Custom Coord transfer missing: Use TRANSFER_CUSTOM_COORD macro in Vertex shader
+- Varyings struct incorrect: Ensure customCoord1/2 fields are present
+- SETUP_CUSTOM_COORD not called: Add macro call in Fragment shader
 
 #### 5. Cannot select Z or W in UI Particles
 
@@ -589,10 +530,10 @@ float intensity = GET_CUSTOM_COORD(_NewFeatureIntensityCoord);
 
 ### Adding New Custom Coord Types
 
-#### For adding special streams other than StableRandom:
+#### For adding special streams beyond Custom1/Custom2:
 
-1. **CustomCoord enum extension**: Define new values in the 50+ range
-2. **GET_CUSTOM_COORD extension**: Add special handling for new values
+1. **CustomCoord enum extension**: Define new values using decimal encoding
+2. **SETUP_CUSTOM_COORD extension**: Add new customCoords array entries
 3. **GPU Instancing extension**: Add new field to DefaultParticleInstanceData
 4. **Vertex Streams extension**: Configure new stream in RendererErrorHandler
 
@@ -620,14 +561,14 @@ The NOVA Shader Custom Coord system achieves high flexibility and maintainabilit
 
 1. **Consistency**: Unified Custom Coord support across 30+ features
 2. **Type Safety**: Type-safe implementation using C# enums
-3. **Performance**: GPU Instancing and StableRandom optimization
+3. **Performance**: GPU Instancing and flexible random value integration
 4. **Usability**: Intuitive UI design and automatic validation
 5. **Extensibility**: Easy addition of new features through generic design
 
 ### Considerations for Future Development
 
-- **UI Particles Limitations**: Z/W components and StableRandom not supported
-- **Unity Version**: StableRandom available in Unity 2022.3 and later
+- **UI Particles Limitations**: Z/W components not supported (only .xy available)
+- **Random Value Integration**: Use Unity Custom Data system for random value generation
 - **Pragma Declarations**: Don't forget to add `#pragma shader_feature_local` for new features
 - **Validation**: Maintain automatic Vertex Streams configuration when using Custom Coord
 

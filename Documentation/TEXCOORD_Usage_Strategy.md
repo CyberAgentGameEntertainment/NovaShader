@@ -7,25 +7,20 @@
 
 ## 1. Overview
 
-This document describes NOVA Shader's TEXCOORD usage strategy, particularly for the Random Row Selection feature implementation. The strategy demonstrates how TEXCOORD slots are optimized per render pass while maintaining consistency in vertex input.
+This document describes NOVA Shader's TEXCOORD usage strategy and allocation patterns. The strategy demonstrates how TEXCOORD slots are optimized per render pass while maintaining consistency in vertex input for Custom Coord features.
 
 ## 2. Design Principles
 
 ### 2.1 Input Consistency
-All shaders use the same TEXCOORD index for vertex input to ensure consistent Vertex Streams configuration:
+All shaders use consistent TEXCOORD indices for vertex input to ensure uniform Vertex Streams configuration:
 ```hlsl
 // Consistent across all shaders
-float stableRandomX : TEXCOORD15;
+float4 customCoord1 : TEXCOORD1;
+float4 customCoord2 : TEXCOORD2;
 ```
 
 ### 2.2 Varyings Optimization
-Each render pass optimizes TEXCOORD usage based on available slots:
-```hlsl
-// Pass-specific optimization
-Forward Pass:     float stableRandomX : TEXCOORD14;
-ShadowCaster:     float stableRandomX : TEXCOORD8;
-DepthNormals:     float stableRandomX : TEXCOORD10;
-```
+Each render pass optimizes TEXCOORD usage based on available slots and feature requirements. Custom Coord data is transferred efficiently using the TRANSFER_CUSTOM_COORD macro system.
 
 ## 3. Technical Implementation
 
@@ -47,28 +42,27 @@ DepthNormals:     float stableRandomX : TEXCOORD10;
 | flowTransition2nd | - | TEXCOORD11 | TEXCOORD6 | TEXCOORD8 | Second texture |
 | transition2nd | - | TEXCOORD12 | TEXCOORD7 | TEXCOORD9 | Second texture |
 | mask | - | TEXCOORD13 | - | - | UI clipping |
-| stableRandomX | TEXCOORD13 | TEXCOORD14 | TEXCOORD8 | TEXCOORD10 | Random Row Selection |
 | probeOcclusion | - | TEXCOORD14 | - | - | APV (Lit only) |
 
-### 3.2 Conflict Resolution
+### 3.2 Custom Coord Integration
 
-#### TEXCOORD14 Usage in ParticlesUberLit
+#### Custom Coord Transfer Strategy
 ```hlsl
-// Both use TEXCOORD14 but never simultaneously
-#ifdef USE_APV_PROBE_OCCLUSION
-    float4 probeOcclusion : TEXCOORD14;  // APV + Debug mode only
-#endif
-
-#if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
-    float stableRandomX : TEXCOORD14;    // Non-instanced Random Row Selection
+// Vertex shader: Transfer Custom Coord data to fragment
+#ifdef NOVA_PARTICLE_INSTANCING_ENABLED
+    TRANSFER_CUSTOM_COORD(input, output) output.customCoord1 = instanceData.customCoord1;
+    output.customCoord2 = instanceData.customCoord2;
+#else
+    TRANSFER_CUSTOM_COORD(input, output) output.customCoord1 = input.customCoord1;
+    output.customCoord2 = input.customCoord2;
 #endif
 ```
 
-**Why no conflict occurs:**
-1. `probeOcclusion`: Requires APV enabled AND Debug Display mode
-2. `stableRandomX`: Requires GPU Instancing disabled AND Random Row Selection enabled
-3. Debug Display mode is development-only, not used in production
-4. When using Random Row Selection in production, GPU Instancing is typically enabled
+**Key Design Benefits:**
+1. **Consistent Interface**: Same TEXCOORD indices across all shader variants
+2. **GPU Instancing Optimization**: Automatic data source selection
+3. **Feature Independence**: Custom Coord transfer independent of specific features
+4. **Scalability**: Support for multiple features using Custom Coord system
 
 ## 4. Implementation Guidelines
 
@@ -83,33 +77,33 @@ When adding features that require TEXCOORD slots:
 ### 4.2 TEXCOORD Limits
 
 Unity supports up to 16 TEXCOORD semantics (TEXCOORD0-15). Current usage:
-- **Input**: Uses up to TEXCOORD15
-- **Forward Pass**: Uses up to TEXCOORD14
+- **Input**: Uses up to TEXCOORD2 for Custom Coord (customCoord1, customCoord2)
+- **Forward Pass**: Uses up to TEXCOORD14 for various features
 - **Other Passes**: Optimized usage based on requirements
 
-## 5. Random Row Selection Specific Notes
+## 5. Custom Coord Usage Notes
 
-### 5.1 StableRandom.x Allocation
+### 5.1 Custom Coord Allocation Strategy
 
-The Random Row Selection feature uses StableRandom.x with the following strategy:
+The Custom Coord system provides a flexible foundation for feature implementation. For comprehensive Custom Coord system architecture, see @documentation/CustomCoord_SystemArchitecture.md.
 
 ```hlsl
-// Input: Always TEXCOORD13 for compatibility (UI mask exclusive to UIParticles, no conflicts in Standard Particles)
-float stableRandomX : TEXCOORD13;
+// Input: Consistent allocation for Custom Coord data
+float4 customCoord1 : TEXCOORD1;  // Custom1.xyzw
+float4 customCoord2 : TEXCOORD2;  // Custom2.xyzw
 
-// Varyings: Optimized per pass
-Forward:      TEXCOORD14  // Shared with probeOcclusion (exclusive conditions)
-ShadowCaster: TEXCOORD8   // Reuses second texture blend slot when not needed
-DepthNormals: TEXCOORD10  // Reuses parallax slot (not used in this pass)
+// Usage: Access via GET_CUSTOM_COORD macro
+float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord);
 ```
 
 ### 5.2 GPU Instancing Optimization
 
-When GPU Instancing is enabled, StableRandom.x is accessed directly from instance data, eliminating TEXCOORD usage entirely:
+When GPU Instancing is enabled, Custom Coord data is accessed directly from instance data, eliminating Vertex Stream requirements:
 
 ```hlsl
 #ifdef NOVA_PARTICLE_INSTANCING_ENABLED
-    #define GET_STABLE_RANDOM_X() instanceData.stableRandom.x
+    // Direct access from instance data
+    float4 customCoords[] = { float4(0,0,0,0), instanceData.customCoord1, instanceData.customCoord2 };
 #endif
 ```
 
@@ -119,13 +113,15 @@ When GPU Instancing is enabled, StableRandom.x is accessed directly from instanc
 
 1. **Minimize TEXCOORD Usage**: Each pass uses only required slots
 2. **Conditional Compilation**: Features not used don't allocate slots
-3. **GPU Instancing Priority**: Eliminates most TEXCOORD requirements
+3. **GPU Instancing Priority**: Eliminates Vertex Stream requirements for Custom Coord
+4. **Unified Custom Coord System**: Multiple features share same underlying data structure
 
 ### 6.2 Best Practices
 
-- Enable GPU Instancing when possible to reduce TEXCOORD pressure
+- Enable GPU Instancing when possible to eliminate Vertex Stream overhead
 - Use conditional compilation to exclude unused features
-- Reuse TEXCOORD slots across exclusive features
+- Leverage Custom Coord system for new feature development
+- Maintain consistent TEXCOORD allocation patterns across shader variants
 
 ## 7. Validation and Testing
 
@@ -137,7 +133,7 @@ All shader variants compile successfully with current TEXCOORD allocation:
 
 ### 7.2 Runtime Validation
 
-The Vertex Streams system automatically configures required streams based on material settings, ensuring correct data flow.
+The Vertex Streams system automatically configures required streams based on material settings, ensuring correct data flow. Custom Coord usage is detected automatically and appropriate Custom1XYZW/Custom2XYZW streams are added when needed.
 
 ## 8. Future Considerations
 
@@ -154,3 +150,5 @@ If more TEXCOORD slots are needed:
 1. Review conditional features for optimization opportunities
 2. Consider pass-specific feature exclusion
 3. Utilize GPU Instancing to reduce slot requirements
+4. Leverage Custom Coord system for new random/animated parameter features
+5. Implement feature-specific data packing to maximize efficiency
