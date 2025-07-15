@@ -16,9 +16,8 @@ struct AttributesLit
     float4 tangentOS : TANGENT;
     #endif
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
-    // For Random Row Selection, StableRandom.x value is obtained through:
-    // 1. GPU Instancing: instanceData.stableRandom.x (automatic)
-    // 2. Non-GPU Instancing: Custom Coord or Unity's automatic StableRandom mapping (via Vertex Streams)
+    // For Random Row Selection, random values are obtained through:
+    // Custom Coord system using Unity Particle System's Custom Data (Random Between Two Constants)
     #endif
 };
 

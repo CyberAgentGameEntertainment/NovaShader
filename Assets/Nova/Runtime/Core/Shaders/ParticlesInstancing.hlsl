@@ -17,7 +17,6 @@ struct DefaultParticleInstanceData
     uint color;
     float4 customCoord1;
     float4 customCoord2;
-    float4 stableRandom;  // StableRandom support for Unity compatibility
 };
 
 StructuredBuffer<NOVA_PARTICLE_INSTANCE_DATA> unity_ParticleInstanceData;

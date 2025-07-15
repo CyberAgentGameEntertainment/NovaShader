@@ -3,19 +3,12 @@
 
 #include "Particles.hlsl"
 
-// Override StableRandom access for non-instanced particles
-// Note: ParticlesDistortion does not support FlipBook, so Random Row Selection is not applicable
-#ifndef NOVA_PARTICLE_INSTANCING_ENABLED
-// StableRandom support removed - not needed for Distortion effects
-#endif
-
 struct Attributes
 {
     float4 positionOS : POSITION;
     float2 texcoord : TEXCOORD0;
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     INPUT_CUSTOM_COORD(1, 2)
-    // Note: StableRandom removed - ParticlesDistortion does not support FlipBook features
     #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };

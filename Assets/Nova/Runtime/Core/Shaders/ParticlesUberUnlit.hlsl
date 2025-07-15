@@ -18,9 +18,8 @@ struct Attributes
     float2 texcoord : TEXCOORD0;
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     INPUT_CUSTOM_COORD(1, 2)
-    // For Random Row Selection, StableRandom.x value is obtained through:
-    // 1. GPU Instancing: instanceData.stableRandom.x (automatic)
-    // 2. Non-GPU Instancing: Custom Coord or Unity's automatic StableRandom mapping (via Vertex Streams)
+    // For Random Row Selection, random values are obtained through:
+    // Custom Coord system using Unity Particle System's Custom Data (Random Between Two Constants)
     #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
