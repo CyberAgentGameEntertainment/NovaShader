@@ -98,7 +98,6 @@ namespace Nova.Editor.Core.Scripts
                 commonMaterialProperties.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f)
             {
                 var randomCoord = (CustomCoord)commonMaterialProperties.BaseMapRandomRowCoordProp.Value.floatValue;
-                // StableRandom coordinates are always considered "used" when Random Row Selection is enabled
                 isCustomCoordUsed |= (randomCoord != CustomCoord.Unused);
             }
 
@@ -282,7 +281,6 @@ namespace Nova.Editor.Core.Scripts
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.UV);
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.UV2);
             
-            // GPU Instancing: StableRandom is accessed from instanceData, not vertex streams
             if (IsCustomCoordUsed(commonMaterialProperties))
             {
                 correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Custom1XYZW);
@@ -468,7 +466,6 @@ namespace Nova.Editor.Core.Scripts
                         ? correctVertexStreamsInstanced
                         : correctVertexStreams;
                     
-                    // Preserve existing StableRandom.x settings by merging with current streams
                     var currentVertexStreams = new List<ParticleSystemVertexStream>();
                     renderer.GetActiveVertexStreams(currentVertexStreams);
                     finalVertexStreams = PreserveStableRandomStreams(currentVertexStreams, finalVertexStreams);
@@ -482,7 +479,6 @@ namespace Nova.Editor.Core.Scripts
                         ? correctTrailVertexStreamsInstanced
                         : correctTrailVertexStreams;
                     
-                    // Preserve existing StableRandom.x settings by merging with current streams
                     var currentTrailVertexStreams = new List<ParticleSystemVertexStream>();
                     renderer.GetActiveTrailVertexStreams(currentTrailVertexStreams);
                     finalTrailVertexStreams = PreserveStableRandomStreams(currentTrailVertexStreams, finalTrailVertexStreams);
@@ -493,14 +489,11 @@ namespace Nova.Editor.Core.Scripts
 
         /// <summary>
         /// Preserves necessary streams from current vertex streams when applying correct streams.
-        /// GPU Instancing and Non-GPU Instancing have different requirements for StableRandom.x.
         /// </summary>
         private static List<ParticleSystemVertexStream> PreserveStableRandomStreams(
             List<ParticleSystemVertexStream> currentStreams, 
             List<ParticleSystemVertexStream> correctStreams)
         {
-            // For GPU Instancing, correctStreams should not contain StableRandom.x
-            // For Non-GPU Instancing, correctStreams may contain StableRandom.x if needed
             // Simply return the correct streams as they are already properly configured
             return new List<ParticleSystemVertexStream>(correctStreams);
         }

@@ -205,8 +205,6 @@ VaryingsLit vertLit(AttributesLit input)
     VaryingsLit output = (VaryingsLit)0;
     output.varyingsUnlit = vertUnlit(input.attributesUnlit, output.positionWS, true, true);
 
-    // StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
-    // No manual transfer needed when ParticleSystemVertexStream.StableRandomX is configured
 
     // Calculate tangent and binormal.
     #ifdef _NORMAL_MAP_ENABLED

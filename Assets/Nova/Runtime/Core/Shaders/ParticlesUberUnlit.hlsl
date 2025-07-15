@@ -4,8 +4,6 @@
 #include "ParticlesUber.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/ParallaxMapping.hlsl"
 
-// StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
-// No manual override needed when ParticleSystemVertexStream.StableRandomX is configured
 
 struct Attributes
 {
@@ -47,8 +45,6 @@ struct Varyings
     #ifdef USE_PROJECTED_POSITION
     float4 projectedPosition : TEXCOORD8;
     #endif
-    // StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
-    // when ParticleSystemVertexStream.StableRandomX is configured
     #ifdef USE_PARALLAX_MAP
     float3 viewDirTS : TEXCOORD9;
     float3 parallaxMapUVAndProgress : TEXCOORD10;
@@ -120,8 +116,6 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
     
-    // StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
-    // No manual transfer needed when ParticleSystemVertexStream.StableRandomX is configured
 
     // Vertex Deformation
     #ifdef _VERTEX_DEFORMATION_ENABLED

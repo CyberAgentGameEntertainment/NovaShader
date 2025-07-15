@@ -3,8 +3,6 @@
 
 #include "ParticlesUberUnlit.hlsl"
 
-// StableRandom access is handled through varyingsUnlit.stableRandomX
-// No need to override GET_STABLE_RANDOM_X macro as it uses Unlit's implementation
 
 /**
  * \brief Vertex shader input attributes for UberLit.
@@ -16,8 +14,6 @@ struct AttributesLit
     float4 tangentOS : TANGENT;
     #endif
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
-    // For Random Row Selection, random values are obtained through:
-    // Custom Coord system using Unity Particle System's Custom Data (Random Between Two Constants)
     #endif
 };
 
