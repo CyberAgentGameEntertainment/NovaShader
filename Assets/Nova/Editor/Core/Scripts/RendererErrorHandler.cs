@@ -315,23 +315,12 @@ namespace Nova.Editor.Core.Scripts
             
             if (isRandomRowSelectionEnabled)
             {
-                var randomCoord = (CustomCoord)commonMaterialProperties.BaseMapRandomRowCoordProp.Value.floatValue;
-                
-                if (randomCoord == CustomCoord.StableRandomX)
+                // Random Row Selection using Custom Coords requires TEXCOORD1 and TEXCOORD2
+                // Only add if not already added by regular CustomCoord usage
+                if (!isRegularCustomCoordUsed)
                 {
-                    // StableRandom.x requires dedicated vertex stream only for Non-GPU Instancing
-                    // For GPU Instancing, StableRandom is accessed from instanceData
-                    correctVertexStreams.Add(ParticleSystemVertexStream.StableRandomX);
-                }
-                else
-                {
-                    // Random Row Selection using Custom Coords requires TEXCOORD1 and TEXCOORD2
-                    // Only add if not already added by regular CustomCoord usage
-                    if (!isRegularCustomCoordUsed)
-                    {
-                        correctVertexStreams.Add(ParticleSystemVertexStream.Custom1XYZW);
-                        correctVertexStreams.Add(ParticleSystemVertexStream.Custom2XYZW);
-                    }
+                    correctVertexStreams.Add(ParticleSystemVertexStream.Custom1XYZW);
+                    correctVertexStreams.Add(ParticleSystemVertexStream.Custom2XYZW);
                 }
             }
 

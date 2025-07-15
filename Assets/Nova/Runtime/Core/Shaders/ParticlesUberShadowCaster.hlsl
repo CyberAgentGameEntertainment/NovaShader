@@ -7,12 +7,8 @@
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
 
 // Override StableRandom access for non-instanced particles
-#ifndef NOVA_PARTICLE_INSTANCING_ENABLED
-#ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
-#undef GET_STABLE_RANDOM_X
-#define GET_STABLE_RANDOM_X() input.stableRandomX
-#endif
-#endif
+// StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
+// No manual override needed when ParticleSystemVertexStream.StableRandomX is configured
 
 // Shadow Casting Light geometric parameters. These variables are used when applying the shadow Normal Bias and are set by UnityEngine.Rendering.Universal.ShadowUtils.SetupShadowCasterConstantBuffer in com.unity.render-pipelines.universal/Runtime/ShadowUtils.cs
 // For Directional lights, _LightDirection is used when applying shadow Normal Bias.
@@ -28,9 +24,8 @@ struct Attributes
     float2 texcoord : TEXCOORD0;
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     INPUT_CUSTOM_COORD(1, 2)
-    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
-    float stableRandomX : TEXCOORD3;  // StableRandom.x support for Random Row Selection (mobile-compatible)
-    #endif
+    // StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
+    // No manual TEXCOORD assignment needed when ParticleSystemVertexStream.StableRandomX is configured
     #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
@@ -44,9 +39,8 @@ struct Varyings
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION) || defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     float4 flowTransitionUVs : TEXCOORD3; // xy: FlowMap UV, zw: TransitionMap UV
     #endif
-    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
-    float stableRandomX : TEXCOORD8;  // StableRandom.x for Fragment Shader
-    #endif
+    // StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
+    // No manual TEXCOORD needed when ParticleSystemVertexStream.StableRandomX is configured
     #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
     float2 tintUV : TEXCOORD4; // xy: TintMap UV, zw: EmissionMap UV
     #endif
@@ -89,10 +83,8 @@ Varyings ShadowPassVertex(Attributes input)
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
     
-    // Transfer StableRandom.x for Random Row Selection
-    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
-    output.stableRandomX = input.stableRandomX;
-    #endif
+    // StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
+    // No manual transfer needed when ParticleSystemVertexStream.StableRandomX is configured
 
     // Vertex Deformation
     #ifdef _VERTEX_DEFORMATION_ENABLED

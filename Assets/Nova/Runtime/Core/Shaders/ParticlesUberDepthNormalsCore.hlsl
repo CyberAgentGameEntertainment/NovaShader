@@ -37,13 +37,8 @@
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "ParticlesUberUnlit.hlsl"
 
-// Override StableRandom access for non-instanced particles
-#ifndef NOVA_PARTICLE_INSTANCING_ENABLED
-#ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
-#undef GET_STABLE_RANDOM_X
-#define GET_STABLE_RANDOM_X() input.stableRandomX
-#endif
-#endif
+// StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
+// No manual override needed when ParticleSystemVertexStream.StableRandomX is configured
 
 /**
  * \brief Input attribute of vertex shader.
@@ -64,10 +59,9 @@ struct AttributesDrawDepth
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     #ifdef _USE_CUSTOM_COORD
     INPUT_CUSTOM_COORD(1, 2)
-    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
-    float stableRandomX : TEXCOORD3;  // StableRandom.x support for Random Row Selection (mobile-compatible)
     #endif
-    #endif
+    // StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
+    // No manual TEXCOORD assignment needed when ParticleSystemVertexStream.StableRandomX is configured
     #endif
     #ifdef _ALPHATEST_ENABLED // This attributes is not used for opaque objects.
     float4 color : COLOR;
@@ -107,9 +101,6 @@ struct VaryingsDrawDepth
     float4 tintEmissionUV : TEXCOORD4; // xy: TintMap UV, zw: EmissionMap UV
     float3 transitionEmissionProgresses : TEXCOORD5;
     // x: TransitionMap Progress, y: EmissionMap Progress, z: Fog Factor
-    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
-    float stableRandomX : TEXCOORD10;  // StableRandom.x for Fragment Shader
-    #endif
     #ifdef FRAGMENT_USE_VIEW_DIR_WS
     float3 viewDirWS : TEXCOORD6;
     #endif
@@ -187,11 +178,6 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #ifdef _USE_CUSTOM_COORD // This code is not used for opaque objects.
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
-    
-    // Transfer StableRandom.x for Random Row Selection
-    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
-    output.stableRandomX = input.stableRandomX;
-    #endif
     #endif
     InitializeVertexOutputDrawDepth(input, output);
 

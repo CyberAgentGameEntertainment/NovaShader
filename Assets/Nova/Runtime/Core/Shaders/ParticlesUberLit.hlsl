@@ -16,9 +16,9 @@ struct AttributesLit
     float4 tangentOS : TANGENT;
     #endif
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
-    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
-    float stableRandomX : TEXCOORD3;  // StableRandom.x support for Random Row Selection (mobile-compatible)
-    #endif
+    // For Random Row Selection, StableRandom.x value is obtained through:
+    // 1. GPU Instancing: instanceData.stableRandom.x (automatic)
+    // 2. Non-GPU Instancing: Custom Coord or Unity's automatic StableRandom mapping (via Vertex Streams)
     #endif
 };
 

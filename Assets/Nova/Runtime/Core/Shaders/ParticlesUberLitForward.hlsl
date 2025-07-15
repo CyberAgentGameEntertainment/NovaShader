@@ -205,10 +205,8 @@ VaryingsLit vertLit(AttributesLit input)
     VaryingsLit output = (VaryingsLit)0;
     output.varyingsUnlit = vertUnlit(input.attributesUnlit, output.positionWS, true, true);
 
-    // Transfer StableRandom.x for Random Row Selection to varyingsUnlit
-    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
-    output.varyingsUnlit.stableRandomX = input.stableRandomX;
-    #endif
+    // StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
+    // No manual transfer needed when ParticleSystemVertexStream.StableRandomX is configured
 
     // Calculate tangent and binormal.
     #ifdef _NORMAL_MAP_ENABLED

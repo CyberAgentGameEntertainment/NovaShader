@@ -41,19 +41,17 @@ The Random Row Selection feature is an implementation of Unity Particle System's
 
 The following Custom Coords are available in NOVA shader:
 
-#### Standard Custom Coord (0-19)
-- Coord1.x (0), Coord1.y (1), Coord1.z (2), Coord1.w (3)
-- Coord2.x (10), Coord2.y (11), Coord2.z (12), Coord2.w (13)
+#### Standard Custom Coord
+- Coord1.x (1), Coord1.y (11), Coord1.z (21), Coord1.w (31)
+- Coord2.x (2), Coord2.y (12), Coord2.z (22), Coord2.w (32)
 
-#### StableRandom Coord (50)
-- StableRandom.x (50): **Automatic selection** - Stable random value per particle
+### 3.2 Random Value Configuration
 
-### 3.2 Automatic Settings
-
-Random Row Selection automatically uses `StableRandom.x` for optimal performance:
-- When using GPU Instancing: Random values are automatically provided
-- For normal rendering: Automatically added to Vertex Streams
-- No manual configuration required
+Random Row Selection can use any Custom Coord channel:
+- Configure Unity Particle System's Custom Data
+- Use "Random Between Two Constants" mode
+- Set range from 0 to Row Count (e.g., 0-4 for 4 rows)
+- Assign to desired Custom Coord channel
 
 ## 4. Operation Principle
 
@@ -61,13 +59,18 @@ Random Row Selection automatically uses `StableRandom.x` for optimal performance
 
 ```hlsl
 half framesPerRow = sliceCount / rowCount;
-uint selectedRow = min(floor(randomValue * rowCount), rowCount - 1);
+// Handle both normalized (0-1) and row index (0-rowCount) random values
+uint selectedRow = randomValue < 1.0 ? 
+    min(floor(randomValue * rowCount), rowCount - 1) : 
+    min(floor(randomValue), rowCount - 1);
 half frameProgress = FlipBookProgress(progress, framesPerRow);
 return selectedRow * framesPerRow + frameProgress;
 ```
 
 1. Calculate frames per row (`framesPerRow = total frames / row count`)
-2. Select row from random value (0.0-1.0)
+2. Select row from random value:
+   - If value < 1.0: treat as normalized (0-1) range
+   - If value >= 1.0: treat as row index (0-rowCount)
 3. Calculate animation progress within selected row
 4. Return final frame index
 
@@ -75,7 +78,7 @@ return selectedRow * framesPerRow + frameProgress;
 
 ParticlesUberCommonGUI.cs provides the following functionality:
 - Random Row Selection enable/disable toggle
-- Automatic StableRandom.x configuration (no manual selection required)
+- Custom Coord channel selection for random values
 - Row Count setting
 - Setting error detection and automatic correction functionality
 
@@ -85,15 +88,19 @@ ParticlesUberCommonGUI.cs provides the following functionality:
 
 1. Set material's Base Map Mode to FlipBook or FlipBook Blending
 2. Enable Random Row Selection
-3. StableRandom.x is automatically configured (no manual selection required)
+3. Select a Custom Coord channel for random values
 4. Set Row Count to the number of rows in texture sheet
+5. Configure Particle System's Custom Data:
+   - Set mode to "Random Between Two Constants"
+   - Range: 0 to Row Count (e.g., 0-4 for 4 rows)
+   - Assign to the selected Custom Coord channel
 
 ### 5.2 Vertex Streams Setup
 
-When not using GPU Instancing, the following setup is required:
+When not using GPU Instancing, ensure proper Vertex Streams:
 1. Open Particle System > Renderer > Custom Vertex Streams
-2. StableRandom.x is automatically added (can be auto-configured with editor's "Fix Now" button)
-3. No manual Custom Coord configuration needed
+2. Add Custom1.xyzw and/or Custom2.xyzw as needed
+3. Use editor's "Fix Now" button for automatic configuration
 
 ## 6. Implementation Details
 
@@ -111,8 +118,9 @@ var randomRowSelectionEnabled = !isUIParticles && (baseMapMode == BaseMapMode.Fl
 ### 6.2 Performance Considerations
 
 - Random value calculation is executed only once in vertex shader
-- No additional texture sampling required when using StableRandom
+- No additional texture sampling required
 - Full compatibility with GPU Instancing
+- Flexible configuration with any Custom Coord channel
 
 ## 7. Limitations
 
@@ -194,10 +202,10 @@ Random Row Selection feature is **production-ready with comprehensive robustness
 
 - ✅ HLSL function implementation (`FlipBookProgressWithRandomRow` etc.)
 - ✅ Material property definition with optimal defaults
-- ✅ Editor GUI implementation with automatic StableRandom.x configuration
+- ✅ Editor GUI implementation with Custom Coord channel selection
 - ✅ Shader keyword management
 - ✅ pragma declaration addition
-- ✅ StableRandom.x automatic configuration (Y/Z/W removed for clarity)
+- ✅ Custom Coord channel selection for random values
 - ✅ Vertex Streams automatic setup
 - ✅ Vertex-Fragment data transfer
 - ✅ TEXCOORD channel optimization
@@ -211,53 +219,23 @@ Random Row Selection feature is **production-ready with comprehensive robustness
 
 The implementation uses optimized TEXCOORD allocation to avoid conflicts. For detailed TEXCOORD usage strategy, see @documentation/TEXCOORD_Usage_Strategy.md.
 
-**Input Struct (All Shaders)**:
-- StableRandom.x: TEXCOORD15 (consistent across all shaders for Vertex Streams unity)
-
-**Varyings Struct (Per Shader - Optimized Allocation)**:
-- ParticlesUberUnlit.hlsl: TEXCOORD14 (no conflict with probeOcclusion due to exclusive conditions)
-- ParticlesUberShadowCaster.hlsl: TEXCOORD8 (optimized for simplified pass)
-- ParticlesUberDepthNormalsCore.hlsl: TEXCOORD10 (optimized for available slots)
-
-**TEXCOORD Conflict Resolution**:
-The TEXCOORD14 usage in ParticlesUberLit (probeOcclusion) and ParticlesUberUnlit (stableRandomX) never conflicts because:
-- probeOcclusion: Requires APV + Debug Display mode (development only)
-- stableRandomX: Requires non-instanced Random Row Selection (production typically uses GPU Instancing)
-- These conditions are mutually exclusive in production environments
+Random Row Selection now uses standard Custom Coord system, avoiding TEXCOORD conflicts entirely. The implementation relies on Unity's Custom Data system for random value input.
 
 ### 10.2 Mathematical Implementation
 
-#### FlipBook Mode
-```hlsl
-half framesPerRow = sliceCount / rowCount;
-half clampedRandomValue = clamp(randomValue, 0.0, 0.999999);
-uint selectedRow = min(floor(clampedRandomValue * rowCount), rowCount - 1);
-half frameProgress = FlipBookProgress(progress, framesPerRow);
-half result = selectedRow * framesPerRow + frameProgress;
-return min(result, sliceCount - 0.001);
+The implementation handles both normalized (0-1) and row index (0-rowCount) random values automatically, providing flexibility in how random values are configured.
+
+### 10.3 Random Value Input Methods
+
+#### Unity Particle System Custom Data Configuration
+```csharp
+// Example: Configure Random Between Two Constants
+ParticleSystem.CustomDataModule customData = particleSystem.customData;
+customData.enabled = true;
+customData.SetMode(ParticleSystemCustomData.Custom1, ParticleSystemCustomDataMode.Vector);
+customData.SetVectorComponentCount(ParticleSystemCustomData.Custom1, 1);
+
+// Set Random Between Two Constants (0 to rowCount)
+var minMaxCurve = new ParticleSystem.MinMaxCurve(0f, rowCount);
+customData.SetVector(ParticleSystemCustomData.Custom1, 0, minMaxCurve);
 ```
-
-#### FlipBook Blending Mode
-```hlsl
-half framesPerRow = sliceCount / rowCount;
-half clampedRandomValue = clamp(randomValue, 0.0, 0.999999);
-uint selectedRow = min(floor(clampedRandomValue * rowCount), rowCount - 1);
-half frameProgress = FlipBookBlendingProgress(progress, framesPerRow);
-half absoluteFrameProgress = frameProgress * framesPerRow;
-half result = (selectedRow * framesPerRow + absoluteFrameProgress) / sliceCount;
-return clamp(result, 0.0, 0.999999);
-```
-
-### 10.3 StableRandom Fallback System
-
-```hlsl
-#ifdef NOVA_PARTICLE_INSTANCING_ENABLED
-#define GET_STABLE_RANDOM_X() instanceData.stableRandom.x
-#else
-#ifndef GET_STABLE_RANDOM_X
-#define GET_STABLE_RANDOM_X() 0.5  // Safe fallback - selects middle row consistently
-#endif
-#endif
-```
-
-The fallback value of 0.5 ensures consistent middle row selection when StableRandom is unavailable.

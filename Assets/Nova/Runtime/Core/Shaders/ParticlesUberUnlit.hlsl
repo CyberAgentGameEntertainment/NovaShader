@@ -4,13 +4,8 @@
 #include "ParticlesUber.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/ParallaxMapping.hlsl"
 
-// Override StableRandom access for non-instanced particles
-#ifndef NOVA_PARTICLE_INSTANCING_ENABLED
-#ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
-#undef GET_STABLE_RANDOM_X
-#define GET_STABLE_RANDOM_X() input.stableRandomX
-#endif
-#endif
+// StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
+// No manual override needed when ParticleSystemVertexStream.StableRandomX is configured
 
 struct Attributes
 {
@@ -23,9 +18,9 @@ struct Attributes
     float2 texcoord : TEXCOORD0;
     #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     INPUT_CUSTOM_COORD(1, 2)
-    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
-    float stableRandomX : TEXCOORD3;  // StableRandom.x support (mobile-compatible low index)
-    #endif
+    // For Random Row Selection, StableRandom.x value is obtained through:
+    // 1. GPU Instancing: instanceData.stableRandom.x (automatic)
+    // 2. Non-GPU Instancing: Custom Coord or Unity's automatic StableRandom mapping (via Vertex Streams)
     #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
@@ -53,9 +48,8 @@ struct Varyings
     #ifdef USE_PROJECTED_POSITION
     float4 projectedPosition : TEXCOORD8;
     #endif
-    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
-    float stableRandomX : TEXCOORD14;  // StableRandom.x for Fragment Shader
-    #endif
+    // StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
+    // when ParticleSystemVertexStream.StableRandomX is configured
     #ifdef USE_PARALLAX_MAP
     float3 viewDirTS : TEXCOORD9;
     float3 parallaxMapUVAndProgress : TEXCOORD10;
@@ -127,10 +121,8 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
     
-    // Transfer StableRandom.x for Random Row Selection
-    #if !defined(NOVA_PARTICLE_INSTANCING_ENABLED) && defined(_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED)
-    output.stableRandomX = input.stableRandomX;
-    #endif
+    // StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
+    // No manual transfer needed when ParticleSystemVertexStream.StableRandomX is configured
 
     // Vertex Deformation
     #ifdef _VERTEX_DEFORMATION_ENABLED

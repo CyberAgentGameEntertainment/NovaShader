@@ -249,18 +249,18 @@ namespace Nova.Editor.Core.Scripts
                 {
                     using (new EditorGUI.IndentLevelScope())
                     {
-                        // Random Coord fixed to StableRandom.x for optimal performance
+                        // Allow selection of any Custom Coord
                         using (new EditorGUILayout.HorizontalScope())
                         {
                             EditorGUILayout.PrefixLabel("Random Coord");
-                            using (new EditorGUI.DisabledScope(true))
+                            var currentCoord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 
+                                (int)props.BaseMapRandomRowCoordProp.Value.floatValue);
+                            var newCoord = (TCustomCoord)EditorGUILayout.EnumPopup(currentCoord);
+                            if (!currentCoord.Equals(newCoord))
                             {
-                                EditorGUILayout.TextField("StableRandom.x (Auto)");
+                                props.BaseMapRandomRowCoordProp.Value.floatValue = Convert.ToSingle(newCoord);
                             }
                         }
-                        
-                        // Automatically set to StableRandomX (50)
-                        props.BaseMapRandomRowCoordProp.Value.floatValue = 50f;
                         
                         _editor.FloatProperty(props.BaseMapRowCountProp.Value, "Row Count");
                         
@@ -313,10 +313,11 @@ namespace Nova.Editor.Core.Scripts
                         
                         EditorGUILayout.HelpBox(
                             "Setup:\n" +
+                            "• Random Coord: Select a Custom Coord channel for random values\n" +
+                            "  - Use Particle System's Custom Data with Random Between Two Constants (0 to Row Count)\n" +
                             "• Row Count: Set to number of rows in your texture (e.g., 4×4 texture = 4 rows)\n" +
-                            "• If 'Fix Now' button appears, click it for automatic configuration\n" +
-                            "\nThis feature randomly selects one row from your flip-book texture for each particle.\n" +
-                            "Uses StableRandom.x automatically for optimal performance.",
+                            "• If 'Fix Now' button appears, click it for Vertex Streams configuration\n" +
+                            "\nThis feature randomly selects one row from your flip-book texture for each particle.",
                             MessageType.Info);
                     }
                 }
