@@ -37,8 +37,6 @@
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "ParticlesUberUnlit.hlsl"
 
-// StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
-// No manual override needed when ParticleSystemVertexStream.StableRandomX is configured
 
 /**
  * \brief Input attribute of vertex shader.
@@ -60,8 +58,6 @@ struct AttributesDrawDepth
     #ifdef _USE_CUSTOM_COORD
     INPUT_CUSTOM_COORD(1, 2)
     #endif
-    // StableRandom.x is handled by Unity's automatic StableRandom Vertex Stream mapping
-    // No manual TEXCOORD assignment needed when ParticleSystemVertexStream.StableRandomX is configured
     #endif
     #ifdef _ALPHATEST_ENABLED // This attributes is not used for opaque objects.
     float4 color : COLOR;
