@@ -86,3 +86,6 @@ crashlytics-build.properties
 
 .idea/
 .DS_Store
+
+# Local configuration files
+*.local.json
