@@ -23,14 +23,14 @@ Varyings vert(Attributes input)
     #endif
 
     baseMapUv.xy = TRANSFORM_TEX(baseMapUv, _BaseMap);
-    baseMapUv.x += GET_CUSTOM_COORD(_BaseMapOffsetXCoord)
-    baseMapUv.y += GET_CUSTOM_COORD(_BaseMapOffsetYCoord)
+    baseMapUv.x += GET_CUSTOM_COORD(_BaseMapOffsetXCoord);
+    baseMapUv.y += GET_CUSTOM_COORD(_BaseMapOffsetYCoord);
     output.baseUv.xy = baseMapUv;
 
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
     output.flowTransitionUVs.xy = TRANSFORM_TEX(input.texcoord.xy, _FlowMap);
-    output.flowTransitionUVs.x += GET_CUSTOM_COORD(_FlowMapOffsetXCoord)
-    output.flowTransitionUVs.y += GET_CUSTOM_COORD(_FlowMapOffsetYCoord)
+    output.flowTransitionUVs.x += GET_CUSTOM_COORD(_FlowMapOffsetXCoord);
+    output.flowTransitionUVs.y += GET_CUSTOM_COORD(_FlowMapOffsetYCoord);
     #endif
 
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
@@ -54,7 +54,7 @@ half4 frag(Varyings input) : SV_Target
     flowMapUvOffset.x = flowMapUvOffsetSrc[(uint)_FlowMapChannelsX];
     flowMapUvOffset.y = flowMapUvOffsetSrc[(uint)_FlowMapChannelsY];
     flowMapUvOffset = flowMapUvOffset * 2 - 1;
-    flowMapUvOffset *= _FlowIntensity + GET_CUSTOM_COORD(_FlowIntensityCoord)
+    flowMapUvOffset *= _FlowIntensity + GET_CUSTOM_COORD(_FlowIntensityCoord);
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE)
     input.baseUv.xy += flowMapUvOffset;
     #endif
@@ -87,7 +87,7 @@ half4 frag(Varyings input) : SV_Target
 
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     half transitionAlpha = SAMPLE_TEXTURE2D(_AlphaTransitionMap, sampler_AlphaTransitionMap, input.flowTransitionUVs.zw)[_AlphaTransitionMapChannelsX];
-    half progress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord)
+    half progress = _AlphaTransitionProgress + GET_CUSTOM_COORD(_AlphaTransitionProgressCoord);
     #ifdef _VERTEX_ALPHA_AS_TRANSITION_PROGRESS
     progress += 1.0 - input.color.a;
     #endif
