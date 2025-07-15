@@ -87,5 +87,5 @@ crashlytics-build.properties
 .idea/
 .DS_Store
 
-# Claude local settings
-.claude/settings.local.json
+# Local configuration files
+*.local.json
