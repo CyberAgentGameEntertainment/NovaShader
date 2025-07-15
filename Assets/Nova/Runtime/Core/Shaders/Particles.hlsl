@@ -72,7 +72,7 @@ output.customCoord2 = instanceData.customCoord2;
 output.customCoord2 = input.customCoord2;
 #endif
 #define GET_CUSTOM_COORD(propertyName) customCoords[(uint)propertyName % 10][(uint)propertyName / 10]
-#define GET_CUSTOM_COORD_DIRECT(coordIndex, swizzleIndex) customCoords[coordIndex][swizzleIndex];
+#define GET_CUSTOM_COORD_DIRECT(coordIndex, swizzleIndex) customCoords[coordIndex][swizzleIndex]
 
 // Base Map Sampler State Override
 #if defined(_BASE_SAMPLER_STATE_POINT_MIRROR) || defined(_BASE_SAMPLER_STATE_LINEAR_MIRROR) || defined(_BASE_SAMPLER_STATE_TRILINEAR_MIRROR)
