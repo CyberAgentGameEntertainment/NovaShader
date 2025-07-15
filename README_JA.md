@@ -437,7 +437,7 @@ Flip-BookあるいはFlip-Book Blendingの進行度を設定します。
 各パーティクルがテクスチャシートから1つの行をランダムに選択する機能を有効にします。UnityのTexture Sheet Animation Row Mode > Random機能と同等の機能です。有効にすると、各パーティクルがライフタイム中に1つの行を選択・維持し、同じテクスチャシートから多様なアニメーションを作成できます。
 </p>
 <p>
-GPU Instancingおよび標準レンダリングの両方で最適なパフォーマンスを実現するため、StableRandom.xを自動的に使用します。
+ランダム値の入力にCustom Coord系統を使用します。Unity Particle SystemのCustom Dataを「Random Between Two Constants」モードに設定し、任意のCustom Coordチャンネルに割り当ててください。GPU Instancingおよび標準レンダリングの両方に対応しています。
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Row Count</b></td><td>

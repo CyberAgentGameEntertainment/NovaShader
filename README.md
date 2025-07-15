@@ -430,7 +430,7 @@ The progress of the Flip-Book or Flip-Book Blending.
 Enable random selection of one row from a texture sheet for each particle, equivalent to Unity's Texture Sheet Animation Row Mode > Random functionality. When enabled, each particle randomly selects and maintains one row throughout its lifetime, creating varied animations from the same texture sheet.
 </p>
 <p>
-Uses StableRandom.x automatically for optimal performance with both GPU Instancing and standard rendering.
+Uses Custom Coord system for random value input. Configure Unity Particle System's Custom Data with "Random Between Two Constants" mode and assign to any Custom Coord channel. Compatible with both GPU Instancing and standard rendering.
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Row Count</b></td><td>
