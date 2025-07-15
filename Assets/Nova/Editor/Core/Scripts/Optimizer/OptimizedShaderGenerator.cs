@@ -325,7 +325,7 @@ namespace Nova.Editor.Core.Scripts.Optimizer
             @"_TRANSPARENCY_BY_RIM\b|" +
             @"_SOFT_PARTICLES_ENABLED\b|" +
             @"_DEPTH_FADE_ENABLED\b" +
-            @")\b.",
+            @")\b",
             RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex PassStartRegex = new(
