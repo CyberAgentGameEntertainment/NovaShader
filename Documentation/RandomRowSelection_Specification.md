@@ -107,9 +107,8 @@ When not using GPU Instancing, ensure proper Vertex Streams:
 
 Keywords are set in ParticlesUberUnlitMaterialPostProcessor.cs under the following conditions:
 ```csharp
-// UIParticles exclusion for Unity UI system compatibility
-bool isUIParticles = material.shader.name.Contains("UIParticles");
-var randomRowSelectionEnabled = !isUIParticles && (baseMapMode == BaseMapMode.FlipBook || 
+// Random Row Selection enabled for all shader types including UIParticles
+var randomRowSelectionEnabled = (baseMapMode == BaseMapMode.FlipBook || 
                                 baseMapMode == BaseMapMode.FlipBookBlending) &&
                                 material.GetFloat(BaseMapRandomRowSelectionEnabledId) > 0.5f;
 ```
