@@ -415,9 +415,6 @@ namespace Nova.Editor.Core.Scripts
                         ? correctVertexStreamsInstanced
                         : correctVertexStreams;
 
-                    var currentVertexStreams = new List<ParticleSystemVertexStream>();
-                    renderer.GetActiveVertexStreams(currentVertexStreams);
-                    finalVertexStreams = PreserveStableRandomStreams(currentVertexStreams, finalVertexStreams);
                     renderer.SetActiveVertexStreams(finalVertexStreams);
                 }
 
@@ -428,24 +425,10 @@ namespace Nova.Editor.Core.Scripts
                         ? correctTrailVertexStreamsInstanced
                         : correctTrailVertexStreams;
 
-                    var currentTrailVertexStreams = new List<ParticleSystemVertexStream>();
-                    renderer.GetActiveTrailVertexStreams(currentTrailVertexStreams);
-                    finalTrailVertexStreams =
-                        PreserveStableRandomStreams(currentTrailVertexStreams, finalTrailVertexStreams);
                     renderer.SetActiveTrailVertexStreams(finalTrailVertexStreams);
                 }
             }
         }
 
-        /// <summary>
-        ///     Preserves necessary streams from current vertex streams when applying correct streams.
-        /// </summary>
-        private static List<ParticleSystemVertexStream> PreserveStableRandomStreams(
-            List<ParticleSystemVertexStream> currentStreams,
-            List<ParticleSystemVertexStream> correctStreams)
-        {
-            // Simply return the correct streams as they are already properly configured
-            return new List<ParticleSystemVertexStream>(correctStreams);
-        }
     }
 }
