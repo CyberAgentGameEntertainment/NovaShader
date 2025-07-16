@@ -18,7 +18,7 @@ Varyings vert(Attributes input)
 
     float2 baseMapUv = input.texcoord.xy;
     #ifdef _BASE_MAP_ROTATION_ENABLED
-    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord)
+    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord);
     baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
     #endif
 
@@ -35,8 +35,8 @@ Varyings vert(Attributes input)
 
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     output.flowTransitionUVs.zw = TRANSFORM_TEX(input.texcoord.xy, _AlphaTransitionMap);
-    output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord)
-    output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord)
+    output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
+    output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
     #endif
 
     return output;
@@ -82,7 +82,7 @@ half4 frag(Varyings input) : SV_Target
     distortion.x = distortionSrc[(uint)_BaseMapChannelsX];
     distortion.y = distortionSrc[(uint)_BaseMapChannelsY];
     distortion = distortion * 2.0 - 1.0;
-    half distortionIntensity = _DistortionIntensity + GET_CUSTOM_COORD(_DistortionIntensityCoord)
+    half distortionIntensity = _DistortionIntensity + GET_CUSTOM_COORD(_DistortionIntensityCoord);
     distortion *= 0.1 * distortionIntensity;
 
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
