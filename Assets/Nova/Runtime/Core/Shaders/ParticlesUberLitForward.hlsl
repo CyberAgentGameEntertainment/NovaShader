@@ -205,7 +205,6 @@ VaryingsLit vertLit(AttributesLit input)
     VaryingsLit output = (VaryingsLit)0;
     output.varyingsUnlit = vertUnlit(input.attributesUnlit, output.positionWS, true, true);
 
-
     // Calculate tangent and binormal.
     #ifdef _NORMAL_MAP_ENABLED
     CalculateTangetAndBinormalInWorldSpace(output.tangentWS, output.binormalWS, output.varyingsUnlit.normalWS,

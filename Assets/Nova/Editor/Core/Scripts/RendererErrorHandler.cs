@@ -30,7 +30,8 @@ namespace Nova.Editor.Core.Scripts
             var materialProperties = MaterialEditor.GetMaterialProperties(materials);
             ParticlesUberCommonMaterialProperties commonMaterialProperties = new(materialProperties);
             SetupCorrectVertexStreams(material, out var correctVertexStreams, out var correctVertexStreamsInstanced,
-                out var correctTrailVertexStreams, out var correctTrailVertexStreamsInstanced, commonMaterialProperties);
+                out var correctTrailVertexStreams, out var correctTrailVertexStreamsInstanced,
+                commonMaterialProperties);
             var allRenderersWithMaterial = FindAllRenderersWithMaterial(material);
             // If there is no renderer using this material, there is no error.
             if (allRenderersWithMaterial == null || allRenderersWithMaterial.Count == 0) return false;
@@ -55,7 +56,8 @@ namespace Nova.Editor.Core.Scripts
             var materialProperties = MaterialEditor.GetMaterialProperties(materials);
             ParticlesUberCommonMaterialProperties commonMaterialProperties = new(materialProperties);
             SetupCorrectVertexStreams(material, out var correctVertexStreams, out var correctVertexStreamsInstanced,
-                out var correctTrailVertexStreams, out var correctTrailVertexStreamsInstanced, commonMaterialProperties);
+                out var correctTrailVertexStreams, out var correctTrailVertexStreamsInstanced,
+                commonMaterialProperties);
             var allRenderersWithMaterial = FindAllRenderersWithMaterial(material);
             // If there is no renderer using this material, there is no error.
             if (allRenderersWithMaterial == null || allRenderersWithMaterial.Count == 0) return;
@@ -98,7 +100,7 @@ namespace Nova.Editor.Core.Scripts
                 commonMaterialProperties.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f)
             {
                 var randomCoord = (CustomCoord)commonMaterialProperties.BaseMapRandomRowCoordProp.Value.floatValue;
-                isCustomCoordUsed |= (randomCoord != CustomCoord.Unused);
+                isCustomCoordUsed |= randomCoord != CustomCoord.Unused;
             }
 
             return isCustomCoordUsed;
@@ -234,9 +236,6 @@ namespace Nova.Editor.Core.Scripts
                    || IsCustomCoordUsedInTransparency(commonMaterialProperties);
         }
 
-
-
-
         internal static void SetupCorrectVertexStreams(Material material,
             out List<ParticleSystemVertexStream> correctVertexStreams,
             out List<ParticleSystemVertexStream> correctVertexStreamsInstanced,
@@ -251,7 +250,7 @@ namespace Nova.Editor.Core.Scripts
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Color);
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.UV);
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.UV2);
-            
+
             if (IsCustomCoordUsed(commonMaterialProperties))
             {
                 correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Custom1XYZW);
@@ -266,7 +265,6 @@ namespace Nova.Editor.Core.Scripts
             correctVertexStreams.Add(ParticleSystemVertexStream.UV);
             correctVertexStreams.Add(ParticleSystemVertexStream.UV2);
 
-            // Check for CustomCoord usage (includes Random Row Selection)
             if (IsCustomCoordUsed(commonMaterialProperties))
             {
                 correctVertexStreams.Add(ParticleSystemVertexStream.Custom1XYZW);
@@ -335,18 +333,18 @@ namespace Nova.Editor.Core.Scripts
             var renderers = Object.FindObjectsOfType(typeof(ParticleSystemRenderer)) as ParticleSystemRenderer[];
 #endif
             if (renderers == null) return new List<ParticleSystemRenderer>();
-            
+
             foreach (var renderer in renderers)
             {
                 // Add if shared material matches
                 if (renderer.sharedMaterial == material)
                     renderersWithMaterial.Add(renderer);
-                
+
                 // Add if trail material matches
                 if (renderer.trailMaterial == material)
                     renderersWithMaterial.Add(renderer);
             }
-            
+
             return new List<ParticleSystemRenderer>(renderersWithMaterial);
         }
 
@@ -416,7 +414,7 @@ namespace Nova.Editor.Core.Scripts
                     var finalVertexStreams = IsEnabledGPUInstancing(renderer)
                         ? correctVertexStreamsInstanced
                         : correctVertexStreams;
-                    
+
                     var currentVertexStreams = new List<ParticleSystemVertexStream>();
                     renderer.GetActiveVertexStreams(currentVertexStreams);
                     finalVertexStreams = PreserveStableRandomStreams(currentVertexStreams, finalVertexStreams);
@@ -429,25 +427,25 @@ namespace Nova.Editor.Core.Scripts
                     var finalTrailVertexStreams = IsEnabledGPUInstancing(renderer)
                         ? correctTrailVertexStreamsInstanced
                         : correctTrailVertexStreams;
-                    
+
                     var currentTrailVertexStreams = new List<ParticleSystemVertexStream>();
                     renderer.GetActiveTrailVertexStreams(currentTrailVertexStreams);
-                    finalTrailVertexStreams = PreserveStableRandomStreams(currentTrailVertexStreams, finalTrailVertexStreams);
+                    finalTrailVertexStreams =
+                        PreserveStableRandomStreams(currentTrailVertexStreams, finalTrailVertexStreams);
                     renderer.SetActiveTrailVertexStreams(finalTrailVertexStreams);
                 }
             }
         }
 
         /// <summary>
-        /// Preserves necessary streams from current vertex streams when applying correct streams.
+        ///     Preserves necessary streams from current vertex streams when applying correct streams.
         /// </summary>
         private static List<ParticleSystemVertexStream> PreserveStableRandomStreams(
-            List<ParticleSystemVertexStream> currentStreams, 
+            List<ParticleSystemVertexStream> currentStreams,
             List<ParticleSystemVertexStream> correctStreams)
         {
             // Simply return the correct streams as they are already properly configured
             return new List<ParticleSystemVertexStream>(correctStreams);
         }
-
     }
 }

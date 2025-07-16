@@ -3,7 +3,6 @@
 
 #include "ParticlesUberUnlit.hlsl"
 
-
 /**
  * \brief Vertex shader input attributes for UberLit.
  */
@@ -12,8 +11,6 @@ struct AttributesLit
     Attributes attributesUnlit;
     #ifdef _NORMAL_MAP_ENABLED
     float4 tangentOS : TANGENT;
-    #endif
-    #ifndef NOVA_PARTICLE_INSTANCING_ENABLED
     #endif
 };
 
