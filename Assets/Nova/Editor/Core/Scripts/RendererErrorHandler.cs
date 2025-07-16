@@ -244,20 +244,22 @@ namespace Nova.Editor.Core.Scripts
             ParticlesUberCommonMaterialProperties commonMaterialProperties)
         {
             // Correct vertex streams when enabled GPU Instance.
+            // Note: Even with GPU Instancing, Custom Vertex Streams configuration is required by Unity.
+            // While instance data is accessed via StructuredBuffer, Unity's internal implementation
+            // still requires proper Vertex Streams setup for Custom1XYZW/Custom2XYZW.
+            // Always include Custom Coord streams to ensure compatibility and prevent potential issues.
             correctVertexStreamsInstanced = new List<ParticleSystemVertexStream>();
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Position);
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Normal);
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Color);
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.UV);
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.UV2);
-
-            if (IsCustomCoordUsed(commonMaterialProperties))
-            {
-                correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Custom1XYZW);
-                correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Custom2XYZW);
-            }
+            correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Custom1XYZW);
+            correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Custom2XYZW);
 
             // Correct vertex streams when disabled GPU Instance.
+            // For non-GPU Instancing, Custom Coord streams are conditionally added based on usage.
+            // This optimization reduces vertex data transfer when Custom Coord features are not used.
             correctVertexStreams = new List<ParticleSystemVertexStream>();
             correctVertexStreams.Add(ParticleSystemVertexStream.Position);
             correctVertexStreams.Add(ParticleSystemVertexStream.Normal);
