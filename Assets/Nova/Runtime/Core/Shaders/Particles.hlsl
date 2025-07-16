@@ -196,13 +196,9 @@ half FlipBookProgressWithRandomRow(in half progress, in half sliceCount, in half
     
     half framesPerRow = sliceCount / rowCount;
     
-    // Handle both normalized (0-1) and row index (0-rowCount) random values
-    // If randomValue is in [0, 1] range, multiply by rowCount to get row index
-    // If randomValue is in [0, rowCount) range, use it directly as row index
-    half selectedRow = clamp(
-        randomValue < 1.0 ? floor(randomValue * rowCount) : floor(randomValue),
-        0.0, rowCount - 1.0
-    );
+    // randomValue is expected to be in range [0, rowCount)
+    // Unity Custom Data "Random Between Two Constants" should be set to 0 to rowCount
+    half selectedRow = clamp(floor(randomValue), 0.0, rowCount - 1.0);
     
     half frameProgress = FlipBookProgress(progress, framesPerRow);
     
@@ -218,13 +214,9 @@ half FlipBookBlendingProgressWithRandomRow(in half progress, in half sliceCount,
     
     half framesPerRow = sliceCount / rowCount;
     
-    // Handle both normalized (0-1) and row index (0-rowCount) random values
-    // If randomValue is in [0, 1] range, multiply by rowCount to get row index
-    // If randomValue is in [0, rowCount) range, use it directly as row index
-    half selectedRow = clamp(
-        randomValue < 1.0 ? floor(randomValue * rowCount) : floor(randomValue),
-        0.0, rowCount - 1.0
-    );
+    // randomValue is expected to be in range [0, rowCount)
+    // Unity Custom Data "Random Between Two Constants" should be set to 0 to rowCount
+    half selectedRow = clamp(floor(randomValue), 0.0, rowCount - 1.0);
     
     // Calculate frame progress within the selected row
     half frameIndex = selectedRow * framesPerRow + progress * framesPerRow;

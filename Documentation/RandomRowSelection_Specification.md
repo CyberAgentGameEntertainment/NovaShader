@@ -60,20 +60,18 @@ Random Row Selection can use any Custom Coord channel:
 
 ```hlsl
 half framesPerRow = sliceCount / rowCount;
-// Handle both normalized (0-1) and row index (0-rowCount) random values
-uint selectedRow = randomValue < 1.0 ? 
-    min(floor(randomValue * rowCount), rowCount - 1) : 
-    min(floor(randomValue), rowCount - 1);
+// randomValue is expected to be in range [0, rowCount)
+// Unity Custom Data "Random Between Two Constants" should be set to 0 to rowCount
+half selectedRow = clamp(floor(randomValue), 0.0, rowCount - 1.0);
 half frameProgress = FlipBookProgress(progress, framesPerRow);
 return selectedRow * framesPerRow + frameProgress;
 ```
 
 1. Calculate frames per row (`framesPerRow = total frames / row count`)
-2. Select row from random value:
-   - If value < 1.0: treat as normalized (0-1) range
-   - If value >= 1.0: treat as row index (0-rowCount)
-3. Calculate animation progress within selected row
-4. Return final frame index
+2. Select row from random value in range [0, rowCount)
+3. Use `clamp(floor(randomValue), 0.0, rowCount - 1.0)` to ensure valid row index
+4. Calculate animation progress within selected row
+5. Return final frame index
 
 ### 4.2 Editor UI Integration
 
