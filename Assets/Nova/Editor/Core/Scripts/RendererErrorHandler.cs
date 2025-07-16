@@ -234,36 +234,7 @@ namespace Nova.Editor.Core.Scripts
                    || IsCustomCoordUsedInTransparency(commonMaterialProperties);
         }
 
-        private static bool IsCustomCoordUsedExcludingRandomRow(ParticlesUberCommonMaterialProperties commonMaterialProperties)
-        {
-            if (commonMaterialProperties == null) return false;
 
-            return IsCustomCoordUsedInVertexDeformation(commonMaterialProperties)
-                   || IsCustomCoordUsedInBaseMapExcludingRandomRow(commonMaterialProperties)
-                   || IsCustomCoordUsedInTintColor(commonMaterialProperties)
-                   || IsCustomCoordUsedInFlowMap(commonMaterialProperties)
-                   || IsCustomCoordUsedInParallax(commonMaterialProperties)
-                   || IsCustomCoordUsedInAlphaTransition(commonMaterialProperties)
-                   || IsCustomCoordUsedInEmission(commonMaterialProperties)
-                   || IsCustomCoordUsedInTransparency(commonMaterialProperties);
-        }
-
-        private static bool IsCustomCoordUsedInBaseMapExcludingRandomRow(ParticlesUberCommonMaterialProperties commonMaterialProperties)
-        {
-            var isCustomCoordUsed = IsCustomCoordUsed(commonMaterialProperties.BaseMapOffsetXCoordProp)
-                                    || IsCustomCoordUsed(commonMaterialProperties.BaseMapOffsetYCoordProp)
-                                    || IsCustomCoordUsed(commonMaterialProperties.BaseMapRotationCoordProp);
-            isCustomCoordUsed |= (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue !=
-                                 BaseMapMode.SingleTexture
-                                 && IsCustomCoordUsed(commonMaterialProperties.BaseMapProgressProp);
-
-            isCustomCoordUsed |= (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue !=
-                                 BaseMapMode.SingleTexture
-                                 && IsCustomCoordUsed(commonMaterialProperties.BaseMapProgressCoordProp);
-
-            // Exclude Random Row Selection from this check
-            return isCustomCoordUsed;
-        }
 
 
         internal static void SetupCorrectVertexStreams(Material material,
@@ -295,29 +266,11 @@ namespace Nova.Editor.Core.Scripts
             correctVertexStreams.Add(ParticleSystemVertexStream.UV);
             correctVertexStreams.Add(ParticleSystemVertexStream.UV2);
 
-            // Check for regular CustomCoord usage (excluding Random Row Selection)
-            bool isRegularCustomCoordUsed = IsCustomCoordUsedExcludingRandomRow(commonMaterialProperties);
-            
-            var baseMapMode = (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue;
-            bool isRandomRowSelectionEnabled = (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending) &&
-                                              commonMaterialProperties.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
-            
-            if (isRegularCustomCoordUsed)
+            // Check for CustomCoord usage (includes Random Row Selection)
+            if (IsCustomCoordUsed(commonMaterialProperties))
             {
-                // Regular CustomCoord usage requires TEXCOORD1 and TEXCOORD2
                 correctVertexStreams.Add(ParticleSystemVertexStream.Custom1XYZW);
                 correctVertexStreams.Add(ParticleSystemVertexStream.Custom2XYZW);
-            }
-            
-            if (isRandomRowSelectionEnabled)
-            {
-                // Random Row Selection using Custom Coords requires TEXCOORD1 and TEXCOORD2
-                // Only add if not already added by regular CustomCoord usage
-                if (!isRegularCustomCoordUsed)
-                {
-                    correctVertexStreams.Add(ParticleSystemVertexStream.Custom1XYZW);
-                    correctVertexStreams.Add(ParticleSystemVertexStream.Custom2XYZW);
-                }
             }
 
             // Tangent
