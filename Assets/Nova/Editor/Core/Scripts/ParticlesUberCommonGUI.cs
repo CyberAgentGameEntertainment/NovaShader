@@ -225,14 +225,13 @@ namespace Nova.Editor.Core.Scripts
                 if (randomRowEnabled)
                     using (new EditorGUI.IndentLevelScope())
                     {
-                        // Allow selection of any Custom Coord
                         using (new EditorGUILayout.HorizontalScope())
                         {
                             EditorGUILayout.PrefixLabel("Random Coord");
                             var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord),
                                 Convert.ToInt32(props.BaseMapRandomRowCoordProp.Value.floatValue));
                             if (!Enum.IsDefined(typeof(TCustomCoord), coord))
-                                coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 0); // Default to Unused
+                                coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 0);
 
                             using (var ccs = new EditorGUI.ChangeCheckScope())
                             {
@@ -253,13 +252,6 @@ namespace Nova.Editor.Core.Scripts
                         // Validation and help message
                         var sliceCount = props.BaseMapSliceCountProp.Value.floatValue;
                         var rowCount = props.BaseMapRowCountProp.Value.floatValue;
-
-                        // Warn about non-integer values
-                        if (sliceCount != Mathf.FloorToInt(sliceCount) || rowCount != Mathf.FloorToInt(rowCount))
-                            EditorGUILayout.HelpBox(
-                                "Non-integer values detected. Random Row Selection works best with integer values. " +
-                                "Non-integer values will be used directly in shader calculations, which may cause unexpected results.",
-                                MessageType.Warning);
 
                         if (rowCount <= 0)
                         {
@@ -288,12 +280,6 @@ namespace Nova.Editor.Core.Scripts
                                     MessageType.Warning);
                             }
                         }
-
-                        // Performance warning for high row counts
-                        if (rowCount > 16)
-                            EditorGUILayout.HelpBox(
-                                $"High Row Count ({rowCount}) may impact performance. Consider using fewer rows for optimal results.",
-                                MessageType.Warning);
 
                         EditorGUILayout.HelpBox(
                             "Setup:\n" +
