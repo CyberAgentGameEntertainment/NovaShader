@@ -298,10 +298,8 @@ namespace Nova.Editor.Core.Scripts
             // Check for regular CustomCoord usage (excluding Random Row Selection)
             bool isRegularCustomCoordUsed = IsCustomCoordUsedExcludingRandomRow(commonMaterialProperties);
             
-            // Check for Random Row Selection (not supported in UIParticles)
             var baseMapMode = (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue;
-            bool isUIParticles = material.shader.name.Contains("UIParticles");
-            bool isRandomRowSelectionEnabled = !isUIParticles && (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending) &&
+            bool isRandomRowSelectionEnabled = (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending) &&
                                               commonMaterialProperties.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
             
             if (isRegularCustomCoordUsed)
