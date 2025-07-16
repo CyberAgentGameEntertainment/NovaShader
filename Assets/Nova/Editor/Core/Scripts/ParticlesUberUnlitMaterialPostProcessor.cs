@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2024 CyberAgent, Inc.
+// Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -194,10 +194,11 @@ namespace Nova.Editor.Core.Scripts
                                          CustomCoord.Unused;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapRotationEnabled, baseMapRotationEnabled);
 
-            // Random Row Selection (now supported in UIParticles using Custom Coord)
-            var randomRowSelectionEnabled = (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending) &&
-                                           material.GetFloat(BaseMapRandomRowSelectionEnabledId) > 0.5f;
-            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapRandomRowSelectionEnabled, randomRowSelectionEnabled);
+            var randomRowSelectionEnabled =
+                (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending) &&
+                material.GetFloat(BaseMapRandomRowSelectionEnabledId) > 0.5f;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapRandomRowSelectionEnabled,
+                randomRowSelectionEnabled);
 
             var tintAreaMode = (TintAreaMode)material.GetFloat(TintAreaModeId);
             foreach (TintAreaMode value in Enum.GetValues(typeof(TintAreaMode)))
@@ -402,6 +403,7 @@ namespace Nova.Editor.Core.Scripts
                 var zWrite = zWriteOverride == ZWriteOverride.Auto ? defaultValue : (int)zWriteOverride;
                 return zWrite;
             }
+
             var uiShader = material.shader.name.Contains("Nova/UIParticles/");
             if (renderType == RenderType.Opaque)
             {
