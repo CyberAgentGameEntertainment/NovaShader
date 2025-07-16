@@ -73,7 +73,6 @@ output.customCoord2 = input.customCoord2;
 #endif
 #define GET_CUSTOM_COORD(propertyName) customCoords[(uint)propertyName % 10][(uint)propertyName / 10]
 
-
 // Base Map Sampler State Override
 #if defined(_BASE_SAMPLER_STATE_POINT_MIRROR) || defined(_BASE_SAMPLER_STATE_LINEAR_MIRROR) || defined(_BASE_SAMPLER_STATE_TRILINEAR_MIRROR)
 #define BASE_SAMPLER_STATE_OVERRIDE_ENABLED
@@ -198,9 +197,12 @@ half FlipBookProgressWithRandomRow(in half progress, in half sliceCount, in half
     half framesPerRow = sliceCount / rowCount;
     
     // Handle both normalized (0-1) and row index (0-rowCount) random values
-    // If randomValue is in [0, rowCount) range, use it directly as row index
     // If randomValue is in [0, 1] range, multiply by rowCount to get row index
-    uint selectedRow = randomValue < 1.0 ? min(floor(randomValue * rowCount), rowCount - 1) : min(floor(randomValue), rowCount - 1);
+    // If randomValue is in [0, rowCount) range, use it directly as row index
+    half selectedRow = clamp(
+        randomValue < 1.0 ? floor(randomValue * rowCount) : floor(randomValue),
+        0.0, rowCount - 1.0
+    );
     
     half frameProgress = FlipBookProgress(progress, framesPerRow);
     
@@ -217,9 +219,12 @@ half FlipBookBlendingProgressWithRandomRow(in half progress, in half sliceCount,
     half framesPerRow = sliceCount / rowCount;
     
     // Handle both normalized (0-1) and row index (0-rowCount) random values
-    // If randomValue is in [0, rowCount) range, use it directly as row index
     // If randomValue is in [0, 1] range, multiply by rowCount to get row index
-    uint selectedRow = randomValue < 1.0 ? min(floor(randomValue * rowCount), rowCount - 1) : min(floor(randomValue), rowCount - 1);
+    // If randomValue is in [0, rowCount) range, use it directly as row index
+    half selectedRow = clamp(
+        randomValue < 1.0 ? floor(randomValue * rowCount) : floor(randomValue),
+        0.0, rowCount - 1.0
+    );
     
     // Calculate frame progress within the selected row
     half frameIndex = selectedRow * framesPerRow + progress * framesPerRow;
