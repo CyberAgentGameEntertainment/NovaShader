@@ -228,12 +228,23 @@ namespace Nova.Editor.Core.Scripts
                         using (new EditorGUILayout.HorizontalScope())
                         {
                             EditorGUILayout.PrefixLabel("Random Coord");
-                            var currentCoord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 
-                                (int)props.BaseMapRandomRowCoordProp.Value.floatValue);
-                            var newCoord = (TCustomCoord)EditorGUILayout.EnumPopup(currentCoord);
-                            if (!currentCoord.Equals(newCoord))
+                            var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), Convert.ToInt32(props.BaseMapRandomRowCoordProp.Value.floatValue));
+                            if (!Enum.IsDefined(typeof(TCustomCoord), coord))
                             {
-                                props.BaseMapRandomRowCoordProp.Value.floatValue = Convert.ToSingle(newCoord);
+                                coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 0); // Default to Unused
+                            }
+                            
+                            using (var ccs = new EditorGUI.ChangeCheckScope())
+                            {
+                                EditorGUI.showMixedValue = props.BaseMapRandomRowCoordProp.Value.hasMixedValue;
+                                coord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
+                                EditorGUI.showMixedValue = false;
+                                
+                                if (ccs.changed)
+                                {
+                                    _editor.RegisterPropertyChangeUndo(props.BaseMapRandomRowCoordProp.Value.name);
+                                    props.BaseMapRandomRowCoordProp.Value.floatValue = Convert.ToInt32(coord);
+                                }
                             }
                         }
                         
