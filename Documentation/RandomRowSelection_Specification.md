@@ -31,6 +31,8 @@ The Random Row Selection feature is an implementation of Unity Particle System's
 
 #### Shader Keywords
 - `_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED`: Keyword defined when feature is enabled
+  - **Optimization**: Uses `shader_feature_local_vertex` for vertex-only access
+  - **Performance**: Reduces compilation time and memory usage
 
 #### HLSL Functions (Particles.hlsl)
 - `FlipBookProgressWithRandomRow()`: Random row selection function for standard FlipBook
@@ -142,10 +144,14 @@ Random Row Selection is **fully integrated** with NOVA's shader optimization sys
 
 | Shader | Total Features | Random Row Selection Impact | Notes |
 |--------|---------------|-----------------------------|-------|
-| ParticlesUberUnlit | 166 shader_feature pragmas | +6 variants (6 passes) | Minimal impact with shader_feature_local |
-| ParticlesUberLit | 175 shader_feature pragmas | +6 variants (6 passes) | Minimal impact with shader_feature_local |
-| UIParticlesUberUnlit | Similar to Unlit | +1 variant (1 pass) | Custom Coord .xy components only |
-| UIParticlesUberLit | Similar to Lit | +1 variant (1 pass) | Custom Coord .xy components only |
+| ParticlesUberUnlit | 166 shader_feature pragmas | +6 variants (6 passes) | Optimized with shader_feature_local_vertex |
+| ParticlesUberLit | 175 shader_feature pragmas | +6 variants (6 passes) | Optimized with shader_feature_local_vertex |
+| UIParticlesUberUnlit | Similar to Unlit | +1 variant (1 pass) | Optimized with shader_feature_local_vertex |
+| UIParticlesUberLit | Similar to Lit | +1 variant (1 pass) | Optimized with shader_feature_local_vertex |
+
+### 8.3 Keyword Optimization
+
+Uses `shader_feature_local_vertex` for vertex-only access, improving compilation speed and memory usage.
 
 ## 9. Future Extension Possibilities
 
@@ -172,7 +178,7 @@ Implementation location:
 ```hlsl
 // Base Map
 #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
-#pragma shader_feature_local _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED  // ✅ Added
+#pragma shader_feature_local_vertex _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED  // ✅ Optimized
 #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
 ```
 

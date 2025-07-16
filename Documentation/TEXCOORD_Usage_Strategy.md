@@ -123,6 +123,22 @@ When GPU Instancing is enabled, Custom Coord data is accessed directly from inst
 - Leverage Custom Coord system for new feature development
 - Maintain consistent TEXCOORD allocation patterns across shader variants
 
+### 6.3 Shader Keyword Optimization
+
+**Required for all new features**: Use `shader_feature_local_vertex` or `shader_feature_local_fragment`:
+
+```hlsl
+// Vertex-only keywords
+#pragma shader_feature_local_vertex _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+#pragma shader_feature_local_vertex _VERTEX_DEFORMATION_ENABLED
+
+// Fragment-only keywords  
+#pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
+#pragma shader_feature_local_fragment _ALPHATEST_ENABLED
+```
+
+Benefits: Faster compilation, reduced memory usage, better GPU optimization.
+
 ## 7. Validation and Testing
 
 ### 7.1 Shader Compilation
