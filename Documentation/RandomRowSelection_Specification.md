@@ -26,7 +26,7 @@ The Random Row Selection feature is an implementation of Unity Particle System's
 #### Shader Properties
 - `_BaseMapRandomRowSelectionEnabled`: Enable/disable flag for Random Row Selection feature (Float: 0.0 or 1.0)
 - `_BaseMapRandomRowCoord`: Custom Coord for obtaining random values (Float: CustomCoord index)
-  - Default: 0.0 (Unused) for UIParticles compatibility
+  - Default: 0.0 (Unused) - consistent across all shader variants
 - `_BaseMapRowCount`: Number of rows in texture sheet (Float: 1.0 or greater)
 
 #### Shader Keywords
