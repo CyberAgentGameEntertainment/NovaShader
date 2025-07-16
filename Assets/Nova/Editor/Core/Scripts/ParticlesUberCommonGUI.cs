@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2024 CyberAgent, Inc.
+// Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -27,7 +27,8 @@ namespace Nova.Editor.Core.Scripts
             _editor = editor;
             _commonMaterialProperties = commonMaterialProperties;
             RendererErrorHandler.SetupCorrectVertexStreams(_editor.target as Material, out _correctVertexStreams,
-                out _correctVertexStreamsInstanced, out _correctTrailVertexStreams, out _correctTrailVertexStreamsInstanced, _commonMaterialProperties);
+                out _correctVertexStreamsInstanced, out _correctTrailVertexStreams,
+                out _correctTrailVertexStreamsInstanced, _commonMaterialProperties);
         }
 
         public void DrawRenderSettingsProperties(Action drawPropertiesFunc)
@@ -98,7 +99,8 @@ namespace Nova.Editor.Core.Scripts
 
         public void DrawFixNowButton()
         {
-            if (!RendererErrorHandler.CheckError(_renderersUsingThisMaterial, _editor.target as Material, _correctVertexStreams,
+            if (!RendererErrorHandler.CheckError(_renderersUsingThisMaterial, _editor.target as Material,
+                    _correctVertexStreams,
                     _correctVertexStreamsInstanced, _correctTrailVertexStreams, _correctTrailVertexStreamsInstanced))
                 return;
 
@@ -112,7 +114,8 @@ namespace Nova.Editor.Core.Scripts
                 Undo.RecordObjects(
                     _renderersUsingThisMaterial.Where(r => r != null).ToArray(),
                     "Apply custom vertex streams from material");
-                RendererErrorHandler.FixError(_renderersUsingThisMaterial, _editor.target as Material, _correctVertexStreams,
+                RendererErrorHandler.FixError(_renderersUsingThisMaterial, _editor.target as Material,
+                    _correctVertexStreams,
                     _correctVertexStreamsInstanced, _correctTrailVertexStreams, _correctTrailVertexStreamsInstanced);
             }
         }
@@ -213,33 +216,30 @@ namespace Nova.Editor.Core.Scripts
             {
                 MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                     props.BaseMapProgressProp.Value, props.BaseMapProgressCoordProp.Value);
-                
-                // Random Row Selection (now supported in UIParticles using Custom Coord)
+
                 MaterialEditorUtility.DrawToggleProperty(_editor, "Random Row Selection",
                     props.BaseMapRandomRowSelectionEnabledProp.Value);
-                
-                bool randomRowEnabled = props.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
-                
+
+                var randomRowEnabled = props.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
+
                 if (randomRowEnabled)
-                {
                     using (new EditorGUI.IndentLevelScope())
                     {
                         // Allow selection of any Custom Coord
                         using (new EditorGUILayout.HorizontalScope())
                         {
                             EditorGUILayout.PrefixLabel("Random Coord");
-                            var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), Convert.ToInt32(props.BaseMapRandomRowCoordProp.Value.floatValue));
+                            var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord),
+                                Convert.ToInt32(props.BaseMapRandomRowCoordProp.Value.floatValue));
                             if (!Enum.IsDefined(typeof(TCustomCoord), coord))
-                            {
                                 coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 0); // Default to Unused
-                            }
-                            
+
                             using (var ccs = new EditorGUI.ChangeCheckScope())
                             {
                                 EditorGUI.showMixedValue = props.BaseMapRandomRowCoordProp.Value.hasMixedValue;
                                 coord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
                                 EditorGUI.showMixedValue = false;
-                                
+
                                 if (ccs.changed)
                                 {
                                     _editor.RegisterPropertyChangeUndo(props.BaseMapRandomRowCoordProp.Value.name);
@@ -247,30 +247,30 @@ namespace Nova.Editor.Core.Scripts
                                 }
                             }
                         }
-                        
+
                         _editor.FloatProperty(props.BaseMapRowCountProp.Value, "Row Count");
-                        
+
                         // Validation and help message
                         var sliceCount = props.BaseMapSliceCountProp.Value.floatValue;
                         var rowCount = props.BaseMapRowCountProp.Value.floatValue;
-                        
+
                         // Warn about non-integer values
                         if (sliceCount != Mathf.FloorToInt(sliceCount) || rowCount != Mathf.FloorToInt(rowCount))
-                        {
                             EditorGUILayout.HelpBox(
                                 "Non-integer values detected. Random Row Selection works best with integer values. " +
                                 "Non-integer values will be used directly in shader calculations, which may cause unexpected results.",
                                 MessageType.Warning);
-                        }
-                        
+
                         if (rowCount <= 0)
                         {
-                            EditorGUILayout.HelpBox("Row Count must be greater than 0. Setting to 1 will disable random row selection.", MessageType.Warning);
+                            EditorGUILayout.HelpBox(
+                                "Row Count must be greater than 0. Setting to 1 will disable random row selection.",
+                                MessageType.Warning);
                         }
                         else if (rowCount > sliceCount && sliceCount > 0)
                         {
                             EditorGUILayout.HelpBox(
-                                $"Row Count ({rowCount}) cannot be greater than Slice Count ({sliceCount}). Reduce Row Count or increase Slice Count.", 
+                                $"Row Count ({rowCount}) cannot be greater than Slice Count ({sliceCount}). Reduce Row Count or increase Slice Count.",
                                 MessageType.Error);
                         }
                         else if (sliceCount > 0)
@@ -278,35 +278,30 @@ namespace Nova.Editor.Core.Scripts
                             // Convert to integers for accurate division check
                             var sliceCountInt = Mathf.FloorToInt(sliceCount);
                             var rowCountInt = Mathf.FloorToInt(rowCount);
-                            
+
                             if (sliceCountInt % rowCountInt != 0)
                             {
                                 var framesPerRow = sliceCountInt / rowCountInt;
-                                var unusedSlices = sliceCountInt - (rowCountInt * framesPerRow);
+                                var unusedSlices = sliceCountInt - rowCountInt * framesPerRow;
                                 EditorGUILayout.HelpBox(
-                                    $"Row Count ({rowCountInt}) does not divide Slice Count ({sliceCountInt}) evenly. Each row will have {framesPerRow} frames, with {unusedSlices} unused slices.", 
+                                    $"Row Count ({rowCountInt}) does not divide Slice Count ({sliceCountInt}) evenly. Each row will have {framesPerRow} frames, with {unusedSlices} unused slices.",
                                     MessageType.Warning);
                             }
                         }
-                        
+
                         // Performance warning for high row counts
                         if (rowCount > 16)
-                        {
                             EditorGUILayout.HelpBox(
-                                $"High Row Count ({rowCount}) may impact performance. Consider using fewer rows for optimal results.", 
+                                $"High Row Count ({rowCount}) may impact performance. Consider using fewer rows for optimal results.",
                                 MessageType.Warning);
-                        }
-                        
+
                         EditorGUILayout.HelpBox(
                             "Setup:\n" +
                             "• Random Coord: Select a Custom Coord channel for random values\n" +
                             "  - Use Particle System's Custom Data with Random Between Two Constants (0 to Row Count)\n" +
-                            "• Row Count: Set to number of rows in your texture (e.g., 4×4 texture = 4 rows)\n" +
-                            "• If 'Fix Now' button appears, click it for Vertex Streams configuration\n" +
-                            "\nThis feature randomly selects one row from your flip-book texture for each particle.",
+                            "• Row Count: Set to number of rows in your texture (e.g., 4×4 texture = 4 rows)",
                             MessageType.Info);
                     }
-                }
             }
         }
 
