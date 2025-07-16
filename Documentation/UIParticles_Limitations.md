@@ -73,11 +73,11 @@ UIParticles use a dedicated enum with restricted options. For detailed Custom Co
 
 ### 5.1 Automatic Feature Detection
 
-The editor automatically detects UIParticles and applies appropriate limitations:
+The editor automatically detects UIParticles and applies appropriate limitations for Custom Coord components:
 
 ```csharp
 bool isUIParticles = material.shader.name.Contains("UIParticles");
-bool isRandomRowSelectionEnabled = !isUIParticles && /* other conditions */;
+// UIParticles automatically restrict Custom Coord to .xy components only
 ```
 
 ### 5.2 GUI Adaptations

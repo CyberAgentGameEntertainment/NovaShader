@@ -337,7 +337,9 @@ internal static void SetupCorrectVertexStreams(Material material,
         bool isRegularCustomCoordUsed = IsCustomCoordUsedExcludingRandomRow(commonMaterialProperties);
         
         // Random Row Selection usage check
-        bool isRandomRowSelectionEnabled = /* ... */;
+        var baseMapMode = (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue;
+        bool isRandomRowSelectionEnabled = (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending) &&
+                                          commonMaterialProperties.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
         
         if (isRegularCustomCoordUsed || isRandomRowSelectionEnabled)
         {
