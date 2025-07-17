@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2024 CyberAgent, Inc.
+// Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -27,7 +27,7 @@ namespace Nova.Editor.Core.Scripts
             _editor = editor;
             _commonMaterialProperties = commonMaterialProperties;
             RendererErrorHandler.SetupCorrectVertexStreams(_editor.target as Material, out _correctVertexStreams,
-                out _correctVertexStreamsInstanced, out _correctTrailVertexStreams, out _correctTrailVertexStreamsInstanced, _commonMaterialProperties);
+                out _correctVertexStreamsInstanced, _commonMaterialProperties);
         }
 
         public void DrawRenderSettingsProperties(Action drawPropertiesFunc)
@@ -98,8 +98,9 @@ namespace Nova.Editor.Core.Scripts
 
         public void DrawFixNowButton()
         {
-            if (!RendererErrorHandler.CheckError(_renderersUsingThisMaterial, _editor.target as Material, _correctVertexStreams,
-                    _correctVertexStreamsInstanced, _correctTrailVertexStreams, _correctTrailVertexStreamsInstanced))
+            if (!RendererErrorHandler.CheckError(_renderersUsingThisMaterial, _editor.target as Material,
+                    _correctVertexStreams,
+                    _correctVertexStreamsInstanced))
                 return;
 
             EditorGUILayout.HelpBox(
@@ -112,8 +113,9 @@ namespace Nova.Editor.Core.Scripts
                 Undo.RecordObjects(
                     _renderersUsingThisMaterial.Where(r => r != null).ToArray(),
                     "Apply custom vertex streams from material");
-                RendererErrorHandler.FixError(_renderersUsingThisMaterial, _editor.target as Material, _correctVertexStreams,
-                    _correctVertexStreamsInstanced, _correctTrailVertexStreams, _correctTrailVertexStreamsInstanced);
+                RendererErrorHandler.FixError(_renderersUsingThisMaterial, _editor.target as Material,
+                    _correctVertexStreams,
+                    _correctVertexStreamsInstanced);
             }
         }
 
@@ -700,10 +702,6 @@ namespace Nova.Editor.Core.Scripts
         private List<ParticleSystemVertexStream> _correctVertexStreams = new();
 
         private List<ParticleSystemVertexStream> _correctVertexStreamsInstanced = new();
-
-        private List<ParticleSystemVertexStream> _correctTrailVertexStreams = new();
-
-        private List<ParticleSystemVertexStream> _correctTrailVertexStreamsInstanced = new();
 
         # endregion
     }
