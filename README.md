@@ -427,10 +427,10 @@ The progress of the Flip-Book or Flip-Book Blending.
 <b>This property is visible only when the Mode is set to Flip Book or Flip Book Blending.</b>
 </p>
 <p>
-Enable random selection of one row from a texture sheet for each particle, equivalent to Unity's Texture Sheet Animation Row Mode > Random functionality. When enabled, each particle randomly selects and maintains one row throughout its lifetime, creating varied animations from the same texture sheet.
+Equivalent to Unity's Texture Sheet Animation Row Mode > Random functionality. When enabled, each particle randomly selects and maintains one row throughout its lifetime for animation playback.
 </p>
 <p>
-Uses Custom Coord system for random value input. Configure Unity Particle System's Custom Data with "Random Between Two Constants" mode and assign to any Custom Coord channel. Compatible with both GPU Instancing and standard rendering.
+Uses Unity Particle System's Custom Coord for random value input. First set Row Count to match the number of rows in your texture sheet, then configure any Custom Coord channel in "Random Between Two Constants" mode (range: 0 to Row Count) and assign it.
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Row Count</b></td><td>
@@ -439,6 +439,14 @@ Uses Custom Coord system for random value input. Configure Unity Particle System
 </p>
 <p>
 Set the number of rows in your texture sheet (e.g., for a 4×4 texture sheet, set Row Count to 4).
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Random Coord</b></td><td>
+<p>
+<b>This property is visible only when Random Row Selection is enabled.</b>
+</p>
+<p>
+Select the Custom Coord channel for random value input. This should correspond to the Custom Data channel configured in Unity Particle System with "Random Between Two Constants" mode.
 </p>
 </td></tr>
 </tbody>
