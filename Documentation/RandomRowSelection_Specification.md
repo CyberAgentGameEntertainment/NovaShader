@@ -83,8 +83,8 @@ Editor provides enable/disable toggle, Custom Coord channel selection, and Row C
 
 1. Set material's Base Map Mode to FlipBook or FlipBook Blending
 2. Enable Random Row Selection
-3. Select a Custom Coord channel for random values
-4. Set Row Count to the number of rows in texture sheet
+3. Set Row Count to the number of rows in texture sheet
+4. Select a Custom Coord channel for random values
 5. Configure Particle System's Custom Data:
    - Set mode to "Random Between Two Constants"
    - Range: 0 to Row Count (e.g., 0-4 for 4 rows)

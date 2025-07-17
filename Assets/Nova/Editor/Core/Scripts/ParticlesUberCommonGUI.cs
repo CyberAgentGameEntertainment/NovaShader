@@ -225,6 +225,8 @@ namespace Nova.Editor.Core.Scripts
                 if (randomRowEnabled)
                     using (new EditorGUI.IndentLevelScope())
                     {
+                        _editor.FloatProperty(props.BaseMapRowCountProp.Value, "Row Count");
+
                         using (new EditorGUILayout.HorizontalScope())
                         {
                             EditorGUILayout.PrefixLabel("Random Coord");
@@ -246,8 +248,6 @@ namespace Nova.Editor.Core.Scripts
                                 }
                             }
                         }
-
-                        _editor.FloatProperty(props.BaseMapRowCountProp.Value, "Row Count");
 
                         // Validation and help message
                         var sliceCount = props.BaseMapSliceCountProp.Value.floatValue;
@@ -283,9 +283,9 @@ namespace Nova.Editor.Core.Scripts
 
                         EditorGUILayout.HelpBox(
                             "Setup:\n" +
+                            "• Row Count: Set to number of rows in your texture (e.g., 4×4 texture = 4 rows)\n" +
                             "• Random Coord: Select a Custom Coord channel for random values\n" +
-                            "  - Use Particle System's Custom Data with Random Between Two Constants (0 to Row Count)\n" +
-                            "• Row Count: Set to number of rows in your texture (e.g., 4×4 texture = 4 rows)",
+                            "  - Configure Particle System's Custom Data as Random Between Two Constants (0 to Row Count)",
                             MessageType.Info);
                     }
             }
