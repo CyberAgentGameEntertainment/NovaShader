@@ -46,23 +46,7 @@ Each render pass optimizes TEXCOORD usage based on available slots and feature r
 
 ### 3.2 Custom Coord Integration
 
-#### Custom Coord Transfer Strategy
-```hlsl
-// Vertex shader: Transfer Custom Coord data to fragment
-#ifdef NOVA_PARTICLE_INSTANCING_ENABLED
-    TRANSFER_CUSTOM_COORD(input, output) output.customCoord1 = instanceData.customCoord1;
-    output.customCoord2 = instanceData.customCoord2;
-#else
-    TRANSFER_CUSTOM_COORD(input, output) output.customCoord1 = input.customCoord1;
-    output.customCoord2 = input.customCoord2;
-#endif
-```
-
-**Key Design Benefits:**
-1. **Consistent Interface**: Same TEXCOORD indices across all shader variants
-2. **GPU Instancing Optimization**: Automatic data source selection
-3. **Feature Independence**: Custom Coord transfer independent of specific features
-4. **Scalability**: Support for multiple features using Custom Coord system
+Custom Coord data is transferred using TRANSFER_CUSTOM_COORD macro, which automatically selects between instance data (GPU Instancing) or vertex input (normal rendering). This ensures consistent TEXCOORD indices across all shader variants.
 
 ## 4. Implementation Guidelines
 
@@ -83,73 +67,22 @@ Unity supports up to 16 TEXCOORD semantics (TEXCOORD0-15). Current usage:
 
 ## 5. Custom Coord Usage Notes
 
-### 5.1 Custom Coord Allocation Strategy
+### 5.1 Custom Coord Integration
 
-The Custom Coord system provides a flexible foundation for feature implementation. For comprehensive Custom Coord system architecture, see @documentation/CustomCoord_SystemArchitecture.md.
-
-```hlsl
-// Input: Consistent allocation for Custom Coord data
-float4 customCoord1 : TEXCOORD1;  // Custom1.xyzw
-float4 customCoord2 : TEXCOORD2;  // Custom2.xyzw
-
-// Usage: Access via GET_CUSTOM_COORD macro
-float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord);
-```
-
-### 5.2 GPU Instancing Optimization
-
-When GPU Instancing is enabled, Custom Coord data is accessed directly from instance data, eliminating Vertex Stream requirements:
-
-```hlsl
-#ifdef NOVA_PARTICLE_INSTANCING_ENABLED
-    // Direct access from instance data
-    float4 customCoords[] = { float4(0,0,0,0), instanceData.customCoord1, instanceData.customCoord2 };
-#endif
-```
+Custom Coord uses TEXCOORD1/2 for input consistency. GPU Instancing eliminates Vertex Stream requirements by accessing data directly from instance buffer. For details, see @documentation/CustomCoord_SystemArchitecture.md.
 
 ## 6. Performance Considerations
 
-### 6.1 Optimization Strategy
+### 6.1 Optimization Guidelines
 
-1. **Minimize TEXCOORD Usage**: Each pass uses only required slots
-2. **Conditional Compilation**: Features not used don't allocate slots
-3. **GPU Instancing Priority**: Eliminates Vertex Stream requirements for Custom Coord
-4. **Unified Custom Coord System**: Multiple features share same underlying data structure
+- **TEXCOORD Efficiency**: Each pass uses only required slots through conditional compilation
+- **GPU Instancing**: Preferred for eliminating Vertex Stream overhead
+- **Shader Keywords**: Use `shader_feature_local_vertex/fragment` for faster compilation and reduced memory usage
+- **Custom Coord**: Unified system allows multiple features to share data structure
 
-### 6.2 Best Practices
+## 7. Validation
 
-- Enable GPU Instancing when possible to eliminate Vertex Stream overhead
-- Use conditional compilation to exclude unused features
-- Leverage Custom Coord system for new feature development
-- Maintain consistent TEXCOORD allocation patterns across shader variants
-
-### 6.3 Shader Keyword Optimization
-
-**Required for all new features**: Use `shader_feature_local_vertex` or `shader_feature_local_fragment`:
-
-```hlsl
-// Vertex-only keywords
-#pragma shader_feature_local_vertex _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
-#pragma shader_feature_local_vertex _VERTEX_DEFORMATION_ENABLED
-
-// Fragment-only keywords  
-#pragma shader_feature_local_fragment _ALPHAMODULATE_ENABLED
-#pragma shader_feature_local_fragment _ALPHATEST_ENABLED
-```
-
-Benefits: Faster compilation, reduced memory usage, better GPU optimization.
-
-## 7. Validation and Testing
-
-### 7.1 Shader Compilation
-
-All shader variants compile successfully with current TEXCOORD allocation:
-- No conflicts in any shader configuration
-- All features work correctly with their assigned slots
-
-### 7.2 Runtime Validation
-
-The Vertex Streams system automatically configures required streams based on material settings, ensuring correct data flow. Custom Coord usage is detected automatically and appropriate Custom1XYZW/Custom2XYZW streams are added when needed.
+All shader variants compile successfully with current TEXCOORD allocation. The Vertex Streams system automatically configures required streams based on material settings, adding Custom1XYZW/Custom2XYZW streams when Custom Coord is used.
 
 ## 8. Future Considerations
 
@@ -162,9 +95,4 @@ Currently available for future features:
 
 ### 8.2 Expansion Strategy
 
-If more TEXCOORD slots are needed:
-1. Review conditional features for optimization opportunities
-2. Consider pass-specific feature exclusion
-3. Utilize GPU Instancing to reduce slot requirements
-4. Leverage Custom Coord system for new random/animated parameter features
-5. Implement feature-specific data packing to maximize efficiency
+When additional TEXCOORD slots are needed: utilize GPU Instancing, leverage Custom Coord system for animated parameters, implement data packing, or exclude features in specific passes.

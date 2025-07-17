@@ -75,11 +75,7 @@ return selectedRow * framesPerRow + frameProgress;
 
 ### 4.2 Editor UI Integration
 
-ParticlesUberCommonGUI.cs provides the following functionality:
-- Random Row Selection enable/disable toggle
-- Custom Coord channel selection for random values
-- Row Count setting
-- Setting error detection and automatic correction functionality
+Editor provides enable/disable toggle, Custom Coord channel selection, and Row Count setting with automatic error correction.
 
 ## 5. Usage
 
@@ -138,53 +134,12 @@ Random Row Selection is **fully integrated** with NOVA's shader optimization sys
 - **24 Shader Variants**: All optimized shader variants (Opaque/Transparent/Cutout × 8 passes) include Random Row Selection support
 - **Performance Benefits**: Maintains feature while eliminating unused shader passes
 
-### 8.2 Shader Variant Impact
-
-| Shader | Total Features | Random Row Selection Impact | Notes |
-|--------|---------------|-----------------------------|-------|
-| ParticlesUberUnlit | 166 shader_feature pragmas | +6 variants (6 passes) | Optimized with shader_feature_local_vertex |
-| ParticlesUberLit | 175 shader_feature pragmas | +6 variants (6 passes) | Optimized with shader_feature_local_vertex |
-| UIParticlesUberUnlit | Similar to Unlit | +1 variant (1 pass) | Optimized with shader_feature_local_vertex |
-| UIParticlesUberLit | Similar to Lit | +1 variant (1 pass) | Optimized with shader_feature_local_vertex |
-
-### 8.3 Keyword Optimization
-
 Uses `shader_feature_local_vertex` for vertex-only access, improving compilation speed and memory usage.
-
-## 9. Future Extension Possibilities
-
-The current implementation is complete and provides equivalent functionality to Unity's standard Row Mode > Random feature.
-Future extension ideas:
-- Column-based random selection functionality
-- Weighted random selection
-- Animation speed randomization
 
 ## 9. Implementation Status
 
-### 9.1 Completed Implementation
+Random Row Selection feature is **production-ready**. The feature uses the standard Custom Coord system with the following implementation:
 
-✅ **Shader Keyword pragma Declaration Added**
-
-pragma declaration for `_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED` has been added to the following shader files:
-
-- ✅ ParticlesUberUnlit.shader
-- ✅ ParticlesUberLit.shader
-- ✅ UIParticlesUberUnlit.shader
-- ✅ UIParticlesUberLit.shader
-
-Implementation location:
-```hlsl
-// Base Map
-#pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
-#pragma shader_feature_local_vertex _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED  // ✅ Optimized
-#pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
-```
-
-✅ **Custom Coord Integration**
-
-Random Row Selection uses the standard Custom Coord system:
-
-**HLSL Implementation:**
 ```hlsl
 #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
 if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) {
@@ -194,23 +149,6 @@ if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) {
 #endif
 ```
 
-### 9.2 Implementation Completion Report
-
-Random Row Selection feature is **production-ready with comprehensive robustness**. All components are in place:
-
-- ✅ HLSL function implementation (`FlipBookProgressWithRandomRow` etc.)
-- ✅ Material property definition with optimal defaults
-- ✅ Editor GUI implementation with Custom Coord channel selection
-- ✅ Shader keyword management
-- ✅ pragma declaration addition
-- ✅ Custom Coord channel selection for random values
-- ✅ Vertex Streams automatic setup
-- ✅ Vertex-Fragment data transfer
-- ✅ TEXCOORD channel optimization
-- ✅ Shader compile error resolution
-- ✅ GUI optimization for user-friendly experience
-- ✅ **Robust edge case handling for production deployment**
-
 ## 10. Technical Specifications
 
 ### 10.1 TEXCOORD Resource Allocation
@@ -219,11 +157,7 @@ The implementation uses optimized TEXCOORD allocation to avoid conflicts. For de
 
 Random Row Selection now uses standard Custom Coord system, avoiding TEXCOORD conflicts entirely. For comprehensive Custom Coord system architecture, see @documentation/CustomCoord_SystemArchitecture.md.
 
-### 10.2 Mathematical Implementation
-
-The implementation handles both normalized (0-1) and row index (0-rowCount) random values automatically, providing flexibility in how random values are configured.
-
-### 10.3 Random Value Input Methods
+### 10.2 Random Value Input Methods
 
 #### Unity Particle System Custom Data Configuration
 ```csharp

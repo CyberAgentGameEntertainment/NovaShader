@@ -16,8 +16,7 @@
 7. [Feature-Specific Custom Coord Usage](#feature-specific-custom-coord-usage)
 8. [Validation and Error Handling](#validation-and-error-handling)
 9. [Performance Considerations](#performance-considerations)
-10. [Troubleshooting](#troubleshooting)
-11. [Extension Guidelines](#extension-guidelines)
+10. [Extension Guidelines](#extension-guidelines)
 
 ---
 
@@ -37,25 +36,10 @@ The NOVA Shader Custom Coord system provides a mechanism for delivering independ
 
 ## System Architecture
 
-### Overall Architecture
-
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│  C# Editor Side │    │  HLSL Shader    │    │ Unity Particle  │
-│                 │    │                 │    │ System          │
-│ CustomCoord     │◄──►│ GET_CUSTOM_COORD│◄──►│ Vertex Streams  │
-│ MaterialGUI     │    │ Macro           │    │ Custom1/2       │
-│ ErrorHandler    │    │ SETUP_CUSTOM_   │    │ Custom Data     │
-│                 │    │ COORD           │    │                 │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
-
-### Data Flow
-
-1. **Particle System** → Custom1/Custom2 Vertex Streams or Custom Data
-2. **Vertex Shader** → Create float4 array with SETUP_CUSTOM_COORD
-3. **Shader Functions** → Retrieve values with GET_CUSTOM_COORD
-4. **Material Editor** → Setting management with CustomCoord enum
+Custom Coord system connects C# editor, HLSL shaders, and Unity Particle System:
+- **C# Editor Side**: CustomCoord enum, MaterialGUI, ErrorHandler
+- **HLSL Shader**: GET_CUSTOM_COORD and SETUP_CUSTOM_COORD macros
+- **Unity Particle System**: Vertex Streams (Custom1/2) and Custom Data
 
 ---
 
@@ -89,10 +73,6 @@ public enum UICustomCoord
 ```
 
 ### UIParticles Limitations
-
-UIParticles have specific limitations due to Unity UI system constraints:
-
-#### UIParticles Integration
 
 UIParticles have specific limitations due to Unity UI system constraints. For detailed information about UIParticles constraints and Custom Coord support, see @documentation/UIParticles_Limitations.md.
 
@@ -143,13 +123,7 @@ Examples:
 #define GET_CUSTOM_COORD(propertyName) customCoords[(uint)propertyName % 10][(uint)propertyName / 10]
 ```
 
-**Analysis Process:**
-1. **Index Decomposition**: `propertyName % 10` for stream, `/ 10` for component
-2. **Array Access**: Retrieve value with `customCoords[stream][component]`
-
-### Random Value Integration
-
-Random Row Selection feature integrates with the Custom Coord system by using any available Custom Coord channel for random value input. Unity's Custom Data system provides random values through standard Custom1/Custom2 streams.
+Decomposes index using `propertyName % 10` for stream and `/ 10` for component.
 
 ---
 
@@ -206,30 +180,7 @@ public const string EmissionIntensityCoord = "_EmissionIntensityCoord";
 
 ### GUI Display Patterns
 
-#### Generic Implementation (`Assets/Nova/Editor/Core/Scripts/ParticlesUberCommonGUI.cs`)
-
-```csharp
-// Texture + offset coordinate
-MaterialEditorUtility.DrawTexture<TCustomCoord>(editor, label, 
-    textureProp, offsetXCoordProp, offsetYCoordProp);
-
-// Property value + coordinate selection
-MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(editor, 
-    label, valueProp, coordProp);
-```
-
-#### Random Row Selection Dedicated GUI
-
-```csharp
-// Enable Random Row Selection
-MaterialEditorUtility.DrawToggleProperty(editor, "Random Row Selection",
-    props.BaseMapRandomRowSelectionEnabledProp.Value);
-
-// Custom Coord selection (any Custom Coord channel)
-var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 
-    Convert.ToInt32(props.BaseMapRandomRowCoordProp.Value.floatValue));
-var newCoord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
-```
+Editor provides generic patterns for texture offset coordinates and property value with coordinate selection through `MaterialEditorUtility` helper methods.
 
 ---
 
@@ -312,61 +263,7 @@ private static bool IsCustomCoordUsedInBaseMap(ParticlesUberCommonMaterialProper
 
 ### Automatic Vertex Streams Configuration
 
-#### Configuration Logic
-
-```csharp
-internal static void SetupCorrectVertexStreams(Material material,
-    ParticleSystemRenderer renderer, ParticlesUberCommonMaterialProperties commonMaterialProperties)
-{
-    var correctVertexStreams = new List<ParticleSystemVertexStream>
-    {
-        ParticleSystemVertexStream.Position,
-        ParticleSystemVertexStream.Normal,
-        ParticleSystemVertexStream.Tangent,
-        ParticleSystemVertexStream.Color,
-        ParticleSystemVertexStream.UV,
-        ParticleSystemVertexStream.UV2
-    };
-
-    // GPU Instancing check
-    bool hasGpuInstancing = material.IsKeywordEnabled("UNITY_PROCEDURAL_INSTANCING_ENABLED");
-    
-    if (!hasGpuInstancing)
-    {
-        // Regular Custom Coord usage check
-        bool isRegularCustomCoordUsed = IsCustomCoordUsedExcludingRandomRow(commonMaterialProperties);
-        
-        // Random Row Selection usage check
-        var baseMapMode = (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue;
-        bool isRandomRowSelectionEnabled = (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending) &&
-                                          commonMaterialProperties.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
-        
-        if (isRegularCustomCoordUsed || isRandomRowSelectionEnabled)
-        {
-            correctVertexStreams.Add(ParticleSystemVertexStream.Custom1XYZW);
-            correctVertexStreams.Add(ParticleSystemVertexStream.Custom2XYZW);
-        }
-    }
-    
-    // Vertex Streams configuration
-    renderer.SetActiveVertexStreams(correctVertexStreams);
-}
-```
-
-### Error Detection and Correction
-
-#### "Fix Now" Button Functionality
-
-```csharp
-if (RendererErrorHandler.TryFindIncorrectVertexStreams(material, renderer, 
-    commonMaterialProperties, out var correctVertexStreams))
-{
-    if (EditorGUILayout.Button("Fix Now"))
-    {
-        RendererErrorHandler.SetupCorrectVertexStreams(material, renderer, commonMaterialProperties);
-    }
-}
-```
+System automatically configures required Vertex Streams based on material settings. When GPU Instancing is disabled and Custom Coord is used, Custom1XYZW and Custom2XYZW streams are automatically added. Editor provides "Fix Now" button for one-click correction.
 
 ---
 
@@ -378,34 +275,11 @@ if (RendererErrorHandler.TryFindIncorrectVertexStreams(material, renderer,
 2. **Rendering Efficiency**: Significant reduction in Draw Call count
 3. **Memory Usage**: Reduced Vertex Buffer usage
 
-### Random Row Selection Optimization
+### Optimization Strategies
 
-#### Recommended Settings for Random Row Selection Feature
-
-- **Use Custom Coord**: Flexible channel selection (Custom1.x/y/z/w, Custom2.x/y/z/w)
-- **GPU Instancing**: Custom Coord automatically available
-- **Non-GPU Instancing**: Add Custom1XYZW/Custom2XYZW Vertex Streams
-
-#### Performance Comparison
-
-| Setting | Vertex Streams | GPU Load | Notes |
-|------|---------------|---------|------|
-| Custom Coord (GPU Instancing) | None | Minimal | **Recommended setting** |
-| Custom Coord (Normal) | Custom1XYZW, Custom2XYZW | Low | High versatility |
-
-### Shader Variant Optimization
-
-#### Reducing Conditional Branching Using Keywords
-
-```hlsl
-#ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
-    // Code only when Random Row Selection is enabled
-    if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) {
-        float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord);
-        // ...
-    }
-#endif
-```
+- **GPU Instancing**: Eliminates Vertex Streams overhead (recommended)
+- **Shader Keywords**: Reduces conditional branching with compile-time optimization
+- **Custom Coord**: Flexible channel selection with minimal performance impact
 
 ---
 
@@ -471,48 +345,25 @@ isCustomCoordUsed |= IsCustomCoordUsedInNewFeature(commonMaterialProperties);
 float intensity = GET_CUSTOM_COORD(_NewFeatureIntensityCoord);
 ```
 
-### Adding New Custom Coord Types
+### Implementation Guidelines
 
-#### For adding special streams beyond Custom1/Custom2:
+**Naming Convention**: `_FeatureNameCoordType` (e.g., `_BaseMapProgressCoord`)
 
-1. **CustomCoord enum extension**: Define new values using decimal encoding
-2. **SETUP_CUSTOM_COORD extension**: Add new customCoords array entries
-3. **GPU Instancing extension**: Add new field to DefaultParticleInstanceData
-4. **Vertex Streams extension**: Configure new stream in RendererErrorHandler
-
-### Coding Conventions
-
-#### Naming Rules
-
-- **Properties**: `_FeatureNameCoordType` (e.g., `_BaseMapProgressCoord`)
-- **GUI Display**: Use English names directly
-- **Custom Coord Values**: Decimal encoding following existing patterns
-
-#### Implementation Patterns
-
-- **Generic Support**: Ensure type safety with `<TCustomCoord>`
-- **Validation**: Implement dedicated check functions for each feature
-- **Error Handling**: Provide automatic correction functionality
+**Key Requirements**:
+- Use decimal encoding for Custom Coord values
+- Implement type safety with generic `<TCustomCoord>`
+- Add validation for each feature
+- Provide automatic error correction
 
 ---
 
-## Conclusion
+## Summary
 
-The NOVA Shader Custom Coord system achieves high flexibility and maintainability through the following design principles:
+The NOVA Shader Custom Coord system provides:
+- Unified parameter delivery across 30+ features
+- Type-safe implementation with C# enums
+- GPU Instancing optimization
+- Automatic validation and error correction
+- Easy extensibility for new features
 
-### Excellent Design Points
-
-1. **Consistency**: Unified Custom Coord support across 30+ features
-2. **Type Safety**: Type-safe implementation using C# enums
-3. **Performance**: GPU Instancing and flexible random value integration
-4. **Usability**: Intuitive UI design and automatic validation
-5. **Extensibility**: Easy addition of new features through generic design
-
-### Considerations for Future Development
-
-- **UI Particles Limitations**: Z/W components not supported (only .xy available)
-- **Random Value Integration**: Use Unity Custom Data system for random value generation
-- **Pragma Declarations**: Don't forget to add `#pragma shader_feature_local` for new features
-- **Validation**: Maintain automatic Vertex Streams configuration when using Custom Coord
-
-This system enables artists to efficiently create complex particle effects while allowing developers to maintain a highly maintainable codebase.
+**Key Constraints**: UIParticles support only .xy components. Always use `shader_feature_local` for new features.

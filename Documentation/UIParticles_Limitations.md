@@ -40,9 +40,6 @@ struct UIVertex
 | Custom2.z | ✅ Available | ❌ Not available | Unity UI system constraint |
 | Custom2.w | ✅ Available | ❌ Not available | Unity UI system constraint |
 
-### 2.3 Random Value Integration
-
-UIParticles integrate with Unity's Custom Data system for random value generation instead of special vertex streams. This provides compatibility with Unity UI constraints while maintaining flexible random value support.
 
 ## 3. Feature Limitations
 
@@ -82,37 +79,13 @@ bool isUIParticles = material.shader.name.Contains("UIParticles");
 
 ### 5.2 GUI Adaptations
 
-- **Available Features**: Random Row Selection is now available for UIParticles using Custom Coord
-- **Custom Coord Selection**: Limited to .xy components (Custom1.x/y, Custom2.x/y)
-- **Setup Guidance**: Editor provides guidance for Custom Data configuration
+Editor limits Custom Coord selection to .xy components (Custom1.x/y, Custom2.x/y) for UIParticles, with automatic guidance for configuration.
 
-## 6. Alternative Solutions
+## 6. Implementation Notes
 
-### 6.1 Random Row Selection Implementation
+For Random Row Selection implementation details, see @documentation/RandomRowSelection_Specification.md.
 
-For detailed Random Row Selection implementation and usage, see @documentation/RandomRowSelection_Specification.md.
-
-**UIParticles-specific constraint**: Only Custom1.x/y and Custom2.x/y components are available for random value input.
-
-### 6.2 Scripted Random Value Generation
-
-```csharp
-// Example: Pre-calculate random values for Custom1.x
-ParticleSystem.CustomDataModule customData = particleSystem.customData;
-customData.enabled = true;
-customData.mode = ParticleSystemCustomDataMode.Custom;
-
-// Set random values for Custom1.x
-AnimationCurve randomCurve = new AnimationCurve();
-for (int i = 0; i < 10; i++)
-{
-    float time = i / 9.0f;
-    float randomValue = UnityEngine.Random.Range(0.0f, 1.0f);
-    randomCurve.AddKey(time, randomValue);
-}
-customData.vectorComponentCount = 1;
-customData.SetVector(ParticleSystemCustomData.Custom1, ParticleSystemMinMaxCurve.Custom1X, randomCurve);
-```
+**UIParticles constraint**: Only Custom1.x/y and Custom2.x/y components are available.
 
 ## 7. Performance Considerations
 
@@ -133,50 +106,18 @@ customData.SetVector(ParticleSystemCustomData.Custom1, ParticleSystemMinMaxCurve
 
 ## 8. Migration Guidelines
 
-### 8.1 From Standard Particles to UIParticles
+**To UIParticles**: Ensure only .xy components are used, configure Random Row Selection with Custom1.x/y or Custom2.x/y.
 
-When converting materials from standard Particles to UIParticles:
-
-1. **Review Custom Coord Usage**: Ensure only .xy components are used
-2. **Configure Random Row Selection**: Use Custom1.x/y or Custom2.x/y for random values
-3. **Update Vertex Streams**: Remove Z/W components, add Custom1/2 streams as needed
-4. **Test Functionality**: Verify all features work correctly
-
-### 8.2 From UIParticles to Standard Particles
-
-When converting from UIParticles to standard Particles:
-
-1. **Enable Advanced Features**: Random Row Selection and Z/W components become available
-2. **Update Vertex Streams**: Add necessary streams for new features
-3. **Review Performance**: Standard Particles may have different performance characteristics
+**From UIParticles**: Z/W components become available for advanced features.
 
 ## 9. Technical Architecture
 
-### 9.1 Shader Variants
-
-UIParticles use separate shader variants to enforce limitations:
-
-- **UIParticlesUberUnlit.shader**: UI-optimized unlit variant
-- **UIParticlesUberLit.shader**: UI-optimized lit variant
-- **Automatic Keyword Management**: Incompatible keywords are automatically disabled
-
-### 9.2 Editor Integration
-
-For detailed editor integration and automatic feature detection implementation, see @documentation/CustomCoord_SystemArchitecture.md.
+UIParticles use separate shader variants (UIParticlesUberUnlit/Lit.shader) with automatic keyword management. For editor integration details, see @documentation/CustomCoord_SystemArchitecture.md.
 
 ## 10. Summary
 
 UIParticles provide UI-optimized particle rendering with specific limitations due to Unity UI system constraints. Most features including Random Row Selection are available using the Custom Coord system (.xy components). UIParticles offer better performance and compatibility for UI-based particle effects.
 
-### Key Limitations Summary
+**Key Limitations**: Only .xy components available for Custom Coord, sufficient for Random Row Selection and most UI effects.
 
-- **Custom Coord**: Only .xy components available (but sufficient for Random Row Selection)
-- **Random Values**: Use Unity Custom Data system instead of special vertex streams
-- **Random Row Selection**: ✅ Supported via Custom Coord system
-- **Advanced Features**: Limited to .xy components due to Unity UI constraints
-
-### Recommended Usage
-
-- **UI Effects**: Use UIParticles for UI-integrated particle effects
-- **Advanced Effects**: Use standard Particles for complex particle systems
-- **Performance-Critical**: UIParticles offer better performance for simple effects
+**Usage Recommendation**: Use UIParticles for UI-integrated effects, standard Particles for complex 3D effects requiring Z/W components.
