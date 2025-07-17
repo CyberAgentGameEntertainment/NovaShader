@@ -262,11 +262,6 @@ namespace Nova.Editor.Core.Scripts
             }
         }
 
-        private static List<ParticleSystemVertexStream> CopyVertexStreams(List<ParticleSystemVertexStream> source)
-        {
-            return new List<ParticleSystemVertexStream>(source);
-        }
-
         private static bool IsEnabledGPUInstancing(ParticleSystemRenderer particleSystem)
         {
             return particleSystem.enableGPUInstancing && particleSystem.renderMode == ParticleSystemRenderMode.Mesh;
