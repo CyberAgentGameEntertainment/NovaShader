@@ -27,7 +27,7 @@ namespace Nova.Editor.Core.Scripts
             _editor = editor;
             _commonMaterialProperties = commonMaterialProperties;
             RendererErrorHandler.SetupCorrectVertexStreams(_editor.target as Material, out _correctVertexStreams,
-                out _correctVertexStreamsInstanced, _commonMaterialProperties);
+                out _correctVertexStreamsInstanced);
         }
 
         public void DrawRenderSettingsProperties(Action drawPropertiesFunc)
