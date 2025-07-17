@@ -228,6 +228,23 @@ half FlipBookBlendingProgressWithRandomRow(in half progress, in half sliceCount,
     return clamp(normalizedProgress, baseMapProgressOffset, 1.0 - baseMapProgressOffset);
 }
 
+// Macro to reduce code duplication for FlipBook progress calculation
+#define CALCULATE_FLIPBOOK_PROGRESS(baseMapProgress, outputProgress) \
+    if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) { \
+        float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord); \
+        outputProgress = FlipBookProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, randomValue); \
+    } else { \
+        outputProgress = FlipBookProgress(baseMapProgress, _BaseMapSliceCount); \
+    }
+
+#define CALCULATE_FLIPBOOK_BLENDING_PROGRESS(baseMapProgress, outputProgress) \
+    if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) { \
+        float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord); \
+        outputProgress = FlipBookBlendingProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, randomValue); \
+    } else { \
+        outputProgress = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount); \
+    }
+
 // Get vertex deformation intensity by vertex deformation map
 half GetVertexDeformationIntensity(
     TEXTURE2D_PARAM(vertexDeformationMap, sampler_vertexDeformationMap),
