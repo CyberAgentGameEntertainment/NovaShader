@@ -26,15 +26,11 @@ namespace Nova.Editor.Core.Scripts
                 return true;
             }
 
-            Object[] materials = { material };
-            var materialProperties = MaterialEditor.GetMaterialProperties(materials);
-            ParticlesUberCommonMaterialProperties commonMaterialProperties = new(materialProperties);
-            SetupCorrectVertexStreams(material, out var correctVertexStreams, out var correctVertexStreamsInstanced,
-                commonMaterialProperties);
             var allRenderersWithMaterial = FindAllRenderersWithMaterial(material);
             // If there is no renderer using this material, there is no error.
             if (allRenderersWithMaterial == null || allRenderersWithMaterial.Count == 0) return false;
 
+            SetupCorrectVertexStreams(material, out var correctVertexStreams, out var correctVertexStreamsInstanced);
             return CheckError(allRenderersWithMaterial, material, correctVertexStreams, correctVertexStreamsInstanced);
         }
 
@@ -50,15 +46,11 @@ namespace Nova.Editor.Core.Scripts
                 return;
             }
 
-            Object[] materials = { material };
-            var materialProperties = MaterialEditor.GetMaterialProperties(materials);
-            ParticlesUberCommonMaterialProperties commonMaterialProperties = new(materialProperties);
-            SetupCorrectVertexStreams(material, out var correctVertexStreams, out var correctVertexStreamsInstanced,
-                commonMaterialProperties);
             var allRenderersWithMaterial = FindAllRenderersWithMaterial(material);
             // If there is no renderer using this material, there is no error.
             if (allRenderersWithMaterial == null || allRenderersWithMaterial.Count == 0) return;
 
+            SetupCorrectVertexStreams(material, out var correctVertexStreams, out var correctVertexStreamsInstanced);
             FixError(allRenderersWithMaterial, material, correctVertexStreams, correctVertexStreamsInstanced);
         }
 
@@ -225,9 +217,12 @@ namespace Nova.Editor.Core.Scripts
 
         internal static void SetupCorrectVertexStreams(Material material,
             out List<ParticleSystemVertexStream> correctVertexStreams,
-            out List<ParticleSystemVertexStream> correctVertexStreamsInstanced,
-            ParticlesUberCommonMaterialProperties commonMaterialProperties)
+            out List<ParticleSystemVertexStream> correctVertexStreamsInstanced)
         {
+            Object[] materials = { material };
+            var materialProperties = MaterialEditor.GetMaterialProperties(materials);
+            ParticlesUberCommonMaterialProperties commonMaterialProperties = new(materialProperties);
+
             // Correct vertex streams when enabled GPU Instance.
             correctVertexStreamsInstanced = new List<ParticleSystemVertexStream>();
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Position);
@@ -343,16 +338,12 @@ namespace Nova.Editor.Core.Scripts
                 else if (renderer.trailMaterial == targetMaterial)
                     renderer.GetActiveTrailVertexStreams(rendererStreams);
 
-                var streamsValid = false;
-                if (IsEnabledGPUInstancing(renderer))
-                    streamsValid = CompareVertexStreams(rendererStreams, correctVertexStreamsInstanced);
-                else
-                    streamsValid = CompareVertexStreams(rendererStreams, correctVertexStreams);
-                if (!streamsValid)
-                {
-                    hasError = true;
-                    break;
-                }
+                var streamsValid = CompareVertexStreams(rendererStreams, IsEnabledGPUInstancing(renderer)
+                    ? correctVertexStreamsInstanced
+                    : correctVertexStreams);
+                if (streamsValid) continue;
+                hasError = true;
+                break;
             }
 
             return hasError;
