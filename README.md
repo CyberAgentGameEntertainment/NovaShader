@@ -509,8 +509,8 @@ You can specify how you set the Tint Color.
 <ul>
 <li>Single Color: Single Color (Default).</li>
 <li>Single Texture: Specified by the texture.</li>
-<li>Flip Book Blending: Use Flip-Book animation with interpolated frames.</li>
 <li>Flip Book: Use Flip-Book animation.</li>
+<li>Flip Book Blending: Use Flip-Book animation with interpolated frames.</li>
 </ul>
 </p>
 <p>
@@ -527,7 +527,7 @@ The color to be multiplied.
 </td></tr>
 <tr><td colspan=3><b>Texture</b></td><td>
 <p>
-<b>This property is visible only when the Color Mode is set to Single Texture, Flip Book Blending, or Flip Book.</b>
+<b>This property is visible only when the Color Mode is set to Single Texture, Flip Book, or Flip Book Blending.</b>
 </p>
 <p>
 The texture whose color will be multiplied.
@@ -539,7 +539,7 @@ And if you specify Flip Book Blending, you need to set <a href="https://docs.uni
 </td></tr>
 <tr><td colspan=3><b>Flip-Book Progress</b></td><td>
 <p>
-<b>This property is visible only when the Color Mode is set to Flip Book Blending or Flip Book.</b>
+<b>This property is visible only when the Color Mode is set to Flip Book or Flip Book Blending.</b>
 </p>
 <p>
 The progress of the Flip-Book or Flip-Book Blending.

@@ -517,8 +517,8 @@ Tint Colorでは乗算色を指定できます。
 <ul>
 <li>Single Color: 単色（デフォルト）</li>
 <li>Single Texture: テクスチャで指定</li>
-<li>Flip Book Blending: フリップブックアニメーション（補間あり）</li>
 <li>Flip Book: フリップブックアニメーション</li>
+<li>Flip Book Blending: フリップブックアニメーション（補間あり）</li>
 </ul>
 </p>
 <p>
@@ -535,7 +535,7 @@ Tint Colorでは乗算色を指定できます。
 </td></tr>
 <tr><td colspan=3><b>Texture</b></td><td>
 <p>
-<b>Color ModeをSingle Texture、Flip Book Blending、あるいはFlip Bookに設定した時のみ表示されます。</b>
+<b>Color ModeをSingle Texture、Flip Book、あるいはFlip Book Blendingに設定した時のみ表示されます。</b>
 </p>
 <p>
 乗算色を表すテクスチャを設定します。
@@ -547,7 +547,7 @@ Flip Book Blendingに設定した場合は<a href="https://docs.unity3d.com/2020
 </td></tr>
 <tr><td colspan=3><b>Flip-Book Progress</b></td><td>
 <p>
-<b>Color ModeをFlip Book BlendingあるいはFlip Bookに設定した時のみ表示されます。</b>
+<b>Color ModeをFlip BookあるいはFlip Book Blendingに設定した時のみ表示されます。</b>
 </p>
 <p>
 フリップブックまたはフリップブックブレンディングの進行度合いです。
