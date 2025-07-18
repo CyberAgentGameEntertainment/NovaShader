@@ -17,6 +17,7 @@ NOVA Shader is a high-performance particle shader system.
 ### Design Decisions
 - **MUST** Unity's Texture Sheet Animation is deprecated in NOVA
 - **MUST** Use Flip Book and Flip Book Blending as replacements for Texture Sheet Animation functionality
+- **MUST** TintColorMode enum ordering differs from BaseMapMode due to backward compatibility (FlipBookBlending at index 2, FlipBook at index 3)
 
 ## Documentation Guidelines
 
