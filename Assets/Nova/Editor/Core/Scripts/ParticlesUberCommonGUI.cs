@@ -392,7 +392,7 @@ namespace Nova.Editor.Core.Scripts
                     props.TintMapOffsetXCoordProp.Value, props.TintMapOffsetYCoordProp.Value,
                     null, null);
             }
-            else if (tintColorMode == TintColorMode.Texture3D)
+            else if (tintColorMode == TintColorMode.FlipBookBlending)
             {
                 using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                 {

@@ -173,7 +173,7 @@ namespace Nova.Editor.Foundation.Scripts
                 case TintColorMode.Texture2D:
                     ClearTexture(material, MaterialPropertyNames.TintMap3D);
                     break;
-                case TintColorMode.Texture3D:
+                case TintColorMode.FlipBookBlending:
                     ClearTexture(material, MaterialPropertyNames.TintMap);
                     break;
                 default:

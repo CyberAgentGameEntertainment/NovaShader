@@ -116,12 +116,12 @@ namespace Nova.Editor.Core.Scripts
                                          || IsCustomCoordUsed(commonMaterialProperties.TintRimSharpnessCoordProp);
 
                 var tintMapMode = (TintColorMode)commonMaterialProperties.TintColorModeProp.Value.floatValue;
-                if (tintMapMode == TintColorMode.Texture2D || tintMapMode == TintColorMode.Texture3D)
+                if (tintMapMode == TintColorMode.Texture2D || tintMapMode == TintColorMode.FlipBookBlending)
                 {
                     isCustomCoordUsed |= IsCustomCoordUsed(commonMaterialProperties.TintMapOffsetXCoordProp)
                                          || IsCustomCoordUsed(commonMaterialProperties.TintMapOffsetYCoordProp);
 
-                    if (tintMapMode == TintColorMode.Texture3D)
+                    if (tintMapMode == TintColorMode.FlipBookBlending)
                         isCustomCoordUsed |= IsCustomCoordUsed(commonMaterialProperties.TintMap3DProgressCoordProp);
                 }
             }

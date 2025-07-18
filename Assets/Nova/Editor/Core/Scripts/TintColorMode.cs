@@ -8,6 +8,7 @@ namespace Nova.Editor.Core.Scripts
     {
         SingleColor,
         Texture2D,
-        Texture3D
+        FlipBookBlending,
+        FlipBook = 3
     }
 }

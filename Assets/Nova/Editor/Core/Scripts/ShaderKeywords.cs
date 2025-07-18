@@ -173,7 +173,7 @@ namespace Nova.Editor.Core.Scripts
                     return TintColorEnabled;
                 case TintColorMode.Texture2D:
                     return TintMapEnabled;
-                case TintColorMode.Texture3D:
+                case TintColorMode.FlipBookBlending:
                     return TintMap3DEnabled;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(tintColorMode), tintColorMode, null);
