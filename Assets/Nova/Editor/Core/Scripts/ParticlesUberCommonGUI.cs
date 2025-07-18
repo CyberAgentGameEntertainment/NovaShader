@@ -27,8 +27,7 @@ namespace Nova.Editor.Core.Scripts
             _editor = editor;
             _commonMaterialProperties = commonMaterialProperties;
             RendererErrorHandler.SetupCorrectVertexStreams(_editor.target as Material, out _correctVertexStreams,
-                out _correctVertexStreamsInstanced, out _correctTrailVertexStreams,
-                out _correctTrailVertexStreamsInstanced, _commonMaterialProperties);
+                out _correctVertexStreamsInstanced);
         }
 
         public void DrawRenderSettingsProperties(Action drawPropertiesFunc)
@@ -101,7 +100,7 @@ namespace Nova.Editor.Core.Scripts
         {
             if (!RendererErrorHandler.CheckError(_renderersUsingThisMaterial, _editor.target as Material,
                     _correctVertexStreams,
-                    _correctVertexStreamsInstanced, _correctTrailVertexStreams, _correctTrailVertexStreamsInstanced))
+                    _correctVertexStreamsInstanced))
                 return;
 
             EditorGUILayout.HelpBox(
@@ -116,7 +115,7 @@ namespace Nova.Editor.Core.Scripts
                     "Apply custom vertex streams from material");
                 RendererErrorHandler.FixError(_renderersUsingThisMaterial, _editor.target as Material,
                     _correctVertexStreams,
-                    _correctVertexStreamsInstanced, _correctTrailVertexStreams, _correctTrailVertexStreamsInstanced);
+                    _correctVertexStreamsInstanced);
             }
         }
 
@@ -777,10 +776,6 @@ namespace Nova.Editor.Core.Scripts
         private List<ParticleSystemVertexStream> _correctVertexStreams = new();
 
         private List<ParticleSystemVertexStream> _correctVertexStreamsInstanced = new();
-
-        private List<ParticleSystemVertexStream> _correctTrailVertexStreams = new();
-
-        private List<ParticleSystemVertexStream> _correctTrailVertexStreamsInstanced = new();
 
         # endregion
     }
