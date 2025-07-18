@@ -322,7 +322,9 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
         input.baseMapUVAndProgresses.xy += flowMapUvOffset;
     #endif
     #ifdef _FLOW_MAP_TARGET_TINT
+    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
         input.tintEmissionUV.xy += flowMapUvOffset;
+    #endif
     #endif
     #ifdef _FLOW_MAP_TARGET_EMISSION
         input.tintEmissionUV.zw += flowMapUvOffset;
