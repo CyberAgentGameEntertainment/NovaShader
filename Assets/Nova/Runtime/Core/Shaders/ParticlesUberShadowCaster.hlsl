@@ -112,10 +112,20 @@ Varyings ShadowPassVertex(Attributes input)
     // Base Map Progress
     #ifdef _BASE_MAP_MODE_2D_ARRAY
     float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
+    // Random Row Selection
+    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+    CALCULATE_FLIPBOOK_PROGRESS(baseMapProgress, output.baseMapUVAndProgresses.z);
+    #else
     output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
+    #endif
     #elif _BASE_MAP_MODE_3D
     float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
+    // Random Row Selection
+    #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
+    CALCULATE_FLIPBOOK_BLENDING_PROGRESS(baseMapProgress, output.baseMapUVAndProgresses.z);
+    #else
     output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
+    #endif
     #endif
 
     // Tint Map UV

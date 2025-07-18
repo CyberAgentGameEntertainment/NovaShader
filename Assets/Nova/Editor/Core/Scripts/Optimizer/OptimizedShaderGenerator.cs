@@ -15,12 +15,12 @@ using UnityEngine;
 namespace Nova.Editor.Core.Scripts.Optimizer
 {
     public static class OptimizedShaderGenerator
-    #if NOVA_USE_ASSET_POSTPROCESSOR
+#if NOVA_USE_ASSET_POSTPROCESSOR
         : AssetPostprocessor
-    #endif
+#endif
     {
         /// <summary>
-        /// UberLit and UberUnlit shaders are optimized and saved in the specified output folder.
+        ///     UberLit and UberUnlit shaders are optimized and saved in the specified output folder.
         /// </summary>
         /// <param name="outputFolderPath"></param>
         public static void Generate(string outputFolderPath)
@@ -49,11 +49,13 @@ namespace Nova.Editor.Core.Scripts.Optimizer
                 var shaderFullPath = Path.GetFullPath(uberShaderFolderPath);
                 relativePath = Path.GetRelativePath(outputFullPath, shaderFullPath);
             }
+
             foreach (var assetPath in uberShaderPaths) Generate(outputFolderPath, assetPath, relativePath);
         }
+
         /// <summary>
-        /// TODO: Experimental Function
-        /// This feature will be enabled when NOVA_USE_ASSET_POSTPROCESSOR is activated.
+        ///     TODO: Experimental Function
+        ///     This feature will be enabled when NOVA_USE_ASSET_POSTPROCESSOR is activated.
         /// </summary>
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets,
             string[] movedAssets, string[] movedFromAssetPaths)
@@ -71,7 +73,7 @@ namespace Nova.Editor.Core.Scripts.Optimizer
             var source = File.ReadAllText(assetPath);
 
             if (!IsTargetShader(assetPath, source)) return;
-            
+
             var requiredLightModes = new[]
             {
                 OptionalShaderPass.None,
@@ -108,7 +110,7 @@ namespace Nova.Editor.Core.Scripts.Optimizer
                 var postFixName = $"(Optimized {renderTypeNames[renderType]} {UsedPassNames[lightMode]})";
                 if (!Directory.Exists(outputFolderPath)) Directory.CreateDirectory(outputFolderPath);
                 var optimizedPath = Path.Combine($"{outputFolderPath}/", Path.GetFileNameWithoutExtension(assetPath)
-                                                                  + $"{postFixName}.shader");
+                                                                         + $"{postFixName}.shader");
                 var optimizedSource = "";
                 if (source.Contains("Nova/Particles/UberUnlit"))
                     optimizedSource = source.Replace("Nova/Particles/UberUnlit",
@@ -335,6 +337,5 @@ namespace Nova.Editor.Core.Scripts.Optimizer
         private static readonly Regex LightModeRegex = new(
             @"[""']?LightMode[""']?\s*=\s*[""']?(?<mode>\w+)[""']?",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
     }
 }

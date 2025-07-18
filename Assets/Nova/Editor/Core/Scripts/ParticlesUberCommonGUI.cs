@@ -212,8 +212,82 @@ namespace Nova.Editor.Core.Scripts
                 props.BaseMapMirrorSamplingProp.Value);
 
             if (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending)
+            {
                 MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                     props.BaseMapProgressProp.Value, props.BaseMapProgressCoordProp.Value);
+
+                MaterialEditorUtility.DrawToggleProperty(_editor, "Random Row Selection",
+                    props.BaseMapRandomRowSelectionEnabledProp.Value);
+
+                var randomRowEnabled = props.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
+
+                if (randomRowEnabled)
+                    using (new EditorGUI.IndentLevelScope())
+                    {
+                        _editor.FloatProperty(props.BaseMapRowCountProp.Value, "Row Count");
+
+                        using (new EditorGUILayout.HorizontalScope())
+                        {
+                            EditorGUILayout.PrefixLabel("Random Coord");
+                            var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord),
+                                Convert.ToInt32(props.BaseMapRandomRowCoordProp.Value.floatValue));
+                            if (!Enum.IsDefined(typeof(TCustomCoord), coord))
+                                coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 0);
+
+                            using (var ccs = new EditorGUI.ChangeCheckScope())
+                            {
+                                EditorGUI.showMixedValue = props.BaseMapRandomRowCoordProp.Value.hasMixedValue;
+                                coord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
+                                EditorGUI.showMixedValue = false;
+
+                                if (ccs.changed)
+                                {
+                                    _editor.RegisterPropertyChangeUndo(props.BaseMapRandomRowCoordProp.Value.name);
+                                    props.BaseMapRandomRowCoordProp.Value.floatValue = Convert.ToInt32(coord);
+                                }
+                            }
+                        }
+
+                        // Validation and help message
+                        var sliceCount = props.BaseMapSliceCountProp.Value.floatValue;
+                        var rowCount = props.BaseMapRowCountProp.Value.floatValue;
+
+                        if (rowCount <= 0)
+                        {
+                            EditorGUILayout.HelpBox(
+                                "Row Count must be greater than 0. Setting to 1 will disable random row selection.",
+                                MessageType.Warning);
+                        }
+                        else if (rowCount > sliceCount && sliceCount > 0)
+                        {
+                            EditorGUILayout.HelpBox(
+                                $"Row Count ({rowCount}) cannot be greater than Slice Count ({sliceCount}). Reduce Row Count or increase Slice Count.",
+                                MessageType.Error);
+                        }
+                        else if (sliceCount > 0)
+                        {
+                            // Convert to integers for accurate division check
+                            var sliceCountInt = Mathf.FloorToInt(sliceCount);
+                            var rowCountInt = Mathf.FloorToInt(rowCount);
+
+                            if (sliceCountInt % rowCountInt != 0)
+                            {
+                                var framesPerRow = sliceCountInt / rowCountInt;
+                                var unusedSlices = sliceCountInt - rowCountInt * framesPerRow;
+                                EditorGUILayout.HelpBox(
+                                    $"Row Count ({rowCountInt}) does not divide Slice Count ({sliceCountInt}) evenly. Each row will have {framesPerRow} frames, with {unusedSlices} unused slices.",
+                                    MessageType.Warning);
+                            }
+                        }
+
+                        EditorGUILayout.HelpBox(
+                            "Setup:\n" +
+                            "• Row Count: Set to number of rows in your texture (e.g., 4×4 texture = 4 rows)\n" +
+                            "• Random Coord: Select a Custom Coord channel for random values\n" +
+                            "  - Configure Particle System's Custom Data as Random Between Two Constants (0 to Row Count)",
+                            MessageType.Info);
+                    }
+            }
         }
 
         private void InternalDrawParallaxMapsProperties()

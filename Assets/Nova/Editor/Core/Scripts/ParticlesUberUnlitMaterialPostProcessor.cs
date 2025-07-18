@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2024 CyberAgent, Inc.
+// Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
@@ -27,6 +27,9 @@ namespace Nova.Editor.Core.Scripts
 
         private static readonly int BaseMapRotationCoordId =
             Shader.PropertyToID(MaterialPropertyNames.BaseMapRotationCoord);
+
+        private static readonly int BaseMapRandomRowSelectionEnabledId =
+            Shader.PropertyToID(MaterialPropertyNames.BaseMapRandomRowSelectionEnabled);
 
         private static readonly int TintAreaModeId = Shader.PropertyToID(MaterialPropertyNames.TintAreaMode);
         private static readonly int TintMapModeId = Shader.PropertyToID(MaterialPropertyNames.TintColorMode);
@@ -190,6 +193,12 @@ namespace Nova.Editor.Core.Scripts
                                          || (CustomCoord)material.GetFloat(BaseMapRotationCoordId) !=
                                          CustomCoord.Unused;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapRotationEnabled, baseMapRotationEnabled);
+
+            var randomRowSelectionEnabled =
+                (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending) &&
+                material.GetFloat(BaseMapRandomRowSelectionEnabledId) > 0.5f;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapRandomRowSelectionEnabled,
+                randomRowSelectionEnabled);
 
             var tintAreaMode = (TintAreaMode)material.GetFloat(TintAreaModeId);
             foreach (TintAreaMode value in Enum.GetValues(typeof(TintAreaMode)))
@@ -394,6 +403,7 @@ namespace Nova.Editor.Core.Scripts
                 var zWrite = zWriteOverride == ZWriteOverride.Auto ? defaultValue : (int)zWriteOverride;
                 return zWrite;
             }
+
             var uiShader = material.shader.name.Contains("Nova/UIParticles/");
             if (renderType == RenderType.Opaque)
             {

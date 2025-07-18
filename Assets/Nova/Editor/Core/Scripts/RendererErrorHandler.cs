@@ -71,18 +71,37 @@ namespace Nova.Editor.Core.Scripts
 
         private static bool IsCustomCoordUsedInBaseMap(ParticlesUberCommonMaterialProperties commonMaterialProperties)
         {
-            var isCustomCoordUsed = IsCustomCoordUsed(commonMaterialProperties.BaseMapOffsetXCoordProp)
-                                    || IsCustomCoordUsed(commonMaterialProperties.BaseMapOffsetYCoordProp)
-                                    || IsCustomCoordUsed(commonMaterialProperties.BaseMapRotationCoordProp);
-            isCustomCoordUsed |= (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue !=
-                                 BaseMapMode.SingleTexture
-                                 && IsCustomCoordUsed(commonMaterialProperties.BaseMapProgressProp);
+            // Check basic texture coordinate usage
+            if (IsCustomCoordUsed(commonMaterialProperties.BaseMapOffsetXCoordProp) ||
+                IsCustomCoordUsed(commonMaterialProperties.BaseMapOffsetYCoordProp) ||
+                IsCustomCoordUsed(commonMaterialProperties.BaseMapRotationCoordProp))
+            {
+                return true;
+            }
 
-            isCustomCoordUsed |= (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue !=
-                                 BaseMapMode.SingleTexture
-                                 && IsCustomCoordUsed(commonMaterialProperties.BaseMapProgressCoordProp);
+            var baseMapMode = (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue;
+            
+            // Check FlipBook-specific features
+            if (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending)
+            {
+                // FlipBook progress
+                if (IsCustomCoordUsed(commonMaterialProperties.BaseMapProgressCoordProp))
+                {
+                    return true;
+                }
+                
+                // Random Row Selection
+                if (commonMaterialProperties.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f)
+                {
+                    var randomCoord = (CustomCoord)commonMaterialProperties.BaseMapRandomRowCoordProp.Value.floatValue;
+                    if (randomCoord != CustomCoord.Unused)
+                    {
+                        return true;
+                    }
+                }
+            }
 
-            return isCustomCoordUsed;
+            return false;
         }
 
         private static bool IsCustomCoordUsedInTintColor(ParticlesUberCommonMaterialProperties commonMaterialProperties)
@@ -224,6 +243,10 @@ namespace Nova.Editor.Core.Scripts
             ParticlesUberCommonMaterialProperties commonMaterialProperties = new(materialProperties);
 
             // Correct vertex streams when enabled GPU Instance.
+            // Note: Even with GPU Instancing, Custom Vertex Streams configuration is required by Unity.
+            // While instance data is accessed via StructuredBuffer, Unity's internal implementation
+            // still requires proper Vertex Streams setup for Custom1XYZW/Custom2XYZW.
+            // Always include Custom Coord streams to ensure compatibility and prevent potential issues.
             correctVertexStreamsInstanced = new List<ParticleSystemVertexStream>();
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Position);
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Normal);
@@ -234,6 +257,8 @@ namespace Nova.Editor.Core.Scripts
             correctVertexStreamsInstanced.Add(ParticleSystemVertexStream.Custom2XYZW);
 
             // Correct vertex streams when disabled GPU Instance.
+            // For non-GPU Instancing, Custom Coord streams are conditionally added based on usage.
+            // This optimization reduces vertex data transfer when Custom Coord features are not used.
             correctVertexStreams = new List<ParticleSystemVertexStream>();
             correctVertexStreams.Add(ParticleSystemVertexStream.Position);
             correctVertexStreams.Add(ParticleSystemVertexStream.Normal);
@@ -241,7 +266,6 @@ namespace Nova.Editor.Core.Scripts
             correctVertexStreams.Add(ParticleSystemVertexStream.UV);
             correctVertexStreams.Add(ParticleSystemVertexStream.UV2);
 
-            // Is custom coord Used ?
             if (IsCustomCoordUsed(commonMaterialProperties))
             {
                 correctVertexStreams.Add(ParticleSystemVertexStream.Custom1XYZW);
