@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: mat_demo_uvscroll_doublesided
   m_Shader: {fileID: 4800000, guid: 72225468864e7e849bc3e630d1756259, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHA_TRANSITION_MAP_MODE_2D
   - _BASE_MAP_MODE_2D
@@ -24,6 +26,7 @@ Material:
   m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -103,6 +106,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TintMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TintMap3D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -138,8 +145,11 @@ Material:
     - _BaseMapOffsetYCoord: 1
     - _BaseMapProgress: 0
     - _BaseMapProgressCoord: 0
+    - _BaseMapRandomRowCoord: 0
+    - _BaseMapRandomRowSelectionEnabled: 0
     - _BaseMapRotation: 0
     - _BaseMapRotationCoord: 0
+    - _BaseMapRowCount: 1
     - _BaseMapSliceCount: 25
     - _BlendDst: 10
     - _BlendSrc: 5
@@ -219,6 +229,8 @@ Material:
     - _TintMap3DProgressCoord: 0
     - _TintMapOffsetXCoord: 0
     - _TintMapOffsetYCoord: 0
+    - _TintMapProgress: 0
+    - _TintMapProgressCoord: 0
     - _TintMapSliceCount: 4
     - _TintRimProgress: 0.5
     - _TintRimProgressCoord: 0

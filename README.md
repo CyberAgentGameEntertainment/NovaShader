@@ -508,9 +508,13 @@ You can specify how you set the Tint Color.
 <p>
 <ul>
 <li>Single Color: Single Color (Default).</li>
-<li>Texture 2D: Specified by the texture.</li>
-<li>Texture 3D: Specified by the 3D texture (Animatable).</li>
+<li>Single Texture: Specified by the texture.</li>
+<li>Flip Book: Use Flip-Book animation.</li>
+<li>Flip Book Blending: Use Flip-Book animation with interpolated frames.</li>
 </ul>
+</p>
+<p>
+The required texture type will change depending on the mode you selected.
 </p>
 </td></tr>
 <tr><td colspan=3><b>Color</b></td><td>
@@ -523,18 +527,22 @@ The color to be multiplied.
 </td></tr>
 <tr><td colspan=3><b>Texture</b></td><td>
 <p>
-<b>This property is visible only when the Color Mode is set to Texture 2D or Texture 3D.</b>
+<b>This property is visible only when the Color Mode is set to Single Texture, Flip Book, or Flip Book Blending.</b>
 </p>
 <p>
 The texture whose color will be multiplied.
 </p>
-</td></tr>
-<tr><td colspan=3><b>Progress</b></td><td>
 <p>
-<b>This property is visible only when the Color Mode is set to Texture 3D.</b>
+If you specify Flip Book as the Color Mode, you need to set <a href="https://docs.unity3d.com/2020.3/Documentation/Manual/class-Texture2DArray.html">Texture2DArray</a>.
+And if you specify Flip Book Blending, you need to set <a href="https://docs.unity3d.com/2020.3/Documentation/Manual/class-Texture3D.html">Texture3D</a>.
+</p>
+</td></tr>
+<tr><td colspan=3><b>Flip-Book Progress</b></td><td>
+<p>
+<b>This property is visible only when the Color Mode is set to Flip Book or Flip Book Blending.</b>
 </p>
 <p>
-The progress of the 3D Texture.
+The progress of the Flip-Book or Flip-Book Blending.
 </p>
 </td></tr>
 <tr><td colspan=3><b>Blend Rate</b></td><td>

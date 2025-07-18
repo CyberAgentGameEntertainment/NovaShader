@@ -294,6 +294,7 @@ namespace Nova.Editor.Core.Scripts.Optimizer
             @"_TINT_COLOR_ENABLED\b|" +
             @"_TINT_MAP_ENABLED\b|" +
             @"_TINT_MAP_3D_ENABLED\b|" +
+            @"_TINT_MAP_MODE_2D_ARRAY\b|" +
             @"_FLOW_MAP_ENABLED\b|" +
             @"_FLOW_MAP_TARGET_BASE\b|" +
             @"_FLOW_MAP_TARGET_TINT\b|" +

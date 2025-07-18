@@ -41,8 +41,11 @@ Shader "Nova/Particles/UberUnlit"
         [HDR] _TintColor("Tint Color", Color) = (1, 1, 1, 1)
         _TintMap("Tint Map", 2D) = "white" {}
         _TintMap3D("Tint Map 3D", 3D) = "" {}
+        _TintMap2DArray("Tint Map 2D Array", 2DArray) = "" {}
         _TintMap3DProgress("Tint Map 3D Progress", Range(0, 1)) = 0.0
         _TintMap3DProgressCoord("Tint Map 3D Progress Coord", Float) = 0.0
+        _TintMapProgress("Tint Map Progress", Range(0, 1)) = 0.0
+        _TintMapProgressCoord("Tint Map Progress Coord", Float) = 0.0
         _TintMapSliceCount("Tint Map Slice Count", Float) = 4.0
         _TintMapOffsetXCoord("Tint Map Offset X Coord", Float) = 0.0
         _TintMapOffsetYCoord("Tint Map Offset Y Coord", Float) = 0.0
@@ -220,7 +223,7 @@ Shader "Nova/Particles/UberUnlit"
 
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
-            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
+            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED _TINT_MAP_MODE_2D_ARRAY
 
             // Flow Map
             #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
@@ -297,7 +300,7 @@ Shader "Nova/Particles/UberUnlit"
 
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
-            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
+            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED _TINT_MAP_MODE_2D_ARRAY
 
             // Flow Map
             #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
@@ -374,7 +377,7 @@ Shader "Nova/Particles/UberUnlit"
 
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
-            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
+            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED _TINT_MAP_MODE_2D_ARRAY
 
             // Flow Map
             #pragma shader_feature_local _FLOW_MAP_ENABLED  // Obsolete, but retained for compatibility.
@@ -453,7 +456,7 @@ Shader "Nova/Particles/UberUnlit"
 
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
-            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
+            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED _TINT_MAP_MODE_2D_ARRAY
 
             // Flow Map
             #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
@@ -533,7 +536,7 @@ Shader "Nova/Particles/UberUnlit"
 
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
-            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
+            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED _TINT_MAP_MODE_2D_ARRAY
 
             // Flow Map
             #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
@@ -608,7 +611,7 @@ Shader "Nova/Particles/UberUnlit"
             // Tint Color
             // _TINT_AREA_ALLだけならfragmentのみでいい
             #pragma shader_feature_local_fragment _ _TINT_AREA_ALL
-            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED
+            #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED _TINT_MAP_MODE_2D_ARRAY
 
             // Flow Map
             #pragma shader_feature_local _FLOW_MAP_TARGET_BASE

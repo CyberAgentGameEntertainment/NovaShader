@@ -81,8 +81,11 @@ namespace Nova.Editor.Core.Scripts
             TintColorModeProp.Setup(properties);
             TintMapProp.Setup(properties);
             TintMap3DProp.Setup(properties);
+            TintMap2DArrayProp.Setup(properties);
             TintMap3DProgressProp.Setup(properties);
             TintMap3DProgressCoordProp.Setup(properties);
+            TintMapProgressProp.Setup(properties);
+            TintMapProgressCoordProp.Setup(properties);
             TintMapSliceCountProp.Setup(properties);
             TintMapOffsetXCoordProp.Setup(properties);
             TintMapOffsetYCoordProp.Setup(properties);
@@ -292,10 +295,15 @@ namespace Nova.Editor.Core.Scripts
 
         public ParticlesGUI.Property TintMapProp { get; } = new(PropertyNames.TintMap);
         public ParticlesGUI.Property TintMap3DProp { get; } = new(PropertyNames.TintMap3D);
+        public ParticlesGUI.Property TintMap2DArrayProp { get; } = new(PropertyNames.TintMap2DArray);
 
         public ParticlesGUI.Property TintMap3DProgressProp { get; } = new(PropertyNames.TintMap3DProgress);
 
         public ParticlesGUI.Property TintMap3DProgressCoordProp { get; } = new(PropertyNames.TintMap3DProgressCoord);
+        
+        public ParticlesGUI.Property TintMapProgressProp { get; } = new(PropertyNames.TintMapProgress);
+        
+        public ParticlesGUI.Property TintMapProgressCoordProp { get; } = new(PropertyNames.TintMapProgressCoord);
 
         public ParticlesGUI.Property TintMapSliceCountProp { get; } = new(PropertyNames.TintMapSliceCount);
 

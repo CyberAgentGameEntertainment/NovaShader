@@ -3,216 +3,221 @@
 
 #include "Particles.hlsl"
 
-TEXTURE2D(_BaseMap);
-SAMPLER(sampler_BaseMap);
-TEXTURE2D_ARRAY(_BaseMap2DArray);
-SAMPLER(sampler_BaseMap2DArray);
-TEXTURE3D(_BaseMap3D);
-SAMPLER(sampler_BaseMap3D);
-TEXTURE2D(_TintMap);
-SAMPLER(sampler_TintMap);
-TEXTURE3D(_TintMap3D);
-SAMPLER(sampler_TintMap3D);
-TEXTURE2D(_FlowMap);
-SAMPLER(sampler_FlowMap);
-TEXTURE2D(_AlphaTransitionMap);
-SAMPLER(sampler_AlphaTransitionMap);
-TEXTURE2D(_AlphaTransitionMapSecondTexture);
-SAMPLER(sampler_AlphaTransitionMapSecondTexture);
-TEXTURE2D_ARRAY(_AlphaTransitionMap2DArray);
-SAMPLER(sampler_AlphaTransitionMap2DArray);
-TEXTURE2D_ARRAY(_AlphaTransitionMapSecondTexture2DArray);
-SAMPLER(sampler_AlphaTransitionMapSecondTexture2DArray);
-TEXTURE3D(_AlphaTransitionMap3D);
-SAMPLER(sampler_AlphaTransitionMap3D);
-TEXTURE3D(_AlphaTransitionMapSecondTexture3D);
-SAMPLER(sampler_AlphaTransitionMapSecondTexture3D);
-TEXTURE2D(_EmissionMap);
-SAMPLER(sampler_EmissionMap);
-TEXTURE2D_ARRAY(_EmissionMap2DArray);
-SAMPLER(sampler_EmissionMap2DArray);
-TEXTURE3D(_EmissionMap3D);
-SAMPLER(sampler_EmissionMap3D);
-TEXTURE2D(_EmissionColorRamp);
-SAMPLER(sampler_EmissionColorRamp);
-TEXTURE2D(_GradientMap);
-SAMPLER(sampler_GradientMap);
-TEXTURE2D(_VertexDeformationMap);
-SAMPLER(sampler_VertexDeformationMap);
+TEXTURE2D (_BaseMap);
+SAMPLER (sampler_BaseMap);
+TEXTURE2D_ARRAY (_BaseMap2DArray);
+SAMPLER (sampler_BaseMap2DArray);
+TEXTURE3D (_BaseMap3D);
+SAMPLER (sampler_BaseMap3D);
+TEXTURE2D (_TintMap);
+SAMPLER (sampler_TintMap);
+TEXTURE2D_ARRAY (_TintMap2DArray);
+SAMPLER (sampler_TintMap2DArray);
+TEXTURE3D (_TintMap3D);
+SAMPLER (sampler_TintMap3D);
+TEXTURE2D (_FlowMap);
+SAMPLER (sampler_FlowMap);
+TEXTURE2D (_AlphaTransitionMap);
+SAMPLER (sampler_AlphaTransitionMap);
+TEXTURE2D (_AlphaTransitionMapSecondTexture);
+SAMPLER (sampler_AlphaTransitionMapSecondTexture);
+TEXTURE2D_ARRAY (_AlphaTransitionMap2DArray);
+SAMPLER (sampler_AlphaTransitionMap2DArray);
+TEXTURE2D_ARRAY (_AlphaTransitionMapSecondTexture2DArray);
+SAMPLER (sampler_AlphaTransitionMapSecondTexture2DArray);
+TEXTURE3D (_AlphaTransitionMap3D);
+SAMPLER (sampler_AlphaTransitionMap3D);
+TEXTURE3D (_AlphaTransitionMapSecondTexture3D);
+SAMPLER (sampler_AlphaTransitionMapSecondTexture3D);
+TEXTURE2D (_EmissionMap);
+SAMPLER (sampler_EmissionMap);
+TEXTURE2D_ARRAY (_EmissionMap2DArray);
+SAMPLER (sampler_EmissionMap2DArray);
+TEXTURE3D (_EmissionMap3D);
+SAMPLER (sampler_EmissionMap3D);
+TEXTURE2D (_EmissionColorRamp);
+SAMPLER (sampler_EmissionColorRamp);
+TEXTURE2D (_GradientMap);
+SAMPLER (sampler_GradientMap);
+TEXTURE2D (_VertexDeformationMap);
+SAMPLER (sampler_VertexDeformationMap);
 // Normal map
-TEXTURE2D(_NormalMap);
-SAMPLER(sampler_NormalMap);
-TEXTURE2D_ARRAY(_NormalMap2DArray);
-SAMPLER(sampler_NormalMap2DArray);
-TEXTURE3D(_NormalMap3D);
-SAMPLER(sampler_NormalMap3D);
+TEXTURE2D (_NormalMap);
+SAMPLER (sampler_NormalMap);
+TEXTURE2D_ARRAY (_NormalMap2DArray);
+SAMPLER (sampler_NormalMap2DArray);
+TEXTURE3D (_NormalMap3D);
+SAMPLER (sampler_NormalMap3D);
 // Parallax Map
-TEXTURE2D(_ParallaxMap);
-SAMPLER(sampler_ParallaxMap);
-TEXTURE2D_ARRAY(_ParallaxMap2DArray);
-SAMPLER(sampler_ParallaxMap2DArray);
-TEXTURE3D(_ParallaxMap3D);
-SAMPLER(sampler_ParallaxMap3D);
+TEXTURE2D (_ParallaxMap);
+SAMPLER (sampler_ParallaxMap);
+TEXTURE2D_ARRAY (_ParallaxMap2DArray);
+SAMPLER (sampler_ParallaxMap2DArray);
+TEXTURE3D (_ParallaxMap3D);
+SAMPLER (sampler_ParallaxMap3D);
 // Specular Map
-TEXTURE2D(_SpecularMap);
-SAMPLER(sampler_SpecularMap);
-TEXTURE2D_ARRAY(_SpecularMap2DArray);
-SAMPLER(sampler_SpecularMap2DArray);
-TEXTURE3D(_SpecularMap3D);
-SAMPLER(sampler_SpecularMap3D);
+TEXTURE2D (_SpecularMap);
+SAMPLER (sampler_SpecularMap);
+TEXTURE2D_ARRAY (_SpecularMap2DArray);
+SAMPLER (sampler_SpecularMap2DArray);
+TEXTURE3D (_SpecularMap3D);
+SAMPLER (sampler_SpecularMap3D);
 // Metallic Map
-TEXTURE2D(_MetallicMap);
-SAMPLER(sampler_MetallicMap);
-TEXTURE2D_ARRAY(_MetallicMap2DArray);
-SAMPLER(sampler_MetallicMap2DArray);
-TEXTURE3D(_MetallicMap3D);
-SAMPLER(sampler_MetallicMap3D);
+TEXTURE2D (_MetallicMap);
+SAMPLER (sampler_MetallicMap);
+TEXTURE2D_ARRAY (_MetallicMap2DArray);
+SAMPLER (sampler_MetallicMap2DArray);
+TEXTURE3D (_MetallicMap3D);
+SAMPLER (sampler_MetallicMap3D);
 // Smoothness Map
-TEXTURE2D(_SmoothnessMap);
-SAMPLER(sampler_SmoothnessMap);
-TEXTURE2D_ARRAY(_SmoothnessMap2DArray);
-SAMPLER(sampler_SmoothnessMap2DArray);
-TEXTURE3D(_SmoothnessMap3D);
-SAMPLER(sampler_SmoothnessMap3D);
+TEXTURE2D (_SmoothnessMap);
+SAMPLER (sampler_SmoothnessMap);
+TEXTURE2D_ARRAY (_SmoothnessMap2DArray);
+SAMPLER (sampler_SmoothnessMap2DArray);
+TEXTURE3D (_SmoothnessMap3D);
+SAMPLER (sampler_SmoothnessMap3D);
 
-CBUFFER_START(UnityPerMaterial)
-    float4 _BaseMap_ST;
-    float4 _BaseMap2DArray_ST;
-    float4 _BaseMap3D_ST;
-    float _BaseMapProgress;
-    float _BaseMapProgressCoord;
-    float _BaseMapSliceCount;
-    DECLARE_CUSTOM_COORD(_BaseMapOffsetXCoord);
-    DECLARE_CUSTOM_COORD(_BaseMapOffsetYCoord);
-    float _BaseMapRotation;
-    DECLARE_CUSTOM_COORD(_BaseMapRotationCoord);
-    float4 _BaseMapRotationOffsets;
-    
-    // Base Map Random Row Selection
-    float _BaseMapRandomRowSelectionEnabled;
-    DECLARE_CUSTOM_COORD(_BaseMapRandomRowCoord);
-    float _BaseMapRowCount;
+CBUFFER_START (UnityPerMaterial)
+float4 _BaseMap_ST;
+float4 _BaseMap2DArray_ST;
+float4 _BaseMap3D_ST;
+float _BaseMapProgress;
+float _BaseMapProgressCoord;
+float _BaseMapSliceCount;
+DECLARE_CUSTOM_COORD(_BaseMapOffsetXCoord);
+DECLARE_CUSTOM_COORD(_BaseMapOffsetYCoord);
+float _BaseMapRotation;
+DECLARE_CUSTOM_COORD(_BaseMapRotationCoord);
+float4 _BaseMapRotationOffsets;
 
-    half4 _TintColor;
-    float4 _TintMap_ST;
-    float4 _TintMap3D_ST;
-    float _TintMap3DProgress;
-    DECLARE_CUSTOM_COORD(_TintMap3DProgressCoord);
-    float _TintMapSliceCount;
-    DECLARE_CUSTOM_COORD(_TintMapOffsetXCoord);
-    DECLARE_CUSTOM_COORD(_TintMapOffsetYCoord);
-    float _TintBlendRate;
-    float _TintBlendRateCoord;
-    float _TintRimProgress;
-    float _TintRimProgressCoord;
-    float _TintRimSharpness;
-    float _TintRimSharpnessCoord;
-    float _InverseTintRim;
+// Base Map Random Row Selection
+float _BaseMapRandomRowSelectionEnabled;
+DECLARE_CUSTOM_COORD(_BaseMapRandomRowCoord);
+float _BaseMapRowCount;
 
-    float4 _FlowMap_ST;
-    DECLARE_CUSTOM_COORD(_FlowMapOffsetXCoord);
-    DECLARE_CUSTOM_COORD(_FlowMapOffsetYCoord);
-    half _FlowMapChannelsX;
-    half _FlowMapChannelsY;
-    float _FlowIntensity;
-    DECLARE_CUSTOM_COORD(_FlowIntensityCoord);
+half4 _TintColor;
+float4 _TintMap_ST;
+float4 _TintMap3D_ST;
+float4 _TintMap2DArray_ST;
+float _TintMap3DProgress;
+DECLARE_CUSTOM_COORD(_TintMap3DProgressCoord);
+float _TintMapProgress;
+DECLARE_CUSTOM_COORD(_TintMapProgressCoord);
+float _TintMapSliceCount;
+DECLARE_CUSTOM_COORD(_TintMapOffsetXCoord);
+DECLARE_CUSTOM_COORD(_TintMapOffsetYCoord);
+float _TintBlendRate;
+float _TintBlendRateCoord;
+float _TintRimProgress;
+float _TintRimProgressCoord;
+float _TintRimSharpness;
+float _TintRimSharpnessCoord;
+float _InverseTintRim;
 
-    float4 _AlphaTransitionMap_ST;
-    float4 _AlphaTransitionMap2DArray_ST;
-    float4 _AlphaTransitionMap3D_ST;
-    float4 _AlphaTransitionMapSecondTexture_ST;
-    float4 _AlphaTransitionMapSecondTexture2DArray_ST;
-    float4 _AlphaTransitionMapSecondTexture3D_ST;
+float4 _FlowMap_ST;
+DECLARE_CUSTOM_COORD(_FlowMapOffsetXCoord);
+DECLARE_CUSTOM_COORD(_FlowMapOffsetYCoord);
+half _FlowMapChannelsX;
+half _FlowMapChannelsY;
+float _FlowIntensity;
+DECLARE_CUSTOM_COORD(_FlowIntensityCoord);
 
-    float _AlphaTransitionMapProgress;
-    DECLARE_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
-    float _AlphaTransitionMapSecondTextureProgress;
-    DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureProgressCoord);
-    float _AlphaTransitionMapSliceCount;
-    float _AlphaTransitionMapSecondTextureSliceCount;
-    DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
-    DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
-    DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord);
-    DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord);
-    half _AlphaTransitionMapChannelsX;
-    float _DissolveSharpness;
-    half _AlphaTransitionMapSecondTextureChannelsX;
-    float _AlphaTransitionProgress;
-    DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoord);
-    float _AlphaTransitionProgressSecondTexture;
-    DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoordSecondTexture);
-    float _DissolveSharpnessSecondTexture;
+float4 _AlphaTransitionMap_ST;
+float4 _AlphaTransitionMap2DArray_ST;
+float4 _AlphaTransitionMap3D_ST;
+float4 _AlphaTransitionMapSecondTexture_ST;
+float4 _AlphaTransitionMapSecondTexture2DArray_ST;
+float4 _AlphaTransitionMapSecondTexture3D_ST;
 
-    float4 _EmissionMap_ST;
-    float4 _EmissionMap2DArray_ST;
-    float4 _EmissionMap3D_ST;
-    float _EmissionMapProgress;
-    DECLARE_CUSTOM_COORD(_EmissionMapProgressCoord);
-    float _EmissionMapSliceCount;
-    DECLARE_CUSTOM_COORD(_EmissionMapOffsetXCoord);
-    DECLARE_CUSTOM_COORD(_EmissionMapOffsetYCoord);
-    half _EmissionMapChannelsX;
+float _AlphaTransitionMapProgress;
+DECLARE_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
+float _AlphaTransitionMapSecondTextureProgress;
+DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureProgressCoord);
+float _AlphaTransitionMapSliceCount;
+float _AlphaTransitionMapSecondTextureSliceCount;
+DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
+DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
+DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord);
+DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord);
+half _AlphaTransitionMapChannelsX;
+float _DissolveSharpness;
+half _AlphaTransitionMapSecondTextureChannelsX;
+float _AlphaTransitionProgress;
+DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoord);
+float _AlphaTransitionProgressSecondTexture;
+DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoordSecondTexture);
+float _DissolveSharpnessSecondTexture;
 
-    float3 _EmissionColor;
-    float _EmissionIntensity;
-    DECLARE_CUSTOM_COORD(_EmissionIntensityCoord);
-    float _KeepEdgeTransparency;
+float4 _EmissionMap_ST;
+float4 _EmissionMap2DArray_ST;
+float4 _EmissionMap3D_ST;
+float _EmissionMapProgress;
+DECLARE_CUSTOM_COORD(_EmissionMapProgressCoord);
+float _EmissionMapSliceCount;
+DECLARE_CUSTOM_COORD(_EmissionMapOffsetXCoord);
+DECLARE_CUSTOM_COORD(_EmissionMapOffsetYCoord);
+half _EmissionMapChannelsX;
 
-    float _Cutoff;
-    float _Greyscale;
-    float _InverseRimTransparency;
-    float _RimTransparencyProgress;
-    DECLARE_CUSTOM_COORD(_RimTransparencyProgressCoord);
-    float _RimTransparencySharpness;
-    DECLARE_CUSTOM_COORD(_RimTransparencySharpnessCoord);
-    float _InverseLuminanceTransparency;
-    float _LuminanceTransparencyProgress;
-    DECLARE_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
-    float _LuminanceTransparencySharpness;
-    DECLARE_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
+float3 _EmissionColor;
+float _EmissionIntensity;
+DECLARE_CUSTOM_COORD(_EmissionIntensityCoord);
+float _KeepEdgeTransparency;
 
-    float4 _VertexDeformationMap_ST;
-    DECLARE_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
-    DECLARE_CUSTOM_COORD(_VertexDeformationMapOffsetYCoord);
-    half _VertexDeformationMapChannel;
-    float _VertexDeformationIntensity;
-    DECLARE_CUSTOM_COORD(_VertexDeformationIntensityCoord);
-    float _VertexDeformationBaseValue;
+float _Cutoff;
+float _Greyscale;
+float _InverseRimTransparency;
+float _RimTransparencyProgress;
+DECLARE_CUSTOM_COORD(_RimTransparencyProgressCoord);
+float _RimTransparencySharpness;
+DECLARE_CUSTOM_COORD(_RimTransparencySharpnessCoord);
+float _InverseLuminanceTransparency;
+float _LuminanceTransparencyProgress;
+DECLARE_CUSTOM_COORD(_LuminanceTransparencyProgressCoord);
+float _LuminanceTransparencySharpness;
+DECLARE_CUSTOM_COORD(_LuminanceTransparencySharpnessCoord);
 
-    float _SoftParticlesIntensity;
-    float _DepthFadeNear;
-    float _DepthFadeFar;
-    float _DepthFadeWidth;
-    // Normal map
-    half _NormalMapBumpScale;
-    // Parallax Map
-    half _ParallaxMapChannel;
-    half _ParallaxStrength;
-    float4 _ParallaxMap_ST;
-    float4 _ParallaxMap2DArray_ST;
-    float4 _ParallaxMap3D_ST;
-    float _ParallaxMapProgress;
-    DECLARE_CUSTOM_COORD(_ParallaxMapProgressCoord);
-    float _ParallaxMapSliceCount;
-    DECLARE_CUSTOM_COORD(_ParallaxMapOffsetXCoord);
-    DECLARE_CUSTOM_COORD(_ParallaxMapOffsetYCoord);
-    // Specular Map
-    half4 _SpecularColor;
-    // Metallic Map
-    half _MetallicMapChannelsX;
-    float _Metallic;
-    // Smoothness Map
-    half _SmoothnessMapChannelsX;
-    float _Smoothness;
-    // Shadow Caster
-    half _ShadowCasterEnabled;
-    half _ShadowCasterApplyVertexDeformation;
-    half _ShadowCasterAlphaTestEnabled;
-    half _ShadowCasterAlphaCutoff;
-    half _ShadowCasterAlphaAffectedByTintColor;
-    half _ShadowCasterAlphaAffectedByFlowMap;
-    half _ShadowCasterAlphaAffectedByAlphaTransitionMap;
-    half _ShadowCasterAlphaAffectedByTransparencyLuminance;
+float4 _VertexDeformationMap_ST;
+DECLARE_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
+DECLARE_CUSTOM_COORD(_VertexDeformationMapOffsetYCoord);
+half _VertexDeformationMapChannel;
+float _VertexDeformationIntensity;
+DECLARE_CUSTOM_COORD(_VertexDeformationIntensityCoord);
+float _VertexDeformationBaseValue;
+
+float _SoftParticlesIntensity;
+float _DepthFadeNear;
+float _DepthFadeFar;
+float _DepthFadeWidth;
+// Normal map
+half _NormalMapBumpScale;
+// Parallax Map
+half _ParallaxMapChannel;
+half _ParallaxStrength;
+float4 _ParallaxMap_ST;
+float4 _ParallaxMap2DArray_ST;
+float4 _ParallaxMap3D_ST;
+float _ParallaxMapProgress;
+DECLARE_CUSTOM_COORD(_ParallaxMapProgressCoord);
+float _ParallaxMapSliceCount;
+DECLARE_CUSTOM_COORD(_ParallaxMapOffsetXCoord);
+DECLARE_CUSTOM_COORD(_ParallaxMapOffsetYCoord);
+// Specular Map
+half4 _SpecularColor;
+// Metallic Map
+half _MetallicMapChannelsX;
+float _Metallic;
+// Smoothness Map
+half _SmoothnessMapChannelsX;
+float _Smoothness;
+// Shadow Caster
+half _ShadowCasterEnabled;
+half _ShadowCasterApplyVertexDeformation;
+half _ShadowCasterAlphaTestEnabled;
+half _ShadowCasterAlphaCutoff;
+half _ShadowCasterAlphaAffectedByTintColor;
+half _ShadowCasterAlphaAffectedByFlowMap;
+half _ShadowCasterAlphaAffectedByAlphaTransitionMap;
+half _ShadowCasterAlphaAffectedByTransparencyLuminance;
 
 CBUFFER_END
 
@@ -223,6 +228,8 @@ CBUFFER_END
 #endif
 
 // Returns the sampler state of the base map.
+
+
 SamplerState GetBaseMapSamplerState()
 {
     #ifdef BASE_SAMPLER_STATE_OVERRIDE_ENABLED
@@ -358,6 +365,8 @@ SamplerState GetEmissionMapSamplerState()
 // Transforms the tint map UV by the scale/bias property
 #ifdef _TINT_MAP_ENABLED
 #define TRANSFORM_TINT_MAP(texcoord) TRANSFORM_TEX(texcoord, _TintMap);
+#elif _TINT_MAP_MODE_2D_ARRAY
+#define TRANSFORM_TINT_MAP(texcoord) TRANSFORM_TEX(texcoord, _TintMap2DArray);
 #elif _TINT_MAP_3D_ENABLED
 #define TRANSFORM_TINT_MAP(texcoord) TRANSFORM_TEX(texcoord, _TintMap3D);
 #endif
@@ -437,17 +446,12 @@ SamplerState GetEmissionMapSamplerState()
 #define SAMPLE_SPECULAR_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_SpecularMap3D, GetSpecularMapSamplerState(), float3(uv, progress), 0);
 #endif
 
-// Returns the progress of the 2DArray/3d tint map.
-half TintMapProgress(in half progress)
-{
-    half offset = 1.0 / _TintMapSliceCount * 0.5;
-    progress += offset;
-    return progress;
-}
 
 // Sample the tint map.
 #ifdef _TINT_MAP_ENABLED
 #define SAMPLE_TINT_MAP(uv, progress) SAMPLE_TEXTURE2D(_TintMap, sampler_TintMap, uv);
+#elif _TINT_MAP_MODE_2D_ARRAY
+#define SAMPLE_TINT_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_TintMap2DArray, sampler_TintMap2DArray, uv, progress);
 #elif _TINT_MAP_3D_ENABLED
 #define SAMPLE_TINT_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_TintMap3D, sampler_TintMap3D, half3(uv, progress), 0);
 #endif
@@ -455,11 +459,12 @@ half TintMapProgress(in half progress)
 // Apply the tint color.
 inline void ApplyTintColor(in out half4 color, half2 uv, half progress, half blendRate)
 {
-    half4 tintColor;
+    half4 tintColor = half4(1, 1, 1, 1);
     #ifdef _TINT_COLOR_ENABLED
     tintColor = _TintColor;
-    #elif defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
+    #elif defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
     tintColor = SAMPLE_TINT_MAP(uv, progress);
+
     #endif
     color *= lerp(half4(1, 1, 1, 1), tintColor, saturate(blendRate));
 }

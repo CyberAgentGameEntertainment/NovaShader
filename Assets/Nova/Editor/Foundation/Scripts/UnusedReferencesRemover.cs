@@ -169,12 +169,19 @@ namespace Nova.Editor.Foundation.Scripts
                 case TintColorMode.SingleColor:
                     ClearTexture(material, MaterialPropertyNames.TintMap);
                     ClearTexture(material, MaterialPropertyNames.TintMap3D);
+                    ClearTexture(material, MaterialPropertyNames.TintMap2DArray);
                     break;
-                case TintColorMode.Texture2D:
+                case TintColorMode.SingleTexture:
                     ClearTexture(material, MaterialPropertyNames.TintMap3D);
+                    ClearTexture(material, MaterialPropertyNames.TintMap2DArray);
                     break;
-                case TintColorMode.Texture3D:
+                case TintColorMode.FlipBookBlending:
                     ClearTexture(material, MaterialPropertyNames.TintMap);
+                    ClearTexture(material, MaterialPropertyNames.TintMap2DArray);
+                    break;
+                case TintColorMode.FlipBook:
+                    ClearTexture(material, MaterialPropertyNames.TintMap);
+                    ClearTexture(material, MaterialPropertyNames.TintMap3D);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
