@@ -33,7 +33,7 @@ struct Varyings
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION) || defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     float4 flowTransitionUVs : TEXCOORD3; // xy: FlowMap UV, zw: TransitionMap UV
     #endif
-    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
+    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
     float2 tintUV : TEXCOORD4; // xy: TintMap UV, zw: EmissionMap UV
     #endif
     float transitionProgress : TEXCOORD5;
@@ -129,16 +129,17 @@ Varyings ShadowPassVertex(Attributes input)
     #endif
 
     // Tint Map UV
-    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
+    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
     output.tintUV = TRANSFORM_TINT_MAP(input.texcoord.xy);
     output.tintUV.x += GET_CUSTOM_COORD(_TintMapOffsetXCoord);
     output.tintUV.y += GET_CUSTOM_COORD(_TintMapOffsetYCoord);
     #endif
 
     // Tint Map Progress
-    #ifdef _TINT_MAP_3D_ENABLED
-    output.baseMapUVAndProgresses.w = _TintMap3DProgress + GET_CUSTOM_COORD(_TintMap3DProgressCoord);
-    output.baseMapUVAndProgresses.w = TintMapProgress(output.baseMapUVAndProgresses.w);
+    #ifdef _TINT_MAP_MODE_2D_ARRAY
+    output.baseMapUVAndProgresses.w = FlipBookProgress(_TintMapProgress + GET_CUSTOM_COORD(_TintMapProgressCoord), _TintMapSliceCount);
+    #elif _TINT_MAP_3D_ENABLED
+    output.baseMapUVAndProgresses.w = FlipBookBlendingProgress(_TintMap3DProgress + GET_CUSTOM_COORD(_TintMap3DProgressCoord), _TintMapSliceCount);
     #endif
 
     // Flow Map UV
@@ -203,7 +204,7 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
     #endif
 
     #ifdef _FLOW_MAP_TARGET_TINT
-    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
+    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
         input.tintUV += flowMapUvOffset;
     #endif
     #endif
@@ -224,7 +225,7 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
     if (_ShadowCasterAlphaAffectedByTintColor)
     {
         half tintBlendRate = _TintBlendRate + GET_CUSTOM_COORD(_TintBlendRateCoord);
-    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
+    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
         ApplyTintColor(color, input.tintUV, input.baseMapUVAndProgresses.w, tintBlendRate);
     #else
         ApplyTintColor(color, half2( 0, 0 ), input.baseMapUVAndProgresses.w, tintBlendRate);

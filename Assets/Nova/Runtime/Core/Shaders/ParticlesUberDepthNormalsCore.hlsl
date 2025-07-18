@@ -6,7 +6,8 @@
 
 
 // If defined _ALPHATEST_ENABLED or  _NORMAL_MAP_ENABLED, base map uv is enabled.
-#if defined( _ALPHATEST_ENABLED ) || defined(_NORMAL_MAP_ENABLED)
+// Also enabled if TintColor FlipBook or 3D features are used.
+#if defined( _ALPHATEST_ENABLED ) || defined(_NORMAL_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
 #define _USE_BASE_MAP_UV
 #endif
 
@@ -93,7 +94,9 @@ struct VaryingsDrawDepth
 
     #ifdef _ALPHATEST_ENABLED // This attributes is not used for opaque objects.
     float4 color : COLOR;
+    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED) || defined(_EMISSION_AREA_MAP)
     float4 tintEmissionUV : TEXCOORD4; // xy: TintMap UV, zw: EmissionMap UV
+    #endif
     float3 transitionEmissionProgresses : TEXCOORD5;
     // x: TransitionMap Progress, y: EmissionMap Progress, z: Fog Factor
     #ifdef FRAGMENT_USE_VIEW_DIR_WS
@@ -232,16 +235,17 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #endif
 
     // Tint Map UV
-    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
+    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
     output.tintEmissionUV.xy = TRANSFORM_TINT_MAP(input.texcoord.xy);
     output.tintEmissionUV.x += GET_CUSTOM_COORD(_TintMapOffsetXCoord);
     output.tintEmissionUV.y += GET_CUSTOM_COORD(_TintMapOffsetYCoord);
     #endif
 
     // Tint Map Progress
-    #ifdef _TINT_MAP_3D_ENABLED
-    output.baseMapUVAndProgresses.w = _TintMap3DProgress + GET_CUSTOM_COORD(_TintMap3DProgressCoord);
-    output.baseMapUVAndProgresses.w = TintMapProgress(output.baseMapUVAndProgresses.w);
+    #ifdef _TINT_MAP_MODE_2D_ARRAY
+    output.baseMapUVAndProgresses.w = FlipBookProgress(_TintMapProgress + GET_CUSTOM_COORD(_TintMapProgressCoord), _TintMapSliceCount);
+    #elif _TINT_MAP_3D_ENABLED
+    output.baseMapUVAndProgresses.w = FlipBookBlendingProgress(_TintMap3DProgress + GET_CUSTOM_COORD(_TintMap3DProgressCoord), _TintMapSliceCount);
     #endif
 
     // Transition Map Progress
@@ -344,7 +348,11 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     rim = GetRimValue(rim, tintRimProgress, tintRimSharpness, _InverseTintRim);
     tintBlendRate *= _TintBlendRate * rim;
     #endif
+    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
     ApplyTintColor(color, input.tintEmissionUV.xy, input.baseMapUVAndProgresses.w, tintBlendRate);
+    #else
+    ApplyTintColor(color, half2( 0, 0 ), input.baseMapUVAndProgresses.w, tintBlendRate);
+    #endif
     #endif
 
     // Alpha Transition

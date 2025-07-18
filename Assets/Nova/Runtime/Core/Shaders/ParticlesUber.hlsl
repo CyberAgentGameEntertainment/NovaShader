@@ -446,13 +446,6 @@ SamplerState GetEmissionMapSamplerState()
 #define SAMPLE_SPECULAR_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_SpecularMap3D, GetSpecularMapSamplerState(), float3(uv, progress), 0);
 #endif
 
-// Returns the progress of the 2DArray/3d tint map.
-half TintMapProgress(in half progress)
-{
-    half offset = 1.0 / _TintMapSliceCount * 0.5;
-    progress += offset;
-    return progress;
-}
 
 // Sample the tint map.
 #ifdef _TINT_MAP_ENABLED

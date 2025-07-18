@@ -171,11 +171,9 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
 
     // Tint Map Progress
     #ifdef _TINT_MAP_MODE_2D_ARRAY
-    output.baseMapUVAndProgresses.w = _TintMapProgress + GET_CUSTOM_COORD(_TintMapProgressCoord);
-    output.baseMapUVAndProgresses.w = FlipBookProgress(output.baseMapUVAndProgresses.w, _TintMapSliceCount);
+    output.baseMapUVAndProgresses.w = FlipBookProgress(_TintMapProgress + GET_CUSTOM_COORD(_TintMapProgressCoord), _TintMapSliceCount);
     #elif _TINT_MAP_3D_ENABLED
-    output.baseMapUVAndProgresses.w = _TintMap3DProgress + GET_CUSTOM_COORD(_TintMap3DProgressCoord);
-    output.baseMapUVAndProgresses.w = TintMapProgress(output.baseMapUVAndProgresses.w);
+    output.baseMapUVAndProgresses.w = FlipBookBlendingProgress(_TintMap3DProgress + GET_CUSTOM_COORD(_TintMap3DProgressCoord), _TintMapSliceCount);
     #endif
 
     // Flow Map UV
@@ -274,7 +272,7 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     #endif
 
     #ifdef _FLOW_MAP_TARGET_TINT
-    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
+    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
     input.tintEmissionUV.xy += flowMapUvOffset;
     #endif
     #endif
@@ -299,7 +297,7 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     input.baseMapUVAndProgresses.xy += parallaxOffset;
     #endif
 
-    #if defined(_PARALLAX_MAP_TARGET_TINT) && (defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED))
+    #if defined(_PARALLAX_MAP_TARGET_TINT) && (defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED))
     input.tintEmissionUV.xy += parallaxOffset;
     #endif
 

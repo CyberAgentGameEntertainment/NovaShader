@@ -77,7 +77,7 @@ Shader "Nova/UIParticles/UberLit"
         _TintMap3DProgressCoord("Tint Map 3D Progress Coord", Float) = 0.0
         _TintMapProgress("Tint Map Progress", Range(0, 1)) = 0.0
         _TintMapProgressCoord("Tint Map Progress Coord", Float) = 0.0
-        _TintMapSliceCount("Base Map Slice Count", Float) = 4.0
+        _TintMapSliceCount("Tint Map Slice Count", Float) = 4.0
         _TintMapOffsetXCoord("Tint Map Offset X Coord", Float) = 0.0
         _TintMapOffsetYCoord("Tint Map Offset Y Coord", Float) = 0.0
         _TintBlendRate("Tint Blend Rate", Range(0.0, 1.0)) = 1.0
