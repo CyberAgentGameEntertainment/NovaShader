@@ -83,27 +83,37 @@ namespace Nova.Editor.Core.Scripts
 
         private static bool IsCustomCoordUsedInBaseMap(ParticlesUberCommonMaterialProperties commonMaterialProperties)
         {
-            var isCustomCoordUsed = IsCustomCoordUsed(commonMaterialProperties.BaseMapOffsetXCoordProp)
-                                    || IsCustomCoordUsed(commonMaterialProperties.BaseMapOffsetYCoordProp)
-                                    || IsCustomCoordUsed(commonMaterialProperties.BaseMapRotationCoordProp);
-            isCustomCoordUsed |= (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue !=
-                                 BaseMapMode.SingleTexture
-                                 && IsCustomCoordUsed(commonMaterialProperties.BaseMapProgressProp);
-
-            isCustomCoordUsed |= (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue !=
-                                 BaseMapMode.SingleTexture
-                                 && IsCustomCoordUsed(commonMaterialProperties.BaseMapProgressCoordProp);
-
-            // Random Row Selection
-            var baseMapMode = (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue;
-            if ((baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending) &&
-                commonMaterialProperties.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f)
+            // Check basic texture coordinate usage
+            if (IsCustomCoordUsed(commonMaterialProperties.BaseMapOffsetXCoordProp) ||
+                IsCustomCoordUsed(commonMaterialProperties.BaseMapOffsetYCoordProp) ||
+                IsCustomCoordUsed(commonMaterialProperties.BaseMapRotationCoordProp))
             {
-                var randomCoord = (CustomCoord)commonMaterialProperties.BaseMapRandomRowCoordProp.Value.floatValue;
-                isCustomCoordUsed |= randomCoord != CustomCoord.Unused;
+                return true;
             }
 
-            return isCustomCoordUsed;
+            var baseMapMode = (BaseMapMode)commonMaterialProperties.BaseMapModeProp.Value.floatValue;
+            
+            // Check FlipBook-specific features
+            if (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending)
+            {
+                // FlipBook progress
+                if (IsCustomCoordUsed(commonMaterialProperties.BaseMapProgressCoordProp))
+                {
+                    return true;
+                }
+                
+                // Random Row Selection
+                if (commonMaterialProperties.BaseMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f)
+                {
+                    var randomCoord = (CustomCoord)commonMaterialProperties.BaseMapRandomRowCoordProp.Value.floatValue;
+                    if (randomCoord != CustomCoord.Unused)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         private static bool IsCustomCoordUsedInTintColor(ParticlesUberCommonMaterialProperties commonMaterialProperties)
@@ -431,6 +441,5 @@ namespace Nova.Editor.Core.Scripts
                 }
             }
         }
-
     }
 }
