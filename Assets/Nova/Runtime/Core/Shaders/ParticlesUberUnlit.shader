@@ -41,8 +41,11 @@ Shader "Nova/Particles/UberUnlit"
         [HDR] _TintColor("Tint Color", Color) = (1, 1, 1, 1)
         _TintMap("Tint Map", 2D) = "white" {}
         _TintMap3D("Tint Map 3D", 3D) = "" {}
+        _TintMap2DArray("Tint Map 2D Array", 2DArray) = "" {}
         _TintMap3DProgress("Tint Map 3D Progress", Range(0, 1)) = 0.0
         _TintMap3DProgressCoord("Tint Map 3D Progress Coord", Float) = 0.0
+        _TintMapProgress("Tint Map Progress", Range(0, 1)) = 0.0
+        _TintMapProgressCoord("Tint Map Progress Coord", Float) = 0.0
         _TintMapSliceCount("Tint Map Slice Count", Float) = 4.0
         _TintMapOffsetXCoord("Tint Map Offset X Coord", Float) = 0.0
         _TintMapOffsetYCoord("Tint Map Offset Y Coord", Float) = 0.0

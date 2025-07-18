@@ -11,6 +11,8 @@ TEXTURE3D(_BaseMap3D);
 SAMPLER(sampler_BaseMap3D);
 TEXTURE2D(_TintMap);
 SAMPLER(sampler_TintMap);
+TEXTURE2D_ARRAY(_TintMap2DArray);
+SAMPLER(sampler_TintMap2DArray);
 TEXTURE3D(_TintMap3D);
 SAMPLER(sampler_TintMap3D);
 TEXTURE2D(_FlowMap);
@@ -96,8 +98,11 @@ CBUFFER_START(UnityPerMaterial)
     half4 _TintColor;
     float4 _TintMap_ST;
     float4 _TintMap3D_ST;
+    float4 _TintMap2DArray_ST;
     float _TintMap3DProgress;
     DECLARE_CUSTOM_COORD(_TintMap3DProgressCoord);
+    float _TintMapProgress;
+    DECLARE_CUSTOM_COORD(_TintMapProgressCoord);
     float _TintMapSliceCount;
     DECLARE_CUSTOM_COORD(_TintMapOffsetXCoord);
     DECLARE_CUSTOM_COORD(_TintMapOffsetYCoord);
@@ -358,6 +363,8 @@ SamplerState GetEmissionMapSamplerState()
 // Transforms the tint map UV by the scale/bias property
 #ifdef _TINT_MAP_ENABLED
 #define TRANSFORM_TINT_MAP(texcoord) TRANSFORM_TEX(texcoord, _TintMap);
+#elif _TINT_MAP_MODE_2D_ARRAY
+#define TRANSFORM_TINT_MAP(texcoord) TRANSFORM_TEX(texcoord, _TintMap2DArray);
 #elif _TINT_MAP_3D_ENABLED
 #define TRANSFORM_TINT_MAP(texcoord) TRANSFORM_TEX(texcoord, _TintMap3D);
 #endif
@@ -448,6 +455,8 @@ half TintMapProgress(in half progress)
 // Sample the tint map.
 #ifdef _TINT_MAP_ENABLED
 #define SAMPLE_TINT_MAP(uv, progress) SAMPLE_TEXTURE2D(_TintMap, sampler_TintMap, uv);
+#elif _TINT_MAP_MODE_2D_ARRAY
+#define SAMPLE_TINT_MAP(uv, progress) SAMPLE_TEXTURE2D_ARRAY(_TintMap2DArray, sampler_TintMap2DArray, uv, progress);
 #elif _TINT_MAP_3D_ENABLED
 #define SAMPLE_TINT_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_TintMap3D, sampler_TintMap3D, half3(uv, progress), 0);
 #endif
@@ -458,7 +467,7 @@ inline void ApplyTintColor(in out half4 color, half2 uv, half progress, half ble
     half4 tintColor;
     #ifdef _TINT_COLOR_ENABLED
     tintColor = _TintColor;
-    #elif defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
+    #elif defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
     tintColor = SAMPLE_TINT_MAP(uv, progress);
     #endif
     color *= lerp(half4(1, 1, 1, 1), tintColor, saturate(blendRate));

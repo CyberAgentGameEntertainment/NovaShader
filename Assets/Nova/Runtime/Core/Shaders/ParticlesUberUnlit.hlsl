@@ -28,7 +28,7 @@ struct Varyings
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_TINT) || defined(_FLOW_MAP_TARGET_EMISSION) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION) || defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
     float4 flowTransitionUVs : TEXCOORD3; // xy: FlowMap UV, zw: TransitionMap UV
     #endif
-    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED) || defined(_EMISSION_AREA_MAP)
+    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED) || defined(_EMISSION_AREA_MAP)
     float4 tintEmissionUV : TEXCOORD4; // xy: TintMap UV, zw: EmissionMap UV
     #endif
     float3 transitionEmissionProgresses : TEXCOORD5;
@@ -163,14 +163,17 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     #endif
 
     // Tint Map UV
-    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
+    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
     output.tintEmissionUV.xy = TRANSFORM_TINT_MAP(input.texcoord.xy);
     output.tintEmissionUV.x += GET_CUSTOM_COORD(_TintMapOffsetXCoord);
     output.tintEmissionUV.y += GET_CUSTOM_COORD(_TintMapOffsetYCoord);
     #endif
 
     // Tint Map Progress
-    #ifdef _TINT_MAP_3D_ENABLED
+    #ifdef _TINT_MAP_MODE_2D_ARRAY
+    output.baseMapUVAndProgresses.w = _TintMapProgress + GET_CUSTOM_COORD(_TintMapProgressCoord);
+    output.baseMapUVAndProgresses.w = FlipBookProgress(output.baseMapUVAndProgresses.w, _TintMapSliceCount);
+    #elif _TINT_MAP_3D_ENABLED
     output.baseMapUVAndProgresses.w = _TintMap3DProgress + GET_CUSTOM_COORD(_TintMap3DProgressCoord);
     output.baseMapUVAndProgresses.w = TintMapProgress(output.baseMapUVAndProgresses.w);
     #endif
@@ -317,7 +320,7 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     rim = GetRimValue(rim, tintRimProgress, tintRimSharpness, _InverseTintRim);
     tintBlendRate *= _TintBlendRate * rim;
     #endif
-    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_3D_ENABLED)
+    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
     ApplyTintColor(color, input.tintEmissionUV.xy, input.baseMapUVAndProgresses.w, tintBlendRate);
     #else
     ApplyTintColor(color, half2( 0, 0 ), input.baseMapUVAndProgresses.w, tintBlendRate);

@@ -85,6 +85,11 @@ namespace Nova.Editor.Core.Scripts
         public const string TintRimSharpness = "_TintRimSharpness";
         public const string TintRimSharpnessCoord = "_TintRimSharpnessCoord";
         public const string InverseTintRim = "_InverseTintRim";
+        
+        // Tint Color FlipBook
+        public const string TintMap2DArray = "_TintMap2DArray";
+        public const string TintMapProgress = "_TintMapProgress";
+        public const string TintMapProgressCoord = "_TintMapProgressCoord";
 
         // Flow Map
         public const string FlowMap = "_FlowMap";

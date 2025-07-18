@@ -40,6 +40,7 @@ namespace Nova.Editor.Core.Scripts
         public const string TintColorEnabled = "_TINT_COLOR_ENABLED";
         public const string TintMapEnabled = "_TINT_MAP_ENABLED";
         public const string TintMap3DEnabled = "_TINT_MAP_3D_ENABLED";
+        public const string TintMapMode2DArray = "_TINT_MAP_MODE_2D_ARRAY";
         public const string GreyscaleEnabled = "_GREYSCALE_ENABLED";
         public const string GradientMapEnabled = "_GRADIENT_MAP_ENABLED";
         public const string FlowMapEnabled = "_FLOW_MAP_ENABLED";
@@ -175,6 +176,8 @@ namespace Nova.Editor.Core.Scripts
                     return TintMapEnabled;
                 case TintColorMode.FlipBookBlending:
                     return TintMap3DEnabled;
+                case TintColorMode.FlipBook:
+                    return TintMapMode2DArray;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(tintColorMode), tintColorMode, null);
             }
