@@ -516,9 +516,13 @@ Tint Colorでは乗算色を指定できます。
 <p>
 <ul>
 <li>Single Color: 単色（デフォルト）</li>
-<li>Texture 2D: テクスチャで指定</li>
-<li>Texture 3D: 3Dテクスチャで指定（アニメーション可能）</li>
+<li>Single Texture: テクスチャで指定</li>
+<li>Flip Book Blending: フリップブックアニメーション（補間あり）</li>
+<li>Flip Book: フリップブックアニメーション</li>
 </ul>
+</p>
+<p>
+選択したモードによって必要なテクスチャタイプが変わります。
 </p>
 </td></tr>
 <tr><td colspan=3><b>Color</b></td><td>
@@ -531,18 +535,22 @@ Tint Colorでは乗算色を指定できます。
 </td></tr>
 <tr><td colspan=3><b>Texture</b></td><td>
 <p>
-<b>Color ModeをTexture 2DあるいはTexture 3Dに設定した時のみ表示されます。</b>
+<b>Color ModeをSingle Texture、Flip Book Blending、あるいはFlip Bookに設定した時のみ表示されます。</b>
 </p>
 <p>
 乗算色を表すテクスチャを設定します。
 </p>
-</td></tr>
-<tr><td colspan=3><b>Progress</b></td><td>
 <p>
-<b>Color ModeをTexture 3Dに設定した時のみ表示されます。</b>
+Color ModeをFlip Bookに設定した場合は<a href="https://docs.unity3d.com/2020.3/Documentation/Manual/class-Texture2DArray.html">Texture2DArray</a>を設定する必要があります。
+Flip Book Blendingに設定した場合は<a href="https://docs.unity3d.com/2020.3/Documentation/Manual/class-Texture3D.html">Texture3D</a>を設定する必要があります。
+</p>
+</td></tr>
+<tr><td colspan=3><b>Flip-Book Progress</b></td><td>
+<p>
+<b>Color ModeをFlip Book BlendingあるいはFlip Bookに設定した時のみ表示されます。</b>
 </p>
 <p>
-3Dテクスチャで指定した乗算色の進行度合いです。
+フリップブックまたはフリップブックブレンディングの進行度合いです。
 </p>
 </td></tr>
 <tr><td colspan=3><b>Blend Rate</b></td><td>
