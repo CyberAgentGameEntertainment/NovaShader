@@ -94,7 +94,7 @@ struct VaryingsDrawDepth
 
     #ifdef _ALPHATEST_ENABLED // This attributes is not used for opaque objects.
     float4 color : COLOR;
-    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED) || defined(_EMISSION_AREA_MAP)
+    #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED) || defined(_EMISSION_AREA_MAP) || defined(_EMISSION_MAP_MODE_2D) || defined(_EMISSION_MAP_MODE_2D_ARRAY) || defined(_EMISSION_MAP_MODE_3D)
     float4 tintEmissionUV : TEXCOORD4; // xy: TintMap UV, zw: EmissionMap UV
     #endif
     float3 transitionEmissionProgresses : TEXCOORD5;
