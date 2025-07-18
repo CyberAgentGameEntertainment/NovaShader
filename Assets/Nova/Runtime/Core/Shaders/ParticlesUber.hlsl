@@ -464,7 +464,7 @@ half TintMapProgress(in half progress)
 // Apply the tint color.
 inline void ApplyTintColor(in out half4 color, half2 uv, half progress, half blendRate)
 {
-    half4 tintColor;
+    half4 tintColor = half4(1, 1, 1, 1);
     #ifdef _TINT_COLOR_ENABLED
     tintColor = _TintColor;
     #elif defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
