@@ -171,7 +171,7 @@ namespace Nova.Editor.Foundation.Scripts
                     ClearTexture(material, MaterialPropertyNames.TintMap3D);
                     ClearTexture(material, MaterialPropertyNames.TintMap2DArray);
                     break;
-                case TintColorMode.Texture2D:
+                case TintColorMode.SingleTexture:
                     ClearTexture(material, MaterialPropertyNames.TintMap3D);
                     ClearTexture(material, MaterialPropertyNames.TintMap2DArray);
                     break;

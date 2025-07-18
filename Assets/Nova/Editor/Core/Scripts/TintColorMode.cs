@@ -7,7 +7,7 @@ namespace Nova.Editor.Core.Scripts
     public enum TintColorMode
     {
         SingleColor,
-        Texture2D,
+        SingleTexture,
         FlipBookBlending,
         FlipBook = 3
     }

@@ -386,7 +386,7 @@ namespace Nova.Editor.Core.Scripts
             {
                 _editor.ShaderProperty(props.BaseColorProp.Value, "Color");
             }
-            else if (tintColorMode == TintColorMode.Texture2D)
+            else if (tintColorMode == TintColorMode.SingleTexture)
             {
                 MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, props.TintMapProp.Value,
                     props.TintMapOffsetXCoordProp.Value, props.TintMapOffsetYCoordProp.Value,

@@ -116,7 +116,7 @@ namespace Nova.Editor.Core.Scripts
                                          || IsCustomCoordUsed(commonMaterialProperties.TintRimSharpnessCoordProp);
 
                 var tintMapMode = (TintColorMode)commonMaterialProperties.TintColorModeProp.Value.floatValue;
-                if (tintMapMode == TintColorMode.Texture2D || tintMapMode == TintColorMode.FlipBookBlending || tintMapMode == TintColorMode.FlipBook)
+                if (tintMapMode == TintColorMode.SingleTexture || tintMapMode == TintColorMode.FlipBookBlending || tintMapMode == TintColorMode.FlipBook)
                 {
                     isCustomCoordUsed |= IsCustomCoordUsed(commonMaterialProperties.TintMapOffsetXCoordProp)
                                          || IsCustomCoordUsed(commonMaterialProperties.TintMapOffsetYCoordProp);

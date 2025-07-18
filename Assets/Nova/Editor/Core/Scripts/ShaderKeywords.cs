@@ -172,7 +172,7 @@ namespace Nova.Editor.Core.Scripts
             {
                 case TintColorMode.SingleColor:
                     return TintColorEnabled;
-                case TintColorMode.Texture2D:
+                case TintColorMode.SingleTexture:
                     return TintMapEnabled;
                 case TintColorMode.FlipBookBlending:
                     return TintMap3DEnabled;
