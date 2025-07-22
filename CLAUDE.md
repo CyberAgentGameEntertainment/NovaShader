@@ -6,6 +6,7 @@
 
 - **MUST** Prioritize @reference format for instruction documentation
 - **MUST** Keep this file concise and split details into dedicated files
+- **MUST NOT** include any troubleshooting, implementation checklists, or version tracking information
 
 ## Project Overview
 
@@ -25,6 +26,9 @@ NOVA Shader is a high-performance particle shader system.
 - **MUST** Follow @documentation/documentation_guidelines.md
 - **MUST** Adhere to the following specification and design document formats:
   - Feature Specifications: @documentation/FeatureSpecification_Template.md
+
+## Pull Request Guidelines
+- **MUST** Write PR titles in English and PR descriptions/commit messages in Japanese
 
 ### Documentation Editing Protocol
 
@@ -69,13 +73,3 @@ If you find yourself wanting to add any of these, **STOP** and restructure as te
 - Custom Coord System: @documentation/CustomCoord_SystemArchitecture.md
 - UIParticles Limitations: @documentation/UIParticles_Limitations.md
 - TEXCOORD Usage Strategy: @documentation/TEXCOORD_Usage_Strategy.md
-
-## Recent Development History
-
-### Tint Color FlipBook Feature Implementation (PR #153)
-**Status**: Completed and ready for review
-
-**Overview**: Added FlipBook (Texture2DArray) functionality to Tint Color to achieve feature parity with Base Color while maintaining full backward compatibility.
-
-**Pull Request Guidelines**:
-- **MUST** Write PR titles in English and PR descriptions/commit messages in Japanese
