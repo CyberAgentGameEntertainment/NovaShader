@@ -166,15 +166,17 @@ half2 GetFlowMapUvOffset(TEXTURE2D_PARAM(flowMap, sampler_flowMap),
     #endif
 }
 
-// Returns the progress for flip-book.
+// Returns the progress for flip-book (Texture2D Array).
+// Returns an integer frame index to prevent texture bleeding.
 half FlipBookProgress(in half progress, in half sliceCount)
 {
-    float result = progress;
-    result = clamp(result, 0, 0.999);
-    result = frac(result);
-    result *= sliceCount;
-    result -= 0.5;
-    return result;
+    // Clamp progress to [0, 0.999) range
+    half clampedProgress = clamp(progress, 0.0, 0.999);
+    
+    // Calculate frame index and floor to integer
+    // This prevents texture bleeding in Texture2D Array sampling
+    half frameIndex = clampedProgress * sliceCount;
+    return floor(frameIndex);
 }
 
 // Returns the progress for flip-book blending.
