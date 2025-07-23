@@ -192,10 +192,6 @@ half FlipBookBlendingProgress(in half progress, in half sliceCount)
 // Returns the progress for flip-book with random row selection.
 half FlipBookProgressWithRandomRow(in half progress, in half sliceCount, in half rowCount, in half randomValue)
 {
-    if (rowCount <= 1.0 || sliceCount <= 1.0) {
-        return FlipBookProgress(progress, sliceCount);
-    }
-    
     half framesPerRow = sliceCount / rowCount;
     
     // randomValue is expected to be in range [0, rowCount)
@@ -210,10 +206,6 @@ half FlipBookProgressWithRandomRow(in half progress, in half sliceCount, in half
 // Returns the progress for flip-book blending with random row selection.
 half FlipBookBlendingProgressWithRandomRow(in half progress, in half sliceCount, in half rowCount, in half randomValue)
 {
-    if (rowCount <= 1.0 || sliceCount <= 1.0) {
-        return FlipBookBlendingProgress(progress, sliceCount);
-    }
-    
     half framesPerRow = sliceCount / rowCount;
     
     // randomValue is expected to be in range [0, rowCount)
@@ -229,23 +221,6 @@ half FlipBookBlendingProgressWithRandomRow(in half progress, in half sliceCount,
     
     return clamp(normalizedProgress, baseMapProgressOffset, 1.0 - baseMapProgressOffset);
 }
-
-// Macro to reduce code duplication for FlipBook progress calculation
-#define CALCULATE_FLIPBOOK_PROGRESS(baseMapProgress, outputProgress) \
-    if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) { \
-        float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord); \
-        outputProgress = FlipBookProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, randomValue); \
-    } else { \
-        outputProgress = FlipBookProgress(baseMapProgress, _BaseMapSliceCount); \
-    }
-
-#define CALCULATE_FLIPBOOK_BLENDING_PROGRESS(baseMapProgress, outputProgress) \
-    if (_BaseMapRandomRowSelectionEnabled > 0.5 && _BaseMapRowCount > 1.0) { \
-        float randomValue = GET_CUSTOM_COORD(_BaseMapRandomRowCoord); \
-        outputProgress = FlipBookBlendingProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, randomValue); \
-    } else { \
-        outputProgress = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount); \
-    }
 
 // Get vertex deformation intensity by vertex deformation map
 half GetVertexDeformationIntensity(

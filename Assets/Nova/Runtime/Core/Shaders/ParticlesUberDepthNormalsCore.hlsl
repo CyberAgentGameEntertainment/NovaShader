@@ -219,7 +219,7 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     
     // Random Row Selection
     #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
-    CALCULATE_FLIPBOOK_PROGRESS(baseMapProgress, output.baseMapUVAndProgresses.z);
+    output.baseMapUVAndProgresses.z = FlipBookProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, GET_CUSTOM_COORD(_BaseMapRandomRowCoord));
     #else
     output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
     #endif
@@ -228,7 +228,7 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     
     // Random Row Selection
     #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
-    CALCULATE_FLIPBOOK_BLENDING_PROGRESS(baseMapProgress, output.baseMapUVAndProgresses.z);
+    output.baseMapUVAndProgresses.z = FlipBookProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, GET_CUSTOM_COORD(_BaseMapRandomRowCoord));
     #else
     output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
     #endif
