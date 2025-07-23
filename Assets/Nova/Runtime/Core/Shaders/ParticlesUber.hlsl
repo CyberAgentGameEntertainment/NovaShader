@@ -114,6 +114,11 @@ float _TintRimSharpness;
 float _TintRimSharpnessCoord;
 float _InverseTintRim;
 
+// Tint Color Random Row Selection
+float _TintMapRandomRowSelectionEnabled;
+DECLARE_CUSTOM_COORD(_TintMapRandomRowCoord);
+float _TintMapRowCount;
+
 float4 _FlowMap_ST;
 DECLARE_CUSTOM_COORD(_FlowMapOffsetXCoord);
 DECLARE_CUSTOM_COORD(_FlowMapOffsetYCoord);
@@ -148,6 +153,11 @@ float _AlphaTransitionProgressSecondTexture;
 DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoordSecondTexture);
 float _DissolveSharpnessSecondTexture;
 
+// Alpha Transition Random Row Selection
+float _AlphaTransitionMapRandomRowSelectionEnabled;
+DECLARE_CUSTOM_COORD(_AlphaTransitionMapRandomRowCoord);
+float _AlphaTransitionMapRowCount;
+
 float4 _EmissionMap_ST;
 float4 _EmissionMap2DArray_ST;
 float4 _EmissionMap3D_ST;
@@ -162,6 +172,11 @@ float3 _EmissionColor;
 float _EmissionIntensity;
 DECLARE_CUSTOM_COORD(_EmissionIntensityCoord);
 float _KeepEdgeTransparency;
+
+// Emission Random Row Selection
+float _EmissionMapRandomRowSelectionEnabled;
+DECLARE_CUSTOM_COORD(_EmissionMapRandomRowCoord);
+float _EmissionMapRowCount;
 
 float _Cutoff;
 float _Greyscale;
@@ -201,6 +216,12 @@ DECLARE_CUSTOM_COORD(_ParallaxMapProgressCoord);
 float _ParallaxMapSliceCount;
 DECLARE_CUSTOM_COORD(_ParallaxMapOffsetXCoord);
 DECLARE_CUSTOM_COORD(_ParallaxMapOffsetYCoord);
+
+// Parallax Map Random Row Selection
+float _ParallaxMapRandomRowSelectionEnabled;
+DECLARE_CUSTOM_COORD(_ParallaxMapRandomRowCoord);
+float _ParallaxMapRowCount;
+
 // Specular Map
 half4 _SpecularColor;
 // Metallic Map

@@ -96,6 +96,11 @@ namespace Nova.Editor.Core.Scripts
             TintRimSharpnessProp.Setup(properties);
             TintRimSharpnessCoordProp.Setup(properties);
             InverseTintRimProp.Setup(properties);
+            
+            // Tint Color Random Row Selection
+            TintMapRandomRowSelectionEnabledProp.Setup(properties);
+            TintMapRandomRowCoordProp.Setup(properties);
+            TintMapRowCountProp.Setup(properties);
 
             // Flow Map
             FlowMapProp.Setup(properties);
@@ -120,6 +125,11 @@ namespace Nova.Editor.Core.Scripts
             ParallaxMapChannel.Setup(properties);
             ParallaxStrengthProp.Setup(properties);
             ParallaxMapTargetProp.Setup(properties);
+            
+            // Parallax Map Random Row Selection
+            ParallaxMapRandomRowSelectionEnabledProp.Setup(properties);
+            ParallaxMapRandomRowCoordProp.Setup(properties);
+            ParallaxMapRowCountProp.Setup(properties);
 
             // Color Correction
             ColorCorrectionModeProp.Setup(properties);
@@ -153,6 +163,11 @@ namespace Nova.Editor.Core.Scripts
             AlphaTransitionProgressSecondTextureProp.Setup(properties);
             AlphaTransitionProgressCoordSecondTextureProp.Setup(properties);
             DissolveSharpnessSecondTextureProp.Setup(properties);
+            
+            // Alpha Transition Random Row Selection
+            AlphaTransitionMapRandomRowSelectionEnabledProp.Setup(properties);
+            AlphaTransitionMapRandomRowCoordProp.Setup(properties);
+            AlphaTransitionMapRowCountProp.Setup(properties);
 
             // Emission
             EmissionAreaTypeProp.Setup(properties);
@@ -172,6 +187,11 @@ namespace Nova.Editor.Core.Scripts
             EmissionIntensityProp.Setup(properties);
             EmissionIntensityCoordProp.Setup(properties);
             KeepEdgeTransparencyProp.Setup(properties);
+            
+            // Emission Random Row Selection
+            EmissionMapRandomRowSelectionEnabledProp.Setup(properties);
+            EmissionMapRandomRowCoordProp.Setup(properties);
+            EmissionMapRowCountProp.Setup(properties);
 
             // Transparency
             RimTransparencyEnabledProp.Setup(properties);
@@ -325,6 +345,11 @@ namespace Nova.Editor.Core.Scripts
 
         public ParticlesGUI.Property InverseTintRimProp { get; } = new(PropertyNames.InverseTintRim);
 
+        // Tint Color Random Row Selection
+        public ParticlesGUI.Property TintMapRandomRowSelectionEnabledProp { get; } = new(PropertyNames.TintMapRandomRowSelectionEnabled);
+        public ParticlesGUI.Property TintMapRandomRowCoordProp { get; } = new(PropertyNames.TintMapRandomRowCoord);
+        public ParticlesGUI.Property TintMapRowCountProp { get; } = new(PropertyNames.TintMapRowCount);
+
         #endregion
 
         #region Flow Map Material Properties
@@ -364,6 +389,11 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property ParallaxMapChannel { get; } = new(PropertyNames.ParallaxMapChannel);
         public ParticlesGUI.Property ParallaxStrengthProp { get; } = new(PropertyNames.ParallaxStrength);
         public ParticlesGUI.Property ParallaxMapTargetProp { get; } = new(PropertyNames.ParallaxMapTarget);
+
+        // Parallax Map Random Row Selection
+        public ParticlesGUI.Property ParallaxMapRandomRowSelectionEnabledProp { get; } = new(PropertyNames.ParallaxMapRandomRowSelectionEnabled);
+        public ParticlesGUI.Property ParallaxMapRandomRowCoordProp { get; } = new(PropertyNames.ParallaxMapRandomRowCoord);
+        public ParticlesGUI.Property ParallaxMapRowCountProp { get; } = new(PropertyNames.ParallaxMapRowCount);
 
         #endregion
 
@@ -452,6 +482,11 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property DissolveSharpnessSecondTextureProp { get; } =
             new(PropertyNames.DissolveSharpnessSecondTexture);
 
+        // Alpha Transition Random Row Selection
+        public ParticlesGUI.Property AlphaTransitionMapRandomRowSelectionEnabledProp { get; } = new(PropertyNames.AlphaTransitionMapRandomRowSelectionEnabled);
+        public ParticlesGUI.Property AlphaTransitionMapRandomRowCoordProp { get; } = new(PropertyNames.AlphaTransitionMapRandomRowCoord);
+        public ParticlesGUI.Property AlphaTransitionMapRowCountProp { get; } = new(PropertyNames.AlphaTransitionMapRowCount);
+
         #endregion
 
         #region Emission Material Properties
@@ -490,6 +525,11 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property EmissionIntensityCoordProp { get; } = new(PropertyNames.EmissionIntensityCoord);
 
         public ParticlesGUI.Property KeepEdgeTransparencyProp { get; } = new(PropertyNames.KeepEdgeTransparency);
+
+        // Emission Random Row Selection
+        public ParticlesGUI.Property EmissionMapRandomRowSelectionEnabledProp { get; } = new(PropertyNames.EmissionMapRandomRowSelectionEnabled);
+        public ParticlesGUI.Property EmissionMapRandomRowCoordProp { get; } = new(PropertyNames.EmissionMapRandomRowCoord);
+        public ParticlesGUI.Property EmissionMapRowCountProp { get; } = new(PropertyNames.EmissionMapRowCount);
 
         #endregion
 

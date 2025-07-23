@@ -31,6 +31,16 @@ namespace Nova.Editor.Core.Scripts
         private static readonly int BaseMapRandomRowSelectionEnabledId =
             Shader.PropertyToID(MaterialPropertyNames.BaseMapRandomRowSelectionEnabled);
 
+        // Random Row Selection Property IDs
+        private static readonly int TintMapRandomRowSelectionEnabledId =
+            Shader.PropertyToID(MaterialPropertyNames.TintMapRandomRowSelectionEnabled);
+        private static readonly int ParallaxMapRandomRowSelectionEnabledId =
+            Shader.PropertyToID(MaterialPropertyNames.ParallaxMapRandomRowSelectionEnabled);
+        private static readonly int AlphaTransitionMapRandomRowSelectionEnabledId =
+            Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionMapRandomRowSelectionEnabled);
+        private static readonly int EmissionMapRandomRowSelectionEnabledId =
+            Shader.PropertyToID(MaterialPropertyNames.EmissionMapRandomRowSelectionEnabled);
+
         private static readonly int TintAreaModeId = Shader.PropertyToID(MaterialPropertyNames.TintAreaMode);
         private static readonly int TintMapModeId = Shader.PropertyToID(MaterialPropertyNames.TintColorMode);
         private static readonly int FlowMapId = Shader.PropertyToID(MaterialPropertyNames.FlowMap);
@@ -220,6 +230,13 @@ namespace Nova.Editor.Core.Scripts
                 MaterialEditorUtility.SetKeyword(material, keyword, isOn);
             }
 
+            // Tint Map Random Row Selection
+            var tintMapRandomRowSelectionEnabled =
+                (tintColorMode == TintColorMode.FlipBook || tintColorMode == TintColorMode.FlipBookBlending) &&
+                material.GetFloat(TintMapRandomRowSelectionEnabledId) > 0.5f;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.TintMapRandomRowSelectionEnabled,
+                tintMapRandomRowSelectionEnabled);
+
             var colorCorrectionMode =
                 (ColorCorrectionMode)material.GetFloat(ColorCorrectionModeId);
             foreach (ColorCorrectionMode value in Enum.GetValues(typeof(ColorCorrectionMode)))
@@ -287,6 +304,13 @@ namespace Nova.Editor.Core.Scripts
 
             var emissionEnabled = hasParallaxMap && (parallaxMapTarget & ParallaxMapTarget.EmissionMap) != 0;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.ParallaxMapTargetEmission, emissionEnabled);
+
+            // Parallax Map Random Row Selection
+            var parallaxMapRandomRowSelectionEnabled =
+                (parallaxMapMode == ParallaxMapMode.FlipBook || parallaxMapMode == ParallaxMapMode.FlipBookBlending) &&
+                material.GetFloat(ParallaxMapRandomRowSelectionEnabledId) > 0.5f;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.ParallaxMapRandomRowSelectionEnabled,
+                parallaxMapRandomRowSelectionEnabled);
         }
 
         private static void SetupAlphaTransitionMaterialKeywords(Material material)
@@ -309,6 +333,13 @@ namespace Nova.Editor.Core.Scripts
                 var keyword = value.GetShaderKeyword();
                 MaterialEditorUtility.SetKeyword(material, keyword, isOn);
             }
+
+            // Alpha Transition Map Random Row Selection
+            var alphaTransitionMapRandomRowSelectionEnabled =
+                (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook || alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending) &&
+                material.GetFloat(AlphaTransitionMapRandomRowSelectionEnabledId) > 0.5f;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.AlphaTransitionMapRandomRowSelectionEnabled,
+                alphaTransitionMapRandomRowSelectionEnabled);
 
             // 2nd Texture
             {
@@ -352,6 +383,13 @@ namespace Nova.Editor.Core.Scripts
                 var keyword = value.GetShaderKeyword();
                 MaterialEditorUtility.SetKeyword(material, keyword, isOn);
             }
+
+            // Emission Map Random Row Selection
+            var emissionMapRandomRowSelectionEnabled =
+                (emissionMapMode == EmissionMapMode.FlipBook || emissionMapMode == EmissionMapMode.FlipBookBlending) &&
+                material.GetFloat(EmissionMapRandomRowSelectionEnabledId) > 0.5f;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.EmissionMapRandomRowSelectionEnabled,
+                emissionMapRandomRowSelectionEnabled);
         }
 
         private static void SetupTransparencyMaterialKeywords(Material material)
