@@ -31,10 +31,8 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
-  disabledShaderPasses:
-  - SHADOWCASTER
+  stringTagMap: {}
+  disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -163,6 +161,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TintMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TintMap3D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -198,8 +200,11 @@ Material:
     - _BaseMapOffsetYCoord: 0
     - _BaseMapProgress: 0
     - _BaseMapProgressCoord: 1
+    - _BaseMapRandomRowCoord: 0
+    - _BaseMapRandomRowSelectionEnabled: 0
     - _BaseMapRotation: 0
     - _BaseMapRotationCoord: 0
+    - _BaseMapRowCount: 1
     - _BaseMapSliceCount: 25
     - _BlendDst: 10
     - _BlendSrc: 5
@@ -289,6 +294,8 @@ Material:
     - _TintMap3DProgressCoord: 1
     - _TintMapOffsetXCoord: 0
     - _TintMapOffsetYCoord: 0
+    - _TintMapProgress: 0
+    - _TintMapProgressCoord: 0
     - _TintMapSliceCount: 4
     - _TintRimProgress: 0.5
     - _TintRimProgressCoord: 0

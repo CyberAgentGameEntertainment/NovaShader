@@ -6,6 +6,7 @@
 
 - **MUST** Prioritize @reference format for instruction documentation
 - **MUST** Keep this file concise and split details into dedicated files
+- **MUST NOT** include any troubleshooting, implementation checklists, or version tracking information
 
 ## Project Overview
 
@@ -17,6 +18,7 @@ NOVA Shader is a high-performance particle shader system.
 ### Design Decisions
 - **MUST** Unity's Texture Sheet Animation is deprecated in NOVA
 - **MUST** Use Flip Book and Flip Book Blending as replacements for Texture Sheet Animation functionality
+- **MUST** TintColorMode enum ordering differs from BaseMapMode due to backward compatibility (FlipBookBlending at index 2, FlipBook at index 3)
 
 ## Documentation Guidelines
 
@@ -24,6 +26,9 @@ NOVA Shader is a high-performance particle shader system.
 - **MUST** Follow @documentation/documentation_guidelines.md
 - **MUST** Adhere to the following specification and design document formats:
   - Feature Specifications: @documentation/FeatureSpecification_Template.md
+
+## Pull Request Guidelines
+- **MUST** Write PR titles in English and PR descriptions/commit messages in Japanese
 
 ### Documentation Editing Protocol
 

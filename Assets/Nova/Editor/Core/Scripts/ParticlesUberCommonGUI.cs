@@ -386,13 +386,13 @@ namespace Nova.Editor.Core.Scripts
             {
                 _editor.ShaderProperty(props.BaseColorProp.Value, "Color");
             }
-            else if (tintColorMode == TintColorMode.Texture2D)
+            else if (tintColorMode == TintColorMode.SingleTexture)
             {
                 MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, props.TintMapProp.Value,
                     props.TintMapOffsetXCoordProp.Value, props.TintMapOffsetYCoordProp.Value,
                     null, null);
             }
-            else if (tintColorMode == TintColorMode.Texture3D)
+            else if (tintColorMode == TintColorMode.FlipBookBlending)
             {
                 using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                 {
@@ -407,8 +407,26 @@ namespace Nova.Editor.Core.Scripts
                     }
                 }
 
-                MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Progress",
+                MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                     props.TintMap3DProgressProp.Value, props.TintMap3DProgressCoordProp.Value);
+            }
+            else if (tintColorMode == TintColorMode.FlipBook)
+            {
+                using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
+                {
+                    MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, props.TintMap2DArrayProp.Value,
+                        props.TintMapOffsetXCoordProp.Value, props.TintMapOffsetYCoordProp.Value,
+                        null, null);
+
+                    if (changeCheckScope.changed && props.TintMap2DArrayProp.Value.textureValue != null)
+                    {
+                        var tex2DArray = (Texture2DArray)props.TintMap2DArrayProp.Value.textureValue;
+                        props.TintMapSliceCountProp.Value.floatValue = tex2DArray.depth;
+                    }
+                }
+
+                MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
+                    props.TintMapProgressProp.Value, props.TintMapProgressCoordProp.Value);
             }
 
             MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Blend Rate",
