@@ -151,6 +151,8 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     #else
     output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
     #endif
+    // For Texture2D Array, round to nearest integer to avoid texture bleeding
+    output.baseMapUVAndProgresses.z = floor(output.baseMapUVAndProgresses.z + 0.5);
     #elif _BASE_MAP_MODE_3D
     float baseMapProgress = _BaseMapProgress + GET_CUSTOM_COORD(_BaseMapProgressCoord);
     
