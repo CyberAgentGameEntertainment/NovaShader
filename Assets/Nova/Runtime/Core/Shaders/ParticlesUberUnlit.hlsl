@@ -188,8 +188,11 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     output.parallaxMapUVAndProgress.xy = TRANSFORM_PARALLAX_MAP(input.texcoord.xy)
     output.parallaxMapUVAndProgress.x += GET_CUSTOM_COORD(_ParallaxMapOffsetXCoord);
     output.parallaxMapUVAndProgress.y += GET_CUSTOM_COORD(_ParallaxMapOffsetYCoord);
-    float parallaxMapProgress = _ParallaxMapProgress + GET_CUSTOM_COORD(_ParallaxMapProgressCoord);
-    output.parallaxMapUVAndProgress.z = FlipBookProgress(parallaxMapProgress, _ParallaxMapSliceCount);
+    #ifdef _PARALLAX_MAP_MODE_2D_ARRAY
+    output.parallaxMapUVAndProgress.z = FlipBookProgress(_ParallaxMapProgress + GET_CUSTOM_COORD(_ParallaxMapProgressCoord), _ParallaxMapSliceCount);
+    #elif _PARALLAX_MAP_MODE_3D
+    output.parallaxMapUVAndProgress.z = FlipBookBlendingProgress(_ParallaxMapProgress + GET_CUSTOM_COORD(_ParallaxMapProgressCoord), _ParallaxMapSliceCount);
+    #endif
     #endif
 
     // Transition Map UV
