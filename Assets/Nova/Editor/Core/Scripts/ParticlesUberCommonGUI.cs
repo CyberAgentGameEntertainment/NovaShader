@@ -467,62 +467,6 @@ namespace Nova.Editor.Core.Scripts
 
                 MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                     props.TintMap3DProgressProp.Value, props.TintMap3DProgressCoordProp.Value);
-
-                MaterialEditorUtility.DrawToggleProperty(_editor, "Random Row Selection",
-                    props.TintMapRandomRowSelectionEnabledProp.Value);
-
-                var randomRowEnabled = props.TintMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
-
-                if (randomRowEnabled)
-                    using (new EditorGUI.IndentLevelScope())
-                    {
-                        _editor.FloatProperty(props.TintMapRowCountProp.Value, "Row Count");
-
-                        using (new EditorGUILayout.HorizontalScope())
-                        {
-                            EditorGUILayout.PrefixLabel("Random Coord");
-                            var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord),
-                                Convert.ToInt32(props.TintMapRandomRowCoordProp.Value.floatValue));
-                            if (!Enum.IsDefined(typeof(TCustomCoord), coord))
-                                coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 0);
-
-                            using (var ccs = new EditorGUI.ChangeCheckScope())
-                            {
-                                EditorGUI.showMixedValue = props.TintMapRandomRowCoordProp.Value.hasMixedValue;
-                                coord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
-                                EditorGUI.showMixedValue = false;
-
-                                if (ccs.changed)
-                                {
-                                    _editor.RegisterPropertyChangeUndo(props.TintMapRandomRowCoordProp.Value.name);
-                                    props.TintMapRandomRowCoordProp.Value.floatValue = Convert.ToInt32(coord);
-                                }
-                            }
-                        }
-
-                        // Validation and help message
-                        var sliceCount = props.TintMapSliceCountProp.Value.floatValue;
-                        var rowCount = props.TintMapRowCountProp.Value.floatValue;
-
-                        if (rowCount <= 0)
-                        {
-                            EditorGUILayout.HelpBox(
-                                "Row Count must be greater than 0. Setting to 1 will disable random row selection.",
-                                MessageType.Warning);
-                        }
-                        else if (rowCount > sliceCount && sliceCount > 0)
-                        {
-                            EditorGUILayout.HelpBox(
-                                "Row Count cannot exceed Slice Count. Adjust Row Count accordingly.",
-                                MessageType.Warning);
-                        }
-
-                        // Auto-fix
-                        if (props.TintMapRowCountProp.Value.floatValue < 1)
-                        {
-                            props.TintMapRowCountProp.Value.floatValue = 1;
-                        }
-                    }
             }
             else if (tintColorMode == TintColorMode.FlipBook)
             {
@@ -542,6 +486,15 @@ namespace Nova.Editor.Core.Scripts
                 MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                     props.TintMapProgressProp.Value, props.TintMapProgressCoordProp.Value);
 
+            }
+
+            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Blend Rate",
+                props.TintMapBlendRateProp.Value,
+                props.TintMapBlendRateCoordProp.Value);
+
+            // Random Row Selection (for both FlipBook and FlipBookBlending modes)
+            if (tintColorMode == TintColorMode.FlipBook || tintColorMode == TintColorMode.FlipBookBlending)
+            {
                 MaterialEditorUtility.DrawToggleProperty(_editor, "Random Row Selection",
                     props.TintMapRandomRowSelectionEnabledProp.Value);
 
@@ -598,10 +551,6 @@ namespace Nova.Editor.Core.Scripts
                         }
                     }
             }
-
-            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Blend Rate",
-                props.TintMapBlendRateProp.Value,
-                props.TintMapBlendRateCoordProp.Value);
         }
 
         private void InternalDrawFlowMapProperties()
