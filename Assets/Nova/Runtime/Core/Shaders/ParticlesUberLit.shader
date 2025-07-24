@@ -81,6 +81,11 @@ Shader "Nova/Particles/UberLit"
         _TintRimSharpness("Tint Rim Sharpness", Range(0.0, 1.0)) = 0.5
         _TintRimSharpnessCoord("Tint Rim Sharpness Coord", Float) = 0.0
         _InverseTintRim("Inverse Tint Rim", Float) = 0.0
+        
+        // Tint Map Random Row Selection
+        _TintMapRandomRowSelectionEnabled("Tint Map Random Row Selection Enabled", Float) = 0.0
+        _TintMapRandomRowCoord("Tint Map Random Row Coord", Float) = 0.0
+        _TintMapRowCount("Tint Map Row Count", Float) = 1.0
 
         // Flow Map
         _FlowMap("Flow Map", 2D) = "grey" {}
@@ -105,6 +110,11 @@ Shader "Nova/Particles/UberLit"
         _ParallaxMapChannel("Parallax Map Channel", Float) = 0.0
         _ParallaxStrength("Parallax Strength", Range(0.0, 1.0)) = 0.3
         _ParallaxMapTarget("Parallax Map Target", Float) = 1.0
+        
+        // Parallax Map Random Row Selection
+        _ParallaxMapRandomRowSelectionEnabled("Parallax Map Random Row Selection Enabled", Float) = 0.0
+        _ParallaxMapRandomRowCoord("Parallax Map Random Row Coord", Float) = 0.0
+        _ParallaxMapRowCount("Parallax Map Row Count", Float) = 1.0
 
         // Color Correction
         _ColorCorrectionMode("Alpha Transition Progress Coord", Float) = 0.0
@@ -138,6 +148,11 @@ Shader "Nova/Particles/UberLit"
         _AlphaTransitionProgressSecondTexture("Alpha Transition Second Texture Progress", Range(0.0, 1.0)) = 0.0
         _AlphaTransitionProgressCoordSecondTexture("Alpha Transition Second Texture Progress Coord", Float) = 0.0
         _DissolveSharpnessSecondTexture("Dissolve Sharpness", Range(0.0, 1.0)) = 0.5
+        
+        // Alpha Transition Random Row Selection
+        _AlphaTransitionMapRandomRowSelectionEnabled("Alpha Transition Map Random Row Selection Enabled", Float) = 0.0
+        _AlphaTransitionMapRandomRowCoord("Alpha Transition Map Random Row Coord", Float) = 0.0
+        _AlphaTransitionMapRowCount("Alpha Transition Map Row Count", Float) = 1.0
 
         // Emission
         _EmissionAreaType("Emission Area Type", Float) = 0.0
@@ -157,6 +172,11 @@ Shader "Nova/Particles/UberLit"
         _EmissionIntensity("Emission Intensity", Float) = 1.0
         _EmissionIntensityCoord("Emission Intensity Coord", Float) = 0.0
         _KeepEdgeTransparency("Keep Edge Transparency", Float) = 1.0
+        
+        // Emission Random Row Selection
+        _EmissionMapRandomRowSelectionEnabled("Emission Map Random Row Selection Enabled", Float) = 0.0
+        _EmissionMapRandomRowCoord("Emission Map Random Row Coord", Float) = 0.0
+        _EmissionMapRowCount("Emission Map Row Count", Float) = 1.0
 
         // Transparency
         _RimTransparencyEnabled("Rim Transparency Enabled", Float) = 0.0
