@@ -90,6 +90,11 @@ namespace Nova.Editor.Core.Scripts
         public const string TintMap2DArray = "_TintMap2DArray";
         public const string TintMapProgress = "_TintMapProgress";
         public const string TintMapProgressCoord = "_TintMapProgressCoord";
+        
+        // Tint Color Random Row Selection
+        public const string TintMapRandomRowSelectionEnabled = "_TintMapRandomRowSelectionEnabled";
+        public const string TintMapRandomRowCoord = "_TintMapRandomRowCoord";
+        public const string TintMapRowCount = "_TintMapRowCount";
 
         // Flow Map
         public const string FlowMap = "_FlowMap";
@@ -114,6 +119,11 @@ namespace Nova.Editor.Core.Scripts
         public const string ParallaxMapChannel = "_ParallaxMapChannel";
         public const string ParallaxStrength = "_ParallaxStrength";
         public const string ParallaxMapTarget = "_ParallaxMapTarget";
+        
+        // Parallax Map Random Row Selection
+        public const string ParallaxMapRandomRowSelectionEnabled = "_ParallaxMapRandomRowSelectionEnabled";
+        public const string ParallaxMapRandomRowCoord = "_ParallaxMapRandomRowCoord";
+        public const string ParallaxMapRowCount = "_ParallaxMapRowCount";
 
         // Color Correction
         public const string ColorCorrectionMode = "_ColorCorrectionMode";
@@ -154,6 +164,16 @@ namespace Nova.Editor.Core.Scripts
         public const string AlphaTransitionProgressSecondTexture = "_AlphaTransitionProgressSecondTexture";
         public const string AlphaTransitionProgressCoordSecondTexture = "_AlphaTransitionProgressCoordSecondTexture";
         public const string DissolveSharpnessSecondTexture = "_DissolveSharpnessSecondTexture";
+        
+        // Alpha Transition Random Row Selection
+        public const string AlphaTransitionMapRandomRowSelectionEnabled = "_AlphaTransitionMapRandomRowSelectionEnabled";
+        public const string AlphaTransitionMapRandomRowCoord = "_AlphaTransitionMapRandomRowCoord";
+        public const string AlphaTransitionMapRowCount = "_AlphaTransitionMapRowCount";
+        
+        // Alpha Transition Second Texture Random Row Selection
+        public const string AlphaTransitionMapSecondTextureRandomRowSelectionEnabled = "_AlphaTransitionMapSecondTextureRandomRowSelectionEnabled";
+        public const string AlphaTransitionMapSecondTextureRandomRowCoord = "_AlphaTransitionMapSecondTextureRandomRowCoord";
+        public const string AlphaTransitionMapSecondTextureRowCount = "_AlphaTransitionMapSecondTextureRowCount";
 
         // Emission
         public const string EmissionAreaType = "_EmissionAreaType";
@@ -173,6 +193,11 @@ namespace Nova.Editor.Core.Scripts
         public const string EmissionIntensity = "_EmissionIntensity";
         public const string EmissionIntensityCoord = "_EmissionIntensityCoord";
         public const string KeepEdgeTransparency = "_KeepEdgeTransparency";
+        
+        // Emission Random Row Selection
+        public const string EmissionMapRandomRowSelectionEnabled = "_EmissionMapRandomRowSelectionEnabled";
+        public const string EmissionMapRandomRowCoord = "_EmissionMapRandomRowCoord";
+        public const string EmissionMapRowCount = "_EmissionMapRowCount";
 
         // Transparency
         public const string RimTransparencyEnabled = "_RimTransparencyEnabled";

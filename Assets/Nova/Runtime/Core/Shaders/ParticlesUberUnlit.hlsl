@@ -147,7 +147,7 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     
     // Random Row Selection
     #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
-    CALCULATE_FLIPBOOK_PROGRESS(baseMapProgress, output.baseMapUVAndProgresses.z);
+    output.baseMapUVAndProgresses.z = FlipBookProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, GET_CUSTOM_COORD(_BaseMapRandomRowCoord));
     #else
     output.baseMapUVAndProgresses.z = FlipBookProgress(baseMapProgress, _BaseMapSliceCount);
     #endif
@@ -156,7 +156,7 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     
     // Random Row Selection
     #ifdef _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
-    CALCULATE_FLIPBOOK_BLENDING_PROGRESS(baseMapProgress, output.baseMapUVAndProgresses.z);
+    output.baseMapUVAndProgresses.z = FlipBookBlendingProgressWithRandomRow(baseMapProgress, _BaseMapSliceCount, _BaseMapRowCount, GET_CUSTOM_COORD(_BaseMapRandomRowCoord));
     #else
     output.baseMapUVAndProgresses.z = FlipBookBlendingProgress(baseMapProgress, _BaseMapSliceCount);
     #endif
@@ -171,9 +171,23 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
 
     // Tint Map Progress
     #ifdef _TINT_MAP_MODE_2D_ARRAY
-    output.baseMapUVAndProgresses.w = FlipBookProgress(_TintMapProgress + GET_CUSTOM_COORD(_TintMapProgressCoord), _TintMapSliceCount);
+    float tintMapProgress = _TintMapProgress + GET_CUSTOM_COORD(_TintMapProgressCoord);
+    
+    // Random Row Selection
+    #ifdef _TINT_MAP_RANDOM_ROW_SELECTION_ENABLED
+    output.baseMapUVAndProgresses.w = FlipBookProgressWithRandomRow(tintMapProgress, _TintMapSliceCount, _TintMapRowCount, GET_CUSTOM_COORD(_TintMapRandomRowCoord));
+    #else
+    output.baseMapUVAndProgresses.w = FlipBookProgress(tintMapProgress, _TintMapSliceCount);
+    #endif
     #elif _TINT_MAP_3D_ENABLED
-    output.baseMapUVAndProgresses.w = FlipBookBlendingProgress(_TintMap3DProgress + GET_CUSTOM_COORD(_TintMap3DProgressCoord), _TintMapSliceCount);
+    float tintMapProgress = _TintMap3DProgress + GET_CUSTOM_COORD(_TintMap3DProgressCoord);
+    
+    // Random Row Selection
+    #ifdef _TINT_MAP_RANDOM_ROW_SELECTION_ENABLED
+    output.baseMapUVAndProgresses.w = FlipBookBlendingProgressWithRandomRow(tintMapProgress, _TintMapSliceCount, _TintMapRowCount, GET_CUSTOM_COORD(_TintMapRandomRowCoord));
+    #else
+    output.baseMapUVAndProgresses.w = FlipBookBlendingProgress(tintMapProgress, _TintMapSliceCount);
+    #endif
     #endif
 
     // Flow Map UV
@@ -189,9 +203,23 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     output.parallaxMapUVAndProgress.x += GET_CUSTOM_COORD(_ParallaxMapOffsetXCoord);
     output.parallaxMapUVAndProgress.y += GET_CUSTOM_COORD(_ParallaxMapOffsetYCoord);
     #ifdef _PARALLAX_MAP_MODE_2D_ARRAY
-    output.parallaxMapUVAndProgress.z = FlipBookProgress(_ParallaxMapProgress + GET_CUSTOM_COORD(_ParallaxMapProgressCoord), _ParallaxMapSliceCount);
+    float parallaxMapProgress = _ParallaxMapProgress + GET_CUSTOM_COORD(_ParallaxMapProgressCoord);
+    
+    // Random Row Selection
+    #ifdef _PARALLAX_MAP_RANDOM_ROW_SELECTION_ENABLED
+    output.parallaxMapUVAndProgress.z = FlipBookProgressWithRandomRow(parallaxMapProgress, _ParallaxMapSliceCount, _ParallaxMapRowCount, GET_CUSTOM_COORD(_ParallaxMapRandomRowCoord));
+    #else
+    output.parallaxMapUVAndProgress.z = FlipBookProgress(parallaxMapProgress, _ParallaxMapSliceCount);
+    #endif
     #elif _PARALLAX_MAP_MODE_3D
-    output.parallaxMapUVAndProgress.z = FlipBookBlendingProgress(_ParallaxMapProgress + GET_CUSTOM_COORD(_ParallaxMapProgressCoord), _ParallaxMapSliceCount);
+    float parallaxMapProgress = _ParallaxMapProgress + GET_CUSTOM_COORD(_ParallaxMapProgressCoord);
+    
+    // Random Row Selection
+    #ifdef _PARALLAX_MAP_RANDOM_ROW_SELECTION_ENABLED
+    output.parallaxMapUVAndProgress.z = FlipBookBlendingProgressWithRandomRow(parallaxMapProgress, _ParallaxMapSliceCount, _ParallaxMapRowCount, GET_CUSTOM_COORD(_ParallaxMapRandomRowCoord));
+    #else
+    output.parallaxMapUVAndProgress.z = FlipBookBlendingProgress(parallaxMapProgress, _ParallaxMapSliceCount);
+    #endif
     #endif
     #endif
 
@@ -212,18 +240,38 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
     float sliceCount = _AlphaTransitionMapSliceCount;
     #ifdef _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
+    // Random Row Selection
+    #ifdef _ALPHA_TRANSITION_MAP_RANDOM_ROW_SELECTION_ENABLED
+    output.transitionEmissionProgresses.x = FlipBookProgressWithRandomRow(transitionMapProgress, sliceCount, _AlphaTransitionMapRowCount, GET_CUSTOM_COORD(_AlphaTransitionMapRandomRowCoord));
+    #else
     output.transitionEmissionProgresses.x = FlipBookProgress(transitionMapProgress, sliceCount);
+    #endif
     #elif _ALPHA_TRANSITION_MAP_MODE_3D
+    // Random Row Selection
+    #ifdef _ALPHA_TRANSITION_MAP_RANDOM_ROW_SELECTION_ENABLED
+    output.transitionEmissionProgresses.x = FlipBookBlendingProgressWithRandomRow(transitionMapProgress, sliceCount, _AlphaTransitionMapRowCount, GET_CUSTOM_COORD(_AlphaTransitionMapRandomRowCoord));
+    #else
     output.transitionEmissionProgresses.x = FlipBookBlendingProgress(transitionMapProgress, sliceCount);
+    #endif
     #endif
 
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
     float transitionMapProgressSecond = _AlphaTransitionMapSecondTextureProgress + GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureProgressCoord);
     float sliceCountSecond = _AlphaTransitionMapSecondTextureSliceCount;
     #ifdef _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
+    // Random Row Selection for Second Texture
+    #ifdef _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_RANDOM_ROW_SELECTION_ENABLED
+    output.transitionEmissionProgressesSecond.x = FlipBookProgressWithRandomRow(transitionMapProgressSecond, sliceCountSecond, _AlphaTransitionMapSecondTextureRowCount, GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureRandomRowCoord));
+    #else
     output.transitionEmissionProgressesSecond.x = FlipBookProgress(transitionMapProgressSecond, sliceCountSecond);
+    #endif
     #elif _ALPHA_TRANSITION_MAP_MODE_3D
+    // Random Row Selection for Second Texture
+    #ifdef _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_RANDOM_ROW_SELECTION_ENABLED
+    output.transitionEmissionProgressesSecond.x = FlipBookBlendingProgressWithRandomRow(transitionMapProgressSecond, sliceCountSecond, _AlphaTransitionMapSecondTextureRowCount, GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureRandomRowCoord));
+    #else
     output.transitionEmissionProgressesSecond.x = FlipBookBlendingProgress(transitionMapProgressSecond, sliceCountSecond);
+    #endif
     #endif
     #endif
     #endif
@@ -240,10 +288,22 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
         // Emission Map Progress
         #ifdef _EMISSION_MAP_MODE_2D_ARRAY
         float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
+        
+        // Random Row Selection
+        #ifdef _EMISSION_MAP_RANDOM_ROW_SELECTION_ENABLED
+        output.transitionEmissionProgresses.y = FlipBookProgressWithRandomRow(emissionMapProgress, _EmissionMapSliceCount, _EmissionMapRowCount, GET_CUSTOM_COORD(_EmissionMapRandomRowCoord));
+        #else
         output.transitionEmissionProgresses.y = FlipBookProgress(emissionMapProgress, _EmissionMapSliceCount);
+        #endif
         #elif _EMISSION_MAP_MODE_3D
         float emissionMapProgress = _EmissionMapProgress + GET_CUSTOM_COORD(_EmissionMapProgressCoord);
+        
+        // Random Row Selection
+        #ifdef _EMISSION_MAP_RANDOM_ROW_SELECTION_ENABLED
+        output.transitionEmissionProgresses.y = FlipBookBlendingProgressWithRandomRow(emissionMapProgress, _EmissionMapSliceCount, _EmissionMapRowCount, GET_CUSTOM_COORD(_EmissionMapRandomRowCoord));
+        #else
         output.transitionEmissionProgresses.y = FlipBookBlendingProgress(emissionMapProgress, _EmissionMapSliceCount);
+        #endif
         #endif
     }
     if (useFog)

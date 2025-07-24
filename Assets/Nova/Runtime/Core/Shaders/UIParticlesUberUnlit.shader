@@ -62,6 +62,9 @@ Shader "Nova/UIParticles/UberUnlit"
         _TintRimSharpness("Tint Rim Sharpness", Range(0.0, 1.0)) = 0.5
         _TintRimSharpnessCoord("Tint Rim Sharpness Coord", Float) = 0.0
         _InverseTintRim("Inverse Tint Rim", Float) = 0.0
+        _TintMapRandomRowSelectionEnabled("Tint Map Random Row Selection Enabled", Float) = 0.0
+        _TintMapRandomRowCoord("Tint Map Random Row Coord", Float) = 0.0
+        _TintMapRowCount("Tint Map Row Count", Float) = 1.0
 
         // Flow Map
         _FlowMap("Flow Map", 2D) = "grey" {}
@@ -86,6 +89,9 @@ Shader "Nova/UIParticles/UberUnlit"
         _ParallaxMapSliceCount("Parallax Map Slice Count", Float) = 4.0
         _ParallaxStrength("Parallax Strength", Range(0.0, 1.0)) = 0.3
         _ParallaxMapTarget("Parallax Map Target", Float) = 1.0
+        _ParallaxMapRandomRowSelectionEnabled("Parallax Map Random Row Selection Enabled", Float) = 0.0
+        _ParallaxMapRandomRowCoord("Parallax Map Random Row Coord", Float) = 0.0
+        _ParallaxMapRowCount("Parallax Map Row Count", Float) = 1.0
 
         // Color Correction
         _ColorCorrectionMode("Alpha Transition Progress Coord", Float) = 0.0
@@ -119,6 +125,12 @@ Shader "Nova/UIParticles/UberUnlit"
         _AlphaTransitionProgressSecondTexture("Alpha Transition Second Texture Progress", Range(0.0, 1.0)) = 0.0
         _AlphaTransitionProgressCoordSecondTexture("Alpha Transition Second Texture Progress Coord", Float) = 0.0
         _DissolveSharpnessSecondTexture("Dissolve Sharpness", Range(0.0, 1.0)) = 0.5
+        _AlphaTransitionMapRandomRowSelectionEnabled("Alpha Transition Map Random Row Selection Enabled", Float) = 0.0
+        _AlphaTransitionMapRandomRowCoord("Alpha Transition Map Random Row Coord", Float) = 0.0
+        _AlphaTransitionMapRowCount("Alpha Transition Map Row Count", Float) = 1.0
+        _AlphaTransitionMapSecondTextureRandomRowSelectionEnabled("Alpha Transition Map Second Texture Random Row Selection Enabled", Float) = 0.0
+        _AlphaTransitionMapSecondTextureRandomRowCoord("Alpha Transition Map Second Texture Random Row Coord", Float) = 0.0
+        _AlphaTransitionMapSecondTextureRowCount("Alpha Transition Map Second Texture Row Count", Float) = 1.0
 
         // Emission
         _EmissionAreaType("Emission Area Type", Float) = 0.0
@@ -138,6 +150,9 @@ Shader "Nova/UIParticles/UberUnlit"
         _EmissionIntensity("Emission Intensity", Float) = 1.0
         _EmissionIntensityCoord("Emission Intensity Coord", Float) = 0.0
         _KeepEdgeTransparency("Keep Edge Transparency", Float) = 1.0
+        _EmissionMapRandomRowSelectionEnabled("Emission Map Random Row Selection Enabled", Float) = 0.0
+        _EmissionMapRandomRowCoord("Emission Map Random Row Coord", Float) = 0.0
+        _EmissionMapRowCount("Emission Map Row Count", Float) = 1.0
 
         // Transparency
         _RimTransparencyEnabled("Rim Transparency Enabled", Float) = 0.0
@@ -239,6 +254,7 @@ Shader "Nova/UIParticles/UberUnlit"
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
             #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED _TINT_MAP_MODE_2D_ARRAY
+            #pragma shader_feature_local_vertex _TINT_MAP_RANDOM_ROW_SELECTION_ENABLED
 
             // Flow Map
             #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
@@ -252,6 +268,7 @@ Shader "Nova/UIParticles/UberUnlit"
             #pragma shader_feature_local _PARALLAX_MAP_TARGET_TINT
             #pragma shader_feature_local _PARALLAX_MAP_TARGET_EMISSION
             #pragma shader_feature_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
+            #pragma shader_feature_local_vertex _PARALLAX_MAP_RANDOM_ROW_SELECTION_ENABLED
 
             // Color Correction
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
@@ -260,11 +277,14 @@ Shader "Nova/UIParticles/UberUnlit"
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
+            #pragma shader_feature_local_vertex _ALPHA_TRANSITION_MAP_RANDOM_ROW_SELECTION_ENABLED
+            #pragma shader_feature_local_vertex _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_RANDOM_ROW_SELECTION_ENABLED
 
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
             #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
             #pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+            #pragma shader_feature_local_vertex _EMISSION_MAP_RANDOM_ROW_SELECTION_ENABLED
 
             // Transparency
             #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
