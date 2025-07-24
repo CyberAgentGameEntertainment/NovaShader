@@ -168,6 +168,11 @@ namespace Nova.Editor.Core.Scripts
             AlphaTransitionMapRandomRowSelectionEnabledProp.Setup(properties);
             AlphaTransitionMapRandomRowCoordProp.Setup(properties);
             AlphaTransitionMapRowCountProp.Setup(properties);
+            
+            // Alpha Transition Second Texture Random Row Selection
+            AlphaTransitionMapSecondTextureRandomRowSelectionEnabledProp.Setup(properties);
+            AlphaTransitionMapSecondTextureRandomRowCoordProp.Setup(properties);
+            AlphaTransitionMapSecondTextureRowCountProp.Setup(properties);
 
             // Emission
             EmissionAreaTypeProp.Setup(properties);
@@ -486,6 +491,11 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property AlphaTransitionMapRandomRowSelectionEnabledProp { get; } = new(PropertyNames.AlphaTransitionMapRandomRowSelectionEnabled);
         public ParticlesGUI.Property AlphaTransitionMapRandomRowCoordProp { get; } = new(PropertyNames.AlphaTransitionMapRandomRowCoord);
         public ParticlesGUI.Property AlphaTransitionMapRowCountProp { get; } = new(PropertyNames.AlphaTransitionMapRowCount);
+        
+        // Alpha Transition Second Texture Random Row Selection
+        public ParticlesGUI.Property AlphaTransitionMapSecondTextureRandomRowSelectionEnabledProp { get; } = new(PropertyNames.AlphaTransitionMapSecondTextureRandomRowSelectionEnabled);
+        public ParticlesGUI.Property AlphaTransitionMapSecondTextureRandomRowCoordProp { get; } = new(PropertyNames.AlphaTransitionMapSecondTextureRandomRowCoord);
+        public ParticlesGUI.Property AlphaTransitionMapSecondTextureRowCountProp { get; } = new(PropertyNames.AlphaTransitionMapSecondTextureRowCount);
 
         #endregion
 

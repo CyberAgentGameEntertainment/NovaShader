@@ -38,6 +38,8 @@ namespace Nova.Editor.Core.Scripts
             Shader.PropertyToID(MaterialPropertyNames.ParallaxMapRandomRowSelectionEnabled);
         private static readonly int AlphaTransitionMapRandomRowSelectionEnabledId =
             Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionMapRandomRowSelectionEnabled);
+        private static readonly int AlphaTransitionMapSecondTextureRandomRowSelectionEnabledId =
+            Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionMapSecondTextureRandomRowSelectionEnabled);
         private static readonly int EmissionMapRandomRowSelectionEnabledId =
             Shader.PropertyToID(MaterialPropertyNames.EmissionMapRandomRowSelectionEnabled);
 
@@ -340,6 +342,13 @@ namespace Nova.Editor.Core.Scripts
                 material.GetFloat(AlphaTransitionMapRandomRowSelectionEnabledId) > 0.5f;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.AlphaTransitionMapRandomRowSelectionEnabled,
                 alphaTransitionMapRandomRowSelectionEnabled);
+
+            // Alpha Transition Map Second Texture Random Row Selection
+            var alphaTransitionMapSecondTextureRandomRowSelectionEnabled =
+                (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook || alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending) &&
+                material.GetFloat(AlphaTransitionMapSecondTextureRandomRowSelectionEnabledId) > 0.5f;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.AlphaTransitionMapSecondTextureRandomRowSelectionEnabled,
+                alphaTransitionMapSecondTextureRandomRowSelectionEnabled);
 
             // 2nd Texture
             {

@@ -158,6 +158,11 @@ float _AlphaTransitionMapRandomRowSelectionEnabled;
 DECLARE_CUSTOM_COORD(_AlphaTransitionMapRandomRowCoord);
 float _AlphaTransitionMapRowCount;
 
+// Alpha Transition Second Texture Random Row Selection
+float _AlphaTransitionMapSecondTextureRandomRowSelectionEnabled;
+DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureRandomRowCoord);
+float _AlphaTransitionMapSecondTextureRowCount;
+
 float4 _EmissionMap_ST;
 float4 _EmissionMap2DArray_ST;
 float4 _EmissionMap3D_ST;

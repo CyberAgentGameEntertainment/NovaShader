@@ -29,6 +29,7 @@ namespace Nova.Editor.Core.Scripts
         public const string TintMapRandomRowSelectionEnabled = "_TINT_MAP_RANDOM_ROW_SELECTION_ENABLED";
         public const string ParallaxMapRandomRowSelectionEnabled = "_PARALLAX_MAP_RANDOM_ROW_SELECTION_ENABLED";
         public const string AlphaTransitionMapRandomRowSelectionEnabled = "_ALPHA_TRANSITION_MAP_RANDOM_ROW_SELECTION_ENABLED";
+        public const string AlphaTransitionMapSecondTextureRandomRowSelectionEnabled = "_ALPHA_TRANSITION_MAP_SECOND_TEXTURE_RANDOM_ROW_SELECTION_ENABLED";
         public const string EmissionMapRandomRowSelectionEnabled = "_EMISSION_MAP_RANDOM_ROW_SELECTION_ENABLED";
         
         public const string BaseSamplerStatePointMirror = "_BASE_SAMPLER_STATE_POINT_MIRROR";

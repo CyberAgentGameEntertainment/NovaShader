@@ -741,10 +741,67 @@ namespace Nova.Editor.Core.Scripts
 
                         if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook
                             || alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending)
+                        {
                             MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor,
                                 "Flip-Book Progress",
                                 props.AlphaTransitionMapSecondTextureProgressProp.Value,
                                 props.AlphaTransitionMapSecondTextureProgressCoordProp.Value);
+                            
+                            // Random Row Selection for Second Texture
+                            MaterialEditorUtility.DrawToggleProperty(_editor, "Random Row Selection",
+                                props.AlphaTransitionMapSecondTextureRandomRowSelectionEnabledProp.Value);
+
+                            var randomRowEnabled = props.AlphaTransitionMapSecondTextureRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
+
+                            if (randomRowEnabled)
+                                using (new EditorGUI.IndentLevelScope())
+                                {
+                                    _editor.FloatProperty(props.AlphaTransitionMapSecondTextureRowCountProp.Value, "Row Count");
+
+                                    using (new EditorGUILayout.HorizontalScope())
+                                    {
+                                        EditorGUILayout.PrefixLabel("Random Coord");
+                                        var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord),
+                                            Convert.ToInt32(props.AlphaTransitionMapSecondTextureRandomRowCoordProp.Value.floatValue));
+                                        if (!Enum.IsDefined(typeof(TCustomCoord), coord))
+                                            coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 0);
+
+                                        using (var changeCheck = new EditorGUI.ChangeCheckScope())
+                                        {
+                                            EditorGUI.showMixedValue = props.AlphaTransitionMapSecondTextureRandomRowCoordProp.Value.hasMixedValue;
+                                            coord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
+                                            EditorGUI.showMixedValue = false;
+
+                                            if (changeCheck.changed)
+                                            {
+                                                _editor.RegisterPropertyChangeUndo(props.AlphaTransitionMapSecondTextureRandomRowCoordProp.Value.name);
+                                                props.AlphaTransitionMapSecondTextureRandomRowCoordProp.Value.floatValue = Convert.ToInt32(coord);
+                                            }
+                                        }
+                                    }
+
+                                    var rowCount = props.AlphaTransitionMapSecondTextureRowCountProp.Value.floatValue;
+
+                                    if (rowCount <= 0)
+                                    {
+                                        EditorGUILayout.HelpBox(
+                                            "Row Count must be greater than 0. Setting to 1 will disable random row selection.",
+                                            MessageType.Warning);
+                                    }
+                                    else if (rowCount == 1)
+                                    {
+                                        EditorGUILayout.HelpBox(
+                                            "Row Count is set to 1. Random row selection will have no effect.",
+                                            MessageType.Info);
+                                    }
+
+                                    // バリデーション: Row Countが1未満の場合は1に補正
+                                    if (props.AlphaTransitionMapSecondTextureRowCountProp.Value.floatValue < 1)
+                                    {
+                                        props.AlphaTransitionMapSecondTextureRowCountProp.Value.floatValue = 1;
+                                    }
+                                }
+                        }
 
                         MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Transition Progress",
                             props.AlphaTransitionProgressSecondTextureProp.Value,

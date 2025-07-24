@@ -169,6 +169,11 @@ namespace Nova.Editor.Core.Scripts
         public const string AlphaTransitionMapRandomRowSelectionEnabled = "_AlphaTransitionMapRandomRowSelectionEnabled";
         public const string AlphaTransitionMapRandomRowCoord = "_AlphaTransitionMapRandomRowCoord";
         public const string AlphaTransitionMapRowCount = "_AlphaTransitionMapRowCount";
+        
+        // Alpha Transition Second Texture Random Row Selection
+        public const string AlphaTransitionMapSecondTextureRandomRowSelectionEnabled = "_AlphaTransitionMapSecondTextureRandomRowSelectionEnabled";
+        public const string AlphaTransitionMapSecondTextureRandomRowCoord = "_AlphaTransitionMapSecondTextureRandomRowCoord";
+        public const string AlphaTransitionMapSecondTextureRowCount = "_AlphaTransitionMapSecondTextureRowCount";
 
         // Emission
         public const string EmissionAreaType = "_EmissionAreaType";
