@@ -1,9 +1,8 @@
 // --------------------------------------------------------------
-// Copyright 2022 CyberAgent, Inc.
+// Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -14,21 +13,19 @@ namespace Nova.Editor.Core.Scripts
     {
         private const int ProceduralTextureSize = 16;
 
-        private static readonly Color HeaderBackgroundColorDark =
-            new Color(40.0f / 256.0f, 40.0f / 256.0f, 40.0f / 256.0f);
+        private static readonly Color HeaderBackgroundColorDark = new(40.0f / 256.0f, 40.0f / 256.0f, 40.0f / 256.0f);
 
-        private static readonly Color ContentsBackgroundColorDark =
-            new Color(48.0f / 256.0f, 48.0f / 256.0f, 48.0f / 256.0f);
+        private static readonly Color ContentsBackgroundColorDark = new(48.0f / 256.0f, 48.0f / 256.0f, 48.0f / 256.0f);
 
-        private static readonly Color BorderColorDark = new Color(16.0f / 256.0f, 16.0f / 256.0f, 16.0f / 256.0f);
+        private static readonly Color BorderColorDark = new(16.0f / 256.0f, 16.0f / 256.0f, 16.0f / 256.0f);
 
         private static readonly Color HeaderBackgroundColorLight =
-            new Color(170.0f / 256.0f, 170.0f / 256.0f, 170.0f / 256.0f);
+            new(170.0f / 256.0f, 170.0f / 256.0f, 170.0f / 256.0f);
 
         private static readonly Color ContentsBackgroundColorLight =
-            new Color(193.0f / 256.0f, 193.0f / 256.0f, 193.0f / 256.0f);
+            new(193.0f / 256.0f, 193.0f / 256.0f, 193.0f / 256.0f);
 
-        private static readonly Color BorderColorLight = new Color(101.0f / 256.0f, 101.0f / 256.0f, 101.0f / 256.0f);
+        private static readonly Color BorderColorLight = new(101.0f / 256.0f, 101.0f / 256.0f, 101.0f / 256.0f);
 
         private static Texture2D _headerBackgroundTexture;
         private static Texture2D _contentsBackgroundTexture;
@@ -463,12 +460,10 @@ namespace Nova.Editor.Core.Scripts
 
             using (new ResetIndentLevelScope())
             {
-                T coord = (T)Enum.ToObject(typeof(T), Convert.ToInt32(coordProperty.floatValue));
+                var coord = (T)Enum.ToObject(typeof(T), Convert.ToInt32(coordProperty.floatValue));
                 if (!Enum.IsDefined(typeof(T), coord))
-                {
                     EditorGUILayout.HelpBox(
-                        $"Invalid coord value\n", MessageType.Error, true);
-                }
+                        "Invalid coord value\n", MessageType.Error, true);
                 using (var ccs = new EditorGUI.ChangeCheckScope())
                 {
                     EditorGUI.showMixedValue = coordProperty.hasMixedValue;
@@ -512,16 +507,16 @@ namespace Nova.Editor.Core.Scripts
                 }
             });
         }
-        
+
         /// <summary>
-        /// Draw a float type property with the slider.
+        ///     Draw a float type property with the slider.
         /// </summary>
         /// <param name="editor"></param>
         /// <param name="label"></param>
         /// <param name="property"></param>
         /// <param name="min"></param>
         /// <param name="max"></param>
-        public static void DrawFloatRangeProperty(MaterialEditor editor, string label, MaterialProperty property, 
+        public static void DrawFloatRangeProperty(MaterialEditor editor, string label, MaterialProperty property,
             float min,
             float max)
         {
@@ -673,16 +668,14 @@ namespace Nova.Editor.Core.Scripts
             var value = (T)Enum.ToObject(typeof(T), (int)property.floatValue);
             using (var ccs = new EditorGUI.ChangeCheckScope())
             {
-                EditorGUI.showMixedValue = property.hasMixedValue; 
+                EditorGUI.showMixedValue = property.hasMixedValue;
                 if (!Enum.IsDefined(typeof(T), value))
-                {
                     EditorGUILayout.HelpBox(
-                        $"Invalid coord value\n", MessageType.Error, true);
-                }
-                
+                        "Invalid coord value\n", MessageType.Error, true);
+
                 var intValue = Convert.ToInt32(EditorGUI.EnumPopup(rect, value));
-                
-                
+
+
                 EditorGUI.showMixedValue = false;
 
                 if (ccs.changed)
@@ -731,6 +724,103 @@ namespace Nova.Editor.Core.Scripts
                 material.EnableKeyword(keyword);
             else
                 material.DisableKeyword(keyword);
+        }
+
+
+        /// <summary>
+        ///     Draw Random Row Selection GUI with common pattern
+        /// </summary>
+        /// <typeparam name="TCustomCoord">Custom coordinate enum type</typeparam>
+        /// <param name="editor">Material editor</param>
+        /// <param name="enabledProp">Random Row Selection enabled property</param>
+        /// <param name="rowCountProp">Row count property</param>
+        /// <param name="randomCoordProp">Random coordinate property</param>
+        /// <param name="sliceCountProp">Slice count property for detailed validation</param>
+        public static void DrawRandomRowSelection<TCustomCoord>(
+            MaterialEditor editor,
+            MaterialProperty enabledProp,
+            MaterialProperty rowCountProp,
+            MaterialProperty randomCoordProp,
+            MaterialProperty sliceCountProp)
+            where TCustomCoord : Enum
+        {
+            DrawToggleProperty(editor, "Random Row Selection", enabledProp);
+
+            if (enabledProp.floatValue < 0.5f) return;
+            using (new EditorGUI.IndentLevelScope())
+            {
+                editor.FloatProperty(rowCountProp, "Row Count");
+                DrawRandomCoordProperty<TCustomCoord>(editor, randomCoordProp);
+                ValidateRowConfiguration(rowCountProp, sliceCountProp);
+                DrawHelpMessage();
+            }
+        }
+
+        private static void DrawRandomCoordProperty<TCustomCoord>(MaterialEditor editor,
+            MaterialProperty randomCoordProp)
+            where TCustomCoord : Enum
+        {
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.PrefixLabel("Random Coord");
+
+                var coord = GetValidCustomCoord<TCustomCoord>(randomCoordProp);
+
+                using (var changeCheck = new EditorGUI.ChangeCheckScope())
+                {
+                    EditorGUI.showMixedValue = randomCoordProp.hasMixedValue;
+                    coord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
+                    EditorGUI.showMixedValue = false;
+
+                    if (changeCheck.changed)
+                    {
+                        editor.RegisterPropertyChangeUndo(randomCoordProp.name);
+                        randomCoordProp.floatValue = Convert.ToInt32(coord);
+                    }
+                }
+            }
+        }
+
+        private static TCustomCoord GetValidCustomCoord<TCustomCoord>(MaterialProperty randomCoordProp)
+            where TCustomCoord : Enum
+        {
+            var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), Convert.ToInt32(randomCoordProp.floatValue));
+
+            if (!Enum.IsDefined(typeof(TCustomCoord), coord))
+                coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 0);
+
+            return coord;
+        }
+
+        private static void ValidateRowConfiguration(MaterialProperty rowCountProp, MaterialProperty sliceCountProp)
+        {
+            var rowCount = rowCountProp.floatValue;
+            var sliceCount = sliceCountProp.floatValue;
+
+            rowCount = Mathf.Clamp(rowCount, 1, sliceCount);
+            rowCountProp.floatValue = rowCount;
+
+            var sliceCountInt = Mathf.FloorToInt(sliceCount);
+            var rowCountInt = Mathf.FloorToInt(rowCount);
+
+            if (sliceCountInt % rowCountInt == 0) return;
+            var framesPerRow = sliceCountInt / rowCountInt;
+            var unusedSlices = sliceCountInt - rowCountInt * framesPerRow;
+
+            EditorGUILayout.HelpBox(
+                $"Row Count ({rowCountInt}) does not divide Slice Count ({sliceCountInt}) evenly. Each row will have {framesPerRow} frames, with {unusedSlices} unused slices.",
+                MessageType.Warning);
+        }
+
+        private static void DrawHelpMessage()
+        {
+            const string helpMessage =
+                "Setup:\n" +
+                "• Row Count: Set to number of rows in your texture (e.g., 4×4 texture = 4 rows)\n" +
+                "• Random Coord: Select a Custom Coord channel for random values\n" +
+                "  - Configure Particle System's Custom Data as Random Between Two Constants (0 to Row Count)";
+
+            EditorGUILayout.HelpBox(helpMessage, MessageType.Info);
         }
 
         private static Texture GetFoldoutTrueIcon()
