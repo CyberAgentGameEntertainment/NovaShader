@@ -251,6 +251,7 @@ Shader "Nova/UIParticles/UberUnlit"
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
             #pragma shader_feature_local _ _TINT_COLOR_ENABLED _TINT_MAP_ENABLED _TINT_MAP_3D_ENABLED _TINT_MAP_MODE_2D_ARRAY
+            #pragma shader_feature_local_vertex _TINT_MAP_RANDOM_ROW_SELECTION_ENABLED
 
             // Flow Map
             #pragma shader_feature_local _FLOW_MAP_ENABLED // Obsolete, but retained for compatibility.
@@ -264,6 +265,7 @@ Shader "Nova/UIParticles/UberUnlit"
             #pragma shader_feature_local _PARALLAX_MAP_TARGET_TINT
             #pragma shader_feature_local _PARALLAX_MAP_TARGET_EMISSION
             #pragma shader_feature_local _PARALLAX_MAP_MODE_2D _PARALLAX_MAP_MODE_2D_ARRAY _PARALLAX_MAP_MODE_3D
+            #pragma shader_feature_local_vertex _PARALLAX_MAP_RANDOM_ROW_SELECTION_ENABLED
 
             // Color Correction
             #pragma shader_feature_local_fragment _ _GREYSCALE_ENABLED _GRADIENT_MAP_ENABLED
@@ -272,11 +274,13 @@ Shader "Nova/UIParticles/UberUnlit"
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
+            #pragma shader_feature_local_vertex _ALPHA_TRANSITION_MAP_RANDOM_ROW_SELECTION_ENABLED
 
             // Emission
             #pragma shader_feature_local _ _EMISSION_AREA_ALL _EMISSION_AREA_MAP _EMISSION_AREA_ALPHA
             #pragma shader_feature_local _EMISSION_MAP_MODE_2D _EMISSION_MAP_MODE_2D_ARRAY _EMISSION_MAP_MODE_3D
             #pragma shader_feature_local _ _EMISSION_COLOR_COLOR _EMISSION_COLOR_BASECOLOR _EMISSION_COLOR_MAP
+            #pragma shader_feature_local_vertex _EMISSION_MAP_RANDOM_ROW_SELECTION_ENABLED
 
             // Transparency
             #pragma shader_feature_local _TRANSPARENCY_BY_LUMINANCE
