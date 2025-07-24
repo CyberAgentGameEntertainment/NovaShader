@@ -558,6 +558,33 @@ Flip Book Blendingに設定した場合は<a href="https://docs.unity3d.com/2020
 乗算色の適用率です。
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Random Row Selection</b></td><td>
+<p>
+<b>Color ModeをFlip BookあるいはFlip Book Blendingに設定した時のみ表示されます。</b>
+</p>
+<p>
+UnityのTexture Sheet AnimationのRow Mode > Random機能と同等の機能です。有効にすると、各パーティクルがライフタイム中にランダムに1つの行を選択・維持してアニメーションを再生します。
+</p>
+<p>
+ランダム値の入力にUnity Particle SystemのCustom Coordを使用します。まずRow Countをテクスチャシートの行数に合わせて設定し、その後任意のCustom Coordチャンネルを「Random Between Two Constants」モード（範囲：0からRow Count）で設定し割り当てます。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Row Count</b></td><td>
+<p>
+<b>Random Row Selectionが有効な時のみ表示されます。</b>
+</p>
+<p>
+テクスチャシートの行数を設定します（例：4×4のテクスチャシートの場合、Row Countを4に設定）。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Random Coord</b></td><td>
+<p>
+<b>Random Row Selectionが有効な時のみ表示されます。</b>
+</p>
+<p>
+ランダム値の入力に使用するCustom Coordチャンネルを選択します。Unity Particle SystemのCustom Dataで「Random Between Two Constants」モードに設定したチャンネルと対応させます。
+</p>
+</td></tr>
 </tbody>
 </table>
 
@@ -648,6 +675,41 @@ ModeにFlip Book Blendingを指定した場合には、<a href="https://docs.uni
 <li>値は0が元の状態で、1に近いほど凹み具合が上がります</li>
 </ul>
 色ではなく値としてテクスチャを使うので、テクスチャ設定のsRGB Colorのチェックを外す必要がある点に注意してください。
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Flip-Book Progress</b></td><td>
+<p>
+<b>ModeをFlip BookあるいはFlip Book Blendingに設定した時のみ表示されます。</b>
+</p>
+<p>
+フリップブックまたはフリップブックブレンディングの進行度合いです。
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Random Row Selection</b></td><td>
+<p>
+<b>ModeをFlip BookあるいはFlip Book Blendingに設定した時のみ表示されます。</b>
+</p>
+<p>
+UnityのTexture Sheet AnimationのRow Mode > Random機能と同等の機能です。有効にすると、各パーティクルがライフタイム中にランダムに1つの行を選択・維持してアニメーションを再生します。
+</p>
+<p>
+ランダム値の入力にUnity Particle SystemのCustom Coordを使用します。まずRow Countをテクスチャシートの行数に合わせて設定し、その後任意のCustom Coordチャンネルを「Random Between Two Constants」モード（範囲：0からRow Count）で設定し割り当てます。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Row Count</b></td><td>
+<p>
+<b>Random Row Selectionが有効な時のみ表示されます。</b>
+</p>
+<p>
+テクスチャシートの行数を設定します（例：4×4のテクスチャシートの場合、Row Countを4に設定）。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Random Coord</b></td><td>
+<p>
+<b>Random Row Selectionが有効な時のみ表示されます。</b>
+</p>
+<p>
+ランダム値の入力に使用するCustom Coordチャンネルを選択します。Unity Particle SystemのCustom Dataで「Random Between Two Constants」モードに設定したチャンネルと対応させます。
 </p>
 </td></tr>
 <tr><td colspan=3><b>Strength</b></td><td>
@@ -773,6 +835,33 @@ ModeにFlip Book Blendingを指定した場合には、<a href="https://docs.uni
 Flip-BookあるいはFlip-Book Blendingの進行度を設定します。
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Random Row Selection</b></td><td>
+<p>
+<b>Map ModeをFlip BookあるいはFlip Book Blendingに設定した時のみ表示されます。</b>
+</p>
+<p>
+UnityのTexture Sheet AnimationのRow Mode > Random機能と同等の機能です。有効にすると、各パーティクルがライフタイム中にランダムに1つの行を選択・維持してアニメーションを再生します。
+</p>
+<p>
+ランダム値の入力にUnity Particle SystemのCustom Coordを使用します。まずRow Countをテクスチャシートの行数に合わせて設定し、その後任意のCustom Coordチャンネルを「Random Between Two Constants」モード（範囲：0からRow Count）で設定し割り当てます。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Row Count</b></td><td>
+<p>
+<b>Random Row Selectionが有効な時のみ表示されます。</b>
+</p>
+<p>
+テクスチャシートの行数を設定します（例：4×4のテクスチャシートの場合、Row Countを4に設定）。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Random Coord</b></td><td>
+<p>
+<b>Random Row Selectionが有効な時のみ表示されます。</b>
+</p>
+<p>
+ランダム値の入力に使用するCustom Coordチャンネルを選択します。Unity Particle SystemのCustom Dataで「Random Between Two Constants」モードに設定したチャンネルと対応させます。
+</p>
+</td></tr>
 <tr><td colspan="3"><b>Transition Progress</b></td><td>
 <p>
 トランジションの進行度を設定します。
@@ -870,6 +959,33 @@ ModeにFlip Book Blendingを指定した場合には、<a href="https://docs.uni
 </p>
 <p>
 Flip-BookあるいはFlip-Book Blendingの進行度を設定します。
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Random Row Selection</b></td><td>
+<p>
+<b>ModeをBy Textureに設定し、Map ModeをFlip BookあるいはFlip Book Blendingに設定した時のみ表示されます。</b>
+</p>
+<p>
+UnityのTexture Sheet AnimationのRow Mode > Random機能と同等の機能です。有効にすると、各パーティクルがライフタイム中にランダムに1つの行を選択・維持してアニメーションを再生します。
+</p>
+<p>
+ランダム値の入力にUnity Particle SystemのCustom Coordを使用します。まずRow Countをテクスチャシートの行数に合わせて設定し、その後任意のCustom Coordチャンネルを「Random Between Two Constants」モード（範囲：0からRow Count）で設定し割り当てます。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Row Count</b></td><td>
+<p>
+<b>Random Row Selectionが有効な時のみ表示されます。</b>
+</p>
+<p>
+テクスチャシートの行数を設定します（例：4×4のテクスチャシートの場合、Row Countを4に設定）。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Random Coord</b></td><td>
+<p>
+<b>Random Row Selectionが有効な時のみ表示されます。</b>
+</p>
+<p>
+ランダム値の入力に使用するCustom Coordチャンネルを選択します。Unity Particle SystemのCustom Dataで「Random Between Two Constants」モードに設定したチャンネルと対応させます。
 </p>
 </td></tr>
 <tr><td colspan="3"><b>Color Type</b></td><td>
