@@ -137,9 +137,23 @@ Varyings ShadowPassVertex(Attributes input)
 
     // Tint Map Progress
     #ifdef _TINT_MAP_MODE_2D_ARRAY
-    output.baseMapUVAndProgresses.w = FlipBookProgress(_TintMapProgress + GET_CUSTOM_COORD(_TintMapProgressCoord), _TintMapSliceCount);
+    float tintMapProgress = _TintMapProgress + GET_CUSTOM_COORD(_TintMapProgressCoord);
+    
+    // Random Row Selection
+    #ifdef _TINT_MAP_RANDOM_ROW_SELECTION_ENABLED
+    output.baseMapUVAndProgresses.w = FlipBookProgressWithRandomRow(tintMapProgress, _TintMapSliceCount, _TintMapRowCount, GET_CUSTOM_COORD(_TintMapRandomRowCoord));
+    #else
+    output.baseMapUVAndProgresses.w = FlipBookProgress(tintMapProgress, _TintMapSliceCount);
+    #endif
     #elif _TINT_MAP_3D_ENABLED
-    output.baseMapUVAndProgresses.w = FlipBookBlendingProgress(_TintMap3DProgress + GET_CUSTOM_COORD(_TintMap3DProgressCoord), _TintMapSliceCount);
+    float tintMapProgress = _TintMap3DProgress + GET_CUSTOM_COORD(_TintMap3DProgressCoord);
+    
+    // Random Row Selection
+    #ifdef _TINT_MAP_RANDOM_ROW_SELECTION_ENABLED
+    output.baseMapUVAndProgresses.w = FlipBookBlendingProgressWithRandomRow(tintMapProgress, _TintMapSliceCount, _TintMapRowCount, GET_CUSTOM_COORD(_TintMapRandomRowCoord));
+    #else
+    output.baseMapUVAndProgresses.w = FlipBookBlendingProgress(tintMapProgress, _TintMapSliceCount);
+    #endif
     #endif
 
     // Flow Map UV
@@ -166,9 +180,19 @@ Varyings ShadowPassVertex(Attributes input)
     float transitionMapProgress = _AlphaTransitionMapProgress + GET_CUSTOM_COORD(_AlphaTransitionMapProgressCoord);
     float sliceCount = _AlphaTransitionMapSliceCount;
     #ifdef _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
+    // Random Row Selection
+    #ifdef _ALPHA_TRANSITION_MAP_RANDOM_ROW_SELECTION_ENABLED
+    output.transitionProgress = FlipBookProgressWithRandomRow(transitionMapProgress, sliceCount, _AlphaTransitionMapRowCount, GET_CUSTOM_COORD(_AlphaTransitionMapRandomRowCoord));
+    #else
     output.transitionProgress = FlipBookProgress(transitionMapProgress, sliceCount);
+    #endif
     #elif _ALPHA_TRANSITION_MAP_MODE_3D
+    // Random Row Selection
+    #ifdef _ALPHA_TRANSITION_MAP_RANDOM_ROW_SELECTION_ENABLED
+    output.transitionProgress = FlipBookBlendingProgressWithRandomRow(transitionMapProgress, sliceCount, _AlphaTransitionMapRowCount, GET_CUSTOM_COORD(_AlphaTransitionMapRandomRowCoord));
+    #else
     output.transitionProgress = FlipBookBlendingProgress(transitionMapProgress, sliceCount);
+    #endif
     #endif
 
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)

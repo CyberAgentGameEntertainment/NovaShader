@@ -342,11 +342,69 @@ namespace Nova.Editor.Core.Scripts
             }
 
             if (parallaxMapMode > ParallaxMapMode.SingleTexture)
+            {
                 MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
                     _editor,
                     "Flip-Book Progress",
                     props.ParallaxMapProgressProp.Value,
                     props.ParallaxMapProgressCoordProp.Value);
+
+                MaterialEditorUtility.DrawToggleProperty(_editor, "Random Row Selection",
+                    props.ParallaxMapRandomRowSelectionEnabledProp.Value);
+
+                var randomRowEnabled = props.ParallaxMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
+
+                if (randomRowEnabled)
+                    using (new EditorGUI.IndentLevelScope())
+                    {
+                        _editor.FloatProperty(props.ParallaxMapRowCountProp.Value, "Row Count");
+
+                        using (new EditorGUILayout.HorizontalScope())
+                        {
+                            EditorGUILayout.PrefixLabel("Random Coord");
+                            var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord),
+                                Convert.ToInt32(props.ParallaxMapRandomRowCoordProp.Value.floatValue));
+                            if (!Enum.IsDefined(typeof(TCustomCoord), coord))
+                                coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 0);
+
+                            using (var ccs = new EditorGUI.ChangeCheckScope())
+                            {
+                                EditorGUI.showMixedValue = props.ParallaxMapRandomRowCoordProp.Value.hasMixedValue;
+                                coord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
+                                EditorGUI.showMixedValue = false;
+
+                                if (ccs.changed)
+                                {
+                                    _editor.RegisterPropertyChangeUndo(props.ParallaxMapRandomRowCoordProp.Value.name);
+                                    props.ParallaxMapRandomRowCoordProp.Value.floatValue = Convert.ToInt32(coord);
+                                }
+                            }
+                        }
+
+                        // Validation and help message
+                        var sliceCount = props.ParallaxMapSliceCountProp.Value.floatValue;
+                        var rowCount = props.ParallaxMapRowCountProp.Value.floatValue;
+
+                        if (rowCount <= 0)
+                        {
+                            EditorGUILayout.HelpBox(
+                                "Row Count must be greater than 0. Setting to 1 will disable random row selection.",
+                                MessageType.Warning);
+                        }
+                        else if (rowCount > sliceCount && sliceCount > 0)
+                        {
+                            EditorGUILayout.HelpBox(
+                                "Row Count cannot exceed Slice Count. Adjust Row Count accordingly.",
+                                MessageType.Warning);
+                        }
+
+                        // Auto-fix
+                        if (props.ParallaxMapRowCountProp.Value.floatValue < 1)
+                        {
+                            props.ParallaxMapRowCountProp.Value.floatValue = 1;
+                        }
+                    }
+            }
 
             MaterialEditorUtility.DrawFloatRangeProperty(
                 _editor,
@@ -409,6 +467,62 @@ namespace Nova.Editor.Core.Scripts
 
                 MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                     props.TintMap3DProgressProp.Value, props.TintMap3DProgressCoordProp.Value);
+
+                MaterialEditorUtility.DrawToggleProperty(_editor, "Random Row Selection",
+                    props.TintMapRandomRowSelectionEnabledProp.Value);
+
+                var randomRowEnabled = props.TintMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
+
+                if (randomRowEnabled)
+                    using (new EditorGUI.IndentLevelScope())
+                    {
+                        _editor.FloatProperty(props.TintMapRowCountProp.Value, "Row Count");
+
+                        using (new EditorGUILayout.HorizontalScope())
+                        {
+                            EditorGUILayout.PrefixLabel("Random Coord");
+                            var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord),
+                                Convert.ToInt32(props.TintMapRandomRowCoordProp.Value.floatValue));
+                            if (!Enum.IsDefined(typeof(TCustomCoord), coord))
+                                coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 0);
+
+                            using (var ccs = new EditorGUI.ChangeCheckScope())
+                            {
+                                EditorGUI.showMixedValue = props.TintMapRandomRowCoordProp.Value.hasMixedValue;
+                                coord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
+                                EditorGUI.showMixedValue = false;
+
+                                if (ccs.changed)
+                                {
+                                    _editor.RegisterPropertyChangeUndo(props.TintMapRandomRowCoordProp.Value.name);
+                                    props.TintMapRandomRowCoordProp.Value.floatValue = Convert.ToInt32(coord);
+                                }
+                            }
+                        }
+
+                        // Validation and help message
+                        var sliceCount = props.TintMapSliceCountProp.Value.floatValue;
+                        var rowCount = props.TintMapRowCountProp.Value.floatValue;
+
+                        if (rowCount <= 0)
+                        {
+                            EditorGUILayout.HelpBox(
+                                "Row Count must be greater than 0. Setting to 1 will disable random row selection.",
+                                MessageType.Warning);
+                        }
+                        else if (rowCount > sliceCount && sliceCount > 0)
+                        {
+                            EditorGUILayout.HelpBox(
+                                "Row Count cannot exceed Slice Count. Adjust Row Count accordingly.",
+                                MessageType.Warning);
+                        }
+
+                        // Auto-fix
+                        if (props.TintMapRowCountProp.Value.floatValue < 1)
+                        {
+                            props.TintMapRowCountProp.Value.floatValue = 1;
+                        }
+                    }
             }
             else if (tintColorMode == TintColorMode.FlipBook)
             {
@@ -427,6 +541,62 @@ namespace Nova.Editor.Core.Scripts
 
                 MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                     props.TintMapProgressProp.Value, props.TintMapProgressCoordProp.Value);
+
+                MaterialEditorUtility.DrawToggleProperty(_editor, "Random Row Selection",
+                    props.TintMapRandomRowSelectionEnabledProp.Value);
+
+                var randomRowEnabled = props.TintMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
+
+                if (randomRowEnabled)
+                    using (new EditorGUI.IndentLevelScope())
+                    {
+                        _editor.FloatProperty(props.TintMapRowCountProp.Value, "Row Count");
+
+                        using (new EditorGUILayout.HorizontalScope())
+                        {
+                            EditorGUILayout.PrefixLabel("Random Coord");
+                            var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord),
+                                Convert.ToInt32(props.TintMapRandomRowCoordProp.Value.floatValue));
+                            if (!Enum.IsDefined(typeof(TCustomCoord), coord))
+                                coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 0);
+
+                            using (var ccs = new EditorGUI.ChangeCheckScope())
+                            {
+                                EditorGUI.showMixedValue = props.TintMapRandomRowCoordProp.Value.hasMixedValue;
+                                coord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
+                                EditorGUI.showMixedValue = false;
+
+                                if (ccs.changed)
+                                {
+                                    _editor.RegisterPropertyChangeUndo(props.TintMapRandomRowCoordProp.Value.name);
+                                    props.TintMapRandomRowCoordProp.Value.floatValue = Convert.ToInt32(coord);
+                                }
+                            }
+                        }
+
+                        // Validation and help message
+                        var sliceCount = props.TintMapSliceCountProp.Value.floatValue;
+                        var rowCount = props.TintMapRowCountProp.Value.floatValue;
+
+                        if (rowCount <= 0)
+                        {
+                            EditorGUILayout.HelpBox(
+                                "Row Count must be greater than 0. Setting to 1 will disable random row selection.",
+                                MessageType.Warning);
+                        }
+                        else if (rowCount > sliceCount && sliceCount > 0)
+                        {
+                            EditorGUILayout.HelpBox(
+                                "Row Count cannot exceed Slice Count. Adjust Row Count accordingly.",
+                                MessageType.Warning);
+                        }
+
+                        // Auto-fix
+                        if (props.TintMapRowCountProp.Value.floatValue < 1)
+                        {
+                            props.TintMapRowCountProp.Value.floatValue = 1;
+                        }
+                    }
             }
 
             MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Blend Rate",
@@ -517,8 +687,66 @@ namespace Nova.Editor.Core.Scripts
 
                 if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook
                     || alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending)
+                {
                     MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                         props.AlphaTransitionMapProgressProp.Value, props.AlphaTransitionMapProgressCoordProp.Value);
+
+                    MaterialEditorUtility.DrawToggleProperty(_editor, "Random Row Selection",
+                        props.AlphaTransitionMapRandomRowSelectionEnabledProp.Value);
+
+                    var randomRowEnabled = props.AlphaTransitionMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
+
+                    if (randomRowEnabled)
+                        using (new EditorGUI.IndentLevelScope())
+                        {
+                            _editor.FloatProperty(props.AlphaTransitionMapRowCountProp.Value, "Row Count");
+
+                            using (new EditorGUILayout.HorizontalScope())
+                            {
+                                EditorGUILayout.PrefixLabel("Random Coord");
+                                var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord),
+                                    Convert.ToInt32(props.AlphaTransitionMapRandomRowCoordProp.Value.floatValue));
+                                if (!Enum.IsDefined(typeof(TCustomCoord), coord))
+                                    coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 0);
+
+                                using (var ccs = new EditorGUI.ChangeCheckScope())
+                                {
+                                    EditorGUI.showMixedValue = props.AlphaTransitionMapRandomRowCoordProp.Value.hasMixedValue;
+                                    coord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
+                                    EditorGUI.showMixedValue = false;
+
+                                    if (ccs.changed)
+                                    {
+                                        _editor.RegisterPropertyChangeUndo(props.AlphaTransitionMapRandomRowCoordProp.Value.name);
+                                        props.AlphaTransitionMapRandomRowCoordProp.Value.floatValue = Convert.ToInt32(coord);
+                                    }
+                                }
+                            }
+
+                            // Validation and help message
+                            var sliceCount = props.AlphaTransitionMapSliceCountProp.Value.floatValue;
+                            var rowCount = props.AlphaTransitionMapRowCountProp.Value.floatValue;
+
+                            if (rowCount <= 0)
+                            {
+                                EditorGUILayout.HelpBox(
+                                    "Row Count must be greater than 0. Setting to 1 will disable random row selection.",
+                                    MessageType.Warning);
+                            }
+                            else if (rowCount > sliceCount && sliceCount > 0)
+                            {
+                                EditorGUILayout.HelpBox(
+                                    "Row Count cannot exceed Slice Count. Adjust Row Count accordingly.",
+                                    MessageType.Warning);
+                            }
+
+                            // Auto-fix
+                            if (props.AlphaTransitionMapRowCountProp.Value.floatValue < 1)
+                            {
+                                props.AlphaTransitionMapRowCountProp.Value.floatValue = 1;
+                            }
+                        }
+                }
 
                 MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Transition Progress",
                     props.AlphaTransitionProgressProp.Value, props.AlphaTransitionProgressCoordProp.Value);
@@ -640,8 +868,66 @@ namespace Nova.Editor.Core.Scripts
 
                     if (emissionMapMode == EmissionMapMode.FlipBook
                         || emissionMapMode == EmissionMapMode.FlipBookBlending)
+                    {
                         MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Flip-Book Progress",
                             props.EmissionMapProgressProp.Value, props.EmissionMapProgressCoordProp.Value);
+
+                        MaterialEditorUtility.DrawToggleProperty(_editor, "Random Row Selection",
+                            props.EmissionMapRandomRowSelectionEnabledProp.Value);
+
+                        var randomRowEnabled = props.EmissionMapRandomRowSelectionEnabledProp.Value.floatValue > 0.5f;
+
+                        if (randomRowEnabled)
+                            using (new EditorGUI.IndentLevelScope())
+                            {
+                                _editor.FloatProperty(props.EmissionMapRowCountProp.Value, "Row Count");
+
+                                using (new EditorGUILayout.HorizontalScope())
+                                {
+                                    EditorGUILayout.PrefixLabel("Random Coord");
+                                    var coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord),
+                                        Convert.ToInt32(props.EmissionMapRandomRowCoordProp.Value.floatValue));
+                                    if (!Enum.IsDefined(typeof(TCustomCoord), coord))
+                                        coord = (TCustomCoord)Enum.ToObject(typeof(TCustomCoord), 0);
+
+                                    using (var ccs = new EditorGUI.ChangeCheckScope())
+                                    {
+                                        EditorGUI.showMixedValue = props.EmissionMapRandomRowCoordProp.Value.hasMixedValue;
+                                        coord = (TCustomCoord)EditorGUILayout.EnumPopup(coord);
+                                        EditorGUI.showMixedValue = false;
+
+                                        if (ccs.changed)
+                                        {
+                                            _editor.RegisterPropertyChangeUndo(props.EmissionMapRandomRowCoordProp.Value.name);
+                                            props.EmissionMapRandomRowCoordProp.Value.floatValue = Convert.ToInt32(coord);
+                                        }
+                                    }
+                                }
+
+                                // Validation and help message
+                                var sliceCount = props.EmissionMapSliceCountProp.Value.floatValue;
+                                var rowCount = props.EmissionMapRowCountProp.Value.floatValue;
+
+                                if (rowCount <= 0)
+                                {
+                                    EditorGUILayout.HelpBox(
+                                        "Row Count must be greater than 0. Setting to 1 will disable random row selection.",
+                                        MessageType.Warning);
+                                }
+                                else if (rowCount > sliceCount && sliceCount > 0)
+                                {
+                                    EditorGUILayout.HelpBox(
+                                        "Row Count cannot exceed Slice Count. Adjust Row Count accordingly.",
+                                        MessageType.Warning);
+                                }
+
+                                // Auto-fix
+                                if (props.EmissionMapRowCountProp.Value.floatValue < 1)
+                                {
+                                    props.EmissionMapRowCountProp.Value.floatValue = 1;
+                                }
+                            }
+                    }
 
                     MaterialEditorUtility.DrawEnumProperty<EmissionColorType>(_editor, "Color Type",
                         props.EmissionColorTypeProp.Value);
