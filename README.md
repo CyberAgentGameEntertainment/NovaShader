@@ -551,6 +551,33 @@ The color multiplication factor.
 If this value is zero, the color will not be applied; if it is one, the color will be multiplied as is.
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Random Row Selection</b></td><td>
+<p>
+<b>This property is visible only when the Color Mode is set to Flip Book or Flip Book Blending.</b>
+</p>
+<p>
+Equivalent to Unity's Texture Sheet Animation Row Mode > Random functionality. When enabled, each particle randomly selects and maintains one row throughout its lifetime for animation playback.
+</p>
+<p>
+Uses Unity Particle System's Custom Coord for random value input. First set Row Count to match the number of rows in your texture sheet, then configure any Custom Coord channel in "Random Between Two Constants" mode (range: 0 to Row Count) and assign it.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Row Count</b></td><td>
+<p>
+<b>This property is visible only when Random Row Selection is enabled.</b>
+</p>
+<p>
+Set the number of rows in your texture sheet (e.g., for a 4×4 texture sheet, set Row Count to 4).
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Random Coord</b></td><td>
+<p>
+<b>This property is visible only when Random Row Selection is enabled.</b>
+</p>
+<p>
+Select the Custom Coord channel for random value input. This should correspond to the Custom Data channel configured in Unity Particle System with "Random Between Two Constants" mode.
+</p>
+</td></tr>
 </tbody>
 </table>
 
@@ -640,6 +667,46 @@ The specifications of the parallax map are as follows:
 <li>The value of 0 is the original state, and the closer it gets to 1, the more concave it becomes</li>
 </ul>
 Since a texture is used as a value, not a color, be sure to uncheck the sRGB Color checkbox in the texture settings.
+</p>
+</td></tr>
+<tr><td colspan=3><b>Strength</b></td><td>
+<p>
+Sets the strength of the parallax map when applied.
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Flip-Book Progress</b></td><td>
+<p>
+<b>This property is visible only when the Mode is set to Flip Book or Flip Book Blending.</b>
+</p>
+<p>
+The progress of the Flip-Book or Flip-Book Blending.
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Random Row Selection</b></td><td>
+<p>
+<b>This property is visible only when the Mode is set to Flip Book or Flip Book Blending.</b>
+</p>
+<p>
+Equivalent to Unity's Texture Sheet Animation Row Mode > Random functionality. When enabled, each particle randomly selects and maintains one row throughout its lifetime for animation playback.
+</p>
+<p>
+Uses Unity Particle System's Custom Coord for random value input. First set Row Count to match the number of rows in your texture sheet, then configure any Custom Coord channel in "Random Between Two Constants" mode (range: 0 to Row Count) and assign it.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Row Count</b></td><td>
+<p>
+<b>This property is visible only when Random Row Selection is enabled.</b>
+</p>
+<p>
+Set the number of rows in your texture sheet (e.g., for a 4×4 texture sheet, set Row Count to 4).
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Random Coord</b></td><td>
+<p>
+<b>This property is visible only when Random Row Selection is enabled.</b>
+</p>
+<p>
+Select the Custom Coord channel for random value input. This should correspond to the Custom Data channel configured in Unity Particle System with "Random Between Two Constants" mode.
 </p>
 </td></tr>
 <tr><td colspan=3><b>Strength</b></td><td>
@@ -764,6 +831,33 @@ Note that you need to uncheck sRGB Color in the texture import setting because t
 Sets the progress of Flip-Book or Flip-Book Blending.
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Random Row Selection</b></td><td>
+<p>
+<b>This property is visible only when the Map Mode is set to Flip Book or Flip Book Blending.</b>
+</p>
+<p>
+Equivalent to Unity's Texture Sheet Animation Row Mode > Random functionality. When enabled, each particle randomly selects and maintains one row throughout its lifetime for animation playback.
+</p>
+<p>
+Uses Unity Particle System's Custom Coord for random value input. First set Row Count to match the number of rows in your texture sheet, then configure any Custom Coord channel in "Random Between Two Constants" mode (range: 0 to Row Count) and assign it.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Row Count</b></td><td>
+<p>
+<b>This property is visible only when Random Row Selection is enabled.</b>
+</p>
+<p>
+Set the number of rows in your texture sheet (e.g., for a 4×4 texture sheet, set Row Count to 4).
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Random Coord</b></td><td>
+<p>
+<b>This property is visible only when Random Row Selection is enabled.</b>
+</p>
+<p>
+Select the Custom Coord channel for random value input. This should correspond to the Custom Data channel configured in Unity Particle System with "Random Between Two Constants" mode.
+</p>
+</td></tr>
 <tr><td colspan="3"><b>Transition Progress</b></td><td>
 <p>
 Sets the progress of Transition.
@@ -860,6 +954,33 @@ Note that you need to uncheck sRGB Color in the texture import setting because t
 </p>
 <p>
 Sets the progress of Flip-Book or Flip-Book Blending.
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Random Row Selection</b></td><td>
+<p>
+<b>This property is visible only when the Mode is set to By Texture and the Map Mode is set to Flip Book or Flip Book Blending.</b>
+</p>
+<p>
+Equivalent to Unity's Texture Sheet Animation Row Mode > Random functionality. When enabled, each particle randomly selects and maintains one row throughout its lifetime for animation playback.
+</p>
+<p>
+Uses Unity Particle System's Custom Coord for random value input. First set Row Count to match the number of rows in your texture sheet, then configure any Custom Coord channel in "Random Between Two Constants" mode (range: 0 to Row Count) and assign it.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Row Count</b></td><td>
+<p>
+<b>This property is visible only when Random Row Selection is enabled.</b>
+</p>
+<p>
+Set the number of rows in your texture sheet (e.g., for a 4×4 texture sheet, set Row Count to 4).
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Random Coord</b></td><td>
+<p>
+<b>This property is visible only when Random Row Selection is enabled.</b>
+</p>
+<p>
+Select the Custom Coord channel for random value input. This should correspond to the Custom Data channel configured in Unity Particle System with "Random Between Two Constants" mode.
 </p>
 </td></tr>
 <tr><td colspan="3"><b>Color Type</b></td><td>
