@@ -31,13 +31,19 @@ namespace Nova.Runtime.Core.Scripts
             _applyDistortionPass = new ApplyDistortionPass(_applyToSceneView, _applyDistortionShader);
         }
 
+        private bool IsPostProcessingAllowed(ref RenderingData renderingData)
+        {
+            return UniversalRenderPipelineDebugDisplaySettings.Instance.IsPostProcessingAllowed &&
+                   renderingData.cameraData.postProcessEnabled;
+        }
+
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
             // PostProcess may interfere with drawing process when DebugDisplay is enabled.
             if (_applyDistortionShader == null
                 || renderingData.cameraData.cameraType == CameraType.Reflection
                 || renderingData.cameraData.cameraType == CameraType.Preview
-                || !renderingData.cameraData.postProcessEnabled)
+                || !IsPostProcessingAllowed(ref renderingData))
                 return;
 
             var distortedUvBufferFormat = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RGHalf)
