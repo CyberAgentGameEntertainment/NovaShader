@@ -249,6 +249,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0.28934106, b: 0.5471698, a: 1}
     - _TintColor: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &854234861823087883
 MonoBehaviour:
   m_ObjectHideFlags: 11

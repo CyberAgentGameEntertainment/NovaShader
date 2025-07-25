@@ -314,6 +314,7 @@ Material:
     - _SpecularColor: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
     - _TintColor: {r: 0.254717, g: 0.254717, b: 0.254717, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &854234861823087883
 MonoBehaviour:
   m_ObjectHideFlags: 11
