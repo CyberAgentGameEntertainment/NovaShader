@@ -33,7 +33,7 @@ namespace Nova.Runtime.Core.Scripts
 
         private bool IsPostProcessingAllowed(ref RenderingData renderingData)
         {
-            return UniversalRenderPipelineDebugDisplaySettings.Instance.IsPostProcessingAllowed &&
+            return (UniversalRenderPipelineDebugDisplaySettings.Instance?.IsPostProcessingAllowed ?? true) &&
                    renderingData.cameraData.postProcessEnabled;
         }
 
