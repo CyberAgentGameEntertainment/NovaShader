@@ -226,9 +226,9 @@ namespace Nova.Editor.Core.Scripts
             
             if (baseMapMaterialProp != null)
             {
-                MaterialEditorUtility.DrawToggleProperty(_editor, "Try Tone",
-                    props.BaseMapTryToneProp.Value);
-                if (props.BaseMapTryToneProp.Value.floatValue != 0.0f)
+                MaterialEditorUtility.DrawToggleProperty(_editor, "Tri Tone",
+                    props.BaseMapTriToneProp.Value);
+                if (props.BaseMapTriToneProp.Value.floatValue != 0.0f)
                 {
                     _editor.ShaderProperty(props.BaseHighlightColorProp.Value, "Highlight Color");
                     _editor.ShaderProperty(props.BaseMidColorProp.Value, "Mid Color");
@@ -260,7 +260,7 @@ namespace Nova.Editor.Core.Scripts
                     }
 
                     MaterialEditorUtility.DrawEnumProperty<ColorChannels>(_editor, "Channel",
-                        props.BaseTryToneChannelProp.Value);
+                        props.BaseTriToneChannelProp.Value);
                 }
             }
         }

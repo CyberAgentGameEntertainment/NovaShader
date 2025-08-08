@@ -372,9 +372,9 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     // Base Color
     half4 color = SAMPLE_BASE_MAP(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z);
 
-    // Base Map Try Tone
-    #if defined(_BASE_MAP_TRY_TONE_ENABLED)
-    ApplyTryTone(color.rgb, color[_BaseMapTryToneChannel]);
+    // Base Map Tri Tone
+    #if defined(_BASE_MAP_TRI_TONE_ENABLED)
+    ApplyTriTone(color.rgb, color[_BaseMapTriToneChannel]);
     #endif
 
     // Tint Color

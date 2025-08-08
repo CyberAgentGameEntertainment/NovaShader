@@ -24,7 +24,7 @@ namespace Nova.Editor.Core.Scripts
         public const string BaseMapMode2DArray = "_BASE_MAP_MODE_2D_ARRAY";
         public const string BaseMapMode3D = "_BASE_MAP_MODE_3D";
         public const string BaseMapRandomRowSelectionEnabled = "_BASE_MAP_RANDOM_ROW_SELECTION_ENABLED";
-        public const string BaseMapTryToneEnabled = "_BASE_MAP_TRY_TONE_ENABLED";
+        public const string BaseMapTriToneEnabled = "_BASE_MAP_TRI_TONE_ENABLED";
         
         // Random Row Selection for other features
         public const string TintMapRandomRowSelectionEnabled = "_TINT_MAP_RANDOM_ROW_SELECTION_ENABLED";
