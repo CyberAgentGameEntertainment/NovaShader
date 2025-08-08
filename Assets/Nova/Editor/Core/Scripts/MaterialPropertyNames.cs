@@ -67,6 +67,15 @@ namespace Nova.Editor.Core.Scripts
         public const string BaseMapRandomRowCoord = "_BaseMapRandomRowCoord";
         public const string BaseMapRowCount = "_BaseMapRowCount";
 
+        // Base Map Tri Tone
+        public const string BaseMapTriTone = "_BaseMapTriTone";
+        public const string BaseMapHighlightColor = "_BaseMapHighlightColor";
+        public const string BaseMapMidColor = "_BaseMapMidColor";
+        public const string BaseMapShadowColor = "_BaseMapShadowColor";
+        public const string BaseMapMidValue = "_BaseMapMidValue";
+        public const string BaseMapMaxValue = "_BaseMapMaxValue";
+        public const string BaseMapMinValue = "_BaseMapMinValue";
+        
         // Tint Color
         public const string TintAreaMode = "_TintAreaMode";
         public const string TintColorMode = "_TintColorMode";

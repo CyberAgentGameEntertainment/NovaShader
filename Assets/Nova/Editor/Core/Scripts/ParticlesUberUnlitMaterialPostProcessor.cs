@@ -24,6 +24,7 @@ namespace Nova.Editor.Core.Scripts
         private static readonly int BaseMap2DArrayId = Shader.PropertyToID(MaterialPropertyNames.BaseMap2DArray);
         private static readonly int BaseMap3DId = Shader.PropertyToID(MaterialPropertyNames.BaseMap3D);
         private static readonly int BaseMapRotationId = Shader.PropertyToID(MaterialPropertyNames.BaseMapRotation);
+        private static readonly int BaseMapTriToneEnabledId = Shader.PropertyToID(MaterialPropertyNames.BaseMapTriTone);
 
         private static readonly int BaseMapRotationCoordId =
             Shader.PropertyToID(MaterialPropertyNames.BaseMapRotationCoord);
@@ -205,6 +206,9 @@ namespace Nova.Editor.Core.Scripts
                                          || (CustomCoord)material.GetFloat(BaseMapRotationCoordId) !=
                                          CustomCoord.Unused;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapRotationEnabled, baseMapRotationEnabled);
+            
+            var baseMapTriToneEnabled = material.GetFloat(BaseMapTriToneEnabledId) != 0;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapTriToneEnabled, baseMapTriToneEnabled);
 
             var randomRowSelectionEnabled =
                 (baseMapMode == BaseMapMode.FlipBook || baseMapMode == BaseMapMode.FlipBookBlending) &&
