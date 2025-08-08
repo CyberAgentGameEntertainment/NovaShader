@@ -374,7 +374,7 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
 
     // Base Map Tri Tone
     #if defined(_BASE_MAP_TRI_TONE_ENABLED)
-    ApplyTriTone(color.rgb, color[_BaseMapTriToneChannel]);
+    ApplyTriTone(color.rgb);
     #endif
 
     // Tint Color

@@ -81,7 +81,6 @@ namespace Nova.Editor.Core.Scripts
             BaseHighlightColorProp.Setup(properties);
             BaseMidColorProp.Setup(properties);
             BaseShadowColorProp.Setup(properties);
-            BaseTriToneChannelProp.Setup(properties);
             BaseMidValueProp.Setup(properties);
             BaseMaxValueProp.Setup(properties);
             BaseMinValueProp.Setup(properties);
@@ -325,7 +324,6 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property BaseHighlightColorProp { get; } = new(PropertyNames.BaseMapHighlightColor);
         public ParticlesGUI.Property BaseMidColorProp { get; } = new(PropertyNames.BaseMapMidColor);
         public ParticlesGUI.Property BaseShadowColorProp { get; } = new(PropertyNames.BaseMapShadowColor);
-        public ParticlesGUI.Property BaseTriToneChannelProp { get; } = new(PropertyNames.BaseMapTriToneChannel);
         public ParticlesGUI.Property BaseMidValueProp { get; } = new(PropertyNames.BaseMapMidValue);
         public ParticlesGUI.Property BaseMaxValueProp { get; } = new(PropertyNames.BaseMapMaxValue);
         public ParticlesGUI.Property BaseMinValueProp { get; } = new(PropertyNames.BaseMapMinValue);

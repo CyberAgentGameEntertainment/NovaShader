@@ -258,9 +258,6 @@ namespace Nova.Editor.Core.Scripts
                     {
                         props.BaseMidValueProp.Value.floatValue = max;
                     }
-
-                    MaterialEditorUtility.DrawEnumProperty<ColorChannels>(_editor, "Channel",
-                        props.BaseTriToneChannelProp.Value);
                 }
             }
         }

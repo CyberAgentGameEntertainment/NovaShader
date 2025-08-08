@@ -71,7 +71,6 @@ Shader "Nova/UIParticles/UberLit"
         _BaseMapHighlightColor("Base Map Highlight Color", Color) = (1,1,1,1)
         _BaseMapMidColor("Base Map Color Coord", Color) = (1,1,1,1)
         _BaseMapShadowColor("Base Map Shadow Color", Color) = (1,1,1,1)
-        _BaseMapTriToneChannel("Base Map Tri Tone Channel", Float) = 0.0
         _BaseMapMidValue("Base Map Mid Value", Range(0.0, 1.0)) = 0.5
         _BaseMapMaxValue("Base Map Max Value", Range(0.0, 1.0)) = 1.0
         _BaseMapMinValue("Base Map Min Value", Range(0.0, 1.0)) = 0.0
