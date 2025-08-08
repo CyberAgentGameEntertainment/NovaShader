@@ -95,6 +95,16 @@ float _BaseMapRandomRowSelectionEnabled;
 DECLARE_CUSTOM_COORD(_BaseMapRandomRowCoord);
 float _BaseMapRowCount;
 
+// Base Map Try Tone
+float _BaseMapTryTone;
+half4 _BaseMapHighlightColor;
+half4 _BaseMapMidColor;
+half4 _BaseMapShadowColor;
+half _BaseMapTryToneChannel;
+float _BaseMapMidValue;
+float _BaseMapMaxValue;
+float _BaseMapMinValue;
+
 half4 _TintColor;
 float4 _TintMap_ST;
 float4 _TintMap3D_ST;
@@ -481,6 +491,12 @@ SamplerState GetEmissionMapSamplerState()
 #elif _TINT_MAP_3D_ENABLED
 #define SAMPLE_TINT_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_TintMap3D, sampler_TintMap3D, half3(uv, progress), 0);
 #endif
+
+inline void ApplyTryTone(in out float3 color, float t)
+{
+    half3 shadowToMid = lerp(_BaseMapShadowColor.rgb, _BaseMapMidColor.rgb, smoothstep(_BaseMapMinValue, _BaseMapMidValue, t));
+    color = lerp(shadowToMid, _BaseMapHighlightColor.rgb, smoothstep(_BaseMapMidValue, _BaseMapMaxValue, t));
+}
 
 // Apply the tint color.
 inline void ApplyTintColor(in out half4 color, half2 uv, half progress, half blendRate)

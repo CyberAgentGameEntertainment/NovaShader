@@ -223,6 +223,46 @@ namespace Nova.Editor.Core.Scripts
                     props.BaseMapRandomRowCoordProp.Value,
                     props.BaseMapSliceCountProp.Value);
             }
+            
+            if (baseMapMaterialProp != null)
+            {
+                MaterialEditorUtility.DrawToggleProperty(_editor, "Try Tone",
+                    props.BaseMapTryToneProp.Value);
+                if (props.BaseMapTryToneProp.Value.floatValue != 0.0f)
+                {
+                    _editor.ShaderProperty(props.BaseHighlightColorProp.Value, "Highlight Color");
+                    _editor.ShaderProperty(props.BaseMidColorProp.Value, "Mid Color");
+                    _editor.ShaderProperty(props.BaseShadowColorProp.Value, "Shadow Color");
+
+                    MaterialEditorUtility.DrawFloatRangeProperty(_editor, "Mid Value", props.BaseMidValueProp.Value,
+                        0.0f, 1.0f);
+                    var mid = props.BaseMidValueProp.Value.floatValue;
+                    var min = props.BaseMinValueProp.Value.floatValue;
+                    var max = props.BaseMaxValueProp.Value.floatValue;
+
+                    min = EditorGUILayout.FloatField("Min", min);
+                    min = Mathf.Clamp(min, 0.0f, 1.0f);
+
+                    max = EditorGUILayout.FloatField("Max", max);
+                    max = Mathf.Clamp(max, 0.0f, 1.0f);
+
+                    EditorGUILayout.MinMaxSlider(ref min, ref max, 0.0f, 1.0f);
+
+                    props.BaseMaxValueProp.Value.floatValue = max;
+                    props.BaseMinValueProp.Value.floatValue = min;
+                    if (mid < min)
+                    {
+                        props.BaseMidValueProp.Value.floatValue = min;
+                    }
+                    else if (mid > max)
+                    {
+                        props.BaseMidValueProp.Value.floatValue = max;
+                    }
+
+                    MaterialEditorUtility.DrawEnumProperty<ColorChannels>(_editor, "Channel",
+                        props.BaseTryToneChannelProp.Value);
+                }
+            }
         }
 
         private void InternalDrawParallaxMapsProperties()

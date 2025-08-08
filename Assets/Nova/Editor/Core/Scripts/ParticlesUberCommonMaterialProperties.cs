@@ -75,6 +75,16 @@ namespace Nova.Editor.Core.Scripts
             BaseMapRandomRowSelectionEnabledProp.Setup(properties);
             BaseMapRandomRowCoordProp.Setup(properties);
             BaseMapRowCountProp.Setup(properties);
+            
+            // Base Map Try Tone
+            BaseMapTryToneProp.Setup(properties);
+            BaseHighlightColorProp.Setup(properties);
+            BaseMidColorProp.Setup(properties);
+            BaseShadowColorProp.Setup(properties);
+            BaseTryToneChannelProp.Setup(properties);
+            BaseMidValueProp.Setup(properties);
+            BaseMaxValueProp.Setup(properties);
+            BaseMinValueProp.Setup(properties);
 
             // Tint Color
             TintAreaModeProp.Setup(properties);
@@ -309,6 +319,16 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property BaseMapRandomRowSelectionEnabledProp { get; } = new(PropertyNames.BaseMapRandomRowSelectionEnabled);
         public ParticlesGUI.Property BaseMapRandomRowCoordProp { get; } = new(PropertyNames.BaseMapRandomRowCoord);
         public ParticlesGUI.Property BaseMapRowCountProp { get; } = new(PropertyNames.BaseMapRowCount);
+        
+        // Base Map Try Tone
+        public ParticlesGUI.Property BaseMapTryToneProp { get; } = new(PropertyNames.BaseMapTryTone);
+        public ParticlesGUI.Property BaseHighlightColorProp { get; } = new(PropertyNames.BaseMapHighlightColor);
+        public ParticlesGUI.Property BaseMidColorProp { get; } = new(PropertyNames.BaseMapMidColor);
+        public ParticlesGUI.Property BaseShadowColorProp { get; } = new(PropertyNames.BaseMapShadowColor);
+        public ParticlesGUI.Property BaseTryToneChannelProp { get; } = new(PropertyNames.BaseMapTryToneChannel);
+        public ParticlesGUI.Property BaseMidValueProp { get; } = new(PropertyNames.BaseMapMidValue);
+        public ParticlesGUI.Property BaseMaxValueProp { get; } = new(PropertyNames.BaseMapMaxValue);
+        public ParticlesGUI.Property BaseMinValueProp { get; } = new(PropertyNames.BaseMapMinValue);
 
         #endregion
 
