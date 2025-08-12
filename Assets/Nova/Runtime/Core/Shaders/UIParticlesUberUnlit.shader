@@ -42,13 +42,13 @@ Shader "Nova/UIParticles/UberUnlit"
         _BaseMapMirrorSampling("Base Map Mirror Sampling", Float) = 0.0
         
         // Base Map Tri Tone
-        _BaseMapTriTone("Base Map Tri Tone", Float) = 0.0
-        _BaseMapHighlightColor("Base Map Highlight Color", Color) = (1,1,1,1)
-        _BaseMapMidColor("Base Map Mid Color", Color) = (1,1,1,1)
-        _BaseMapShadowColor("Base Map Shadow Color", Color) = (1,1,1,1)
-        _BaseMapMidValue("Base Map Mid Value", Range(0.0, 1.0)) = 0.5
-        _BaseMapMaxValue("Base Map Max Value", Range(0.0, 1.0)) = 1.0
-        _BaseMapMinValue("Base Map Min Value", Range(0.0, 1.0)) = 0.0
+        _BaseMapTriToneEnabled("TriTone", Float) = 0.0
+        _BaseMapTriToneHighlightsColor("Highlights Color", Color) = (1,1,1,1)
+        _BaseMapTriToneMidtonesColor("Midtones Color", Color) = (1,1,1,1)
+        _BaseMapTriToneShadowColor("Shadow Color", Color) = (1,1,1,1)
+        _BaseMapTriToneMidtonesBoundary("Midtones Boundary", Range(0.0, 1.0)) = 0.5
+        _BaseMapTriToneHighlightsBoundary("Highlights Boundary", Range(0.0, 1.0)) = 1.0
+        _BaseMapTriToneShadowBoundary("Shadow Boundary", Range(0.0, 1.0)) = 0.0
 
         // Tint Color
         _TintAreaMode("Tint Area Mode", Float) = 0.0

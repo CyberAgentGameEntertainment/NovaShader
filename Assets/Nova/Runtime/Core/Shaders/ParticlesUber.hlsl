@@ -96,13 +96,13 @@ DECLARE_CUSTOM_COORD(_BaseMapRandomRowCoord);
 float _BaseMapRowCount;
 
 // Base Map Tri Tone
-float _BaseMapTriTone;
-half4 _BaseMapHighlightColor;
-half4 _BaseMapMidColor;
-half4 _BaseMapShadowColor;
-float _BaseMapMidValue;
-float _BaseMapMaxValue;
-float _BaseMapMinValue;
+float _BaseMapTriToneEnabled;
+half4 _BaseMapTriToneHighlightsColor;
+half4 _BaseMapTriToneMidtonesColor;
+half4 _BaseMapTriToneShadowColor;
+float _BaseMapTriToneMidtonesBoundary;
+float _BaseMapTriToneHighlightsBoundary;
+float _BaseMapTriToneShadowBoundary;
 
 half4 _TintColor;
 float4 _TintMap_ST;
@@ -493,8 +493,8 @@ SamplerState GetEmissionMapSamplerState()
 
 inline void ApplyTriTone(in out float3 color)
 {
-    half3 shadowToMid = lerp(_BaseMapShadowColor.rgb, _BaseMapMidColor.rgb, smoothstep(_BaseMapMinValue, _BaseMapMidValue, color.r));
-    color = lerp(shadowToMid, _BaseMapHighlightColor.rgb, smoothstep(_BaseMapMidValue, _BaseMapMaxValue, color.r));
+    half3 shadowToMid = lerp(_BaseMapTriToneShadowColor.rgb, _BaseMapTriToneMidtonesColor.rgb, smoothstep(_BaseMapTriToneShadowBoundary, _BaseMapTriToneMidtonesBoundary, color.r));
+    color = lerp(shadowToMid, _BaseMapTriToneHighlightsColor.rgb, smoothstep(_BaseMapTriToneMidtonesBoundary, _BaseMapTriToneHighlightsBoundary, color.r));
 }
 
 // Apply the tint color.

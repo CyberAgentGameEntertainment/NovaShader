@@ -226,24 +226,24 @@ namespace Nova.Editor.Core.Scripts
             
             if (baseMapMaterialProp != null)
             {
-                MaterialEditorUtility.DrawToggleProperty(_editor, "Tri Tone",
+                MaterialEditorUtility.DrawToggleProperty(_editor, "TriTone",
                     props.BaseMapTriToneProp.Value);
                 if (props.BaseMapTriToneProp.Value.floatValue != 0.0f)
                 {
-                    _editor.ShaderProperty(props.BaseHighlightColorProp.Value, "Highlight Color");
-                    _editor.ShaderProperty(props.BaseMidColorProp.Value, "Mid Color");
+                    _editor.ShaderProperty(props.BaseHighlightColorProp.Value, "Highlights Color");
+                    _editor.ShaderProperty(props.BaseMidColorProp.Value, "Midtones Color");
                     _editor.ShaderProperty(props.BaseShadowColorProp.Value, "Shadow Color");
 
-                    MaterialEditorUtility.DrawFloatRangeProperty(_editor, "Mid Value", props.BaseMidValueProp.Value,
+                    MaterialEditorUtility.DrawFloatRangeProperty(_editor, "Midtones Boundary", props.BaseMidValueProp.Value,
                         0.0f, 1.0f);
                     var mid = props.BaseMidValueProp.Value.floatValue;
                     var min = props.BaseMinValueProp.Value.floatValue;
                     var max = props.BaseMaxValueProp.Value.floatValue;
 
-                    min = EditorGUILayout.FloatField("Min", min);
+                    min = EditorGUILayout.FloatField("Shadow Boundary", min);
                     min = Mathf.Clamp(min, 0.0f, 1.0f);
 
-                    max = EditorGUILayout.FloatField("Max", max);
+                    max = EditorGUILayout.FloatField("Highlights Boundary", max);
                     max = Mathf.Clamp(max, 0.0f, 1.0f);
 
                     EditorGUILayout.MinMaxSlider(ref min, ref max, 0.0f, 1.0f);

@@ -68,13 +68,13 @@ namespace Nova.Editor.Core.Scripts
         public const string BaseMapRowCount = "_BaseMapRowCount";
 
         // Base Map Tri Tone
-        public const string BaseMapTriTone = "_BaseMapTriTone";
-        public const string BaseMapHighlightColor = "_BaseMapHighlightColor";
-        public const string BaseMapMidColor = "_BaseMapMidColor";
-        public const string BaseMapShadowColor = "_BaseMapShadowColor";
-        public const string BaseMapMidValue = "_BaseMapMidValue";
-        public const string BaseMapMaxValue = "_BaseMapMaxValue";
-        public const string BaseMapMinValue = "_BaseMapMinValue";
+        public const string BaseMapTriToneEnabled = "_BaseMapTriToneEnabled";
+        public const string BaseMapTriToneHighlightsColor = "_BaseMapTriToneHighlightsColor";
+        public const string BaseMapTriToneMidtonesColor = "_BaseMapTriToneMidtonesColor";
+        public const string BaseMapTriToneShadowColor = "_BaseMapTriToneShadowColor";
+        public const string BaseMapTriToneMidtonesBoundary = "_BaseMapTriToneMidtonesBoundary";
+        public const string BaseMapTriToneHighlightsBoundary = "_BaseMapTriToneHighlightsBoundary";
+        public const string BaseMapTriToneShadowBoundary = "_BaseMapTriToneShadowBoundary";
         
         // Tint Color
         public const string TintAreaMode = "_TintAreaMode";
