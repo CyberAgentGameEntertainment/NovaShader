@@ -456,6 +456,62 @@ UnityのTexture Sheet AnimationのRow Mode > Random機能と同等の機能で�
 ランダム値の入力に使用するCustom Coordチャンネルを選択します。Unity Particle SystemのCustom Dataで「Random Between Two Constants」モードに設定したチャンネルと対応させます。
 </p>
 </td></tr>
+<tr><td colspan="3"><b>TriTone</b></td><td>
+<p>
+輝度範囲を3つのトーン領域（シャドウ、ミッドトーン、ハイライト）に分割し、入力テクスチャのグレースケール値に基づいて各領域の色を独立して制御します。
+</p>
+<p>
+グレースケール入力テクスチャを想定しており、異なる輝度範囲を個別の色にマッピングします。境界値によって領域間の輝度閾値が決定されます。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Shadow Color</b></td><td>
+<p>
+<b>TriToneが有効な時のみ表示されます。</b>
+</p>
+<p>
+シャドウ領域（暗い輝度範囲）に適用される色を設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Midtones Color</b></td><td>
+<p>
+<b>TriToneが有効な時のみ表示されます。</b>
+</p>
+<p>
+ミッドトーン領域（中間輝度範囲）に適用される色を設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Highlights Color</b></td><td>
+<p>
+<b>TriToneが有効な時のみ表示されます。</b>
+</p>
+<p>
+ハイライト領域（明るい輝度範囲）に適用される色を設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Shadow Boundary</b></td><td>
+<p>
+<b>TriToneが有効な時のみ表示されます。</b>
+</p>
+<p>
+シャドウ色からミッドトーン色への遷移が開始される輝度値を設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Midtones Boundary</b></td><td>
+<p>
+<b>TriToneが有効な時のみ表示されます。</b>
+</p>
+<p>
+シャドウ色からミッドトーン色への遷移が終了し、ミッドトーン色からハイライト色への遷移が開始される輝度値を設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Highlights Boundary</b></td><td>
+<p>
+<b>TriToneが有効な時のみ表示されます。</b>
+</p>
+<p>
+ミッドトーン色からハイライト色への遷移が終了する輝度値を設定します。
+</p>
+</td></tr>
 </tbody>
 </table>
 
