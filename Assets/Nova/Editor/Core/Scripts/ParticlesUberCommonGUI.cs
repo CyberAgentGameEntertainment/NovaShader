@@ -230,33 +230,36 @@ namespace Nova.Editor.Core.Scripts
                     props.BaseMapTriToneProp.Value);
                 if (props.BaseMapTriToneProp.Value.floatValue != 0.0f)
                 {
-                    _editor.ShaderProperty(props.BaseHighlightColorProp.Value, "Highlights Color");
-                    _editor.ShaderProperty(props.BaseMidColorProp.Value, "Midtones Color");
-                    _editor.ShaderProperty(props.BaseShadowColorProp.Value, "Shadow Color");
-
-                    MaterialEditorUtility.DrawFloatRangeProperty(_editor, "Midtones Boundary", props.BaseMidValueProp.Value,
-                        0.0f, 1.0f);
-                    var mid = props.BaseMidValueProp.Value.floatValue;
-                    var min = props.BaseMinValueProp.Value.floatValue;
-                    var max = props.BaseMaxValueProp.Value.floatValue;
-
-                    min = EditorGUILayout.FloatField("Shadow Boundary", min);
-                    min = Mathf.Clamp(min, 0.0f, 1.0f);
-
-                    max = EditorGUILayout.FloatField("Highlights Boundary", max);
-                    max = Mathf.Clamp(max, 0.0f, 1.0f);
-
-                    EditorGUILayout.MinMaxSlider(ref min, ref max, 0.0f, 1.0f);
-
-                    props.BaseMaxValueProp.Value.floatValue = max;
-                    props.BaseMinValueProp.Value.floatValue = min;
-                    if (mid < min)
+                    using (new EditorGUI.IndentLevelScope())
                     {
-                        props.BaseMidValueProp.Value.floatValue = min;
-                    }
-                    else if (mid > max)
-                    {
-                        props.BaseMidValueProp.Value.floatValue = max;
+                        _editor.ShaderProperty(props.BaseHighlightColorProp.Value, "Highlights Color");
+                        _editor.ShaderProperty(props.BaseMidColorProp.Value, "Midtones Color");
+                        _editor.ShaderProperty(props.BaseShadowColorProp.Value, "Shadow Color");
+
+                        MaterialEditorUtility.DrawFloatRangeProperty(_editor, "Midtones Boundary", props.BaseMidValueProp.Value,
+                            0.0f, 1.0f);
+                        var mid = props.BaseMidValueProp.Value.floatValue;
+                        var min = props.BaseMinValueProp.Value.floatValue;
+                        var max = props.BaseMaxValueProp.Value.floatValue;
+
+                        min = EditorGUILayout.FloatField("Shadow Boundary", min);
+                        min = Mathf.Clamp(min, 0.0f, 1.0f);
+
+                        max = EditorGUILayout.FloatField("Highlights Boundary", max);
+                        max = Mathf.Clamp(max, 0.0f, 1.0f);
+
+                        EditorGUILayout.MinMaxSlider(ref min, ref max, 0.0f, 1.0f);
+
+                        props.BaseMaxValueProp.Value.floatValue = max;
+                        props.BaseMinValueProp.Value.floatValue = min;
+                        if (mid < min)
+                        {
+                            props.BaseMidValueProp.Value.floatValue = min;
+                        }
+                        else if (mid > max)
+                        {
+                            props.BaseMidValueProp.Value.floatValue = max;
+                        }
                     }
                 }
             }
