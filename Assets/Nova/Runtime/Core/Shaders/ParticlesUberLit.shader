@@ -63,7 +63,7 @@ Shader "Nova/Particles/UberLit"
         // Base Map Tri Tone
         _BaseMapTriTone("Base Map Tri Tone", Float) = 0.0
         _BaseMapHighlightColor("Base Map Highlight Color", Color) = (1,1,1,1)
-        _BaseMapMidColor("Base Map Color Coord", Color) = (1,1,1,1)
+        _BaseMapMidColor("Base Map Mid Color", Color) = (1,1,1,1)
         _BaseMapShadowColor("Base Map Shadow Color", Color) = (1,1,1,1)
         _BaseMapMidValue("Base Map Mid Value", Range(0.0, 1.0)) = 0.5
         _BaseMapMaxValue("Base Map Max Value", Range(0.0, 1.0)) = 1.0
