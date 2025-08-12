@@ -232,33 +232,111 @@ namespace Nova.Editor.Core.Scripts
                 {
                     using (new EditorGUI.IndentLevelScope())
                     {
-                        _editor.ShaderProperty(props.BaseHighlightColorProp.Value, "Highlights Color");
-                        _editor.ShaderProperty(props.BaseMidColorProp.Value, "Midtones Color");
                         _editor.ShaderProperty(props.BaseShadowColorProp.Value, "Shadow Color");
+                        _editor.ShaderProperty(props.BaseMidColorProp.Value, "Midtones Color");
+                        _editor.ShaderProperty(props.BaseHighlightColorProp.Value, "Highlights Color");
 
-                        MaterialEditorUtility.DrawFloatRangeProperty(_editor, "Midtones Boundary", props.BaseMidValueProp.Value,
-                            0.0f, 1.0f);
-                        var mid = props.BaseMidValueProp.Value.floatValue;
-                        var min = props.BaseMinValueProp.Value.floatValue;
-                        var max = props.BaseMaxValueProp.Value.floatValue;
+                        // 境界値の取得と制約適用
+                        var shadow = Mathf.Clamp01(props.BaseMinValueProp.Value.floatValue);
+                        var midtones = Mathf.Clamp01(props.BaseMidValueProp.Value.floatValue);
+                        var highlights = Mathf.Clamp01(props.BaseMaxValueProp.Value.floatValue);
 
-                        min = EditorGUILayout.FloatField("Shadow Boundary", min);
-                        min = Mathf.Clamp(min, 0.0f, 1.0f);
+                        // 値の順序制約を適用
+                        if (shadow > midtones) midtones = shadow;
+                        if (midtones > highlights) highlights = midtones;
+                        if (highlights < midtones) midtones = highlights;
+                        if (midtones < shadow) shadow = midtones;
 
-                        max = EditorGUILayout.FloatField("Highlights Boundary", max);
-                        max = Mathf.Clamp(max, 0.0f, 1.0f);
-
-                        EditorGUILayout.MinMaxSlider(ref min, ref max, 0.0f, 1.0f);
-
-                        props.BaseMaxValueProp.Value.floatValue = max;
-                        props.BaseMinValueProp.Value.floatValue = min;
-                        if (mid < min)
+                        // UI表示（影→中間→ハイライトの順序で表示）
+                        EditorGUILayout.Space(4);
+                        EditorGUILayout.LabelField("Tone Boundaries", EditorStyles.boldLabel);
+                        
+                        using (var changeCheck = new EditorGUI.ChangeCheckScope())
                         {
-                            props.BaseMidValueProp.Value.floatValue = min;
-                        }
-                        else if (mid > max)
-                        {
-                            props.BaseMidValueProp.Value.floatValue = max;
+                            shadow = EditorGUILayout.Slider("Shadow Boundary", shadow, 0.0f, Mathf.Min(midtones, highlights));
+                            midtones = EditorGUILayout.Slider("Midtones Boundary", midtones, shadow, highlights);
+                            highlights = EditorGUILayout.Slider("Highlights Boundary", highlights, Mathf.Max(shadow, midtones), 1.0f);
+                            
+                            EditorGUILayout.Space(4);
+                            
+                            // 視覚的な範囲表示（インデントを考慮）
+                            var rect = EditorGUILayout.GetControlRect(false, 20);
+                            // インデントを手動で適用
+                            var indentOffset = EditorGUI.indentLevel * 15f; // Unity標準のインデント幅
+                            rect.x += indentOffset;
+                            rect.width -= indentOffset;
+                            
+                            var shadowWidth = shadow * rect.width;
+                            var midtonesWidth = (midtones - shadow) * rect.width;
+                            var highlightsWidth = (highlights - midtones) * rect.width;
+                            var beyondHighlightsWidth = (1.0f - highlights) * rect.width;
+                            
+                            // 背景
+                            EditorGUI.DrawRect(rect, new Color(0.2f, 0.2f, 0.2f, 1.0f));
+                            
+                            // Shadow領域（0 → shadow）
+                            var shadowRect = new Rect(rect.x, rect.y, shadowWidth, rect.height);
+                            EditorGUI.DrawRect(shadowRect, new Color(0.05f, 0.05f, 0.05f, 1.0f)); // より暗く
+                            
+                            // Midtones領域（shadow → midtones）
+                            var midtonesRect = new Rect(rect.x + shadowWidth, rect.y, midtonesWidth, rect.height);
+                            EditorGUI.DrawRect(midtonesRect, new Color(0.35f, 0.35f, 0.35f, 1.0f)); // やや暗く調整
+                            
+                            // Highlights領域（midtones → highlights）
+                            var highlightsRect = new Rect(rect.x + shadowWidth + midtonesWidth, rect.y, highlightsWidth, rect.height);
+                            EditorGUI.DrawRect(highlightsRect, new Color(0.65f, 0.65f, 0.65f, 1.0f)); // 中間的な明るさに
+                            
+                            // Beyond highlights領域（highlights → 1.0）
+                            var beyondRect = new Rect(rect.x + shadowWidth + midtonesWidth + highlightsWidth, rect.y, beyondHighlightsWidth, rect.height);
+                            EditorGUI.DrawRect(beyondRect, new Color(0.95f, 0.95f, 0.95f, 1.0f)); // ほぼ白
+                            
+                            // 境界線
+                            if (shadow > 0.001f)
+                                EditorGUI.DrawRect(new Rect(rect.x + shadowWidth - 1, rect.y, 2, rect.height), Color.red);
+                            if (midtones < 0.999f && midtones > shadow + 0.001f)
+                                EditorGUI.DrawRect(new Rect(rect.x + shadowWidth + midtonesWidth - 1, rect.y, 2, rect.height), Color.yellow);
+                            if (highlights < 0.999f && highlights > midtones + 0.001f)
+                                EditorGUI.DrawRect(new Rect(rect.x + shadowWidth + midtonesWidth + highlightsWidth - 1, rect.y, 2, rect.height), Color.green);
+                            
+                            // 数値表示（境界値として右揃えで表示）
+                            var shadowLabelStyle = new GUIStyle(EditorStyles.miniLabel) 
+                            { 
+                                alignment = TextAnchor.MiddleRight,
+                                normal = { textColor = new Color(1.0f, 1.0f, 1.0f, 1.0f) }, // 暗い背景に白文字
+                                padding = new RectOffset(0, 4, 0, 0) // 右側に少し余白
+                            };
+                            
+                            var midtonesLabelStyle = new GUIStyle(EditorStyles.miniLabel) 
+                            { 
+                                alignment = TextAnchor.MiddleRight,
+                                normal = { textColor = new Color(1.0f, 1.0f, 1.0f, 1.0f) }, // グレー背景に白文字
+                                padding = new RectOffset(0, 4, 0, 0) // 右側に少し余白
+                            };
+                            
+                            var highlightsLabelStyle = new GUIStyle(EditorStyles.miniLabel) 
+                            { 
+                                alignment = TextAnchor.MiddleRight,
+                                normal = { textColor = new Color(0.0f, 0.0f, 0.0f, 1.0f) }, // 明るい背景に黒文字
+                                padding = new RectOffset(0, 4, 0, 0) // 右側に少し余白
+                            };
+                            
+                            // 各領域の境界値を右端に表示（各領域の上限値を示す）
+                            if (shadowWidth > 35) GUI.Label(shadowRect, $"S:{shadow:F3}", shadowLabelStyle);
+                            if (midtonesWidth > 35) GUI.Label(midtonesRect, $"M:{midtones:F3}", midtonesLabelStyle);
+                            if (highlightsWidth > 35) GUI.Label(highlightsRect, $"H:{highlights:F3}", highlightsLabelStyle);
+                            
+                            if (changeCheck.changed)
+                            {
+                                // 制約を再適用（順序を保持）
+                                shadow = Mathf.Clamp01(shadow);
+                                midtones = Mathf.Clamp(midtones, shadow, 1.0f);
+                                highlights = Mathf.Clamp(highlights, midtones, 1.0f);
+                                
+                                // プロパティに値を設定
+                                props.BaseMinValueProp.Value.floatValue = shadow;
+                                props.BaseMidValueProp.Value.floatValue = midtones;
+                                props.BaseMaxValueProp.Value.floatValue = highlights;
+                            }
                         }
                     }
                 }
