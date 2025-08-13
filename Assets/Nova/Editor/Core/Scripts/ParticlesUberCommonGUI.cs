@@ -240,26 +240,24 @@ namespace Nova.Editor.Core.Scripts
                         EditorGUILayout.Space(4);
                         EditorGUILayout.LabelField("Tone Boundaries", EditorStyles.boldLabel);
                         
-                        // DrawPropertyAndCustomCoordを使用した新しい実装
-                        MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Shadow Boundary",
-                            props.BaseMinValueProp.Value, props.BaseMinValueCoordProp.Value);
-                            
-                        MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Midtones Boundary",  
-                            props.BaseMidValueProp.Value, props.BaseMidValueCoordProp.Value);
-                            
-                        MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Highlights Boundary",
-                            props.BaseMaxValueProp.Value, props.BaseMaxValueCoordProp.Value);
+                        var shadowValue = props.BaseMinValueProp.Value.floatValue;
+                        var midtonesValue = props.BaseMidValueProp.Value.floatValue;
+                        var highlightsValue = props.BaseMaxValueProp.Value.floatValue;
                         
-                        // 境界値の取得（視覚的な範囲表示用）
-                        var shadow = Mathf.Clamp01(props.BaseMinValueProp.Value.floatValue);
-                        var midtones = Mathf.Clamp01(props.BaseMidValueProp.Value.floatValue);
-                        var highlights = Mathf.Clamp01(props.BaseMaxValueProp.Value.floatValue);
-
-                        // 値の順序制約を適用（表示用）
-                        if (shadow > midtones) midtones = shadow;
-                        if (midtones > highlights) highlights = midtones;
-                        if (highlights < midtones) midtones = highlights;
-                        if (midtones < shadow) shadow = midtones;
+                        // Shadow Boundary（Midtones以下の値のみ設定可能）
+                        DrawBoundaryPropertyWithConstraint("Shadow Boundary", 
+                            props.BaseMinValueProp.Value, props.BaseMinValueCoordProp.Value,
+                            0.0f, midtonesValue);
+                        
+                        // Midtones Boundary（Shadow以上かつHighlights以下の値のみ設定可能）
+                        DrawBoundaryPropertyWithConstraint("Midtones Boundary",
+                            props.BaseMidValueProp.Value, props.BaseMidValueCoordProp.Value,
+                            shadowValue, highlightsValue);
+                        
+                        // Highlights Boundary（Midtones以上の値のみ設定可能）
+                        DrawBoundaryPropertyWithConstraint("Highlights Boundary",
+                            props.BaseMaxValueProp.Value, props.BaseMaxValueCoordProp.Value,
+                            midtonesValue, 1.0f);
                         
                         EditorGUILayout.Space(4);
                         
@@ -270,10 +268,10 @@ namespace Nova.Editor.Core.Scripts
                         rect.x += indentOffset;
                         rect.width -= indentOffset;
                         
-                        var shadowWidth = shadow * rect.width;
-                        var midtonesWidth = (midtones - shadow) * rect.width;
-                        var highlightsWidth = (highlights - midtones) * rect.width;
-                        var beyondHighlightsWidth = (1.0f - highlights) * rect.width;
+                        var shadowWidth = shadowValue * rect.width;
+                        var midtonesWidth = (midtonesValue - shadowValue) * rect.width;
+                        var highlightsWidth = (highlightsValue - midtonesValue) * rect.width;
+                        var beyondHighlightsWidth = (1.0f - highlightsValue) * rect.width;
                         
                         // 背景
                         EditorGUI.DrawRect(rect, new Color(0.2f, 0.2f, 0.2f, 1.0f));
@@ -295,11 +293,11 @@ namespace Nova.Editor.Core.Scripts
                         EditorGUI.DrawRect(beyondRect, new Color(0.95f, 0.95f, 0.95f, 1.0f)); // ほぼ白
                         
                         // 境界線
-                        if (shadow > 0.001f)
+                        if (shadowValue > 0.001f)
                             EditorGUI.DrawRect(new Rect(rect.x + shadowWidth - 1, rect.y, 2, rect.height), Color.red);
-                        if (midtones < 0.999f && midtones > shadow + 0.001f)
+                        if (midtonesValue < 0.999f && midtonesValue > shadowValue + 0.001f)
                             EditorGUI.DrawRect(new Rect(rect.x + shadowWidth + midtonesWidth - 1, rect.y, 2, rect.height), Color.yellow);
-                        if (highlights < 0.999f && highlights > midtones + 0.001f)
+                        if (highlightsValue < 0.999f && highlightsValue > midtonesValue + 0.001f)
                             EditorGUI.DrawRect(new Rect(rect.x + shadowWidth + midtonesWidth + highlightsWidth - 1, rect.y, 2, rect.height), Color.green);
                         
                         // 数値表示（境界値として右揃えで表示）
@@ -325,9 +323,9 @@ namespace Nova.Editor.Core.Scripts
                         };
                         
                         // 各領域の境界値を右端に表示（各領域の上限値を示す）
-                        if (shadowWidth > 35) GUI.Label(shadowRect, $"S:{shadow:F3}", shadowLabelStyle);
-                        if (midtonesWidth > 35) GUI.Label(midtonesRect, $"M:{midtones:F3}", midtonesLabelStyle);
-                        if (highlightsWidth > 35) GUI.Label(highlightsRect, $"H:{highlights:F3}", highlightsLabelStyle);
+                        if (shadowWidth > 35) GUI.Label(shadowRect, $"S:{shadowValue:F3}", shadowLabelStyle);
+                        if (midtonesWidth > 35) GUI.Label(midtonesRect, $"M:{midtonesValue:F3}", midtonesLabelStyle);
+                        if (highlightsWidth > 35) GUI.Label(highlightsRect, $"H:{highlightsValue:F3}", highlightsLabelStyle);
                     }
                 }
             }
@@ -887,6 +885,50 @@ namespace Nova.Editor.Core.Scripts
 
         private List<ParticleSystemVertexStream> _correctVertexStreamsInstanced = new();
 
-        # endregion
+        #endregion
+        
+        /// <summary>
+        /// 制約付きBoundaryプロパティを描画（見た目は固定0-1、入力時のみ制限）
+        /// </summary>
+        private void DrawBoundaryPropertyWithConstraint(string label, MaterialProperty property, 
+            MaterialProperty coordProperty, float minValue, float maxValue)
+        {
+            var fullRect = EditorGUILayout.GetControlRect();
+            var contentsRect = fullRect;
+            contentsRect.xMin += EditorGUIUtility.labelWidth;
+            var propertyRect = fullRect;
+            propertyRect.xMax -= contentsRect.width / 4;
+            var coordRect = contentsRect;
+            coordRect.width -= contentsRect.width * 3 / 4 - 2;
+            coordRect.x += contentsRect.width * 3 / 4 + 2;
+
+            // 見た目は常に0-1範囲、有効な値のみ受け入れ
+            EditorGUI.BeginChangeCheck();
+            var newValue = EditorGUI.Slider(propertyRect, label, property.floatValue, 0.0f, 1.0f);
+            if (EditorGUI.EndChangeCheck())
+            {
+                // 有効な値のみ受け入れ、無効な値は拒否（元の値を保持）
+                if (newValue >= minValue && newValue <= maxValue)
+                {
+                    property.floatValue = newValue;
+                }
+                // 無効な値の場合は何もしない（元の値を保持）
+            }
+
+            // Custom Coord選択
+            using (new MaterialEditorUtility.ResetIndentLevelScope())
+            {
+                var coord = (TCustomCoord)System.Enum.ToObject(typeof(TCustomCoord), 
+                    System.Convert.ToInt32(coordProperty.floatValue));
+                if (!System.Enum.IsDefined(typeof(TCustomCoord), coord))
+                    EditorGUILayout.HelpBox("Invalid coord value\n", MessageType.Error, true);
+                using (var ccs = new EditorGUI.ChangeCheckScope())
+                {
+                    coord = (TCustomCoord)EditorGUI.EnumPopup(coordRect, coord);
+                    if (ccs.changed)
+                        coordProperty.floatValue = System.Convert.ToSingle(coord);
+                }
+            }
+        }
     }
 }
