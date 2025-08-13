@@ -378,9 +378,11 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     half midtonesBoundary = saturate(_BaseMapTriToneMidtonesBoundary + GET_CUSTOM_COORD(_BaseMapTriToneMidtonesBoundaryCoord));
     half highlightsBoundary = saturate(_BaseMapTriToneHighlightsBoundary + GET_CUSTOM_COORD(_BaseMapTriToneHighlightsBoundaryCoord));
     
-    // 順序を保証（Shadow <= Midtones <= Highlights）
-    midtonesBoundary = max(shadowBoundary, midtonesBoundary);
-    highlightsBoundary = max(midtonesBoundary, highlightsBoundary);
+    // 最小間隔を保証した順序調整
+    const half MIN_INTERVAL = 0.005;
+    highlightsBoundary = max(highlightsBoundary, MIN_INTERVAL * 2);
+    shadowBoundary = min(shadowBoundary, highlightsBoundary - MIN_INTERVAL * 2);
+    midtonesBoundary = clamp(midtonesBoundary, shadowBoundary + MIN_INTERVAL, highlightsBoundary - MIN_INTERVAL);
     
     half3 shadowToMid = lerp(_BaseMapTriToneShadowColor.rgb, _BaseMapTriToneMidtonesColor.rgb, 
                              smoothstep(shadowBoundary, midtonesBoundary, color.r));
