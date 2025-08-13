@@ -101,6 +101,17 @@ namespace Nova.Editor.Core.Scripts
                 }
             }
 
+            // Check TriTone-specific features
+            if (commonMaterialProperties.BaseMapTriToneProp.Value.floatValue > 0.5f)
+            {
+                if (IsCustomCoordUsed(commonMaterialProperties.BaseMinValueCoordProp) ||
+                    IsCustomCoordUsed(commonMaterialProperties.BaseMidValueCoordProp) ||
+                    IsCustomCoordUsed(commonMaterialProperties.BaseMaxValueCoordProp))
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
 

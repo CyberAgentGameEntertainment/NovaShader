@@ -374,7 +374,24 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
 
     // Base Map Tri Tone
     #if defined(_BASE_MAP_TRI_TONE_ENABLED)
-    ApplyTriTone(color.rgb);
+    // Custom Coord値を含むBoundaryでTriToneを適用
+    half shadowBoundary = _BaseMapTriToneShadowBoundary + GET_CUSTOM_COORD(_BaseMapTriToneShadowBoundaryCoord);
+    half midtonesBoundary = _BaseMapTriToneMidtonesBoundary + GET_CUSTOM_COORD(_BaseMapTriToneMidtonesBoundaryCoord);
+    half highlightsBoundary = _BaseMapTriToneHighlightsBoundary + GET_CUSTOM_COORD(_BaseMapTriToneHighlightsBoundaryCoord);
+    
+    // 値のクランプと順序制約を適用
+    shadowBoundary = saturate(shadowBoundary);
+    midtonesBoundary = saturate(midtonesBoundary);
+    highlightsBoundary = saturate(highlightsBoundary);
+    
+    // 順序を保証（Shadow <= Midtones <= Highlights）
+    midtonesBoundary = max(shadowBoundary, midtonesBoundary);
+    highlightsBoundary = max(midtonesBoundary, highlightsBoundary);
+    
+    half3 shadowToMid = lerp(_BaseMapTriToneShadowColor.rgb, _BaseMapTriToneMidtonesColor.rgb, 
+                             smoothstep(shadowBoundary, midtonesBoundary, color.r));
+    color.rgb = lerp(shadowToMid, _BaseMapTriToneHighlightsColor.rgb, 
+                 smoothstep(midtonesBoundary, highlightsBoundary, color.r));
     #endif
 
     // Tint Color

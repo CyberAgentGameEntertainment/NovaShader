@@ -75,6 +75,9 @@ namespace Nova.Editor.Core.Scripts
         public const string BaseMapTriToneMidtonesBoundary = "_BaseMapTriToneMidtonesBoundary";
         public const string BaseMapTriToneHighlightsBoundary = "_BaseMapTriToneHighlightsBoundary";
         public const string BaseMapTriToneShadowBoundary = "_BaseMapTriToneShadowBoundary";
+        public const string BaseMapTriToneShadowBoundaryCoord = "_BaseMapTriToneShadowBoundaryCoord";
+        public const string BaseMapTriToneMidtonesBoundaryCoord = "_BaseMapTriToneMidtonesBoundaryCoord";
+        public const string BaseMapTriToneHighlightsBoundaryCoord = "_BaseMapTriToneHighlightsBoundaryCoord";
         
         // Tint Color
         public const string TintAreaMode = "_TintAreaMode";

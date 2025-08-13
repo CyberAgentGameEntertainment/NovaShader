@@ -103,6 +103,9 @@ half4 _BaseMapTriToneShadowColor;
 float _BaseMapTriToneMidtonesBoundary;
 float _BaseMapTriToneHighlightsBoundary;
 float _BaseMapTriToneShadowBoundary;
+DECLARE_CUSTOM_COORD(_BaseMapTriToneShadowBoundaryCoord);
+DECLARE_CUSTOM_COORD(_BaseMapTriToneMidtonesBoundaryCoord);
+DECLARE_CUSTOM_COORD(_BaseMapTriToneHighlightsBoundaryCoord);
 
 half4 _TintColor;
 float4 _TintMap_ST;

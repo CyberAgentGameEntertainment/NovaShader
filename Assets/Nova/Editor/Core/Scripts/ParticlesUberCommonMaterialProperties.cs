@@ -84,6 +84,9 @@ namespace Nova.Editor.Core.Scripts
             BaseMidValueProp.Setup(properties);
             BaseMaxValueProp.Setup(properties);
             BaseMinValueProp.Setup(properties);
+            BaseMinValueCoordProp.Setup(properties);
+            BaseMidValueCoordProp.Setup(properties);
+            BaseMaxValueCoordProp.Setup(properties);
 
             // Tint Color
             TintAreaModeProp.Setup(properties);
@@ -327,6 +330,9 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property BaseMidValueProp { get; } = new(PropertyNames.BaseMapTriToneMidtonesBoundary);
         public ParticlesGUI.Property BaseMaxValueProp { get; } = new(PropertyNames.BaseMapTriToneHighlightsBoundary);
         public ParticlesGUI.Property BaseMinValueProp { get; } = new(PropertyNames.BaseMapTriToneShadowBoundary);
+        public ParticlesGUI.Property BaseMinValueCoordProp { get; } = new(PropertyNames.BaseMapTriToneShadowBoundaryCoord);
+        public ParticlesGUI.Property BaseMidValueCoordProp { get; } = new(PropertyNames.BaseMapTriToneMidtonesBoundaryCoord);
+        public ParticlesGUI.Property BaseMaxValueCoordProp { get; } = new(PropertyNames.BaseMapTriToneHighlightsBoundaryCoord);
 
         #endregion
 

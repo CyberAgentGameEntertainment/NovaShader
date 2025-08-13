@@ -49,6 +49,9 @@ Shader "Nova/UIParticles/UberUnlit"
         _BaseMapTriToneMidtonesBoundary("Midtones Boundary", Range(0.0, 1.0)) = 0.5
         _BaseMapTriToneHighlightsBoundary("Highlights Boundary", Range(0.0, 1.0)) = 1.0
         _BaseMapTriToneShadowBoundary("Shadow Boundary", Range(0.0, 1.0)) = 0.0
+        _BaseMapTriToneShadowBoundaryCoord("Shadow Boundary Coord", Float) = 0.0
+        _BaseMapTriToneMidtonesBoundaryCoord("Midtones Boundary Coord", Float) = 0.0
+        _BaseMapTriToneHighlightsBoundaryCoord("Highlights Boundary Coord", Float) = 0.0
 
         // Tint Color
         _TintAreaMode("Tint Area Mode", Float) = 0.0
