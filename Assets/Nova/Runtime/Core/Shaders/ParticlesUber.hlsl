@@ -494,11 +494,6 @@ SamplerState GetEmissionMapSamplerState()
 #define SAMPLE_TINT_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_TintMap3D, sampler_TintMap3D, half3(uv, progress), 0);
 #endif
 
-inline void ApplyTriTone(in out float3 color)
-{
-    half3 shadowToMid = lerp(_BaseMapTriToneShadowColor.rgb, _BaseMapTriToneMidtonesColor.rgb, smoothstep(_BaseMapTriToneShadowBoundary, _BaseMapTriToneMidtonesBoundary, color.r));
-    color = lerp(shadowToMid, _BaseMapTriToneHighlightsColor.rgb, smoothstep(_BaseMapTriToneMidtonesBoundary, _BaseMapTriToneHighlightsBoundary, color.r));
-}
 
 // Apply the tint color.
 inline void ApplyTintColor(in out half4 color, half2 uv, half progress, half blendRate)
