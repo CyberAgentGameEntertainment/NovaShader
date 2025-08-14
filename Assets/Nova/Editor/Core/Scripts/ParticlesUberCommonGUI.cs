@@ -243,7 +243,7 @@ namespace Nova.Editor.Core.Scripts
                         }
                         
                         EditorGUILayout.Space(4);
-                        DrawTriToneGradientPreview(
+                        DrawTriTonePreview(
                             props.TriToneShadowColorProp.Value.colorValue,
                             props.TriToneMidtonesColorProp.Value.colorValue,
                             props.TriToneHighlightColorProp.Value.colorValue,
@@ -252,7 +252,6 @@ namespace Nova.Editor.Core.Scripts
                             props.TriToneHighlightProp.Value.floatValue
                         );
                         
-                        EditorGUILayout.Space(4);
                         EditorGUILayout.LabelField("Tone Boundaries", EditorStyles.boldLabel);
                         const float MIN_RANGE = 0.01f;
                         
@@ -309,7 +308,7 @@ namespace Nova.Editor.Core.Scripts
                             if (balanceChangeScope.changed)
                             {
                                 float balanceValue = props.TriToneBalanceProp.Value.floatValue;
-                                props.TriToneBalanceProp.Value.floatValue = Mathf.Clamp(balanceValue, 0.01f, 0.99f);
+                                props.TriToneBalanceProp.Value.floatValue = Mathf.Clamp(balanceValue, 0.001f, 0.999f);
                             }
                         }
                     }
@@ -928,17 +927,50 @@ namespace Nova.Editor.Core.Scripts
         {
         }
         
-        private void DrawTriToneGradientPreview(Color shadow, Color midtones, Color highlight,
-                                                float shadowBoundary, float balance, float highlightBoundary)
+        private void DrawTriTonePreview(Color shadow, Color midtones, Color highlight,
+                                       float shadowBoundary, float balance, float highlightBoundary)
+        {
+            const float MIN_RANGE = 0.01f;
+            highlightBoundary = Mathf.Max(shadowBoundary + MIN_RANGE, highlightBoundary);
+            balance = Mathf.Clamp(balance, 0.001f, 0.999f);
+            float actualMidpoint = Mathf.Lerp(shadowBoundary, highlightBoundary, balance);
+            
+            // グレースケール参照バー
+            DrawGrayscaleReference(shadowBoundary, actualMidpoint, highlightBoundary);
+            
+            EditorGUILayout.Space(2);
+            
+            // TriToneグラデーション
+            DrawTriToneGradient(shadow, midtones, highlight, shadowBoundary, actualMidpoint, highlightBoundary);
+            
+            // マーカーラベル用のスペース確保
+            EditorGUILayout.Space(16);
+        }
+        
+        private void DrawGrayscaleReference(float shadowBoundary, float midpoint, float highlightBoundary)
+        {
+            Rect rect = EditorGUILayout.GetControlRect(false, 12);
+            rect = EditorGUI.IndentedRect(rect);
+            
+            const int steps = 256;
+            for (int i = 0; i < steps; i++)
+            {
+                float t = i / (float)(steps - 1);
+                Color grayColor = new Color(t, t, t, 1.0f);
+                
+                float stepWidth = rect.width / steps;
+                Rect stepRect = new Rect(rect.x + i * stepWidth, rect.y, stepWidth + 1, rect.height);
+                EditorGUI.DrawRect(stepRect, grayColor);
+            }
+            
+        }
+        
+        private void DrawTriToneGradient(Color shadow, Color midtones, Color highlight,
+                                        float shadowBoundary, float midpoint, float highlightBoundary)
         {
             Rect rect = EditorGUILayout.GetControlRect(false, 24);
             rect = EditorGUI.IndentedRect(rect);
-            const float MIN_RANGE = 0.01f;
-            highlightBoundary = Mathf.Max(shadowBoundary + MIN_RANGE, highlightBoundary);
-            balance = Mathf.Clamp(balance, 0.01f, 0.99f);
-            float actualMidpoint = Mathf.Lerp(shadowBoundary, highlightBoundary, balance);
             
-            // グラデーション描画
             const int steps = 256;
             for (int i = 0; i < steps; i++)
             {
@@ -953,15 +985,15 @@ namespace Nova.Editor.Core.Scripts
                 {
                     color = highlight;
                 }
-                else if (t <= actualMidpoint)
+                else if (t <= midpoint)
                 {
-                    float blend = Mathf.InverseLerp(shadowBoundary, actualMidpoint, t);
+                    float blend = Mathf.InverseLerp(shadowBoundary, midpoint, t);
                     blend = Mathf.SmoothStep(0, 1, blend);
                     color = Color.Lerp(shadow, midtones, blend);
                 }
                 else
                 {
-                    float blend = Mathf.InverseLerp(actualMidpoint, highlightBoundary, t);
+                    float blend = Mathf.InverseLerp(midpoint, highlightBoundary, t);
                     blend = Mathf.SmoothStep(0, 1, blend);
                     color = Color.Lerp(midtones, highlight, blend);
                 }
@@ -971,9 +1003,9 @@ namespace Nova.Editor.Core.Scripts
                 EditorGUI.DrawRect(stepRect, color);
             }
             
-            // 境界マーカー
+            // 境界マーカー（カラー用）
             DrawBoundaryMarker(rect, shadowBoundary, "S", Color.white);
-            DrawBoundaryMarker(rect, actualMidpoint, "B", Color.white);
+            DrawBoundaryMarker(rect, midpoint, "B", Color.white);
             DrawBoundaryMarker(rect, highlightBoundary, "H", Color.white);
         }
         
