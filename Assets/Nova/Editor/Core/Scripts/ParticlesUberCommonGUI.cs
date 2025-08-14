@@ -226,7 +226,7 @@ namespace Nova.Editor.Core.Scripts
             
             if (baseMapMaterialProp != null)
             {
-                MaterialEditorUtility.DrawToggleProperty(_editor, "Tri-Tone",
+                MaterialEditorUtility.DrawToggleProperty(_editor, "TriTone",
                     props.BaseMapTriToneProp.Value);
                 if (props.BaseMapTriToneProp.Value.floatValue != 0.0f)
                 {
@@ -240,17 +240,9 @@ namespace Nova.Editor.Core.Scripts
                             _editor.ShaderProperty(props.TriToneMidtonesColorProp.Value, "Midtones Color");
                             _editor.ShaderProperty(props.TriToneHighlightColorProp.Value, "Highlight Color");
                             
-                            // プロパティ変更があった場合、プレビューを更新
-                            if (changeScope.changed)
-                            {
-                                MarkTriToneGradientDirty();
-                            }
                         }
                         
-                        // 2. グラデーションプレビュー
                         EditorGUILayout.Space(4);
-                        
-                        // プレビューでは基本値のみを使用（Custom Coord値は無視）
                         DrawTriToneGradientPreview(
                             props.TriToneShadowColorProp.Value.colorValue,
                             props.TriToneMidtonesColorProp.Value.colorValue,
@@ -260,32 +252,64 @@ namespace Nova.Editor.Core.Scripts
                             props.TriToneHighlightProp.Value.floatValue
                         );
                         
-                        // 3. 境界値設定
                         EditorGUILayout.Space(4);
                         EditorGUILayout.LabelField("Tone Boundaries", EditorStyles.boldLabel);
+                        const float MIN_RANGE = 0.01f;
                         
-                        // 境界値の変更検出
-                        using (var changeScope = new EditorGUI.ChangeCheckScope())
+                        // Shadow値の個別制御
+                        using (var shadowChangeScope = new EditorGUI.ChangeCheckScope())
                         {
                             MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
                                 _editor, "Shadow", 
                                 props.TriToneShadowProp.Value, 
                                 props.TriToneShadowCoordProp.Value);
+                            
+                            if (shadowChangeScope.changed)
+                            {
+                                float shadowValue = props.TriToneShadowProp.Value.floatValue;
+                                float highlightValue = props.TriToneHighlightProp.Value.floatValue;
                                 
+                                // Shadowが大きすぎる場合はShadowを制限
+                                if (shadowValue >= highlightValue - MIN_RANGE)
+                                {
+                                    props.TriToneShadowProp.Value.floatValue = highlightValue - MIN_RANGE;
+                                }
+                            }
+                        }
+                        
+                        // Highlight値の個別制御
+                        using (var highlightChangeScope = new EditorGUI.ChangeCheckScope())
+                        {
                             MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
                                 _editor, "Highlight",
                                 props.TriToneHighlightProp.Value, 
                                 props.TriToneHighlightCoordProp.Value);
+                            
+                            if (highlightChangeScope.changed)
+                            {
+                                float shadowValue = props.TriToneShadowProp.Value.floatValue;
+                                float highlightValue = props.TriToneHighlightProp.Value.floatValue;
                                 
+                                // Highlightが小さすぎる場合はHighlightを制限
+                                if (highlightValue <= shadowValue + MIN_RANGE)
+                                {
+                                    props.TriToneHighlightProp.Value.floatValue = shadowValue + MIN_RANGE;
+                                }
+                            }
+                        }
+                        
+                        // Balance値の制御
+                        using (var balanceChangeScope = new EditorGUI.ChangeCheckScope())
+                        {
                             MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
                                 _editor, "Balance",
                                 props.TriToneBalanceProp.Value, 
                                 props.TriToneBalanceCoordProp.Value);
-                                
-                            // 境界値変更があった場合、プレビューを更新
-                            if (changeScope.changed)
+                            
+                            if (balanceChangeScope.changed)
                             {
-                                MarkTriToneGradientDirty();
+                                float balanceValue = props.TriToneBalanceProp.Value.floatValue;
+                                props.TriToneBalanceProp.Value.floatValue = Mathf.Clamp(balanceValue, 0.01f, 0.99f);
                             }
                         }
                     }
@@ -893,87 +917,61 @@ namespace Nova.Editor.Core.Scripts
             }
         }
         
-        private static Texture2D _triToneGradientTexture;
-        private static bool _triToneGradientDirty = true;
         
         // 静的コンストラクタでイベント登録（ジェネリッククラスでも安全）
         static ParticlesUberCommonGUI()
         {
             UnityEditor.EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
-            UnityEditor.AssemblyReloadEvents.beforeAssemblyReload += CleanupTriToneTexture;
         }
         
         private static void OnPlayModeStateChanged(UnityEditor.PlayModeStateChange state)
         {
-            if (state == UnityEditor.PlayModeStateChange.ExitingEditMode || 
-                state == UnityEditor.PlayModeStateChange.ExitingPlayMode)
-            {
-                CleanupTriToneTexture();
-            }
         }
-        
-        private static void CleanupTriToneTexture()
-        {
-            if (_triToneGradientTexture != null)
-            {
-                UnityEngine.Object.DestroyImmediate(_triToneGradientTexture);
-                _triToneGradientTexture = null;
-                _triToneGradientDirty = true;
-            }
-        }
-        
-        private static void MarkTriToneGradientDirty()
-        {
-            _triToneGradientDirty = true;
-        }
-        
         
         private void DrawTriToneGradientPreview(Color shadow, Color midtones, Color highlight,
                                                 float shadowBoundary, float balance, float highlightBoundary)
         {
-            // 描画領域取得（高さ24px）
             Rect rect = EditorGUILayout.GetControlRect(false, 24);
-            
-            // Ensure shadow < highlight with minimum range
+            rect = EditorGUI.IndentedRect(rect);
             const float MIN_RANGE = 0.01f;
             highlightBoundary = Mathf.Max(shadowBoundary + MIN_RANGE, highlightBoundary);
-            
+            balance = Mathf.Clamp(balance, 0.01f, 0.99f);
             float actualMidpoint = Mathf.Lerp(shadowBoundary, highlightBoundary, balance);
             
-            // グラデーションテクスチャ生成/更新（プロパティ変更時のみ）
-            if (_triToneGradientTexture == null || _triToneGradientDirty)
+            // グラデーション描画
+            const int steps = 256;
+            for (int i = 0; i < steps; i++)
             {
-                if (_triToneGradientTexture == null)
-                    _triToneGradientTexture = new Texture2D(256, 1);
+                float t = i / (float)(steps - 1);
+                Color color;
                 
-                for (int x = 0; x < 256; x++)
+                if (t <= shadowBoundary)
                 {
-                    float t = x / 255f;
-                    Color pixelColor;
-                    
-                    if (t <= actualMidpoint)
-                    {
-                        float blend = Mathf.InverseLerp(shadowBoundary, actualMidpoint, t);
-                        blend = Mathf.SmoothStep(0, 1, blend); // smoothstepを適用
-                        pixelColor = Color.Lerp(shadow, midtones, blend);
-                    }
-                    else
-                    {
-                        float blend = Mathf.InverseLerp(actualMidpoint, highlightBoundary, t);
-                        blend = Mathf.SmoothStep(0, 1, blend); // smoothstepを適用
-                        pixelColor = Color.Lerp(midtones, highlight, blend);
-                    }
-                    
-                    _triToneGradientTexture.SetPixel(x, 0, pixelColor);
+                    color = shadow;
                 }
-                _triToneGradientTexture.Apply();
-                _triToneGradientDirty = false;
+                else if (t >= highlightBoundary)
+                {
+                    color = highlight;
+                }
+                else if (t <= actualMidpoint)
+                {
+                    float blend = Mathf.InverseLerp(shadowBoundary, actualMidpoint, t);
+                    blend = Mathf.SmoothStep(0, 1, blend);
+                    color = Color.Lerp(shadow, midtones, blend);
+                }
+                else
+                {
+                    float blend = Mathf.InverseLerp(actualMidpoint, highlightBoundary, t);
+                    blend = Mathf.SmoothStep(0, 1, blend);
+                    color = Color.Lerp(midtones, highlight, blend);
+                }
+                
+                float stepWidth = rect.width / steps;
+                Rect stepRect = new Rect(rect.x + i * stepWidth, rect.y, stepWidth + 1, rect.height);
+                EditorGUI.DrawRect(stepRect, color);
             }
             
-            // グラデーション描画
-            GUI.DrawTexture(rect, _triToneGradientTexture, ScaleMode.StretchToFill);
-            
-            // 境界マーカー描画
+            // 境界マーカー
             DrawBoundaryMarker(rect, shadowBoundary, "S", Color.white);
             DrawBoundaryMarker(rect, actualMidpoint, "B", Color.white);
             DrawBoundaryMarker(rect, highlightBoundary, "H", Color.white);
