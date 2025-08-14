@@ -386,19 +386,14 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     // Calculate actual midpoint position from balance
     half midpoint = lerp(shadow, highlight, balance);
     
-    // Apply tri-tone color mapping based on RGB value
-    half3 result;
-    if (color.r <= midpoint) {
-        // Shadow to Midtones transition
-        half t = smoothstep(shadow, midpoint, color.r);
-        result = lerp(_BaseMapTriToneShadowColor.rgb, _BaseMapTriToneMidtonesColor.rgb, t);
-    } else {
-        // Midtones to Highlight transition
-        half t = smoothstep(midpoint, highlight, color.r);
-        result = lerp(_BaseMapTriToneMidtonesColor.rgb, _BaseMapTriToneHighlightColor.rgb, t);
-    }
+    // Apply tri-tone color mapping
+    half3 shadowToMidtones = lerp(_BaseMapTriToneShadowColor.rgb, 
+                                 _BaseMapTriToneMidtonesColor.rgb, 
+                                 smoothstep(shadow, midpoint, color.r));
     
-    color.rgb = result;
+    color.rgb = lerp(shadowToMidtones, 
+                    _BaseMapTriToneHighlightColor.rgb, 
+                    smoothstep(midpoint, highlight, color.r));
     #endif
 
     // Tint Color

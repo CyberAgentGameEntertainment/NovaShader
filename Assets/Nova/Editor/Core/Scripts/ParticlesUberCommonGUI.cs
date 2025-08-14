@@ -259,7 +259,7 @@ namespace Nova.Editor.Core.Scripts
                         using (var shadowChangeScope = new EditorGUI.ChangeCheckScope())
                         {
                             MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
-                                _editor, "Shadow", 
+                                _editor, "Shadow Boundary", 
                                 props.TriToneShadowProp.Value, 
                                 props.TriToneShadowCoordProp.Value);
                             
@@ -280,7 +280,7 @@ namespace Nova.Editor.Core.Scripts
                         using (var highlightChangeScope = new EditorGUI.ChangeCheckScope())
                         {
                             MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
-                                _editor, "Highlight",
+                                _editor, "Highlight Boundary",
                                 props.TriToneHighlightProp.Value, 
                                 props.TriToneHighlightCoordProp.Value);
                             
@@ -977,26 +977,11 @@ namespace Nova.Editor.Core.Scripts
                 float t = i / (float)(steps - 1);
                 Color color;
                 
-                if (t <= shadowBoundary)
-                {
-                    color = shadow;
-                }
-                else if (t >= highlightBoundary)
-                {
-                    color = highlight;
-                }
-                else if (t <= midpoint)
-                {
-                    float blend = Mathf.InverseLerp(shadowBoundary, midpoint, t);
-                    blend = Mathf.SmoothStep(0, 1, blend);
-                    color = Color.Lerp(shadow, midtones, blend);
-                }
-                else
-                {
-                    float blend = Mathf.InverseLerp(midpoint, highlightBoundary, t);
-                    blend = Mathf.SmoothStep(0, 1, blend);
-                    color = Color.Lerp(midtones, highlight, blend);
-                }
+                float step1 = SmoothStepCustom(shadowBoundary, midpoint, t);
+                float step2 = SmoothStepCustom(midpoint, highlightBoundary, t);
+                Color shadowToMidtones = Color.Lerp(shadow, midtones, step1);
+                
+                color = Color.Lerp(shadowToMidtones, highlight, step2);
                 
                 float stepWidth = rect.width / steps;
                 Rect stepRect = new Rect(rect.x + i * stepWidth, rect.y, stepWidth + 1, rect.height);
@@ -1007,6 +992,16 @@ namespace Nova.Editor.Core.Scripts
             DrawBoundaryMarker(rect, shadowBoundary, "S", Color.white);
             DrawBoundaryMarker(rect, midpoint, "B", Color.white);
             DrawBoundaryMarker(rect, highlightBoundary, "H", Color.white);
+        }
+        
+        // HLSL smoothstep equivalent
+        private static float SmoothStepCustom(float edge0, float edge1, float x)
+        {
+            if (x <= edge0) return 0.0f;
+            if (x >= edge1) return 1.0f;
+            
+            float t = Mathf.Clamp01((x - edge0) / (edge1 - edge0));
+            return t * t * (3.0f - 2.0f * t);
         }
         
         private void DrawBoundaryMarker(Rect rect, float position, string label, Color color)
