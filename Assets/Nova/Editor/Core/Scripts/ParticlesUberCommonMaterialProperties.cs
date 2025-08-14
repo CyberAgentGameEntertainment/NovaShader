@@ -78,15 +78,15 @@ namespace Nova.Editor.Core.Scripts
             
             // Base Map Tri Tone
             BaseMapTriToneProp.Setup(properties);
-            BaseHighlightColorProp.Setup(properties);
-            BaseMidColorProp.Setup(properties);
-            BaseShadowColorProp.Setup(properties);
-            BaseMidValueProp.Setup(properties);
-            BaseMaxValueProp.Setup(properties);
-            BaseMinValueProp.Setup(properties);
-            BaseMinValueCoordProp.Setup(properties);
-            BaseMidValueCoordProp.Setup(properties);
-            BaseMaxValueCoordProp.Setup(properties);
+            TriToneHighlightColorProp.Setup(properties);
+            TriToneMidtonesColorProp.Setup(properties);
+            TriToneShadowColorProp.Setup(properties);
+            TriToneShadowProp.Setup(properties);
+            TriToneHighlightProp.Setup(properties);
+            TriToneBalanceProp.Setup(properties);
+            TriToneShadowCoordProp.Setup(properties);
+            TriToneHighlightCoordProp.Setup(properties);
+            TriToneBalanceCoordProp.Setup(properties);
 
             // Tint Color
             TintAreaModeProp.Setup(properties);
@@ -324,15 +324,15 @@ namespace Nova.Editor.Core.Scripts
         
         // Base Map Tri Tone
         public ParticlesGUI.Property BaseMapTriToneProp { get; } = new(PropertyNames.BaseMapTriToneEnabled);
-        public ParticlesGUI.Property BaseHighlightColorProp { get; } = new(PropertyNames.BaseMapTriToneHighlightsColor);
-        public ParticlesGUI.Property BaseMidColorProp { get; } = new(PropertyNames.BaseMapTriToneMidtonesColor);
-        public ParticlesGUI.Property BaseShadowColorProp { get; } = new(PropertyNames.BaseMapTriToneShadowColor);
-        public ParticlesGUI.Property BaseMidValueProp { get; } = new(PropertyNames.BaseMapTriToneMidtonesBoundary);
-        public ParticlesGUI.Property BaseMaxValueProp { get; } = new(PropertyNames.BaseMapTriToneHighlightsBoundary);
-        public ParticlesGUI.Property BaseMinValueProp { get; } = new(PropertyNames.BaseMapTriToneShadowBoundary);
-        public ParticlesGUI.Property BaseMinValueCoordProp { get; } = new(PropertyNames.BaseMapTriToneShadowBoundaryCoord);
-        public ParticlesGUI.Property BaseMidValueCoordProp { get; } = new(PropertyNames.BaseMapTriToneMidtonesBoundaryCoord);
-        public ParticlesGUI.Property BaseMaxValueCoordProp { get; } = new(PropertyNames.BaseMapTriToneHighlightsBoundaryCoord);
+        public ParticlesGUI.Property TriToneHighlightColorProp { get; } = new(PropertyNames.BaseMapTriToneHighlightColor);
+        public ParticlesGUI.Property TriToneMidtonesColorProp { get; } = new(PropertyNames.BaseMapTriToneMidtonesColor);
+        public ParticlesGUI.Property TriToneShadowColorProp { get; } = new(PropertyNames.BaseMapTriToneShadowColor);
+        public ParticlesGUI.Property TriToneShadowProp { get; } = new(PropertyNames.BaseMapTriToneShadow);
+        public ParticlesGUI.Property TriToneHighlightProp { get; } = new(PropertyNames.BaseMapTriToneHighlight);
+        public ParticlesGUI.Property TriToneBalanceProp { get; } = new(PropertyNames.BaseMapTriToneBalance);
+        public ParticlesGUI.Property TriToneShadowCoordProp { get; } = new(PropertyNames.BaseMapTriToneShadowCoord);
+        public ParticlesGUI.Property TriToneHighlightCoordProp { get; } = new(PropertyNames.BaseMapTriToneHighlightCoord);
+        public ParticlesGUI.Property TriToneBalanceCoordProp { get; } = new(PropertyNames.BaseMapTriToneBalanceCoord);
 
         #endregion
 

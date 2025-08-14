@@ -62,15 +62,15 @@ Shader "Nova/Particles/UberLit"
         
         // Base Map Tri Tone
         _BaseMapTriToneEnabled("TriTone", Float) = 0.0
-        _BaseMapTriToneHighlightsColor("Highlights Color", Color) = (1,1,1,1)
-        _BaseMapTriToneMidtonesColor("Midtones Color", Color) = (1,1,1,1)
-        _BaseMapTriToneShadowColor("Shadow Color", Color) = (1,1,1,1)
-        _BaseMapTriToneMidtonesBoundary("Midtones Boundary", Range(0.0, 1.0)) = 0.5
-        _BaseMapTriToneHighlightsBoundary("Highlights Boundary", Range(0.0, 1.0)) = 1.0
-        _BaseMapTriToneShadowBoundary("Shadow Boundary", Range(0.0, 1.0)) = 0.0
-        _BaseMapTriToneShadowBoundaryCoord("Shadow Boundary Coord", Float) = 0.0
-        _BaseMapTriToneMidtonesBoundaryCoord("Midtones Boundary Coord", Float) = 0.0
-        _BaseMapTriToneHighlightsBoundaryCoord("Highlights Boundary Coord", Float) = 0.0
+        _BaseMapTriToneHighlightColor("Highlight Color", Color) = (1,1,1,1)
+        _BaseMapTriToneMidtonesColor("Midtones Color", Color) = (0.5,0.5,0.5,1)
+        _BaseMapTriToneShadowColor("Shadow Color", Color) = (0,0,0,1)
+        _BaseMapTriToneShadow("Shadow", Range(0.0, 1.0)) = 0.25
+        _BaseMapTriToneHighlight("Highlight", Range(0.0, 1.0)) = 0.75
+        _BaseMapTriToneBalance("Balance", Range(0.0, 1.0)) = 0.5
+        _BaseMapTriToneShadowCoord("Shadow Coord", Float) = 0.0
+        _BaseMapTriToneHighlightCoord("Highlight Coord", Float) = 0.0
+        _BaseMapTriToneBalanceCoord("Balance Coord", Float) = 0.0
 
         // Tint Color
         _TintAreaMode("Tint Area Mode", Float) = 0.0

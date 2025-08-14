@@ -226,106 +226,68 @@ namespace Nova.Editor.Core.Scripts
             
             if (baseMapMaterialProp != null)
             {
-                MaterialEditorUtility.DrawToggleProperty(_editor, "TriTone",
+                MaterialEditorUtility.DrawToggleProperty(_editor, "Tri-Tone",
                     props.BaseMapTriToneProp.Value);
                 if (props.BaseMapTriToneProp.Value.floatValue != 0.0f)
                 {
                     using (new EditorGUI.IndentLevelScope())
                     {
-                        _editor.ShaderProperty(props.BaseShadowColorProp.Value, "Shadow Color");
-                        _editor.ShaderProperty(props.BaseMidColorProp.Value, "Midtones Color");
-                        _editor.ShaderProperty(props.BaseHighlightColorProp.Value, "Highlights Color");
-
-                        // UI表示（影→中間→ハイライトの順序で表示）
+                        // プロパティ変更検出用
+                        using (var changeScope = new EditorGUI.ChangeCheckScope())
+                        {
+                            // 1. カラー設定
+                            _editor.ShaderProperty(props.TriToneShadowColorProp.Value, "Shadow Color");
+                            _editor.ShaderProperty(props.TriToneMidtonesColorProp.Value, "Midtones Color");
+                            _editor.ShaderProperty(props.TriToneHighlightColorProp.Value, "Highlight Color");
+                            
+                            // プロパティ変更があった場合、プレビューを更新
+                            if (changeScope.changed)
+                            {
+                                MarkTriToneGradientDirty();
+                            }
+                        }
+                        
+                        // 2. グラデーションプレビュー
+                        EditorGUILayout.Space(4);
+                        
+                        // プレビューでは基本値のみを使用（Custom Coord値は無視）
+                        DrawTriToneGradientPreview(
+                            props.TriToneShadowColorProp.Value.colorValue,
+                            props.TriToneMidtonesColorProp.Value.colorValue,
+                            props.TriToneHighlightColorProp.Value.colorValue,
+                            props.TriToneShadowProp.Value.floatValue,
+                            props.TriToneBalanceProp.Value.floatValue,
+                            props.TriToneHighlightProp.Value.floatValue
+                        );
+                        
+                        // 3. 境界値設定
                         EditorGUILayout.Space(4);
                         EditorGUILayout.LabelField("Tone Boundaries", EditorStyles.boldLabel);
                         
-                        var shadowValue = props.BaseMinValueProp.Value.floatValue;
-                        var midtonesValue = props.BaseMidValueProp.Value.floatValue;
-                        var highlightsValue = props.BaseMaxValueProp.Value.floatValue;
-                        
-                        // Shadow Boundary（Midtones以下の値のみ設定可能）
-                        DrawBoundaryPropertyWithConstraint("Shadow Boundary", 
-                            props.BaseMinValueProp.Value, props.BaseMinValueCoordProp.Value,
-                            0.0f, midtonesValue);
-                        
-                        // Midtones Boundary（Shadow以上かつHighlights以下の値のみ設定可能）
-                        DrawBoundaryPropertyWithConstraint("Midtones Boundary",
-                            props.BaseMidValueProp.Value, props.BaseMidValueCoordProp.Value,
-                            shadowValue, highlightsValue);
-                        
-                        // Highlights Boundary（Midtones以上の値のみ設定可能）
-                        DrawBoundaryPropertyWithConstraint("Highlights Boundary",
-                            props.BaseMaxValueProp.Value, props.BaseMaxValueCoordProp.Value,
-                            midtonesValue, 1.0f);
-                        
-                        EditorGUILayout.Space(4);
-                        
-                        // 視覚的な範囲表示（インデントを考慮）
-                        var rect = EditorGUILayout.GetControlRect(false, 20);
-                        // インデントを手動で適用
-                        var indentOffset = EditorGUI.indentLevel * 15f; // Unity標準のインデント幅
-                        rect.x += indentOffset;
-                        rect.width -= indentOffset;
-                        
-                        var shadowWidth = shadowValue * rect.width;
-                        var midtonesWidth = (midtonesValue - shadowValue) * rect.width;
-                        var highlightsWidth = (highlightsValue - midtonesValue) * rect.width;
-                        var beyondHighlightsWidth = (1.0f - highlightsValue) * rect.width;
-                        
-                        // 背景
-                        EditorGUI.DrawRect(rect, new Color(0.2f, 0.2f, 0.2f, 1.0f));
-                        
-                        // Shadow領域（0 → shadow）
-                        var shadowRect = new Rect(rect.x, rect.y, shadowWidth, rect.height);
-                        EditorGUI.DrawRect(shadowRect, new Color(0.05f, 0.05f, 0.05f, 1.0f)); // より暗く
-                        
-                        // Midtones領域（shadow → midtones）
-                        var midtonesRect = new Rect(rect.x + shadowWidth, rect.y, midtonesWidth, rect.height);
-                        EditorGUI.DrawRect(midtonesRect, new Color(0.35f, 0.35f, 0.35f, 1.0f)); // やや暗く調整
-                        
-                        // Highlights領域（midtones → highlights）
-                        var highlightsRect = new Rect(rect.x + shadowWidth + midtonesWidth, rect.y, highlightsWidth, rect.height);
-                        EditorGUI.DrawRect(highlightsRect, new Color(0.65f, 0.65f, 0.65f, 1.0f)); // 中間的な明るさに
-                        
-                        // Beyond highlights領域（highlights → 1.0）
-                        var beyondRect = new Rect(rect.x + shadowWidth + midtonesWidth + highlightsWidth, rect.y, beyondHighlightsWidth, rect.height);
-                        EditorGUI.DrawRect(beyondRect, new Color(0.95f, 0.95f, 0.95f, 1.0f)); // ほぼ白
-                        
-                        // 境界線
-                        if (shadowValue > 0.001f)
-                            EditorGUI.DrawRect(new Rect(rect.x + shadowWidth - 1, rect.y, 2, rect.height), Color.red);
-                        if (midtonesValue < 0.999f && midtonesValue > shadowValue + 0.001f)
-                            EditorGUI.DrawRect(new Rect(rect.x + shadowWidth + midtonesWidth - 1, rect.y, 2, rect.height), Color.yellow);
-                        if (highlightsValue < 0.999f && highlightsValue > midtonesValue + 0.001f)
-                            EditorGUI.DrawRect(new Rect(rect.x + shadowWidth + midtonesWidth + highlightsWidth - 1, rect.y, 2, rect.height), Color.green);
-                        
-                        // 数値表示（境界値として右揃えで表示）
-                        var shadowLabelStyle = new GUIStyle(EditorStyles.miniLabel) 
-                        { 
-                            alignment = TextAnchor.MiddleRight,
-                            normal = { textColor = new Color(1.0f, 1.0f, 1.0f, 1.0f) }, // 暗い背景に白文字
-                            padding = new RectOffset(0, 4, 0, 0) // 右側に少し余白
-                        };
-                        
-                        var midtonesLabelStyle = new GUIStyle(EditorStyles.miniLabel) 
-                        { 
-                            alignment = TextAnchor.MiddleRight,
-                            normal = { textColor = new Color(1.0f, 1.0f, 1.0f, 1.0f) }, // グレー背景に白文字
-                            padding = new RectOffset(0, 4, 0, 0) // 右側に少し余白
-                        };
-                        
-                        var highlightsLabelStyle = new GUIStyle(EditorStyles.miniLabel) 
-                        { 
-                            alignment = TextAnchor.MiddleRight,
-                            normal = { textColor = new Color(0.0f, 0.0f, 0.0f, 1.0f) }, // 明るい背景に黒文字
-                            padding = new RectOffset(0, 4, 0, 0) // 右側に少し余白
-                        };
-                        
-                        // 各領域の境界値を右端に表示（各領域の上限値を示す）
-                        if (shadowWidth > 35) GUI.Label(shadowRect, $"S:{shadowValue:F3}", shadowLabelStyle);
-                        if (midtonesWidth > 35) GUI.Label(midtonesRect, $"M:{midtonesValue:F3}", midtonesLabelStyle);
-                        if (highlightsWidth > 35) GUI.Label(highlightsRect, $"H:{highlightsValue:F3}", highlightsLabelStyle);
+                        // 境界値の変更検出
+                        using (var changeScope = new EditorGUI.ChangeCheckScope())
+                        {
+                            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
+                                _editor, "Shadow", 
+                                props.TriToneShadowProp.Value, 
+                                props.TriToneShadowCoordProp.Value);
+                                
+                            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
+                                _editor, "Highlight",
+                                props.TriToneHighlightProp.Value, 
+                                props.TriToneHighlightCoordProp.Value);
+                                
+                            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
+                                _editor, "Balance",
+                                props.TriToneBalanceProp.Value, 
+                                props.TriToneBalanceCoordProp.Value);
+                                
+                            // 境界値変更があった場合、プレビューを更新
+                            if (changeScope.changed)
+                            {
+                                MarkTriToneGradientDirty();
+                            }
+                        }
                     }
                 }
             }
@@ -929,6 +891,108 @@ namespace Nova.Editor.Core.Scripts
                         coordProperty.floatValue = System.Convert.ToSingle(coord);
                 }
             }
+        }
+        
+        private static Texture2D _triToneGradientTexture;
+        private static bool _triToneGradientDirty = true;
+        
+        // 静的コンストラクタでイベント登録（ジェネリッククラスでも安全）
+        static ParticlesUberCommonGUI()
+        {
+            UnityEditor.EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+            UnityEditor.AssemblyReloadEvents.beforeAssemblyReload += CleanupTriToneTexture;
+        }
+        
+        private static void OnPlayModeStateChanged(UnityEditor.PlayModeStateChange state)
+        {
+            if (state == UnityEditor.PlayModeStateChange.ExitingEditMode || 
+                state == UnityEditor.PlayModeStateChange.ExitingPlayMode)
+            {
+                CleanupTriToneTexture();
+            }
+        }
+        
+        private static void CleanupTriToneTexture()
+        {
+            if (_triToneGradientTexture != null)
+            {
+                UnityEngine.Object.DestroyImmediate(_triToneGradientTexture);
+                _triToneGradientTexture = null;
+                _triToneGradientDirty = true;
+            }
+        }
+        
+        private static void MarkTriToneGradientDirty()
+        {
+            _triToneGradientDirty = true;
+        }
+        
+        
+        private void DrawTriToneGradientPreview(Color shadow, Color midtones, Color highlight,
+                                                float shadowBoundary, float balance, float highlightBoundary)
+        {
+            // 描画領域取得（高さ24px）
+            Rect rect = EditorGUILayout.GetControlRect(false, 24);
+            
+            // Ensure shadow < highlight with minimum range
+            const float MIN_RANGE = 0.01f;
+            highlightBoundary = Mathf.Max(shadowBoundary + MIN_RANGE, highlightBoundary);
+            
+            float actualMidpoint = Mathf.Lerp(shadowBoundary, highlightBoundary, balance);
+            
+            // グラデーションテクスチャ生成/更新（プロパティ変更時のみ）
+            if (_triToneGradientTexture == null || _triToneGradientDirty)
+            {
+                if (_triToneGradientTexture == null)
+                    _triToneGradientTexture = new Texture2D(256, 1);
+                
+                for (int x = 0; x < 256; x++)
+                {
+                    float t = x / 255f;
+                    Color pixelColor;
+                    
+                    if (t <= actualMidpoint)
+                    {
+                        float blend = Mathf.InverseLerp(shadowBoundary, actualMidpoint, t);
+                        blend = Mathf.SmoothStep(0, 1, blend); // smoothstepを適用
+                        pixelColor = Color.Lerp(shadow, midtones, blend);
+                    }
+                    else
+                    {
+                        float blend = Mathf.InverseLerp(actualMidpoint, highlightBoundary, t);
+                        blend = Mathf.SmoothStep(0, 1, blend); // smoothstepを適用
+                        pixelColor = Color.Lerp(midtones, highlight, blend);
+                    }
+                    
+                    _triToneGradientTexture.SetPixel(x, 0, pixelColor);
+                }
+                _triToneGradientTexture.Apply();
+                _triToneGradientDirty = false;
+            }
+            
+            // グラデーション描画
+            GUI.DrawTexture(rect, _triToneGradientTexture, ScaleMode.StretchToFill);
+            
+            // 境界マーカー描画
+            DrawBoundaryMarker(rect, shadowBoundary, "S", Color.white);
+            DrawBoundaryMarker(rect, actualMidpoint, "B", Color.white);
+            DrawBoundaryMarker(rect, highlightBoundary, "H", Color.white);
+        }
+        
+        private void DrawBoundaryMarker(Rect rect, float position, string label, Color color)
+        {
+            float x = rect.x + rect.width * position;
+            
+            // 縦線描画
+            EditorGUI.DrawRect(new Rect(x - 1, rect.y, 2, rect.height), color);
+            
+            // ラベル描画
+            GUIStyle style = new GUIStyle(EditorStyles.miniLabel);
+            style.normal.textColor = color;
+            style.alignment = TextAnchor.MiddleCenter;
+            
+            Rect labelRect = new Rect(x - 10, rect.y + rect.height + 2, 20, 16);
+            GUI.Label(labelRect, label, style);
         }
     }
 }

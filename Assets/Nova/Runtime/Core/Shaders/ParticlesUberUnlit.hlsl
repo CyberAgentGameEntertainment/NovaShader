@@ -374,20 +374,31 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
 
     // Base Map Tri Tone
     #if defined(_BASE_MAP_TRI_TONE_ENABLED)
-    half shadowBoundary = saturate(_BaseMapTriToneShadowBoundary + GET_CUSTOM_COORD(_BaseMapTriToneShadowBoundaryCoord));
-    half midtonesBoundary = saturate(_BaseMapTriToneMidtonesBoundary + GET_CUSTOM_COORD(_BaseMapTriToneMidtonesBoundaryCoord));
-    half highlightsBoundary = saturate(_BaseMapTriToneHighlightsBoundary + GET_CUSTOM_COORD(_BaseMapTriToneHighlightsBoundaryCoord));
+    // Get boundary values with Custom Coord
+    half shadow = saturate(_BaseMapTriToneShadow + GET_CUSTOM_COORD(_BaseMapTriToneShadowCoord));
+    half highlight = saturate(_BaseMapTriToneHighlight + GET_CUSTOM_COORD(_BaseMapTriToneHighlightCoord));
+    half balance = saturate(_BaseMapTriToneBalance + GET_CUSTOM_COORD(_BaseMapTriToneBalanceCoord));
     
-    // 最小間隔を保証した順序調整
-    const half MIN_INTERVAL = 0.005;
-    highlightsBoundary = max(highlightsBoundary, MIN_INTERVAL * 2);
-    shadowBoundary = min(shadowBoundary, highlightsBoundary - MIN_INTERVAL * 2);
-    midtonesBoundary = clamp(midtonesBoundary, shadowBoundary + MIN_INTERVAL, highlightsBoundary - MIN_INTERVAL);
+    // Ensure shadow < highlight with minimum range
+    const half MIN_RANGE = 0.01;
+    highlight = max(shadow + MIN_RANGE, highlight);
     
-    half3 shadowToMid = lerp(_BaseMapTriToneShadowColor.rgb, _BaseMapTriToneMidtonesColor.rgb, 
-                             smoothstep(shadowBoundary, midtonesBoundary, color.r));
-    color.rgb = lerp(shadowToMid, _BaseMapTriToneHighlightsColor.rgb, 
-                     smoothstep(midtonesBoundary, highlightsBoundary, color.r));
+    // Calculate actual midpoint position from balance
+    half midpoint = lerp(shadow, highlight, balance);
+    
+    // Apply tri-tone color mapping based on RGB value
+    half3 result;
+    if (color.r <= midpoint) {
+        // Shadow to Midtones transition
+        half t = smoothstep(shadow, midpoint, color.r);
+        result = lerp(_BaseMapTriToneShadowColor.rgb, _BaseMapTriToneMidtonesColor.rgb, t);
+    } else {
+        // Midtones to Highlight transition
+        half t = smoothstep(midpoint, highlight, color.r);
+        result = lerp(_BaseMapTriToneMidtonesColor.rgb, _BaseMapTriToneHighlightColor.rgb, t);
+    }
+    
+    color.rgb = result;
     #endif
 
     // Tint Color

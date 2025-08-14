@@ -97,15 +97,15 @@ float _BaseMapRowCount;
 
 // Base Map Tri Tone
 float _BaseMapTriToneEnabled;
-half4 _BaseMapTriToneHighlightsColor;
+half4 _BaseMapTriToneHighlightColor;
 half4 _BaseMapTriToneMidtonesColor;
 half4 _BaseMapTriToneShadowColor;
-float _BaseMapTriToneMidtonesBoundary;
-float _BaseMapTriToneHighlightsBoundary;
-float _BaseMapTriToneShadowBoundary;
-DECLARE_CUSTOM_COORD(_BaseMapTriToneShadowBoundaryCoord);
-DECLARE_CUSTOM_COORD(_BaseMapTriToneMidtonesBoundaryCoord);
-DECLARE_CUSTOM_COORD(_BaseMapTriToneHighlightsBoundaryCoord);
+float _BaseMapTriToneShadow;
+float _BaseMapTriToneHighlight;
+float _BaseMapTriToneBalance;
+DECLARE_CUSTOM_COORD(_BaseMapTriToneShadowCoord);
+DECLARE_CUSTOM_COORD(_BaseMapTriToneHighlightCoord);
+DECLARE_CUSTOM_COORD(_BaseMapTriToneBalanceCoord);
 
 half4 _TintColor;
 float4 _TintMap_ST;
