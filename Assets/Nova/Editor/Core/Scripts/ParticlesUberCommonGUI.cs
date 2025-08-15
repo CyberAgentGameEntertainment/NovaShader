@@ -180,10 +180,10 @@ namespace Nova.Editor.Core.Scripts
 
             using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
             {
-                MaterialEditorUtility.DrawTextureWithBaseMapChannel<TCustomCoord>(_editor, baseMapMaterialProp,
-                    props.BaseMapOffsetXCoordProp.Value,
-                    props.BaseMapOffsetYCoordProp.Value, 
-                    props.BaseMapChannelProp.Value);
+                MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor, baseMapMaterialProp,
+                    props.BaseMapOffsetXCoordProp.Value, props.BaseMapOffsetYCoordProp.Value,
+                    null, null);
+                MaterialEditorUtility.DrawBaseMapChannel(_editor, props.BaseMapChannelProp.Value);
 
                 if (changeCheckScope.changed)
                 {

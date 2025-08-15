@@ -267,73 +267,11 @@ namespace Nova.Editor.Core.Scripts
                 offsetCoordXProperty, offsetCoordYProperty, channelsXProperty, channelsYProperty);
         }
 
-        /// <summary>
-        ///     Draw a <see cref="Texture" /> type property with BaseMapChannel support.
-        /// </summary>
-        public static void DrawTextureWithBaseMapChannel<TCustomCoord>(MaterialEditor editor, MaterialProperty textureProperty,
-            MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty,
-            MaterialProperty baseMapChannelProperty) where TCustomCoord : Enum
-        {
-            DrawTextureWithBaseMapChannel<TCustomCoord>(editor, textureProperty, true,
-                offsetCoordXProperty, offsetCoordYProperty, baseMapChannelProperty);
-        }
 
         private static void DrawTexture<TCustomCoord>(MaterialEditor editor, MaterialProperty textureProperty,
             bool drawTilingAndOffset,
             MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty,
             MaterialProperty channelsXProperty, MaterialProperty channelsYProperty) where TCustomCoord : Enum
-        {
-            var useChannelsX = channelsXProperty != null;
-            var useChannelsY = channelsYProperty != null;
-            var useChannels = useChannelsX || useChannelsY;
-
-            DrawTextureInternal<TCustomCoord>(editor, textureProperty, drawTilingAndOffset,
-                offsetCoordXProperty, offsetCoordYProperty, useChannels ? "Channels" : null,
-                useChannels ? (propertyRect) =>
-                {
-                    var xRect = propertyRect;
-                    if (useChannelsY) xRect.width /= 2;
-
-                    var xPropertyRect = xRect;
-                    xPropertyRect.xMin += 12;
-                    EditorGUI.LabelField(xRect, new GUIContent("X"));
-                    DrawEnumContentsProperty<ColorChannels>(editor, xPropertyRect, channelsXProperty);
-
-                    if (useChannelsY)
-                    {
-                        var yRect = xRect;
-                        yRect.x += yRect.width + 2;
-                        yRect.xMax -= 2;
-                        var yPropertyRect = yRect;
-                        yPropertyRect.xMin += 12;
-                        EditorGUI.LabelField(yRect, new GUIContent("Y"));
-                        DrawEnumContentsProperty<ColorChannels>(editor, yPropertyRect, channelsYProperty);
-                    }
-                } : null);
-        }
-
-        private static void DrawTextureWithBaseMapChannel<TCustomCoord>(MaterialEditor editor, MaterialProperty textureProperty,
-            bool drawTilingAndOffset,
-            MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty,
-            MaterialProperty baseMapChannelProperty) where TCustomCoord : Enum
-        {
-            var useBaseMapChannel = baseMapChannelProperty != null;
-
-            DrawTextureInternal<TCustomCoord>(editor, textureProperty, drawTilingAndOffset,
-                offsetCoordXProperty, offsetCoordYProperty, useBaseMapChannel ? "Channel" : null,
-                useBaseMapChannel ? (propertyRect) =>
-                {
-                    DrawEnumContentsProperty<BaseMapChannel>(editor, propertyRect, baseMapChannelProperty);
-                } : null);
-        }
-
-        /// <summary>
-        ///     Internal method for drawing texture with common layout and customizable channel section.
-        /// </summary>
-        private static void DrawTextureInternal<TCustomCoord>(MaterialEditor editor, MaterialProperty textureProperty,
-            bool drawTilingAndOffset,
-            MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty,
-            string channelLabel, Action<Rect> drawChannelSection) where TCustomCoord : Enum
         {
             var propertyCount = 0;
             if (drawTilingAndOffset) propertyCount += 2;
@@ -341,9 +279,10 @@ namespace Nova.Editor.Core.Scripts
             var useOffsetCoord = offsetCoordXProperty != null && offsetCoordYProperty != null;
             if (useOffsetCoord) propertyCount += 1;
 
-            var useChannelSection = drawChannelSection != null;
-            if (useChannelSection) propertyCount += 1;
-            
+            var useChannelsX = channelsXProperty != null;
+            var useChannelsY = channelsYProperty != null;
+            var useChannels = useChannelsX || useChannelsY;
+            if (useChannels) propertyCount += 1;
             var contentsHeight = propertyCount * EditorGUIUtility.singleLineHeight +
                                  (propertyCount - 2) * EditorGUIUtility.standardVerticalSpacing;
             var fullHeight = Mathf.Max(contentsHeight + 8, 64);
@@ -429,10 +368,10 @@ namespace Nova.Editor.Core.Scripts
                     GUI.Label(labelRect, "Offset Coords");
                 }
 
-                if (useChannelSection)
+                if (useChannels)
                 {
                     labelRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    GUI.Label(labelRect, channelLabel);
+                    GUI.Label(labelRect, "Channels");
                 }
 
                 // Tiling & Offsets
@@ -473,13 +412,43 @@ namespace Nova.Editor.Core.Scripts
                     DrawEnumContentsProperty<TCustomCoord>(editor, yPropertyRect, offsetCoordYProperty);
                 }
 
-                // Channel Section (customizable)
-                if (useChannelSection)
+                // Channels
+                if (useChannels)
                 {
                     propertyRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    drawChannelSection.Invoke(propertyRect);
+                    var xRect = propertyRect;
+                    if (useChannelsY) xRect.width /= 2;
+
+                    var xPropertyRect = xRect;
+                    xPropertyRect.xMin += 12;
+                    EditorGUI.LabelField(xRect, new GUIContent("X"));
+                    DrawEnumContentsProperty<ColorChannels>(editor, xPropertyRect, channelsXProperty);
+
+                    if (useChannelsY)
+                    {
+                        var yRect = xRect;
+                        yRect.x += yRect.width + 2;
+                        yRect.xMax -= 2;
+                        var yPropertyRect = yRect;
+                        yPropertyRect.xMin += 12;
+                        EditorGUI.LabelField(yRect, new GUIContent("Y"));
+                        DrawEnumContentsProperty<ColorChannels>(editor, yPropertyRect, channelsYProperty);
+                    }
                 }
             }
+        }
+
+        /// <summary>
+        ///     Draw Base Map Channel selection property.
+        /// </summary>
+        /// <param name="editor"></param>
+        /// <param name="baseMapChannelProperty"></param>
+        public static void DrawBaseMapChannel(MaterialEditor editor, MaterialProperty baseMapChannelProperty)
+        {
+            DrawProperty("Channel", rect =>
+            {
+                DrawEnumContentsProperty<BaseMapChannel>(editor, rect, baseMapChannelProperty);
+            });
         }
 
         /// <summary>
