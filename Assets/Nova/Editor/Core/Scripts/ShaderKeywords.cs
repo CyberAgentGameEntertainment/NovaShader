@@ -20,6 +20,7 @@ namespace Nova.Editor.Core.Scripts
 
         // Base Color
         public const string BaseMapRotationEnabled = "_BASE_MAP_ROTATION_ENABLED";
+        public const string BaseMapChannelEnabled = "_BASE_MAP_CHANNEL_ENABLED";
         public const string BaseMapMode2D = "_BASE_MAP_MODE_2D";
         public const string BaseMapMode2DArray = "_BASE_MAP_MODE_2D_ARRAY";
         public const string BaseMapMode3D = "_BASE_MAP_MODE_3D";
