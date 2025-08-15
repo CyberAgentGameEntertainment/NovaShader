@@ -971,6 +971,11 @@ namespace Nova.Editor.Core.Scripts
             Rect rect = EditorGUILayout.GetControlRect(false, 24);
             rect = EditorGUI.IndentedRect(rect);
             
+            // Force alpha to 1.0 to match shader behavior (RGB only)
+            shadow.a = 1.0f;
+            midtones.a = 1.0f;
+            highlight.a = 1.0f;
+            
             const int steps = 256;
             for (int i = 0; i < steps; i++)
             {
@@ -982,6 +987,7 @@ namespace Nova.Editor.Core.Scripts
                 Color shadowToMidtones = Color.Lerp(shadow, midtones, step1);
                 
                 color = Color.Lerp(shadowToMidtones, highlight, step2);
+                color.a = 1.0f; // Ensure alpha is always 1.0
                 
                 float stepWidth = rect.width / steps;
                 Rect stepRect = new Rect(rect.x + i * stepWidth, rect.y, stepWidth + 1, rect.height);
