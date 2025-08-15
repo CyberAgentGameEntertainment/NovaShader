@@ -37,15 +37,15 @@ Shader "Nova/Particles/UberUnlit"
         
         // Base Map Tri Tone
         _BaseMapTriToneEnabled("TriTone", Float) = 0.0
-        _BaseMapTriToneHighlightColor("Highlight Color", Color) = (1,1,1,1)
+        _BaseMapTriToneHighlightsColor("Highlights Color", Color) = (1,1,1,1)
         _BaseMapTriToneMidtonesColor("Midtones Color", Color) = (0.5,0.5,0.5,1)
-        _BaseMapTriToneShadowColor("Shadow Color", Color) = (0,0,0,1)
-        _BaseMapTriToneShadow("Shadow", Range(0.0, 1.0)) = 0.25
-        _BaseMapTriToneHighlight("Highlight", Range(0.0, 1.0)) = 0.75
-        _BaseMapTriToneBalance("Balance", Range(0.0, 1.0)) = 0.5
-        _BaseMapTriToneShadowCoord("Shadow Coord", Float) = 0.0
-        _BaseMapTriToneHighlightCoord("Highlight Coord", Float) = 0.0
-        _BaseMapTriToneBalanceCoord("Balance Coord", Float) = 0.0
+        _BaseMapTriToneShadowsColor("Shadows Color", Color) = (0,0,0,1)
+        _BaseMapTriToneHighlights("Highlights", Range(0.0, 1.0)) = 0.75
+        _BaseMapTriToneMidtones("Midtones", Range(0.0, 1.0)) = 0.5
+        _BaseMapTriToneShadows("Shadows", Range(0.0, 1.0)) = 0.25
+        _BaseMapTriToneHighlightsCoord("Highlights Coord", Float) = 0.0
+        _BaseMapTriToneMidtonesCoord("Midtones Coord", Float) = 0.0
+        _BaseMapTriToneShadowsCoord("Shadows Coord", Float) = 0.0
 
         // Tint Color
         _TintAreaMode("Tint Area Mode", Float) = 0.0

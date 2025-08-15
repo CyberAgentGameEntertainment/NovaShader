@@ -69,15 +69,15 @@ namespace Nova.Editor.Core.Scripts
 
         // Base Map Tri Tone
         public const string BaseMapTriToneEnabled = "_BaseMapTriToneEnabled";
-        public const string BaseMapTriToneHighlightColor = "_BaseMapTriToneHighlightColor";
+        public const string BaseMapTriToneHighlightsColor = "_BaseMapTriToneHighlightsColor";
         public const string BaseMapTriToneMidtonesColor = "_BaseMapTriToneMidtonesColor";
-        public const string BaseMapTriToneShadowColor = "_BaseMapTriToneShadowColor";
-        public const string BaseMapTriToneShadow = "_BaseMapTriToneShadow";
-        public const string BaseMapTriToneHighlight = "_BaseMapTriToneHighlight";
-        public const string BaseMapTriToneBalance = "_BaseMapTriToneBalance";
-        public const string BaseMapTriToneShadowCoord = "_BaseMapTriToneShadowCoord";
-        public const string BaseMapTriToneHighlightCoord = "_BaseMapTriToneHighlightCoord";
-        public const string BaseMapTriToneBalanceCoord = "_BaseMapTriToneBalanceCoord";
+        public const string BaseMapTriToneShadowsColor = "_BaseMapTriToneShadowsColor";
+        public const string BaseMapTriToneHighlights = "_BaseMapTriToneHighlights";
+        public const string BaseMapTriToneMidtones = "_BaseMapTriToneMidtones";
+        public const string BaseMapTriToneShadows = "_BaseMapTriToneShadows";
+        public const string BaseMapTriToneHighlightsCoord = "_BaseMapTriToneHighlightsCoord";
+        public const string BaseMapTriToneMidtonesCoord = "_BaseMapTriToneMidtonesCoord";
+        public const string BaseMapTriToneShadowsCoord = "_BaseMapTriToneShadowsCoord";
         
         // Tint Color
         public const string TintAreaMode = "_TintAreaMode";

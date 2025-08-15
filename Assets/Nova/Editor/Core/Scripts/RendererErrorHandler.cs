@@ -104,9 +104,9 @@ namespace Nova.Editor.Core.Scripts
             // Check TriTone-specific features
             if (commonMaterialProperties.BaseMapTriToneProp.Value.floatValue > 0.5f)
             {
-                if (IsCustomCoordUsed(commonMaterialProperties.TriToneShadowCoordProp) ||
-                    IsCustomCoordUsed(commonMaterialProperties.TriToneHighlightCoordProp) ||
-                    IsCustomCoordUsed(commonMaterialProperties.TriToneBalanceCoordProp))
+                if (IsCustomCoordUsed(commonMaterialProperties.TriToneShadowsCoordProp) ||
+                    IsCustomCoordUsed(commonMaterialProperties.TriToneHighlightsCoordProp) ||
+                    IsCustomCoordUsed(commonMaterialProperties.TriToneMidtonesCoordProp))
                 {
                     return true;
                 }

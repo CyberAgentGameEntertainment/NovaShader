@@ -375,25 +375,25 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     // Base Map Tri Tone
     #if defined(_BASE_MAP_TRI_TONE_ENABLED)
     // Get boundary values with Custom Coord
-    half shadow = saturate(_BaseMapTriToneShadow + GET_CUSTOM_COORD(_BaseMapTriToneShadowCoord));
-    half highlight = saturate(_BaseMapTriToneHighlight + GET_CUSTOM_COORD(_BaseMapTriToneHighlightCoord));
-    half balance = saturate(_BaseMapTriToneBalance + GET_CUSTOM_COORD(_BaseMapTriToneBalanceCoord));
+    half shadows = saturate(_BaseMapTriToneShadows + GET_CUSTOM_COORD(_BaseMapTriToneShadowsCoord));
+    half highlights = saturate(_BaseMapTriToneHighlights + GET_CUSTOM_COORD(_BaseMapTriToneHighlightsCoord));
+    half midtonesBalance = saturate(_BaseMapTriToneMidtones + GET_CUSTOM_COORD(_BaseMapTriToneMidtonesCoord));
     
-    // Ensure shadow < highlight with minimum range
+    // Ensure shadows < highlights with minimum range
     const half MIN_RANGE = 0.01;
-    highlight = max(shadow + MIN_RANGE, highlight);
+    highlights = max(shadows + MIN_RANGE, highlights);
     
-    // Calculate actual midpoint position from balance
-    half midpoint = lerp(shadow, highlight, balance);
+    // Calculate actual midpoint position from midtones balance
+    half midpoint = lerp(shadows, highlights, midtonesBalance);
     
     // Apply tri-tone color mapping
-    half3 shadowToMidtones = lerp(_BaseMapTriToneShadowColor.rgb, 
-                                 _BaseMapTriToneMidtonesColor.rgb, 
-                                 smoothstep(shadow, midpoint, color.r));
+    half3 shadowsToMidtones = lerp(_BaseMapTriToneShadowsColor.rgb, 
+                                  _BaseMapTriToneMidtonesColor.rgb, 
+                                  smoothstep(shadows, midpoint, color.r));
     
-    color.rgb = lerp(shadowToMidtones, 
-                    _BaseMapTriToneHighlightColor.rgb, 
-                    smoothstep(midpoint, highlight, color.r));
+    color.rgb = lerp(shadowsToMidtones, 
+                    _BaseMapTriToneHighlightsColor.rgb, 
+                    smoothstep(midpoint, highlights, color.r));
     #endif
 
     // Tint Color

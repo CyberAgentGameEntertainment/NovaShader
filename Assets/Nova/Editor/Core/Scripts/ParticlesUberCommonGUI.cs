@@ -235,80 +235,80 @@ namespace Nova.Editor.Core.Scripts
                         // プロパティ変更検出用
                         using (var changeScope = new EditorGUI.ChangeCheckScope())
                         {
-                            // 1. カラー設定
-                            _editor.ShaderProperty(props.TriToneShadowColorProp.Value, "Shadow Color");
+                            // 1. カラー設定（明るい順）
+                            _editor.ShaderProperty(props.TriToneHighlightsColorProp.Value, "Highlights Color");
                             _editor.ShaderProperty(props.TriToneMidtonesColorProp.Value, "Midtones Color");
-                            _editor.ShaderProperty(props.TriToneHighlightColorProp.Value, "Highlight Color");
+                            _editor.ShaderProperty(props.TriToneShadowsColorProp.Value, "Shadows Color");
                             
                         }
                         
                         EditorGUILayout.Space(4);
                         DrawTriTonePreview(
-                            props.TriToneShadowColorProp.Value.colorValue,
+                            props.TriToneShadowsColorProp.Value.colorValue,
                             props.TriToneMidtonesColorProp.Value.colorValue,
-                            props.TriToneHighlightColorProp.Value.colorValue,
-                            props.TriToneShadowProp.Value.floatValue,
-                            props.TriToneBalanceProp.Value.floatValue,
-                            props.TriToneHighlightProp.Value.floatValue
+                            props.TriToneHighlightsColorProp.Value.colorValue,
+                            props.TriToneShadowsProp.Value.floatValue,
+                            props.TriToneMidtonesProp.Value.floatValue,
+                            props.TriToneHighlightsProp.Value.floatValue
                         );
                         
                         EditorGUILayout.LabelField("Tone Boundaries", EditorStyles.boldLabel);
                         const float MIN_RANGE = 0.01f;
                         
-                        // Shadow値の個別制御
-                        using (var shadowChangeScope = new EditorGUI.ChangeCheckScope())
-                        {
-                            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
-                                _editor, "Shadow Boundary", 
-                                props.TriToneShadowProp.Value, 
-                                props.TriToneShadowCoordProp.Value);
-                            
-                            if (shadowChangeScope.changed)
-                            {
-                                float shadowValue = props.TriToneShadowProp.Value.floatValue;
-                                float highlightValue = props.TriToneHighlightProp.Value.floatValue;
-                                
-                                // Shadowが大きすぎる場合はShadowを制限
-                                if (shadowValue >= highlightValue - MIN_RANGE)
-                                {
-                                    props.TriToneShadowProp.Value.floatValue = highlightValue - MIN_RANGE;
-                                }
-                            }
-                        }
-                        
-                        // Highlight値の個別制御
+                        // Highlights値の個別制御（明るい順）
                         using (var highlightChangeScope = new EditorGUI.ChangeCheckScope())
                         {
                             MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
-                                _editor, "Highlight Boundary",
-                                props.TriToneHighlightProp.Value, 
-                                props.TriToneHighlightCoordProp.Value);
+                                _editor, "Highlights",
+                                props.TriToneHighlightsProp.Value, 
+                                props.TriToneHighlightsCoordProp.Value);
                             
                             if (highlightChangeScope.changed)
                             {
-                                float shadowValue = props.TriToneShadowProp.Value.floatValue;
-                                float highlightValue = props.TriToneHighlightProp.Value.floatValue;
+                                float shadowValue = props.TriToneShadowsProp.Value.floatValue;
+                                float highlightValue = props.TriToneHighlightsProp.Value.floatValue;
                                 
-                                // Highlightが小さすぎる場合はHighlightを制限
+                                // Highlightsが小さすぎる場合はHighlightsを制限
                                 if (highlightValue <= shadowValue + MIN_RANGE)
                                 {
-                                    props.TriToneHighlightProp.Value.floatValue = shadowValue + MIN_RANGE;
+                                    props.TriToneHighlightsProp.Value.floatValue = shadowValue + MIN_RANGE;
                                 }
                             }
                         }
                         
-                        // Balance値の制御
-                        using (var balanceChangeScope = new EditorGUI.ChangeCheckScope())
+                        // Midtones値の制御
+                        using (var midtonesChangeScope = new EditorGUI.ChangeCheckScope())
                         {
                             MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
-                                _editor, "Balance",
-                                props.TriToneBalanceProp.Value, 
-                                props.TriToneBalanceCoordProp.Value);
+                                _editor, "Midtones",
+                                props.TriToneMidtonesProp.Value, 
+                                props.TriToneMidtonesCoordProp.Value);
                             
-                            if (balanceChangeScope.changed)
+                            if (midtonesChangeScope.changed)
                             {
-                                float balanceValue = props.TriToneBalanceProp.Value.floatValue;
-                                props.TriToneBalanceProp.Value.floatValue = Mathf.Clamp(balanceValue, 0.001f, 0.999f);
+                                float midtonesValue = props.TriToneMidtonesProp.Value.floatValue;
+                                props.TriToneMidtonesProp.Value.floatValue = Mathf.Clamp(midtonesValue, 0.001f, 0.999f);
+                            }
+                        }
+                        
+                        // Shadows値の個別制御
+                        using (var shadowChangeScope = new EditorGUI.ChangeCheckScope())
+                        {
+                            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
+                                _editor, "Shadows", 
+                                props.TriToneShadowsProp.Value, 
+                                props.TriToneShadowsCoordProp.Value);
+                            
+                            if (shadowChangeScope.changed)
+                            {
+                                float shadowValue = props.TriToneShadowsProp.Value.floatValue;
+                                float highlightValue = props.TriToneHighlightsProp.Value.floatValue;
+                                
+                                // Shadowsが大きすぎる場合はShadowsを制限
+                                if (shadowValue >= highlightValue - MIN_RANGE)
+                                {
+                                    props.TriToneShadowsProp.Value.floatValue = highlightValue - MIN_RANGE;
+                                }
                             }
                         }
                     }
@@ -928,12 +928,12 @@ namespace Nova.Editor.Core.Scripts
         }
         
         private void DrawTriTonePreview(Color shadow, Color midtones, Color highlight,
-                                       float shadowBoundary, float balance, float highlightBoundary)
+                                       float shadowBoundary, float midtonesBalance, float highlightBoundary)
         {
             const float MIN_RANGE = 0.01f;
             highlightBoundary = Mathf.Max(shadowBoundary + MIN_RANGE, highlightBoundary);
-            balance = Mathf.Clamp(balance, 0.001f, 0.999f);
-            float actualMidpoint = Mathf.Lerp(shadowBoundary, highlightBoundary, balance);
+            midtonesBalance = Mathf.Clamp(midtonesBalance, 0.001f, 0.999f);
+            float actualMidpoint = Mathf.Lerp(shadowBoundary, highlightBoundary, midtonesBalance);
             
             // グレースケール参照バー
             DrawGrayscaleReference(shadowBoundary, actualMidpoint, highlightBoundary);
@@ -990,7 +990,7 @@ namespace Nova.Editor.Core.Scripts
             
             // 境界マーカー（カラー用）
             DrawBoundaryMarker(rect, shadowBoundary, "S", Color.white);
-            DrawBoundaryMarker(rect, midpoint, "B", Color.white);
+            DrawBoundaryMarker(rect, midpoint, "M", Color.white);
             DrawBoundaryMarker(rect, highlightBoundary, "H", Color.white);
         }
         
