@@ -374,10 +374,8 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
 
     // Base Map Channels
     #ifdef _BASE_MAP_CHANNEL_ENABLED
-    // キーワードが有効 = _BaseMapChannel > 0.5 が保証されている
     half selectedValue = color[(uint)_BaseMapChannel - 1];
     color.rgb = half3(selectedValue, selectedValue, selectedValue);
-    // アルファは保持
     #endif
 
     // Tint Color
