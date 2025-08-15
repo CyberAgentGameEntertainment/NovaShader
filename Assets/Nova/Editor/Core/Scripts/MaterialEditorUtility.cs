@@ -267,7 +267,6 @@ namespace Nova.Editor.Core.Scripts
                 offsetCoordXProperty, offsetCoordYProperty, channelsXProperty, channelsYProperty);
         }
 
-
         private static void DrawTexture<TCustomCoord>(MaterialEditor editor, MaterialProperty textureProperty,
             bool drawTilingAndOffset,
             MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty,
@@ -445,10 +444,8 @@ namespace Nova.Editor.Core.Scripts
         /// <param name="baseMapChannelProperty"></param>
         public static void DrawBaseMapChannel(MaterialEditor editor, MaterialProperty baseMapChannelProperty)
         {
-            DrawProperty("Channel", rect =>
-            {
-                DrawEnumContentsProperty<BaseMapChannel>(editor, rect, baseMapChannelProperty);
-            });
+            DrawProperty("Channel",
+                rect => { DrawEnumContentsProperty<BaseMapChannel>(editor, rect, baseMapChannelProperty); });
         }
 
         /// <summary>
