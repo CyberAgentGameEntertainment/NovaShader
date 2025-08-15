@@ -283,16 +283,67 @@ namespace Nova.Editor.Core.Scripts
             MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty,
             MaterialProperty channelsXProperty, MaterialProperty channelsYProperty) where TCustomCoord : Enum
         {
+            var useChannelsX = channelsXProperty != null;
+            var useChannelsY = channelsYProperty != null;
+            var useChannels = useChannelsX || useChannelsY;
+
+            DrawTextureInternal<TCustomCoord>(editor, textureProperty, drawTilingAndOffset,
+                offsetCoordXProperty, offsetCoordYProperty, useChannels ? "Channels" : null,
+                useChannels ? (propertyRect) =>
+                {
+                    var xRect = propertyRect;
+                    if (useChannelsY) xRect.width /= 2;
+
+                    var xPropertyRect = xRect;
+                    xPropertyRect.xMin += 12;
+                    EditorGUI.LabelField(xRect, new GUIContent("X"));
+                    DrawEnumContentsProperty<ColorChannels>(editor, xPropertyRect, channelsXProperty);
+
+                    if (useChannelsY)
+                    {
+                        var yRect = xRect;
+                        yRect.x += yRect.width + 2;
+                        yRect.xMax -= 2;
+                        var yPropertyRect = yRect;
+                        yPropertyRect.xMin += 12;
+                        EditorGUI.LabelField(yRect, new GUIContent("Y"));
+                        DrawEnumContentsProperty<ColorChannels>(editor, yPropertyRect, channelsYProperty);
+                    }
+                } : null);
+        }
+
+        private static void DrawTextureWithBaseMapChannel<TCustomCoord>(MaterialEditor editor, MaterialProperty textureProperty,
+            bool drawTilingAndOffset,
+            MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty,
+            MaterialProperty baseMapChannelProperty) where TCustomCoord : Enum
+        {
+            var useBaseMapChannel = baseMapChannelProperty != null;
+
+            DrawTextureInternal<TCustomCoord>(editor, textureProperty, drawTilingAndOffset,
+                offsetCoordXProperty, offsetCoordYProperty, useBaseMapChannel ? "Channel" : null,
+                useBaseMapChannel ? (propertyRect) =>
+                {
+                    DrawEnumContentsProperty<BaseMapChannel>(editor, propertyRect, baseMapChannelProperty);
+                } : null);
+        }
+
+        /// <summary>
+        ///     Internal method for drawing texture with common layout and customizable channel section.
+        /// </summary>
+        private static void DrawTextureInternal<TCustomCoord>(MaterialEditor editor, MaterialProperty textureProperty,
+            bool drawTilingAndOffset,
+            MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty,
+            string channelLabel, Action<Rect> drawChannelSection) where TCustomCoord : Enum
+        {
             var propertyCount = 0;
             if (drawTilingAndOffset) propertyCount += 2;
 
             var useOffsetCoord = offsetCoordXProperty != null && offsetCoordYProperty != null;
             if (useOffsetCoord) propertyCount += 1;
 
-            var useChannelsX = channelsXProperty != null;
-            var useChannelsY = channelsYProperty != null;
-            var useChannels = useChannelsX || useChannelsY;
-            if (useChannels) propertyCount += 1;
+            var useChannelSection = drawChannelSection != null;
+            if (useChannelSection) propertyCount += 1;
+            
             var contentsHeight = propertyCount * EditorGUIUtility.singleLineHeight +
                                  (propertyCount - 2) * EditorGUIUtility.standardVerticalSpacing;
             var fullHeight = Mathf.Max(contentsHeight + 8, 64);
@@ -378,10 +429,10 @@ namespace Nova.Editor.Core.Scripts
                     GUI.Label(labelRect, "Offset Coords");
                 }
 
-                if (useChannels)
+                if (useChannelSection)
                 {
                     labelRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    GUI.Label(labelRect, "Channels");
+                    GUI.Label(labelRect, channelLabel);
                 }
 
                 // Tiling & Offsets
@@ -422,153 +473,11 @@ namespace Nova.Editor.Core.Scripts
                     DrawEnumContentsProperty<TCustomCoord>(editor, yPropertyRect, offsetCoordYProperty);
                 }
 
-                // Channels
-                if (useChannels)
+                // Channel Section (customizable)
+                if (useChannelSection)
                 {
                     propertyRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    var xRect = propertyRect;
-                    if (useChannelsY) xRect.width /= 2;
-
-                    var xPropertyRect = xRect;
-                    xPropertyRect.xMin += 12;
-                    EditorGUI.LabelField(xRect, new GUIContent("X"));
-                    DrawEnumContentsProperty<ColorChannels>(editor, xPropertyRect, channelsXProperty);
-
-                    if (useChannelsY)
-                    {
-                        var yRect = xRect;
-                        yRect.x += yRect.width + 2;
-                        yRect.xMax -= 2;
-                        var yPropertyRect = yRect;
-                        yPropertyRect.xMin += 12;
-                        EditorGUI.LabelField(yRect, new GUIContent("Y"));
-                        DrawEnumContentsProperty<ColorChannels>(editor, yPropertyRect, channelsYProperty);
-                    }
-                }
-            }
-        }
-
-        private static void DrawTextureWithBaseMapChannel<TCustomCoord>(MaterialEditor editor, MaterialProperty textureProperty,
-            bool drawTilingAndOffset,
-            MaterialProperty offsetCoordXProperty, MaterialProperty offsetCoordYProperty,
-            MaterialProperty baseMapChannelProperty) where TCustomCoord : Enum
-        {
-            var propertyCount = 0;
-            if (drawTilingAndOffset) propertyCount += 2;
-
-            var useOffsetCoord = offsetCoordXProperty != null && offsetCoordYProperty != null;
-            if (useOffsetCoord) propertyCount += 1;
-
-            var useBaseMapChannel = baseMapChannelProperty != null;
-            if (useBaseMapChannel) propertyCount += 1;
-            var contentsHeight = propertyCount * EditorGUIUtility.singleLineHeight +
-                                 (propertyCount - 2) * EditorGUIUtility.standardVerticalSpacing;
-            var fullHeight = Mathf.Max(contentsHeight + 8, 64);
-            fullHeight += EditorGUIUtility.standardVerticalSpacing;
-
-            var fullRect = EditorGUILayout.GetControlRect(false, fullHeight);
-
-            var innerRect = fullRect;
-            innerRect = EditorGUI.IndentedRect(innerRect);
-            innerRect.height -= 8;
-            innerRect.y += 4;
-
-            var textureRect = innerRect;
-            textureRect.height = 56;
-            textureRect.width = textureRect.height;
-            textureRect.y += (innerRect.height - textureRect.height) / 2;
-
-            var contentsRect = fullRect;
-            contentsRect = EditorGUI.IndentedRect(contentsRect);
-            contentsRect.height = contentsHeight;
-            contentsRect.y += (fullHeight - contentsHeight) / 2;
-            contentsRect.xMin += textureRect.width + 4;
-
-            var labelRect = contentsRect;
-            labelRect.height = EditorGUIUtility.singleLineHeight;
-            labelRect.xMax -= fullRect.width - EditorGUIUtility.labelWidth;
-
-            var propertyRect = contentsRect;
-            propertyRect.height = EditorGUIUtility.singleLineHeight;
-            propertyRect.xMin += labelRect.width;
-
-            // Draw properties.
-            using (new ResetIndentLevelScope())
-            {
-                // Texture
-                using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
-                {
-                    var texture = (Texture)EditorGUI.ObjectField(textureRect, textureProperty.textureValue,
-                        typeof(Texture), false);
-                    if (changeCheckScope.changed)
-                    {
-                        editor.RegisterPropertyChangeUndo(textureProperty.name);
-                        textureProperty.textureValue = texture;
-                    }
-                }
-
-                // Labels
-                if (drawTilingAndOffset)
-                {
-                    GUI.Label(labelRect, "Tiling");
-                    labelRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    GUI.Label(labelRect, "Offset");
-                }
-
-                if (useOffsetCoord)
-                {
-                    labelRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    GUI.Label(labelRect, "Offset Coords");
-                }
-
-                if (useBaseMapChannel)
-                {
-                    labelRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    GUI.Label(labelRect, "Channel");
-                }
-
-                // Tiling & Offsets
-                if (drawTilingAndOffset)
-                    using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
-                    {
-                        var textureScaleAndOffset = textureProperty.textureScaleAndOffset;
-                        var tiling = new Vector2(textureScaleAndOffset.x, textureScaleAndOffset.y);
-                        var offset = new Vector2(textureScaleAndOffset.z, textureScaleAndOffset.w);
-                        tiling = EditorGUI.Vector2Field(propertyRect, string.Empty, tiling);
-                        propertyRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                        offset = EditorGUI.Vector2Field(propertyRect, string.Empty, offset);
-                        if (changeCheckScope.changed)
-                        {
-                            textureScaleAndOffset = new Vector4(tiling.x, tiling.y, offset.x, offset.y);
-                            editor.RegisterPropertyChangeUndo(textureProperty.name);
-                            textureProperty.textureScaleAndOffset = textureScaleAndOffset;
-                        }
-                    }
-
-                // Offset Coords
-                if (useOffsetCoord)
-                {
-                    propertyRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    var xRect = propertyRect;
-                    xRect.width /= 2;
-                    var yRect = xRect;
-                    yRect.x += yRect.width + 2;
-                    yRect.xMax -= 2;
-                    var xPropertyRect = xRect;
-                    xPropertyRect.xMin += 12;
-                    var yPropertyRect = yRect;
-                    yPropertyRect.xMin += 12;
-                    EditorGUI.LabelField(xRect, new GUIContent("X"));
-                    DrawEnumContentsProperty<TCustomCoord>(editor, xPropertyRect, offsetCoordXProperty);
-                    EditorGUI.LabelField(yRect, new GUIContent("Y"));
-                    DrawEnumContentsProperty<TCustomCoord>(editor, yPropertyRect, offsetCoordYProperty);
-                }
-
-                // BaseMap Channel
-                if (useBaseMapChannel)
-                {
-                    propertyRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    DrawEnumContentsProperty<BaseMapChannel>(editor, propertyRect, baseMapChannelProperty);
+                    drawChannelSection.Invoke(propertyRect);
                 }
             }
         }

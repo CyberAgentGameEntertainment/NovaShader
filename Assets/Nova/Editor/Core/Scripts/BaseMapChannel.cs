@@ -1,5 +1,5 @@
 // --------------------------------------------------------------
-// Copyright 2024 CyberAgent, Inc.
+// Copyright 2025 CyberAgent, Inc.
 // --------------------------------------------------------------
 
 namespace Nova.Editor.Core.Scripts
