@@ -364,7 +364,7 @@ Values lower than this will be pushed inward, while larger values will be pushed
 Base Map controls the base color texture and its settings.
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143205498-78b66ab9-3ea6-44ed-9a97-f5a00bda153e.png" alt="Base Map"><br>
+  <img width="60%" src="Documentation~/Images/base_map.png" alt="Base Map"><br>
   <font color="grey">Base Map</font>
 </p>
 
