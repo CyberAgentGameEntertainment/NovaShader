@@ -398,6 +398,17 @@ If you specify Flip Book as the Mode, you need to set <a href="https://docs.unit
 And if you specify Flip Book Blending, you need to set <a href="https://docs.unity3d.com/2020.3/Documentation/Manual/class-Texture3D.html">Texture3D</a>.
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Channel</b></td><td>
+<p>
+Select which color channel from the Base Map to use for rendering. When a single channel is selected (Red/Green/Blue), the selected channel value is applied to RGB components while preserving the original alpha channel. Available options:
+</p>
+<p>
+<ul>
+<li>RGB: Use all color channels as-is (Default)</li>
+<li>Red: Convert red channel to grayscale</li>
+<li>Green: Convert green channel to grayscale</li>
+<li>Blue: Convert blue channel to grayscale</li>
+</ul>
 </td></tr>
 <tr><td colspan="3"><b>Rotation</b></td><td>
 <p>
@@ -447,19 +458,6 @@ Set the number of rows in your texture sheet (e.g., for a 4×4 texture sheet, se
 </p>
 <p>
 Select the Custom Coord channel for random value input. This should correspond to the Custom Data channel configured in Unity Particle System with "Random Between Two Constants" mode.
-</p>
-</td></tr>
-<tr><td colspan="3"><b>Channel</b></td><td>
-<p>
-Select which color channel from the Base Map to use for rendering. When a single channel is selected (Red/Green/Blue), the selected channel value is applied to RGB components while preserving the original alpha channel. Available options:
-</p>
-<p>
-<ul>
-<li>RGB: Use all color channels as-is (Default)</li>
-<li>Red: Convert red channel to grayscale</li>
-<li>Green: Convert green channel to grayscale</li>
-<li>Blue: Convert blue channel to grayscale</li>
-</ul>
 </p>
 </td></tr>
 <tr><td colspan="3"><b>TriTone</b></td><td>
