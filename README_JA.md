@@ -456,6 +456,19 @@ UnityのTexture Sheet AnimationのRow Mode > Random機能と同等の機能で�
 ランダム値の入力に使用するCustom Coordチャンネルを選択します。Unity Particle SystemのCustom Dataで「Random Between Two Constants」モードに設定したチャンネルと対応させます。
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Channel</b></td><td>
+<p>
+Base Mapのどの色チャンネルを描画に使用するかを選択します。単一チャンネル（Red/Green/Blue）が選択された場合、選択されたチャンネル値がRGB成分に適用され、元のアルファチャンネルは保持されます。利用可能なオプション：
+</p>
+<p>
+<ul>
+<li>RGB: 全ての色チャンネルをそのまま使用（デフォルト）</li>
+<li>Red: 赤チャンネルをグレースケールに変換</li>
+<li>Green: 緑チャンネルをグレースケールに変換</li>
+<li>Blue: 青チャンネルをグレースケールに変換</li>
+</ul>
+</p>
+</td></tr>
 <tr><td colspan="3"><b>TriTone</b></td><td>
 <p>
 輝度範囲を3つのトーン領域（シャドウ、ミッドトーン、ハイライト）に分割し、入力テクスチャのグレースケール値に基づいて各領域の色を独立して制御します。

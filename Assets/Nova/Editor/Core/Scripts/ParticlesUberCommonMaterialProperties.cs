@@ -70,6 +70,7 @@ namespace Nova.Editor.Core.Scripts
             BaseMapRotationCoordProp.Setup(properties);
             BaseMapRotationOffsetsProp.Setup(properties);
             BaseMapMirrorSamplingProp.Setup(properties);
+            BaseMapChannelProp.Setup(properties);
             
             // Base Map Random Row Selection
             BaseMapRandomRowSelectionEnabledProp.Setup(properties);
@@ -316,6 +317,8 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property BaseMapRotationOffsetsProp { get; } = new(PropertyNames.BaseMapRotationOffsets);
 
         public ParticlesGUI.Property BaseMapMirrorSamplingProp { get; } = new(PropertyNames.BaseMapMirrorSampling);
+
+        public ParticlesGUI.Property BaseMapChannelProp { get; } = new(PropertyNames.BaseMapChannel);
         
         // Base Map Random Row Selection
         public ParticlesGUI.Property BaseMapRandomRowSelectionEnabledProp { get; } = new(PropertyNames.BaseMapRandomRowSelectionEnabled);

@@ -56,6 +56,7 @@ namespace Nova.Editor.Core.Scripts
         public const string BaseMapOffsetYCoord = "_BaseMapOffsetYCoord";
         public const string BaseMapChannelsX = "_BaseMapChannelsX";
         public const string BaseMapChannelsY = "_BaseMapChannelsY";
+        public const string BaseMapChannel = "_BaseMapChannel";
         public const string BaseMapRotation = "_BaseMapRotation";
         public const string BaseMapRotationCoord = "_BaseMapRotationCoord";
         public const string BaseMapRotationOffsets = "_BaseMapRotationOffsets";

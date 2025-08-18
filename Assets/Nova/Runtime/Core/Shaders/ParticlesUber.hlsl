@@ -89,6 +89,7 @@ DECLARE_CUSTOM_COORD(_BaseMapOffsetYCoord);
 float _BaseMapRotation;
 DECLARE_CUSTOM_COORD(_BaseMapRotationCoord);
 float4 _BaseMapRotationOffsets;
+half _BaseMapChannel;
 
 // Base Map Random Row Selection
 float _BaseMapRandomRowSelectionEnabled;

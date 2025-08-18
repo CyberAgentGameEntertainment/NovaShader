@@ -372,6 +372,12 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     // Base Color
     half4 color = SAMPLE_BASE_MAP(input.baseMapUVAndProgresses.xy, input.baseMapUVAndProgresses.z);
 
+    // Base Map Channels
+    #ifdef _BASE_MAP_CHANNEL_ENABLED
+    half selectedValue = color[(uint)_BaseMapChannel - 1];
+    color.rgb = half3(selectedValue, selectedValue, selectedValue);
+    #endif
+
     // Base Map Tri Tone
     #if defined(_BASE_MAP_TRI_TONE_ENABLED)
     // Get boundary values with Custom Coord

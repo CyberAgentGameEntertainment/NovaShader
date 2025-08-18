@@ -449,6 +449,19 @@ Set the number of rows in your texture sheet (e.g., for a 4×4 texture sheet, se
 Select the Custom Coord channel for random value input. This should correspond to the Custom Data channel configured in Unity Particle System with "Random Between Two Constants" mode.
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Channel</b></td><td>
+<p>
+Select which color channel from the Base Map to use for rendering. When a single channel is selected (Red/Green/Blue), the selected channel value is applied to RGB components while preserving the original alpha channel. Available options:
+</p>
+<p>
+<ul>
+<li>RGB: Use all color channels as-is (Default)</li>
+<li>Red: Convert red channel to grayscale</li>
+<li>Green: Convert green channel to grayscale</li>
+<li>Blue: Convert blue channel to grayscale</li>
+</ul>
+</p>
+</td></tr>
 <tr><td colspan="3"><b>TriTone</b></td><td>
 <p>
 Divides the luminance range into three tonal regions (Shadow, Midtones, Highlights) and applies independent color control for each region based on the input texture's grayscale values.

@@ -60,6 +60,9 @@ Shader "Nova/Particles/UberLit"
         _BaseMapRandomRowCoord("Base Map Random Row Coord", Float) = 0.0
         _BaseMapRowCount("Base Map Row Count", Float) = 1.0
         
+        // Base Map Channel
+        _BaseMapChannel("Base Map Channel", Float) = 0.0
+        
         // Base Map Tri Tone
         _BaseMapTriToneEnabled("TriTone", Float) = 0.0
         _BaseMapTriToneHighlightsColor("Highlights Color", Color) = (1,1,1,1)
@@ -304,6 +307,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #pragma shader_feature_local_fragment _BASE_MAP_CHANNEL_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
             #pragma shader_feature_local_fragment _BASE_MAP_TRI_TONE_ENABLED
 
@@ -387,6 +391,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #pragma shader_feature_local_fragment _BASE_MAP_CHANNEL_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
             #pragma shader_feature_local_fragment _BASE_MAP_TRI_TONE_ENABLED
 
@@ -471,6 +476,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #pragma shader_feature_local_fragment _BASE_MAP_CHANNEL_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
             #pragma shader_feature_local_fragment _BASE_MAP_TRI_TONE_ENABLED
 
@@ -556,6 +562,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #pragma shader_feature_local_fragment _BASE_MAP_CHANNEL_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
             #pragma shader_feature_local_fragment _BASE_MAP_TRI_TONE_ENABLED
 
@@ -643,6 +650,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #pragma shader_feature_local_fragment _BASE_MAP_CHANNEL_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
             #pragma shader_feature_local_fragment _BASE_MAP_TRI_TONE_ENABLED
 
@@ -723,6 +731,7 @@ Shader "Nova/Particles/UberLit"
             #pragma shader_feature_local _BASE_MAP_MODE_2D _BASE_MAP_MODE_2D_ARRAY _BASE_MAP_MODE_3D
             #pragma shader_feature_local_vertex _BASE_MAP_RANDOM_ROW_SELECTION_ENABLED
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
+            #pragma shader_feature_local_fragment _BASE_MAP_CHANNEL_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
             #pragma shader_feature_local_fragment _BASE_MAP_TRI_TONE_ENABLED
 
