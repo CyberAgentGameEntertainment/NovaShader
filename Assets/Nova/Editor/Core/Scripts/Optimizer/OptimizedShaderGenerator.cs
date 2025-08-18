@@ -286,6 +286,7 @@ namespace Nova.Editor.Core.Scripts.Optimizer
             @"_BASE_MAP_MODE_2D_ARRAY\b|" +
             @"_BASE_MAP_MODE_3D\b|" +
             @"_BASE_MAP_ROTATION_ENABLED\b|" +
+            @"_BASE_MAP_CHANNEL_ENABLED\b|" +
             @"_BASE_SAMPLER_STATE_POINT_MIRROR\b|" +
             @"_BASE_SAMPLER_STATE_LINEAR_MIRROR\b|" +
             @"_BASE_SAMPLER_STATE_TRILINEAR_MIRROR\b|" +

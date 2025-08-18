@@ -438,6 +438,17 @@ namespace Nova.Editor.Core.Scripts
         }
 
         /// <summary>
+        ///     Draw Base Map Channel selection property.
+        /// </summary>
+        /// <param name="editor"></param>
+        /// <param name="baseMapChannelProperty"></param>
+        public static void DrawBaseMapChannel(MaterialEditor editor, MaterialProperty baseMapChannelProperty)
+        {
+            DrawProperty("Channel",
+                rect => { DrawEnumContentsProperty<BaseMapChannel>(editor, rect, baseMapChannelProperty); });
+        }
+
+        /// <summary>
         ///     Draw a property with custom coord for it.
         /// </summary>
         /// <param name="editor"></param>

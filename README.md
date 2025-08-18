@@ -364,7 +364,7 @@ Values lower than this will be pushed inward, while larger values will be pushed
 Base Map controls the base color texture and its settings.
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143205498-78b66ab9-3ea6-44ed-9a97-f5a00bda153e.png" alt="Base Map"><br>
+  <img width="60%" src="Documentation~/Images/base_map.png" alt="Base Map"><br>
   <font color="grey">Base Map</font>
 </p>
 
@@ -447,6 +447,19 @@ Set the number of rows in your texture sheet (e.g., for a 4×4 texture sheet, se
 </p>
 <p>
 Select the Custom Coord channel for random value input. This should correspond to the Custom Data channel configured in Unity Particle System with "Random Between Two Constants" mode.
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Channel</b></td><td>
+<p>
+Select which color channel from the Base Map to use for rendering. When a single channel is selected (Red/Green/Blue), the selected channel value is applied to RGB components while preserving the original alpha channel. Available options:
+</p>
+<p>
+<ul>
+<li>RGB: Use all color channels as-is (Default)</li>
+<li>Red: Convert red channel to grayscale</li>
+<li>Green: Convert green channel to grayscale</li>
+<li>Blue: Convert blue channel to grayscale</li>
+</ul>
 </p>
 </td></tr>
 </tbody>

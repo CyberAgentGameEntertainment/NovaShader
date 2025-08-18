@@ -31,6 +31,8 @@ namespace Nova.Editor.Core.Scripts
         private static readonly int BaseMapRandomRowSelectionEnabledId =
             Shader.PropertyToID(MaterialPropertyNames.BaseMapRandomRowSelectionEnabled);
 
+        private static readonly int BaseMapChannelId = Shader.PropertyToID(MaterialPropertyNames.BaseMapChannel);
+
         // Random Row Selection Property IDs
         private static readonly int TintMapRandomRowSelectionEnabledId =
             Shader.PropertyToID(MaterialPropertyNames.TintMapRandomRowSelectionEnabled);
@@ -211,6 +213,9 @@ namespace Nova.Editor.Core.Scripts
                 material.GetFloat(BaseMapRandomRowSelectionEnabledId) > 0.5f;
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapRandomRowSelectionEnabled,
                 randomRowSelectionEnabled);
+
+            var baseMapChannelEnabled = material.GetFloat(BaseMapChannelId) > 0.5f;
+            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapChannelEnabled, baseMapChannelEnabled);
 
             var tintAreaMode = (TintAreaMode)material.GetFloat(TintAreaModeId);
             foreach (TintAreaMode value in Enum.GetValues(typeof(TintAreaMode)))
