@@ -912,60 +912,8 @@ namespace Nova.Editor.Core.Scripts
 
         #endregion
         
-        /// <summary>
-        /// 制約付きBoundaryプロパティを描画（見た目は固定0-1、入力時のみ制限）
-        /// </summary>
-        private void DrawBoundaryPropertyWithConstraint(string label, MaterialProperty property, 
-            MaterialProperty coordProperty, float minValue, float maxValue)
-        {
-            var fullRect = EditorGUILayout.GetControlRect();
-            var contentsRect = fullRect;
-            contentsRect.xMin += EditorGUIUtility.labelWidth;
-            var propertyRect = fullRect;
-            propertyRect.xMax -= contentsRect.width / 4;
-            var coordRect = contentsRect;
-            coordRect.width -= contentsRect.width * 3 / 4 - 2;
-            coordRect.x += contentsRect.width * 3 / 4 + 2;
-
-            // 見た目は常に0-1範囲、有効な値のみ受け入れ
-            EditorGUI.BeginChangeCheck();
-            var newValue = EditorGUI.Slider(propertyRect, label, property.floatValue, 0.0f, 1.0f);
-            if (EditorGUI.EndChangeCheck())
-            {
-                // 有効な値のみ受け入れ、無効な値は拒否（元の値を保持）
-                if (newValue >= minValue && newValue <= maxValue)
-                {
-                    property.floatValue = newValue;
-                }
-                // 無効な値の場合は何もしない（元の値を保持）
-            }
-
-            // Custom Coord選択
-            using (new MaterialEditorUtility.ResetIndentLevelScope())
-            {
-                var coord = (TCustomCoord)System.Enum.ToObject(typeof(TCustomCoord), 
-                    System.Convert.ToInt32(coordProperty.floatValue));
-                if (!System.Enum.IsDefined(typeof(TCustomCoord), coord))
-                    EditorGUILayout.HelpBox("Invalid coord value\n", MessageType.Error, true);
-                using (var ccs = new EditorGUI.ChangeCheckScope())
-                {
-                    coord = (TCustomCoord)EditorGUI.EnumPopup(coordRect, coord);
-                    if (ccs.changed)
-                        coordProperty.floatValue = System.Convert.ToSingle(coord);
-                }
-            }
-        }
         
         
-        // 静的コンストラクタでイベント登録（ジェネリッククラスでも安全）
-        static ParticlesUberCommonGUI()
-        {
-            UnityEditor.EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
-        }
-        
-        private static void OnPlayModeStateChanged(UnityEditor.PlayModeStateChange state)
-        {
-        }
         
         private void DrawTriTonePreview(Color shadow, Color midtones, Color highlight,
                                        float shadowBoundary, float midtonesBalance, float highlightBoundary)
