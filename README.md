@@ -460,60 +460,83 @@ Set the number of rows in your texture sheet (e.g., for a 4×4 texture sheet, se
 Select the Custom Coord channel for random value input. This should correspond to the Custom Data channel configured in Unity Particle System with "Random Between Two Constants" mode.
 </p>
 </td></tr>
-<tr><td colspan="3"><b>TriTone</b></td><td>
+<tr><td colspan="3"><b>Tone Mode</b></td><td>
 <p>
-Divides the luminance range into three tonal regions (Shadow, Midtones, Highlights) and applies independent color control for each region based on the input texture's grayscale values.
+Controls tone mapping for color adjustment based on luminance values. Select from the following options:
+</p>
+<p>
+<ul>
+<li><b>None:</b> No tone mapping applied (Default).</li>
+<li><b>Tritone:</b> Three-tone mapping with Highlights, Midtones, and Shadows control.</li>
+<li><b>Pentone:</b> Five-tone mapping with Highlights, Brights, Midtones, Darktones, and Shadows control.</li>
+</ul>
 </p>
 <p>
 The feature assumes grayscale input textures and maps different luminance ranges to separate colors. Boundary values determine the luminance thresholds between regions.
 </p>
 </td></tr>
-<tr><td></td><td colspan=2><b>Shadow Color</b></td><td>
-<p>
-<b>This property is visible only when TriTone is enabled.</b>
-</p>
-<p>
-Sets the color applied to shadow regions (dark luminance range).
-</p>
-</td></tr>
-<tr><td></td><td colspan=2><b>Midtones Color</b></td><td>
-<p>
-<b>This property is visible only when TriTone is enabled.</b>
-</p>
-<p>
-Sets the color applied to midtone regions (medium luminance range).
-</p>
-</td></tr>
 <tr><td></td><td colspan=2><b>Highlights Color</b></td><td>
 <p>
-<b>This property is visible only when TriTone is enabled.</b>
+<b>This property is visible when Tone Mode is Tritone or Pentone.</b>
 </p>
 <p>
 Sets the color applied to highlight regions (bright luminance range).
 </p>
 </td></tr>
-<tr><td></td><td colspan=2><b>Shadow Boundary</b></td><td>
+<tr><td></td><td colspan=2><b>Brights Color</b></td><td>
 <p>
-<b>This property is visible only when TriTone is enabled.</b>
+<b>This property is visible only when Tone Mode is Pentone.</b>
 </p>
 <p>
-Sets the luminance value where the transition from shadow color to midtones color begins.
+Sets the color applied to brights regions (between highlights and midtones). The boundary is automatically calculated at 50% between Highlights and Midtones boundaries.
 </p>
 </td></tr>
-<tr><td></td><td colspan=2><b>Midtones Boundary</b></td><td>
+<tr><td></td><td colspan=2><b>Midtones Color</b></td><td>
 <p>
-<b>This property is visible only when TriTone is enabled.</b>
+<b>This property is visible when Tone Mode is Tritone or Pentone.</b>
 </p>
 <p>
-Sets the luminance value where the transition from shadow color to midtones color ends, and the transition from midtones color to highlights color begins.
+Sets the color applied to midtone regions (medium luminance range).
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Darktones Color</b></td><td>
+<p>
+<b>This property is visible only when Tone Mode is Pentone.</b>
+</p>
+<p>
+Sets the color applied to darktones regions (between midtones and shadows). The boundary is automatically calculated at 50% between Midtones and Shadows boundaries.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Shadows Color</b></td><td>
+<p>
+<b>This property is visible when Tone Mode is Tritone or Pentone.</b>
+</p>
+<p>
+Sets the color applied to shadow regions (dark luminance range).
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Highlights Boundary</b></td><td>
 <p>
-<b>This property is visible only when TriTone is enabled.</b>
+<b>This property is visible when Tone Mode is Tritone or Pentone.</b>
 </p>
 <p>
-Sets the luminance value where the transition from midtones color to highlights color ends.
+Sets the luminance value where the transition to highlights color ends. Can be animated using Custom Coord.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Midtones Boundary</b></td><td>
+<p>
+<b>This property is visible when Tone Mode is Tritone or Pentone.</b>
+</p>
+<p>
+Controls the balance between different tonal regions. In Tritone mode, determines the transition point. In Pentone mode, serves as the central reference for automatic boundary calculations. Can be animated using Custom Coord.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Shadows Boundary</b></td><td>
+<p>
+<b>This property is visible when Tone Mode is Tritone or Pentone.</b>
+</p>
+<p>
+Sets the luminance value where the transition from shadows color begins. Can be animated using Custom Coord.
 </p>
 </td></tr>
 </tbody>

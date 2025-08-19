@@ -467,60 +467,83 @@ UnityのTexture Sheet AnimationのRow Mode > Random機能と同等の機能で�
 ランダム値の入力に使用するCustom Coordチャンネルを選択します。Unity Particle SystemのCustom Dataで「Random Between Two Constants」モードに設定したチャンネルと対応させます。
 </p>
 </td></tr>
-<tr><td colspan="3"><b>TriTone</b></td><td>
+<tr><td colspan="3"><b>Tone Mode</b></td><td>
 <p>
-輝度範囲を3つのトーン領域（シャドウ、ミッドトーン、ハイライト）に分割し、入力テクスチャのグレースケール値に基づいて各領域の色を独立して制御します。
+輝度値に基づく色調調整のためのトーンマッピングを制御します。以下のオプションから選択します：
 </p>
 <p>
-グレースケール入力テクスチャを想定しており、異なる輝度範囲を個別の色にマッピングします。境界値によって領域間の輝度閾値が決定されます。
-</p>
-</td></tr>
-<tr><td></td><td colspan=2><b>Shadow Color</b></td><td>
-<p>
-<b>TriToneが有効な時のみ表示されます。</b>
-</p>
-<p>
-シャドウ領域（暗い輝度範囲）に適用される色を設定します。
-</p>
-</td></tr>
-<tr><td></td><td colspan=2><b>Midtones Color</b></td><td>
-<p>
-<b>TriToneが有効な時のみ表示されます。</b>
+<ul>
+<li><b>None:</b> トーンマッピングを適用しません（デフォルト）。</li>
+<li><b>Tritone:</b> Highlights、Midtones、Shadowsの3段階トーンマッピング。</li>
+<li><b>Pentone:</b> Highlights、Brights、Midtones、Darktones、Shadowsの5段階トーンマッピング。</li>
+</ul>
 </p>
 <p>
-ミッドトーン領域（中間輝度範囲）に適用される色を設定します。
+この機能はグレースケール入力テクスチャを想定しており、異なる輝度範囲を個別の色にマッピングします。境界値によって領域間の輝度閾値が決定されます。
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Highlights Color</b></td><td>
 <p>
-<b>TriToneが有効な時のみ表示されます。</b>
+<b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
 </p>
 <p>
 ハイライト領域（明るい輝度範囲）に適用される色を設定します。
 </p>
 </td></tr>
-<tr><td></td><td colspan=2><b>Shadow Boundary</b></td><td>
+<tr><td></td><td colspan=2><b>Brights Color</b></td><td>
 <p>
-<b>TriToneが有効な時のみ表示されます。</b>
+<b>Tone ModeがPentoneの時のみ表示されます。</b>
 </p>
 <p>
-シャドウ色からミッドトーン色への遷移が開始される輝度値を設定します。
+Brights領域（HighlightsとMidtonesの間）に適用される色を設定します。境界はHighlights境界とMidtones境界の中間点に自動計算されます。
 </p>
 </td></tr>
-<tr><td></td><td colspan=2><b>Midtones Boundary</b></td><td>
+<tr><td></td><td colspan=2><b>Midtones Color</b></td><td>
 <p>
-<b>TriToneが有効な時のみ表示されます。</b>
+<b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
 </p>
 <p>
-シャドウ色からミッドトーン色への遷移が終了し、ミッドトーン色からハイライト色への遷移が開始される輝度値を設定します。
+ミッドトーン領域（中間輝度範囲）に適用される色を設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Darktones Color</b></td><td>
+<p>
+<b>Tone ModeがPentoneの時のみ表示されます。</b>
+</p>
+<p>
+Darktones領域（MidtonesとShadowsの間）に適用される色を設定します。境界はMidtones境界とShadows境界の中間点に自動計算されます。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Shadows Color</b></td><td>
+<p>
+<b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
+</p>
+<p>
+シャドウ領域（暗い輝度範囲）に適用される色を設定します。
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Highlights Boundary</b></td><td>
 <p>
-<b>TriToneが有効な時のみ表示されます。</b>
+<b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
 </p>
 <p>
-ミッドトーン色からハイライト色への遷移が終了する輝度値を設定します。
+ハイライト色への遷移が終了する輝度値を設定します。Custom Coordを使用してアニメーション可能です。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Midtones Boundary</b></td><td>
+<p>
+<b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
+</p>
+<p>
+トーン領域間のバランスを制御します。Tritoneモードでは遷移点を決定し、Pentoneモードでは自動境界計算の中心参照として機能します。Custom Coordを使用してアニメーション可能です。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Shadows Boundary</b></td><td>
+<p>
+<b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
+</p>
+<p>
+シャドウ色からの遷移が開始される輝度値を設定します。Custom Coordを使用してアニメーション可能です。
 </p>
 </td></tr>
 </tbody>
