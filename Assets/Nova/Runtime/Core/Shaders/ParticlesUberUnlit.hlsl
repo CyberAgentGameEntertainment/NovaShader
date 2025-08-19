@@ -378,12 +378,12 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     color.rgb = half3(selectedValue, selectedValue, selectedValue);
     #endif
 
-    // Base Map Tri Tone
-    #if defined(_BASE_MAP_TRI_TONE_ENABLED)
+    // Base Map Tone Mode
+    #if defined(_BASE_MAP_TONE_MODE_TRITONE) || defined(_BASE_MAP_TONE_MODE_PENTONE)
     // Get boundary values with Custom Coord
-    half shadows = saturate(_BaseMapTriToneShadows + GET_CUSTOM_COORD(_BaseMapTriToneShadowsCoord));
-    half highlights = saturate(_BaseMapTriToneHighlights + GET_CUSTOM_COORD(_BaseMapTriToneHighlightsCoord));
-    half midtonesBalance = saturate(_BaseMapTriToneMidtones + GET_CUSTOM_COORD(_BaseMapTriToneMidtonesCoord));
+    half shadows = saturate(_BaseMapToneShadows + GET_CUSTOM_COORD(_BaseMapToneShadowsCoord));
+    half highlights = saturate(_BaseMapToneHighlights + GET_CUSTOM_COORD(_BaseMapToneHighlightsCoord));
+    half midtonesBalance = saturate(_BaseMapToneMidtones + GET_CUSTOM_COORD(_BaseMapToneMidtonesCoord));
     
     // Ensure shadows < highlights with minimum range
     const half MIN_RANGE = 0.01;
@@ -392,14 +392,31 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     // Calculate actual midpoint position from midtones balance
     half midpoint = lerp(shadows, highlights, midtonesBalance);
     
-    // Apply tri-tone color mapping
-    half3 shadowsToMidtones = lerp(_BaseMapTriToneShadowsColor.rgb, 
-                                  _BaseMapTriToneMidtonesColor.rgb, 
+    #if defined(_BASE_MAP_TONE_MODE_TRITONE)
+    // TriTone: 3-level tone mapping
+    half3 shadowsToMidtones = lerp(_BaseMapToneShadowsColor.rgb, 
+                                  _BaseMapToneMidtonesColor.rgb, 
                                   smoothstep(shadows, midpoint, color.r));
     
     color.rgb = lerp(shadowsToMidtones, 
-                    _BaseMapTriToneHighlightsColor.rgb, 
+                    _BaseMapToneHighlightsColor.rgb, 
                     smoothstep(midpoint, highlights, color.r));
+    
+    #elif defined(_BASE_MAP_TONE_MODE_PENTONE)
+    // Pentone: 5-level tone mapping
+    // Calculate intermediate boundaries (always at 0.5 between adjacent boundaries)
+    half brights = (highlights + midpoint) * 0.5;
+    half darktones = (midpoint + shadows) * 0.5;
+    
+    // Apply five-tone color mapping
+    half3 result = _BaseMapToneShadowsColor.rgb;
+    result = lerp(result, _BaseMapToneDarktonesColor.rgb, smoothstep(shadows, darktones, color.r));
+    result = lerp(result, _BaseMapToneMidtonesColor.rgb, smoothstep(darktones, midpoint, color.r));
+    result = lerp(result, _BaseMapToneBrightsColor.rgb, smoothstep(midpoint, brights, color.r));
+    result = lerp(result, _BaseMapToneHighlightsColor.rgb, smoothstep(brights, highlights, color.r));
+    color.rgb = result;
+    #endif
+    
     #endif
 
     // Tint Color

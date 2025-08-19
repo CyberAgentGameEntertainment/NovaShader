@@ -101,12 +101,13 @@ namespace Nova.Editor.Core.Scripts
                 }
             }
 
-            // Check TriTone-specific features
-            if (commonMaterialProperties.BaseMapTriToneProp.Value.floatValue > 0.5f)
+            // Check Tone Mode features
+            var toneMode = (BaseMapToneMode)commonMaterialProperties.BaseMapToneModeProp.Value.floatValue;
+            if (toneMode != BaseMapToneMode.None)
             {
-                if (IsCustomCoordUsed(commonMaterialProperties.TriToneShadowsCoordProp) ||
-                    IsCustomCoordUsed(commonMaterialProperties.TriToneHighlightsCoordProp) ||
-                    IsCustomCoordUsed(commonMaterialProperties.TriToneMidtonesCoordProp))
+                if (IsCustomCoordUsed(commonMaterialProperties.ToneShadowsCoordProp) ||
+                    IsCustomCoordUsed(commonMaterialProperties.ToneHighlightsCoordProp) ||
+                    IsCustomCoordUsed(commonMaterialProperties.ToneMidtonesCoordProp))
                 {
                     return true;
                 }

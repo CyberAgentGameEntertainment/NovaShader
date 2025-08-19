@@ -96,17 +96,23 @@ float _BaseMapRandomRowSelectionEnabled;
 DECLARE_CUSTOM_COORD(_BaseMapRandomRowCoord);
 float _BaseMapRowCount;
 
-// Base Map Tri Tone
-float _BaseMapTriToneEnabled;
-half4 _BaseMapTriToneHighlightsColor;
-half4 _BaseMapTriToneMidtonesColor;
-half4 _BaseMapTriToneShadowsColor;
-float _BaseMapTriToneHighlights;
-float _BaseMapTriToneMidtones;
-float _BaseMapTriToneShadows;
-DECLARE_CUSTOM_COORD(_BaseMapTriToneHighlightsCoord);
-DECLARE_CUSTOM_COORD(_BaseMapTriToneMidtonesCoord);
-DECLARE_CUSTOM_COORD(_BaseMapTriToneShadowsCoord);
+// Base Map Tone Mode
+float _BaseMapToneMode;
+
+// Base Map Tone - Common properties for TriTone and Pentone
+half4 _BaseMapToneHighlightsColor;
+half4 _BaseMapToneMidtonesColor;
+half4 _BaseMapToneShadowsColor;
+float _BaseMapToneHighlights;
+float _BaseMapToneMidtones;
+float _BaseMapToneShadows;
+DECLARE_CUSTOM_COORD(_BaseMapToneHighlightsCoord);
+DECLARE_CUSTOM_COORD(_BaseMapToneMidtonesCoord);
+DECLARE_CUSTOM_COORD(_BaseMapToneShadowsCoord);
+
+// Base Map Tone - Pentone exclusive properties
+half4 _BaseMapToneBrightsColor;
+half4 _BaseMapToneDarktonesColor;
 
 half4 _TintColor;
 float4 _TintMap_ST;

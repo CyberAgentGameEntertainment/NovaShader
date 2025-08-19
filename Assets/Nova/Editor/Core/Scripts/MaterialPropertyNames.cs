@@ -68,17 +68,23 @@ namespace Nova.Editor.Core.Scripts
         public const string BaseMapRandomRowCoord = "_BaseMapRandomRowCoord";
         public const string BaseMapRowCount = "_BaseMapRowCount";
 
-        // Base Map Tri Tone
-        public const string BaseMapTriToneEnabled = "_BaseMapTriToneEnabled";
-        public const string BaseMapTriToneHighlightsColor = "_BaseMapTriToneHighlightsColor";
-        public const string BaseMapTriToneMidtonesColor = "_BaseMapTriToneMidtonesColor";
-        public const string BaseMapTriToneShadowsColor = "_BaseMapTriToneShadowsColor";
-        public const string BaseMapTriToneHighlights = "_BaseMapTriToneHighlights";
-        public const string BaseMapTriToneMidtones = "_BaseMapTriToneMidtones";
-        public const string BaseMapTriToneShadows = "_BaseMapTriToneShadows";
-        public const string BaseMapTriToneHighlightsCoord = "_BaseMapTriToneHighlightsCoord";
-        public const string BaseMapTriToneMidtonesCoord = "_BaseMapTriToneMidtonesCoord";
-        public const string BaseMapTriToneShadowsCoord = "_BaseMapTriToneShadowsCoord";
+        // Base Map Tone Mode
+        public const string BaseMapToneMode = "_BaseMapToneMode";
+        
+        // Base Map Tone - Common properties for TriTone and Pentone
+        public const string BaseMapToneHighlightsColor = "_BaseMapToneHighlightsColor";
+        public const string BaseMapToneMidtonesColor = "_BaseMapToneMidtonesColor";
+        public const string BaseMapToneShadowsColor = "_BaseMapToneShadowsColor";
+        public const string BaseMapToneHighlights = "_BaseMapToneHighlights";
+        public const string BaseMapToneMidtones = "_BaseMapToneMidtones";
+        public const string BaseMapToneShadows = "_BaseMapToneShadows";
+        public const string BaseMapToneHighlightsCoord = "_BaseMapToneHighlightsCoord";
+        public const string BaseMapToneMidtonesCoord = "_BaseMapToneMidtonesCoord";
+        public const string BaseMapToneShadowsCoord = "_BaseMapToneShadowsCoord";
+        
+        // Base Map Tone - Pentone exclusive properties
+        public const string BaseMapToneBrightsColor = "_BaseMapToneBrightsColor";
+        public const string BaseMapToneDarktonesColor = "_BaseMapToneDarktonesColor";
         
         // Tint Color
         public const string TintAreaMode = "_TintAreaMode";
