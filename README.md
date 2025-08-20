@@ -772,6 +772,7 @@ Sets the Gradient Map. The specifications are as follows.
 <ul>
 <li>Replace the luminance with the colors of the gradient map.</li>
 <li>Change the U value for sampling the gradient map according to luminance.</li>
+<li>When luminance is at maximum, the right edge of the gradient map is sampled.</li>
 <li>Therefore, we need to use a texture with a horizontal gradient.</li>
 </ul>
 </p>
