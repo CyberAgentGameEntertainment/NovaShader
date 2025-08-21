@@ -970,8 +970,8 @@ namespace Nova.Editor.Core.Scripts
                 float t = i / (float)(steps - 1);
                 Color color;
                 
-                float step1 = SmoothStepCustom(shadowBoundary, midpoint, t);
-                float step2 = SmoothStepCustom(midpoint, highlightBoundary, t);
+                float step1 = Mathf.InverseLerp(shadowBoundary, midpoint, t);
+                float step2 = Mathf.InverseLerp(midpoint, highlightBoundary, t);
                 Color shadowToMidtones = Color.Lerp(shadow, midtones, step1);
                 
                 color = Color.Lerp(shadowToMidtones, highlight, step2);
@@ -1033,11 +1033,11 @@ namespace Nova.Editor.Core.Scripts
                 float t = i / (float)(steps - 1);
                 Color color = shadow;
                 
-                // Apply five-tone color mapping
-                color = Color.Lerp(color, darktones, SmoothStepCustom(shadowBoundary, darktonesBoundary, t));
-                color = Color.Lerp(color, midtones, SmoothStepCustom(darktonesBoundary, midpoint, t));
-                color = Color.Lerp(color, brights, SmoothStepCustom(midpoint, brightsBoundary, t));
-                color = Color.Lerp(color, highlight, SmoothStepCustom(brightsBoundary, highlightBoundary, t));
+                // Apply five-tone color mapping with linear interpolation
+                color = Color.Lerp(color, darktones, Mathf.InverseLerp(shadowBoundary, darktonesBoundary, t));
+                color = Color.Lerp(color, midtones, Mathf.InverseLerp(darktonesBoundary, midpoint, t));
+                color = Color.Lerp(color, brights, Mathf.InverseLerp(midpoint, brightsBoundary, t));
+                color = Color.Lerp(color, highlight, Mathf.InverseLerp(brightsBoundary, highlightBoundary, t));
                 color.a = 1.0f; // Ensure alpha is always 1.0
                 
                 float stepWidth = rect.width / steps;
@@ -1053,15 +1053,6 @@ namespace Nova.Editor.Core.Scripts
             DrawBoundaryMarker(rect, highlightBoundary, "H", Color.white);
         }
         
-        // HLSL smoothstep equivalent
-        private static float SmoothStepCustom(float edge0, float edge1, float x)
-        {
-            if (x <= edge0) return 0.0f;
-            if (x >= edge1) return 1.0f;
-            
-            float t = Mathf.Clamp01((x - edge0) / (edge1 - edge0));
-            return t * t * (3.0f - 2.0f * t);
-        }
         
         private void DrawBoundaryMarker(Rect rect, float position, string label, Color color)
         {

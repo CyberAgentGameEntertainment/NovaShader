@@ -314,6 +314,12 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     return output;
 }
 
+// InverseLerp function equivalent to Mathf.InverseLerp
+inline half InverseLerpSafe(half a, half b, half value)
+{
+    return saturate((value - a) / max(b - a, 0.0001));
+}
+
 half4 fragUnlit(in out Varyings input, uniform bool useEmission)
 {
     UNITY_SETUP_INSTANCE_ID(input);
@@ -393,14 +399,11 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     half midpoint = lerp(shadows, highlights, midtonesBalance);
     
     #if defined(_BASE_MAP_TONE_MODE_TRITONE)
-    // TriTone: 3-level tone mapping
-    half3 shadowsToMidtones = lerp(_BaseMapToneShadowsColor.rgb, 
-                                  _BaseMapToneMidtonesColor.rgb, 
-                                  smoothstep(shadows, midpoint, color.r));
-    
-    color.rgb = lerp(shadowsToMidtones, 
-                    _BaseMapToneHighlightsColor.rgb, 
-                    smoothstep(midpoint, highlights, color.r));
+    // TriTone: 3-level tone mapping with linear interpolation
+    half3 result = _BaseMapToneShadowsColor.rgb;
+    result = lerp(result, _BaseMapToneMidtonesColor.rgb, InverseLerpSafe(shadows, midpoint, color.r));
+    result = lerp(result, _BaseMapToneHighlightsColor.rgb, InverseLerpSafe(midpoint, highlights, color.r));
+    color.rgb = result;
     
     #elif defined(_BASE_MAP_TONE_MODE_PENTONE)
     // Pentone: 5-level tone mapping
@@ -408,12 +411,12 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     half brights = (highlights + midpoint) * 0.5;
     half darktones = (midpoint + shadows) * 0.5;
     
-    // Apply five-tone color mapping
+    // Apply five-tone color mapping with linear interpolation
     half3 result = _BaseMapToneShadowsColor.rgb;
-    result = lerp(result, _BaseMapToneDarktonesColor.rgb, smoothstep(shadows, darktones, color.r));
-    result = lerp(result, _BaseMapToneMidtonesColor.rgb, smoothstep(darktones, midpoint, color.r));
-    result = lerp(result, _BaseMapToneBrightsColor.rgb, smoothstep(midpoint, brights, color.r));
-    result = lerp(result, _BaseMapToneHighlightsColor.rgb, smoothstep(brights, highlights, color.r));
+    result = lerp(result, _BaseMapToneDarktonesColor.rgb, InverseLerpSafe(shadows, darktones, color.r));
+    result = lerp(result, _BaseMapToneMidtonesColor.rgb, InverseLerpSafe(darktones, midpoint, color.r));
+    result = lerp(result, _BaseMapToneBrightsColor.rgb, InverseLerpSafe(midpoint, brights, color.r));
+    result = lerp(result, _BaseMapToneHighlightsColor.rgb, InverseLerpSafe(brights, highlights, color.r));
     color.rgb = result;
     #endif
     
