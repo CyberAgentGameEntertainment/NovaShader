@@ -482,6 +482,14 @@ UnityのTexture Sheet AnimationのRow Mode > Random機能と同等の機能で�
 この機能はグレースケール入力テクスチャを想定しており、異なる輝度範囲を個別の色にマッピングします。境界値によって領域間の輝度閾値が決定されます。
 </p>
 </td></tr>
+<tr><td></td><td colspan=2><b>Tone Channel</b></td><td>
+<p>
+<b>Tone ModeがNoneでない場合に表示されます。</b>
+</p>
+<p>
+トーンマッピングの輝度計算に使用するカラーチャンネルを選択します。Red、Green、Blue、Alpha（デフォルト）から選択可能です。
+</p>
+</td></tr>
 <tr><td></td><td colspan=2><b>Highlights Color</b></td><td>
 <p>
 <b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>

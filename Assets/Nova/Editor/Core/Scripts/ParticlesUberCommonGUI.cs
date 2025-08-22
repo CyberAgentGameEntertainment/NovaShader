@@ -242,6 +242,12 @@ namespace Nova.Editor.Core.Scripts
                 {
                     using (new EditorGUI.IndentLevelScope())
                     {
+                        // Channel selection dropdown
+                        MaterialEditorUtility.DrawEnumProperty<ColorChannels>(_editor, "Tone Channel", 
+                            props.BaseMapToneChannelProp.Value);
+                        
+                        EditorGUILayout.Space(4);
+                        
                         // プロパティ変更検出用
                         using (var changeScope = new EditorGUI.ChangeCheckScope())
                         {

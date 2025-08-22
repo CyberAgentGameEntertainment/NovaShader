@@ -80,6 +80,7 @@ namespace Nova.Editor.Core.Scripts
             // Base Map Tri Tone
             // Base Map Tone Mode
             BaseMapToneModeProp.Setup(properties);
+            BaseMapToneChannelProp.Setup(properties);
             
             // Base Map Tone - Common properties
             ToneHighlightsColorProp.Setup(properties);
@@ -335,6 +336,7 @@ namespace Nova.Editor.Core.Scripts
         // Base Map Tri Tone
         // Base Map Tone Mode
         public ParticlesGUI.Property BaseMapToneModeProp { get; } = new(PropertyNames.BaseMapToneMode);
+        public ParticlesGUI.Property BaseMapToneChannelProp { get; } = new(PropertyNames.BaseMapToneChannel);
         
         // Base Map Tone - Common properties
         public ParticlesGUI.Property ToneHighlightsColorProp { get; } = new(PropertyNames.BaseMapToneHighlightsColor);

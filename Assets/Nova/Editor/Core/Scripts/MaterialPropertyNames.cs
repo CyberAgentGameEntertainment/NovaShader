@@ -70,6 +70,7 @@ namespace Nova.Editor.Core.Scripts
 
         // Base Map Tone Mode
         public const string BaseMapToneMode = "_BaseMapToneMode";
+        public const string BaseMapToneChannel = "_BaseMapToneChannel";
         
         // Base Map Tone - Common properties for TriTone and Pentone
         public const string BaseMapToneHighlightsColor = "_BaseMapToneHighlightsColor";

@@ -98,6 +98,7 @@ float _BaseMapRowCount;
 
 // Base Map Tone Mode
 float _BaseMapToneMode;
+half _BaseMapToneChannel;
 
 // Base Map Tone - Common properties for TriTone and Pentone
 half4 _BaseMapToneHighlightsColor;

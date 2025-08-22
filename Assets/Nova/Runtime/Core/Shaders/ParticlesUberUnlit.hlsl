@@ -400,9 +400,10 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     
     #if defined(_BASE_MAP_TONE_MODE_TRITONE)
     // TriTone: 3-level tone mapping with linear interpolation
+    half luminance = color[(uint)_BaseMapToneChannel];
     half3 result = _BaseMapToneShadowsColor.rgb;
-    result = lerp(result, _BaseMapToneMidtonesColor.rgb, InverseLerpSafe(shadows, midpoint, color.r));
-    result = lerp(result, _BaseMapToneHighlightsColor.rgb, InverseLerpSafe(midpoint, highlights, color.r));
+    result = lerp(result, _BaseMapToneMidtonesColor.rgb, InverseLerpSafe(shadows, midpoint, luminance));
+    result = lerp(result, _BaseMapToneHighlightsColor.rgb, InverseLerpSafe(midpoint, highlights, luminance));
     color.rgb = result;
     
     #elif defined(_BASE_MAP_TONE_MODE_PENTONE)
@@ -412,11 +413,12 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     half darktones = (midpoint + shadows) * 0.5;
     
     // Apply five-tone color mapping with linear interpolation
+    half luminance = color[(uint)_BaseMapToneChannel];
     half3 result = _BaseMapToneShadowsColor.rgb;
-    result = lerp(result, _BaseMapToneDarktonesColor.rgb, InverseLerpSafe(shadows, darktones, color.r));
-    result = lerp(result, _BaseMapToneMidtonesColor.rgb, InverseLerpSafe(darktones, midpoint, color.r));
-    result = lerp(result, _BaseMapToneBrightsColor.rgb, InverseLerpSafe(midpoint, brights, color.r));
-    result = lerp(result, _BaseMapToneHighlightsColor.rgb, InverseLerpSafe(brights, highlights, color.r));
+    result = lerp(result, _BaseMapToneDarktonesColor.rgb, InverseLerpSafe(shadows, darktones, luminance));
+    result = lerp(result, _BaseMapToneMidtonesColor.rgb, InverseLerpSafe(darktones, midpoint, luminance));
+    result = lerp(result, _BaseMapToneBrightsColor.rgb, InverseLerpSafe(midpoint, brights, luminance));
+    result = lerp(result, _BaseMapToneHighlightsColor.rgb, InverseLerpSafe(brights, highlights, luminance));
     color.rgb = result;
     #endif
     

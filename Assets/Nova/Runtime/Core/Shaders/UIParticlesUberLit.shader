@@ -70,6 +70,7 @@ Shader "Nova/UIParticles/UberLit"
         // Base Map Tri Tone
         // Base Map Tone Mode
         _BaseMapToneMode("Tone Mode", Float) = 0.0
+        _BaseMapToneChannel("Tone Channel", Float) = 3.0
         
         // Base Map Tone - Common properties for TriTone and Pentone
         _BaseMapToneHighlightsColor("Highlights Color", Color) = (1,1,1,1)

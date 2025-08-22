@@ -475,6 +475,14 @@ Controls tone mapping for color adjustment based on luminance values. Select fro
 The feature assumes grayscale input textures and maps different luminance ranges to separate colors. Boundary values determine the luminance thresholds between regions.
 </p>
 </td></tr>
+<tr><td></td><td colspan=2><b>Tone Channel</b></td><td>
+<p>
+<b>This property is visible when Tone Mode is not None.</b>
+</p>
+<p>
+Selects which color channel to use for luminance calculation in tone mapping. Choose from Red, Green, Blue, or Alpha (default).
+</p>
+</td></tr>
 <tr><td></td><td colspan=2><b>Highlights Color</b></td><td>
 <p>
 <b>This property is visible when Tone Mode is Tritone or Pentone.</b>
