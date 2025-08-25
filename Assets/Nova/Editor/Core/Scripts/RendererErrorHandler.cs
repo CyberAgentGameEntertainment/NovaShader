@@ -101,6 +101,18 @@ namespace Nova.Editor.Core.Scripts
                 }
             }
 
+            // Check Tone Mode features
+            var toneMode = (BaseMapToneMode)commonMaterialProperties.BaseMapToneModeProp.Value.floatValue;
+            if (toneMode != BaseMapToneMode.None)
+            {
+                if (IsCustomCoordUsed(commonMaterialProperties.ToneShadowsCoordProp) ||
+                    IsCustomCoordUsed(commonMaterialProperties.ToneHighlightsCoordProp) ||
+                    IsCustomCoordUsed(commonMaterialProperties.ToneMidtonesCoordProp))
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
 

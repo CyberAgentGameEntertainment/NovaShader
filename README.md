@@ -398,6 +398,17 @@ If you specify Flip Book as the Mode, you need to set <a href="https://docs.unit
 And if you specify Flip Book Blending, you need to set <a href="https://docs.unity3d.com/2020.3/Documentation/Manual/class-Texture3D.html">Texture3D</a>.
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Channel</b></td><td>
+<p>
+Select which color channel from the Base Map to use for rendering. When a single channel is selected (Red/Green/Blue), the selected channel value is applied to RGB components while preserving the original alpha channel. Available options:
+</p>
+<p>
+<ul>
+<li>RGB: Use all color channels as-is (Default)</li>
+<li>Red: Convert red channel to grayscale</li>
+<li>Green: Convert green channel to grayscale</li>
+<li>Blue: Convert blue channel to grayscale</li>
+</ul>
 </td></tr>
 <tr><td colspan="3"><b>Rotation</b></td><td>
 <p>
@@ -449,17 +460,91 @@ Set the number of rows in your texture sheet (e.g., for a 4×4 texture sheet, se
 Select the Custom Coord channel for random value input. This should correspond to the Custom Data channel configured in Unity Particle System with "Random Between Two Constants" mode.
 </p>
 </td></tr>
-<tr><td colspan="3"><b>Channel</b></td><td>
+<tr><td colspan="3"><b>Tone Mode</b></td><td>
 <p>
-Select which color channel from the Base Map to use for rendering. When a single channel is selected (Red/Green/Blue), the selected channel value is applied to RGB components while preserving the original alpha channel. Available options:
+Controls tone mapping for color adjustment based on luminance values. Select from the following options:
 </p>
 <p>
 <ul>
-<li>RGB: Use all color channels as-is (Default)</li>
-<li>Red: Convert red channel to grayscale</li>
-<li>Green: Convert green channel to grayscale</li>
-<li>Blue: Convert blue channel to grayscale</li>
+<li><b>None:</b> No tone mapping applied (Default).</li>
+<li><b>Tritone:</b> Three-tone mapping with Highlights, Midtones, and Shadows control.</li>
+<li><b>Pentone:</b> Five-tone mapping with Highlights, Brights, Midtones, Darktones, and Shadows control.</li>
 </ul>
+</p>
+<p>
+The feature assumes grayscale input textures and maps different luminance ranges to separate colors. Boundary values determine the luminance thresholds between regions.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Tone Channel</b></td><td>
+<p>
+<b>This property is visible when Tone Mode is not None.</b>
+</p>
+<p>
+Selects which color channel to use for luminance calculation in tone mapping. Choose from Red, Green, Blue, or Alpha (default).
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Highlights Color</b></td><td>
+<p>
+<b>This property is visible when Tone Mode is Tritone or Pentone.</b>
+</p>
+<p>
+Sets the color applied to highlight regions (bright luminance range).
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Brights Color</b></td><td>
+<p>
+<b>This property is visible only when Tone Mode is Pentone.</b>
+</p>
+<p>
+Sets the color applied to brights regions (between highlights and midtones). The boundary is automatically calculated at 50% between Highlights and Midtones boundaries.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Midtones Color</b></td><td>
+<p>
+<b>This property is visible when Tone Mode is Tritone or Pentone.</b>
+</p>
+<p>
+Sets the color applied to midtone regions (medium luminance range).
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Darktones Color</b></td><td>
+<p>
+<b>This property is visible only when Tone Mode is Pentone.</b>
+</p>
+<p>
+Sets the color applied to darktones regions (between midtones and shadows). The boundary is automatically calculated at 50% between Midtones and Shadows boundaries.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Shadows Color</b></td><td>
+<p>
+<b>This property is visible when Tone Mode is Tritone or Pentone.</b>
+</p>
+<p>
+Sets the color applied to shadow regions (dark luminance range).
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Highlights Boundary</b></td><td>
+<p>
+<b>This property is visible when Tone Mode is Tritone or Pentone.</b>
+</p>
+<p>
+Sets the luminance value where the transition to highlights color ends. Can be animated using Custom Coord.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Midtones Boundary</b></td><td>
+<p>
+<b>This property is visible when Tone Mode is Tritone or Pentone.</b>
+</p>
+<p>
+Controls the balance between different tonal regions. In Tritone mode, determines the transition point. In Pentone mode, serves as the central reference for automatic boundary calculations. Can be animated using Custom Coord.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Shadows Boundary</b></td><td>
+<p>
+<b>This property is visible when Tone Mode is Tritone or Pentone.</b>
+</p>
+<p>
+Sets the luminance value where the transition from shadows color begins. Can be animated using Custom Coord.
 </p>
 </td></tr>
 </tbody>
