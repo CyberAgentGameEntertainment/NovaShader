@@ -495,7 +495,7 @@ UnityのTexture Sheet AnimationのRow Mode > Random機能と同等の機能で�
 <b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
 </p>
 <p>
-ハイライト領域（明るい輝度範囲）に適用される色を設定します。
+ハイライト領域に適用される色を設定します。
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Brights Color</b></td><td>
@@ -503,7 +503,7 @@ UnityのTexture Sheet AnimationのRow Mode > Random機能と同等の機能で�
 <b>Tone ModeがPentoneの時のみ表示されます。</b>
 </p>
 <p>
-Brights領域（HighlightsとMidtonesの間）に適用される色を設定します。境界位置はBrightsパラメータで調整できます。
+Brights領域（HighlightsとMidtonesの間）に適用される色を設定します。
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Midtones Color</b></td><td>
@@ -511,7 +511,7 @@ Brights領域（HighlightsとMidtonesの間）に適用される色を設定し�
 <b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
 </p>
 <p>
-ミッドトーン領域（中間輝度範囲）に適用される色を設定します。
+ミッドトーン領域に適用される色を設定します。
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Darktones Color</b></td><td>
@@ -519,7 +519,7 @@ Brights領域（HighlightsとMidtonesの間）に適用される色を設定し�
 <b>Tone ModeがPentoneの時のみ表示されます。</b>
 </p>
 <p>
-Darktones領域（MidtonesとShadowsの間）に適用される色を設定します。境界位置はDarktonesパラメータで調整できます。
+Darktones領域（MidtonesとShadowsの間）に適用される色を設定します。
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Shadows Color</b></td><td>
@@ -527,7 +527,7 @@ Darktones領域（MidtonesとShadowsの間）に適用される色を設定し�
 <b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
 </p>
 <p>
-シャドウ領域（暗い輝度範囲）に適用される色を設定します。
+シャドウ領域に適用される色を設定します。
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Highlights</b></td><td>
@@ -535,7 +535,7 @@ Darktones領域（MidtonesとShadowsの間）に適用される色を設定し�
 <b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
 </p>
 <p>
-ハイライト領域の輝度境界値を設定します。Custom Coordを使用してアニメーション可能です。
+ハイライトの輝度境界値を設定します。
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Brights</b></td><td>
@@ -543,7 +543,7 @@ Darktones領域（MidtonesとShadowsの間）に適用される色を設定し�
 <b>Tone ModeがPentoneの時のみ表示されます。</b>
 </p>
 <p>
-MidtonesとHighlights間のBrights境界位置を制御します（0.0-1.0）。0.5（デフォルト）では境界が中間点に配置されます。Custom Coordを使用してアニメーション可能です。
+MidtonesとHighlights間のBrights境界位置を制御します。
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Midtones</b></td><td>
@@ -551,7 +551,7 @@ MidtonesとHighlights間のBrights境界位置を制御します（0.0-1.0）。
 <b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
 </p>
 <p>
-トーン領域間のバランスを制御します。Tritoneモードでは遷移点を決定し、Pentoneモードでは中心参照点として機能します。Custom Coordを使用してアニメーション可能です。
+トーン領域間のバランスを制御します。Tritoneモードでは遷移点を決定し、Pentoneモードでは中心参照点として機能します。
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Darktones</b></td><td>
@@ -559,7 +559,7 @@ MidtonesとHighlights間のBrights境界位置を制御します（0.0-1.0）。
 <b>Tone ModeがPentoneの時のみ表示されます。</b>
 </p>
 <p>
-ShadowsとMidtones間のDarktones境界位置を制御します（0.0-1.0）。0.5（デフォルト）では境界が中間点に配置されます。Custom Coordを使用してアニメーション可能です。
+ShadowsとMidtones間のDarktones境界位置を制御します。
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Shadows</b></td><td>
@@ -567,7 +567,7 @@ ShadowsとMidtones間のDarktones境界位置を制御します（0.0-1.0）。0
 <b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
 </p>
 <p>
-シャドウ領域の輝度境界値を設定します。Custom Coordを使用してアニメーション可能です。
+シャドウの輝度境界値を設定します。
 </p>
 </td></tr>
 </tbody>
