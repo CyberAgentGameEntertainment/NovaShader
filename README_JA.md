@@ -503,7 +503,7 @@ UnityのTexture Sheet AnimationのRow Mode > Random機能と同等の機能で�
 <b>Tone ModeがPentoneの時のみ表示されます。</b>
 </p>
 <p>
-Brights領域（HighlightsとMidtonesの間）に適用される色を設定します。境界はHighlights境界とMidtones境界の中間点に自動計算されます。
+Brights領域（HighlightsとMidtonesの間）に適用される色を設定します。境界位置はBrightsパラメータで調整できます。
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Midtones Color</b></td><td>
@@ -519,7 +519,7 @@ Brights領域（HighlightsとMidtonesの間）に適用される色を設定し�
 <b>Tone ModeがPentoneの時のみ表示されます。</b>
 </p>
 <p>
-Darktones領域（MidtonesとShadowsの間）に適用される色を設定します。境界はMidtones境界とShadows境界の中間点に自動計算されます。
+Darktones領域（MidtonesとShadowsの間）に適用される色を設定します。境界位置はDarktonesパラメータで調整できます。
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Shadows Color</b></td><td>
@@ -530,28 +530,44 @@ Darktones領域（MidtonesとShadowsの間）に適用される色を設定し�
 シャドウ領域（暗い輝度範囲）に適用される色を設定します。
 </p>
 </td></tr>
-<tr><td></td><td colspan=2><b>Highlights Boundary</b></td><td>
+<tr><td></td><td colspan=2><b>Highlights</b></td><td>
 <p>
 <b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
 </p>
 <p>
-ハイライト色への遷移が終了する輝度値を設定します。Custom Coordを使用してアニメーション可能です。
+ハイライト領域の輝度境界値を設定します。Custom Coordを使用してアニメーション可能です。
 </p>
 </td></tr>
-<tr><td></td><td colspan=2><b>Midtones Boundary</b></td><td>
+<tr><td></td><td colspan=2><b>Brights</b></td><td>
 <p>
-<b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
+<b>Tone ModeがPentoneの時のみ表示されます。</b>
 </p>
 <p>
-トーン領域間のバランスを制御します。Tritoneモードでは遷移点を決定し、Pentoneモードでは自動境界計算の中心参照として機能します。Custom Coordを使用してアニメーション可能です。
+MidtonesとHighlights間のBrights境界位置を制御します（0.0-1.0）。0.5（デフォルト）では境界が中間点に配置されます。Custom Coordを使用してアニメーション可能です。
 </p>
 </td></tr>
-<tr><td></td><td colspan=2><b>Shadows Boundary</b></td><td>
+<tr><td></td><td colspan=2><b>Midtones</b></td><td>
 <p>
 <b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
 </p>
 <p>
-シャドウ色からの遷移が開始される輝度値を設定します。Custom Coordを使用してアニメーション可能です。
+トーン領域間のバランスを制御します。Tritoneモードでは遷移点を決定し、Pentoneモードでは中心参照点として機能します。Custom Coordを使用してアニメーション可能です。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Darktones</b></td><td>
+<p>
+<b>Tone ModeがPentoneの時のみ表示されます。</b>
+</p>
+<p>
+ShadowsとMidtones間のDarktones境界位置を制御します（0.0-1.0）。0.5（デフォルト）では境界が中間点に配置されます。Custom Coordを使用してアニメーション可能です。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Shadows</b></td><td>
+<p>
+<b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
+</p>
+<p>
+シャドウ領域の輝度境界値を設定します。Custom Coordを使用してアニメーション可能です。
 </p>
 </td></tr>
 </tbody>
