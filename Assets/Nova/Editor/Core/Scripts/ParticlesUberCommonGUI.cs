@@ -294,7 +294,9 @@ namespace Nova.Editor.Core.Scripts
                                 props.ToneHighlightsColorProp.Value.colorValue,
                                 props.ToneShadowsProp.Value.floatValue,
                                 props.ToneMidtonesProp.Value.floatValue,
-                                props.ToneHighlightsProp.Value.floatValue
+                                props.ToneHighlightsProp.Value.floatValue,
+                                props.ToneBrightsProp.Value.floatValue,
+                                props.ToneDarktonesProp.Value.floatValue
                             );
                         }
                         
@@ -1031,16 +1033,19 @@ namespace Nova.Editor.Core.Scripts
         }
         
         private void DrawPentonePreview(Color shadow, Color darktones, Color midtones, Color brights, Color highlight,
-                                       float shadowBoundary, float midtonesBalance, float highlightBoundary)
+                                       float shadowBoundary, float midtonesBalance, float highlightBoundary, 
+                                       float brightsBalance, float darktonesBalance)
         {
             const float MIN_RANGE = 0.01f;
             highlightBoundary = Mathf.Max(shadowBoundary + MIN_RANGE, highlightBoundary);
             midtonesBalance = Mathf.Clamp(midtonesBalance, 0.001f, 0.999f);
             float actualMidpoint = Mathf.Lerp(shadowBoundary, highlightBoundary, midtonesBalance);
             
-            // Calculate intermediate boundaries (always at 0.5 between adjacent boundaries)
-            float brightsBoundary = (highlightBoundary + actualMidpoint) * 0.5f;
-            float darktonesBoundary = (actualMidpoint + shadowBoundary) * 0.5f;
+            // Calculate intermediate boundaries using balance parameters
+            brightsBalance = Mathf.Clamp(brightsBalance, 0.001f, 0.999f);
+            darktonesBalance = Mathf.Clamp(darktonesBalance, 0.001f, 0.999f);
+            float brightsBoundary = Mathf.Lerp(actualMidpoint, highlightBoundary, brightsBalance);
+            float darktonesBoundary = Mathf.Lerp(shadowBoundary, actualMidpoint, darktonesBalance);
             
             // グレースケール参照バー
             DrawGrayscaleReference(shadowBoundary, actualMidpoint, highlightBoundary);
