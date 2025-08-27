@@ -551,7 +551,7 @@ MidtonesとHighlights間のBrights境界位置を制御します。
 <b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
 </p>
 <p>
-トーン領域間のバランスを制御します。Tritoneモードでは遷移点を決定し、Pentoneモードでは中心参照点として機能します。
+ShadowsとHighlights間の中間点位置を決定することで、トーン領域間のバランスを制御します。
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Darktones</b></td><td>

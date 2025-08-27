@@ -544,7 +544,7 @@ Controls the position of the brights boundary between midtones and highlights.
 <b>This property is visible when Tone Mode is Tritone or Pentone.</b>
 </p>
 <p>
-Controls the balance between tonal regions. In Tritone mode, determines the transition point. In Pentone mode, serves as the central reference point.
+Controls the balance between tonal regions by determining the midpoint position between shadows and highlights.
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Darktones</b></td><td>
