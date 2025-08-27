@@ -86,6 +86,10 @@ namespace Nova.Editor.Core.Scripts
         // Base Map Tone - Pentone exclusive properties
         public const string BaseMapToneBrightsColor = "_BaseMapToneBrightsColor";
         public const string BaseMapToneDarktonesColor = "_BaseMapToneDarktonesColor";
+        public const string BaseMapToneBrights = "_BaseMapToneBrights";
+        public const string BaseMapToneDarktones = "_BaseMapToneDarktones";
+        public const string BaseMapToneBrightsCoord = "_BaseMapToneBrightsCoord";
+        public const string BaseMapToneDarktonesCoord = "_BaseMapToneDarktonesCoord";
         
         // Tint Color
         public const string TintAreaMode = "_TintAreaMode";

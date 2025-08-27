@@ -61,6 +61,10 @@ Shader "Nova/UIParticles/UberUnlit"
         // Base Map Tone - Pentone exclusive properties
         _BaseMapToneBrightsColor("Brights Color", Color) = (0.75,0.75,0.75,1)
         _BaseMapToneDarktonesColor("Darktones Color", Color) = (0.25,0.25,0.25,1)
+        _BaseMapToneBrights("Brights", Range(0, 1)) = 0.5
+        _BaseMapToneDarktones("Darktones", Range(0, 1)) = 0.5
+        _BaseMapToneBrightsCoord("Brights Coord", Float) = 0
+        _BaseMapToneDarktonesCoord("Darktones Coord", Float) = 0
 
         // Tint Color
         _TintAreaMode("Tint Area Mode", Float) = 0.0

@@ -96,6 +96,10 @@ namespace Nova.Editor.Core.Scripts
             // Base Map Tone - Pentone exclusive
             ToneBrightsColorProp.Setup(properties);
             ToneDarktonesColorProp.Setup(properties);
+            ToneBrightsProp.Setup(properties);
+            ToneDarktonesProp.Setup(properties);
+            ToneBrightsCoordProp.Setup(properties);
+            ToneDarktonesCoordProp.Setup(properties);
 
             // Tint Color
             TintAreaModeProp.Setup(properties);
@@ -352,6 +356,10 @@ namespace Nova.Editor.Core.Scripts
         // Base Map Tone - Pentone exclusive
         public ParticlesGUI.Property ToneBrightsColorProp { get; } = new(PropertyNames.BaseMapToneBrightsColor);
         public ParticlesGUI.Property ToneDarktonesColorProp { get; } = new(PropertyNames.BaseMapToneDarktonesColor);
+        public ParticlesGUI.Property ToneBrightsProp { get; } = new(PropertyNames.BaseMapToneBrights);
+        public ParticlesGUI.Property ToneDarktonesProp { get; } = new(PropertyNames.BaseMapToneDarktones);
+        public ParticlesGUI.Property ToneBrightsCoordProp { get; } = new(PropertyNames.BaseMapToneBrightsCoord);
+        public ParticlesGUI.Property ToneDarktonesCoordProp { get; } = new(PropertyNames.BaseMapToneDarktonesCoord);
 
         #endregion
 

@@ -111,6 +111,16 @@ namespace Nova.Editor.Core.Scripts
                 {
                     return true;
                 }
+                
+                // Check Pentone exclusive Custom Coords
+                if (toneMode == BaseMapToneMode.Pentone)
+                {
+                    if (IsCustomCoordUsed(commonMaterialProperties.ToneBrightsCoordProp) ||
+                        IsCustomCoordUsed(commonMaterialProperties.ToneDarktonesCoordProp))
+                    {
+                        return true;
+                    }
+                }
             }
 
             return false;

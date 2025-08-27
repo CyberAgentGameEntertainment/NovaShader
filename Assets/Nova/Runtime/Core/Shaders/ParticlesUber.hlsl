@@ -114,6 +114,10 @@ DECLARE_CUSTOM_COORD(_BaseMapToneShadowsCoord);
 // Base Map Tone - Pentone exclusive properties
 half4 _BaseMapToneBrightsColor;
 half4 _BaseMapToneDarktonesColor;
+float _BaseMapToneBrights;
+float _BaseMapToneDarktones;
+DECLARE_CUSTOM_COORD(_BaseMapToneBrightsCoord);
+DECLARE_CUSTOM_COORD(_BaseMapToneDarktonesCoord);
 
 half4 _TintColor;
 float4 _TintMap_ST;

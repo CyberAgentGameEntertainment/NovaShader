@@ -322,6 +322,24 @@ namespace Nova.Editor.Core.Scripts
                             }
                         }
                         
+                        // Pentone exclusive: Brights balance (between highlights and midpoint)
+                        if (toneMode == BaseMapToneMode.Pentone)
+                        {
+                            using (var brightsChangeScope = new EditorGUI.ChangeCheckScope())
+                            {
+                                MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
+                                    _editor, "Brights", 
+                                    props.ToneBrightsProp.Value, 
+                                    props.ToneBrightsCoordProp.Value);
+                                
+                                if (brightsChangeScope.changed)
+                                {
+                                    float brightsValue = props.ToneBrightsProp.Value.floatValue;
+                                    props.ToneBrightsProp.Value.floatValue = Mathf.Clamp(brightsValue, 0.001f, 0.999f);
+                                }
+                            }
+                        }
+                        
                         // Midtones値の制御
                         using (var midtonesChangeScope = new EditorGUI.ChangeCheckScope())
                         {
@@ -334,6 +352,24 @@ namespace Nova.Editor.Core.Scripts
                             {
                                 float midtonesValue = props.ToneMidtonesProp.Value.floatValue;
                                 props.ToneMidtonesProp.Value.floatValue = Mathf.Clamp(midtonesValue, 0.001f, 0.999f);
+                            }
+                        }
+                        
+                        // Pentone exclusive: Darktones balance (between midtones and shadows)
+                        if (toneMode == BaseMapToneMode.Pentone)
+                        {
+                            using (var darktonesChangeScope = new EditorGUI.ChangeCheckScope())
+                            {
+                                MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
+                                    _editor, "Darktones", 
+                                    props.ToneDarktonesProp.Value, 
+                                    props.ToneDarktonesCoordProp.Value);
+                                
+                                if (darktonesChangeScope.changed)
+                                {
+                                    float darktonesValue = props.ToneDarktonesProp.Value.floatValue;
+                                    props.ToneDarktonesProp.Value.floatValue = Mathf.Clamp(darktonesValue, 0.001f, 0.999f);
+                                }
                             }
                         }
                         

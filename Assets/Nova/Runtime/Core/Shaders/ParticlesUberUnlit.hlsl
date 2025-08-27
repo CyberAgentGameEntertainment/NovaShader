@@ -408,9 +408,13 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     
     #elif defined(_BASE_MAP_TONE_MODE_PENTONE)
     // Pentone: 5-level tone mapping
-    // Calculate intermediate boundaries (always at 0.5 between adjacent boundaries)
-    half brights = (highlights + midpoint) * 0.5;
-    half darktones = (midpoint + shadows) * 0.5;
+    // Get boundary balance values with Custom Coord
+    half brightsBalance = saturate(_BaseMapToneBrights + GET_CUSTOM_COORD(_BaseMapToneBrightsCoord));
+    half darktonesBalance = saturate(_BaseMapToneDarktones + GET_CUSTOM_COORD(_BaseMapToneDarktonesCoord));
+    
+    // Calculate intermediate boundaries using balance parameters
+    half brights = lerp(midpoint, highlights, brightsBalance);
+    half darktones = lerp(shadows, midpoint, darktonesBalance);
     
     // Apply five-tone color mapping with linear interpolation
     half luminance = color[(uint)_BaseMapToneChannel];
@@ -421,7 +425,6 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     result = lerp(result, _BaseMapToneHighlightsColor.rgb, InverseLerpSafe(brights, highlights, luminance));
     color.rgb = result;
     #endif
-    
     #endif
 
     // Tint Color
