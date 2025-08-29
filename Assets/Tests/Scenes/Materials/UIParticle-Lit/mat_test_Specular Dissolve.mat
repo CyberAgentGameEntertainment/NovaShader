@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: mat_Specular Dissolve
+  m_Name: mat_test_Specular Dissolve
   m_Shader: {fileID: 4800000, guid: 5befadde7f2b6a9498dd225c31369d75, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -31,8 +31,10 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
-  stringTagMap: {}
-  disabledShaderPasses: []
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -181,19 +183,26 @@ Material:
     - _AlphaTransitionMapOffsetYCoord: 0
     - _AlphaTransitionMapProgress: 0
     - _AlphaTransitionMapProgressCoord: 0
+    - _AlphaTransitionMapRandomRowCoord: 0
+    - _AlphaTransitionMapRandomRowSelectionEnabled: 0
+    - _AlphaTransitionMapRowCount: 1
     - _AlphaTransitionMapSecondTextureChannelsX: 0
     - _AlphaTransitionMapSecondTextureOffsetXCoord: 0
     - _AlphaTransitionMapSecondTextureOffsetYCoord: 0
     - _AlphaTransitionMapSecondTextureProgress: 0
     - _AlphaTransitionMapSecondTextureProgressCoord: 0
+    - _AlphaTransitionMapSecondTextureRandomRowCoord: 0
+    - _AlphaTransitionMapSecondTextureRandomRowSelectionEnabled: 0
+    - _AlphaTransitionMapSecondTextureRowCount: 1
     - _AlphaTransitionMapSecondTextureSliceCount: 4
     - _AlphaTransitionMapSliceCount: 4
     - _AlphaTransitionMode: 2
-    - _AlphaTransitionProgress: 0
-    - _AlphaTransitionProgressCoord: 1
+    - _AlphaTransitionProgress: 0.6
+    - _AlphaTransitionProgressCoord: 0
     - _AlphaTransitionProgressCoordSecondTexture: 0
     - _AlphaTransitionProgressSecondTexture: 0
     - _AlphaTransitionSecondTextureBlendMode: 0
+    - _BaseMapChannel: 0
     - _BaseMapMirrorSampling: 0
     - _BaseMapMode: 0
     - _BaseMapOffsetXCoord: 0
@@ -228,6 +237,9 @@ Material:
     - _EmissionMapOffsetYCoord: 0
     - _EmissionMapProgress: 0
     - _EmissionMapProgressCoord: 0
+    - _EmissionMapRandomRowCoord: 0
+    - _EmissionMapRandomRowSelectionEnabled: 0
+    - _EmissionMapRowCount: 1
     - _EmissionMapSliceCount: 4
     - _EnvironmentReflections: 1
     - _FlowIntensity: 1
@@ -257,6 +269,9 @@ Material:
     - _ParallaxMapOffsetYCoord: 0
     - _ParallaxMapProgress: 0
     - _ParallaxMapProgressCoord: 0
+    - _ParallaxMapRandomRowCoord: 0
+    - _ParallaxMapRandomRowSelectionEnabled: 0
+    - _ParallaxMapRowCount: 1
     - _ParallaxMapSliceCount: 4
     - _ParallaxMapTarget: 1
     - _ParallaxStrength: 0.3
@@ -296,6 +311,9 @@ Material:
     - _TintMapOffsetYCoord: 0
     - _TintMapProgress: 0
     - _TintMapProgressCoord: 0
+    - _TintMapRandomRowCoord: 0
+    - _TintMapRandomRowSelectionEnabled: 0
+    - _TintMapRowCount: 1
     - _TintMapSliceCount: 4
     - _TintRimProgress: 0.5
     - _TintRimProgressCoord: 0
