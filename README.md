@@ -472,7 +472,9 @@ Controls tone mapping for color adjustment based on luminance values. Select fro
 </ul>
 </p>
 <p>
-The feature assumes grayscale input textures and maps different luminance ranges to separate colors. Boundary values determine the luminance thresholds between regions.
+Boundary values determine the thresholds between regions, mapping them to the configured colors.
+Colors between each boundary are linearly interpolated, applying smooth tone mapping.
+Note that this linear interpolation is performed in the shader, so you need to consider your project's color space when setting parameters.
 </p>
 </td></tr>
 <tr><td></td><td colspan=2><b>Tone Channel</b></td><td>
