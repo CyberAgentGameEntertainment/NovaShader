@@ -19,9 +19,9 @@ using Object = UnityEngine.Object;
 namespace Tests.Runtime
 {
     /// <summary>
-    /// Regression tests that run from Unity Test Runner.
-    /// Before running these tests, please read Documentation~/TestDucument.md
-    /// for required environment setup instructions.
+    ///     Regression tests that run from Unity Test Runner.
+    ///     Before running these tests, please read Documentation~/TestDucument.md
+    ///     for required environment setup instructions.
     /// </summary>
     public class AverageTest
     {
@@ -37,12 +37,12 @@ namespace Tests.Runtime
         public IEnumerator Test(string scenePath)
         {
             yield return TestUtility.LoadScene($"Assets/Tests/Scenes/{scenePath}.unity");
-            
+
             var settings = new ImageComparisonSettings
             {
                 TargetWidth = Screen.width,
                 TargetHeight = Screen.height,
-                AverageCorrectnessThreshold = 0.05f,
+                AverageCorrectnessThreshold = 0.005f,
                 PerPixelCorrectnessThreshold = 0.005f,
                 IncorrectPixelsThreshold = 0.1f
             };
@@ -55,7 +55,7 @@ namespace Tests.Runtime
             screenshot.Apply();
             // Image comparison using Flip
             ImageAssertExtensions.AreEqualWithFlip(screenshot, settings);
-            
+
             Object.Destroy(screenshotSrc);
             Object.Destroy(screenshot);
             Object.Destroy(expected);
@@ -73,23 +73,20 @@ namespace Tests.Runtime
                 PerPixelCorrectnessThreshold = 0.0005f
             };
             // Capture before shader replacement
-            yield return TestUtility.LoadScene($"Assets/Tests/Scenes/Test_OptimizedShader.unity");
+            yield return TestUtility.LoadScene("Assets/Tests/Scenes/Test_OptimizedShader.unity");
             var expected = TestUtility.CaptureActualImage(new List<Camera> { Camera.main }, settings);
-            
+
             // Generate and replace with optimized shaders
             OptimizedShaderGenerator.Generate("Assets/OptimizedShaders");
             var optimizedMaterialsPath = "Assets/Tests/Scenes/Materials/Optimized";
             // Get all materials in the Optimized folder
-            var materials = AssetDatabase.FindAssets("t:Material", new[] { optimizedMaterialsPath} )
+            var materials = AssetDatabase.FindAssets("t:Material", new[] { optimizedMaterialsPath })
                 .Select(guid => AssetDatabase.LoadAssetAtPath<Material>(AssetDatabase.GUIDToAssetPath(guid)))
                 .ToList();
 
             // Create a temporary folder for material copies
             var tempFolderPath = "Assets/Tests/Scenes/Materials/Temp";
-            if (!Directory.Exists(tempFolderPath))
-            {
-                Directory.CreateDirectory(tempFolderPath);
-            }
+            if (!Directory.Exists(tempFolderPath)) Directory.CreateDirectory(tempFolderPath);
 
             // Copy each material to temp folder
             foreach (var material in materials)
@@ -99,17 +96,18 @@ namespace Tests.Runtime
                 var tempPath = Path.Combine(tempFolderPath, fileName);
                 AssetDatabase.CopyAsset(originalPath, tempPath);
             }
-         
+
             // Replace test materials' shaders with optimized shaders
             OptimizedShaderReplacer.Replace(new OptimizedShaderReplacer.Settings
             {
-                OpaqueRequiredPasses = OptionalShaderPass.DepthOnly | OptionalShaderPass.DepthNormals | OptionalShaderPass.ShadowCaster,
+                OpaqueRequiredPasses = OptionalShaderPass.DepthOnly | OptionalShaderPass.DepthNormals |
+                                       OptionalShaderPass.ShadowCaster,
                 CutoutRequiredPasses = OptionalShaderPass.ShadowCaster,
                 TransparentRequiredPasses = OptionalShaderPass.None,
-                TargetFolderPath = "Assets/Tests/Scenes/Materials/Optimized",
+                TargetFolderPath = "Assets/Tests/Scenes/Materials/Optimized"
             });
             // Capture after replacement
-            yield return TestUtility.LoadScene($"Assets/Tests/Scenes/Test_OptimizedShader.unity");
+            yield return TestUtility.LoadScene("Assets/Tests/Scenes/Test_OptimizedShader.unity");
             var actual = TestUtility.CaptureActualImage(new List<Camera> { Camera.main }, settings);
             ImageAssertExtensions.AreEqualWithFlip(expected, actual, settings);
 
