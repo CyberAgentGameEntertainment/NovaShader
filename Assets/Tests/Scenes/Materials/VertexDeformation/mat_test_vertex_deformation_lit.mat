@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: mat_vertex_deformation_unlit
-  m_Shader: {fileID: 4800000, guid: 1bc5c6a70411243779ce486a98012125, type: 3}
+  m_Name: mat_test_vertex_deformation_lit
+  m_Shader: {fileID: 4800000, guid: 65654f079f6f340b09f954eb6366ad5a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
@@ -16,14 +16,14 @@ Material:
   - _BASE_MAP_MODE_2D
   - _EMISSION_COLOR_BASECOLOR
   - _EMISSION_MAP_MODE_2D
+  - _ENVIRONMENT_REFLECTIONS_ENABLED
   - _PARALLAX_MAP_MODE_2D
   - _SHADOW_CASTER_ALPHA_TEST_ENABLED
-  - _TINT_COLOR_ENABLED
-  - _VERTEX_DEFORMATION_ENABLED
-  m_InvalidKeywords:
-  - _ENVIRONMENT_REFLECTIONS_ENABLED
   - _SPECULAR_HIGHLIGHTS_ENABLED
   - _SPECULAR_SETUP
+  - _TINT_COLOR_ENABLED
+  - _VERTEX_DEFORMATION_ENABLED
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -94,6 +94,30 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MetallicMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -103,6 +127,30 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmoothnessMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmoothnessMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmoothnessMap3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularMap2DArray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularMap3D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -177,6 +225,7 @@ Material:
     - _EmissionMapProgress: 0
     - _EmissionMapProgressCoord: 0
     - _EmissionMapSliceCount: 4
+    - _EnvironmentReflections: 1
     - _FlowIntensity: 0
     - _FlowIntensityCoord: 0
     - _FlowMapChannelsX: 0
@@ -188,11 +237,16 @@ Material:
     - _InverseRimTransparency: 0
     - _InverseTintRim: 0
     - _KeepEdgeTransparency: 1
+    - _LitReceiveShadows: 0
+    - _LitWorkflowMode: 0
     - _LuminanceTransparencyEnabled: 0
     - _LuminanceTransparencyProgress: 0.5
     - _LuminanceTransparencyProgressCoord: 0
     - _LuminanceTransparencySharpness: 0
     - _LuminanceTransparencySharpnessCoord: 0
+    - _Metallic: 0
+    - _MetallicMapChannelsX: 0
+    - _NormalMapBumpScale: 1
     - _ParallaxMapChannel: 0
     - _ParallaxMapMode: 0
     - _ParallaxMapOffsetXCoord: 0
@@ -217,8 +271,12 @@ Material:
     - _ShadowCasterAlphaTestEnabled: 1
     - _ShadowCasterApplyVertexDeformation: 0
     - _ShadowCasterEnabled: 1
+    - _Smoothness: 0.5
+    - _SmoothnessMapChannelsX: 3
     - _SoftParticlesEnabled: 0
     - _SoftParticlesIntensity: 1
+    - _SpecularHighlights: 1
+    - _SpecularMapChannelsX: 0
     - _TintAreaMode: 0
     - _TintBlendRate: 1
     - _TintBlendRateCoord: 0
@@ -236,7 +294,7 @@ Material:
     - _TintRimSharpnessCoord: 0
     - _TransparentBlendMode: 0
     - _VertexAlphaMode: 0
-    - _VertexDeformationBaseValue: 0.3
+    - _VertexDeformationBaseValue: 0
     - _VertexDeformationEnabled: 0
     - _VertexDeformationIntensity: 0.11
     - _VertexDeformationIntensityCoord: 0
@@ -249,6 +307,7 @@ Material:
     m_Colors:
     - _BaseMapRotationOffsets: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &854234861823087883
