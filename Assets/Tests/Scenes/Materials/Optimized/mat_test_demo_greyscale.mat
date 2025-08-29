@@ -7,23 +7,24 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: mat_demo_tex3d_emission
+  m_Name: mat_test_demo_greyscale
   m_Shader: {fileID: 4800000, guid: 1bc5c6a70411243779ce486a98012125, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHA_TRANSITION_MAP_MODE_2D
-  - _BASE_MAP_MODE_3D
-  - _EMISSION_AREA_ALL
-  - _EMISSION_COLOR_BASECOLOR
+  - _BASE_MAP_MODE_2D
+  - _EMISSION_COLOR_COLOR
   - _EMISSION_MAP_MODE_2D
+  - _GREYSCALE_ENABLED
   - _PARALLAX_MAP_MODE_2D
   - _SHADOW_CASTER_ALPHA_TEST_ENABLED
   - _TINT_COLOR_ENABLED
+  - _TRANSPARENCY_BY_LUMINANCE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
@@ -56,15 +57,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 2, y: 2}
-        m_Offset: {x: 0, y: 1}
+        m_Texture: {fileID: 2800000, guid: f4fa818b17f5d4014a924801d07cd980, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap2DArray:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap3D:
-        m_Texture: {fileID: 11700000, guid: ec7e4a6d54f4341ccbafd5d594a097ba, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionColorRamp:
@@ -113,7 +114,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _TintMap3D:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 3, y: 3}
         m_Offset: {x: 0, y: 0}
     - _VertexDeformationMap:
         m_Texture: {fileID: 0}
@@ -141,11 +142,11 @@ Material:
     - _AlphaTransitionProgressSecondTexture: 0
     - _AlphaTransitionSecondTextureBlendMode: 0
     - _BaseMapMirrorSampling: 0
-    - _BaseMapMode: 2
+    - _BaseMapMode: 0
     - _BaseMapOffsetXCoord: 0
     - _BaseMapOffsetYCoord: 0
     - _BaseMapProgress: 0
-    - _BaseMapProgressCoord: 1
+    - _BaseMapProgressCoord: 0
     - _BaseMapRandomRowCoord: 0
     - _BaseMapRandomRowSelectionEnabled: 0
     - _BaseMapRotation: 0
@@ -154,8 +155,8 @@ Material:
     - _BaseMapSliceCount: 25
     - _BlendDst: 10
     - _BlendSrc: 5
-    - _ColorCorrectionMode: 0
-    - _Cull: 2
+    - _ColorCorrectionMode: 1
+    - _Cull: 0
     - _Cutoff: 0.5
     - _DepthFadeEnabled: 0
     - _DepthFadeFar: 2
@@ -163,9 +164,9 @@ Material:
     - _DepthFadeWidth: 1
     - _DissolveSharpness: 0.5
     - _DissolveSharpnessSecondTexture: 0.5
-    - _EmissionAreaType: 1
-    - _EmissionColorType: 1
-    - _EmissionIntensity: 3
+    - _EmissionAreaType: 0
+    - _EmissionColorType: 0
+    - _EmissionIntensity: 1.2
     - _EmissionIntensityCoord: 0
     - _EmissionMapChannelsX: 0
     - _EmissionMapMode: 0
@@ -185,10 +186,10 @@ Material:
     - _InverseRimTransparency: 0
     - _InverseTintRim: 0
     - _KeepEdgeTransparency: 1
-    - _LuminanceTransparencyEnabled: 0
+    - _LuminanceTransparencyEnabled: 1
     - _LuminanceTransparencyProgress: 0.5
     - _LuminanceTransparencyProgressCoord: 0
-    - _LuminanceTransparencySharpness: 0
+    - _LuminanceTransparencySharpness: 0.5
     - _LuminanceTransparencySharpnessCoord: 0
     - _ParallaxMapChannel: 0
     - _ParallaxMapMode: 0
@@ -209,7 +210,7 @@ Material:
     - _ShadowCasterAlphaAffectedByAlphaTransitionMap: 0
     - _ShadowCasterAlphaAffectedByFlowMap: 0
     - _ShadowCasterAlphaAffectedByTintColor: 0
-    - _ShadowCasterAlphaAffectedByTransparencyLuminance: 0
+    - _ShadowCasterAlphaAffectedByTransparencyLuminance: 1
     - _ShadowCasterAlphaCutoff: 0.5
     - _ShadowCasterAlphaTestEnabled: 1
     - _ShadowCasterApplyVertexDeformation: 0
@@ -221,7 +222,7 @@ Material:
     - _TintBlendRateCoord: 0
     - _TintColorMode: 0
     - _TintMap3DProgress: 0
-    - _TintMap3DProgressCoord: 0
+    - _TintMap3DProgressCoord: 1
     - _TintMapOffsetXCoord: 0
     - _TintMapOffsetYCoord: 0
     - _TintMapProgress: 0
@@ -245,7 +246,7 @@ Material:
     - _ZWriteOverride: -1
     m_Colors:
     - _BaseMapRotationOffsets: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 0, g: 0.39762703, b: 0.7490196, a: 1}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &854234861823087883
