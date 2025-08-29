@@ -7,24 +7,25 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: mat_demo_randomrotation
+  m_Name: mat_test_greyscale
   m_Shader: {fileID: 4800000, guid: 1bc5c6a70411243779ce486a98012125, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ALPHATEST_ENABLED
   - _ALPHA_TRANSITION_MAP_MODE_2D
   - _BASE_MAP_MODE_2D
-  - _BASE_MAP_ROTATION_ENABLED
-  - _EMISSION_COLOR_BASECOLOR
+  - _EMISSION_COLOR_COLOR
   - _EMISSION_MAP_MODE_2D
+  - _GREYSCALE_ENABLED
   - _PARALLAX_MAP_MODE_2D
+  - _SHADOW_CASTER_ALPHA_TEST_ENABLED
   - _TINT_COLOR_ENABLED
+  - _TRANSPARENCY_BY_LUMINANCE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -149,12 +150,12 @@ Material:
     - _BaseMapRandomRowCoord: 0
     - _BaseMapRandomRowSelectionEnabled: 0
     - _BaseMapRotation: 0
-    - _BaseMapRotationCoord: 1
+    - _BaseMapRotationCoord: 0
     - _BaseMapRowCount: 1
     - _BaseMapSliceCount: 25
-    - _BlendDst: 0
-    - _BlendSrc: 1
-    - _ColorCorrectionMode: 0
+    - _BlendDst: 10
+    - _BlendSrc: 5
+    - _ColorCorrectionMode: 1
     - _Cull: 0
     - _Cutoff: 0.5
     - _DepthFadeEnabled: 0
@@ -164,8 +165,8 @@ Material:
     - _DissolveSharpness: 0.5
     - _DissolveSharpnessSecondTexture: 0.5
     - _EmissionAreaType: 0
-    - _EmissionColorType: 1
-    - _EmissionIntensity: 0
+    - _EmissionColorType: 0
+    - _EmissionIntensity: 1.2
     - _EmissionIntensityCoord: 0
     - _EmissionMapChannelsX: 0
     - _EmissionMapMode: 0
@@ -185,10 +186,10 @@ Material:
     - _InverseRimTransparency: 0
     - _InverseTintRim: 0
     - _KeepEdgeTransparency: 1
-    - _LuminanceTransparencyEnabled: 0
+    - _LuminanceTransparencyEnabled: 1
     - _LuminanceTransparencyProgress: 0.5
     - _LuminanceTransparencyProgressCoord: 0
-    - _LuminanceTransparencySharpness: 0
+    - _LuminanceTransparencySharpness: 0.5
     - _LuminanceTransparencySharpnessCoord: 0
     - _ParallaxMapChannel: 0
     - _ParallaxMapMode: 0
@@ -200,7 +201,7 @@ Material:
     - _ParallaxMapTarget: 1
     - _ParallaxStrength: 0.3
     - _QueueOffset: 0
-    - _RenderType: 1
+    - _RenderType: 2
     - _RimTransparencyEnabled: 0
     - _RimTransparencyProgress: 0.5
     - _RimTransparencyProgressCoord: 0
@@ -209,9 +210,9 @@ Material:
     - _ShadowCasterAlphaAffectedByAlphaTransitionMap: 0
     - _ShadowCasterAlphaAffectedByFlowMap: 0
     - _ShadowCasterAlphaAffectedByTintColor: 0
-    - _ShadowCasterAlphaAffectedByTransparencyLuminance: 0
+    - _ShadowCasterAlphaAffectedByTransparencyLuminance: 1
     - _ShadowCasterAlphaCutoff: 0.5
-    - _ShadowCasterAlphaTestEnabled: 0
+    - _ShadowCasterAlphaTestEnabled: 1
     - _ShadowCasterApplyVertexDeformation: 0
     - _ShadowCasterEnabled: 1
     - _SoftParticlesEnabled: 0
@@ -241,11 +242,11 @@ Material:
     - _VertexDeformationMapOffsetXCoord: 0
     - _VertexDeformationMapOffsetYCoord: 0
     - _ZTest: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     - _ZWriteOverride: -1
     m_Colors:
     - _BaseMapRotationOffsets: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 0, g: 0.39762703, b: 0.7490196, a: 1}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &854234861823087883
