@@ -68,6 +68,29 @@ namespace Nova.Editor.Core.Scripts
         public const string BaseMapRandomRowCoord = "_BaseMapRandomRowCoord";
         public const string BaseMapRowCount = "_BaseMapRowCount";
 
+        // Base Map Tone Mode
+        public const string BaseMapToneMode = "_BaseMapToneMode";
+        public const string BaseMapToneChannel = "_BaseMapToneChannel";
+        
+        // Base Map Tone - Common properties for TriTone and Pentone
+        public const string BaseMapToneHighlightsColor = "_BaseMapToneHighlightsColor";
+        public const string BaseMapToneMidtonesColor = "_BaseMapToneMidtonesColor";
+        public const string BaseMapToneShadowsColor = "_BaseMapToneShadowsColor";
+        public const string BaseMapToneHighlights = "_BaseMapToneHighlights";
+        public const string BaseMapToneMidtones = "_BaseMapToneMidtones";
+        public const string BaseMapToneShadows = "_BaseMapToneShadows";
+        public const string BaseMapToneHighlightsCoord = "_BaseMapToneHighlightsCoord";
+        public const string BaseMapToneMidtonesCoord = "_BaseMapToneMidtonesCoord";
+        public const string BaseMapToneShadowsCoord = "_BaseMapToneShadowsCoord";
+        
+        // Base Map Tone - Pentone exclusive properties
+        public const string BaseMapToneBrightsColor = "_BaseMapToneBrightsColor";
+        public const string BaseMapToneDarktonesColor = "_BaseMapToneDarktonesColor";
+        public const string BaseMapToneBrights = "_BaseMapToneBrights";
+        public const string BaseMapToneDarktones = "_BaseMapToneDarktones";
+        public const string BaseMapToneBrightsCoord = "_BaseMapToneBrightsCoord";
+        public const string BaseMapToneDarktonesCoord = "_BaseMapToneDarktonesCoord";
+        
         // Tint Color
         public const string TintAreaMode = "_TintAreaMode";
         public const string TintColorMode = "_TintColorMode";

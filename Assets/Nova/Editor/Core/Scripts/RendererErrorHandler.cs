@@ -101,6 +101,28 @@ namespace Nova.Editor.Core.Scripts
                 }
             }
 
+            // Check Tone Mode features
+            var toneMode = (BaseMapToneMode)commonMaterialProperties.BaseMapToneModeProp.Value.floatValue;
+            if (toneMode != BaseMapToneMode.None)
+            {
+                if (IsCustomCoordUsed(commonMaterialProperties.ToneShadowsCoordProp) ||
+                    IsCustomCoordUsed(commonMaterialProperties.ToneHighlightsCoordProp) ||
+                    IsCustomCoordUsed(commonMaterialProperties.ToneMidtonesCoordProp))
+                {
+                    return true;
+                }
+                
+                // Check Pentone exclusive Custom Coords
+                if (toneMode == BaseMapToneMode.Pentone)
+                {
+                    if (IsCustomCoordUsed(commonMaterialProperties.ToneBrightsCoordProp) ||
+                        IsCustomCoordUsed(commonMaterialProperties.ToneDarktonesCoordProp))
+                    {
+                        return true;
+                    }
+                }
+            }
+
             return false;
         }
 

@@ -224,6 +224,180 @@ namespace Nova.Editor.Core.Scripts
                     props.BaseMapRandomRowCoordProp.Value,
                     props.BaseMapSliceCountProp.Value);
             }
+            
+            if (baseMapMaterialProp != null)
+            {
+                // Tone Mode dropdown
+                var toneMode = (BaseMapToneMode)props.BaseMapToneModeProp.Value.floatValue;
+                using (var changeScope = new EditorGUI.ChangeCheckScope())
+                {
+                    toneMode = (BaseMapToneMode)EditorGUILayout.EnumPopup("Tone Mode", toneMode);
+                    if (changeScope.changed)
+                    {
+                        props.BaseMapToneModeProp.Value.floatValue = (float)toneMode;
+                    }
+                }
+                
+                if (toneMode != BaseMapToneMode.None)
+                {
+                    using (new EditorGUI.IndentLevelScope())
+                    {
+                        // Channel selection dropdown
+                        MaterialEditorUtility.DrawEnumProperty<ColorChannels>(_editor, "Tone Channel", 
+                            props.BaseMapToneChannelProp.Value);
+                        
+                        EditorGUILayout.Space(4);
+                        
+                        // プロパティ変更検出用
+                        using (var changeScope = new EditorGUI.ChangeCheckScope())
+                        {
+                            // 1. カラー設定（明るい順）
+                            _editor.ShaderProperty(props.ToneHighlightsColorProp.Value, "Highlights Color");
+                            
+                            // Pentone exclusive color
+                            if (toneMode == BaseMapToneMode.Pentone)
+                            {
+                                _editor.ShaderProperty(props.ToneBrightsColorProp.Value, "Brights Color");
+                            }
+                            
+                            _editor.ShaderProperty(props.ToneMidtonesColorProp.Value, "Midtones Color");
+                            
+                            // Pentone exclusive color
+                            if (toneMode == BaseMapToneMode.Pentone)
+                            {
+                                _editor.ShaderProperty(props.ToneDarktonesColorProp.Value, "Darktones Color");
+                            }
+                            
+                            _editor.ShaderProperty(props.ToneShadowsColorProp.Value, "Shadows Color");
+                            
+                        }
+                        
+                        EditorGUILayout.Space(4);
+                        if (toneMode == BaseMapToneMode.Tritone)
+                        {
+                            DrawTriTonePreview(
+                                props.ToneShadowsColorProp.Value.colorValue,
+                                props.ToneMidtonesColorProp.Value.colorValue,
+                                props.ToneHighlightsColorProp.Value.colorValue,
+                                props.ToneShadowsProp.Value.floatValue,
+                                props.ToneMidtonesProp.Value.floatValue,
+                                props.ToneHighlightsProp.Value.floatValue
+                            );
+                        }
+                        else if (toneMode == BaseMapToneMode.Pentone)
+                        {
+                            DrawPentonePreview(
+                                props.ToneShadowsColorProp.Value.colorValue,
+                                props.ToneDarktonesColorProp.Value.colorValue,
+                                props.ToneMidtonesColorProp.Value.colorValue,
+                                props.ToneBrightsColorProp.Value.colorValue,
+                                props.ToneHighlightsColorProp.Value.colorValue,
+                                props.ToneShadowsProp.Value.floatValue,
+                                props.ToneMidtonesProp.Value.floatValue,
+                                props.ToneHighlightsProp.Value.floatValue,
+                                props.ToneBrightsProp.Value.floatValue,
+                                props.ToneDarktonesProp.Value.floatValue
+                            );
+                        }
+                        
+                        EditorGUILayout.LabelField("Tone Boundaries", EditorStyles.boldLabel);
+                        const float MIN_RANGE = 0.01f;
+                        
+                        // Highlights値の個別制御（明るい順）
+                        using (var highlightChangeScope = new EditorGUI.ChangeCheckScope())
+                        {
+                            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
+                                _editor, "Highlights",
+                                props.ToneHighlightsProp.Value, 
+                                props.ToneHighlightsCoordProp.Value);
+                            
+                            if (highlightChangeScope.changed)
+                            {
+                                float shadowValue = props.ToneShadowsProp.Value.floatValue;
+                                float highlightValue = props.ToneHighlightsProp.Value.floatValue;
+                                
+                                // Highlightsが小さすぎる場合はHighlightsを制限
+                                if (highlightValue <= shadowValue + MIN_RANGE)
+                                {
+                                    props.ToneHighlightsProp.Value.floatValue = shadowValue + MIN_RANGE;
+                                }
+                            }
+                        }
+                        
+                        // Pentone exclusive: Brights balance (between highlights and midpoint)
+                        if (toneMode == BaseMapToneMode.Pentone)
+                        {
+                            using (var brightsChangeScope = new EditorGUI.ChangeCheckScope())
+                            {
+                                MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
+                                    _editor, "Brights", 
+                                    props.ToneBrightsProp.Value, 
+                                    props.ToneBrightsCoordProp.Value);
+                                
+                                if (brightsChangeScope.changed)
+                                {
+                                    float brightsValue = props.ToneBrightsProp.Value.floatValue;
+                                    props.ToneBrightsProp.Value.floatValue = Mathf.Clamp(brightsValue, 0.001f, 0.999f);
+                                }
+                            }
+                        }
+                        
+                        // Midtones値の制御
+                        using (var midtonesChangeScope = new EditorGUI.ChangeCheckScope())
+                        {
+                            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
+                                _editor, "Midtones",
+                                props.ToneMidtonesProp.Value, 
+                                props.ToneMidtonesCoordProp.Value);
+                            
+                            if (midtonesChangeScope.changed)
+                            {
+                                float midtonesValue = props.ToneMidtonesProp.Value.floatValue;
+                                props.ToneMidtonesProp.Value.floatValue = Mathf.Clamp(midtonesValue, 0.001f, 0.999f);
+                            }
+                        }
+                        
+                        // Pentone exclusive: Darktones balance (between midtones and shadows)
+                        if (toneMode == BaseMapToneMode.Pentone)
+                        {
+                            using (var darktonesChangeScope = new EditorGUI.ChangeCheckScope())
+                            {
+                                MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
+                                    _editor, "Darktones", 
+                                    props.ToneDarktonesProp.Value, 
+                                    props.ToneDarktonesCoordProp.Value);
+                                
+                                if (darktonesChangeScope.changed)
+                                {
+                                    float darktonesValue = props.ToneDarktonesProp.Value.floatValue;
+                                    props.ToneDarktonesProp.Value.floatValue = Mathf.Clamp(darktonesValue, 0.001f, 0.999f);
+                                }
+                            }
+                        }
+                        
+                        // Shadows値の個別制御
+                        using (var shadowChangeScope = new EditorGUI.ChangeCheckScope())
+                        {
+                            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(
+                                _editor, "Shadows", 
+                                props.ToneShadowsProp.Value, 
+                                props.ToneShadowsCoordProp.Value);
+                            
+                            if (shadowChangeScope.changed)
+                            {
+                                float shadowValue = props.ToneShadowsProp.Value.floatValue;
+                                float highlightValue = props.ToneHighlightsProp.Value.floatValue;
+                                
+                                // Shadowsが大きすぎる場合はShadowsを制限
+                                if (shadowValue >= highlightValue - MIN_RANGE)
+                                {
+                                    props.ToneShadowsProp.Value.floatValue = highlightValue - MIN_RANGE;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void InternalDrawParallaxMapsProperties()
@@ -780,6 +954,167 @@ namespace Nova.Editor.Core.Scripts
 
         private List<ParticleSystemVertexStream> _correctVertexStreamsInstanced = new();
 
-        # endregion
+        #endregion
+        
+        
+        
+        
+        private void DrawTriTonePreview(Color shadow, Color midtones, Color highlight,
+                                       float shadowBoundary, float midtonesBalance, float highlightBoundary)
+        {
+            const float MIN_RANGE = 0.01f;
+            highlightBoundary = Mathf.Max(shadowBoundary + MIN_RANGE, highlightBoundary);
+            midtonesBalance = Mathf.Clamp(midtonesBalance, 0.001f, 0.999f);
+            float actualMidpoint = Mathf.Lerp(shadowBoundary, highlightBoundary, midtonesBalance);
+            
+            // グレースケール参照バー
+            DrawGrayscaleReference(shadowBoundary, actualMidpoint, highlightBoundary);
+            
+            EditorGUILayout.Space(2);
+            
+            // TriToneグラデーション
+            DrawTriToneGradient(shadow, midtones, highlight, shadowBoundary, actualMidpoint, highlightBoundary);
+            
+            // マーカーラベル用のスペース確保
+            EditorGUILayout.Space(16);
+        }
+        
+        private void DrawGrayscaleReference(float shadowBoundary, float midpoint, float highlightBoundary)
+        {
+            Rect rect = EditorGUILayout.GetControlRect(false, 12);
+            rect = EditorGUI.IndentedRect(rect);
+            
+            const int steps = 256;
+            for (int i = 0; i < steps; i++)
+            {
+                float t = i / (float)(steps - 1);
+                Color grayColor = new Color(t, t, t, 1.0f);
+                
+                float stepWidth = rect.width / steps;
+                Rect stepRect = new Rect(rect.x + i * stepWidth, rect.y, stepWidth + 1, rect.height);
+                EditorGUI.DrawRect(stepRect, grayColor);
+            }
+            
+        }
+        
+        private void DrawTriToneGradient(Color shadow, Color midtones, Color highlight,
+                                        float shadowBoundary, float midpoint, float highlightBoundary)
+        {
+            Rect rect = EditorGUILayout.GetControlRect(false, 24);
+            rect = EditorGUI.IndentedRect(rect);
+            
+            // Force alpha to 1.0 to match shader behavior (RGB only)
+            shadow.a = 1.0f;
+            midtones.a = 1.0f;
+            highlight.a = 1.0f;
+            
+            const int steps = 256;
+            for (int i = 0; i < steps; i++)
+            {
+                float t = i / (float)(steps - 1);
+                Color color;
+                
+                float step1 = Mathf.InverseLerp(shadowBoundary, midpoint, t);
+                float step2 = Mathf.InverseLerp(midpoint, highlightBoundary, t);
+                Color shadowToMidtones = Color.Lerp(shadow, midtones, step1);
+                
+                color = Color.Lerp(shadowToMidtones, highlight, step2);
+                color.a = 1.0f; // Ensure alpha is always 1.0
+                
+                float stepWidth = rect.width / steps;
+                Rect stepRect = new Rect(rect.x + i * stepWidth, rect.y, stepWidth + 1, rect.height);
+                EditorGUI.DrawRect(stepRect, color);
+            }
+            
+            // 境界マーカー（カラー用）
+            DrawBoundaryMarker(rect, shadowBoundary, "S", Color.white);
+            DrawBoundaryMarker(rect, midpoint, "M", Color.white);
+            DrawBoundaryMarker(rect, highlightBoundary, "H", Color.white);
+        }
+        
+        private void DrawPentonePreview(Color shadow, Color darktones, Color midtones, Color brights, Color highlight,
+                                       float shadowBoundary, float midtonesBalance, float highlightBoundary, 
+                                       float brightsBalance, float darktonesBalance)
+        {
+            const float MIN_RANGE = 0.01f;
+            highlightBoundary = Mathf.Max(shadowBoundary + MIN_RANGE, highlightBoundary);
+            midtonesBalance = Mathf.Clamp(midtonesBalance, 0.001f, 0.999f);
+            float actualMidpoint = Mathf.Lerp(shadowBoundary, highlightBoundary, midtonesBalance);
+            
+            // Calculate intermediate boundaries using balance parameters
+            brightsBalance = Mathf.Clamp(brightsBalance, 0.001f, 0.999f);
+            darktonesBalance = Mathf.Clamp(darktonesBalance, 0.001f, 0.999f);
+            float brightsBoundary = Mathf.Lerp(actualMidpoint, highlightBoundary, brightsBalance);
+            float darktonesBoundary = Mathf.Lerp(shadowBoundary, actualMidpoint, darktonesBalance);
+            
+            // グレースケール参照バー
+            DrawGrayscaleReference(shadowBoundary, actualMidpoint, highlightBoundary);
+            
+            EditorGUILayout.Space(2);
+            
+            // Pentoneグラデーション
+            DrawPentoneGradient(shadow, darktones, midtones, brights, highlight, 
+                              shadowBoundary, darktonesBoundary, actualMidpoint, brightsBoundary, highlightBoundary);
+            
+            // マーカーラベル用のスペース確保
+            EditorGUILayout.Space(16);
+        }
+        
+        private void DrawPentoneGradient(Color shadow, Color darktones, Color midtones, Color brights, Color highlight,
+                                        float shadowBoundary, float darktonesBoundary, float midpoint, 
+                                        float brightsBoundary, float highlightBoundary)
+        {
+            Rect rect = EditorGUILayout.GetControlRect(false, 24);
+            rect = EditorGUI.IndentedRect(rect);
+            
+            // Force alpha to 1.0 to match shader behavior (RGB only)
+            shadow.a = 1.0f;
+            darktones.a = 1.0f;
+            midtones.a = 1.0f;
+            brights.a = 1.0f;
+            highlight.a = 1.0f;
+            
+            const int steps = 256;
+            for (int i = 0; i < steps; i++)
+            {
+                float t = i / (float)(steps - 1);
+                Color color = shadow;
+                
+                // Apply five-tone color mapping with linear interpolation
+                color = Color.Lerp(color, darktones, Mathf.InverseLerp(shadowBoundary, darktonesBoundary, t));
+                color = Color.Lerp(color, midtones, Mathf.InverseLerp(darktonesBoundary, midpoint, t));
+                color = Color.Lerp(color, brights, Mathf.InverseLerp(midpoint, brightsBoundary, t));
+                color = Color.Lerp(color, highlight, Mathf.InverseLerp(brightsBoundary, highlightBoundary, t));
+                color.a = 1.0f; // Ensure alpha is always 1.0
+                
+                float stepWidth = rect.width / steps;
+                Rect stepRect = new Rect(rect.x + i * stepWidth, rect.y, stepWidth + 1, rect.height);
+                EditorGUI.DrawRect(stepRect, color);
+            }
+            
+            // 境界マーカー（カラー用）
+            DrawBoundaryMarker(rect, shadowBoundary, "S", Color.white);
+            DrawBoundaryMarker(rect, darktonesBoundary, "D", Color.white);
+            DrawBoundaryMarker(rect, midpoint, "M", Color.white);
+            DrawBoundaryMarker(rect, brightsBoundary, "B", Color.white);
+            DrawBoundaryMarker(rect, highlightBoundary, "H", Color.white);
+        }
+        
+        
+        private void DrawBoundaryMarker(Rect rect, float position, string label, Color color)
+        {
+            float x = rect.x + rect.width * position;
+            
+            // 縦線描画
+            EditorGUI.DrawRect(new Rect(x - 1, rect.y, 2, rect.height), color);
+            
+            // ラベル描画
+            GUIStyle style = new GUIStyle(EditorStyles.miniLabel);
+            style.normal.textColor = color;
+            style.alignment = TextAnchor.MiddleCenter;
+            
+            Rect labelRect = new Rect(x - 10, rect.y + rect.height + 2, 20, 16);
+            GUI.Label(labelRect, label, style);
+        }
     }
 }

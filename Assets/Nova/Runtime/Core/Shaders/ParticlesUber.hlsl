@@ -96,6 +96,29 @@ float _BaseMapRandomRowSelectionEnabled;
 DECLARE_CUSTOM_COORD(_BaseMapRandomRowCoord);
 float _BaseMapRowCount;
 
+// Base Map Tone Mode
+float _BaseMapToneMode;
+half _BaseMapToneChannel;
+
+// Base Map Tone - Common properties for TriTone and Pentone
+half4 _BaseMapToneHighlightsColor;
+half4 _BaseMapToneMidtonesColor;
+half4 _BaseMapToneShadowsColor;
+float _BaseMapToneHighlights;
+float _BaseMapToneMidtones;
+float _BaseMapToneShadows;
+DECLARE_CUSTOM_COORD(_BaseMapToneHighlightsCoord);
+DECLARE_CUSTOM_COORD(_BaseMapToneMidtonesCoord);
+DECLARE_CUSTOM_COORD(_BaseMapToneShadowsCoord);
+
+// Base Map Tone - Pentone exclusive properties
+half4 _BaseMapToneBrightsColor;
+half4 _BaseMapToneDarktonesColor;
+float _BaseMapToneBrights;
+float _BaseMapToneDarktones;
+DECLARE_CUSTOM_COORD(_BaseMapToneBrightsCoord);
+DECLARE_CUSTOM_COORD(_BaseMapToneDarktonesCoord);
+
 half4 _TintColor;
 float4 _TintMap_ST;
 float4 _TintMap3D_ST;
@@ -482,6 +505,7 @@ SamplerState GetEmissionMapSamplerState()
 #elif _TINT_MAP_3D_ENABLED
 #define SAMPLE_TINT_MAP(uv, progress) SAMPLE_TEXTURE3D_LOD(_TintMap3D, sampler_TintMap3D, half3(uv, progress), 0);
 #endif
+
 
 // Apply the tint color.
 inline void ApplyTintColor(in out half4 color, half2 uv, half progress, half blendRate)
