@@ -405,6 +405,17 @@ ModeにFlip Bookを指定した場合には、<a href="https://docs.unity3d.com/
 ModeにFlip Book Blendingを指定した場合には、<a href="https://docs.unity3d.com/2020.3/Documentation/Manual/class-Texture3D.html">Texture3D</a>を設定する必要があります。
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Channel</b></td><td>
+<p>
+Base Mapのどの色チャンネルを描画に使用するかを選択します。単一チャンネル（Red/Green/Blue）が選択された場合、選択されたチャンネル値がRGB成分に適用され、元のアルファチャンネルは保持されます。利用可能なオプション：
+</p>
+<p>
+<ul>
+<li>RGB: 全ての色チャンネルをそのまま使用（デフォルト）</li>
+<li>Red: 赤チャンネルをグレースケールに変換</li>
+<li>Green: 緑チャンネルをグレースケールに変換</li>
+<li>Blue: 青チャンネルをグレースケールに変換</li>
+</ul>
 </td></tr>
 <tr><td colspan="3"><b>Rotation</b></td><td>
 <p>
@@ -456,17 +467,109 @@ UnityのTexture Sheet AnimationのRow Mode > Random機能と同等の機能で�
 ランダム値の入力に使用するCustom Coordチャンネルを選択します。Unity Particle SystemのCustom Dataで「Random Between Two Constants」モードに設定したチャンネルと対応させます。
 </p>
 </td></tr>
-<tr><td colspan="3"><b>Channel</b></td><td>
+<tr><td colspan="3"><b>Tone Mode</b></td><td>
 <p>
-Base Mapのどの色チャンネルを描画に使用するかを選択します。単一チャンネル（Red/Green/Blue）が選択された場合、選択されたチャンネル値がRGB成分に適用され、元のアルファチャンネルは保持されます。利用可能なオプション：
+輝度値に基づく色調調整のためのトーンマッピングを制御します。以下のオプションから選択します：
 </p>
 <p>
 <ul>
-<li>RGB: 全ての色チャンネルをそのまま使用（デフォルト）</li>
-<li>Red: 赤チャンネルをグレースケールに変換</li>
-<li>Green: 緑チャンネルをグレースケールに変換</li>
-<li>Blue: 青チャンネルをグレースケールに変換</li>
+<li><b>None:</b> トーンマッピングを適用しません（デフォルト）。</li>
+<li><b>Tritone:</b> Highlights、Midtones、Shadowsの3段階トーンマッピング。</li>
+<li><b>Pentone:</b> Highlights、Brights、Midtones、Darktones、Shadowsの5段階トーンマッピング。</li>
 </ul>
+</p>
+<p>
+境界値によって領域の閾値が決定され、設定された色にマッピングします。
+各境界間の色は線形補間され、滑らかなトーンマッピングが適用されます。
+なお、この線形補間はシェーダーで行われるため、プロジェクトの色空間を考慮してパラメータ設定を行う必要があることに注意してください。 
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Tone Channel</b></td><td>
+<p>
+<b>Tone ModeがNoneでない場合に表示されます。</b>
+</p>
+<p>
+トーンマッピングの輝度計算に使用するカラーチャンネルを選択します。Red、Green、Blue、Alpha（デフォルト）から選択可能です。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Highlights Color</b></td><td>
+<p>
+<b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
+</p>
+<p>
+ハイライト領域に適用される色を設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Brights Color</b></td><td>
+<p>
+<b>Tone ModeがPentoneの時のみ表示されます。</b>
+</p>
+<p>
+Brights領域（HighlightsとMidtonesの間）に適用される色を設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Midtones Color</b></td><td>
+<p>
+<b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
+</p>
+<p>
+ミッドトーン領域に適用される色を設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Darktones Color</b></td><td>
+<p>
+<b>Tone ModeがPentoneの時のみ表示されます。</b>
+</p>
+<p>
+Darktones領域（MidtonesとShadowsの間）に適用される色を設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Shadows Color</b></td><td>
+<p>
+<b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
+</p>
+<p>
+シャドウ領域に適用される色を設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Highlights</b></td><td>
+<p>
+<b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
+</p>
+<p>
+ハイライトの輝度境界値を設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Brights</b></td><td>
+<p>
+<b>Tone ModeがPentoneの時のみ表示されます。</b>
+</p>
+<p>
+MidtonesとHighlights間のBrights境界位置を制御します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Midtones</b></td><td>
+<p>
+<b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
+</p>
+<p>
+ShadowsとHighlights間の中間点位置を決定することで、トーン領域間のバランスを制御します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Darktones</b></td><td>
+<p>
+<b>Tone ModeがPentoneの時のみ表示されます。</b>
+</p>
+<p>
+ShadowsとMidtones間のDarktones境界位置を制御します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Shadows</b></td><td>
+<p>
+<b>Tone ModeがTritoneまたはPentoneの時に表示されます。</b>
+</p>
+<p>
+シャドウの輝度境界値を設定します。
 </p>
 </td></tr>
 </tbody>

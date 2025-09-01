@@ -37,6 +37,30 @@ Shader "Nova/Particles/UberUnlit"
         
         // Base Map Channel
         _BaseMapChannel("Base Map Channel", Float) = 0.0
+        
+        // Base Map Tri Tone
+        // Base Map Tone Mode
+        _BaseMapToneMode("Tone Mode", Float) = 0.0
+        _BaseMapToneChannel("Tone Channel", Float) = 3.0
+        
+        // Base Map Tone - Common properties for TriTone and Pentone
+        _BaseMapToneHighlightsColor("Highlights Color", Color) = (1,1,1,1)
+        _BaseMapToneMidtonesColor("Midtones Color", Color) = (0.5,0.5,0.5,1)
+        _BaseMapToneShadowsColor("Shadows Color", Color) = (0,0,0,1)
+        _BaseMapToneHighlights("Highlights", Range(0.0, 1.0)) = 0.75
+        _BaseMapToneMidtones("Midtones", Range(0.0, 1.0)) = 0.5
+        _BaseMapToneShadows("Shadows", Range(0.0, 1.0)) = 0.25
+        _BaseMapToneHighlightsCoord("Highlights Coord", Float) = 0.0
+        _BaseMapToneMidtonesCoord("Midtones Coord", Float) = 0.0
+        _BaseMapToneShadowsCoord("Shadows Coord", Float) = 0.0
+        
+        // Base Map Tone - Pentone exclusive properties
+        _BaseMapToneBrightsColor("Brights Color", Color) = (0.75,0.75,0.75,1)
+        _BaseMapToneDarktonesColor("Darktones Color", Color) = (0.25,0.25,0.25,1)
+        _BaseMapToneBrights("Brights", Range(0, 1)) = 0.5
+        _BaseMapToneDarktones("Darktones", Range(0, 1)) = 0.5
+        _BaseMapToneBrightsCoord("Brights Coord", Float) = 0
+        _BaseMapToneDarktonesCoord("Darktones Coord", Float) = 0
 
         // Tint Color
         _TintAreaMode("Tint Area Mode", Float) = 0.0
@@ -247,6 +271,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
             #pragma shader_feature_local_fragment _BASE_MAP_CHANNEL_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
+            #pragma shader_feature_local_fragment _ _BASE_MAP_TONE_MODE_TRITONE _BASE_MAP_TONE_MODE_PENTONE
 
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
@@ -330,6 +355,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
             #pragma shader_feature_local_fragment _BASE_MAP_CHANNEL_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
+            #pragma shader_feature_local_fragment _ _BASE_MAP_TONE_MODE_TRITONE _BASE_MAP_TONE_MODE_PENTONE
 
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
@@ -411,6 +437,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
             #pragma shader_feature_local_fragment _BASE_MAP_CHANNEL_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
+            #pragma shader_feature_local_fragment _ _BASE_MAP_TONE_MODE_TRITONE _BASE_MAP_TONE_MODE_PENTONE
 
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
@@ -494,6 +521,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
             #pragma shader_feature_local_fragment _BASE_MAP_CHANNEL_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
+            #pragma shader_feature_local_fragment _ _BASE_MAP_TONE_MODE_TRITONE _BASE_MAP_TONE_MODE_PENTONE
 
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
@@ -579,6 +607,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
             #pragma shader_feature_local_fragment _BASE_MAP_CHANNEL_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
+            #pragma shader_feature_local_fragment _ _BASE_MAP_TONE_MODE_TRITONE _BASE_MAP_TONE_MODE_PENTONE
 
             // Tint Color
             #pragma shader_feature_local _ _TINT_AREA_ALL _TINT_AREA_RIM
@@ -658,6 +687,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
             #pragma shader_feature_local_fragment _BASE_MAP_CHANNEL_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
+            #pragma shader_feature_local_fragment _ _BASE_MAP_TONE_MODE_TRITONE _BASE_MAP_TONE_MODE_PENTONE
 
             // Tint Color
             // _TINT_AREA_ALLだけならfragmentのみでいい

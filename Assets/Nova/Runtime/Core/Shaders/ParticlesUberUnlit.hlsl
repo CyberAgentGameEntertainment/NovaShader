@@ -314,6 +314,12 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     return output;
 }
 
+// InverseLerp function equivalent to Mathf.InverseLerp
+inline half InverseLerpSafe(half a, half b, half value)
+{
+    return saturate((value - a) / max(b - a, 0.0001));
+}
+
 half4 fragUnlit(in out Varyings input, uniform bool useEmission)
 {
     UNITY_SETUP_INSTANCE_ID(input);
@@ -376,6 +382,49 @@ half4 fragUnlit(in out Varyings input, uniform bool useEmission)
     #ifdef _BASE_MAP_CHANNEL_ENABLED
     half selectedValue = color[(uint)_BaseMapChannel - 1];
     color.rgb = half3(selectedValue, selectedValue, selectedValue);
+    #endif
+
+    // Base Map Tone Mode
+    #if defined(_BASE_MAP_TONE_MODE_TRITONE) || defined(_BASE_MAP_TONE_MODE_PENTONE)
+    // Get boundary values with Custom Coord
+    half shadows = saturate(_BaseMapToneShadows + GET_CUSTOM_COORD(_BaseMapToneShadowsCoord));
+    half highlights = saturate(_BaseMapToneHighlights + GET_CUSTOM_COORD(_BaseMapToneHighlightsCoord));
+    half midtonesBalance = saturate(_BaseMapToneMidtones + GET_CUSTOM_COORD(_BaseMapToneMidtonesCoord));
+    
+    // Ensure shadows < highlights with minimum range
+    const half MIN_RANGE = 0.01;
+    highlights = max(shadows + MIN_RANGE, highlights);
+    
+    // Calculate actual midpoint position from midtones balance
+    half midpoint = lerp(shadows, highlights, midtonesBalance);
+    
+    #if defined(_BASE_MAP_TONE_MODE_TRITONE)
+    // TriTone: 3-level tone mapping with linear interpolation
+    half luminance = color[(uint)_BaseMapToneChannel];
+    half3 result = _BaseMapToneShadowsColor.rgb;
+    result = lerp(result, _BaseMapToneMidtonesColor.rgb, InverseLerpSafe(shadows, midpoint, luminance));
+    result = lerp(result, _BaseMapToneHighlightsColor.rgb, InverseLerpSafe(midpoint, highlights, luminance));
+    color.rgb = result;
+    
+    #elif defined(_BASE_MAP_TONE_MODE_PENTONE)
+    // Pentone: 5-level tone mapping
+    // Get boundary balance values with Custom Coord
+    half brightsBalance = saturate(_BaseMapToneBrights + GET_CUSTOM_COORD(_BaseMapToneBrightsCoord));
+    half darktonesBalance = saturate(_BaseMapToneDarktones + GET_CUSTOM_COORD(_BaseMapToneDarktonesCoord));
+    
+    // Calculate intermediate boundaries using balance parameters
+    half brights = lerp(midpoint, highlights, brightsBalance);
+    half darktones = lerp(shadows, midpoint, darktonesBalance);
+    
+    // Apply five-tone color mapping with linear interpolation
+    half luminance = color[(uint)_BaseMapToneChannel];
+    half3 result = _BaseMapToneShadowsColor.rgb;
+    result = lerp(result, _BaseMapToneDarktonesColor.rgb, InverseLerpSafe(shadows, darktones, luminance));
+    result = lerp(result, _BaseMapToneMidtonesColor.rgb, InverseLerpSafe(darktones, midpoint, luminance));
+    result = lerp(result, _BaseMapToneBrightsColor.rgb, InverseLerpSafe(midpoint, brights, luminance));
+    result = lerp(result, _BaseMapToneHighlightsColor.rgb, InverseLerpSafe(brights, highlights, luminance));
+    color.rgb = result;
+    #endif
     #endif
 
     // Tint Color

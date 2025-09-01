@@ -76,6 +76,30 @@ namespace Nova.Editor.Core.Scripts
             BaseMapRandomRowSelectionEnabledProp.Setup(properties);
             BaseMapRandomRowCoordProp.Setup(properties);
             BaseMapRowCountProp.Setup(properties);
+            
+            // Base Map Tri Tone
+            // Base Map Tone Mode
+            BaseMapToneModeProp.Setup(properties);
+            BaseMapToneChannelProp.Setup(properties);
+            
+            // Base Map Tone - Common properties
+            ToneHighlightsColorProp.Setup(properties);
+            ToneMidtonesColorProp.Setup(properties);
+            ToneShadowsColorProp.Setup(properties);
+            ToneHighlightsProp.Setup(properties);
+            ToneMidtonesProp.Setup(properties);
+            ToneShadowsProp.Setup(properties);
+            ToneHighlightsCoordProp.Setup(properties);
+            ToneMidtonesCoordProp.Setup(properties);
+            ToneShadowsCoordProp.Setup(properties);
+            
+            // Base Map Tone - Pentone exclusive
+            ToneBrightsColorProp.Setup(properties);
+            ToneDarktonesColorProp.Setup(properties);
+            ToneBrightsProp.Setup(properties);
+            ToneDarktonesProp.Setup(properties);
+            ToneBrightsCoordProp.Setup(properties);
+            ToneDarktonesCoordProp.Setup(properties);
 
             // Tint Color
             TintAreaModeProp.Setup(properties);
@@ -312,6 +336,30 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property BaseMapRandomRowSelectionEnabledProp { get; } = new(PropertyNames.BaseMapRandomRowSelectionEnabled);
         public ParticlesGUI.Property BaseMapRandomRowCoordProp { get; } = new(PropertyNames.BaseMapRandomRowCoord);
         public ParticlesGUI.Property BaseMapRowCountProp { get; } = new(PropertyNames.BaseMapRowCount);
+        
+        // Base Map Tri Tone
+        // Base Map Tone Mode
+        public ParticlesGUI.Property BaseMapToneModeProp { get; } = new(PropertyNames.BaseMapToneMode);
+        public ParticlesGUI.Property BaseMapToneChannelProp { get; } = new(PropertyNames.BaseMapToneChannel);
+        
+        // Base Map Tone - Common properties
+        public ParticlesGUI.Property ToneHighlightsColorProp { get; } = new(PropertyNames.BaseMapToneHighlightsColor);
+        public ParticlesGUI.Property ToneMidtonesColorProp { get; } = new(PropertyNames.BaseMapToneMidtonesColor);
+        public ParticlesGUI.Property ToneShadowsColorProp { get; } = new(PropertyNames.BaseMapToneShadowsColor);
+        public ParticlesGUI.Property ToneHighlightsProp { get; } = new(PropertyNames.BaseMapToneHighlights);
+        public ParticlesGUI.Property ToneMidtonesProp { get; } = new(PropertyNames.BaseMapToneMidtones);
+        public ParticlesGUI.Property ToneShadowsProp { get; } = new(PropertyNames.BaseMapToneShadows);
+        public ParticlesGUI.Property ToneHighlightsCoordProp { get; } = new(PropertyNames.BaseMapToneHighlightsCoord);
+        public ParticlesGUI.Property ToneMidtonesCoordProp { get; } = new(PropertyNames.BaseMapToneMidtonesCoord);
+        public ParticlesGUI.Property ToneShadowsCoordProp { get; } = new(PropertyNames.BaseMapToneShadowsCoord);
+        
+        // Base Map Tone - Pentone exclusive
+        public ParticlesGUI.Property ToneBrightsColorProp { get; } = new(PropertyNames.BaseMapToneBrightsColor);
+        public ParticlesGUI.Property ToneDarktonesColorProp { get; } = new(PropertyNames.BaseMapToneDarktonesColor);
+        public ParticlesGUI.Property ToneBrightsProp { get; } = new(PropertyNames.BaseMapToneBrights);
+        public ParticlesGUI.Property ToneDarktonesProp { get; } = new(PropertyNames.BaseMapToneDarktones);
+        public ParticlesGUI.Property ToneBrightsCoordProp { get; } = new(PropertyNames.BaseMapToneBrightsCoord);
+        public ParticlesGUI.Property ToneDarktonesCoordProp { get; } = new(PropertyNames.BaseMapToneDarktonesCoord);
 
         #endregion
 
