@@ -268,11 +268,11 @@ Material:
     - _EmissionMapSliceCount: 4
     - _EnvironmentReflections: 1
     - _FlowIntensity: -0.5
-    - _FlowIntensityCoord: 2
+    - _FlowIntensityCoord: 0
     - _FlowMapChannelsX: 0
     - _FlowMapChannelsY: 1
     - _FlowMapOffsetXCoord: 0
-    - _FlowMapOffsetYCoord: 1
+    - _FlowMapOffsetYCoord: 0
     - _FlowMapTarget: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
