@@ -177,6 +177,21 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     SETUP_CUSTOM_COORD(input)
     TRANSFER_CUSTOM_COORD(input, output);
     #endif
+
+    // Vertex Deformation
+    #ifdef _VERTEX_DEFORMATION_ENABLED
+    float2 vertexDeformationUVs = TRANSFORM_TEX(input.texcoord.xy, _VertexDeformationMap);
+    vertexDeformationUVs.x += GET_CUSTOM_COORD(_VertexDeformationMapOffsetXCoord);
+    vertexDeformationUVs.y += GET_CUSTOM_COORD(_VertexDeformationMapOffsetYCoord);
+    float vertexDeformationIntensity = _VertexDeformationIntensity + GET_CUSTOM_COORD(_VertexDeformationIntensityCoord);
+    vertexDeformationIntensity = GetVertexDeformationIntensity(
+        _VertexDeformationMap, sampler_VertexDeformationMap,
+        vertexDeformationIntensity,
+        vertexDeformationUVs,
+        _VertexDeformationMapChannel,
+        _VertexDeformationBaseValue);
+    input.positionOS.xyz += normalize(input.normalOS) * vertexDeformationIntensity;
+    #endif
     InitializeVertexOutputDrawDepth(input, output);
 
     #ifdef _USE_BASE_MAP_UV
