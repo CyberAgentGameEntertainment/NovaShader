@@ -25,14 +25,12 @@ namespace Nova.Editor.Core.Scripts
             // Find properties every time to update the inspector when undo or redo is performed.
             SetupProperties(properties);
 
-            using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
-            {
-                DrawGUI(editor, properties);
+            DrawGUI(editor, properties);
+        }
 
-                if (changeCheckScope.changed)
-                    foreach (var obj in editor.targets)
-                        MaterialChanged((Material)obj);
-            }
+        public override void ValidateMaterial(Material material)
+        {
+            MaterialChanged(material);
         }
 
         protected abstract void SetupProperties(MaterialProperty[] properties);
