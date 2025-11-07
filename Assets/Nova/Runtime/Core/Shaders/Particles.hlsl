@@ -17,7 +17,7 @@
 
 #if defined(DEPTH_ONLY_PASS)
 #ifndef _ALPHATEST_ENABLED
-#ifndef FRAGMENT_USE_NORMAL_WS
+#ifndef _VERTEX_DEFORMATION_ENABLED
 #undef FRAGMENT_USE_NORMAL_WS // This symbol is not necessary when drawing opaque objects.
 #endif
 #endif
