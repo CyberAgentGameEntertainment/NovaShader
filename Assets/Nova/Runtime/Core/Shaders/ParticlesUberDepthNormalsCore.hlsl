@@ -7,7 +7,7 @@
 
 // If defined _ALPHATEST_ENABLED or  _NORMAL_MAP_ENABLED, base map uv is enabled.
 // Also enabled if TintColor FlipBook or 3D features are used.
-#if defined( _ALPHATEST_ENABLED ) || defined(_NORMAL_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
+#if defined( _ALPHATEST_ENABLED ) || defined(_NORMAL_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED) || defined(_VERTEX_DEFORMATION_ENABLED)
 #define _USE_BASE_MAP_UV
 #endif
 
