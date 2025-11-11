@@ -28,6 +28,12 @@ namespace Nova.Editor.Core.Scripts
             DrawGUI(editor, properties);
         }
 
+        public override void AssignNewShaderToMaterial(Material material, Shader oldShader, Shader newShader)
+        {
+            base.AssignNewShaderToMaterial(material, oldShader, newShader);
+            MaterialChanged(material);
+        }
+
         public override void ValidateMaterial(Material material)
         {
             MaterialChanged(material);
