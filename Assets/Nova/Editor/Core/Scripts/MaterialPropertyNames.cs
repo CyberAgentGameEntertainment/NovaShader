@@ -246,6 +246,10 @@ namespace Nova.Editor.Core.Scripts
         // Distortion
         public const string DistortionIntensity = "_DistortionIntensity";
         public const string DistortionIntensityCoord = "_DistortionIntensityCoord";
+        public const string DistortionIntensityX = "_DistortionIntensityX";
+        public const string DistortionIntensityXCoord = "_DistortionIntensityXCoord";
+        public const string DistortionIntensityY = "_DistortionIntensityY";
+        public const string DistortionIntensityYCoord = "_DistortionIntensityYCoord";
 
         // Vertex Deformation
         public const string VertexDeformationMap = "_VertexDeformationMap";
