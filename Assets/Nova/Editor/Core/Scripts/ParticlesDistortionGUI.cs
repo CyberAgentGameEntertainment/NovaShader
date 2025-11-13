@@ -145,10 +145,13 @@ namespace Nova.Editor.Core.Scripts
                 _baseMapChannelsXProp.Value, _baseMapChannelsYProp.Value);
             MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Intensity",
                 _distortionIntensityProp.Value, _distortionIntensityCoordProp.Value);
-            MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Intensity X",
-                _distortionIntensityXProp.Value, _distortionIntensityXCoordProp.Value);
-            MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Intensity Y",
-                _distortionIntensityYProp.Value, _distortionIntensityYCoordProp.Value);
+            using (new EditorGUI.IndentLevelScope())
+            {
+                MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "X",
+                    _distortionIntensityXProp.Value, _distortionIntensityXCoordProp.Value);
+                MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Y",
+                    _distortionIntensityYProp.Value, _distortionIntensityYCoordProp.Value);
+            }
             MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Rotation",
                 _baseMapRotationProp.Value, _baseMapRotationCoordProp.Value);
             using (new EditorGUI.IndentLevelScope())
