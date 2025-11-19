@@ -1433,7 +1433,13 @@ Distortionでは歪ませ方を設定できます。
 <p>
 歪みの強さを設定します。
 </p>
-</td></tr><tr><td colspan="3"><b>Rotation</b></td><td>
+</td></tr>
+<tr><td colspan="3"><b>Intensity Multipliers</b></td><td>
+<p>
+チェックをつけるとX/Yの強度を独立して制御できます。
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Rotation</b></td><td>
 <p>
 ディストーションマップの回転度合いを設定します。
 </p>

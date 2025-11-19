@@ -1429,7 +1429,13 @@ Note that you need to uncheck sRGB Color in the texture import setting because t
 <p>
 Sets the distortion intensity.
 </p>
-</td></tr><tr><td colspan="3"><b>Rotation</b></td><td>
+</td></tr>
+<tr><td colspan="3"><b>Intensity Multipliers</b></td><td>
+<p>
+When enabled, allows independent intensity control for X and Y.
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Rotation</b></td><td>
 <p>
 Set the amount of rotation of the Distortion Map.
 </p>
