@@ -37,6 +37,7 @@ namespace Nova.Editor.Core.Scripts
             _distortionIntensityYCoordProp.Setup(properties);
             _distortionIntensityProp.Setup(properties);
             _distortionIntensityCoordProp.Setup(properties);
+            _distortionIntensityMultipliersEnabledProp.Setup(properties);
 
             // Flow Map
             _flowMapProp.Setup(properties);
@@ -145,13 +146,17 @@ namespace Nova.Editor.Core.Scripts
                 _baseMapChannelsXProp.Value, _baseMapChannelsYProp.Value);
             MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Intensity",
                 _distortionIntensityProp.Value, _distortionIntensityCoordProp.Value);
-            using (new EditorGUI.IndentLevelScope())
-            {
-                MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "X",
-                    _distortionIntensityXProp.Value, _distortionIntensityXCoordProp.Value);
-                MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Y",
-                    _distortionIntensityYProp.Value, _distortionIntensityYCoordProp.Value);
-            }
+
+            MaterialEditorUtility.DrawToggleProperty(editor, "Intensity Multipliers", _distortionIntensityMultipliersEnabledProp.Value);
+            var multipliersEnabled = _distortionIntensityMultipliersEnabledProp.Value.floatValue >= 0.5f;
+            if (multipliersEnabled)
+                using (new EditorGUI.IndentLevelScope())
+                {
+                    MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "X",
+                        _distortionIntensityXProp.Value, _distortionIntensityXCoordProp.Value);
+                    MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Y",
+                        _distortionIntensityYProp.Value, _distortionIntensityYCoordProp.Value);
+                }
             MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Rotation",
                 _baseMapRotationProp.Value, _baseMapRotationCoordProp.Value);
             using (new EditorGUI.IndentLevelScope())
@@ -252,6 +257,7 @@ namespace Nova.Editor.Core.Scripts
         private readonly Property _distortionIntensityYCoordProp = new(PropertyNames.DistortionIntensityYCoord);
         private readonly Property _distortionIntensityProp = new(PropertyNames.DistortionIntensity);
         private readonly Property _distortionIntensityCoordProp = new(PropertyNames.DistortionIntensityCoord);
+        private readonly Property _distortionIntensityMultipliersEnabledProp = new(PropertyNames.DistortionIntensityMultipliersEnabled);
 
         #endregion
 

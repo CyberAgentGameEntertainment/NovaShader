@@ -19,6 +19,7 @@ Shader "Nova/Particles/Distortion"
         _BaseMapUnpackNormal("Base Map Unpack Normal", Float) = 0
         [PowerSlider(3)]_DistortionIntensity("Distortion Intensity", Range(0, 1)) = 0.1
         _DistortionIntensityCoord("Distortion Intensity Coord", Float) = 0.0
+        _DistortionIntensityMultipliersEnabled("Distortion Intensity Multipliers Enabled", Float) = 0.0
         [PowerSlider(3)]_DistortionIntensityX("Distortion Intensity X", Range(0, 1)) = 1.0
         _DistortionIntensityXCoord("Distortion Intensity X Coord", Float) = 0.0
         [PowerSlider(3)]_DistortionIntensityY("Distortion Intensity Y", Range(0, 1)) = 1.0
