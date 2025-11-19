@@ -7,6 +7,10 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
+#if UNITY_2023_3_OR_NEWER
+using UnityEngine.Experimental.Rendering;
+#endif
+
 namespace Nova.Runtime.Core.Scripts
 {
     public partial class DistortedUvBufferPass : ScriptableRenderPass
@@ -19,11 +23,21 @@ namespace Nova.Runtime.Core.Scripts
 
         private RTHandle _renderTargetRTHandle;
 
+#if UNITY_2023_3_OR_NEWER
+        private readonly GraphicsFormat _colorFormat;
+#endif
+
         public DistortedUvBufferPass(string lightMode)
         {
             _filteringSettings = new FilteringSettings(_renderQueueRange);
             renderPassEvent = RenderPassEvent.AfterRenderingTransparents;
             _shaderTagId = new ShaderTagId(lightMode);
+
+#if UNITY_2023_3_OR_NEWER
+            _colorFormat = SystemInfo.IsFormatSupported(GraphicsFormat.R16G16_SFloat, GraphicsFormatUsage.Render)
+                ? GraphicsFormat.R16G16_SFloat
+                : GraphicsFormat.None;
+#endif
         }
 
         public void Setup(RTHandle renderTargetRTHandle)

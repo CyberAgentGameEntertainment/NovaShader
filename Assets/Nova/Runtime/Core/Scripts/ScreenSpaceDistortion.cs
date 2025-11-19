@@ -22,10 +22,16 @@ namespace Nova.Runtime.Core.Scripts
 
         private RTHandle _distortedUvBufferRTHandle;
 
+        private RenderTextureFormat _distortedUvBufferFormat;
+
         public override void Create()
         {
             _applyDistortionShader = Shader.Find("Hidden/Nova/Particles/ApplyDistortion");
             if (_applyDistortionShader == null) return;
+
+            _distortedUvBufferFormat = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RGHalf)
+                ? RenderTextureFormat.RGHalf
+                : RenderTextureFormat.DefaultHDR;
 
             _distortedUvBufferPass = new DistortedUvBufferPass(DistortionLightMode);
             _applyDistortionPass = new ApplyDistortionPass(_applyToSceneView, _applyDistortionShader);
@@ -46,17 +52,13 @@ namespace Nova.Runtime.Core.Scripts
                 || !IsPostProcessingAllowed(ref renderingData))
                 return;
 
-            var distortedUvBufferFormat = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RGHalf)
-                ? RenderTextureFormat.RGHalf
-                : RenderTextureFormat.DefaultHDR;
-
 #if UNITY_2023_3_OR_NEWER
             if (GraphicsSettings.GetRenderPipelineSettings<RenderGraphSettings>().enableRenderCompatibilityMode)
 #endif
             {
                 var desc = renderingData.cameraData.cameraTargetDescriptor;
                 desc.depthBufferBits = 0;
-                desc.colorFormat = distortedUvBufferFormat;
+                desc.colorFormat = _distortedUvBufferFormat;
 #pragma warning disable CS0618 // This method will be removed in a future release. Please use ReAllocateHandleIfNeeded instead. #from(2023.3)
                 RenderingUtils.ReAllocateIfNeeded(ref _distortedUvBufferRTHandle, desc);
 #pragma warning restore CS0618
