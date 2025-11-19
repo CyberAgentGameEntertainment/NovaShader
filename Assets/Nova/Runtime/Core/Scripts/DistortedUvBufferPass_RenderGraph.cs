@@ -48,15 +48,15 @@ namespace Nova.Runtime.Core.Scripts
             }
         }
 
-        private static TextureHandle CreateRenderTarget(RenderGraph renderGraph, ContextContainer frameData)
+        private TextureHandle CreateRenderTarget(RenderGraph renderGraph, ContextContainer frameData)
         {
             var resourceData = frameData.Get<UniversalResourceData>();
             var desc = renderGraph.GetTextureDesc(resourceData.activeColorTexture);
             desc.name = DistortedUvBufferTexName;
             desc.depthBufferBits = 0;
             desc.clearColor = Color.gray;
-            if (SystemInfo.IsFormatSupported(GraphicsFormat.R16G16_SFloat, GraphicsFormatUsage.Render))
-                desc.colorFormat = GraphicsFormat.R16G16_SFloat;
+            if (_colorFormat != GraphicsFormat.None)
+                desc.colorFormat = _colorFormat;
             return renderGraph.CreateTexture(desc);
         }
 
