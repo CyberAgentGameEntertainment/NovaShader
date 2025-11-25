@@ -197,10 +197,11 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #ifdef _USE_BASE_MAP_UV
     // Base Map UV
     float2 baseMapUv = input.texcoord.xy;
-    #ifdef _BASE_MAP_ROTATION_ENABLED
-    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord);
-    baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
-    #endif
+    if (_BaseMapRotation > 0.0 || _BaseMapRotationCoord > 0.0)
+    {
+        half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord);
+        baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
+    }
     baseMapUv = TRANSFORM_BASE_MAP(baseMapUv);
     baseMapUv.x += GET_CUSTOM_COORD(_BaseMapOffsetXCoord);
     baseMapUv.y += GET_CUSTOM_COORD(_BaseMapOffsetYCoord);

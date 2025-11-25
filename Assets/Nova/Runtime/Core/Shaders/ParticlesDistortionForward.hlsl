@@ -17,10 +17,11 @@ Varyings vert(Attributes input)
     output.projectedPosition = ComputeScreenPos(output.positionHCS);
 
     float2 baseMapUv = input.texcoord.xy;
-    #ifdef _BASE_MAP_ROTATION_ENABLED
-    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord);
-    baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
-    #endif
+    if (_BaseMapRotation > 0.0 || _BaseMapRotationCoord > 0.0)
+    {
+        half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord);
+        baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
+    }
 
     baseMapUv.xy = TRANSFORM_TEX(baseMapUv, _BaseMap);
     baseMapUv.x += GET_CUSTOM_COORD(_BaseMapOffsetXCoord);

@@ -204,11 +204,6 @@ namespace Nova.Editor.Core.Scripts
                     }
             }
 
-            var baseMapRotationEnabled = material.GetFloat(BaseMapRotationId) != 0
-                                         || (CustomCoord)material.GetFloat(BaseMapRotationCoordId) !=
-                                         CustomCoord.Unused;
-            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapRotationEnabled, baseMapRotationEnabled);
-            
             // Base Map Tone Mode keywords
             var toneMode = (BaseMapToneMode)material.GetFloat(BaseMapToneModeId);
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapToneModeTriTone, toneMode == BaseMapToneMode.Tritone);

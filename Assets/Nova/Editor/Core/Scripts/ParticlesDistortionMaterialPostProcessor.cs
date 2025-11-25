@@ -73,13 +73,6 @@ namespace Nova.Editor.Core.Scripts
                             throw new ArgumentOutOfRangeException();
                     }
             }
-
-            var baseMapRotationEnabled = material.GetFloat(BaseMapRotationId) != 0
-                                         || (CustomCoord)material.GetFloat(
-                                             BaseMapRotationCoordId) !=
-                                         CustomCoord.Unused;
-            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.BaseMapRotationEnabled, baseMapRotationEnabled);
-
         }
 
         private static void SetupFlowMapMaterialKeywords(Material material)
