@@ -87,7 +87,6 @@ Shader "Nova/Particles/Distortion"
             #pragma instancing_options procedural:ParticleInstancingSetup
 
             // Base Color
-            #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Flow Map
@@ -128,7 +127,6 @@ Shader "Nova/Particles/Distortion"
             #pragma instancing_options procedural:ParticleInstancingSetup
 
             // Base Color
-            #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Flow Map
@@ -169,7 +167,6 @@ Shader "Nova/Particles/Distortion"
             #pragma instancing_options procedural:ParticleInstancingSetup
 
             // Base Color
-            #pragma shader_feature_local_vertex _BASE_MAP_ROTATION_ENABLED
             #pragma shader_feature_local_fragment _ _BASE_SAMPLER_STATE_POINT_MIRROR _BASE_SAMPLER_STATE_LINEAR_MIRROR _BASE_SAMPLER_STATE_TRILINEAR_MIRROR
 
             // Flow Map
