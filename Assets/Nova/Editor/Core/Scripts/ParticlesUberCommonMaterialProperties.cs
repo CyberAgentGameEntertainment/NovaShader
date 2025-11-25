@@ -127,6 +127,11 @@ namespace Nova.Editor.Core.Scripts
             TintMapRandomRowCoordProp.Setup(properties);
             TintMapRowCountProp.Setup(properties);
 
+            // Tint Map Rotation
+            TintMapRotationProp.Setup(properties);
+            TintMapRotationCoordProp.Setup(properties);
+            TintMapRotationOffsetsProp.Setup(properties);
+
             // Flow Map
             FlowMapProp.Setup(properties);
             FlowMapOffsetXCoordProp.Setup(properties);
@@ -136,6 +141,11 @@ namespace Nova.Editor.Core.Scripts
             FlowIntensityProp.Setup(properties);
             FlowIntensityCoordProp.Setup(properties);
             FlowMapTargetProp.Setup(properties);
+
+            // Flow Map Rotation
+            FlowMapRotationProp.Setup(properties);
+            FlowMapRotationCoordProp.Setup(properties);
+            FlowMapRotationOffsetsProp.Setup(properties);
 
             // Parallax Map
             ParallaxMapModeProp.Setup(properties);
@@ -199,6 +209,16 @@ namespace Nova.Editor.Core.Scripts
             AlphaTransitionMapSecondTextureRandomRowCoordProp.Setup(properties);
             AlphaTransitionMapSecondTextureRowCountProp.Setup(properties);
 
+            // Alpha Transition Map Rotation
+            AlphaTransitionMapRotationProp.Setup(properties);
+            AlphaTransitionMapRotationCoordProp.Setup(properties);
+            AlphaTransitionMapRotationOffsetsProp.Setup(properties);
+
+            // Alpha Transition Map Second Texture Rotation
+            AlphaTransitionMapSecondTextureRotationProp.Setup(properties);
+            AlphaTransitionMapSecondTextureRotationCoordProp.Setup(properties);
+            AlphaTransitionMapSecondTextureRotationOffsetsProp.Setup(properties);
+
             // Emission
             EmissionAreaTypeProp.Setup(properties);
             EmissionMapModeProp.Setup(properties);
@@ -222,6 +242,11 @@ namespace Nova.Editor.Core.Scripts
             EmissionMapRandomRowSelectionEnabledProp.Setup(properties);
             EmissionMapRandomRowCoordProp.Setup(properties);
             EmissionMapRowCountProp.Setup(properties);
+
+            // Emission Map Rotation
+            EmissionMapRotationProp.Setup(properties);
+            EmissionMapRotationCoordProp.Setup(properties);
+            EmissionMapRotationOffsetsProp.Setup(properties);
 
             // Transparency
             RimTransparencyEnabledProp.Setup(properties);
@@ -406,6 +431,11 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property TintMapRandomRowCoordProp { get; } = new(PropertyNames.TintMapRandomRowCoord);
         public ParticlesGUI.Property TintMapRowCountProp { get; } = new(PropertyNames.TintMapRowCount);
 
+        // Tint Map Rotation
+        public ParticlesGUI.Property TintMapRotationProp { get; } = new(PropertyNames.TintMapRotation);
+        public ParticlesGUI.Property TintMapRotationCoordProp { get; } = new(PropertyNames.TintMapRotationCoord);
+        public ParticlesGUI.Property TintMapRotationOffsetsProp { get; } = new(PropertyNames.TintMapRotationOffsets);
+
         #endregion
 
         #region Flow Map Material Properties
@@ -425,6 +455,11 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property FlowIntensityCoordProp { get; } = new(PropertyNames.FlowIntensityCoord);
 
         public ParticlesGUI.Property FlowMapTargetProp { get; } = new(PropertyNames.FlowMapTarget);
+
+        // Flow Map Rotation
+        public ParticlesGUI.Property FlowMapRotationProp { get; } = new(PropertyNames.FlowMapRotation);
+        public ParticlesGUI.Property FlowMapRotationCoordProp { get; } = new(PropertyNames.FlowMapRotationCoord);
+        public ParticlesGUI.Property FlowMapRotationOffsetsProp { get; } = new(PropertyNames.FlowMapRotationOffsets);
 
         #endregion
 
@@ -548,6 +583,16 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property AlphaTransitionMapSecondTextureRandomRowCoordProp { get; } = new(PropertyNames.AlphaTransitionMapSecondTextureRandomRowCoord);
         public ParticlesGUI.Property AlphaTransitionMapSecondTextureRowCountProp { get; } = new(PropertyNames.AlphaTransitionMapSecondTextureRowCount);
 
+        // Alpha Transition Map Rotation
+        public ParticlesGUI.Property AlphaTransitionMapRotationProp { get; } = new(PropertyNames.AlphaTransitionMapRotation);
+        public ParticlesGUI.Property AlphaTransitionMapRotationCoordProp { get; } = new(PropertyNames.AlphaTransitionMapRotationCoord);
+        public ParticlesGUI.Property AlphaTransitionMapRotationOffsetsProp { get; } = new(PropertyNames.AlphaTransitionMapRotationOffsets);
+
+        // Alpha Transition Map Second Texture Rotation
+        public ParticlesGUI.Property AlphaTransitionMapSecondTextureRotationProp { get; } = new(PropertyNames.AlphaTransitionMapSecondTextureRotation);
+        public ParticlesGUI.Property AlphaTransitionMapSecondTextureRotationCoordProp { get; } = new(PropertyNames.AlphaTransitionMapSecondTextureRotationCoord);
+        public ParticlesGUI.Property AlphaTransitionMapSecondTextureRotationOffsetsProp { get; } = new(PropertyNames.AlphaTransitionMapSecondTextureRotationOffsets);
+
         #endregion
 
         #region Emission Material Properties
@@ -570,6 +615,11 @@ namespace Nova.Editor.Core.Scripts
         public ParticlesGUI.Property EmissionMapOffsetXCoordProp { get; } = new(PropertyNames.EmissionMapOffsetXCoord);
 
         public ParticlesGUI.Property EmissionMapOffsetYCoordProp { get; } = new(PropertyNames.EmissionMapOffsetYCoord);
+
+        // Emission Map Rotation
+        public ParticlesGUI.Property EmissionMapRotationProp { get; } = new(PropertyNames.EmissionMapRotation);
+        public ParticlesGUI.Property EmissionMapRotationCoordProp { get; } = new(PropertyNames.EmissionMapRotationCoord);
+        public ParticlesGUI.Property EmissionMapRotationOffsetsProp { get; } = new(PropertyNames.EmissionMapRotationOffsets);
 
         public ParticlesGUI.Property EmissionMapChannelsXProp { get; } = new(PropertyNames.EmissionMapChannelsX);
 

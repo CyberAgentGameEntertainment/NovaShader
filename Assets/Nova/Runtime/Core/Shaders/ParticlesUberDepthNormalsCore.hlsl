@@ -209,20 +209,54 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
 
     // Flow Map UV
     #ifdef _USE_FLOW_MAP
-    output.flowTransitionUVs.xy = TRANSFORM_TEX(input.texcoord.xy, _FlowMap);
-    output.flowTransitionUVs.x += GET_CUSTOM_COORD(_FlowMapOffsetXCoord);
-    output.flowTransitionUVs.y += GET_CUSTOM_COORD(_FlowMapOffsetYCoord);
+    float2 flowMapUv = input.texcoord.xy;
+
+    if (_FlowMapRotation > 0.0 || _FlowMapRotationCoord > 0.0)
+    {
+        half flowAngle = _FlowMapRotation + GET_CUSTOM_COORD(_FlowMapRotationCoord);
+        flowMapUv = RotateUV(flowMapUv, flowAngle * PI * 2, _FlowMapRotationOffsets.xy);
+    }
+
+    flowMapUv = TRANSFORM_TEX(flowMapUv, _FlowMap);
+
+    flowMapUv.x += GET_CUSTOM_COORD(_FlowMapOffsetXCoord);
+    flowMapUv.y += GET_CUSTOM_COORD(_FlowMapOffsetYCoord);
+
+    output.flowTransitionUVs.xy = flowMapUv;
     #endif
 
     #ifdef _USE_TRANSITION_MAP
     // Transition Map UV
-    output.flowTransitionUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP(input.texcoord.xy);
-    output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
-    output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
+    float2 alphaTransitionMapUv = input.texcoord.xy;
+
+    if (_AlphaTransitionMapRotation > 0.0 || _AlphaTransitionMapRotationCoord > 0.0)
+    {
+        half alphaAngle = _AlphaTransitionMapRotation + GET_CUSTOM_COORD(_AlphaTransitionMapRotationCoord);
+        alphaTransitionMapUv = RotateUV(alphaTransitionMapUv, alphaAngle * PI * 2, _AlphaTransitionMapRotationOffsets.xy);
+    }
+
+    alphaTransitionMapUv = TRANSFORM_ALPHA_TRANSITION_MAP(alphaTransitionMapUv);
+
+    alphaTransitionMapUv.x += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
+    alphaTransitionMapUv.y += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
+
+    output.flowTransitionUVs.zw = alphaTransitionMapUv;
+
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
-    output.flowTransitionSecondUVs.zw = TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(input.texcoord.xy);
-    output.flowTransitionSecondUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord);
-    output.flowTransitionSecondUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord);
+    float2 alphaTransitionMapSecondUv = input.texcoord.xy;
+
+    if (_AlphaTransitionMapSecondTextureRotation > 0.0 || _AlphaTransitionMapSecondTextureRotationCoord > 0.0)
+    {
+        half alphaSecondAngle = _AlphaTransitionMapSecondTextureRotation + GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureRotationCoord);
+        alphaTransitionMapSecondUv = RotateUV(alphaTransitionMapSecondUv, alphaSecondAngle * PI * 2, _AlphaTransitionMapSecondTextureRotationOffsets.xy);
+    }
+
+    alphaTransitionMapSecondUv = TRANSFORM_ALPHA_TRANSITION_MAP_SECOND(alphaTransitionMapSecondUv);
+
+    alphaTransitionMapSecondUv.x += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetXCoord);
+    alphaTransitionMapSecondUv.y += GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureOffsetYCoord);
+
+    output.flowTransitionSecondUVs.zw = alphaTransitionMapSecondUv;
     #endif
     #endif
 
@@ -251,9 +285,19 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
 
     // Tint Map UV
     #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
-    output.tintEmissionUV.xy = TRANSFORM_TINT_MAP(input.texcoord.xy);
-    output.tintEmissionUV.x += GET_CUSTOM_COORD(_TintMapOffsetXCoord);
-    output.tintEmissionUV.y += GET_CUSTOM_COORD(_TintMapOffsetYCoord);
+    float2 tintMapUv = input.texcoord.xy;
+
+    // Tint Map Rotation
+    if (_TintMapRotation > 0.0 || _TintMapRotationCoord > 0.0)
+    {
+        half tintAngle = _TintMapRotation + GET_CUSTOM_COORD(_TintMapRotationCoord);
+        tintMapUv = RotateUV(tintMapUv, tintAngle * PI * 2, _TintMapRotationOffsets.xy);
+    }
+
+    tintMapUv = TRANSFORM_TINT_MAP(tintMapUv);
+    tintMapUv.x += GET_CUSTOM_COORD(_TintMapOffsetXCoord);
+    tintMapUv.y += GET_CUSTOM_COORD(_TintMapOffsetYCoord);
+    output.tintEmissionUV.xy = tintMapUv;
     #endif
 
     // Tint Map Progress
@@ -310,9 +354,20 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
 
     // Emission Map UV
     #ifdef _EMISSION_AREA_MAP
-    output.tintEmissionUV.zw = TRANSFORM_EMISSION_MAP(input.texcoord.xy);
-    output.tintEmissionUV.z += GET_CUSTOM_COORD(_EmissionMapOffsetXCoord);
-    output.tintEmissionUV.w += GET_CUSTOM_COORD(_EmissionMapOffsetYCoord);
+    float2 emissionMapUv = input.texcoord.xy;
+
+    if (_EmissionMapRotation > 0.0 || _EmissionMapRotationCoord > 0.0)
+    {
+        half emissionAngle = _EmissionMapRotation + GET_CUSTOM_COORD(_EmissionMapRotationCoord);
+        emissionMapUv = RotateUV(emissionMapUv, emissionAngle * PI * 2, _EmissionMapRotationOffsets.xy);
+    }
+
+    emissionMapUv = TRANSFORM_EMISSION_MAP(emissionMapUv);
+
+    emissionMapUv.x += GET_CUSTOM_COORD(_EmissionMapOffsetXCoord);
+    emissionMapUv.y += GET_CUSTOM_COORD(_EmissionMapOffsetYCoord);
+
+    output.tintEmissionUV.zw = emissionMapUv;
     #endif
 
     // Emission Map Progress

@@ -143,6 +143,11 @@ float _TintMapRandomRowSelectionEnabled;
 DECLARE_CUSTOM_COORD(_TintMapRandomRowCoord);
 float _TintMapRowCount;
 
+// Tint Map Rotation
+float _TintMapRotation;
+DECLARE_CUSTOM_COORD(_TintMapRotationCoord);
+float4 _TintMapRotationOffsets;
+
 float4 _FlowMap_ST;
 DECLARE_CUSTOM_COORD(_FlowMapOffsetXCoord);
 DECLARE_CUSTOM_COORD(_FlowMapOffsetYCoord);
@@ -150,6 +155,10 @@ half _FlowMapChannelsX;
 half _FlowMapChannelsY;
 float _FlowIntensity;
 DECLARE_CUSTOM_COORD(_FlowIntensityCoord);
+
+float _FlowMapRotation;
+DECLARE_CUSTOM_COORD(_FlowMapRotationCoord);
+float4 _FlowMapRotationOffsets;
 
 float4 _AlphaTransitionMap_ST;
 float4 _AlphaTransitionMap2DArray_ST;
@@ -187,6 +196,14 @@ float _AlphaTransitionMapSecondTextureRandomRowSelectionEnabled;
 DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureRandomRowCoord);
 float _AlphaTransitionMapSecondTextureRowCount;
 
+float _AlphaTransitionMapRotation;
+DECLARE_CUSTOM_COORD(_AlphaTransitionMapRotationCoord);
+float4 _AlphaTransitionMapRotationOffsets;
+
+float _AlphaTransitionMapSecondTextureRotation;
+DECLARE_CUSTOM_COORD(_AlphaTransitionMapSecondTextureRotationCoord);
+float4 _AlphaTransitionMapSecondTextureRotationOffsets;
+
 float4 _EmissionMap_ST;
 float4 _EmissionMap2DArray_ST;
 float4 _EmissionMap3D_ST;
@@ -206,6 +223,10 @@ float _KeepEdgeTransparency;
 float _EmissionMapRandomRowSelectionEnabled;
 DECLARE_CUSTOM_COORD(_EmissionMapRandomRowCoord);
 float _EmissionMapRowCount;
+
+float _EmissionMapRotation;
+DECLARE_CUSTOM_COORD(_EmissionMapRotationCoord);
+float4 _EmissionMapRotationOffsets;
 
 float _Cutoff;
 float _Greyscale;

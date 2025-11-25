@@ -116,10 +116,18 @@ Shader "Nova/UIParticles/UberLit"
         _TintMapRandomRowCoord("Tint Map Random Row Coord", Float) = 0.0
         _TintMapRowCount("Tint Map Row Count", Float) = 1.0
 
+        // Tint Map Rotation
+        _TintMapRotation("Tint Map Rotation", Range(0.0, 1.0)) = 0.0
+        _TintMapRotationCoord("Tint Map Rotation Coord", Float) = 0.0
+        _TintMapRotationOffsets("Tint Map Rotation Offsets", Vector) = (0.0, 0.0, 0.0, 0.0)
+
         // Flow Map
         _FlowMap("Flow Map", 2D) = "grey" {}
         _FlowMapOffsetXCoord("Flow Map Offset X Coord", Float) = 0.0
         _FlowMapOffsetYCoord("Flow Map Offset Y Coord", Float) = 0.0
+        _FlowMapRotation("Flow Map Rotation", Range(0.0, 1.0)) = 0.0
+        _FlowMapRotationCoord("Flow Map Rotation Coord", Float) = 0.0
+        _FlowMapRotationOffsets("Flow Map Rotation Offsets", Vector) = (0.0, 0.0, 0.0, 0.0)
         _FlowMapChannelsX("Flow Map Channes X", Float) = 0.0
         _FlowMapChannelsY("Flow Map Channes Y", Float) = 1.0
         _FlowIntensity("Flow Intensity", Float) = 1.0
@@ -157,6 +165,9 @@ Shader "Nova/UIParticles/UberLit"
         _AlphaTransitionMapProgressCoord("Alpha　Transition Map Progress Coord", Float) = 0.0
         _AlphaTransitionMapOffsetXCoord("Alpha Transition Map Offset X Coord", Float) = 0.0
         _AlphaTransitionMapOffsetYCoord("Alpha Transition Map Offset Y Coord", Float) = 0.0
+        _AlphaTransitionMapRotation("Alpha Transition Map Rotation", Range(0.0, 1.0)) = 0.0
+        _AlphaTransitionMapRotationCoord("Alpha Transition Map Rotation Coord", Float) = 0.0
+        _AlphaTransitionMapRotationOffsets("Alpha Transition Map Rotation Offsets", Vector) = (0.0, 0.0, 0.0, 0.0)
         _AlphaTransitionMapChannelsX("Alpha Transition Map Channes X", Float) = 0.0
         _AlphaTransitionMapSliceCount("Alpha Transition Map Slice Count", Float) = 4.0
         _AlphaTransitionProgress("Alpha Transition Progress", Range(0.0, 1.0)) = 0.0
@@ -170,6 +181,9 @@ Shader "Nova/UIParticles/UberLit"
         _AlphaTransitionMapSecondTextureProgressCoord("Alpha　Transition Map Second Texture  Progress Coord", Float) = 0.0
         _AlphaTransitionMapSecondTextureOffsetXCoord("Alpha Transition Second Texture Map Offset X Coord", Float) = 0.0
         _AlphaTransitionMapSecondTextureOffsetYCoord("Alpha Transition Second Texture Map Offset Y Coord", Float) = 0.0
+        _AlphaTransitionMapSecondTextureRotation("Alpha Transition Map Second Texture Rotation", Range(0.0, 1.0)) = 0.0
+        _AlphaTransitionMapSecondTextureRotationCoord("Alpha Transition Map Second Texture Rotation Coord", Float) = 0.0
+        _AlphaTransitionMapSecondTextureRotationOffsets("Alpha Transition Map Second Texture Rotation Offsets", Vector) = (0.0, 0.0, 0.0, 0.0)
         _AlphaTransitionMapSecondTextureChannelsX("Alpha Transition Second Texture Map Channes X", Float) = 0.0
         _AlphaTransitionMapSecondTextureSliceCount("Alpha Transition Map Second Texture Slice Count", Float) = 4.0
         _AlphaTransitionProgressSecondTexture("Alpha Transition Second Texture Progress", Range(0.0, 1.0)) = 0.0
@@ -192,6 +206,9 @@ Shader "Nova/UIParticles/UberLit"
         _EmissionMapProgressCoord("Emission Map Progress Coord", Float) = 0.0
         _EmissionMapOffsetXCoord("Emission Map Offset X Coord", Float) = 0.0
         _EmissionMapOffsetYCoord("Emission Map Offset Y Coord", Float) = 0.0
+        _EmissionMapRotation("Emission Map Rotation", Range(0.0, 1.0)) = 0.0
+        _EmissionMapRotationCoord("Emission Map Rotation Coord", Float) = 0.0
+        _EmissionMapRotationOffsets("Emission Map Rotation Offsets", Vector) = (0.0, 0.0, 0.0, 0.0)
         _EmissionMapChannelsX("Emission Map Channels X", Float) = 0.0
         _EmissionMapSliceCount("Alpha Transition Map Slice Count", Float) = 4.0
         _EmissionColorType("Emission Color Type", Float) = 0.0

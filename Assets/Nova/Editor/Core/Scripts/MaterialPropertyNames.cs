@@ -120,6 +120,11 @@ namespace Nova.Editor.Core.Scripts
         public const string TintMapRandomRowCoord = "_TintMapRandomRowCoord";
         public const string TintMapRowCount = "_TintMapRowCount";
 
+        // Tint Map Rotation
+        public const string TintMapRotation = "_TintMapRotation";
+        public const string TintMapRotationCoord = "_TintMapRotationCoord";
+        public const string TintMapRotationOffsets = "_TintMapRotationOffsets";
+
         // Flow Map
         public const string FlowMap = "_FlowMap";
         public const string FlowMapOffsetXCoord = "_FlowMapOffsetXCoord";
@@ -129,6 +134,11 @@ namespace Nova.Editor.Core.Scripts
         public const string FlowIntensity = "_FlowIntensity";
         public const string FlowIntensityCoord = "_FlowIntensityCoord";
         public const string FlowMapTarget = "_FlowMapTarget";
+
+        // Flow Map Rotation
+        public const string FlowMapRotation = "_FlowMapRotation";
+        public const string FlowMapRotationCoord = "_FlowMapRotationCoord";
+        public const string FlowMapRotationOffsets = "_FlowMapRotationOffsets";
 
         // Parallax Map
         public const string ParallaxMapMode = "_ParallaxMapMode";
@@ -199,6 +209,16 @@ namespace Nova.Editor.Core.Scripts
         public const string AlphaTransitionMapSecondTextureRandomRowCoord = "_AlphaTransitionMapSecondTextureRandomRowCoord";
         public const string AlphaTransitionMapSecondTextureRowCount = "_AlphaTransitionMapSecondTextureRowCount";
 
+        // Alpha Transition Map Rotation
+        public const string AlphaTransitionMapRotation = "_AlphaTransitionMapRotation";
+        public const string AlphaTransitionMapRotationCoord = "_AlphaTransitionMapRotationCoord";
+        public const string AlphaTransitionMapRotationOffsets = "_AlphaTransitionMapRotationOffsets";
+
+        // Alpha Transition Map Second Texture Rotation
+        public const string AlphaTransitionMapSecondTextureRotation = "_AlphaTransitionMapSecondTextureRotation";
+        public const string AlphaTransitionMapSecondTextureRotationCoord = "_AlphaTransitionMapSecondTextureRotationCoord";
+        public const string AlphaTransitionMapSecondTextureRotationOffsets = "_AlphaTransitionMapSecondTextureRotationOffsets";
+
         // Emission
         public const string EmissionAreaType = "_EmissionAreaType";
         public const string EmissionMapMode = "_EmissionMapMode";
@@ -222,6 +242,11 @@ namespace Nova.Editor.Core.Scripts
         public const string EmissionMapRandomRowSelectionEnabled = "_EmissionMapRandomRowSelectionEnabled";
         public const string EmissionMapRandomRowCoord = "_EmissionMapRandomRowCoord";
         public const string EmissionMapRowCount = "_EmissionMapRowCount";
+
+        // Emission Map Rotation
+        public const string EmissionMapRotation = "_EmissionMapRotation";
+        public const string EmissionMapRotationCoord = "_EmissionMapRotationCoord";
+        public const string EmissionMapRotationOffsets = "_EmissionMapRotationOffsets";
 
         // Transparency
         public const string RimTransparencyEnabled = "_RimTransparencyEnabled";
