@@ -48,6 +48,9 @@ namespace Nova.Editor.Core.Scripts
             _flowIntensityProp.Setup(properties);
             _flowIntensityCoordProp.Setup(properties);
             _flowMapTargetProp.Setup(properties);
+            _flowMapRotationProp.Setup(properties);
+            _flowMapRotationCoordProp.Setup(properties);
+            _flowMapRotationOffsetsProp.Setup(properties);
 
             // Alpha Transition
             _alphaTransitionModeProp.Setup(properties);
@@ -59,6 +62,9 @@ namespace Nova.Editor.Core.Scripts
             _alphaTransitionProgressProp.Setup(properties);
             _alphaTransitionProgressCoordProp.Setup(properties);
             _dissolveSharpnessProp.Setup(properties);
+            _alphaTransitionMapRotationProp.Setup(properties);
+            _alphaTransitionMapRotationCoordProp.Setup(properties);
+            _alphaTransitionMapRotationOffsetsProp.Setup(properties);
 
             // Transparency
             _softParticlesEnabledProp.Setup(properties);
@@ -179,6 +185,12 @@ namespace Nova.Editor.Core.Scripts
         {
             MaterialEditorUtility.DrawTexture<CustomCoord>(editor, _flowMapProp.Value, _flowMapOffsetXCoordProp.Value,
                 _flowMapOffsetYCoordProp.Value, _flowMapChannelsXProp.Value, _flowMapChannelsYProp.Value);
+            MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Rotation",
+                _flowMapRotationProp.Value, _flowMapRotationCoordProp.Value);
+            using (new EditorGUI.IndentLevelScope())
+            {
+                MaterialEditorUtility.DrawVector2Property(editor, "Offset", _flowMapRotationOffsetsProp.Value);
+            }
             MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Intensity", _flowIntensityProp.Value,
                 _flowIntensityCoordProp.Value);
             MaterialEditorUtility.DrawEnumFlagsProperty<FlowMapTargetDistortion>(editor, "Targets",
@@ -195,6 +207,12 @@ namespace Nova.Editor.Core.Scripts
                 MaterialEditorUtility.DrawTexture<CustomCoord>(editor, _alphaTransitionMapProp.Value,
                     _alphaTransitionMapOffsetXCoordProp.Value, _alphaTransitionMapOffsetYCoordProp.Value,
                     _alphaTransitionMapChannelsXProp.Value, null);
+                MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Rotation",
+                    _alphaTransitionMapRotationProp.Value, _alphaTransitionMapRotationCoordProp.Value);
+                using (new EditorGUI.IndentLevelScope())
+                {
+                    MaterialEditorUtility.DrawVector2Property(editor, "Offset", _alphaTransitionMapRotationOffsetsProp.Value);
+                }
 
                 MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Progress",
                     _alphaTransitionProgressProp.Value, _alphaTransitionProgressCoordProp.Value);
@@ -278,6 +296,9 @@ namespace Nova.Editor.Core.Scripts
         private readonly Property _flowIntensityProp = new(PropertyNames.FlowIntensity);
         private readonly Property _flowIntensityCoordProp = new(PropertyNames.FlowIntensityCoord);
         private readonly Property _flowMapTargetProp = new(PropertyNames.FlowMapTarget);
+        private readonly Property _flowMapRotationProp = new(PropertyNames.FlowMapRotation);
+        private readonly Property _flowMapRotationCoordProp = new(PropertyNames.FlowMapRotationCoord);
+        private readonly Property _flowMapRotationOffsetsProp = new(PropertyNames.FlowMapRotationOffsets);
 
         #endregion
 
@@ -299,6 +320,9 @@ namespace Nova.Editor.Core.Scripts
         private readonly Property _alphaTransitionProgressCoordProp = new(PropertyNames.AlphaTransitionProgressCoord);
 
         private readonly Property _dissolveSharpnessProp = new(PropertyNames.DissolveSharpness);
+        private readonly Property _alphaTransitionMapRotationProp = new(PropertyNames.AlphaTransitionMapRotation);
+        private readonly Property _alphaTransitionMapRotationCoordProp = new(PropertyNames.AlphaTransitionMapRotationCoord);
+        private readonly Property _alphaTransitionMapRotationOffsetsProp = new(PropertyNames.AlphaTransitionMapRotationOffsets);
 
         #endregion
 

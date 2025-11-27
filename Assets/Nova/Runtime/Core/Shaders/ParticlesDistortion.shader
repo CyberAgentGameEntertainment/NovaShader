@@ -34,6 +34,9 @@ Shader "Nova/Particles/Distortion"
         _FlowIntensity("Flow Intensity", Float) = 1.0
         _FlowIntensityCoord("Flow Intensity Coord", Float) = 0.0
         _FlowMapTarget("Flow Map Target", Float) = 1.0
+        _FlowMapRotation("Flow Map Rotation", Range(0.0, 1.0)) = 0.0
+        _FlowMapRotationCoord("Flow Map Rotation Coord", Float) = 0.0
+        _FlowMapRotationOffsets("Flow Map Rotation Offsets", Vector) = (0.0, 0.0, 0.0, 0.0)
 
         // Alpha Transition
         _AlphaTransitionMode("Alpha Transition Mode", Float) = 0.0
@@ -44,6 +47,9 @@ Shader "Nova/Particles/Distortion"
         _AlphaTransitionProgress("Alpha Transition Progress", Range(0.0, 1.0)) = 0.0
         _AlphaTransitionProgressCoord("Alpha Transition Progress Coord", Float) = 0.0
         _DissolveSharpness("Dissolve Sharpness", Range(0.0, 1.0)) = 0.5
+        _AlphaTransitionMapRotation("Alpha Transition Map Rotation", Range(0.0, 1.0)) = 0.0
+        _AlphaTransitionMapRotationCoord("Alpha Transition Map Rotation Coord", Float) = 0.0
+        _AlphaTransitionMapRotationOffsets("Alpha Transition Map Rotation Offsets", Vector) = (0.0, 0.0, 0.0, 0.0)
 
         // Transparency
         _SoftParticlesEnabled("Soft Particles Enabled", Float) = 0.0
