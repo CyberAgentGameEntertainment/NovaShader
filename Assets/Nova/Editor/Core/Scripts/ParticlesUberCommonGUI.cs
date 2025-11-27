@@ -564,12 +564,15 @@ namespace Nova.Editor.Core.Scripts
                     props.TintMapSliceCountProp.Value);
             }
 
-            // Tint Map Rotation
-            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Rotation",
-                props.TintMapRotationProp.Value, props.TintMapRotationCoordProp.Value);
-            using (new EditorGUI.IndentLevelScope())
+            // Tint Map Rotation (only show when using texture)
+            if (tintColorMode != TintColorMode.SingleColor)
             {
-                MaterialEditorUtility.DrawVector2Property(_editor, "Offset", props.TintMapRotationOffsetsProp.Value);
+                MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Rotation",
+                    props.TintMapRotationProp.Value, props.TintMapRotationCoordProp.Value);
+                using (new EditorGUI.IndentLevelScope())
+                {
+                    MaterialEditorUtility.DrawVector2Property(_editor, "Offset", props.TintMapRotationOffsetsProp.Value);
+                }
             }
         }
 
