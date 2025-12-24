@@ -563,6 +563,17 @@ namespace Nova.Editor.Core.Scripts
                     props.TintMapRandomRowCoordProp.Value,
                     props.TintMapSliceCountProp.Value);
             }
+
+            // Tint Map Rotation (only show when using texture)
+            if (tintColorMode != TintColorMode.SingleColor)
+            {
+                MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Rotation",
+                    props.TintMapRotationProp.Value, props.TintMapRotationCoordProp.Value);
+                using (new EditorGUI.IndentLevelScope())
+                {
+                    MaterialEditorUtility.DrawVector2Property(_editor, "Offset", props.TintMapRotationOffsetsProp.Value);
+                }
+            }
         }
 
         private void InternalDrawFlowMapProperties()
@@ -577,6 +588,14 @@ namespace Nova.Editor.Core.Scripts
                 "Intensity",
                 props.FlowIntensityProp.Value,
                 props.FlowIntensityCoordProp.Value);
+
+            MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Rotation",
+                props.FlowMapRotationProp.Value, props.FlowMapRotationCoordProp.Value);
+            using (new EditorGUI.IndentLevelScope())
+            {
+                MaterialEditorUtility.DrawVector2Property(_editor, "Offset", props.FlowMapRotationOffsetsProp.Value);
+            }
+
             MaterialEditorUtility.DrawEnumFlagsProperty<FlowMapTarget>(
                 _editor, "Targets", props.FlowMapTargetProp.Value);
         }
@@ -660,6 +679,13 @@ namespace Nova.Editor.Core.Scripts
                         props.AlphaTransitionMapSliceCountProp.Value);
                 }
 
+                MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Rotation",
+                    props.AlphaTransitionMapRotationProp.Value, props.AlphaTransitionMapRotationCoordProp.Value);
+                using (new EditorGUI.IndentLevelScope())
+                {
+                    MaterialEditorUtility.DrawVector2Property(_editor, "Offset", props.AlphaTransitionMapRotationOffsetsProp.Value);
+                }
+
                 MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Transition Progress",
                     props.AlphaTransitionProgressProp.Value, props.AlphaTransitionProgressCoordProp.Value);
                 if (mode == AlphaTransitionMode.Dissolve)
@@ -717,6 +743,13 @@ namespace Nova.Editor.Core.Scripts
                                 props.AlphaTransitionMapSecondTextureRowCountProp.Value,
                                 props.AlphaTransitionMapSecondTextureRandomRowCoordProp.Value,
                                 props.AlphaTransitionMapSecondTextureSliceCountProp.Value);
+                        }
+
+                        MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Rotation",
+                            props.AlphaTransitionMapSecondTextureRotationProp.Value, props.AlphaTransitionMapSecondTextureRotationCoordProp.Value);
+                        using (new EditorGUI.IndentLevelScope())
+                        {
+                            MaterialEditorUtility.DrawVector2Property(_editor, "Offset", props.AlphaTransitionMapSecondTextureRotationOffsetsProp.Value);
                         }
 
                         MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Transition Progress",
@@ -800,6 +833,13 @@ namespace Nova.Editor.Core.Scripts
                             props.EmissionMapRowCountProp.Value,
                             props.EmissionMapRandomRowCoordProp.Value,
                             props.EmissionMapSliceCountProp.Value);
+                    }
+
+                    MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor, "Rotation",
+                        props.EmissionMapRotationProp.Value, props.EmissionMapRotationCoordProp.Value);
+                    using (new EditorGUI.IndentLevelScope())
+                    {
+                        MaterialEditorUtility.DrawVector2Property(_editor, "Offset", props.EmissionMapRotationOffsetsProp.Value);
                     }
 
                     MaterialEditorUtility.DrawEnumProperty<EmissionColorType>(_editor, "Color Type",

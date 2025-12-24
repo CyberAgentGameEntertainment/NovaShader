@@ -285,7 +285,6 @@ namespace Nova.Editor.Core.Scripts.Optimizer
             @"_BASE_MAP_MODE_2D\b|" +
             @"_BASE_MAP_MODE_2D_ARRAY\b|" +
             @"_BASE_MAP_MODE_3D\b|" +
-            @"_BASE_MAP_ROTATION_ENABLED\b|" +
             @"_BASE_MAP_CHANNEL_ENABLED\b|" +
             @"_BASE_MAP_TONE_MODE_TRITONE\b|" +
             @"_BASE_MAP_TONE_MODE_PENTONE\b|" +

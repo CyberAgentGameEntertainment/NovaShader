@@ -141,7 +141,8 @@ namespace Nova.Editor.Core.Scripts
                 if (tintMapMode == TintColorMode.SingleTexture || tintMapMode == TintColorMode.FlipBookBlending || tintMapMode == TintColorMode.FlipBook)
                 {
                     isCustomCoordUsed |= IsCustomCoordUsed(commonMaterialProperties.TintMapOffsetXCoordProp)
-                                         || IsCustomCoordUsed(commonMaterialProperties.TintMapOffsetYCoordProp);
+                                         || IsCustomCoordUsed(commonMaterialProperties.TintMapOffsetYCoordProp)
+                                         || IsCustomCoordUsed(commonMaterialProperties.TintMapRotationCoordProp);
 
                     if (tintMapMode == TintColorMode.FlipBookBlending)
                         isCustomCoordUsed |= IsCustomCoordUsed(commonMaterialProperties.TintMap3DProgressCoordProp);
@@ -157,7 +158,8 @@ namespace Nova.Editor.Core.Scripts
         {
             return IsCustomCoordUsed(commonMaterialProperties.FlowMapOffsetXCoordProp)
                    || IsCustomCoordUsed(commonMaterialProperties.FlowMapOffsetYCoordProp)
-                   || IsCustomCoordUsed(commonMaterialProperties.FlowIntensityCoordProp);
+                   || IsCustomCoordUsed(commonMaterialProperties.FlowIntensityCoordProp)
+                   || IsCustomCoordUsed(commonMaterialProperties.FlowMapRotationCoordProp);
         }
 
         private static bool IsCustomCoordUsedInParallax(ParticlesUberCommonMaterialProperties commonMaterialProperties)
@@ -186,7 +188,8 @@ namespace Nova.Editor.Core.Scripts
             {
                 isCustomCoordUsed = IsCustomCoordUsed(props.AlphaTransitionProgressCoordProp);
                 isCustomCoordUsed |= IsCustomCoordUsed(props.AlphaTransitionMapOffsetXCoordProp)
-                                     || IsCustomCoordUsed(props.AlphaTransitionMapOffsetYCoordProp);
+                                     || IsCustomCoordUsed(props.AlphaTransitionMapOffsetYCoordProp)
+                                     || IsCustomCoordUsed(props.AlphaTransitionMapRotationCoordProp);
                 isCustomCoordUsed |= isFlipBook && IsCustomCoordUsed(props.AlphaTransitionMapProgressCoordProp);
             }
             // 2nd texture
@@ -196,7 +199,8 @@ namespace Nova.Editor.Core.Scripts
                 {
                     isCustomCoordUsed |= IsCustomCoordUsed(props.AlphaTransitionProgressCoordSecondTextureProp);
                     isCustomCoordUsed |= IsCustomCoordUsed(props.AlphaTransitionMapSecondTextureOffsetXCoordProp) ||
-                                         IsCustomCoordUsed(props.AlphaTransitionMapSecondTextureOffsetYCoordProp);
+                                         IsCustomCoordUsed(props.AlphaTransitionMapSecondTextureOffsetYCoordProp) ||
+                                         IsCustomCoordUsed(props.AlphaTransitionMapSecondTextureRotationCoordProp);
                     isCustomCoordUsed |= isFlipBook &&
                                          IsCustomCoordUsed(props.AlphaTransitionMapSecondTextureProgressCoordProp);
                 }
@@ -212,7 +216,8 @@ namespace Nova.Editor.Core.Scripts
             if (mode == EmissionAreaType.ByTexture)
             {
                 isCustomCoordUsed |= IsCustomCoordUsed(commonMaterialProperties.EmissionMapOffsetXCoordProp)
-                                     || IsCustomCoordUsed(commonMaterialProperties.EmissionMapOffsetYCoordProp);
+                                     || IsCustomCoordUsed(commonMaterialProperties.EmissionMapOffsetYCoordProp)
+                                     || IsCustomCoordUsed(commonMaterialProperties.EmissionMapRotationCoordProp);
                 isCustomCoordUsed |= (EmissionMapMode)commonMaterialProperties.EmissionMapModeProp.Value.floatValue !=
                                      EmissionMapMode.SingleTexture
                                      && IsCustomCoordUsed(commonMaterialProperties.EmissionMapProgressCoordProp);

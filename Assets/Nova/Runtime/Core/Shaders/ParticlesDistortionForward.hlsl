@@ -17,10 +17,11 @@ Varyings vert(Attributes input)
     output.projectedPosition = ComputeScreenPos(output.positionHCS);
 
     float2 baseMapUv = input.texcoord.xy;
-    #ifdef _BASE_MAP_ROTATION_ENABLED
-    half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord);
-    baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
-    #endif
+    if (_BaseMapRotation > 0.0 || _BaseMapRotationCoord > 0.0)
+    {
+        half angle = _BaseMapRotation + GET_CUSTOM_COORD(_BaseMapRotationCoord);
+        baseMapUv = RotateUV(baseMapUv, angle * PI * 2, _BaseMapRotationOffsets.xy);
+    }
 
     baseMapUv.xy = TRANSFORM_TEX(baseMapUv, _BaseMap);
     baseMapUv.x += GET_CUSTOM_COORD(_BaseMapOffsetXCoord);
@@ -28,15 +29,29 @@ Varyings vert(Attributes input)
     output.baseUv.xy = baseMapUv;
 
     #if defined(_FLOW_MAP_ENABLED) || defined(_FLOW_MAP_TARGET_BASE) || defined(_FLOW_MAP_TARGET_ALPHA_TRANSITION)
-    output.flowTransitionUVs.xy = TRANSFORM_TEX(input.texcoord.xy, _FlowMap);
-    output.flowTransitionUVs.x += GET_CUSTOM_COORD(_FlowMapOffsetXCoord);
-    output.flowTransitionUVs.y += GET_CUSTOM_COORD(_FlowMapOffsetYCoord);
+    float2 flowMapUv = input.texcoord.xy;
+    if (_FlowMapRotation > 0.0 || _FlowMapRotationCoord > 0.0)
+    {
+        half flowAngle = _FlowMapRotation + GET_CUSTOM_COORD(_FlowMapRotationCoord);
+        flowMapUv = RotateUV(flowMapUv, flowAngle * PI * 2, _FlowMapRotationOffsets.xy);
+    }
+    flowMapUv = TRANSFORM_TEX(flowMapUv, _FlowMap);
+    flowMapUv.x += GET_CUSTOM_COORD(_FlowMapOffsetXCoord);
+    flowMapUv.y += GET_CUSTOM_COORD(_FlowMapOffsetYCoord);
+    output.flowTransitionUVs.xy = flowMapUv;
     #endif
 
     #if defined(_FADE_TRANSITION_ENABLED) || defined(_DISSOLVE_TRANSITION_ENABLED)
-    output.flowTransitionUVs.zw = TRANSFORM_TEX(input.texcoord.xy, _AlphaTransitionMap);
-    output.flowTransitionUVs.z += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
-    output.flowTransitionUVs.w += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
+    float2 alphaTransitionMapUv = input.texcoord.xy;
+    if (_AlphaTransitionMapRotation > 0.0 || _AlphaTransitionMapRotationCoord > 0.0)
+    {
+        half alphaAngle = _AlphaTransitionMapRotation + GET_CUSTOM_COORD(_AlphaTransitionMapRotationCoord);
+        alphaTransitionMapUv = RotateUV(alphaTransitionMapUv, alphaAngle * PI * 2, _AlphaTransitionMapRotationOffsets.xy);
+    }
+    alphaTransitionMapUv = TRANSFORM_TEX(alphaTransitionMapUv, _AlphaTransitionMap);
+    alphaTransitionMapUv.x += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
+    alphaTransitionMapUv.y += GET_CUSTOM_COORD(_AlphaTransitionMapOffsetYCoord);
+    output.flowTransitionUVs.zw = alphaTransitionMapUv;
     #endif
 
     return output;

@@ -57,6 +57,9 @@ CBUFFER_START(UnityPerMaterial)
 
     float _FlowIntensity;
     DECLARE_CUSTOM_COORD(_FlowIntensityCoord);
+    float _FlowMapRotation;
+    DECLARE_CUSTOM_COORD(_FlowMapRotationCoord);
+    float4 _FlowMapRotationOffsets;
 
     float4 _AlphaTransitionMap_ST;
     DECLARE_CUSTOM_COORD(_AlphaTransitionMapOffsetXCoord);
@@ -66,6 +69,9 @@ CBUFFER_START(UnityPerMaterial)
     float _AlphaTransitionProgress;
     DECLARE_CUSTOM_COORD(_AlphaTransitionProgressCoord);
     float _DissolveSharpness;
+    float _AlphaTransitionMapRotation;
+    DECLARE_CUSTOM_COORD(_AlphaTransitionMapRotationCoord);
+    float4 _AlphaTransitionMapRotationOffsets;
 
     float _SoftParticlesIntensity;
     float _DepthFadeNear;

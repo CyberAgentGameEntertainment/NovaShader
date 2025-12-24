@@ -661,6 +661,19 @@ Color ModeをFlip Bookに設定した場合は<a href="https://docs.unity3d.com/
 Flip Book Blendingに設定した場合は<a href="https://docs.unity3d.com/2020.3/Documentation/Manual/class-Texture3D.html">Texture3D</a>を設定する必要があります。
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Rotation</b></td><td>
+<p>
+<b>Color ModeをSingle Texture、Flip Book、あるいはFlip Book Blendingに設定した時のみ表示されます。</b>
+</p>
+<p>
+ティントマップの回転度合いを設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Offset</b></td><td>
+<p>
+ティントマップを回転する際の中心座標のオフセットです。
+</p>
+</td></tr>
 <tr><td colspan=3><b>Flip-Book Progress</b></td><td>
 <p>
 <b>Color ModeをFlip BookあるいはFlip Book Blendingに設定した時のみ表示されます。</b>
@@ -708,7 +721,7 @@ UnityのTexture Sheet AnimationのRow Mode > Random機能と同等の機能で�
 Flow Mapを使うとベースマップを指定した方向に歪ませることができます。
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173495462-2803d37e-7dff-41f3-aeb4-9460c29db242.png" alt="Flow Map"><br>
+  <img width="60%" src="Documentation~/Images/flow_mapping.png" alt="Flow Map"><br>
   <font color="grey">Flow Map</font>
 </p>
 
@@ -728,6 +741,16 @@ Flow Mapを使うとベースマップを指定した方向に歪ませること
 <li>値は0.5を基準として、小さいほどUV値がマイナス方向に、大きいほどプラス方向にずれます</li>
 </ul>
 色ではなく値としてテクスチャを使うので、テクスチャ設定のsRGB Colorのチェックを外す必要がある点に注意してください。
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Rotation</b></td><td>
+<p>
+フローマップの回転度合いを設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Offset</b></td><td>
+<p>
+フローマップを回転する際の中心座標のオフセットです。
 </p>
 </td></tr>
 <tr><td colspan=3><b>Intensity</b></td><td>
@@ -944,6 +967,16 @@ ModeにFlip Book Blendingを指定した場合には、<a href="https://docs.uni
 また色ではなく値としてテクスチャを使うので、テクスチャ設定のsRGB Colorのチェックを外す必要がある点に注意してください。
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Rotation</b></td><td>
+<p>
+アルファトランジションマップの回転度合いを設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Offset</b></td><td>
+<p>
+アルファトランジションマップを回転する際の中心座標のオフセットです。
+</p>
+</td></tr>
 <tr><td colspan="3"><b>Flip-Book Progress</b></td><td>
 <p>
 <b>Map ModeをFlip BookあるいはFlip Book Blendingに設定した時のみ表示されます。</b>
@@ -995,6 +1028,20 @@ UnityのTexture Sheet AnimationのRow Mode > Random機能と同等の機能で�
 <li>Multiply: 乗算</li>
 </ul>
 </p>
+</td></tr>
+<tr><td colspan="3"><b>2nd Texture Rotation</b></td><td>
+<p>
+<b>2nd Texture Blend ModeをAverageあるいはMultiplyに設定した時のみ表示されます。</b>
+</p>
+<p>
+2枚目のアルファトランジションマップの回転度合いを設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Offset</b></td><td>
+<p>
+2枚目のアルファトランジションマップを回転する際の中心座標のオフセットです。
+</p>
+</td></tr>
 <tr><td colspan="3"><b>Edge Sharpness</b></td><td>
 <p>
 <b>ModeをDissolveに設定した時のみ表示されます。</b>
@@ -1010,7 +1057,7 @@ UnityのTexture Sheet AnimationのRow Mode > Random機能と同等の機能で�
 Emissionは発光する表現のために使用します。
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173495566-04c291f8-a44f-4258-88ee-f2aadb7d028b.png" alt="Emission"><br>
+  <img width="60%" src="Documentation~/Images/emission.png" alt="Emission"><br>
   <font color="grey">Emission</font>
 </p>
 
@@ -1068,6 +1115,19 @@ ModeにFlip Book Blendingを指定した場合には、<a href="https://docs.uni
 </p>
 <p>
 また色ではなく値としてテクスチャを使うので、テクスチャ設定のsRGB Colorのチェックを外す必要がある点に注意してください。
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Rotation</b></td><td>
+<p>
+<b>ModeをBy Textureに設定した時のみ表示されます。</b>
+</p>
+<p>
+エミッションマップの回転度合いを設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Offset</b></td><td>
+<p>
+エミッションマップを回転する際の中心座標のオフセットです。
 </p>
 </td></tr>
 <tr><td colspan="3"><b>Flip-Book Progress</b></td><td>
@@ -1484,7 +1544,7 @@ Distortionでは歪ませ方を設定できます。
 Flow Mapを使うとディストーションマップを指定した方向に歪ませることができます。
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173495698-db1047ce-dd45-4785-981b-6a4b06755762.png" alt="Flow Map"><br>
+  <img width="60%" src="Documentation~/Images/flow_mapping.png" alt="Flow Map"><br>
   <font color="grey">Flow Map</font>
 </p>
 
@@ -1506,6 +1566,16 @@ Flow Mapを使うとディストーションマップを指定した方向に歪
 色ではなく値としてテクスチャを使うので、テクスチャ設定のsRGB Colorのチェックを外す必要がある点に注意してください。
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Rotation</b></td><td>
+<p>
+フローマップの回転度合いを設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Offset</b></td><td>
+<p>
+フローマップを回転する際の中心座標のオフセットです。
+</p>
+</td></tr>
 <tr><td colspan=3><b>Intensity</b></td><td>
 <p>
 フローマップを適用する際の強度を設定します。
@@ -1518,7 +1588,7 @@ Flow Mapを使うとディストーションマップを指定した方向に歪
 Alpha Transitionは徐々に消えていく表現に使用します。
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173495819-9bc44ed4-4df6-4d33-b9fa-a2a8706d76bd.png" alt="Alpha Transition"><br>
+  <img width="60%" src="Documentation~/Images/distortion_alpha_transition.png" alt="Alpha Transition"><br>
   <font color="grey">Alpha Transition</font>
 </p>
 
@@ -1550,6 +1620,16 @@ Alpha Transitionは徐々に消えていく表現に使用します。
 </p>
 <p>
 色ではなく値としてテクスチャを使うので、テクスチャ設定のsRGB Colorのチェックを外す必要がある点に注意してください。
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Rotation</b></td><td>
+<p>
+アルファトランジションマップの回転度合いを設定します。
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Offset</b></td><td>
+<p>
+アルファトランジションマップを回転する際の中心座標のオフセットです。
 </p>
 </td></tr>
 <tr><td colspan="3"><b>Progress</b></td><td>
