@@ -1425,14 +1425,31 @@ Sets the Distortion Map. The specifications are as follows.
 Note that you need to uncheck sRGB Color in the texture import setting because the pixels will be used as values, not colors.
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Intensity Mode</b></td><td>
+<p>
+Specifies how distortion intensity is controlled.
+</p>
+<p>
+<ul>
+<li>Single: Use a single intensity value for both X and Y (Default).</li>
+<li>XY: Use separate intensity values for X and Y axes.</li>
+</ul>
+</p>
+</td></tr>
 <tr><td colspan=3><b>Intensity</b></td><td>
+<p>
+<b>This property is visible only when Intensity Mode is set to Single.</b>
+</p>
 <p>
 Sets the distortion intensity.
 </p>
 </td></tr>
-<tr><td colspan="3"><b>Intensity Multipliers</b></td><td>
+<tr><td colspan=3><b>Intensity X / Intensity Y</b></td><td>
 <p>
-When enabled, allows independent intensity control for X and Y.
+<b>These properties are visible only when Intensity Mode is set to XY.</b>
+</p>
+<p>
+Sets the distortion intensity for each axis independently.
 </p>
 </td></tr>
 <tr><td colspan="3"><b>Rotation</b></td><td>

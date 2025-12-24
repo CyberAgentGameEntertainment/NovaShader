@@ -1429,14 +1429,31 @@ Distortionでは歪ませ方を設定できます。
 色ではなく値としてテクスチャを使うので、テクスチャ設定のsRGB Colorのチェックを外す必要がある点に注意してください。
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Intensity Mode</b></td><td>
+<p>
+歪み強度の制御方法を指定します。
+</p>
+<p>
+<ul>
+<li>Single: X/Y共通の単一値で強度を制御します（デフォルト）。</li>
+<li>XY: X軸とY軸で個別に強度を制御します。</li>
+</ul>
+</p>
+</td></tr>
 <tr><td colspan=3><b>Intensity</b></td><td>
+<p>
+<b>Intensity Mode が Single の場合にのみ表示されます。</b>
+</p>
 <p>
 歪みの強さを設定します。
 </p>
 </td></tr>
-<tr><td colspan="3"><b>Intensity Multipliers</b></td><td>
+<tr><td colspan=3><b>Intensity X / Intensity Y</b></td><td>
 <p>
-チェックをつけるとX/Yの強度を独立して制御できます。
+<b>Intensity Mode が XY の場合にのみ表示されます。</b>
+</p>
+<p>
+各軸の歪み強度を個別に設定します。
 </p>
 </td></tr>
 <tr><td colspan="3"><b>Rotation</b></td><td>
