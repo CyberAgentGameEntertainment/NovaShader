@@ -653,6 +653,19 @@ If you specify Flip Book as the Color Mode, you need to set <a href="https://doc
 And if you specify Flip Book Blending, you need to set <a href="https://docs.unity3d.com/2020.3/Documentation/Manual/class-Texture3D.html">Texture3D</a>.
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Rotation</b></td><td>
+<p>
+<b>This property is visible only when the Color Mode is set to Single Texture, Flip Book, or Flip Book Blending.</b>
+</p>
+<p>
+Set the amount of rotation of the Tint Map.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Offset</b></td><td>
+<p>
+Shifts the center coordinate of rotation.
+</p>
+</td></tr>
 <tr><td colspan=3><b>Flip-Book Progress</b></td><td>
 <p>
 <b>This property is visible only when the Color Mode is set to Flip Book or Flip Book Blending.</b>
@@ -701,7 +714,7 @@ Select the Custom Coord channel for random value input. This should correspond t
 You can use the Flow Map to distort the Base Map to the specified directions.
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173483428-e6027ef4-a61e-4308-a90a-542bf75b0eaf.png" alt="Flow Map"><br>
+  <img width="60%" src="Documentation~/Images/flow_mapping.png" alt="Flow Map"><br>
   <font color="grey">Flow Map</font>
 </p>
 
@@ -721,6 +734,16 @@ Sets the Flow Map. The specifications are as follows.
     <li>The smaller the value from 0.5, the more the UV value shifts in the negative direction, and vice versa.</li>
 </ul>
 Note that you need to uncheck sRGB Color in the texture import setting because the pixels will be used as values, not colors.
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Rotation</b></td><td>
+<p>
+Set the amount of rotation of the Flow Map.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Offset</b></td><td>
+<p>
+Shifts the center coordinate of rotation.
 </p>
 </td></tr>
 <tr><td colspan=3><b>Intensity</b></td><td>
@@ -940,6 +963,16 @@ And if you specify Flip Book Blending, you need to set <a href="https://docs.uni
 Note that you need to uncheck sRGB Color in the texture import setting because the pixels will be used as values, not colors.
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Rotation</b></td><td>
+<p>
+Set the amount of rotation of the Alpha Transition Map.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Offset</b></td><td>
+<p>
+Shifts the center coordinate of rotation.
+</p>
+</td></tr>
 <tr><td colspan="3"><b>Flip-Book Progress</b></td><td>
 <p>
 <b>This property is visible only when the Map Mode is set to Flip Book or Flip Book Blending.</b>
@@ -991,6 +1024,20 @@ You can specify how to composite the second texture from the following options.
 <li>Multiply</li>
 </ul>
 </p>
+</td></tr>
+<tr><td colspan="3"><b>2nd Texture Rotation</b></td><td>
+<p>
+<b>This property is visible only when 2nd Texture Blend Mode is set to Average or Multiply.</b>
+</p>
+<p>
+Set the amount of rotation of the second Alpha Transition Map.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Offset</b></td><td>
+<p>
+Shifts the center coordinate of rotation.
+</p>
+</td></tr>
 <tr><td colspan="3"><b>Edge Sharpness</b></td><td>
 <p>
 <b>This property is visible only when the Mode is set to Dissolve.</b>
@@ -1006,7 +1053,7 @@ Sets the sharpness of the edge.
 The Emission control how the particles are glowing.
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173484557-4f2504af-c93a-4f5a-85b0-ac07b8e0d6fe.png" alt="Emission"><br>
+  <img width="60%" src="Documentation~/Images/emission.png" alt="Emission"><br>
   <font color="grey">Emission</font>
 </p>
 
@@ -1063,6 +1110,19 @@ And if you specify Flip Book Blending, you need to set <a href="https://docs.uni
 </p>
 <p>
 Note that you need to uncheck sRGB Color in the texture import setting because the pixels will be used as values, not colors.
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Rotation</b></td><td>
+<p>
+<b>This property is visible only when the Mode is set to By Texture.</b>
+</p>
+<p>
+Set the amount of rotation of the Emission Map.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Offset</b></td><td>
+<p>
+Shifts the center coordinate of rotation.
 </p>
 </td></tr>
 <tr><td colspan="3"><b>Flip-Book Progress</b></td><td>
@@ -1502,6 +1562,16 @@ Sets the Flow Map. The specifications are as follows.
 Note that you need to uncheck sRGB Color in the texture import setting because the pixels will be used as values, not colors.
 </p>
 </td></tr>
+<tr><td colspan="3"><b>Rotation</b></td><td>
+<p>
+Set the amount of rotation of the Flow Map.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Offset</b></td><td>
+<p>
+Shifts the center coordinate of rotation.
+</p>
+</td></tr>
 <tr><td colspan=3><b>Intensity</b></td><td>
 <p>
 Sets the Flow Map intensity.
@@ -1514,7 +1584,7 @@ Sets the Flow Map intensity.
 Alpha Transition controls the alpha value using a texture.
 
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/106138524/173484691-f2ec4b11-cf2f-404d-890f-3331a45bbf5a.png" alt="Alpha Transition"><br>
+  <img width="60%" src="Documentation~/Images/distortion_alpha_transition.png" alt="Alpha Transition"><br>
   <font color="grey">Alpha Transition</font>
 </p>
 
@@ -1546,6 +1616,16 @@ Sets the Alpha Transition Map. The specifications are as follows.
 </p>
 <p>
 Note that you need to uncheck sRGB Color in the texture import setting because the pixels will be used as values, not colors.
+</p>
+</td></tr>
+<tr><td colspan="3"><b>Rotation</b></td><td>
+<p>
+Set the amount of rotation of the Alpha Transition Map.
+</p>
+</td></tr>
+<tr><td></td><td colspan=2><b>Offset</b></td><td>
+<p>
+Shifts the center coordinate of rotation.
 </p>
 </td></tr>
 <tr><td colspan="3"><b>Progress</b></td><td>
