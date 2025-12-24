@@ -31,8 +31,13 @@ namespace Nova.Editor.Core.Scripts
             _baseMapRotationOffsetsProp.Setup(properties);
             _baseMapMirrorSamplingProp.Setup(properties);
             _baseMapUnpackNormalProp.Setup(properties);
+            _distortionIntensityModeProp.Setup(properties);
             _distortionIntensityProp.Setup(properties);
             _distortionIntensityCoordProp.Setup(properties);
+            _distortionIntensityXProp.Setup(properties);
+            _distortionIntensityXCoordProp.Setup(properties);
+            _distortionIntensityYProp.Setup(properties);
+            _distortionIntensityYCoordProp.Setup(properties);
 
             // Flow Map
             _flowMapProp.Setup(properties);
@@ -139,8 +144,26 @@ namespace Nova.Editor.Core.Scripts
             MaterialEditorUtility.DrawTexture<CustomCoord>(editor, _baseMapProp.Value, _baseMapOffsetXCoordProp.Value,
                 _baseMapOffsetYCoordProp.Value,
                 _baseMapChannelsXProp.Value, _baseMapChannelsYProp.Value);
-            MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Intensity",
-                _distortionIntensityProp.Value, _distortionIntensityCoordProp.Value);
+
+            MaterialEditorUtility.DrawEnumProperty<DistortionIntensityMode>(editor, "Intensity Mode",
+                _distortionIntensityModeProp.Value);
+            var intensityMode = (DistortionIntensityMode)_distortionIntensityModeProp.Value.floatValue;
+            using (new EditorGUI.IndentLevelScope())
+            {
+                if (intensityMode == DistortionIntensityMode.Single)
+                {
+                    MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Intensity",
+                        _distortionIntensityProp.Value, _distortionIntensityCoordProp.Value);
+                }
+                else
+                {
+                    MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Intensity X",
+                        _distortionIntensityXProp.Value, _distortionIntensityXCoordProp.Value);
+                    MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Intensity Y",
+                        _distortionIntensityYProp.Value, _distortionIntensityYCoordProp.Value);
+                }
+            }
+
             MaterialEditorUtility.DrawPropertyAndCustomCoord<CustomCoord>(editor, "Rotation",
                 _baseMapRotationProp.Value, _baseMapRotationCoordProp.Value);
             using (new EditorGUI.IndentLevelScope())
@@ -235,8 +258,13 @@ namespace Nova.Editor.Core.Scripts
         private readonly Property _baseMapRotationOffsetsProp = new(PropertyNames.BaseMapRotationOffsets);
         private readonly Property _baseMapMirrorSamplingProp = new(PropertyNames.BaseMapMirrorSampling);
         private readonly Property _baseMapUnpackNormalProp = new(PropertyNames.BaseMapUnpackNormal);
+        private readonly Property _distortionIntensityModeProp = new(PropertyNames.DistortionIntensityMode);
         private readonly Property _distortionIntensityProp = new(PropertyNames.DistortionIntensity);
         private readonly Property _distortionIntensityCoordProp = new(PropertyNames.DistortionIntensityCoord);
+        private readonly Property _distortionIntensityXProp = new(PropertyNames.DistortionIntensityX);
+        private readonly Property _distortionIntensityXCoordProp = new(PropertyNames.DistortionIntensityXCoord);
+        private readonly Property _distortionIntensityYProp = new(PropertyNames.DistortionIntensityY);
+        private readonly Property _distortionIntensityYCoordProp = new(PropertyNames.DistortionIntensityYCoord);
 
         #endregion
 
