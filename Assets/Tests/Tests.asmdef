@@ -4,8 +4,6 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "UnityEngine.TestTools.Graphics",
-        "UnityEditor.TestTools.Graphics",
         "TestHelper.Editor",
         "TestHelper",
         "Nova.Editor",

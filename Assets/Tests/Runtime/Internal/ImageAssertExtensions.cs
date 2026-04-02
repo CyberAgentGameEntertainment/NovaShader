@@ -12,7 +12,6 @@ using System;
 using System.IO;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools.Graphics;
 
 namespace Tests.Runtime.Internal
 {
@@ -25,21 +24,19 @@ namespace Tests.Runtime.Internal
         private static void OnTestFailed(Texture2D actualImage, Texture2D expectedImage, Texture2D heatmapImage)
         {
             var actualImagePath = "Assets/ActualImages";
-            var currentTestResultsFolderPath = TestUtils.GetCurrentTestResultsFolderPath();
+            var currentTestResultsFolderPath = TestUtility.GetCurrentTestResultsFolderPath();
             var dirName = Path.Combine(actualImagePath, currentTestResultsFolderPath);
+            Directory.CreateDirectory(dirName);
 
-            var imageName = TestContext.CurrentContext.Test.MethodName != null ? TestContext.CurrentContext.Test.Name : "NoName";
-            var imageMessage = new ImageMessage
-            {
-                PathName = dirName,
-                ImageName = TestUtility.StripParametricTestCharacters(imageName)
-            };
+            var testName = TestContext.CurrentContext.Test.MethodName != null
+                ? TestContext.CurrentContext.Test.Name
+                : "NoName";
+            var imageName = TestUtility.StripParametricTestCharacters(testName);
+
             // Save test image, reference image, and heatmap
-            imageMessage.ActualImage = actualImage.EncodeToPNG();
-            imageMessage.DiffImage = heatmapImage.EncodeToPNG();
-            imageMessage.ExpectedImage = expectedImage.EncodeToPNG();
-            var importSettings = new ImageHandler.TextureImporterSettings();
-            ImageHandler.instance.SaveImage(imageMessage, false, importSettings);
+            File.WriteAllBytes(Path.Combine(dirName, $"{imageName}.png"), actualImage.EncodeToPNG());
+            File.WriteAllBytes(Path.Combine(dirName, $"{imageName}.expected.png"), expectedImage.EncodeToPNG());
+            File.WriteAllBytes(Path.Combine(dirName, $"{imageName}.diff.png"), heatmapImage.EncodeToPNG());
         }
         public static void AreEqualWithFlip(Texture2D actualImage, Texture2D expectedImage, ImageComparisonSettings settings)
         {

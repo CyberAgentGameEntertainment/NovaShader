@@ -11,7 +11,6 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.SceneManagement;
-using UnityEngine.TestTools.Graphics;
 
 namespace Tests.Runtime.Internal
 {
@@ -123,6 +122,15 @@ namespace Tests.Runtime.Internal
             }
             return name;
         }
+        public static string GetCurrentTestResultsFolderPath()
+        {
+            var colorSpace = QualitySettings.activeColorSpace;
+            var runtimePlatform = Application.platform;
+            var graphicsApi = SystemInfo.graphicsDeviceType;
+            const string xrsdk = "None";
+            return $"{colorSpace}/{runtimePlatform.ToUniqueString(TestPlatform.GetCurrent().Arch)}/{graphicsApi}/{xrsdk}";
+        }
+
         public static string GetExpectedImageRelativePath()
         {
             var expectedFile = TestContext.CurrentTestExecutionContext.CurrentTest.Name
@@ -131,7 +139,7 @@ namespace Tests.Runtime.Internal
                 .Replace(',', '-')
                 .Replace("\"", "");
 
-            var dirName = Path.Combine("Assets/Tests/SuccessfulImages", TestUtils.GetCurrentTestResultsFolderPath());
+            var dirName = Path.Combine("Assets/Tests/SuccessfulImages", GetCurrentTestResultsFolderPath());
             return Path.Combine(
                 dirName,
                 $"{expectedFile}.png");
