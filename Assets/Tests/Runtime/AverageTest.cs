@@ -13,7 +13,6 @@ using TestHelper.Attributes;
 using Tests.Runtime.Internal;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.TestTools.Graphics;
 using Object = UnityEngine.Object;
 
 namespace Tests.Runtime
