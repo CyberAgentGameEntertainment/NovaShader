@@ -317,6 +317,9 @@ namespace Nova.Editor.Core.Scripts.Optimizer
             @"_ALPHA_TRANSITION_MAP_MODE_3D\b|" +
             @"_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE\b|" +
             @"_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY\b|" +
+            @"_ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D\b|" +
+            @"_ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D_ARRAY\b|" +
+            @"_ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_3D\b|" +
             @"_EMISSION_AREA_ALL\b|" +
             @"_EMISSION_AREA_MAP\b|" +
             @"_EMISSION_AREA_ALPHA\b|" +
