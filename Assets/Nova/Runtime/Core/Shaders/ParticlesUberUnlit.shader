@@ -149,6 +149,7 @@ Shader "Nova/Particles/UberUnlit"
         _AlphaTransitionProgressCoord("Alpha Transition Progress Coord", Float) = 0.0
         _DissolveSharpness("Dissolve Sharpness", Range(0.0, 1.0)) = 0.5
         _AlphaTransitionSecondTextureBlendMode("Alpha Transition Second Texture BlendMode", Float) = 0.0
+        _AlphaTransitionMapSecondTextureMapMode("Alpha Transition Second Texture Map Mode", Float) = 0.0
         _AlphaTransitionMapSecondTexture("Alpha Transition Second Texture Map", 2D) = "white" {}
         _AlphaTransitionMapSecondTexture2DArray("Alpha Transition Second Texture Map 2D Array", 2DArray) = "" {}
         _AlphaTransitionMapSecondTexture3D("Alpha Transition Second Texture Map 3D", 3D) = "" {}
@@ -315,6 +316,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_3D
             #pragma shader_feature_local_vertex _ALPHA_TRANSITION_MAP_RANDOM_ROW_SELECTION_ENABLED
             #pragma shader_feature_local_vertex _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_RANDOM_ROW_SELECTION_ENABLED
 
@@ -397,6 +399,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_3D
             #pragma shader_feature_local_vertex _ALPHA_TRANSITION_MAP_RANDOM_ROW_SELECTION_ENABLED
             #pragma shader_feature_local_vertex _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_RANDOM_ROW_SELECTION_ENABLED
 
@@ -478,6 +481,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_3D
             #pragma shader_feature_local_vertex _ALPHA_TRANSITION_MAP_RANDOM_ROW_SELECTION_ENABLED
             #pragma shader_feature_local_vertex _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_RANDOM_ROW_SELECTION_ENABLED
 
@@ -562,6 +566,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_3D
             #pragma shader_feature_local_vertex _ALPHA_TRANSITION_MAP_RANDOM_ROW_SELECTION_ENABLED
             #pragma shader_feature_local_vertex _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_RANDOM_ROW_SELECTION_ENABLED
 
@@ -647,6 +652,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_3D
             #pragma shader_feature_local_vertex _ALPHA_TRANSITION_MAP_RANDOM_ROW_SELECTION_ENABLED
             #pragma shader_feature_local_vertex _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_RANDOM_ROW_SELECTION_ENABLED
 
@@ -714,6 +720,7 @@ Shader "Nova/Particles/UberUnlit"
             #pragma shader_feature_local _ _FADE_TRANSITION_ENABLED _DISSOLVE_TRANSITION_ENABLED
             #pragma shader_feature_local _ALPHA_TRANSITION_MAP_MODE_2D _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_MODE_3D
             #pragma shader_feature_local _ _ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE _ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY
+            #pragma shader_feature_local _ _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D_ARRAY _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_3D
             #pragma shader_feature_local_vertex _ALPHA_TRANSITION_MAP_RANDOM_ROW_SELECTION_ENABLED
             #pragma shader_feature_local_vertex _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_RANDOM_ROW_SELECTION_ENABLED
 
