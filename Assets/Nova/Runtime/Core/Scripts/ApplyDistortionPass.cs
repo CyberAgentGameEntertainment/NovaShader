@@ -32,7 +32,8 @@ namespace Nova.Runtime.Core.Scripts
         {
             _distortedUvBufferIdentifier = distortedUvBufferIdentifier;
         }
-
+#if UNITY_6000_4_OR_NEWER
+#else
 #if UNITY_2023_3_OR_NEWER
         [Obsolete(DeprecationMessage.CompatibilityScriptingAPIObsolete, false)]
 #endif
@@ -56,5 +57,6 @@ namespace Nova.Runtime.Core.Scripts
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
         }
+#endif
     }
 }
