@@ -176,6 +176,7 @@ namespace Nova.Editor.Core.Scripts
         public const string AlphaTransitionMapChannelsX = "_AlphaTransitionMapChannelsX";
         public const string AlphaTransitionMapSliceCount = "_AlphaTransitionMapSliceCount";
         public const string AlphaTransitionSecondTextureBlendMode = "_AlphaTransitionSecondTextureBlendMode";
+        public const string AlphaTransitionMapSecondTextureMapMode = "_AlphaTransitionMapSecondTextureMapMode";
         public const string AlphaTransitionProgress = "_AlphaTransitionProgress";
         public const string AlphaTransitionProgressCoord = "_AlphaTransitionProgressCoord";
         public const string DissolveSharpness = "_DissolveSharpness";
