@@ -21,7 +21,9 @@ namespace Nova.Runtime.Core.Scripts
         private readonly ShaderTagId _shaderTagId;
         private FilteringSettings _filteringSettings;
 
+#if !UNITY_6000_4_OR_NEWER
         private RTHandle _renderTargetRTHandle;
+#endif
 
 #if UNITY_2023_3_OR_NEWER
         private readonly GraphicsFormat _colorFormat;
@@ -40,11 +42,14 @@ namespace Nova.Runtime.Core.Scripts
 #endif
         }
 
+#if !UNITY_6000_4_OR_NEWER
         public void Setup(RTHandle renderTargetRTHandle)
         {
             _renderTargetRTHandle = renderTargetRTHandle;
         }
+#endif
 
+#if !UNITY_6000_4_OR_NEWER
 #if UNITY_2023_3_OR_NEWER
         [Obsolete(DeprecationMessage.CompatibilityScriptingAPIObsolete, false)]
 #endif
@@ -83,5 +88,6 @@ namespace Nova.Runtime.Core.Scripts
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
         }
+#endif
     }
 }

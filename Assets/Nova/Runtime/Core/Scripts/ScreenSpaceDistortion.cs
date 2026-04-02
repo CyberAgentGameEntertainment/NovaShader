@@ -51,7 +51,7 @@ namespace Nova.Runtime.Core.Scripts
                 || renderingData.cameraData.cameraType == CameraType.Preview
                 || !IsPostProcessingAllowed(ref renderingData))
                 return;
-
+#if !UNITY_6000_4_OR_NEWER
 #if UNITY_2023_3_OR_NEWER
             if (GraphicsSettings.GetRenderPipelineSettings<RenderGraphSettings>().enableRenderCompatibilityMode)
 #endif
@@ -65,6 +65,7 @@ namespace Nova.Runtime.Core.Scripts
                 _distortedUvBufferPass.Setup(_distortedUvBufferRTHandle);
                 _applyDistortionPass.Setup(_distortedUvBufferRTHandle);
             }
+#endif
 
             renderer.EnqueuePass(_distortedUvBufferPass);
             renderer.EnqueuePass(_applyDistortionPass);

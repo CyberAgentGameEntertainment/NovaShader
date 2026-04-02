@@ -18,7 +18,9 @@ namespace Nova.Runtime.Core.Scripts
         private readonly Material _material;
         private readonly ProfilingSampler _renderPassProfilingSampler;
 
+#if !UNITY_6000_4_OR_NEWER
         private RenderTargetIdentifier _distortedUvBufferIdentifier;
+#endif
 
         public ApplyDistortionPass(bool applyToSceneView, Shader shader)
         {
@@ -28,11 +30,14 @@ namespace Nova.Runtime.Core.Scripts
             renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
         }
 
+#if !UNITY_6000_4_OR_NEWER
         public void Setup(RenderTargetIdentifier distortedUvBufferIdentifier)
         {
             _distortedUvBufferIdentifier = distortedUvBufferIdentifier;
         }
+#endif
 
+#if !UNITY_6000_4_OR_NEWER
 #if UNITY_2023_3_OR_NEWER
         [Obsolete(DeprecationMessage.CompatibilityScriptingAPIObsolete, false)]
 #endif
@@ -56,5 +61,6 @@ namespace Nova.Runtime.Core.Scripts
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
         }
+#endif
     }
 }
