@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Nova.Editor.Core.Scripts.Optimizer.Internal
 {
-    internal static class OptimizedShaderUtillity
+    internal static class OptimizedShaderUtility
     {
         private static string GetOptimizedShaderPostFixName(RenderType renderType, OptionalShaderPass requiredPasses)
         {

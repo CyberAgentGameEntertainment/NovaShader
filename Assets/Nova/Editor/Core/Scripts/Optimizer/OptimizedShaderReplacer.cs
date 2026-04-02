@@ -54,7 +54,7 @@ namespace Nova.Editor.Core.Scripts.Optimizer
                     continue;
                 // Get the optimized shader name based on the material's shader name, render type and required passes
                 var optimizedShaderName =
-                    OptimizedShaderUtillity.GetOptimizedShaderName(material.shader.name, renderType, requiredPasses);
+                    OptimizedShaderUtility.GetOptimizedShaderName(material.shader.name, renderType, requiredPasses);
 
                 // Find the optimized shader by name and assign it to the material
                 var optimizedShader = Shader.Find(optimizedShaderName);
