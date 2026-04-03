@@ -454,8 +454,8 @@ half4 frag(VaryingsDrawDepth input) : SV_Target
     #ifdef _TINT_AREA_RIM
     half tintRimProgress = _TintRimProgress + GET_CUSTOM_COORD(_TintRimProgressCoord);
     half tintRimSharpness = _TintRimSharpness + GET_CUSTOM_COORD(_TintRimSharpnessCoord);
-    rim = GetRimValue(rim, tintRimProgress, tintRimSharpness, _InverseTintRim);
-    tintBlendRate *= _TintBlendRate * rim;
+    half tintRim = GetRimValue(rim, tintRimProgress, tintRimSharpness, _InverseTintRim);
+    tintBlendRate *= _TintBlendRate * tintRim;
     #endif
     #if defined(_TINT_MAP_ENABLED) || defined(_TINT_MAP_MODE_2D_ARRAY) || defined(_TINT_MAP_3D_ENABLED)
     ApplyTintColor(color, input.tintEmissionUV.xy, input.baseMapUVAndProgresses.w, tintBlendRate);
