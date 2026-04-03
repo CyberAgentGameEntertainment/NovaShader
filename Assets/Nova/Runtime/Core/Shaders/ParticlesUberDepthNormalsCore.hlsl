@@ -45,7 +45,7 @@
 struct AttributesDrawDepth
 {
     float4 positionOS : POSITION;
-    #ifdef FRAGMENT_USE_NORMAL_WS
+    #if defined(FRAGMENT_USE_NORMAL_WS) || defined(_VERTEX_DEFORMATION_ENABLED)
     float3 normalOS : NORMAL;
     #ifdef _NORMAL_MAP_ENABLED
     float4 tangentOS : TANGENT;

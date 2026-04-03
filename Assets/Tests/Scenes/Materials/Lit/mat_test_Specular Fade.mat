@@ -31,8 +31,10 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
-  stringTagMap: {}
-  disabledShaderPasses: []
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -183,6 +185,8 @@ Material:
     - _AlphaTransitionMapProgressCoord: 0
     - _AlphaTransitionMapRandomRowCoord: 0
     - _AlphaTransitionMapRandomRowSelectionEnabled: 0
+    - _AlphaTransitionMapRotation: 0
+    - _AlphaTransitionMapRotationCoord: 0
     - _AlphaTransitionMapRowCount: 1
     - _AlphaTransitionMapSecondTextureChannelsX: 0
     - _AlphaTransitionMapSecondTextureOffsetXCoord: 0
@@ -191,6 +195,8 @@ Material:
     - _AlphaTransitionMapSecondTextureProgressCoord: 0
     - _AlphaTransitionMapSecondTextureRandomRowCoord: 0
     - _AlphaTransitionMapSecondTextureRandomRowSelectionEnabled: 0
+    - _AlphaTransitionMapSecondTextureRotation: 0
+    - _AlphaTransitionMapSecondTextureRotationCoord: 0
     - _AlphaTransitionMapSecondTextureRowCount: 1
     - _AlphaTransitionMapSecondTextureSliceCount: 4
     - _AlphaTransitionMapSliceCount: 4
@@ -213,6 +219,18 @@ Material:
     - _BaseMapRotationCoord: 0
     - _BaseMapRowCount: 1
     - _BaseMapSliceCount: 25
+    - _BaseMapToneBrights: 0.5
+    - _BaseMapToneBrightsCoord: 0
+    - _BaseMapToneChannel: 3
+    - _BaseMapToneDarktones: 0.5
+    - _BaseMapToneDarktonesCoord: 0
+    - _BaseMapToneHighlights: 0.75
+    - _BaseMapToneHighlightsCoord: 0
+    - _BaseMapToneMidtones: 0.5
+    - _BaseMapToneMidtonesCoord: 0
+    - _BaseMapToneMode: 0
+    - _BaseMapToneShadows: 0.25
+    - _BaseMapToneShadowsCoord: 0
     - _BlendDst: 10
     - _BlendSrc: 5
     - _ColorCorrectionMode: 0
@@ -236,6 +254,8 @@ Material:
     - _EmissionMapProgressCoord: 0
     - _EmissionMapRandomRowCoord: 0
     - _EmissionMapRandomRowSelectionEnabled: 0
+    - _EmissionMapRotation: 0
+    - _EmissionMapRotationCoord: 0
     - _EmissionMapRowCount: 1
     - _EmissionMapSliceCount: 4
     - _EnvironmentReflections: 1
@@ -245,6 +265,8 @@ Material:
     - _FlowMapChannelsY: 1
     - _FlowMapOffsetXCoord: 0
     - _FlowMapOffsetYCoord: 0
+    - _FlowMapRotation: 0
+    - _FlowMapRotationCoord: 0
     - _FlowMapTarget: 1
     - _InverseLuminanceTransparency: 0
     - _InverseRimTransparency: 0
@@ -305,6 +327,8 @@ Material:
     - _TintMapProgressCoord: 0
     - _TintMapRandomRowCoord: 0
     - _TintMapRandomRowSelectionEnabled: 0
+    - _TintMapRotation: 0
+    - _TintMapRotationCoord: 0
     - _TintMapRowCount: 1
     - _TintMapSliceCount: 4
     - _TintRimProgress: 0.5
@@ -324,10 +348,20 @@ Material:
     - _ZWrite: 0
     - _ZWriteOverride: -1
     m_Colors:
+    - _AlphaTransitionMapRotationOffsets: {r: 0, g: 0, b: 0, a: 0}
+    - _AlphaTransitionMapSecondTextureRotationOffsets: {r: 0, g: 0, b: 0, a: 0}
     - _BaseMapRotationOffsets: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseMapToneBrightsColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
+    - _BaseMapToneDarktonesColor: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 1}
+    - _BaseMapToneHighlightsColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseMapToneMidtonesColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _BaseMapToneShadowsColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionMapRotationOffsets: {r: 0, g: 0, b: 0, a: 0}
+    - _FlowMapRotationOffsets: {r: 0, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 0, b: 0, a: 1}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TintMapRotationOffsets: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6182802445231256150
 MonoBehaviour:
