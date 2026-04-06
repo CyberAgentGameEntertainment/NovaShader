@@ -11,15 +11,13 @@
 #if defined(_TRANSPARENCY_BY_RIM) || defined(_TINT_AREA_RIM) || defined(USE_PARALLAX_MAP)
 #define FRAGMENT_USE_VIEW_DIR_WS
 #endif
-#if defined(_TRANSPARENCY_BY_RIM) || defined(_TINT_AREA_RIM) || defined(DEPTH_NORMALS_PASS) || defined(USE_PARALLAX_MAP) || defined(_VERTEX_DEFORMATION_ENABLED)
+#if defined(_TRANSPARENCY_BY_RIM) || defined(_TINT_AREA_RIM) || defined(DEPTH_NORMALS_PASS) || defined(USE_PARALLAX_MAP)
 #define FRAGMENT_USE_NORMAL_WS
 #endif
 
 #if defined(DEPTH_ONLY_PASS)
 #ifndef _ALPHATEST_ENABLED
-#ifndef _VERTEX_DEFORMATION_ENABLED
 #undef FRAGMENT_USE_NORMAL_WS // This symbol is not necessary when drawing opaque objects.
-#endif
 #endif
 #endif
 
