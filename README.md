@@ -1025,6 +1025,24 @@ You can specify how to composite the second texture from the following options.
 </ul>
 </p>
 </td></tr>
+<tr><td colspan="3"><b>2nd Texture Map Mode</b></td><td>
+<p>
+<b>This property is visible only when 2nd Texture Blend Mode is set to Average or Multiply.</b>
+</p>
+<p>
+You can specify the Map Mode of the second Alpha Transition Map independently from the first texture. The following options are available.
+</p>
+<p>
+<ul>
+<li>Single Texture: Use 2D texture (Default).</li>
+<li>Flip Book: Use Flip-Book animation.</li>
+<li>Flip Book Blending: Use Flip-Book animation with interpolated frames.</li>
+</ul>
+</p>
+<p>
+The required texture type will change depending on the mode you selected.
+</p>
+</td></tr>
 <tr><td colspan="3"><b>2nd Texture Rotation</b></td><td>
 <p>
 <b>This property is visible only when 2nd Texture Blend Mode is set to Average or Multiply.</b>
