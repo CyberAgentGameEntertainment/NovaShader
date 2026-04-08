@@ -96,6 +96,9 @@ namespace Nova.Editor.Core.Scripts
         private static readonly int AlphaTransitionSecondTextureBlendMode =
             Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionSecondTextureBlendMode);
 
+        private static readonly int AlphaTransitionMapSecondTextureMapModeId =
+            Shader.PropertyToID(MaterialPropertyNames.AlphaTransitionMapSecondTextureMapMode);
+
         private static readonly int EmissionAreaTypeId = Shader.PropertyToID(MaterialPropertyNames.EmissionAreaType);
         private static readonly int EmissionColorTypeId = Shader.PropertyToID(MaterialPropertyNames.EmissionColorType);
         private static readonly int EmissionMapModeId = Shader.PropertyToID(MaterialPropertyNames.EmissionMapMode);
@@ -349,23 +352,54 @@ namespace Nova.Editor.Core.Scripts
             MaterialEditorUtility.SetKeyword(material, ShaderKeywords.AlphaTransitionMapRandomRowSelectionEnabled,
                 alphaTransitionMapRandomRowSelectionEnabled);
 
-            // Alpha Transition Map Second Texture Random Row Selection
-            var alphaTransitionMapSecondTextureRandomRowSelectionEnabled =
-                (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook || alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending) &&
-                material.GetFloat(AlphaTransitionMapSecondTextureRandomRowSelectionEnabledId) > 0.5f;
-            MaterialEditorUtility.SetKeyword(material, ShaderKeywords.AlphaTransitionMapSecondTextureRandomRowSelectionEnabled,
-                alphaTransitionMapSecondTextureRandomRowSelectionEnabled);
-
             // 2nd Texture
             {
+                var blendMode = (AlphaTransitionBlendMode)material.GetFloat(AlphaTransitionSecondTextureBlendMode);
                 var secondTexEnabled = material.GetTexture(AlphaTransitionMapSecondTextureId) != null
                                        || material.GetTexture(AlphaTransitionMapSecondTexture2DArrayId) != null
                                        || material.GetTexture(AlphaTransitionMapSecondTexture3DId) != null;
-                var blendMode = (AlphaTransitionBlendMode)material.GetFloat(AlphaTransitionSecondTextureBlendMode);
+                var secondTexActive = secondTexEnabled && blendMode != AlphaTransitionBlendMode.None;
+
                 MaterialEditorUtility.SetKeyword(material, ShaderKeywords.AlphaTransitionBlendSecondTexAverage,
                     secondTexEnabled && blendMode == AlphaTransitionBlendMode.Average);
                 MaterialEditorUtility.SetKeyword(material, ShaderKeywords.AlphaTransitionBlendSecondTexMultiply,
                     secondTexEnabled && blendMode == AlphaTransitionBlendMode.Multiply);
+
+                // 2nd Texture Map Mode - migrate legacy materials
+                // Legacy materials don't have this property, so the default is 0 (SingleTexture).
+                // If the 1st texture uses FlipBook/FlipBookBlending and the 2nd texture has a
+                // matching texture assigned but the new property is still at default, auto-migrate.
+                var secondTextureMapMode = (AlphaTransitionMapMode)material.GetFloat(AlphaTransitionMapSecondTextureMapModeId);
+                if (secondTextureMapMode == AlphaTransitionMapMode.SingleTexture)
+                {
+                    if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook
+                        && material.GetTexture(AlphaTransitionMapSecondTexture2DArrayId) != null)
+                    {
+                        secondTextureMapMode = AlphaTransitionMapMode.FlipBook;
+                        material.SetFloat(AlphaTransitionMapSecondTextureMapModeId, (float)AlphaTransitionMapMode.FlipBook);
+                    }
+                    else if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending
+                             && material.GetTexture(AlphaTransitionMapSecondTexture3DId) != null)
+                    {
+                        secondTextureMapMode = AlphaTransitionMapMode.FlipBookBlending;
+                        material.SetFloat(AlphaTransitionMapSecondTextureMapModeId, (float)AlphaTransitionMapMode.FlipBookBlending);
+                    }
+                }
+
+                foreach (AlphaTransitionMapMode value in Enum.GetValues(typeof(AlphaTransitionMapMode)))
+                {
+                    var isOn = secondTexActive && secondTextureMapMode == value;
+                    var keyword = value.GetSecondTextureShaderKeyword();
+                    MaterialEditorUtility.SetKeyword(material, keyword, isOn);
+                }
+
+                // Alpha Transition Map Second Texture Random Row Selection
+                var alphaTransitionMapSecondTextureRandomRowSelectionEnabled =
+                    secondTexActive &&
+                    (secondTextureMapMode == AlphaTransitionMapMode.FlipBook || secondTextureMapMode == AlphaTransitionMapMode.FlipBookBlending) &&
+                    material.GetFloat(AlphaTransitionMapSecondTextureRandomRowSelectionEnabledId) > 0.5f;
+                MaterialEditorUtility.SetKeyword(material, ShaderKeywords.AlphaTransitionMapSecondTextureRandomRowSelectionEnabled,
+                    alphaTransitionMapSecondTextureRandomRowSelectionEnabled);
             }
         }
 

@@ -622,20 +622,16 @@ namespace Nova.Editor.Core.Scripts
                     props.AlphaTransitionMapModeProp.Value);
                 var alphaTransitionMapMode = (AlphaTransitionMapMode)props.AlphaTransitionMapModeProp.Value.floatValue;
                 MaterialProperty alphaTransitionMapProp;
-                MaterialProperty alphaTransitionMapSecondTextureProp;
                 switch (alphaTransitionMapMode)
                 {
                     case AlphaTransitionMapMode.SingleTexture:
                         alphaTransitionMapProp = props.AlphaTransitionMapProp.Value;
-                        alphaTransitionMapSecondTextureProp = props.AlphaTransitionMapSecondTextureProp.Value;
                         break;
                     case AlphaTransitionMapMode.FlipBook:
                         alphaTransitionMapProp = props.AlphaTransitionMap2DArrayProp.Value;
-                        alphaTransitionMapSecondTextureProp = props.AlphaTransitionMapSecondTexture2DArrayProp.Value;
                         break;
                     case AlphaTransitionMapMode.FlipBookBlending:
                         alphaTransitionMapProp = props.AlphaTransitionMap3DProp.Value;
-                        alphaTransitionMapSecondTextureProp = props.AlphaTransitionMapSecondTexture3DProp.Value;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -699,17 +695,38 @@ namespace Nova.Editor.Core.Scripts
                         (AlphaTransitionBlendMode)props.AlphaTransitionSecondTextureBlendModeProp.Value.floatValue;
                     if (alphaTransitionSecondTextureBlendMode != AlphaTransitionBlendMode.None)
                     {
+                        MaterialEditorUtility.DrawEnumProperty<AlphaTransitionMapMode>(_editor, "2nd Texture Map Mode",
+                            props.AlphaTransitionMapSecondTextureMapModeProp.Value);
+                        var alphaTransitionSecondTextureMapMode =
+                            (AlphaTransitionMapMode)props.AlphaTransitionMapSecondTextureMapModeProp.Value.floatValue;
+
+                        MaterialProperty alphaTransitionMapSecondTexturePropLocal;
+                        switch (alphaTransitionSecondTextureMapMode)
+                        {
+                            case AlphaTransitionMapMode.SingleTexture:
+                                alphaTransitionMapSecondTexturePropLocal = props.AlphaTransitionMapSecondTextureProp.Value;
+                                break;
+                            case AlphaTransitionMapMode.FlipBook:
+                                alphaTransitionMapSecondTexturePropLocal = props.AlphaTransitionMapSecondTexture2DArrayProp.Value;
+                                break;
+                            case AlphaTransitionMapMode.FlipBookBlending:
+                                alphaTransitionMapSecondTexturePropLocal = props.AlphaTransitionMapSecondTexture3DProp.Value;
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+
                         using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                         {
                             MaterialEditorUtility.DrawTexture<TCustomCoord>(_editor,
-                                alphaTransitionMapSecondTextureProp,
+                                alphaTransitionMapSecondTexturePropLocal,
                                 props.AlphaTransitionMapSecondTextureOffsetXCoordProp.Value,
                                 props.AlphaTransitionMapSecondTextureOffsetYCoordProp.Value,
                                 props.AlphaTransitionMapSecondTextureChannelsXProp.Value, null);
 
                             if (changeCheckScope.changed)
                             {
-                                if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook
+                                if (alphaTransitionSecondTextureMapMode == AlphaTransitionMapMode.FlipBook
                                     && props.AlphaTransitionMapSecondTexture2DArrayProp.Value.textureValue != null)
                                 {
                                     var tex2DArray = (Texture2DArray)props.AlphaTransitionMapSecondTexture2DArrayProp
@@ -718,7 +735,7 @@ namespace Nova.Editor.Core.Scripts
                                         tex2DArray.depth;
                                 }
 
-                                if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending
+                                if (alphaTransitionSecondTextureMapMode == AlphaTransitionMapMode.FlipBookBlending
                                     && props.AlphaTransitionMapSecondTexture3DProp.Value.textureValue != null)
                                 {
                                     var tex3D = (Texture3D)props.AlphaTransitionMapSecondTexture3DProp.Value
@@ -728,14 +745,14 @@ namespace Nova.Editor.Core.Scripts
                             }
                         }
 
-                        if (alphaTransitionMapMode == AlphaTransitionMapMode.FlipBook
-                            || alphaTransitionMapMode == AlphaTransitionMapMode.FlipBookBlending)
+                        if (alphaTransitionSecondTextureMapMode == AlphaTransitionMapMode.FlipBook
+                            || alphaTransitionSecondTextureMapMode == AlphaTransitionMapMode.FlipBookBlending)
                         {
                             MaterialEditorUtility.DrawPropertyAndCustomCoord<TCustomCoord>(_editor,
                                 "Flip-Book Progress",
                                 props.AlphaTransitionMapSecondTextureProgressProp.Value,
                                 props.AlphaTransitionMapSecondTextureProgressCoordProp.Value);
-                            
+
                             // Random Row Selection for Second Texture
                             MaterialEditorUtility.DrawRandomRowSelection<TCustomCoord>(
                                 _editor,

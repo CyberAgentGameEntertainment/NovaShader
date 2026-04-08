@@ -300,17 +300,21 @@ Varyings vertUnlit(Attributes input, out float3 positionWS, uniform bool useEmis
     #endif
     #endif
 
+    #endif
+
+    // Transition Map Progress for Second Texture
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    #if defined(_ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D_ARRAY) || defined(_ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_3D)
     float transitionMapProgressSecond = _AlphaTransitionMapSecondTextureProgress + GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureProgressCoord);
     float sliceCountSecond = _AlphaTransitionMapSecondTextureSliceCount;
-    #ifdef _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
+    #ifdef _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D_ARRAY
     // Random Row Selection for Second Texture
     #ifdef _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_RANDOM_ROW_SELECTION_ENABLED
     output.transitionEmissionProgressesSecond.x = FlipBookProgressWithRandomRow(transitionMapProgressSecond, sliceCountSecond, _AlphaTransitionMapSecondTextureRowCount, GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureRandomRowCoord));
     #else
     output.transitionEmissionProgressesSecond.x = FlipBookProgress(transitionMapProgressSecond, sliceCountSecond);
     #endif
-    #elif _ALPHA_TRANSITION_MAP_MODE_3D
+    #elif _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_3D
     // Random Row Selection for Second Texture
     #ifdef _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_RANDOM_ROW_SELECTION_ENABLED
     output.transitionEmissionProgressesSecond.x = FlipBookBlendingProgressWithRandomRow(transitionMapProgressSecond, sliceCountSecond, _AlphaTransitionMapSecondTextureRowCount, GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureRandomRowCoord));

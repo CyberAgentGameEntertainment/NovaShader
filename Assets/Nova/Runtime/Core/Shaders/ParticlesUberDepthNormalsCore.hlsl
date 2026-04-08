@@ -342,12 +342,16 @@ VaryingsDrawDepth vert(AttributesDrawDepth input)
     #endif
     #endif
 
+    #endif
+
+    // Transition Map Progress for Second Texture
     #if defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE) || defined(_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY)
+    #if defined(_ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D_ARRAY) || defined(_ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_3D)
     float transitionMapProgressSecond = _AlphaTransitionMapSecondTextureProgress + GET_CUSTOM_COORD(_AlphaTransitionMapSecondTextureProgressCoord);
     float sliceCountSecond = _AlphaTransitionMapSecondTextureSliceCount;
-    #ifdef _ALPHA_TRANSITION_MAP_MODE_2D_ARRAY
+    #ifdef _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D_ARRAY
     output.transitionEmissionProgressesSecond.x = FlipBookProgress(transitionMapProgressSecond, sliceCountSecond);
-    #elif _ALPHA_TRANSITION_MAP_MODE_3D
+    #elif _ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_3D
     output.transitionEmissionProgressesSecond.x = FlipBookBlendingProgress(transitionMapProgressSecond, sliceCountSecond);
     #endif
     #endif

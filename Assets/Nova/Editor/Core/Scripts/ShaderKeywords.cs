@@ -76,6 +76,9 @@ namespace Nova.Editor.Core.Scripts
         public const string AlphaTransitionMapMode3D = "_ALPHA_TRANSITION_MAP_MODE_3D";
         public const string AlphaTransitionBlendSecondTexAverage = "_ALPHA_TRANSITION_BLEND_SECOND_TEX_AVERAGE";
         public const string AlphaTransitionBlendSecondTexMultiply = "_ALPHA_TRANSITION_BLEND_SECOND_TEX_MULTIPLY";
+        public const string AlphaTransitionMapSecondTextureMode2D = "_ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D";
+        public const string AlphaTransitionMapSecondTextureMode2DArray = "_ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_2D_ARRAY";
+        public const string AlphaTransitionMapSecondTextureMode3D = "_ALPHA_TRANSITION_MAP_SECOND_TEXTURE_MODE_3D";
 
         // Emission
         public const string EmissionAreaAll = "_EMISSION_AREA_ALL";
@@ -125,6 +128,21 @@ namespace Nova.Editor.Core.Scripts
                     return AlphaTransitionMapMode2DArray;
                 case AlphaTransitionMapMode.FlipBookBlending:
                     return AlphaTransitionMapMode3D;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(alphaTransitionMapMode), alphaTransitionMapMode, null);
+            }
+        }
+
+        public static string GetSecondTextureShaderKeyword(this AlphaTransitionMapMode alphaTransitionMapMode)
+        {
+            switch (alphaTransitionMapMode)
+            {
+                case AlphaTransitionMapMode.SingleTexture:
+                    return AlphaTransitionMapSecondTextureMode2D;
+                case AlphaTransitionMapMode.FlipBook:
+                    return AlphaTransitionMapSecondTextureMode2DArray;
+                case AlphaTransitionMapMode.FlipBookBlending:
+                    return AlphaTransitionMapSecondTextureMode3D;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(alphaTransitionMapMode), alphaTransitionMapMode, null);
             }

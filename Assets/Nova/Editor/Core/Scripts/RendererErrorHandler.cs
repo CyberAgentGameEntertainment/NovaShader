@@ -197,11 +197,13 @@ namespace Nova.Editor.Core.Scripts
                 if ((AlphaTransitionBlendMode)props.AlphaTransitionSecondTextureBlendModeProp.Value.floatValue !=
                     AlphaTransitionBlendMode.None)
                 {
+                    var isSecondTextureFlipBook = (AlphaTransitionMapMode)props.AlphaTransitionMapSecondTextureMapModeProp.Value.floatValue !=
+                                                  AlphaTransitionMapMode.SingleTexture;
                     isCustomCoordUsed |= IsCustomCoordUsed(props.AlphaTransitionProgressCoordSecondTextureProp);
                     isCustomCoordUsed |= IsCustomCoordUsed(props.AlphaTransitionMapSecondTextureOffsetXCoordProp) ||
                                          IsCustomCoordUsed(props.AlphaTransitionMapSecondTextureOffsetYCoordProp) ||
                                          IsCustomCoordUsed(props.AlphaTransitionMapSecondTextureRotationCoordProp);
-                    isCustomCoordUsed |= isFlipBook &&
+                    isCustomCoordUsed |= isSecondTextureFlipBook &&
                                          IsCustomCoordUsed(props.AlphaTransitionMapSecondTextureProgressCoordProp);
                 }
             }
