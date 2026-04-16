@@ -135,7 +135,7 @@ namespace Tests.Runtime
         [MenuItem("Tools/NOVA Shader/Test/Copy AverageTest Result")]
         private static void CopyResult()
         {
-            string[] platforms = { @"WindowsEditor/Direct3D11", @"OSXEditor_AppleSilicon/Metal" };
+            string[] platforms = { @"WindowsEditor/Direct3D12", @"OSXEditor_AppleSilicon/Metal" };
             foreach (var platform in platforms)
             {
                 // Define source and destination paths
