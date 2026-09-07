@@ -89,3 +89,8 @@ crashlytics-build.properties
 
 # Local configuration files
 *.local.json
+
+# UnityCliLoop
+**/.uloop/*
+!**/.uloop/project-runner-pin.json
+!**/.uloop/settings.tools.json
