@@ -50,7 +50,7 @@ If a successful `Press` or `KeyDown` leaves `Keyboard.current.<key>.isPressed` t
 
 ### Pause Point Inspection (Standard for E2E)
 
-For standard frame proof when this input drives a state transition, follow the `uloop-pause-point` skill — it covers line placement and interruption semantics. Tool-specific note: if `InterruptedByPausePoint: true`, Unity is paused and input bookkeeping was safely released; `PressEdgeObserved` is still reported on pause-point interruptions. Interruption detection covers the whole press lifetime: a pause landing while `Press` is holding the key (during the duration wait) also returns promptly with `InterruptedByPausePoint: true`, and the pause takes precedence even when the requested duration had already elapsed — treat such a response as the pause reporting in, not as a delivery failure. Clear inspection-only pause points (`uloop clear-pause-point --all`) before final validation. If a later key action still reports inconsistent state after an interruption, recover with `--action ReleaseAll` instead of retrying `KeyUp`.
+For standard frame proof when this input drives a state transition, follow the `uloop-pause-point` skill — it covers line placement and interruption semantics. Tool-specific note: if `InterruptedByPausePoint: true`, Unity is paused; for `Press`/`KeyDown` read `PressDeliveredToGame` before retrying (`null` on `KeyUp`). `PressDeliveredToGame` means the press was applied to the Input System; `PressEdgeObserved` says whether a gameplay update saw the press edge and can still be `false` after apply. Interruption detection covers the whole press lifetime: a pause landing while `Press` is holding the key (during the duration wait) also returns promptly with `InterruptedByPausePoint: true`, and the pause takes precedence even when the requested duration had already elapsed — treat such a response as the pause reporting in, not as a delivery failure. Clear inspection-only pause points (`uloop clear-pause-point --all`) before final validation. If a later key action still reports inconsistent state after an interruption, recover with `--action ReleaseAll` instead of retrying `KeyUp`.
 
 ### KeyDown/KeyUp Rules
 
@@ -86,8 +86,9 @@ uloop simulate-keyboard --action ReleaseAll
 ## Output
 
 The response reports `Success`, `Message`, `Action`, and `KeyName`, plus the fields that
-gate how to read a run: `PressEdgeObserved` (`false` means gameplay polling most likely
-missed the edge — read the `PressEdge*` diagnostics before retrying, and check
+gate how to read a run: `PressDeliveredToGame` (on pause-point interruptions of `Press` /
+`KeyDown` — read it before retrying), `PressEdgeObserved` (`false` means gameplay polling
+most likely missed the edge — read the `PressEdge*` diagnostics before retrying, and check
 `pause-point-status` first when a single-shot marker is armed), `Warning` (set when the
 press edge was missed while the Unity Editor is unfocused — run `uloop focus-window`
 before retrying), `InterruptedByPausePoint`/`PausePointHits`, and the `ReleaseAll` /

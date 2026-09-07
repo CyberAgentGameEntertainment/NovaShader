@@ -47,6 +47,7 @@ Returns JSON:
 - `Success`: boolean or null
 - `ErrorCount`: number or null
 - `WarningCount`: number or null
+- `Warning` (string, optional): set when compile was requested during Play Mode (Play session and pause points are discarded) or while hot-reload changes were active (a successful compile drops every patch; the edited sources are compiled in).
 - `Message`: string
 - `ErrorCode`: string or null. `COMPILE_ALREADY_IN_PROGRESS` when Unity is already compiling, `COMPILE_EDITOR_UPDATING` when the editor is updating, `COMPILE_RESULT_UNKNOWN` after a forced recompile that did not return a definitive result.
 - `NextActions`: string array or null. Corrective steps derived from the errors, e.g. the assembly that declares an unresolved namespace (CS0234), or, for CS0246 in a script under an asmdef, a reminder to check that asmdef's references (the type may instead be a typo — decide from the error).
