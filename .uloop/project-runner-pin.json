@@ -1,0 +1,6 @@
+{
+  "dispatcherArchiveManifest": "26a6763f9c2efc688dc2008a9c4fb1096e1d2365709241544f2ec8d75a2dd5a9  uloop-dispatcher-darwin-amd64.tar.gz.sha256\n32f8231a15eb7cffa0f0af19074303d65d52edb1846b1b830f07e9dc41317db0  install.ps1\n4be31e62addb332db7f9671b8b752f3fb8bca43e51e120fab3bd052ac9157fd4  uloop-dispatcher-darwin-arm64.tar.gz\n4c7a661a44c81b023e9f73622b21e4f94e8b1b6ea8e94faaf49ce5924b3806c3  uloop-dispatcher-darwin-arm64.tar.gz.sha256\n8da92461358d6688b2d6f860b7d494d3b20110d80aef6e87d9f1e47e41c3476e  uloop-dispatcher-windows-amd64.zip\n8fe308bac32cb31c690ef94ea56b3e8934df1dedb7c9d4de5f8d40a517a9a681  uloop-dispatcher-darwin-amd64.tar.gz\n9a6aa1bdf7c9a0c6e7957abb0d037c315b2ef57eadc4c8006783fe500452e2b4  install.sh.sha256\nba71be1315f868a2f897e3e3ab650c3895352463e824c3711b626271d60db35c  uloop-dispatcher-windows-amd64.zip.sha256\ne97de8d921af3115bfa00544ec69da6136b9cb0e271966f1073777872cd69838  install.ps1.sha256\nf2a93560cae680c67a3fec28f74116eeef9f3be0804025fa616a630ab52477ae  install.sh",
+  "dispatcherReleaseTag": "dispatcher-v3.3.0",
+  "minimumDispatcherVersion": "3.0.0-beta.31",
+  "projectRunnerVersion": "3.2.1"
+}
