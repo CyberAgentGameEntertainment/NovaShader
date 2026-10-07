@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5647546813162607915}
   - component: {fileID: 2950605991312812879}
   m_Layer: 0
-  m_Name: pfb_vfx_raw
+  m_Name: pfb_vfx_row
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

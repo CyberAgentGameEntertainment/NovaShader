@@ -202,7 +202,7 @@ Material:
     - _AlphaTransitionMapSliceCount: 4
     - _AlphaTransitionMode: 2
     - _AlphaTransitionProgress: 0
-    - _AlphaTransitionProgressCoord: 0
+    - _AlphaTransitionProgressCoord: 11
     - _AlphaTransitionProgressCoordSecondTexture: 11
     - _AlphaTransitionProgressSecondTexture: 0
     - _AlphaTransitionSecondTextureBlendMode: 2
@@ -256,7 +256,7 @@ Material:
     - _DepthFadeNear: 1
     - _DepthFadeWidth: 1
     - _DetailNormalMapScale: 1
-    - _DissolveSharpness: 0.9
+    - _DissolveSharpness: 0.938
     - _DissolveSharpnessSecondTexture: 0.9
     - _DistPow: 0.1
     - _DistPowCoord: 2
