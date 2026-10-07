@@ -628,7 +628,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4481671239927494415, guid: 0974787b6468ce949b1514d69ec6693a, type: 3}
       propertyPath: m_Name
-      value: pfb_vfx_raw
+      value: pfb_vfx_row
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
